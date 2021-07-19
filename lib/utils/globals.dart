@@ -1,0 +1,5 @@
+Globals? globals;
+
+class Globals {
+  //
+}

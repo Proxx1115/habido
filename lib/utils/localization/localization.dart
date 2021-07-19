@@ -1,0 +1,166 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'localization_helper.dart';
+
+class CustomText {
+  static CustomText? of(BuildContext context) {
+    return Localizations.of<CustomText>(context, CustomText);
+  }
+
+  ///
+  /// Global
+  ///
+  static String longText =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida nibh ac ultrices suscipit. Phasellus vel venenatis mauris. Praesent bibendum sed nulla nec imperdiet. Suspendisse potenti. Mauris ullamcorper purus eget velit condimentum, ut cursus ex vehicula. Sed tellus ex, suscipit nec dapibus sed, gravida quis mauris. Sed iaculis odio mi, ut maximus nibh pharetra a. Nunc et maximus orci. Donec eget semper sapien, nec ultricies magna. Maecenas semper feugiat nisi eget bibendum. Pellentesque sed turpis ullamcorper, malesuada justo ut, porta lectus. Integer tristique massa enim. Nam lacinia tempor nibh ac posuere.';
+
+  static const String obscureChar = '*';
+
+  static const String placeHolder = '[placeHolder]';
+
+  static String get appName => 'Habido';
+
+  static String get noData => 'Мэдээлэл олдсонгүй.';
+
+  static String get errorOccurred => 'Алдаа гарлаа.';
+
+  static String get success => 'Амжилттай';
+
+  static String get failed => 'Амжилтгүй';
+
+  static String get no => 'Үгүй';
+
+  static String get yes => 'Тийм';
+
+  static String get ok => 'Ok';
+
+  static String get test => 'Test';
+
+  static String get help => 'Тусламж';
+
+  static String get skip => 'Алгасах';
+
+  static String get next => 'Дараах';
+
+  static String get add => 'Нэмэх';
+
+  static String get edit => 'Засах';
+
+  static String get search => 'Хайх';
+
+  static String get continueTxt => 'Үргэлжлүүлэх';
+
+  static String get back => 'Буцах';
+
+  static String get connect => 'Холбох';
+
+  static String get link => 'Холбоос';
+
+  static String get choose => 'Сонгох';
+
+  static String get save => 'Хадгалах';
+
+  static String get detail => 'Дэлгэрэнгүй';
+
+  static String get salary => 'Цалин';
+
+  static String get reminder => 'Санамж';
+
+  static String get status => 'Төлөв';
+
+  static String get day => 'Хоног';
+
+  static String get term => 'Хугацаа';
+
+  static String get other => 'бусад';
+
+  static String get copied => 'Хуулагдлаа';
+
+  static String get write => 'Бичих';
+
+  static String get warning => 'Анхааруулга';
+
+  static String get notice => 'Мэдэгдэл';
+
+  static String get comingSoon => 'Тун удахгүй';
+
+  static String get male => 'Эрэгтэй';
+
+  static String get female => 'Эмэгтэй';
+
+  static String get done => 'Болсон';
+
+  static String get delete => 'Устгах';
+
+  static String get sureToDelete => 'Устгахдаа итгэлтэй байна уу?';
+
+  ///
+  /// Intro
+  ///
+  static String get intro1 => 'Дадлаа тууштай бүртгэ';
+
+  static String get intro2 => 'Сэтгэл зүйгээ удирд';
+
+  static String get intro3 => 'Надтай хамт тасралтгүй хөгж';
+
+  ///
+  /// Login
+  ///
+  static String get login => 'Нэвтрэх';
+
+  static String get register => 'Бүртгүүлэх';
+
+  static String get userName => 'Нэвтрэх нэр';
+
+  static String get lastName => 'Овог';
+
+  static String get firstName => 'Нэр';
+
+  static String get phoneNumber => 'Утасны дугаар';
+
+  static String get password => 'Нууц үг';
+
+  static String get saveUserName => 'Нэвтрэх нэр сануулах';
+
+  static String get forgetPassword => 'Нууц үг мартсан уу? Сэргээх';
+
+  static String get phoneNumberError => 'Утасны дугаараа зөв оруулна уу';
+
+  static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
+
+  static String get logout => 'Гарах';
+
+  static String get sessionExpired => 'Холболт салсан байна. Дахин нэвтэрнэ үү.';
+
+  ///
+  /// Sign up
+  ///
+  static String get signUp => 'Бүртгүүлэх';
+
+  static String get terms => 'Үйлчилгээний нөхцөл';
+
+  static String get agreeTerms => 'Зөвшөөрөх';
+
+  static String get termCondNotFound => 'Вэб холбоос олдсонгүй';
+
+  static String get passwordNew => 'Шинэ нууц үг';
+
+  static String get passwordRepeat => 'Нууц үг давтах';
+
+  static String get regNo => 'Регистрийн дугаар';
+
+  static String get passwordError => 'Нууц үгээ дахин шалгана уу';
+
+  /// Settings
+
+}
+
+class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<CustomText> {
+  @override
+  Future<CustomText> load(Locale locale) => Future(() => CustomText());
+
+  @override
+  bool shouldReload(FlutterBlocLocalizationsDelegate old) => false;
+
+  @override
+  bool isSupported(Locale locale) => locale.languageCode.toLowerCase().contains(LanguageCode.en);
+}
