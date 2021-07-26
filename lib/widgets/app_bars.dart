@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 // ignore: non_constant_identifier_names
-Widget AppBarEmpty({
+PreferredSize AppBarEmpty({
   required BuildContext context,
-  Brightness? brightness,
+  Brightness brightness = Brightness.light,
   Color backgroundColor = Colors.transparent,
   double elevation = 0.0,
 }) {

@@ -5,6 +5,7 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/app_bars.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/txt.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -22,11 +23,11 @@ class _IntroRouteState extends State<IntroRoute> {
   PageController _pageController = PageController();
   int _currentIndex = 0;
   List<String> textList = [CustomText.intro1, CustomText.intro2, CustomText.intro3];
-  List<String> assetList = [Assets.intro1, Assets.intro2, Assets.intro2]; // todo test
+  List<String> assetList = [Assets.intro1, Assets.intro2, Assets.intro3];
 
   // Button close
   double _btnCloseHeight = 40.0;
-  double _btnCloseMargin = 35.0;
+  double _btnCloseMargin = 20.0;
 
   // Text
   double _marginTopText = 0.0;
@@ -42,6 +43,7 @@ class _IntroRouteState extends State<IntroRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: customColors.primary,
+      appBar: AppBarEmpty(context: context),
       key: _introKey,
       body: Stack(
         children: [
@@ -49,9 +51,9 @@ class _IntroRouteState extends State<IntroRoute> {
           PageView(
             controller: _pageController,
             children: [
-              _pageViewItem(0),
-              _pageViewItem(1),
-              _pageViewItem(2),
+              _pageViewItem(0, 'svg'),
+              _pageViewItem(1, 'svg'),
+              _pageViewItem(2, 'png'),
             ],
           ),
 
@@ -60,7 +62,7 @@ class _IntroRouteState extends State<IntroRoute> {
             alignment: Alignment.topRight,
             child: BtnIcon(
               asset: Assets.close,
-              margin: EdgeInsets.fromLTRB(0.0, _btnCloseMargin, _btnCloseMargin, 0.0),
+              margin: EdgeInsets.fromLTRB(0.0, _btnCloseMargin, 35.0, 0.0),
               size: _btnCloseHeight,
               onPressed: () {
                 _navigateToLogin();
@@ -74,7 +76,7 @@ class _IntroRouteState extends State<IntroRoute> {
             margin: EdgeInsets.fromLTRB(SizeHelper.margin, _marginTopText + 120.0, SizeHelper.margin, SizeHelper.margin),
             child: SmoothPageIndicator(
               controller: _pageController,
-              count: 3,
+              count: assetList.length,
               effect: ExpandingDotsEffect(
                 dotHeight: 15,
                 dotWidth: 9,
@@ -93,13 +95,23 @@ class _IntroRouteState extends State<IntroRoute> {
     );
   }
 
-  Widget _pageViewItem(int index) {
+  Widget _pageViewItem(int index, String assetType) {
     return Stack(
       children: [
         /// Cover image
         Align(
           alignment: Alignment.bottomCenter,
-          child: SvgPicture.asset(assetList[index], fit: BoxFit.fitWidth),
+          child: assetType == 'svg'
+              ? SvgPicture.asset(
+                  assetList[index],
+                  fit: BoxFit.fitWidth,
+                  width: MediaQuery.of(context).size.width,
+                )
+              : Image.asset(
+                  assetList[index],
+                  fit: BoxFit.fitWidth,
+                  width: MediaQuery.of(context).size.width,
+                ),
         ),
 
         /// Text
@@ -110,8 +122,8 @@ class _IntroRouteState extends State<IntroRoute> {
           color: customColors.txtWhite,
           fontWeight: FontWeight.bold,
           fontSize: 35.0,
-          maxLines: 3,
-          margin: EdgeInsets.fromLTRB(30.0, _marginTopText, 30.0, 0.0),
+          maxLines: 2,
+          margin: EdgeInsets.fromLTRB(50.0, _marginTopText, 50.0, 0.0),
         ),
       ],
     );

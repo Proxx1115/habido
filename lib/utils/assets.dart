@@ -16,7 +16,7 @@ class Assets {
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
   static const String intro2 = 'assets/images/intro/intro2.svg';
-  static const String intro3 = 'assets/images/intro/intro3.svg';
+  static const String intro3 = 'assets/images/intro/intro3.png';
 
   /// Home
 // static const String cardAsset1 = 'assets/images/home/dashboard_icon_1.png';
