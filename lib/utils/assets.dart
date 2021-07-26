@@ -9,6 +9,9 @@ class Assets {
   // static const String warning = 'assets/images/app/warning.png';
   // static const String background = 'assets/images/app/background.png';
 
+  /// Intro
+  static const String background = 'assets/images/intro/intro1.svg';
+
   /// Home
 // static const String cardAsset1 = 'assets/images/home/dashboard_icon_1.png';
 

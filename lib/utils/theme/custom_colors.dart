@@ -5,22 +5,22 @@ CustomColors customColors = CustomColors.light();
 class CustomColors {
   static const pinkishOrange = const Color(0xfffa6c51); // Primary color
   static const lightPeach = const Color(0xFFf4d0b5); // Background color
+  static const mako = const Color(0xFF424852); // Primary black
+  static const aluminium = const Color(0xFFA9B0BB); // Primary grey
 
   /// Main
   Color? primary;
   Color? background;
+
+  /// Txt
+  Color? txt; // black
+  Color? txtSecondary; // grey
 
   /// Button
   // Color? btnEnabled;
   // Color? btnDisabled;
   // Color? btnEnabledText;
   // Color? btnDisabledText;
-
-  /// Label
-  // Color? lbl; // black
-  // Color? lblSecondary; // grey
-  // Color? textGrey;
-  // Color? lblGreen;
 
   /// Icon
   // Color? icon; // dark grey
@@ -66,6 +66,8 @@ class CustomColors {
   factory CustomColors.light() => CustomColors.constructor()
         ..primary = pinkishOrange
         ..background = lightPeach
+        ..txt = mako
+        ..txtSecondary = aluminium
       // ..btnEnabled = primaryColor
       // ..btnDisabled = btnGrey
       // ..btnEnabledText = Colors.white

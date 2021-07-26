@@ -15,6 +15,7 @@ dependencies:
   flutter_svg: ^0.22.0
   intl: ^0.17.0
   simple_animations: ^3.1.1
+  url_launcher: ^6.0.9
 
   #pattern
   flutter_bloc: ^7.0.1
@@ -41,6 +42,7 @@ flutter:
   assets:
     - assets/images/launcher/
     - assets/images/global/
+    - assets/images/intro/
     - assets/images/login/
 
   fonts:
