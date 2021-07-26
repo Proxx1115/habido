@@ -1,27 +1,20 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ignore: non_constant_identifier_names
-SharedPreferences? SP;
+SharedPreferences? sharedPref;
 
-///
-/// Shared preferences key
-///
-class SPKey {
+class SharedPrefKey {
   static const String introLimit = 'introLimit';
 }
 
-///
-/// Shared preferences manager
-///
-class SPManager {
+class SharedPref {
   static bool checkIntroLimit() {
     // Intro 3 удаа харуулсан эсэхийг шалгана
-    var res = (SP?.getInt(SPKey.introLimit) ?? 0) < 3;
+    var res = (sharedPref?.getInt(SharedPrefKey.introLimit) ?? 0) < 3;
 
     // Intro харуулсан тоог ахиулах
-    int introCount = SP?.getInt(SPKey.introLimit) ?? 0;
+    int introCount = sharedPref?.getInt(SharedPrefKey.introLimit) ?? 0;
     introCount++;
-    SP?.setInt(SPKey.introLimit, introCount);
+    sharedPref?.setInt(SharedPrefKey.introLimit, introCount);
 
     return res;
   }

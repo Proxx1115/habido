@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/modules/auth/login_route.dart';
-import 'package:habido_app/modules/global/coming_soon_route.dart';
-import 'package:habido_app/modules/intro/intro_route.dart';
+import 'package:habido_app/ui/auth/login_route.dart';
+import 'package:habido_app/ui/global/coming_soon_route.dart';
+import 'package:habido_app/ui/intro/intro_route.dart';
 import 'route_transitions.dart';
 
 class Routes {

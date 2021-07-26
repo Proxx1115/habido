@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
-import 'package:habido_app/modules/intro/splash_route.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'bloc/bloc_manager.dart';
+import 'ui/intro/splash_route.dart';
 import 'utils/globals.dart';
 import 'utils/route/routes.dart';
 import 'utils/theme/theme_cubit.dart';
@@ -17,7 +17,7 @@ void main() async {
   Globals globals = Globals();
 
   SharedPreferences.getInstance().then((instance) {
-    SP = instance;
+    sharedPref = instance;
 
     // Firebase push notification
     // pushNotifManager.init();

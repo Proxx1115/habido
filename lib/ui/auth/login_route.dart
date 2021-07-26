@@ -8,6 +8,15 @@ class LoginRoute extends StatefulWidget {
 class _LoginRouteState extends State<LoginRoute> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(title: Text('Login')),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text('Login'),
+          ],
+        ),
+      ),
+    );
   }
 }

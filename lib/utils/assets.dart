@@ -1,7 +1,11 @@
 class Assets {
   /// Global
   static const String appIcon = 'assets/images/global/app_icon.svg';
+  static const String x = 'assets/images/global/x.svg';
+  static const String error = 'assets/images/global/error.svg';
   static const String close = 'assets/images/global/close.svg';
+  static const String check = 'assets/images/global/check.svg';
+  static const String success = 'assets/images/global/success.svg';
 
   // static const String logo = 'assets/images/app/logo.png';
   // static const String success = 'assets/images/app/success.png';
@@ -10,7 +14,9 @@ class Assets {
   // static const String background = 'assets/images/app/background.png';
 
   /// Intro
-  static const String background = 'assets/images/intro/intro1.svg';
+  static const String intro1 = 'assets/images/intro/intro1.svg';
+  static const String intro2 = 'assets/images/intro/intro2.svg';
+  static const String intro3 = 'assets/images/intro/intro3.svg';
 
   /// Home
 // static const String cardAsset1 = 'assets/images/home/dashboard_icon_1.png';

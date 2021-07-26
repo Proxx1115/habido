@@ -3,24 +3,31 @@ import 'package:flutter/material.dart';
 CustomColors customColors = CustomColors.light();
 
 class CustomColors {
-  static const pinkishOrange = const Color(0xfffa6c51); // Primary color
-  static const lightPeach = const Color(0xFFf4d0b5); // Background color
-  static const mako = const Color(0xFF424852); // Primary black
-  static const aluminium = const Color(0xFFA9B0BB); // Primary grey
+  static const orange = const Color(0xfffa6c51); // primary
+  static const lightPeach = const Color(0xFFf4d0b5); // background
+  static const athensGray = const Color(0xFFF4F6F8); // background2
+  static const black = const Color(0xFF424852); // txt
+  static const grey = const Color(0xFFA9B0BB); // txt2
 
   /// Main
-  Color? primary;
-  Color? background;
+  Color primary = orange;
+
+  /// Background
+  Color backgroundPeach = lightPeach;
+  Color backgroundGrey = athensGray;
+  Color backgroundWhite = Colors.white;
 
   /// Txt
-  Color? txt; // black
-  Color? txtSecondary; // grey
+  Color txtBlack = black;
+  Color txtGrey = grey;
+  Color txtWhite = Colors.white;
 
   /// Button
-  // Color? btnEnabled;
-  // Color? btnDisabled;
-  // Color? btnEnabledText;
-  // Color? btnDisabledText;
+  Color btnPrimary = orange;
+  Color btnPrimaryText = Colors.white;
+  
+  Color btnGrey = athensGray;
+  Color get btnGreyText => txtGrey;
 
   /// Icon
   // Color? icon; // dark grey
@@ -64,40 +71,7 @@ class CustomColors {
 
   /// Light theme
   factory CustomColors.light() => CustomColors.constructor()
-        ..primary = pinkishOrange
-        ..background = lightPeach
-        ..txt = mako
-        ..txtSecondary = aluminium
-      // ..btnEnabled = primaryColor
-      // ..btnDisabled = btnGrey
-      // ..btnEnabledText = Colors.white
-      // ..btnDisabledText = primaryBlack
-      // ..lbl = primaryBlack
-      // ..lblSecondary = grey
-      // ..icon = darkGrey
-      // ..iconSecondary = iconGrey
-      // ..border = Colors.black
-      // ..actionIcon = Colors.white
-      // ..appBarBackground = primaryColor
-      // ..appBarTitle = Colors.white
-      // ..gradientBegin = primaryGradientBegin
-      // ..gradientEnd = primaryGradientEnd
-      // ..timeTableBg = btnGrey
-      // ..shadow = shadowGrey
-      // ..textGrey = grey
-      // ..line = lineGrey
-      // ..cardMenuPos = eggWhite
-      // ..cardMenuProduct = pattensBlue
-      // ..cardMenuReport = fog
-      // ..cardMenuSettings = carouselPink
-      // ..cardIconPosBackground = earlyDawn
-      // ..cardIconProdBackground = aliceBlue
-      // ..cardIconReportBackground = titanWhite
-      // ..cardIconSettingsBackground = tutu
-      // ..cardIconPos = rajah
-      // ..cardIconProduct = dodgerBlue
-      // ..cardIconReport = perfume
-      // ..cardIconSettings = persianPink
+      // ..primary = orange
       ;
 
   /// Dark theme

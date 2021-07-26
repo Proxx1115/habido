@@ -33,7 +33,7 @@ class Txt extends StatelessWidget {
     this.alignment,
   });
 
-  final String text;
+  final String? text;
   final txtStyle style;
 
   /// Text arguments
@@ -103,7 +103,7 @@ class Txt extends StatelessWidget {
   Color? _color() {
     switch (style) {
       default:
-        return customColors.txt;
+        return customColors.txtBlack;
     }
   }
 
