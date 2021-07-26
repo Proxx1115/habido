@@ -9,7 +9,7 @@ class SharedPrefKey {
 class SharedPref {
   static bool checkIntroLimit() {
     // Intro 3 удаа харуулсан эсэхийг шалгана
-    var res = (sharedPref?.getInt(SharedPrefKey.introLimit) ?? 0) < 3;
+    var res = (sharedPref?.getInt(SharedPrefKey.introLimit) ?? 0) < 1;
 
     // Intro харуулсан тоог ахиулах
     int introCount = sharedPref?.getInt(SharedPrefKey.introLimit) ?? 0;
