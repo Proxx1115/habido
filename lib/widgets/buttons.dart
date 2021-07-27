@@ -7,13 +7,13 @@ import 'package:habido_app/widgets/txt.dart';
 // ignore: non_constant_identifier_names
 Widget Btn({
   required BuildContext context,
+  required String? text,
   double? width,
   double? height,
   EdgeInsets? margin,
   MainAxisAlignment? alignment,
   Image? image,
   Icon? icon,
-  String? text,
   VoidCallback? onPressed,
   Color? color,
   Color? disabledColor,
@@ -66,7 +66,8 @@ Widget Btn({
                 ? Expanded(
                     child: Txt(
                       isUppercase ? text.toUpperCase() : text,
-                      color: onPressed != null ? (textColor ?? customColors.btnPrimaryText) : (disabledTextColor ?? customColors.btnGreyText),
+                      color:
+                          onPressed != null ? (textColor ?? customColors.btnPrimaryText) : (disabledTextColor ?? customColors.btnGreyText),
                       fontSize: fontSize ?? SizeHelper.fontSizeMedium,
                       fontWeight: fontWeight ?? FontWeight.bold,
                       overflow: TextOverflow.fade,

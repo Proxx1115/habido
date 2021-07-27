@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/login_request.dart';
+import 'package:habido_app/utils/api/api_router.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -11,7 +13,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    // if (event is SignUp) {
+    if (event is LoginEvent) {
+      yield* _mapLoginEventToState(event.request);
+    }
+
+    // else if (event is SignUp) {
     //   yield* _mapSignUpToState(event.request);
     // } else if (event is Verify) {
     //   yield* _mapVerifyToState(event.request);
@@ -19,8 +25,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //   yield* _mapForgotPassToState(event.request);
     // } else if (event is ChangePass) {
     //   yield* _mapChangePassToState(event.request);
-    // } else if (event is Login) {
-    //   yield* _mapLoginToState(event.request);
     // } else if (event is InitBiometrics) {
     //   yield* _mapInitBiometrics();
     // } else if (event is ConnectDevice) {
@@ -30,32 +34,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // }
   }
 
-// Stream<AuthState> _mapLoginToState(LoginRequest request) async* {
-//   try {
-//     yield AuthLoading();
-//
-//     var loginRes = await ApiManager.login(request);
-//     if (loginRes.code == ResponseCode.Success) {
-//       /// Session хадгалах
-//       SharedPrefManager.saveSessionToken(loginRes.token);
-//
-//       /// Get user data
-//       var userDataResponse = await ApiManager.getUserData();
-//       if (userDataResponse.code == ResponseCode.Success) {
-//         await afterLogin();
-//
-//         yield LoginSuccess(loginRes);
-//       } else {
-//         yield LoginFailed(loginRes.message);
-//       }
-//     } else {
-//       yield LoginFailed(loginRes.message);
-//     }
-//   } catch (e) {
-//     yield LoginFailed(AppText.errorOccurred);
-//   }
-// }
-//
+  Stream<AuthState> _mapLoginEventToState(LoginRequest request) async* {
+    // try {
+    //   yield AuthLoading();
+    //
+    //   var loginRes = await ApiManager.login(request);
+    //   if (loginRes.code == ResponseCode.Success) {
+    //     /// Session хадгалах
+    //     SharedPrefManager.saveSessionToken(loginRes.token);
+    //
+    //     /// Get user data
+    //     var userDataResponse = await ApiManager.getUserData();
+    //     if (userDataResponse.code == ResponseCode.Success) {
+    //       await afterLogin();
+    //
+    //       yield LoginSuccess(loginRes);
+    //     } else {
+    //       yield LoginFailed(loginRes.message);
+    //     }
+    //   } else {
+    //     yield LoginFailed(loginRes.message);
+    //   }
+    // } catch (e) {
+    //   yield LoginFailed(AppText.errorOccurred);
+    // }
+  }
+
 // static Future afterLogin() async {
 //   ApiManager.getParam();
 //   ApiManager.custPhotos();
@@ -235,19 +239,19 @@ abstract class AuthEvent extends Equatable {
 //   @override
 //   String toString() => 'ChangePassEvent { request: $request }';
 // }
-//
-// class Login extends AuthEvent {
-//   final LoginRequest request;
-//
-//   const Login(this.request);
-//
-//   @override
-//   List<Object> get props => [request];
-//
-//   @override
-//   String toString() => 'SignIn { request: $request }';
-// }
-//
+
+class LoginEvent extends AuthEvent {
+  final LoginRequest request;
+
+  const LoginEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'LoginEvent { request: $request }';
+}
+
 // class InitBiometrics extends AuthEvent {}
 //
 // class ConnectDevice extends AuthEvent {

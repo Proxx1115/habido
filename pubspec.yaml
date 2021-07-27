@@ -10,16 +10,22 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #pattern
+  flutter_bloc: ^7.0.1
+  equatable: ^2.0.3
+
+  #api
+  dio: ^4.0.0
+  dio_cookie_manager: ^2.0.0
+  http: ^0.13.3
+  connectivity: ^3.0.6
+
   #utils
   shared_preferences: ^2.0.6
   flutter_svg: ^0.22.0
   intl: ^0.17.0
   simple_animations: ^3.1.1
   url_launcher: ^6.0.9
-
-  #pattern
-  flutter_bloc: ^7.0.1
-  equatable: ^2.0.3
 
   #widgets
   smooth_page_indicator: ^0.3.0-nullsafety.0

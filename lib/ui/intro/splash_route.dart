@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:habido_app/utils/api/api_manager.dart';
+import 'package:habido_app/utils/api/api_router.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -94,8 +94,6 @@ class _SplashRouteState extends State<SplashRoute> {
   }
 
   _navigateToFirstRoute() {
-    sharedPref?.clear(); // todo test
-
     Navigator.of(context).pushNamedAndRemoveUntil(
       SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
       (Route<dynamic> route) => false,
