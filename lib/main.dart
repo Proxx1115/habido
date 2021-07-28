@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
+import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,26 +54,14 @@ class HabidoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance?.addObserver(LifecycleEventHandler(BlocManager.mainBloc));
 
-    return MultiBlocProvider(
-      /// Providers
-      providers: [
-        BlocProvider<MainBloc>(create: (BuildContext context) => BlocManager.mainBloc),
-      ],
-
-      /// Listeners
+    return BlocProvider(
+      create: (context) => BlocManager.mainBloc,
       child: BlocBuilder<MainBloc, MainState>(
-        builder: _blocBuilder,
-      ),
-    );
-
-    return BlocProvider(
-      create: (_) => ThemeCubit(),
-      child: BlocBuilder<ThemeCubit, ThemeData>(
-        builder: (_, theme) {
+        builder: (context, state) {
           return MaterialApp(
             title: CustomText.appName,
             onGenerateTitle: (BuildContext context) => CustomText.appName,
-            theme: theme,
+            // theme: theme,
             localizationsDelegates: [
               FlutterBlocLocalizationsDelegate(),
             ],
@@ -80,31 +70,8 @@ class HabidoApp extends StatelessWidget {
             showSemanticsDebugger: false,
             onGenerateRoute: _routes.onGenerateRoute,
             navigatorObservers: [_routes.routeObserver],
-            home: SplashRoute(),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _blocBuilder(BuildContext context, MainState state) {
-    return BlocProvider(
-      create: (_) => ThemeCubit(),
-      child: BlocBuilder<ThemeCubit, ThemeData>(
-        builder: (_, theme) {
-          return MaterialApp(
-            title: CustomText.appName,
-            onGenerateTitle: (BuildContext context) => CustomText.appName,
-            theme: theme,
-            localizationsDelegates: [
-              FlutterBlocLocalizationsDelegate(),
-            ],
-            debugShowCheckedModeBanner: false,
-            showPerformanceOverlay: false,
-            showSemanticsDebugger: false,
-            onGenerateRoute: _routes.onGenerateRoute,
-            navigatorObservers: [_routes.routeObserver],
-            home: SplashRoute(),
+            // home: SplashRoute(),
+            home: LoginRoute(),
           );
         },
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/utils/size_helper.dart';
 
 // class BaseContainer extends StatelessWidget {
 //   final Widget child;
@@ -29,24 +30,46 @@ import 'package:flutter/material.dart';
 //     ],
 //   );
 // }
-//
-// class NoSplashContainer extends StatelessWidget {
-//   NoSplashContainer({this.child});
-//
-//   final Widget child;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Theme(
-//       data: ThemeData(
-//         splashColor: Colors.transparent,
-//         highlightColor: Colors.transparent,
-//       ),
-//       child: child ?? Container(),
-//     );
-//   }
-// }
-//
+
+class MarginVertical extends StatelessWidget {
+  final double height;
+
+  const MarginVertical({Key? key, this.height = SizeHelper.margin}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(height: height);
+  }
+}
+
+class MarginHorizontal extends StatelessWidget {
+  final double width;
+
+  const MarginHorizontal({Key? key, this.width = SizeHelper.margin}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(width: width);
+  }
+}
+
+class NoSplashContainer extends StatelessWidget {
+  NoSplashContainer({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+      ),
+      child: child,
+    );
+  }
+}
+
 // class RoundedContainer extends StatelessWidget {
 //   const RoundedContainer({
 //     Key key,
@@ -98,7 +121,7 @@ import 'package:flutter/material.dart';
 //         child: Container(
 //           padding: EdgeInsets.all(12.0),
 //           margin: margin ?? EdgeInsets.only(right: 15.0),
-//           decoration: BoxDecoration(border: Border.all(color: appColors.border, width: 3), borderRadius: BorderRadius.circular(16)),
+//           decoration: BoxDecoration(border: Border.all(color: customColors.border, width: 3), borderRadius: BorderRadius.circular(16)),
 //           child: child ?? Container(),
 //         ),
 //         onTap: () {
@@ -124,9 +147,9 @@ import 'package:flutter/material.dart';
 //       padding: padding,
 //       // margin: EdgeInsets.only(15.0),
 //       decoration: BoxDecoration(
-//         border: Border.all(color: appColors.border, width: 1),
+//         border: Border.all(color: customColors.border, width: 1),
 //         borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-//         color: appColors.containerBackground,
+//         color: customColors.containerBackground,
 //       ),
 //       child: child ?? Container(),
 //     );
@@ -149,14 +172,14 @@ import 'package:flutter/material.dart';
 //     padding: padding,
 //     margin: margin,
 //     decoration: BoxDecoration(
-//       border: Border.all(color: borderColor ?? appColors.border, width: 1),
+//       border: Border.all(color: borderColor ?? customColors.border, width: 1),
 //       borderRadius: BorderRadius.only(
 //         topLeft: topLeft ?? Radius.circular(SizeHelper.borderRadius),
 //         topRight: topRight ?? Radius.circular(SizeHelper.borderRadius),
 //         bottomLeft: bottomLeft ?? Radius.circular(SizeHelper.borderRadius),
 //         bottomRight: bottomRight ?? Radius.circular(SizeHelper.borderRadius),
 //       ),
-//       color: appColors.containerBackground,
+//       color: customColors.containerBackground,
 //     ),
 //     child: child ?? Container(),
 //   );
@@ -174,7 +197,7 @@ import 'package:flutter/material.dart';
 //     padding: padding,
 //     margin: margin,
 //     decoration: BoxDecoration(
-//       border: Border.all(color: appColors.border, width: 1),
+//       border: Border.all(color: customColors.border, width: 1),
 //       borderRadius: BorderRadius.circular(16),
 //       color: Color(0xFF24ABF8).withOpacity(0.25),
 //     ),

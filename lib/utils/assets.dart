@@ -7,25 +7,19 @@ class Assets {
   static const String check = 'assets/images/global/check.svg';
   static const String success = 'assets/images/global/success.svg';
 
-  // static const String logo = 'assets/images/app/logo.png';
-  // static const String success = 'assets/images/app/success.png';
-  // static const String error = 'assets/images/app/error.png';
-  // static const String warning = 'assets/images/app/warning.png';
-  // static const String background = 'assets/images/app/background.png';
-
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
   static const String intro2 = 'assets/images/intro/intro2.svg';
   static const String intro3 = 'assets/images/intro/intro3.png';
 
+  /// Authentication
+  static const String username = 'assets/images/auth/username.svg';
+  static const String password = 'assets/images/auth/password.svg';
+  static const String biometric = 'assets/images/auth/biometric.svg';
+  static const String app_icon_name = 'assets/images/auth/app_icon_name.svg';
+
   /// Home
 // static const String cardAsset1 = 'assets/images/home/dashboard_icon_1.png';
-
-  /// Intro
-// static const String introAsset1 = 'assets/images/intro/intro_1.png';
-
-  /// Login
-  static const String profile = 'assets/images/global/profile.png';
 
   /// Settings
 // static const String phone = 'assets/images/settings/call_white_icon.png';

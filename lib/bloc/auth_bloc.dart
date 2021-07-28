@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/login_request.dart';
-import 'package:habido_app/utils/api/api_router.dart';
+import 'package:habido_app/utils/biometric_helper.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -13,7 +13,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    if (event is LoginEvent) {
+    if (event is InitBiometricsEvent) {
+      yield* _mapInitBiometricsEvent();
+    } else if (event is LoginEvent) {
       yield* _mapLoginEventToState(event.request);
     }
 
@@ -34,6 +36,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // }
   }
 
+  Stream<AuthState> _mapInitBiometricsEvent() async* {
+    try {
+      BiometricHelper biometricHelper = new BiometricHelper();
+      await biometricHelper.initBiometric();
+
+      yield SetBiometrics(
+        canCheckBiometrics: biometricHelper.canCheckBiometrics,
+        availableBiometrics: biometricHelper.availableBiometrics,
+      );
+    } on PlatformException catch (e) {
+      print(e);
+      yield SetBiometrics(
+        canCheckBiometrics: false,
+        availableBiometrics: 0,
+      );
+    }
+  }
+
   Stream<AuthState> _mapLoginEventToState(LoginRequest request) async* {
     // try {
     //   yield AuthLoading();
@@ -41,7 +61,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //   var loginRes = await ApiManager.login(request);
     //   if (loginRes.code == ResponseCode.Success) {
     //     /// Session хадгалах
-    //     SharedPrefManager.saveSessionToken(loginRes.token);
+    //     SharedPref.saveSessionToken(loginRes.token);
     //
     //     /// Get user data
     //     var userDataResponse = await ApiManager.getUserData();
@@ -56,7 +76,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //     yield LoginFailed(loginRes.message);
     //   }
     // } catch (e) {
-    //   yield LoginFailed(AppText.errorOccurred);
+    //   yield LoginFailed(CustomText.errorOccurred);
     // }
   }
 
@@ -76,7 +96,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //       yield SignUpFailed(res.message);
 //     }
 //   } catch (e) {
-//     yield SignUpFailed(AppText.errorOccurred);
+//     yield SignUpFailed(CustomText.errorOccurred);
 //   }
 // }
 //
@@ -90,7 +110,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //       yield VerifyFailed(res.message);
 //     }
 //   } catch (e) {
-//     yield VerifyFailed(AppText.errorOccurred);
+//     yield VerifyFailed(CustomText.errorOccurred);
 //   }
 // }
 //
@@ -104,7 +124,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //       yield ForgotPassFailed(res.message);
 //     }
 //   } catch (e) {
-//     yield ForgotPassFailed(AppText.errorOccurred);
+//     yield ForgotPassFailed(CustomText.errorOccurred);
 //   }
 // }
 //
@@ -118,28 +138,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //       yield ChangePassFailed(res.message);
 //     }
 //   } catch (e) {
-//     yield ChangePassFailed(AppText.errorOccurred);
+//     yield ChangePassFailed(CustomText.errorOccurred);
 //   }
 // }
-//
-// Stream<AuthState> _mapInitBiometrics() async* {
-//   try {
-//     BiometricHelper biometricHelper = new BiometricHelper();
-//     await biometricHelper.initBiometric();
-//
-//     yield SetBiometrics(
-//       canCheckBiometrics: biometricHelper.canCheckBiometrics,
-//       hasAvailableBiometrics: biometricHelper.hasAvailableBiometrics,
-//     );
-//   } on PlatformException catch (e) {
-//     print(e);
-//     yield SetBiometrics(
-//       canCheckBiometrics: false,
-//       hasAvailableBiometrics: true,
-//     );
-//   }
-// }
-//
+
 // Stream<AuthState> _mapConnectDeviceToState(ConnectDeviceRequest request) async* {
 //   try {
 //     yield AuthLoading();
@@ -150,7 +152,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //       yield ConnectDeviceFailed(res.message);
 //     }
 //   } catch (e) {
-//     yield ConnectDeviceFailed(AppText.errorOccurred);
+//     yield ConnectDeviceFailed(CustomText.errorOccurred);
 //   }
 // }
 //
@@ -164,7 +166,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 //       yield ChangePassFailedState(res.message);
 //     }
 //   } catch (e) {
-//     yield ChangePassFailedState(AppText.errorOccurred);
+//     yield ChangePassFailedState(CustomText.errorOccurred);
 //   }
 // }
 }
@@ -178,6 +180,20 @@ abstract class AuthEvent extends Equatable {
 
   @override
   List<Object> get props => [];
+}
+
+class InitBiometricsEvent extends AuthEvent {}
+
+class LoginEvent extends AuthEvent {
+  final LoginRequest request;
+
+  const LoginEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'LoginEvent { request: $request }';
 }
 
 // class SignUp extends AuthEvent {
@@ -240,19 +256,6 @@ abstract class AuthEvent extends Equatable {
 //   String toString() => 'ChangePassEvent { request: $request }';
 // }
 
-class LoginEvent extends AuthEvent {
-  final LoginRequest request;
-
-  const LoginEvent(this.request);
-
-  @override
-  List<Object> get props => [request];
-
-  @override
-  String toString() => 'LoginEvent { request: $request }';
-}
-
-// class InitBiometrics extends AuthEvent {}
 //
 // class ConnectDevice extends AuthEvent {
 //   final ConnectDeviceRequest request;
@@ -280,6 +283,22 @@ abstract class AuthState extends Equatable {
 class AuthInit extends AuthState {}
 
 class AuthLoading extends AuthState {}
+
+class SetBiometrics extends AuthState {
+  final bool canCheckBiometrics;
+  final int availableBiometrics;
+
+  const SetBiometrics({
+    this.canCheckBiometrics = false,
+    this.availableBiometrics = 0,
+  });
+
+  @override
+  List<Object> get props => [canCheckBiometrics, availableBiometrics];
+
+  @override
+  String toString() => 'SetBiometrics { canCheckBiometrics: $canCheckBiometrics, availableBiometrics: $availableBiometrics }';
+}
 
 // class SignUpSuccess extends AuthState {
 //   final SignUpResponse response;
@@ -400,23 +419,7 @@ class AuthLoading extends AuthState {}
 //   @override
 //   String toString() => 'LoginFailed { msg: $message }';
 // }
-//
-// class SetBiometrics extends AuthState {
-//   final bool canCheckBiometrics;
-//   final bool hasAvailableBiometrics;
-//
-//   const SetBiometrics({
-//     this.canCheckBiometrics,
-//     this.hasAvailableBiometrics,
-//   });
-//
-//   @override
-//   List<Object> get props => [canCheckBiometrics, hasAvailableBiometrics];
-//
-//   @override
-//   String toString() => 'SetBiometrics { canCheckBiometrics: $canCheckBiometrics, hasAvailableBiometrics: $hasAvailableBiometrics }';
-// }
-//
+
 // class ConnectDeviceSuccess extends AuthState {
 //   final LoginResponse response;
 //

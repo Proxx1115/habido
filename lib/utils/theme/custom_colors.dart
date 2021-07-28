@@ -4,16 +4,17 @@ CustomColors customColors = CustomColors.light();
 
 class CustomColors {
   static const orange = const Color(0xfffa6c51); // primary
-  static const lightPeach = const Color(0xFFf4d0b5); // background
+  static const roseWhite = const Color(0xFFFFF7F6); // background
   static const athensGray = const Color(0xFFF4F6F8); // background2
   static const black = const Color(0xFF424852); // txt
   static const grey = const Color(0xFFA9B0BB); // txt2
+  static const red = const Color(0xFFE8553E);
 
   /// Main
   Color primary = orange;
 
   /// Background
-  Color backgroundPeach = lightPeach;
+  Color backgroundRoseWhite = roseWhite;
   Color backgroundGrey = athensGray;
   Color backgroundWhite = Colors.white;
 
@@ -25,8 +26,9 @@ class CustomColors {
   /// Button
   Color btnPrimary = orange;
   Color btnPrimaryText = Colors.white;
-  
+
   Color btnGrey = athensGray;
+
   Color get btnGreyText => txtGrey;
 
   /// Icon

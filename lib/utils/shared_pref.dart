@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'func.dart';
 
 SharedPreferences? sharedPref;
 
@@ -11,7 +15,7 @@ class SharedPrefKey {
   static const String phoneNumber = 'phoneNumber';
   static const String password = 'password';
   static const String rememberMe = 'rememberMe';
-  static const String useBiometric = 'useBiometric';
+  static const String biometricAuth = 'useBiometric';
   static const String sessionToken = 'sessionToken'; // Session token
 }
 
@@ -20,10 +24,18 @@ class SharedPref {
     return sharedPref?.getString(SharedPrefKey.sessionToken) ?? '';
   }
 
-  static bool checkIntroLimit() {
-    // sharedPref?.clear(); // todo test
+  static void saveSessionToken(String sessionToken) {
+    sharedPref?.setString(SharedPrefKey.sessionToken, Func.toStr(sessionToken));
+  }
 
-    // Intro 3 удаа харуулсан эсэхийг шалгана
+  static void clearSessionToken() {
+    sharedPref?.setString(SharedPrefKey.sessionToken, '');
+  }
+
+  static bool checkIntroLimit() {
+    // sharedPref?.clear();
+
+    // Intro 1 удаа харуулсан эсэхийг шалгана
     var res = (sharedPref?.getInt(SharedPrefKey.introLimit) ?? 0) < 1;
 
     // Intro харуулсан тоог ахиулах
@@ -32,5 +44,29 @@ class SharedPref {
     sharedPref?.setInt(SharedPrefKey.introLimit, introCount);
 
     return res;
+  }
+
+  static String getPhoneNumber() {
+    return sharedPref?.getString(SharedPrefKey.phoneNumber) ?? '';
+  }
+
+  static void saveBiometricAuth(String phoneNumber) {
+    sharedPref?.setString(SharedPrefKey.phoneNumber, phoneNumber);
+  }
+
+  static bool getBiometricAuth() {
+    return sharedPref?.getBool(SharedPrefKey.biometricAuth) ?? false;
+  }
+
+  static void saveUseBiometrics(bool useBiometric) {
+    sharedPref?.setBool(SharedPrefKey.biometricAuth, useBiometric);
+  }
+
+  static String getPassword() {
+    return Func.fromBase64Str(sharedPref?.getString(SharedPrefKey.password) ?? '');
+  }
+
+  static void savePassword(String password) {
+    sharedPref?.setString(SharedPrefKey.password, Func.toBase64Str(password));
   }
 }

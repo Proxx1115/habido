@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:habido_app/main.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/txt.dart';
 
+import 'containers.dart';
+
 // ignore: non_constant_identifier_names
 Widget Btn({
-  required BuildContext context,
+  // required BuildContext context,
   required String? text,
   double? width,
   double? height,
@@ -118,6 +122,163 @@ class BtnIcon extends StatelessWidget {
         onTap: () {
           onPressed();
         },
+      ),
+    );
+  }
+}
+
+class BtnBordered extends StatelessWidget {
+  final String asset;
+  final VoidCallback onPressed;
+  final double size;
+  final double iconSize;
+  final double borderRadius;
+  final EdgeInsets margin;
+
+  const BtnBordered({
+    Key? key,
+    required this.asset,
+    required this.onPressed,
+    this.size = 40.0,
+    this.iconSize = 10.0,
+    this.borderRadius: 10.0,
+    this.margin = EdgeInsets.zero,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin,
+      child: OutlinedButton(
+        child: Container(
+          height: size,
+          width: size,
+          child: SvgPicture.asset(asset, height: iconSize),
+        ),
+        onPressed: () {
+          onPressed();
+        },
+      ),
+
+      // InkWell(
+      //   borderRadius: BorderRadius.circular(borderRadius),
+      //   child: Container(
+      //     height: size,
+      //     width: size,
+      //     child: SvgPicture.asset(asset, height: iconSize),
+      //   ),
+      //   onTap: () {
+      //     onPressed();
+      //   },
+      // ),
+    );
+  }
+}
+
+class BtnTxt extends StatelessWidget {
+  const BtnTxt({
+    Key? key,
+    required this.text,
+    required this.onPressed,
+    this.fontWeight = FontWeight.normal,
+    this.color,
+    this.fontSize = SizeHelper.fontSizeNormal,
+    this.alignment = Alignment.center,
+    this.padding = EdgeInsets.zero,
+  }) : super(key: key);
+
+  final String text;
+  final VoidCallback onPressed;
+  final FontWeight fontWeight;
+  final Color? color;
+  final double fontSize;
+  final Alignment alignment;
+  final EdgeInsets padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return NoSplashContainer(
+      child: InkWell(
+        onTap: () {
+          onPressed();
+        },
+        child: Txt(
+          text,
+          padding: padding,
+          color: color ?? customColors.txtBlack,
+          fontWeight: fontWeight,
+          fontSize: fontSize,
+          alignment: alignment,
+          maxLines: 10,
+        ),
+      ),
+    );
+  }
+}
+
+class BtnTxtMulti extends StatelessWidget {
+  const BtnTxtMulti({
+    Key? key,
+    required this.text1,
+    required this.text2,
+    required this.onPressed,
+    this.padding = EdgeInsets.zero,
+    this.backgroundColor,
+    this.fontWeight1 = FontWeight.normal,
+    this.fontWeight2 = FontWeight.w500,
+    this.textColor,
+    this.fontSize = SizeHelper.fontSizeNormal,
+    this.mainAxisAlignment = MainAxisAlignment.center,
+    this.alignment = Alignment.center,
+  }) : super(key: key);
+
+  final String text1;
+  final String text2;
+  final VoidCallback onPressed;
+  final EdgeInsets padding;
+  final Color? backgroundColor;
+  final FontWeight fontWeight1;
+  final FontWeight fontWeight2;
+  final Color? textColor;
+  final double fontSize;
+  final MainAxisAlignment mainAxisAlignment;
+  final Alignment alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    return NoSplashContainer(
+      child: InkWell(
+        onTap: () {
+          onPressed();
+        },
+        child: Container(
+          padding: padding,
+          color: backgroundColor ?? Colors.transparent,
+          child: Row(
+            mainAxisAlignment: mainAxisAlignment,
+            children: [
+              /// Text1
+              Txt(
+                text1,
+                color: textColor ?? customColors.txtBlack,
+                fontWeight: fontWeight1,
+                fontSize: fontSize,
+                alignment: alignment,
+              ),
+
+              MarginHorizontal(width: 5.0),
+
+              /// Text2
+              Txt(
+                text2,
+                color: textColor ?? customColors.txtBlack,
+                fontWeight: fontWeight2,
+                fontSize: fontSize,
+                alignment: alignment,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -328,7 +489,7 @@ class BtnIcon extends StatelessWidget {
 //               children: <Widget>[
 //                 /// Text
 //                 Expanded(
-//                   child: Txt(Func.isNotEmpty(text) ? text : AppText.choose,
+//                   child: Txt(Func.isNotEmpty(text) ? text : CustomText.choose,
 //                       margin: EdgeInsets.only(left: 12.0), color: customColors.lblSecondary, fontWeight: FontWeight.w500),
 //                 ),
 //
@@ -426,7 +587,7 @@ class BtnIcon extends StatelessWidget {
 //             margin: EdgeInsets.symmetric(horizontal: 70),
 //             child: Btn(
 //               margin: EdgeInsets.fromLTRB(SizeHelper.margin, 10.0, SizeHelper.margin, SizeHelper.marginBottom),
-//               text: AppText.resendCode,
+//               text: CustomText.resendCode,
 //               onPressed: widget.totalSeconds == 0
 //                   ? () {
 //                       if (widget.onPressedBtnResend != null) {

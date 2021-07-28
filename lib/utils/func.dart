@@ -1,14 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:intl/intl.dart';
 
 class Func {
-  static void hideKeyboard(BuildContext context) {
-    FocusScope.of(context).requestFocus(new FocusNode());
-    SystemChannels.textInput.invokeMethod('TextInput.hide'); // hide keyboard
-  }
-
   static bool isEmpty(Object? o) => o == null || o == '';
 
   static bool isNotEmpty(Object? o) => o != null && o != '';
@@ -252,5 +249,34 @@ class Func {
     }
 
     return null;
+  }
+
+  static String toBase64Str(String str) {
+    var res = '';
+    try {
+      var bytes = utf8.encode(str);
+      res = base64.encode(bytes);
+    } catch (e) {
+      print(e);
+    }
+
+    return res;
+  }
+
+  static String fromBase64Str(String base64Str) {
+    var res = '';
+    try {
+      var bytes = base64.decode(base64Str);
+      res = utf8.decode(bytes);
+    } catch (e) {
+      print(e);
+    }
+
+    return res;
+  }
+
+  static void hideKeyboard(BuildContext context) {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    SystemChannels.textInput.invokeMethod('TextInput.hide'); // hide keyboard
   }
 }

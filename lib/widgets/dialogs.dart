@@ -138,14 +138,14 @@ enum DialogType { info, success, error, warning }
 //                             textAlign: TextAlign.center,
 //                             maxLines: 10,
 //                             alignment: Alignment.center,
-//                             color: appColors.txt,
+//                             color: customColors.txt,
 //                             fontSize: 18.0,
 //                             fontWeight: FontWeight.bold,
 //                             margin: EdgeInsets.only(bottom: 10.0),
 //                           ),
 //
 //                         /// Body
-//                         Txt(bodyText ?? '', textAlign: TextAlign.center, maxLines: 10, alignment: Alignment.center, color: appColors.txt),
+//                         Txt(bodyText ?? '', textAlign: TextAlign.center, maxLines: 10, alignment: Alignment.center, color: customColors.txt),
 //
 //                         SizedBox(height: 20.0),
 //
@@ -454,9 +454,9 @@ enum DialogType { info, success, error, warning }
 //                         ),
 //                     SizedBox(height: 40.0),
 //                     new Text(
-//                       AppText.success,
+//                       CustomText.success,
 //                       textAlign: TextAlign.center,
-//                       style: TextStyle(color: appColors.primary, fontWeight: FontWeight.w500, fontSize: 16.0),
+//                       style: TextStyle(color: customColors.primary, fontWeight: FontWeight.w500, fontSize: 16.0),
 //                     ),
 //                   ],
 //                 ),
@@ -502,8 +502,8 @@ enum DialogType { info, success, error, warning }
 //                           text: btnText ?? 'OK',
 //                           context: context,
 //                           margin: EdgeInsets.symmetric(horizontal: 20.0 + 10.0),
-//                           color: appColors.btn,
-//                           disabledColor: appColors.btn2,
+//                           color: customColors.btn,
+//                           disabledColor: customColors.btn2,
 //                           textColor: Colors.white,
 //                           fontSize: 16.0,
 //                           fontWeight: FontWeight.w500,
@@ -555,9 +555,9 @@ enum DialogType { info, success, error, warning }
 //                         ),
 //                     SizedBox(height: 40.0),
 //                     Text(
-//                       AppText.success,
+//                       CustomText.success,
 //                       textAlign: TextAlign.center,
-//                       style: TextStyle(color: appColors.primary, fontWeight: FontWeight.w500, fontSize: 16.0),
+//                       style: TextStyle(color: customColors.primary, fontWeight: FontWeight.w500, fontSize: 16.0),
 //                     ),
 //                   ],
 //                 ),

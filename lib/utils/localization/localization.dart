@@ -107,33 +107,31 @@ class CustomText {
   ///
   static String get login => 'Нэвтрэх';
 
-  static String get register => 'Бүртгүүлэх';
+  static String get hasAccount => 'Та бүртгэлтэй юу?';
 
-  static String get userName => 'Нэвтрэх нэр';
-
-  static String get lastName => 'Овог';
-
-  static String get firstName => 'Нэр';
+  static String get useLocalAuth => 'Биометр ашиглан нэвтрэх';
 
   static String get phoneNumber => 'Утасны дугаар';
 
   static String get password => 'Нууц үг';
 
-  static String get saveUserName => 'Нэвтрэх нэр сануулах';
+  static String get haveYouForgottenYourPassword => 'Нууц үг мартсан уу?';
 
-  static String get forgetPassword => 'Нууц үг мартсан уу? Сэргээх';
-
-  static String get phoneNumberError => 'Утасны дугаараа зөв оруулна уу';
-
-  static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
+  static String get recover => 'Сэргээх';
 
   static String get logout => 'Гарах';
+
+  static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
 
   static String get sessionExpired => 'Холболт салсан байна. Дахин нэвтэрнэ үү.';
 
   ///
   /// Sign up
   ///
+  static String get lastName => 'Овог';
+
+  static String get firstName => 'Нэр';
+
   static String get signUp => 'Бүртгүүлэх';
 
   static String get terms => 'Үйлчилгээний нөхцөл';

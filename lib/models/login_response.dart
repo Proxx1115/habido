@@ -1,5 +1,4 @@
 import 'package:habido_app/models/base_response.dart';
-import 'package:habido_app/utils/api/api_helper.dart';
 
 class LoginResponse extends BaseResponse {
   String? token;

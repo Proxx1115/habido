@@ -12,7 +12,9 @@ class ApiRouter {
   /// Authentication
   static Future<LoginResponse> login(LoginRequest request) async {
     Map<String, String> headers = ApiHelper.getHttpHeaders(hasAuthorization: false);
-    headers.addAll({"authorization": 'Basic ' + base64Encode(utf8.encode('${request.username}:${request.password}'))});
+    headers.addAll(
+      {"authorization": 'Basic ' + base64Encode(utf8.encode('${request.username}:${request.password}'))},
+    );
 
     return LoginResponse.fromJson(await apiManager.sendRequest(
       path: ApiRoutes.signIn,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/ui/auth/forgot_pass_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
+import 'package:habido_app/ui/auth/sign_up_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'route_transitions.dart';
@@ -16,6 +18,7 @@ class Routes {
   static const intro = 'intro';
   static const login = 'login';
   static const signUp = 'signUp';
+  static const forgotPass = 'forgotPass';
   static const home = 'home';
 
   /// Routing
@@ -32,12 +35,20 @@ class Routes {
         break;
 
       case Routes.login:
-        route = DefaultRoute(LoginRoute(), settings);
+        route = NoTransitionRoute(LoginRoute(), settings);
+        break;
+
+      case Routes.signUp:
+        route = SlideRightRoute(SignUpRoute(), settings);
+        break;
+
+      case Routes.forgotPass:
+        route = SlideRightRoute(ForgotPassRoute(), settings);
         break;
 
       case Routes.comingSoon:
       default:
-        route = DefaultRoute(ComingSoonRoute(), settings);
+        route = NoTransitionRoute(ComingSoonRoute(), settings);
         break;
     }
 

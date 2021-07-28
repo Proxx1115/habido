@@ -72,9 +72,9 @@ class _SplashRouteState extends State<SplashRoute> {
     // showCustomDialog(
     //   context,
     //   dismissible: false,
-    //   bodyText: AppText.pleaseUpdateApp,
+    //   bodyText: CustomText.pleaseUpdateApp,
     //   dialogType: DialogType.warning,
-    //   btnPositiveText: AppText.ok,
+    //   btnPositiveText: CustomText.ok,
     //   onPressedBtnPositive: () {
     //     _navigateToFirstRoute();
     //     _openDeeplink(deepLink);
@@ -112,11 +112,11 @@ class _SplashRouteState extends State<SplashRoute> {
     //   if (await canLaunch(url)) {
     //     await launch(url);
     //   } else {
-    //     showCustomDialog(context, dialogType: DialogType.error, bodyText: AppText.failed, btnPositiveText: AppText.ok);
+    //     showCustomDialog(context, dialogType: DialogType.error, bodyText: CustomText.failed, btnPositiveText: CustomText.ok);
     //   }
     // } catch (e) {
     //   print(e);
-    //   showCustomDialog(context, dialogType: DialogType.error, bodyText: AppText.failed, btnPositiveText: AppText.ok);
+    //   showCustomDialog(context, dialogType: DialogType.error, bodyText: CustomText.failed, btnPositiveText: CustomText.ok);
     // }
   }
 }

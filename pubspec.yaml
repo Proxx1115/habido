@@ -26,6 +26,7 @@ dependencies:
   intl: ^0.17.0
   simple_animations: ^3.1.1
   url_launcher: ^6.0.9
+  local_auth: ^1.1.6
 
   #widgets
   smooth_page_indicator: ^0.3.0-nullsafety.0
@@ -50,7 +51,7 @@ flutter:
     - assets/images/launcher/
     - assets/images/global/
     - assets/images/intro/
-    - assets/images/login/
+    - assets/images/auth/
 
   fonts:
     - family: Fira Sans Condensed
