@@ -18,7 +18,7 @@ class ApiHelper {
     if (hasAuthorization && Func.isNotEmpty(SharedPref.getSessionToken())) {
       headers.addAll({"authorization": "Bearer " + SharedPref.getSessionToken()});
     }
-    
+
     return headers;
   }
 

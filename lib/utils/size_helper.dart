@@ -9,6 +9,7 @@ class SizeHelper {
   static const double marginBottom = 25.0;
   static const double borderRadius = 15.0;
   static const double borderRadius5 = 5.0;
+  static const double borderWidth = 2.0;
   static const double boxHeight = 50.0;
 
   /// Screen

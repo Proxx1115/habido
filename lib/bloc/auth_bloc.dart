@@ -2,7 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/login_request.dart';
+import 'package:habido_app/models/login_response.dart';
+import 'package:habido_app/utils/api/api_helper.dart';
+import 'package:habido_app/utils/api/api_router.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
+import 'package:habido_app/utils/shared_pref.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -55,29 +59,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Stream<AuthState> _mapLoginEventToState(LoginRequest request) async* {
-    // try {
-    //   yield AuthLoading();
-    //
-    //   var loginRes = await ApiManager.login(request);
-    //   if (loginRes.code == ResponseCode.Success) {
-    //     /// Session хадгалах
-    //     SharedPref.saveSessionToken(loginRes.token);
-    //
-    //     /// Get user data
-    //     var userDataResponse = await ApiManager.getUserData();
-    //     if (userDataResponse.code == ResponseCode.Success) {
-    //       await afterLogin();
-    //
-    //       yield LoginSuccess(loginRes);
-    //     } else {
-    //       yield LoginFailed(loginRes.message);
-    //     }
-    //   } else {
-    //     yield LoginFailed(loginRes.message);
-    //   }
-    // } catch (e) {
-    //   yield LoginFailed(CustomText.errorOccurred);
-    // }
+    try {
+      yield AuthLoading();
+
+      LoginResponse res = await ApiRouter.login(request);
+      if (res.code == ResponseCode.Success) {
+        /// Session хадгалах
+        SharedPref.saveSessionToken(res.token!);
+
+        /// Get user data
+        // var userDataResponse = await ApiRouter.getUserData();
+        // if (userDataResponse.code == ResponseCode.Success) {
+        //   await afterLogin();
+        //
+        //   yield LoginSuccess(res);
+        // } else {
+        //   yield LoginFailed(res.message);
+        // }
+      } else {
+        // yield LoginFailed(res.message);
+      }
+    } catch (e) {
+      // yield LoginFailed(CustomText.errorOccurred);
+    }
   }
 
 // static Future afterLogin() async {
@@ -395,9 +399,9 @@ class SetBiometrics extends AuthState {
 //   @override
 //   String toString() => 'ChangePassFailed { msg: $msg }';
 // }
-//
+
 // class LoginSuccess extends AuthState {
-//   final LoginResponse response;
+//   final LoginResponse? response;
 //
 //   const LoginSuccess([this.response]);
 //
@@ -405,9 +409,9 @@ class SetBiometrics extends AuthState {
 //   List<Object> get props => [response];
 //
 //   @override
-//   String toString() => 'LoginSuccess { BaseResponse: $response }';
+//   String toString() => 'LoginSuccess { BaseResponse: $response }'`;
 // }
-//
+
 // class LoginFailed extends AuthState {
 //   final String message;
 //

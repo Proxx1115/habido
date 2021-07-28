@@ -251,10 +251,10 @@ class Func {
     return null;
   }
 
-  static String toBase64Str(String str) {
+  static String toBase64Str(String? str) {
     var res = '';
     try {
-      var bytes = utf8.encode(str);
+      var bytes = utf8.encode(str ?? '');
       res = base64.encode(bytes);
     } catch (e) {
       print(e);
@@ -263,10 +263,10 @@ class Func {
     return res;
   }
 
-  static String fromBase64Str(String base64Str) {
+  static String fromBase64Str(String? base64Str) {
     var res = '';
     try {
-      var bytes = base64.decode(base64Str);
+      var bytes = base64.decode(base64Str ?? '');
       res = utf8.decode(bytes);
     } catch (e) {
       print(e);

@@ -25,8 +25,8 @@ Widget Btn({
   Color? highlightColor,
   Color? textColor,
   Color? disabledTextColor,
-  double? fontSize,
-  FontWeight? fontWeight,
+  double fontSize = 15.0,
+  FontWeight fontWeight = FontWeight.w500,
   double? borderRadius,
   double? elevation = SizeHelper.borderRadiusBtn,
   bool isUppercase = false,
@@ -72,8 +72,8 @@ Widget Btn({
                       isUppercase ? text.toUpperCase() : text,
                       color:
                           onPressed != null ? (textColor ?? customColors.btnPrimaryText) : (disabledTextColor ?? customColors.btnGreyText),
-                      fontSize: fontSize ?? SizeHelper.fontSizeMedium,
-                      fontWeight: fontWeight ?? FontWeight.bold,
+                      fontSize: fontSize,
+                      fontWeight: fontWeight,
                       overflow: TextOverflow.fade,
                       alignment: Alignment.center,
                       maxLines: 1,
@@ -127,7 +127,7 @@ class BtnIcon extends StatelessWidget {
   }
 }
 
-class BtnBordered extends StatelessWidget {
+class BtnIconBordered extends StatelessWidget {
   final String asset;
   final VoidCallback onPressed;
   final double size;
@@ -135,13 +135,13 @@ class BtnBordered extends StatelessWidget {
   final double borderRadius;
   final EdgeInsets margin;
 
-  const BtnBordered({
+  const BtnIconBordered({
     Key? key,
     required this.asset,
     required this.onPressed,
-    this.size = 40.0,
-    this.iconSize = 10.0,
-    this.borderRadius: 10.0,
+    this.size = SizeHelper.buttonHeight,
+    this.iconSize = SizeHelper.iconSize,
+    this.borderRadius: SizeHelper.borderRadiusBtn,
     this.margin = EdgeInsets.zero,
   }) : super(key: key);
 
@@ -149,28 +149,21 @@ class BtnBordered extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: margin,
-      child: OutlinedButton(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
         child: Container(
           height: size,
           width: size,
-          child: SvgPicture.asset(asset, height: iconSize),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(width: SizeHelper.borderWidth, color: customColors.border),
+          ),
+          child: SvgPicture.asset(asset, fit: BoxFit.scaleDown),
         ),
-        onPressed: () {
+        onTap: () {
           onPressed();
         },
       ),
-
-      // InkWell(
-      //   borderRadius: BorderRadius.circular(borderRadius),
-      //   child: Container(
-      //     height: size,
-      //     width: size,
-      //     child: SvgPicture.asset(asset, height: iconSize),
-      //   ),
-      //   onTap: () {
-      //     onPressed();
-      //   },
-      // ),
     );
   }
 }

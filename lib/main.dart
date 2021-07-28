@@ -70,8 +70,8 @@ class HabidoApp extends StatelessWidget {
             showSemanticsDebugger: false,
             onGenerateRoute: _routes.onGenerateRoute,
             navigatorObservers: [_routes.routeObserver],
-            // home: SplashRoute(),
-            home: LoginRoute(),
+            home: SplashRoute(),
+            // home: LoginRoute(),
           );
         },
       ),

@@ -20,7 +20,6 @@ import 'package:habido_app/widgets/chkbox.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
-import 'package:habido_app/widgets/txt.dart';
 
 class LoginRoute extends StatefulWidget {
   @override
@@ -42,25 +41,38 @@ class _LoginRouteState extends State<LoginRoute> {
   TextEditingController _passwordController = TextEditingController();
   FocusNode _passwordFocusNode = FocusNode();
 
-  // Checkboxes
-  bool _useBiometric = false;
-
-  // Button biometrics
-  bool _canCheckBiometrics = false;
-
   // Button login
-  bool _loginByBiometric = false;
+  bool _isEnabledBtnLogin = false;
+
+  // Biometrics
+  bool isEnabledBtnBiometrics = false;
+  bool _biometricAuth = false;
+  bool _canCheckBiometrics = false;
+  int _availableBiometrics = 0;
+
+  // bool _loginByBiometric = false;
 
   @override
   void initState() {
     super.initState();
 
     // Biometric
-    // BlocProvider.of<AuthBloc>(context).add(InitBiometricsEvent());
+    BlocManager.authBloc.add(InitBiometricsEvent());
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) => _init());
+  }
+
+  _init() {
+    _phoneNumberController.addListener(() => _validateForm());
+    _passwordController.addListener(() => _validateForm());
 
     // Phone number, pass
     _phoneNumberController.text = SharedPref.getPhoneNumber();
-    _useBiometric = SharedPref.getBiometricAuth();
+    _biometricAuth = SharedPref.getBiometricAuth();
+
+    // todo test
+    _phoneNumberController.text = '88989800';
+    _passwordController.text = '123456';
   }
 
   @override
@@ -82,9 +94,10 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   void _blocListener(BuildContext context, AuthState state) {
-    // if (state is SetBiometrics) {
-    //   _canCheckBiometrics = state.canCheckBiometrics;
-    // }
+    if (state is SetBiometrics) {
+      _canCheckBiometrics = state.canCheckBiometrics;
+      _availableBiometrics = state.availableBiometrics;
+    }
 
     // else if (state is LoginSuccess) {
     //   globals.sessionToken = state.response.token;
@@ -97,7 +110,8 @@ class _LoginRouteState extends State<LoginRoute> {
     //
     //   _loginByBiometric = false;
     //   Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false);
-    // } else if (state is LoginFailed) {
+    // }
+    // else if (state is LoginFailed) {
     //   _loginByBiometric = false;
     //
     //   showCustomDialog(context,
@@ -221,59 +235,72 @@ class _LoginRouteState extends State<LoginRoute> {
     );
   }
 
+  _validateForm() {
+    setState(() {
+      _isEnabledBtnLogin = (Func.isValidPhoneNumber(_phoneNumberController.text) &&
+          _passwordController.text.isNotEmpty &&
+          _passwordController.text.length > 0);
+    });
+  }
+
   Widget _chkboxBiometric() {
-    return Chkbox(
-      text: CustomText.useLocalAuth,
-      isChecked: _useBiometric,
-      margin: EdgeInsets.only(top: 25.0),
-      onChanged: (value) {
-        _useBiometric = value;
-        setState(() {});
-      },
-    );
-  }
+    return (_canCheckBiometrics && _availableBiometrics > 0)
+        ? Chkbox(
+            text: CustomText.useLocalAuth,
+            isChecked: _biometricAuth,
+            margin: EdgeInsets.only(top: 25.0),
+            onChanged: (value) {
+              setState(() {
+                _biometricAuth = value;
+              });
 
-  Widget _btnLogin() {
-    return Btn(
-      text: CustomText.login,
-      onPressed: (Func.isValidPhoneNumber(_phoneNumberController.text) &&
-              _passwordController.text.isNotEmpty &&
-              _passwordController.text.length > 5)
-          ? _onPressedBtn
-          : null,
-    );
-  }
-
-  Widget _btnBiometrics() {
-    return _canCheckBiometrics
-        ? BtnBordered(
-            asset: Assets.biometric,
-            margin: EdgeInsets.only(left: 15.0),
-            onPressed: () {
-              _onPressedBtnBiometrics();
+              SharedPref.saveBiometricAuth(value);
             },
           )
         : Container();
   }
 
-  void _onPressedBtnBiometrics() async {
-    // FocusScope.of(context).requestFocus(new FocusNode()); //hide keyboard
-    // if (SharedPref.getBiometricAuth()) {
-    //   if (await _checkBiometrics()) {
-    //     var loginRequest = LoginRequest(username: SharedPref.getPhoneNumber(), password: SharedPref.getPassword());
-    //     _loginByBiometric = true;
-    //     BlocProvider.of<AuthBloc>(context).add(Login(loginRequest));
-    //   } else {
-    //     print('failed');
-    //   }
-    // } else {
-    //   showCustomDialog(
-    //     context,
-    //     dialogType: DialogType.error,
-    //     bodyText: CustomText.useBiometricNotSaved,
-    //     btnPositiveText: CustomText.ok,
-    //   );
-    // }
+  Widget _btnLogin() {
+    return Btn(
+      text: CustomText.login,
+      onPressed: _isEnabledBtnLogin
+          ? () {
+              LoginRequest request = LoginRequest();
+              request.username = _phoneNumberController.text;
+              request.password = _passwordController.text;
+
+              BlocManager.authBloc.add(LoginEvent(request));
+            }
+          : null,
+    );
+  }
+
+  Widget _btnBiometrics() {
+    return _canCheckBiometrics && _availableBiometrics > 0
+        ? BtnIconBordered(
+            asset: Assets.biometric,
+            margin: EdgeInsets.only(left: 15.0),
+            onPressed: () {
+              // FocusScope.of(context).requestFocus(new FocusNode()); //hide keyboard
+              // if (SharedPref.getBiometricAuth()) {
+              //   if (await _checkBiometrics()) {
+              //     var loginRequest = LoginRequest(username: SharedPref.getPhoneNumber(), password: SharedPref.getPassword());
+              //     _loginByBiometric = true;
+              //     BlocProvider.of<AuthBloc>(context).add(Login(loginRequest));
+              //   } else {
+              //     print('failed');
+              //   }
+              // } else {
+              //   showCustomDialog(
+              //     context,
+              //     dialogType: DialogType.error,
+              //     bodyText: CustomText.useBiometricNotSaved,
+              //     btnPositiveText: CustomText.ok,
+              //   );
+              // }
+            },
+          )
+        : Container();
   }
 
   Future<bool> _checkBiometrics() async {
@@ -293,29 +320,6 @@ class _LoginRouteState extends State<LoginRoute> {
     }
 
     return didAuthenticate;
-  }
-
-  void _onPressedBtn() async {
-    LoginRequest request = LoginRequest();
-    request.username = _phoneNumberController.text;
-    request.password = _passwordController.text;
-
-    // BlocProvider.of<AuthBloc>(context).add(LoginEvent(request));
-
-    // if (_useBiometric) {
-    //   if (await _checkBiometrics()) {
-    //     BlocProvider.of<AuthBloc>(context).add(SignIn(request));
-    //   } else {
-    //     showCustomDialog(
-    //       context,
-    //       dialogType: DialogType.error,
-    //       text: CustomText.useBiometricError,
-    //       btnPositiveText: CustomText.ok,
-    //     );
-    //   }
-    // } else {
-    //   BlocProvider.of<AuthBloc>(context).add(SignIn(request));
-    // }
   }
 
   Widget _btnForgotPass() {
@@ -342,27 +346,4 @@ class _LoginRouteState extends State<LoginRoute> {
       },
     );
   }
-
-// Widget _logoItem() {
-//   return Container(
-//     child: Column(
-//       children: [
-//         Hero(
-//           tag: "splashIcon",
-//           child: Image.asset(
-//             Assets.logo_small,
-//             height: 120,
-//           ),
-//         ),
-//         SizedBox(height: 20),
-//         Txt(
-//           CustomText.appTitle,
-//           style: lblStyle.appTile,
-//           fontFamily: FontAsset.taurus,
-//           alignment: Alignment.center,
-//         )
-//       ],
-//     ),
-//   );
-// }
 }

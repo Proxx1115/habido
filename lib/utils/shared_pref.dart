@@ -24,7 +24,7 @@ class SharedPref {
     return sharedPref?.getString(SharedPrefKey.sessionToken) ?? '';
   }
 
-  static void saveSessionToken(String sessionToken) {
+  static void saveSessionToken(String? sessionToken) {
     sharedPref?.setString(SharedPrefKey.sessionToken, Func.toStr(sessionToken));
   }
 
@@ -50,23 +50,23 @@ class SharedPref {
     return sharedPref?.getString(SharedPrefKey.phoneNumber) ?? '';
   }
 
-  static void saveBiometricAuth(String phoneNumber) {
-    sharedPref?.setString(SharedPrefKey.phoneNumber, phoneNumber);
+  static void saveBiometricAuth(bool? value) {
+    sharedPref?.setBool(SharedPrefKey.biometricAuth, value ?? false);
   }
 
   static bool getBiometricAuth() {
     return sharedPref?.getBool(SharedPrefKey.biometricAuth) ?? false;
   }
 
-  static void saveUseBiometrics(bool useBiometric) {
-    sharedPref?.setBool(SharedPrefKey.biometricAuth, useBiometric);
+  static void saveUseBiometrics(bool? useBiometric) {
+    sharedPref?.setBool(SharedPrefKey.biometricAuth, useBiometric ?? false);
   }
 
   static String getPassword() {
     return Func.fromBase64Str(sharedPref?.getString(SharedPrefKey.password) ?? '');
   }
 
-  static void savePassword(String password) {
-    sharedPref?.setString(SharedPrefKey.password, Func.toBase64Str(password));
+  static void savePassword(String? password) {
+    sharedPref?.setString(SharedPrefKey.password, Func.toBase64Str(password ?? ''));
   }
 }

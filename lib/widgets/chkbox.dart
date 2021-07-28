@@ -64,16 +64,14 @@ class _ChkboxState extends State<Chkbox> {
             ),
           ),
           MarginHorizontal(width: 15.0),
-          Expanded(
-            child: BtnTxt(
-              text: widget.text,
-              color: widget.textColor ?? customColors.txtGrey,
-              fontSize: 15.0,
-              alignment: Alignment.centerLeft,
-              onPressed: () {
-                _onChanged(!isChecked);
-              },
-            ),
+          BtnTxt(
+            text: widget.text,
+            color: widget.textColor ?? customColors.txtGrey,
+            fontSize: 15.0,
+            alignment: Alignment.centerLeft,
+            onPressed: () {
+              _onChanged(!isChecked);
+            },
           ),
         ],
       );

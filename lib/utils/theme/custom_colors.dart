@@ -12,6 +12,7 @@ class CustomColors {
 
   /// Main
   Color primary = orange;
+  Color border = athensGray;
 
   /// Background
   Color backgroundRoseWhite = roseWhite;
@@ -26,7 +27,6 @@ class CustomColors {
   /// Button
   Color btnPrimary = orange;
   Color btnPrimaryText = Colors.white;
-
   Color btnGrey = athensGray;
 
   Color get btnGreyText => txtGrey;

@@ -7,7 +7,7 @@ class LoginResponse extends BaseResponse {
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
     parseBaseParams(json);
-    token = json["token"];
+    token = json["token"] ?? '';
   }
 
   Map<String, dynamic> toJson() {
