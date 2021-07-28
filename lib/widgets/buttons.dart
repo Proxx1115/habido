@@ -227,7 +227,7 @@ class BtnTxtMulti extends StatelessWidget {
     this.fontWeight1 = FontWeight.normal,
     this.fontWeight2 = FontWeight.w500,
     this.textColor,
-    this.fontSize = SizeHelper.fontSizeNormal,
+    this.fontSize = 13.0,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.alignment = Alignment.center,
   }) : super(key: key);

@@ -8,7 +8,7 @@ class SizeHelper {
   static const double marginTop = margin;
   static const double marginBottom = 25.0;
   static const double borderRadius = 15.0;
-  static const double borderRadius2 = 5.0;
+  static const double borderRadius5 = 5.0;
   static const double boxHeight = 50.0;
 
   /// Screen
@@ -20,7 +20,7 @@ class SizeHelper {
   /// Button
   static const double buttonHeight = 50.0;
   static const double borderRadiusBtn = borderRadius;
-  static const double borderRadiusBtn2 = borderRadius2;
+  static const double borderRadiusBtn2 = borderRadius5;
   static const double buttonHeightSmall = 35.0;
   static const double borderRadiusBtnSmall = 10.0;
 

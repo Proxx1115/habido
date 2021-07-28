@@ -142,19 +142,15 @@ class _LoginRouteState extends State<LoginRoute> {
                       child: Column(
                         children: [
                           /// Утасны дугаар
-                          _txtPhoneNumber(),
-
-                          SizedBox(height: 14.0),
+                          _txtboxPhoneNumber(),
 
                           /// Нууц үг
-                          _txtPassword(),
-
-                          SizedBox(height: 18.0),
+                          _txtboxPassword(),
 
                           /// Цаашид хурууны хээгээр нэвтрэх
-                          _chkBiometric(),
+                          _chkboxBiometric(),
 
-                          SizedBox(height: 18.0),
+                          SizedBox(height: 35.0),
 
                           Row(
                             children: [
@@ -204,7 +200,7 @@ class _LoginRouteState extends State<LoginRoute> {
     );
   }
 
-  Widget _txtPhoneNumber() {
+  Widget _txtboxPhoneNumber() {
     return Txtbox(
       context: context,
       controller: _phoneNumberController,
@@ -215,23 +211,25 @@ class _LoginRouteState extends State<LoginRoute> {
     );
   }
 
-  Widget _txtPassword() {
+  Widget _txtboxPassword() {
     return Txtbox(
       context: context,
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       hintText: CustomText.password,
+      margin: EdgeInsets.only(top: 15.0),
     );
   }
 
-  Widget _chkBiometric() {
+  Widget _chkboxBiometric() {
     return Chkbox(
       text: CustomText.useLocalAuth,
+      isChecked: _useBiometric,
+      margin: EdgeInsets.only(top: 25.0),
       onChanged: (value) {
         _useBiometric = value;
         setState(() {});
       },
-      isChecked: _useBiometric,
     );
   }
 
