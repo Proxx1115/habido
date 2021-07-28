@@ -28,13 +28,13 @@ Widget Btn({
   double fontSize = 15.0,
   FontWeight fontWeight = FontWeight.w500,
   double? borderRadius,
-  double? elevation = SizeHelper.borderRadiusBtn,
+  double? elevation = SizeHelper.borderRadius,
   bool isUppercase = false,
   bool isStroked = false,
 }) {
   return Container(
     width: width ?? double.infinity,
-    height: height ?? SizeHelper.buttonHeight,
+    height: height ?? SizeHelper.boxHeight,
     margin: margin ?? EdgeInsets.zero,
     child: FlatButton(
       // elevation: elevation ?? 0.0,
@@ -47,11 +47,11 @@ Widget Btn({
       padding: EdgeInsets.all(0),
       onPressed: onPressed,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius ?? SizeHelper.borderRadiusBtn),
+        borderRadius: BorderRadius.circular(borderRadius ?? SizeHelper.borderRadius),
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(SizeHelper.borderRadiusBtn),
+          borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
           border: isStroked ? Border.all(color: customColors.primary) : null,
         ),
         child: Row(
@@ -139,9 +139,9 @@ class BtnIconBordered extends StatelessWidget {
     Key? key,
     required this.asset,
     required this.onPressed,
-    this.size = SizeHelper.buttonHeight,
+    this.size = SizeHelper.boxHeight,
     this.iconSize = SizeHelper.iconSize,
-    this.borderRadius: SizeHelper.borderRadiusBtn,
+    this.borderRadius: SizeHelper.borderRadius,
     this.margin = EdgeInsets.zero,
   }) : super(key: key);
 

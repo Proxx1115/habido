@@ -6,6 +6,9 @@ class Assets {
   static const String close = 'assets/images/global/close.svg';
   static const String check = 'assets/images/global/check.svg';
   static const String success = 'assets/images/global/success.svg';
+  static const String clear = 'assets/images/global/clear.svg';
+  static const String edit = 'assets/images/global/edit.svg';
+  static const String obscure_hidden = 'assets/images/global/obscure_hidden.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';

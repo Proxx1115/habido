@@ -7,9 +7,11 @@ class SizeHelper {
   static const double marginLeft = margin;
   static const double marginTop = margin;
   static const double marginBottom = 25.0;
+
   static const double borderRadius = 15.0;
   static const double borderRadius5 = 5.0;
   static const double borderWidth = 2.0;
+
   static const double boxHeight = 50.0;
 
   /// Screen
@@ -19,20 +21,17 @@ class SizeHelper {
   static const double minHeightScreen = 700.0; // Дэлгэцний хамгийн доод өндөр
 
   /// Button
-  static const double buttonHeight = 50.0;
-  static const double borderRadiusBtn = borderRadius;
-  static const double borderRadiusBtn2 = borderRadius5;
   static const double buttonHeightSmall = 35.0;
   static const double borderRadiusBtnSmall = 10.0;
 
   /// Card
-  static const double borderRadiusCard = borderRadius;
+  // static const double borderRadiusCard = borderRadius;
 
   /// CodeInput
   static const double borderRadiusCodeInput = borderRadius;
 
   /// Textbox
-  static const double textboxHeight = boxHeight;
+  // static const double textboxHeight = boxHeight;
 
   /// Icon
   static const double iconSize = 20.0;

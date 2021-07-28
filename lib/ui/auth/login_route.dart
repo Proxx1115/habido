@@ -40,6 +40,7 @@ class _LoginRouteState extends State<LoginRoute> {
   // Нууц үг
   TextEditingController _passwordController = TextEditingController();
   FocusNode _passwordFocusNode = FocusNode();
+  bool _obscure = true;
 
   // Button login
   bool _isEnabledBtnLogin = false;
@@ -208,30 +209,38 @@ class _LoginRouteState extends State<LoginRoute> {
       margin: EdgeInsets.symmetric(vertical: 30.0),
       child: SvgPicture.asset(
         Assets.app_icon_name,
-        height: 45.0,
+        height: 48.0,
         width: 205.0,
+        fit: BoxFit.scaleDown,
       ),
     );
   }
 
   Widget _txtboxPhoneNumber() {
     return Txtbox(
-      context: context,
       controller: _phoneNumberController,
       focusNode: _phoneNumberFocusNode,
-      hintText: CustomText.phoneNumber,
       maxLength: 8,
       textInputType: TextInputType.number,
+      prefixAsset: Assets.username,
+      hintText: CustomText.phoneNumber,
+      suffixAsset: Assets.clear,
+      alwaysVisibleSuffix: false,
+      onPressedSuffix: () {
+        _phoneNumberController.clear();
+      },
     );
   }
 
   Widget _txtboxPassword() {
     return Txtbox(
-      context: context,
       controller: _passwordController,
       focusNode: _passwordFocusNode,
-      hintText: CustomText.password,
       margin: EdgeInsets.only(top: 15.0),
+      obscureText: true,
+      prefixAsset: Assets.password,
+      hintText: CustomText.password,
+      alwaysVisibleSuffix: false,
     );
   }
 

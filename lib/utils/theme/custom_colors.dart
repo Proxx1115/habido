@@ -31,6 +31,9 @@ class CustomColors {
 
   Color get btnGreyText => txtGrey;
 
+  /// Txtbox
+  Color txtbox = athensGray;
+
   /// Icon
   // Color? icon; // dark grey
   // Color? iconSecondary; // light grey
