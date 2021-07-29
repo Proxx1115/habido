@@ -74,8 +74,8 @@ class HabidoApp extends StatelessWidget {
             onGenerateRoute: _routes.onGenerateRoute,
             navigatorObservers: [_routes.routeObserver],
             home: SplashRoute(),
-            // home: Hero1Route(),
             // home: IntroRoute(),
+            // home: SignUpRoute(),
           );
         },
       ),

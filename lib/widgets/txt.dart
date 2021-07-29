@@ -16,7 +16,7 @@ enum TxtStyle {
 class Txt extends StatelessWidget {
   Txt(
     this.text, {
-    this.style = TxtStyle.Medium,
+    this.style = TxtStyle.Normal,
     this.color,
     this.bgColor,
     this.fontSize,

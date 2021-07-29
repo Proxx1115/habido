@@ -8,38 +8,83 @@ import 'package:habido_app/widgets/txt.dart';
 Widget CustomAppBar({
   required BuildContext context,
   Color? backgroundColor,
+
+  // Leading
   Widget? leadingWidget,
   String? leadingAsset = Assets.back,
   VoidCallback? onPressedLeading,
+
+  // Title
   String? titleText,
+
+  // Action
+  Widget? actionWidget,
+  String? actionAsset,
+  VoidCallback? onPressedAction,
 }) {
-  Widget? _leading;
+  /// Init leading
   if (leadingWidget != null) {
-    _leading = leadingWidget;
+    // Nothing but life goes on
   } else if (leadingAsset != null) {
-    _leading = BtnStadium(
+    leadingWidget = BtnStadium(
       asset: leadingAsset,
       margin: EdgeInsets.only(left: 15.0),
-      onPressed: () {},
+      onPressed: () {
+        if (onPressedLeading != null) {
+          // Custom action
+          onPressedLeading();
+        } else {
+          // Btn back
+          Navigator.pop(context);
+        }
+      },
     );
+  } else {
+    leadingWidget = Container();
+  }
 
-    // _leading = IconButton(
-    //   icon: ,
-    // );
+  /// Init action
+  if (actionWidget != null) {
+    // Nothing but life goes on
+  } else if (actionAsset != null) {
+    leadingWidget = BtnStadium(
+      asset: actionAsset,
+      margin: EdgeInsets.only(left: 15.0),
+      onPressed: () {
+        if (onPressedAction != null) onPressedAction();
+      },
+    );
+  } else {
+    actionWidget = AbsorbPointer(
+      child: Opacity(opacity: 0.0, child: leadingWidget),
+    );
   }
 
   return AppBar(
     backgroundColor: backgroundColor ?? Colors.transparent,
-    elevation: 0,
-    leading: _leading,
-    title: titleText != null
-        ? Txt(
-            titleText,
-            alignment: Alignment.center,
-            fontWeight: FontWeight.w500,
-            fontSize: 15.0,
-          )
-        : null,
+    elevation: 0, // Remove elevation
+    automaticallyImplyLeading: false, // Remove back button
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        leadingWidget,
+
+        /// Title
+        Expanded(
+          child: (titleText != null)
+              ? Txt(
+                  titleText,
+                  alignment: Alignment.center,
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15.0,
+                )
+              : Container(),
+        ),
+
+        actionWidget!,
+      ],
+    ),
   );
 }
 
