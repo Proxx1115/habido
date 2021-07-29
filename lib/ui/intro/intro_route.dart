@@ -60,10 +60,11 @@ class _IntroRouteState extends State<IntroRoute> {
           /// Button - Close
           Align(
             alignment: Alignment.topRight,
-            child: BtnIcon(
+            child: BtnStadium(
               asset: Assets.close,
               margin: EdgeInsets.fromLTRB(0.0, _btnCloseMargin, 35.0, 0.0),
               size: _btnCloseHeight,
+              iconColor: customColors.primary,
               onPressed: () {
                 _navigateToLogin();
               },

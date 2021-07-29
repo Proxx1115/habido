@@ -41,7 +41,7 @@ class _ChkboxState extends State<Chkbox> {
   double size = 20.0;
 
   var shape = RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius5)),
+    borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadiusChkbox)),
     side: BorderSide(color: customColors.primary, width: 1, style: BorderStyle.solid),
   );
 

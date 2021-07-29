@@ -38,8 +38,8 @@ Widget Btn({
     margin: margin ?? EdgeInsets.zero,
     child: FlatButton(
       // elevation: elevation ?? 0.0,
-      color: color ?? (onPressed != null ? customColors.btnPrimary : customColors.btnGrey),
-      disabledColor: disabledColor ?? customColors.btnGrey,
+      color: color ?? (onPressed != null ? customColors.btnPrimaryBackground : customColors.btnGreyBackground),
+      disabledColor: disabledColor ?? customColors.btnGreyBackground,
       splashColor: Color(0xFF24ABF8).withOpacity(0.1),
       highlightColor: Color(0xFF24ABF8).withOpacity(0.1),
       // splashColor: Colors.red,
@@ -90,22 +90,26 @@ Widget Btn({
   );
 }
 
-class BtnIcon extends StatelessWidget {
+class BtnStadium extends StatelessWidget {
   final String asset;
   final VoidCallback onPressed;
-  final double size;
-  final double iconSize;
-  final double borderRadius;
   final EdgeInsets margin;
+  final double size;
+  final double borderRadius;
+  final bool visibleBorder;
+  final Color? backgroundColor;
+  final Color? iconColor;
 
-  const BtnIcon({
+  const BtnStadium({
     Key? key,
     required this.asset,
     required this.onPressed,
-    this.size = 40.0,
-    this.iconSize = 10.0,
-    this.borderRadius: 10.0,
     this.margin = EdgeInsets.zero,
+    this.size = 40.0,
+    this.borderRadius: 10.0,
+    this.visibleBorder = false,
+    this.backgroundColor,
+    this.iconColor,
   }) : super(key: key);
 
   @override
@@ -117,48 +121,12 @@ class BtnIcon extends StatelessWidget {
         child: Container(
           height: size,
           width: size,
-          child: SvgPicture.asset(asset, height: iconSize),
-        ),
-        onTap: () {
-          onPressed();
-        },
-      ),
-    );
-  }
-}
-
-class BtnIconBordered extends StatelessWidget {
-  final String asset;
-  final VoidCallback onPressed;
-  final double size;
-  final double iconSize;
-  final double borderRadius;
-  final EdgeInsets margin;
-
-  const BtnIconBordered({
-    Key? key,
-    required this.asset,
-    required this.onPressed,
-    this.size = SizeHelper.boxHeight,
-    this.iconSize = SizeHelper.iconSize,
-    this.borderRadius: SizeHelper.borderRadius,
-    this.margin = EdgeInsets.zero,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: margin,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-        child: Container(
-          height: size,
-          width: size,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius),
-            border: Border.all(width: SizeHelper.borderWidth, color: customColors.border),
+            border: visibleBorder ? Border.all(width: SizeHelper.borderWidth, color: customColors.border) : null,
+            color: backgroundColor ?? customColors.backgroundWhite,
           ),
-          child: SvgPicture.asset(asset, fit: BoxFit.scaleDown),
+          child: SvgPicture.asset(asset, fit: BoxFit.scaleDown, color: iconColor ?? customColors.iconGrey),
         ),
         onTap: () {
           onPressed();
@@ -167,6 +135,47 @@ class BtnIconBordered extends StatelessWidget {
     );
   }
 }
+
+// class BtnIconBordered extends StatelessWidget {
+//   final String asset;
+//   final VoidCallback onPressed;
+//   final double size;
+//   final double iconSize;
+//   final double borderRadius;
+//   final EdgeInsets margin;
+//
+//   const BtnIconBordered({
+//     Key? key,
+//     required this.asset,
+//     required this.onPressed,
+//     this.size = SizeHelper.boxHeight,
+//     this.iconSize = SizeHelper.iconSize,
+//     this.borderRadius: SizeHelper.borderRadius,
+//     this.margin = EdgeInsets.zero,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: margin,
+//       child: InkWell(
+//         borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+//         child: Container(
+//           height: size,
+//           width: size,
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(borderRadius),
+//             border: Border.all(width: SizeHelper.borderWidth, color: customColors.border),
+//           ),
+//           child: SvgPicture.asset(asset, fit: BoxFit.scaleDown),
+//         ),
+//         onTap: () {
+//           onPressed();
+//         },
+//       ),
+//     );
+//   }
+// }
 
 class BtnTxt extends StatelessWidget {
   const BtnTxt({

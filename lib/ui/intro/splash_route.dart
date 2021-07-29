@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:habido_app/utils/api/api_router.dart';
-import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
-import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:habido_app/widgets/hero.dart';
 
 class SplashRoute extends StatefulWidget {
   @override
@@ -24,12 +21,7 @@ class _SplashRouteState extends State<SplashRoute> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          child: SvgPicture.asset(
-            Assets.appIcon,
-            width: 60.0,
-          ),
-        ),
+        child: HeroHelper.getAppLogoWithName(),
       ),
     );
   }
@@ -89,15 +81,22 @@ class _SplashRouteState extends State<SplashRoute> {
     if (false) {
       _navigateToHome();
     } else {
-      _navigateToFirstRoute();
+      // todo test
+      Future.delayed(Duration(seconds: 1), () {
+        _navigateToFirstRoute();
+      });
     }
   }
 
   _navigateToFirstRoute() {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
-      (Route<dynamic> route) => false,
-    );
+    if (SharedPref.checkIntroLimit()) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
+        (Route<dynamic> route) => false,
+      );
+    } else {
+      HeroHelper.navigatePushReplacement(context: context, nextRoute: LoginRoute());
+    }
   }
 
   _navigateToHome() {

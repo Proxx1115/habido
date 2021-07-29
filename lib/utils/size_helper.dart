@@ -9,26 +9,28 @@ class SizeHelper {
   static const double marginBottom = 25.0;
 
   static const double borderRadius = 15.0;
-  static const double borderRadius5 = 5.0;
   static const double borderWidth = 2.0;
 
   static const double boxHeight = 50.0;
 
   /// Screen
   static const paddingScreen = EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.marginTop, SizeHelper.margin, SizeHelper.marginBottom);
-  static const double statusBarHeight = 20.0;
-  static double bottomNavigationBarHeight = 65.0;
+  static const double heightStatusBar = 20.0;
+  static double heightBottomNavigationBar = 65.0;
   static const double minHeightScreen = 700.0; // Дэлгэцний хамгийн доод өндөр
 
   /// Button
-  static const double buttonHeightSmall = 35.0;
-  static const double borderRadiusBtnSmall = 10.0;
+  static const double heightBtnSmall = 35.0;
+  static const double borderRadiusBtnStadium = 10.0;
+
+  /// Checkbox
+  static const double borderRadiusChkbox = 5.0;
 
   /// Card
   // static const double borderRadiusCard = borderRadius;
 
   /// CodeInput
-  static const double borderRadiusCodeInput = borderRadius;
+  // static const double borderRadiusCodeInput = borderRadius;
 
   /// Textbox
   // static const double textboxHeight = boxHeight;

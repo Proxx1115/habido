@@ -4,10 +4,11 @@ CustomColors customColors = CustomColors.light();
 
 class CustomColors {
   static const orange = const Color(0xfffa6c51); // primary
-  static const roseWhite = const Color(0xFFFFF7F6); // background
-  static const athensGray = const Color(0xFFF4F6F8); // background2
-  static const black = const Color(0xFF424852); // txt
-  static const grey = const Color(0xFFA9B0BB); // txt2
+  static const roseWhite = const Color(0xFFFFF7F6); // background white
+  static const athensGray = const Color(0xFFF4F6F8); // background grey
+  static const black = const Color(0xFF424852); // txt black
+  static const grey = const Color(0xFFA9B0BB); // txt grey
+  static const ghost = const Color(0xFFCBD0D7); // icon grey
   static const red = const Color(0xFFE8553E);
 
   /// Main
@@ -25,17 +26,18 @@ class CustomColors {
   Color txtWhite = Colors.white;
 
   /// Button
-  Color btnPrimary = orange;
+  Color btnPrimaryBackground = orange;
   Color btnPrimaryText = Colors.white;
-  Color btnGrey = athensGray;
+  Color btnGreyBackground = athensGray;
 
   Color get btnGreyText => txtGrey;
 
   /// Txtbox
-  Color txtbox = athensGray;
+  Color txtboxGreyBackground = athensGray;
 
   /// Icon
-  // Color? icon; // dark grey
+  Color iconGrey = ghost;
+
   // Color? iconSecondary; // light grey
 
   /// Shadow

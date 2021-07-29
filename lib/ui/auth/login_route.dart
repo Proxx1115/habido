@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/login_request.dart';
@@ -18,6 +17,7 @@ import 'package:habido_app/widgets/app_bars.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/chkbox.dart';
 import 'package:habido_app/widgets/containers.dart';
+import 'package:habido_app/widgets/hero.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
@@ -205,15 +205,7 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _logo() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 30.0),
-      child: SvgPicture.asset(
-        Assets.app_icon_name,
-        height: 48.0,
-        width: 205.0,
-        fit: BoxFit.scaleDown,
-      ),
-    );
+    return HeroHelper.getAppLogoWithName();
   }
 
   Widget _txtboxPhoneNumber() {
@@ -286,9 +278,12 @@ class _LoginRouteState extends State<LoginRoute> {
 
   Widget _btnBiometrics() {
     return _canCheckBiometrics && _availableBiometrics > 0
-        ? BtnIconBordered(
+        ? BtnStadium(
             asset: Assets.biometric,
             margin: EdgeInsets.only(left: 15.0),
+            size: 50.0,
+            visibleBorder: true,
+            iconColor: customColors.primary,
             onPressed: () {
               // FocusScope.of(context).requestFocus(new FocusNode()); //hide keyboard
               // if (SharedPref.getBiometricAuth()) {

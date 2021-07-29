@@ -2,11 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
-import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import '../txt.dart';
-import 'text_input_formatter.dart';
 
 class Txtbox extends StatefulWidget {
   final TextEditingController controller;
@@ -74,7 +71,7 @@ class _TxtboxState extends State<Txtbox> {
             borderSide: BorderSide.none,
           ),
           filled: true,
-          fillColor: customColors.txtbox,
+          fillColor: customColors.txtboxGreyBackground,
           prefixIcon: _prefixIcon(),
           hintText: widget.hintText,
           hintStyle: TextStyle(fontSize: widget.fontSize, color: customColors.txtGrey),

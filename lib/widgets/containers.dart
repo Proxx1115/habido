@@ -1,19 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/utils/size_helper.dart';
 
-// class BaseContainer extends StatelessWidget {
-//   final Widget child;
-//
-//   const BaseContainer({required this.child});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       // decoration: BoxDecoration(image: DecorationImage(image: AssetImage(Assets.background), fit: BoxFit.cover)),
-//       child: child,
-//     );
-//   }
-// }
 
 // ignore: non_constant_identifier_names
 // Widget HorizontalLine({

@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
+import 'package:habido_app/ui/auth/sign_up_route.dart';
+import 'package:habido_app/ui/intro/intro_route.dart';
+import 'package:habido_app/ui/test/hero1_route.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,7 +74,8 @@ class HabidoApp extends StatelessWidget {
             onGenerateRoute: _routes.onGenerateRoute,
             navigatorObservers: [_routes.routeObserver],
             home: SplashRoute(),
-            // home: LoginRoute(),
+            // home: Hero1Route(),
+            // home: IntroRoute(),
           );
         },
       ),
