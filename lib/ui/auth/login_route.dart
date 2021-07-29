@@ -162,10 +162,9 @@ class _LoginRouteState extends State<LoginRoute> {
                           /// Нууц үг
                           _txtboxPassword(),
 
-                          /// Цаашид хурууны хээгээр нэвтрэх
-                          _chkboxBiometric(),
+                          // _chkboxBiometric(),
 
-                          SizedBox(height: 35.0),
+                          SizedBox(height: 30.0),
 
                           Row(
                             children: [
@@ -244,22 +243,22 @@ class _LoginRouteState extends State<LoginRoute> {
     });
   }
 
-  Widget _chkboxBiometric() {
-    return (_canCheckBiometrics && _availableBiometrics > 0)
-        ? Chkbox(
-            text: CustomText.useLocalAuth,
-            isChecked: _biometricAuth,
-            margin: EdgeInsets.only(top: 25.0),
-            onChanged: (value) {
-              setState(() {
-                _biometricAuth = value;
-              });
-
-              SharedPref.saveBiometricAuth(value);
-            },
-          )
-        : Container();
-  }
+  // Widget _chkboxBiometric() {
+  //   return (_canCheckBiometrics && _availableBiometrics > 0)
+  //       ? Chkbox(
+  //           text: CustomText.useLocalAuth,
+  //           isChecked: _biometricAuth,
+  //           margin: EdgeInsets.only(top: 25.0),
+  //           onChanged: (value) {
+  //             setState(() {
+  //               _biometricAuth = value;
+  //             });
+  //
+  //             SharedPref.saveBiometricAuth(value);
+  //           },
+  //         )
+  //       : Container();
+  // }
 
   Widget _btnLogin() {
     return Btn(
