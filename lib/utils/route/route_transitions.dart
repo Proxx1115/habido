@@ -33,7 +33,6 @@ class SlideRightRoute extends PageRouteBuilder {
         );
 }
 
-/// NoTransitionRoute - Custom route which has no transitions
 class NoTransitionRoute<T> extends MaterialPageRoute<T> {
   NoTransitionRoute(Widget widget, RouteSettings settings) : super(builder: (_) => widget, settings: settings);
 
@@ -43,22 +42,26 @@ class NoTransitionRoute<T> extends MaterialPageRoute<T> {
   }
 }
 
-// class FadePageRouteBuilder extends PageRouteBuilder {
-//   final Widget w;
-//   @override
-//   final RouteSettings settings;
-//
-//   FadePageRouteBuilder(this.w, this.settings)
-//       : super(
-//           settings: settings,
-//           pageBuilder: (BuildContext ctx, _, __) {
-//             return w;
-//           },
-//           transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
-//             return FadeTransition(opacity: animation, child: child);
-//           },
-//         );
-// }
+class FadePageRouteBuilder extends PageRouteBuilder {
+  final Widget w;
+
+  @override
+  final RouteSettings settings;
+
+  @override
+  Duration get transitionDuration => Duration(milliseconds: 500);
+
+  FadePageRouteBuilder(this.w, this.settings)
+      : super(
+          settings: settings,
+          pageBuilder: (BuildContext ctx, _, __) {
+            return w;
+          },
+          transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        );
+}
 
 /// NoPushTransitionRoute - Custom route which has no transition when pushed, but has a pop animation
 // class NoPushTransitionRoute<T> extends MaterialPageRoute<T> {

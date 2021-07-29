@@ -17,17 +17,6 @@ class HeroHelper {
       ),
     );
   }
-
-  static navigatePushReplacement({
-    required BuildContext context,
-    required Widget nextRoute,
-    Duration duration = const Duration(milliseconds: 1600),
-  }) {
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(transitionDuration: duration, pageBuilder: (_, __, ___) => nextRoute),
-    );
-  }
 }
 
 // class IntroHelper {

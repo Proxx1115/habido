@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -7,6 +8,7 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/app_bars.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/hero.dart';
 import 'package:habido_app/widgets/txt.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -131,6 +133,8 @@ class _IntroRouteState extends State<IntroRoute> {
   }
 
   void _navigateToLogin() {
+    // HeroHelper.navigatePushReplacement(context: context, nextRoute: LoginRoute());
+
     Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
   }
 }

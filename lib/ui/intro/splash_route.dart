@@ -89,14 +89,10 @@ class _SplashRouteState extends State<SplashRoute> {
   }
 
   _navigateToFirstRoute() {
-    if (SharedPref.checkIntroLimit()) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
-        (Route<dynamic> route) => false,
-      );
-    } else {
-      HeroHelper.navigatePushReplacement(context: context, nextRoute: LoginRoute());
-    }
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
+      (Route<dynamic> route) => false,
+    );
   }
 
   _navigateToHome() {

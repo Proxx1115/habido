@@ -31,11 +31,11 @@ class Routes {
         break;
 
       case Routes.intro:
-        route = NoTransitionRoute(IntroRoute(), settings);
+        route = FadePageRouteBuilder(IntroRoute(), settings);
         break;
 
       case Routes.login:
-        route = NoTransitionRoute(LoginRoute(), settings);
+        route = PageRouteBuilder(transitionDuration: Duration(milliseconds: 1600), pageBuilder: (_, __, ___) => LoginRoute());
         break;
 
       case Routes.signUp:
