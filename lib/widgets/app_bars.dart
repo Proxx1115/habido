@@ -28,7 +28,6 @@ Widget CustomAppBar({
   } else if (leadingAsset != null) {
     leadingWidget = BtnStadium(
       asset: leadingAsset,
-      margin: EdgeInsets.only(left: 15.0),
       onPressed: () {
         if (onPressedLeading != null) {
           // Custom action
@@ -47,7 +46,7 @@ Widget CustomAppBar({
   if (actionWidget != null) {
     // Nothing but life goes on
   } else if (actionAsset != null) {
-    leadingWidget = BtnStadium(
+    actionWidget = BtnStadium(
       asset: actionAsset,
       margin: EdgeInsets.only(left: 15.0),
       onPressed: () {
@@ -72,17 +71,11 @@ Widget CustomAppBar({
         /// Title
         Expanded(
           child: (titleText != null)
-              ? Txt(
-                  titleText,
-                  alignment: Alignment.center,
-                  textAlign: TextAlign.center,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15.0,
-                )
+              ? Txt(titleText, alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500, fontSize: 15.0)
               : Container(),
         ),
 
-        actionWidget!,
+        actionWidget,
       ],
     ),
   );

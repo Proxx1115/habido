@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 
@@ -15,7 +16,7 @@ class _SignUpRouteState extends State<SignUpRoute> {
     return CustomScaffold(
       scaffoldKey: _signUpKey,
       backgroundColor: customColors.backgroundRoseWhite,
-      appBarTitle: 'Test',
+      appBarTitle: CustomText.yourRegistration,
       child: Container(),
     );
   }

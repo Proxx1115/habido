@@ -128,6 +128,8 @@ class CustomText {
   ///
   /// Sign up
   ///
+  static String get yourRegistration => 'Таны бүртгэл';
+
   static String get lastName => 'Овог';
 
   static String get firstName => 'Нэр';
