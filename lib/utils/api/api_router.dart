@@ -1,15 +1,27 @@
 import 'dart:convert';
-
-import 'package:habido_app/models/base_request.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
-
+import 'package:habido_app/models/sign_up_request.dart';
+import 'package:habido_app/models/sign_up_response.dart';
 import 'api_helper.dart';
 import 'api_manager.dart';
 import 'api_routes.dart';
 
 class ApiRouter {
   /// Authentication
+  static Future<SignUpResponse> signUp(SignUpRequest request) async {
+    return SignUpResponse.fromJson(
+      (await apiManager.sendRequest(route: ApiRoutes.signUp, requestData: request, hasSessionToken: false)).data,
+    );
+
+
+    return SignUpResponse.fromJson(await apiManager.sendRequest(
+      path: ApiRoutes.signIn,
+      headers: headers,
+      hasAuthorization: true,
+    ));
+  }
+
   static Future<LoginResponse> login(LoginRequest request) async {
     Map<String, String> headers = ApiHelper.getHttpHeaders(hasAuthorization: false);
     headers.addAll(
@@ -30,7 +42,7 @@ class ApiRouter {
 //   ))
 //       .data);
 // }
-//
+
 // static Future<BaseResponse> connectDevice(ConnectDeviceRequest request) async {
 //   return BaseResponse.fromJson((await apiManager.sendRequest(
 //     route: ApiRoutes.connect,
@@ -39,10 +51,7 @@ class ApiRouter {
 //       .data);
 // }
 //
-// static Future<SignUpResponse> signUp(SignUpRequest request) async {
-//   return SignUpResponse.fromJson(
-//       (await apiManager.sendRequest(route: ApiRoutes.signUp, requestData: request, hasSessionToken: false)).data);
-// }
+
 //
 // static Future<BaseResponse> verify(VerifyRequest request) async {
 //   return BaseResponse.fromJson((await apiManager.sendRequest(route: ApiRoutes.verify, requestData: request, hasSessionToken: false)).data);
