@@ -9,7 +9,7 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/app_bars.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/hero.dart';
-import 'package:habido_app/widgets/txt.dart';
+import 'package:habido_app/widgets/text.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class IntroRoute extends StatefulWidget {
@@ -24,7 +24,7 @@ class _IntroRouteState extends State<IntroRoute> {
   // PageView
   PageController _pageController = PageController();
   int _currentIndex = 0;
-  List<String> textList = [CustomText.intro1, CustomText.intro2, CustomText.intro3];
+  List<String> textList = [LocaleKeys.intro1, LocaleKeys.intro2, LocaleKeys.intro3];
   List<String> assetList = [Assets.intro1, Assets.intro2, Assets.intro3];
 
   // Button close
@@ -83,8 +83,8 @@ class _IntroRouteState extends State<IntroRoute> {
               effect: ExpandingDotsEffect(
                 dotHeight: 15,
                 dotWidth: 9,
-                activeDotColor: customColors.backgroundWhite,
-                dotColor: customColors.backgroundWhite.withOpacity(0.3),
+                activeDotColor: customColors.whiteBackground,
+                dotColor: customColors.whiteBackground.withOpacity(0.3),
                 expansionFactor: 1.3,
                 radius: 10.0,
                 paintStyle: PaintingStyle.fill,
@@ -118,11 +118,11 @@ class _IntroRouteState extends State<IntroRoute> {
         ),
 
         /// Text
-        Txt(
+        CustomText(
           textList[index],
           alignment: Alignment.topCenter,
           textAlign: TextAlign.center,
-          color: customColors.txtWhite,
+          color: customColors.whiteText,
           fontWeight: FontWeight.bold,
           fontSize: 35.0,
           maxLines: 2,

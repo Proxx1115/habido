@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'localization_helper.dart';
 
-class CustomText {
-  static CustomText? of(BuildContext context) {
-    return Localizations.of<CustomText>(context, CustomText);
+class LocaleKeys {
+  static LocaleKeys? of(BuildContext context) {
+    return Localizations.of<LocaleKeys>(context, LocaleKeys);
   }
 
   ///
@@ -154,9 +154,9 @@ class CustomText {
 
 }
 
-class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<CustomText> {
+class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {
   @override
-  Future<CustomText> load(Locale locale) => Future(() => CustomText());
+  Future<LocaleKeys> load(Locale locale) => Future(() => LocaleKeys());
 
   @override
   bool shouldReload(FlutterBlocLocalizationsDelegate old) => false;

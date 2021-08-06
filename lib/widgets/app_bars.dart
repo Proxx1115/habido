@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/widgets/buttons.dart';
-import 'package:habido_app/widgets/txt.dart';
+import 'package:habido_app/widgets/text.dart';
 
 // ignore: non_constant_identifier_names
 Widget CustomAppBar({
@@ -71,7 +71,7 @@ Widget CustomAppBar({
         /// Title
         Expanded(
           child: (titleText != null)
-              ? Txt(titleText, alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500, fontSize: 15.0)
+              ? CustomText(titleText, alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500, fontSize: 15.0)
               : Container(),
         ),
 

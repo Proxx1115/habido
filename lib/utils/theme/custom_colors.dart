@@ -2,41 +2,46 @@ import 'package:flutter/material.dart';
 
 CustomColors customColors = CustomColors.light();
 
-class CustomColors {
-  static const orange = const Color(0xfffa6c51); // primary
-  static const roseWhite = const Color(0xFFFFF7F6); // background white
-  static const athensGray = const Color(0xFFF4F6F8); // background grey
-  static const black = const Color(0xFF424852); // txt black
-  static const grey = const Color(0xFFA9B0BB); // txt grey
-  static const ghost = const Color(0xFFCBD0D7); // icon grey
+class ConstantColors {
+  static const primary = const Color(0xfffa6c51); // primary
+  static const roseWhite = const Color(0xFFFFF7F6); // background
+  static const athensGray = const Color(0xFFF4F6F8); // background
+  static const black = const Color(0xFF424852); // text
+  static const grey = const Color(0xFFA9B0BB); // text
+  static const ghostGrey = const Color(0xFFCBD0D7); // icon
   static const red = const Color(0xFFE8553E);
+}
 
+class CustomColors {
   /// Main
-  Color primary = orange;
-  Color border = athensGray;
+  Color primary = ConstantColors.primary;
+  Color border = ConstantColors.athensGray;
 
   /// Background
-  Color backgroundRoseWhite = roseWhite;
-  Color backgroundGrey = athensGray;
-  Color backgroundWhite = Colors.white;
+  Color primaryBackground = ConstantColors.roseWhite;
+  Color secondaryBackground = ConstantColors.athensGray;
+  Color whiteBackground = Colors.white;
 
-  /// Txt
-  Color txtBlack = black;
-  Color txtGrey = grey;
-  Color txtWhite = Colors.white;
+  /// Text
+  Color primaryText = ConstantColors.black;
+  Color secondaryText = ConstantColors.grey;
+  Color whiteText = Colors.white;
 
   /// Button
-  Color btnPrimaryBackground = orange;
-  Color btnPrimaryText = Colors.white;
-  Color btnGreyBackground = athensGray;
+  Color get primaryButtonBackground => primary;
+  Color primaryButtonText = Colors.white;
 
-  Color get btnGreyText => txtGrey;
+  Color get secondaryButtonBackground => secondaryBackground;
 
-  /// Txtbox
-  Color txtboxGreyBackground = athensGray;
+  Color get secondaryButtonText => secondaryText;
+
+  /// TextField
+  Color get primaryTextFieldBackground => whiteBackground;
+
+  Color get secondaryTextFieldBackground => secondaryBackground;
 
   /// Icon
-  Color iconGrey = ghost;
+  Color iconGrey = ConstantColors.ghostGrey;
 
   // Color? iconSecondary; // light grey
 

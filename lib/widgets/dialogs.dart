@@ -22,7 +22,7 @@ class DialogHelper {
         return Container(
           // height: (height ?? MediaQuery.of(context).size / 2),
           decoration: new BoxDecoration(
-            color: customColors.backgroundWhite,
+            color: customColors.whiteBackground,
             borderRadius: new BorderRadius.only(topLeft: const Radius.circular(25.0), topRight: const Radius.circular(25.0)),
           ),
           child: child,

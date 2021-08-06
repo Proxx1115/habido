@@ -15,8 +15,8 @@ class _SignUpRouteState extends State<SignUpRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       scaffoldKey: _signUpKey,
-      backgroundColor: customColors.backgroundRoseWhite,
-      appBarTitle: CustomText.yourRegistration,
+      backgroundColor: customColors.primaryBackground,
+      appBarTitle: LocaleKeys.yourRegistration,
       child: Container(),
     );
   }

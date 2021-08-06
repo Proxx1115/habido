@@ -5,7 +5,13 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 
-class Txtbox extends StatefulWidget {
+enum CustomTextFieldStyle {
+  primary, // White
+  secondary, // Grey
+}
+
+class CustomTextField extends StatefulWidget {
+  final CustomTextFieldStyle style;
   final TextEditingController controller;
   final FocusNode? focusNode;
   final EdgeInsets margin;
@@ -20,28 +26,29 @@ class Txtbox extends StatefulWidget {
   final bool alwaysVisibleSuffix;
   final VoidCallback? onPressedSuffix;
 
-  Txtbox({
+  CustomTextField({
     Key? key,
+    this.style = CustomTextFieldStyle.primary,
     required this.controller,
     this.focusNode,
     this.margin = EdgeInsets.zero,
-    this.maxLength,
-    this.textInputType,
-    this.obscureText = false,
     this.prefixAsset,
     this.hintText,
+    this.textInputType,
+    this.obscureText = false,
     this.fontSize = 15.0,
     this.textColor,
+    this.maxLength,
     this.suffixAsset = Assets.edit,
     this.alwaysVisibleSuffix = true,
     this.onPressedSuffix,
   }) : super(key: key);
 
   @override
-  _TxtboxState createState() => _TxtboxState();
+  _CustomTextFieldState createState() => _CustomTextFieldState();
 }
 
-class _TxtboxState extends State<Txtbox> {
+class _CustomTextFieldState extends State<CustomTextField> {
   late FocusNode _focusNode;
   late bool _obscureText;
   late String _suffixAsset;
@@ -62,32 +69,46 @@ class _TxtboxState extends State<Txtbox> {
       child: TextField(
         controller: widget.controller,
         focusNode: _focusNode,
-        maxLength: widget.maxLength,
-        keyboardType: widget.textInputType,
-        obscureText: _obscureText,
         decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-            borderSide: BorderSide.none,
-          ),
+          border: _border,
+          focusedBorder: _border,
+          enabledBorder: _border,
+          disabledBorder: _border,
           filled: true,
-          fillColor: customColors.txtboxGreyBackground,
+          fillColor: _backgroundColor,
           prefixIcon: _prefixIcon(),
           hintText: widget.hintText,
-          hintStyle: TextStyle(fontSize: widget.fontSize, color: customColors.txtGrey),
+          hintStyle: TextStyle(fontSize: widget.fontSize, color: customColors.secondaryText),
           suffixIcon: _suffixIcon(),
           counterText: '',
         ),
-        style: TextStyle(fontSize: widget.fontSize, color: widget.textColor ?? customColors.txtBlack),
+        style: TextStyle(color: _textColor, fontSize: widget.fontSize, fontWeight: _fontWeight),
+        keyboardType: widget.textInputType,
+        obscureText: _obscureText,
         textAlign: TextAlign.start,
         textAlignVertical: TextAlignVertical.center,
+        maxLength: widget.maxLength,
       ),
     );
   }
 
+  InputBorder get _border => OutlineInputBorder(
+        borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+        borderSide: (widget.style == CustomTextFieldStyle.primary)
+            ? BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
+            : BorderSide.none,
+      );
+
+  Color get _backgroundColor =>
+      (widget.style == CustomTextFieldStyle.primary) ? customColors.primaryTextFieldBackground : customColors.secondaryTextFieldBackground;
+
   Widget? _prefixIcon() {
     return (widget.prefixAsset != null) ? SvgPicture.asset(widget.prefixAsset!, fit: BoxFit.scaleDown) : null;
   }
+
+  Color get _textColor => widget.textColor ?? (_focusNode.hasFocus ? customColors.primary : customColors.primaryText);
+
+  FontWeight get _fontWeight => _focusNode.hasFocus ? FontWeight.w500 : FontWeight.normal;
 
   Widget? _suffixIcon() {
     if (widget.alwaysVisibleSuffix || _focusNode.hasFocus) {
@@ -100,7 +121,7 @@ class _TxtboxState extends State<Txtbox> {
           } else if (widget.obscureText) {
             setState(() {
               _obscureText = !_obscureText;
-              _suffixAsset = _obscureText ? Assets.obscure_hidden : Assets.obscure_hidden; // todo test
+              _suffixAsset = _obscureText ? Assets.obscure_hidden : Assets.obscure_hidden; // todo test - change obscure icon
             });
           }
         },

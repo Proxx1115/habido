@@ -15,7 +15,7 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/app_bars.dart';
 import 'package:habido_app/widgets/buttons.dart';
-import 'package:habido_app/widgets/chkbox.dart';
+import 'package:habido_app/widgets/checkbox.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/hero.dart';
 import 'package:habido_app/widgets/loaders.dart';
@@ -126,7 +126,7 @@ class _LoginRouteState extends State<LoginRoute> {
       child: Scaffold(
         key: _loginKey,
         appBar: AppBarEmpty(context: context),
-        backgroundColor: customColors.backgroundRoseWhite,
+        backgroundColor: customColors.primaryBackground,
         body: GestureDetector(
           onTap: () {
             Func.hideKeyboard(context);
@@ -151,7 +151,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     Container(
                       padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
                       decoration: BoxDecoration(
-                        color: customColors.backgroundWhite,
+                        color: customColors.whiteBackground,
                         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
                       ),
                       child: Column(
@@ -187,7 +187,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     ),
 
                     Expanded(
-                      child: Container(color: customColors.backgroundWhite),
+                      child: Container(color: customColors.whiteBackground),
                       flex: 25,
                     ),
 
@@ -208,13 +208,14 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _txtboxPhoneNumber() {
-    return Txtbox(
+    return CustomTextField(
+      style: CustomTextFieldStyle.secondary,
       controller: _phoneNumberController,
       focusNode: _phoneNumberFocusNode,
       maxLength: 8,
       textInputType: TextInputType.number,
       prefixAsset: Assets.username,
-      hintText: CustomText.phoneNumber,
+      hintText: LocaleKeys.phoneNumber,
       suffixAsset: Assets.clear,
       alwaysVisibleSuffix: false,
       onPressedSuffix: () {
@@ -224,13 +225,14 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _txtboxPassword() {
-    return Txtbox(
+    return CustomTextField(
+      style: CustomTextFieldStyle.secondary,
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       margin: EdgeInsets.only(top: 15.0),
       obscureText: true,
       prefixAsset: Assets.password,
-      hintText: CustomText.password,
+      hintText: LocaleKeys.password,
       alwaysVisibleSuffix: false,
     );
   }
@@ -261,8 +263,8 @@ class _LoginRouteState extends State<LoginRoute> {
   // }
 
   Widget _btnLogin() {
-    return Btn(
-      text: CustomText.login,
+    return CustomButton(
+      text: LocaleKeys.login,
       onPressed: _isEnabledBtnLogin
           ? () {
               LoginRequest request = LoginRequest();
@@ -327,9 +329,9 @@ class _LoginRouteState extends State<LoginRoute> {
 
   Widget _btnForgotPass() {
     return BtnTxtMulti(
-      text1: CustomText.haveYouForgottenYourPassword,
-      text2: CustomText.recover,
-      textColor: customColors.txtGrey,
+      text1: LocaleKeys.haveYouForgottenYourPassword,
+      text2: LocaleKeys.recover,
+      textColor: customColors.secondaryText,
       alignment: Alignment.center,
       onPressed: () {
         Navigator.pushNamed(context, Routes.forgotPass);
@@ -339,10 +341,10 @@ class _LoginRouteState extends State<LoginRoute> {
 
   Widget _btnSignUp() {
     return BtnTxtMulti(
-      text1: CustomText.hasAccount,
-      text2: CustomText.signUp,
-      backgroundColor: customColors.backgroundWhite,
-      textColor: customColors.txtGrey,
+      text1: LocaleKeys.hasAccount,
+      text2: LocaleKeys.signUp,
+      backgroundColor: customColors.whiteBackground,
+      textColor: customColors.secondaryText,
       padding: EdgeInsets.symmetric(vertical: 35.0),
       onPressed: () {
         Navigator.pushNamed(context, Routes.signUp);

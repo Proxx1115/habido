@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:habido_app/main.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/txt.dart';
-
+import 'package:habido_app/widgets/text.dart';
 import 'containers.dart';
 
 // ignore: non_constant_identifier_names
-Widget Btn({
+Widget CustomButton({
   // required BuildContext context,
   required String? text,
   double? width,
@@ -38,8 +36,8 @@ Widget Btn({
     margin: margin ?? EdgeInsets.zero,
     child: FlatButton(
       // elevation: elevation ?? 0.0,
-      color: color ?? (onPressed != null ? customColors.btnPrimaryBackground : customColors.btnGreyBackground),
-      disabledColor: disabledColor ?? customColors.btnGreyBackground,
+      color: color ?? (onPressed != null ? customColors.primaryButtonBackground : customColors.secondaryButtonBackground),
+      disabledColor: disabledColor ?? customColors.secondaryButtonBackground,
       splashColor: Color(0xFF24ABF8).withOpacity(0.1),
       highlightColor: Color(0xFF24ABF8).withOpacity(0.1),
       // splashColor: Colors.red,
@@ -68,10 +66,10 @@ Widget Btn({
             /// Text
             text != null
                 ? Expanded(
-                    child: Txt(
+                    child: CustomText(
                       isUppercase ? text.toUpperCase() : text,
                       color:
-                          onPressed != null ? (textColor ?? customColors.btnPrimaryText) : (disabledTextColor ?? customColors.btnGreyText),
+                          onPressed != null ? (textColor ?? customColors.primaryButtonText) : (disabledTextColor ?? customColors.secondaryButtonText),
                       fontSize: fontSize,
                       fontWeight: fontWeight,
                       overflow: TextOverflow.fade,
@@ -124,7 +122,7 @@ class BtnStadium extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius),
             border: visibleBorder ? Border.all(width: SizeHelper.borderWidth, color: customColors.border) : null,
-            color: backgroundColor ?? customColors.backgroundWhite,
+            color: backgroundColor ?? customColors.whiteBackground,
           ),
           child: SvgPicture.asset(asset, fit: BoxFit.scaleDown, color: iconColor ?? customColors.iconGrey),
         ),
@@ -204,10 +202,10 @@ class BtnTxt extends StatelessWidget {
         onTap: () {
           onPressed();
         },
-        child: Txt(
+        child: CustomText(
           text,
           padding: padding,
-          color: color ?? customColors.txtBlack,
+          color: color ?? customColors.primaryText,
           fontWeight: fontWeight,
           fontSize: fontSize,
           alignment: alignment,
@@ -260,9 +258,9 @@ class BtnTxtMulti extends StatelessWidget {
             mainAxisAlignment: mainAxisAlignment,
             children: [
               /// Text1
-              Txt(
+              CustomText(
                 text1,
-                color: textColor ?? customColors.txtBlack,
+                color: textColor ?? customColors.primaryText,
                 fontWeight: fontWeight1,
                 fontSize: fontSize,
                 alignment: alignment,
@@ -271,9 +269,9 @@ class BtnTxtMulti extends StatelessWidget {
               MarginHorizontal(width: 5.0),
 
               /// Text2
-              Txt(
+              CustomText(
                 text2,
-                color: textColor ?? customColors.txtBlack,
+                color: textColor ?? customColors.primaryText,
                 fontWeight: fontWeight2,
                 fontSize: fontSize,
                 alignment: alignment,

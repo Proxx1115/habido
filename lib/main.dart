@@ -62,8 +62,8 @@ class HabidoApp extends StatelessWidget {
       child: BlocBuilder<MainBloc, MainState>(
         builder: (context, state) {
           return MaterialApp(
-            title: CustomText.appName,
-            onGenerateTitle: (BuildContext context) => CustomText.appName,
+            title: LocaleKeys.appName,
+            onGenerateTitle: (BuildContext context) => LocaleKeys.appName,
             // theme: theme,
             localizationsDelegates: [
               FlutterBlocLocalizationsDelegate(),

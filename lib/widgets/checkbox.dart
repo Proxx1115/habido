@@ -4,10 +4,10 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
-import 'package:habido_app/widgets/txt.dart';
+import 'package:habido_app/widgets/text.dart';
 
 // ignore: must_be_immutable
-class Chkbox extends StatefulWidget {
+class CustomCheckbox extends StatefulWidget {
   bool isChecked;
   String text;
   Function(bool) onChanged;
@@ -17,7 +17,7 @@ class Chkbox extends StatefulWidget {
   Color? unselectedWidgetColor;
   final EdgeInsets margin;
 
-  Chkbox({
+  CustomCheckbox({
     this.text = '',
     required this.onChanged,
     this.isChecked = false,
@@ -30,12 +30,12 @@ class Chkbox extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ChkboxState(this.isChecked);
+    return _CustomCheckboxState(this.isChecked);
   }
 }
 
-class _ChkboxState extends State<Chkbox> {
-  _ChkboxState(this.isChecked);
+class _CustomCheckboxState extends State<CustomCheckbox> {
+  _CustomCheckboxState(this.isChecked);
 
   bool isChecked;
   double size = 20.0;
@@ -66,7 +66,7 @@ class _ChkboxState extends State<Chkbox> {
           MarginHorizontal(width: 15.0),
           BtnTxt(
             text: widget.text,
-            color: widget.textColor ?? customColors.txtGrey,
+            color: widget.textColor ?? customColors.secondaryText,
             fontSize: 15.0,
             alignment: Alignment.centerLeft,
             onPressed: () {

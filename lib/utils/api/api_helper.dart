@@ -53,7 +53,7 @@ class ResponseField {
     if (Func.isNotEmpty(desc)) {
       return desc;
     } else {
-      return CustomText.failed;
+      return LocaleKeys.failed;
     }
   }
 }

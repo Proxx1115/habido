@@ -3,7 +3,7 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 
 /// LABEL TYPE
-enum TxtStyle {
+enum CustomTextStyle {
   Caption, // 12.0
   Normal, // 14.0
   Medium, // 16.0
@@ -13,10 +13,10 @@ enum TxtStyle {
 }
 
 // ignore: must_be_immutable
-class Txt extends StatelessWidget {
-  Txt(
+class CustomText extends StatelessWidget {
+  CustomText(
     this.text, {
-    this.style = TxtStyle.Normal,
+    this.style = CustomTextStyle.Normal,
     this.color,
     this.bgColor,
     this.fontSize,
@@ -34,7 +34,7 @@ class Txt extends StatelessWidget {
   });
 
   final String? text;
-  final TxtStyle style;
+  final CustomTextStyle style;
 
   /// Text arguments
   final Color? color;
@@ -83,17 +83,17 @@ class Txt extends StatelessWidget {
 
   double _fontSize() {
     switch (style) {
-      case TxtStyle.Caption:
+      case CustomTextStyle.Caption:
         return SizeHelper.fontSizeCaption;
-      case TxtStyle.Normal:
+      case CustomTextStyle.Normal:
         return SizeHelper.fontSizeNormal;
-      case TxtStyle.Medium:
+      case CustomTextStyle.Medium:
         return SizeHelper.fontSizeMedium;
-      case TxtStyle.Large:
+      case CustomTextStyle.Large:
         return SizeHelper.fontSizeLarge;
-      case TxtStyle.Headline6:
+      case CustomTextStyle.Headline6:
         return SizeHelper.fontSizeHeadline6;
-      case TxtStyle.Headline5:
+      case CustomTextStyle.Headline5:
         return SizeHelper.fontSizeHeadline5;
       default:
         return SizeHelper.fontSizeNormal;
@@ -103,7 +103,7 @@ class Txt extends StatelessWidget {
   Color? _color() {
     switch (style) {
       default:
-        return customColors.txtBlack;
+        return customColors.primaryText;
     }
   }
 

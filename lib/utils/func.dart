@@ -38,7 +38,7 @@ class Func {
   }) {
     /// Format number with "Decimal Point" digit grouping.
     /// 10000 -> 10,000.00
-    if (obscureText) return (CustomText.obscureChar + CustomText.obscureChar + CustomText.obscureChar);
+    if (obscureText) return (LocaleKeys.obscureChar + LocaleKeys.obscureChar + LocaleKeys.obscureChar);
 
     //Хоосон утгатай эсэх
     if (Func.toStr(value) == "") {
