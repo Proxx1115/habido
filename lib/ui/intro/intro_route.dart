@@ -62,7 +62,7 @@ class _IntroRouteState extends State<IntroRoute> {
           /// Button - Close
           Align(
             alignment: Alignment.topRight,
-            child: BtnStadium(
+            child: ButtonStadium(
               asset: Assets.close,
               margin: EdgeInsets.fromLTRB(0.0, _btnCloseMargin, 35.0, 0.0),
               size: _btnCloseHeight,
@@ -83,8 +83,8 @@ class _IntroRouteState extends State<IntroRoute> {
               effect: ExpandingDotsEffect(
                 dotHeight: 15,
                 dotWidth: 9,
-                activeDotColor: customColors.whiteBackground,
-                dotColor: customColors.whiteBackground.withOpacity(0.3),
+                activeDotColor: customColors.secondaryBackground,
+                dotColor: customColors.secondaryBackground.withOpacity(0.3),
                 expansionFactor: 1.3,
                 radius: 10.0,
                 paintStyle: PaintingStyle.fill,

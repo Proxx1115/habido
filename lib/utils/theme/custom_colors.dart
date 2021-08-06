@@ -8,6 +8,7 @@ class ConstantColors {
   static const athensGray = const Color(0xFFF4F6F8); // background
   static const black = const Color(0xFF424852); // text
   static const grey = const Color(0xFFA9B0BB); // text
+  static const cornflowerBlue = const Color(0xFFCAD0D7); // button text
   static const ghostGrey = const Color(0xFFCBD0D7); // icon
   static const red = const Color(0xFFE8553E);
 }
@@ -19,8 +20,7 @@ class CustomColors {
 
   /// Background
   Color primaryBackground = ConstantColors.roseWhite;
-  Color secondaryBackground = ConstantColors.athensGray;
-  Color whiteBackground = Colors.white;
+  Color secondaryBackground = Colors.white;
 
   /// Text
   Color primaryText = ConstantColors.black;
@@ -28,17 +28,16 @@ class CustomColors {
   Color whiteText = Colors.white;
 
   /// Button
-  Color get primaryButtonBackground => primary;
-  Color primaryButtonText = Colors.white;
+  Color get primaryButtonBackground => primary; // enabled
+  Color primaryButtonText = Colors.white; // enabled
 
-  Color get secondaryButtonBackground => secondaryBackground;
-
-  Color get secondaryButtonText => secondaryText;
+  Color get primaryButtonDisabledBackground => secondaryBackground; // disabled
+  Color primaryButtonDisabledText = ConstantColors.cornflowerBlue; // disabled
 
   /// TextField
-  Color get primaryTextFieldBackground => whiteBackground;
+  Color get primaryTextFieldBackground => secondaryBackground;
 
-  Color get secondaryTextFieldBackground => secondaryBackground;
+  Color get secondaryTextFieldBackground => ConstantColors.athensGray;
 
   /// Icon
   Color iconGrey = ConstantColors.ghostGrey;

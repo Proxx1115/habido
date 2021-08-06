@@ -81,6 +81,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           hintStyle: TextStyle(fontSize: widget.fontSize, color: customColors.secondaryText),
           suffixIcon: _suffixIcon(),
           counterText: '',
+          contentPadding: EdgeInsets.fromLTRB(18.0, 16.0, 18.0, 16.0),
         ),
         style: TextStyle(color: _textColor, fontSize: widget.fontSize, fontWeight: _fontWeight),
         keyboardType: widget.textInputType,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -7,7 +6,7 @@ import 'package:habido_app/widgets/text.dart';
 // ignore: non_constant_identifier_names
 Widget CustomAppBar({
   required BuildContext context,
-  Color? backgroundColor,
+  Color? backgroundColor = Colors.transparent,
 
   // Leading
   Widget? leadingWidget,
@@ -26,7 +25,7 @@ Widget CustomAppBar({
   if (leadingWidget != null) {
     // Nothing but life goes on
   } else if (leadingAsset != null) {
-    leadingWidget = BtnStadium(
+    leadingWidget = ButtonStadium(
       asset: leadingAsset,
       onPressed: () {
         if (onPressedLeading != null) {
@@ -46,7 +45,7 @@ Widget CustomAppBar({
   if (actionWidget != null) {
     // Nothing but life goes on
   } else if (actionAsset != null) {
-    actionWidget = BtnStadium(
+    actionWidget = ButtonStadium(
       asset: actionAsset,
       margin: EdgeInsets.only(left: 15.0),
       onPressed: () {
@@ -60,7 +59,7 @@ Widget CustomAppBar({
   }
 
   return AppBar(
-    backgroundColor: backgroundColor ?? Colors.transparent,
+    backgroundColor: backgroundColor,
     elevation: 0, // Remove elevation
     automaticallyImplyLeading: false, // Remove back button
     title: Row(
@@ -71,7 +70,7 @@ Widget CustomAppBar({
         /// Title
         Expanded(
           child: (titleText != null)
-              ? CustomText(titleText, alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500, fontSize: 15.0)
+              ? CustomText(titleText, alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500)
               : Container(),
         ),
 

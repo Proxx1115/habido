@@ -35,8 +35,6 @@ class _LoginRouteState extends State<LoginRoute> {
   TextEditingController _phoneNumberController = TextEditingController();
   FocusNode _phoneNumberFocusNode = FocusNode();
 
-  // String _phoneError;
-
   // Нууц үг
   TextEditingController _passwordController = TextEditingController();
   FocusNode _passwordFocusNode = FocusNode();
@@ -151,7 +149,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     Container(
                       padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
                       decoration: BoxDecoration(
-                        color: customColors.whiteBackground,
+                        color: customColors.secondaryBackground,
                         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
                       ),
                       child: Column(
@@ -187,7 +185,7 @@ class _LoginRouteState extends State<LoginRoute> {
                     ),
 
                     Expanded(
-                      child: Container(color: customColors.whiteBackground),
+                      child: Container(color: customColors.secondaryBackground),
                       flex: 25,
                     ),
 
@@ -265,21 +263,21 @@ class _LoginRouteState extends State<LoginRoute> {
   Widget _btnLogin() {
     return CustomButton(
       text: LocaleKeys.login,
-      onPressed: _isEnabledBtnLogin
-          ? () {
-              LoginRequest request = LoginRequest();
-              request.username = _phoneNumberController.text;
-              request.password = _passwordController.text;
+      onPressed: () {
+        if (_isEnabledBtnLogin) return;
 
-              BlocManager.authBloc.add(LoginEvent(request));
-            }
-          : null,
+        LoginRequest request = LoginRequest();
+        request.username = _phoneNumberController.text;
+        request.password = _passwordController.text;
+
+        BlocManager.authBloc.add(LoginEvent(request));
+      },
     );
   }
 
   Widget _btnBiometrics() {
     return _canCheckBiometrics && _availableBiometrics > 0
-        ? BtnStadium(
+        ? ButtonStadium(
             asset: Assets.biometric,
             margin: EdgeInsets.only(left: 15.0),
             size: 50.0,
@@ -328,7 +326,7 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _btnForgotPass() {
-    return BtnTxtMulti(
+    return ButtonText2(
       text1: LocaleKeys.haveYouForgottenYourPassword,
       text2: LocaleKeys.recover,
       textColor: customColors.secondaryText,
@@ -340,10 +338,10 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _btnSignUp() {
-    return BtnTxtMulti(
+    return ButtonText2(
       text1: LocaleKeys.hasAccount,
       text2: LocaleKeys.signUp,
-      backgroundColor: customColors.whiteBackground,
+      backgroundColor: customColors.secondaryBackground,
       textColor: customColors.secondaryText,
       padding: EdgeInsets.symmetric(vertical: 35.0),
       onPressed: () {

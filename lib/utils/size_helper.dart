@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class SizeHelper {
   /// Box constraint
-  static const double padding = 20.0;
-  static const double margin = padding;
+  static const double margin = 20.0;
+  static const double padding = margin;
   static const double marginLeft = margin;
   static const double marginTop = margin;
   static const double marginBottom = 25.0;
@@ -65,7 +65,6 @@ class SizeHelper {
   static const double fontSizeHeadline3 = 45.0;
   static const double fontSizeHeadline2 = 56.0;
   static const double fontSizeHeadline1 = 112.0;
-  static const double fontSizeTextButton = 15.0;
   static const double fontSizeColoredHeader = 18.0;
 // NAME       SIZE   WEIGHT   SPACING  2018 NAME
 // display4   112.0  thin     0.0      headline1

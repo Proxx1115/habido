@@ -17,6 +17,9 @@ class CustomText extends StatelessWidget {
   CustomText(
     this.text, {
     this.style = CustomTextStyle.Normal,
+    this.margin = const EdgeInsets.all(0.0),
+    this.padding = const EdgeInsets.all(0.0),
+    this.alignment,
     this.color,
     this.bgColor,
     this.fontSize,
@@ -28,13 +31,16 @@ class CustomText extends StatelessWidget {
     this.overflow,
     this.fontStyle = FontStyle.normal,
     this.fontFamily,
-    this.padding,
-    this.margin,
-    this.alignment,
   });
 
+  /// Main
   final String? text;
   final CustomTextStyle style;
+
+  /// Box constraint arguments
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final Alignment? alignment;
 
   /// Text arguments
   final Color? color;
@@ -49,18 +55,13 @@ class CustomText extends StatelessWidget {
   final String? fontFamily;
   final FontStyle fontStyle;
 
-  /// Box constraint arguments
-  final EdgeInsets? padding;
-  final EdgeInsets? margin;
-  final Alignment? alignment;
-
   @override
   Widget build(BuildContext context) {
     if (alignment == Alignment.center) this.textAlign = TextAlign.center;
 
     return Container(
-      margin: margin ?? EdgeInsets.all(0.0),
-      padding: padding ?? EdgeInsets.all(0.0),
+      margin: margin,
+      padding: padding,
       alignment: alignment ?? Alignment.centerLeft,
       child: Text(
         text ?? '',

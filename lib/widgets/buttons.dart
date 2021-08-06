@@ -1,94 +1,171 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'containers.dart';
 
+enum CustomButtonStyle {
+  Primary,
+  Secondary, // Зүүн дээд өнцөг нь шовх
+  Mini,
+}
+
 // ignore: non_constant_identifier_names
 Widget CustomButton({
-  // required BuildContext context,
-  required String? text,
-  double? width,
-  double? height,
-  EdgeInsets? margin,
-  MainAxisAlignment? alignment,
-  Image? image,
-  Icon? icon,
+  CustomButtonStyle? style = CustomButtonStyle.Primary,
   VoidCallback? onPressed,
-  Color? color,
-  Color? disabledColor,
-  Color? splashColor,
-  Color? highlightColor,
-  Color? textColor,
+  EdgeInsets? margin = EdgeInsets.zero,
+  Alignment? alignment,
+  double? width,
+  Color? backgroundColor,
+  Color? disabledBackgroundColor,
+  String? text,
+  String? asset,
+  Color? textColor, // text, asset color
   Color? disabledTextColor,
-  double fontSize = 15.0,
-  FontWeight fontWeight = FontWeight.w500,
-  double? borderRadius,
-  double? elevation = SizeHelper.borderRadius,
-  bool isUppercase = false,
-  bool isStroked = false,
 }) {
-  return Container(
-    width: width ?? double.infinity,
-    height: height ?? SizeHelper.boxHeight,
-    margin: margin ?? EdgeInsets.zero,
-    child: FlatButton(
-      // elevation: elevation ?? 0.0,
-      color: color ?? (onPressed != null ? customColors.primaryButtonBackground : customColors.secondaryButtonBackground),
-      disabledColor: disabledColor ?? customColors.secondaryButtonBackground,
-      splashColor: Color(0xFF24ABF8).withOpacity(0.1),
-      highlightColor: Color(0xFF24ABF8).withOpacity(0.1),
-      // splashColor: Colors.red,
-      // highlightColor: Colors.transparent,
-      padding: EdgeInsets.all(0),
-      onPressed: onPressed,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius ?? SizeHelper.borderRadius),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-          border: isStroked ? Border.all(color: customColors.primary) : null,
+  // Width, alignment
+  switch (style) {
+    case CustomButtonStyle.Secondary:
+      width = width ?? 155.0;
+      alignment = alignment ?? Alignment.centerRight;
+      break;
+
+    case CustomButtonStyle.Mini:
+      width = width ?? 135.0;
+      alignment = alignment ?? Alignment.center;
+      break;
+
+    case CustomButtonStyle.Primary:
+    default:
+      width = width ?? double.infinity;
+      alignment = alignment ?? Alignment.center;
+  }
+
+  // Background color
+  backgroundColor = backgroundColor ?? customColors.primaryButtonBackground;
+  disabledBackgroundColor = disabledBackgroundColor ?? customColors.primaryButtonDisabledBackground;
+
+  // Text, asset color
+  textColor = textColor ?? customColors.primaryButtonText;
+  disabledTextColor = disabledTextColor ?? customColors.primaryButtonDisabledText;
+
+  // Text or Asset
+  Widget _child = Container();
+  if (text != null) {
+    _child = Text(text);
+  } else if (asset != null) {
+    _child = SvgPicture.asset(asset, color: onPressed != null ? textColor : disabledTextColor);
+  }
+
+  return Align(
+    alignment: alignment,
+    child: Container(
+      margin: margin,
+      width: width,
+      height: SizeHelper.boxHeight,
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          backgroundColor: onPressed != null ? backgroundColor : disabledBackgroundColor,
+          primary: onPressed != null ? textColor : disabledTextColor,
+          textStyle: TextStyle(fontWeight: FontWeight.w500),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide.none),
         ),
-        child: Row(
-          mainAxisAlignment: alignment ?? MainAxisAlignment.center,
-          children: <Widget>[
-            /// Asset Image
-            image ?? Container(),
-            image != null ? SizedBox(width: 5.0) : Container(),
-
-            /// Icon
-            icon ?? Container(),
-            icon != null ? SizedBox(width: 5.0) : Container(),
-
-            /// Text
-            text != null
-                ? Expanded(
-                    child: CustomText(
-                      isUppercase ? text.toUpperCase() : text,
-                      color:
-                          onPressed != null ? (textColor ?? customColors.primaryButtonText) : (disabledTextColor ?? customColors.secondaryButtonText),
-                      fontSize: fontSize,
-                      fontWeight: fontWeight,
-                      overflow: TextOverflow.fade,
-                      alignment: Alignment.center,
-                      maxLines: 1,
-                    ),
-                  )
-                : Container(),
-
-            image != null ? SizedBox(width: 10.0) : Container(),
-            icon != null ? SizedBox(width: 10.0) : Container(),
-          ],
-        ),
+        child: _child,
       ),
     ),
   );
 }
 
-class BtnStadium extends StatelessWidget {
+// ignore: non_constant_identifier_names
+// Widget CustomButton({
+//   required String? text,
+//   double? width,
+//   double? height,
+//   EdgeInsets? margin,
+//   MainAxisAlignment? alignment,
+//   Image? image,
+//   Icon? icon,
+//   VoidCallback? onPressed,
+//   Color? color,
+//   Color? disabledColor,
+//   Color? splashColor,
+//   Color? highlightColor,
+//   Color? textColor,
+//   Color? disabledTextColor,
+//   double fontSize = 15.0,
+//   FontWeight fontWeight = FontWeight.w500,
+//   double? borderRadius,
+//   double? elevation = SizeHelper.borderRadius,
+//   bool isUppercase = false,
+//   bool isStroked = false,
+// }) {
+//   return Container(
+//     width: width ?? double.infinity,
+//     height: height ?? SizeHelper.boxHeight,
+//     margin: margin ?? EdgeInsets.zero,
+//     child: TextButton(
+//       // elevation: elevation ?? 0.0,
+//       // style: ButtonStyle(
+//         // backgroundColor: color ?? (onPressed != null ? customColors.primaryButtonBackground : customColors.secondaryButtonBackground),
+//       // ),
+//
+//       // disabledColor: disabledColor ?? customColors.secondaryButtonBackground,
+//       // splashColor: Color(0xFF24ABF8).withOpacity(0.1),
+//       // highlightColor: Color(0xFF24ABF8).withOpacity(0.1),
+//       // splashColor: Colors.red,
+//       // highlightColor: Colors.transparent,
+//       // padding: EdgeInsets.all(0),
+//       onPressed: onPressed,
+//       // shape: RoundedRectangleBorder(
+//       //   borderRadius: BorderRadius.circular(borderRadius ?? SizeHelper.borderRadius),
+//       // ),
+//       child: Container(
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+//           border: isStroked ? Border.all(color: customColors.primary) : null,
+//         ),
+//         child: Row(
+//           mainAxisAlignment: alignment ?? MainAxisAlignment.center,
+//           children: <Widget>[
+//             /// Asset Image
+//             image ?? Container(),
+//             image != null ? SizedBox(width: 5.0) : Container(),
+//
+//             /// Icon
+//             icon ?? Container(),
+//             icon != null ? SizedBox(width: 5.0) : Container(),
+//
+//             /// Text
+//             text != null
+//                 ? Expanded(
+//                     child: CustomText(
+//                       isUppercase ? text.toUpperCase() : text,
+//                       color: onPressed != null
+//                           ? (textColor ?? customColors.primaryButtonText)
+//                           : (disabledTextColor ?? customColors.secondaryButtonText),
+//                       fontSize: fontSize,
+//                       fontWeight: fontWeight,
+//                       overflow: TextOverflow.fade,
+//                       alignment: Alignment.center,
+//                       maxLines: 1,
+//                     ),
+//                   )
+//                 : Container(),
+//
+//             image != null ? SizedBox(width: 10.0) : Container(),
+//             icon != null ? SizedBox(width: 10.0) : Container(),
+//           ],
+//         ),
+//       ),
+//     ),
+//   );
+// }
+
+// Icon-той, дөрвөлжин
+class ButtonStadium extends StatelessWidget {
   final String asset;
   final VoidCallback onPressed;
   final EdgeInsets margin;
@@ -98,7 +175,7 @@ class BtnStadium extends StatelessWidget {
   final Color? backgroundColor;
   final Color? iconColor;
 
-  const BtnStadium({
+  const ButtonStadium({
     Key? key,
     required this.asset,
     required this.onPressed,
@@ -122,7 +199,7 @@ class BtnStadium extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius),
             border: visibleBorder ? Border.all(width: SizeHelper.borderWidth, color: customColors.border) : null,
-            color: backgroundColor ?? customColors.whiteBackground,
+            color: backgroundColor ?? customColors.secondaryBackground,
           ),
           child: SvgPicture.asset(asset, fit: BoxFit.scaleDown, color: iconColor ?? customColors.iconGrey),
         ),
@@ -134,49 +211,8 @@ class BtnStadium extends StatelessWidget {
   }
 }
 
-// class BtnIconBordered extends StatelessWidget {
-//   final String asset;
-//   final VoidCallback onPressed;
-//   final double size;
-//   final double iconSize;
-//   final double borderRadius;
-//   final EdgeInsets margin;
-//
-//   const BtnIconBordered({
-//     Key? key,
-//     required this.asset,
-//     required this.onPressed,
-//     this.size = SizeHelper.boxHeight,
-//     this.iconSize = SizeHelper.iconSize,
-//     this.borderRadius: SizeHelper.borderRadius,
-//     this.margin = EdgeInsets.zero,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: margin,
-//       child: InkWell(
-//         borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-//         child: Container(
-//           height: size,
-//           width: size,
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(borderRadius),
-//             border: Border.all(width: SizeHelper.borderWidth, color: customColors.border),
-//           ),
-//           child: SvgPicture.asset(asset, fit: BoxFit.scaleDown),
-//         ),
-//         onTap: () {
-//           onPressed();
-//         },
-//       ),
-//     );
-//   }
-// }
-
-class BtnTxt extends StatelessWidget {
-  const BtnTxt({
+class ButtonText extends StatelessWidget {
+  const ButtonText({
     Key? key,
     required this.text,
     required this.onPressed,
@@ -216,8 +252,9 @@ class BtnTxt extends StatelessWidget {
   }
 }
 
-class BtnTxtMulti extends StatelessWidget {
-  const BtnTxtMulti({
+// Текст нь 2 хэсгээс бүрдсэн
+class ButtonText2 extends StatelessWidget {
+  const ButtonText2({
     Key? key,
     required this.text1,
     required this.text2,
@@ -283,6 +320,47 @@ class BtnTxtMulti extends StatelessWidget {
     );
   }
 }
+
+// class BtnIconBordered extends StatelessWidget {
+//   final String asset;
+//   final VoidCallback onPressed;
+//   final double size;
+//   final double iconSize;
+//   final double borderRadius;
+//   final EdgeInsets margin;
+//
+//   const BtnIconBordered({
+//     Key? key,
+//     required this.asset,
+//     required this.onPressed,
+//     this.size = SizeHelper.boxHeight,
+//     this.iconSize = SizeHelper.iconSize,
+//     this.borderRadius: SizeHelper.borderRadius,
+//     this.margin = EdgeInsets.zero,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: margin,
+//       child: InkWell(
+//         borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+//         child: Container(
+//           height: size,
+//           width: size,
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(borderRadius),
+//             border: Border.all(width: SizeHelper.borderWidth, color: customColors.border),
+//           ),
+//           child: SvgPicture.asset(asset, fit: BoxFit.scaleDown),
+//         ),
+//         onTap: () {
+//           onPressed();
+//         },
+//       ),
+//     );
+//   }
+// }
 
 // class BtnWhite extends StatelessWidget {
 //   final String text;

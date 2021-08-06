@@ -64,7 +64,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
             ),
           ),
           MarginHorizontal(width: 15.0),
-          BtnTxt(
+          ButtonText(
             text: widget.text,
             color: widget.textColor ?? customColors.secondaryText,
             fontSize: 15.0,

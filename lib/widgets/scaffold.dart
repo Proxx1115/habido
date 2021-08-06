@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/app_bars.dart';
+import 'package:habido_app/widgets/loaders.dart';
 
 class CustomScaffold extends StatelessWidget {
-  final WillPopCallback? onWillPop;
   final GlobalKey<ScaffoldState>? scaffoldKey;
-  final Color backgroundColor;
-
-  // final PreferredSize? appBar;
+  final WillPopCallback? onWillPop;
+  final bool loading;
+  final EdgeInsets padding;
+  final Color? backgroundColor;
   final String? appBarTitle;
   final Widget child;
 
   const CustomScaffold({
-    this.onWillPop,
     this.scaffoldKey,
-    required this.backgroundColor,
-    // this.appBar,
+    this.onWillPop,
+    this.loading = false,
+    this.padding = const EdgeInsets.all(0.0),
+    this.backgroundColor,
     this.appBarTitle,
     required this.child,
   });
@@ -30,11 +34,22 @@ class CustomScaffold extends StatelessWidget {
         }
         return Future.value(false);
       },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: backgroundColor,
-        appBar: _appBar(context),
-        body: child,
+      child: GestureDetector(
+        onTap: () {
+          Func.hideKeyboard(context);
+        },
+        child: BlurLoadingContainer(
+          loading: loading,
+          child: Scaffold(
+            key: scaffoldKey,
+            backgroundColor: backgroundColor ?? customColors.primaryBackground,
+            appBar: _appBar(context),
+            body: Container(
+              padding: padding,
+              child: child,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -45,7 +60,7 @@ class CustomScaffold extends StatelessWidget {
     } else {
       return CustomAppBar(
         context: context,
-        backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor ?? customColors.primaryBackground,
         titleText: appBarTitle,
       );
     }

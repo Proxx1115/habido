@@ -9,6 +9,7 @@ class Assets {
   static const String edit = 'assets/images/global/edit.svg';
   static const String obscure_hidden = 'assets/images/global/obscure_hidden.svg';
   static const String back = 'assets/images/global/back.svg';
+  static const String arrow_next = 'assets/images/global/arrow_next.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';

@@ -109,8 +109,8 @@ class LocaleKeys {
 
   static String get hasAccount => 'Та бүртгэлтэй юу?';
 
-  static String get useLocalAuth => 'Биометр ашиглан нэвтрэх';
-
+  // static String get useLocalAuth => 'Биометр ашиглан нэвтрэх';
+  //
   static String get phoneNumber => 'Утасны дугаар';
 
   static String get password => 'Нууц үг';
@@ -119,36 +119,38 @@ class LocaleKeys {
 
   static String get recover => 'Сэргээх';
 
-  static String get logout => 'Гарах';
-
-  static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
-
-  static String get sessionExpired => 'Холболт салсан байна. Дахин нэвтэрнэ үү.';
+  // static String get logout => 'Гарах';
+  //
+  // static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
+  //
+  // static String get sessionExpired => 'Холболт салсан байна. Дахин нэвтэрнэ үү.';
 
   ///
   /// Sign up
   ///
   static String get yourRegistration => 'Таны бүртгэл';
 
-  static String get lastName => 'Овог';
+  static String get enterPhoneNumber => 'Та өөрийн утасны дугаараа оруулна уу.';
 
-  static String get firstName => 'Нэр';
+  // static String get lastName => 'Овог';
+  //
+  // static String get firstName => 'Нэр';
 
   static String get signUp => 'Бүртгүүлэх';
 
-  static String get terms => 'Үйлчилгээний нөхцөл';
-
-  static String get agreeTerms => 'Зөвшөөрөх';
-
-  static String get termCondNotFound => 'Вэб холбоос олдсонгүй';
-
-  static String get passwordNew => 'Шинэ нууц үг';
-
-  static String get passwordRepeat => 'Нууц үг давтах';
-
-  static String get regNo => 'Регистрийн дугаар';
-
-  static String get passwordError => 'Нууц үгээ дахин шалгана уу';
+// static String get terms => 'Үйлчилгээний нөхцөл';
+//
+// static String get agreeTerms => 'Зөвшөөрөх';
+//
+// static String get termCondNotFound => 'Вэб холбоос олдсонгүй';
+//
+// static String get passwordNew => 'Шинэ нууц үг';
+//
+// static String get passwordRepeat => 'Нууц үг давтах';
+//
+// static String get regNo => 'Регистрийн дугаар';
+//
+// static String get passwordError => 'Нууц үгээ дахин шалгана уу';
 
   /// Settings
 
