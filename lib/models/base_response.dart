@@ -8,31 +8,31 @@ class BaseResponse {
   BaseResponse([this.code, this.message, this.data]);
 
   BaseResponse.fromJson(Map<String, dynamic> json)
-      : code = json[ResponseField.code] ?? 1,
-        message = json[ResponseField.message] ?? '',
-        data = json[ResponseField.data];
+      : code = json[ResponseParam.code] ?? 1,
+        message = json[ResponseParam.message] ?? '',
+        data = json[ResponseParam.data];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data[ResponseField.code] = this.code;
-    data[ResponseField.message] = this.message;
-    data[ResponseField.data] = this.data;
+    data[ResponseParam.code] = this.code;
+    data[ResponseParam.message] = this.message;
+    data[ResponseParam.data] = this.data;
 
     return data;
   }
 
   void parseBaseParams(Map<String, dynamic> json) {
-    code = json[ResponseField.code];
-    message = json[ResponseField.message];
-    data = json[ResponseField.data];
+    code = json[ResponseParam.code];
+    message = json[ResponseParam.message];
+    data = json[ResponseParam.data];
   }
 
   @override
   String toString() {
     return '''BaseResponse {
-      ${ResponseField.code}: $code,
-      ${ResponseField.message}: $message,
-      ${ResponseField.data}: $data,
+      ${ResponseParam.code}: $code,
+      ${ResponseParam.message}: $message,
+      ${ResponseParam.data}: $data,
     }''';
   }
 }

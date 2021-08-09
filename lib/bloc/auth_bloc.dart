@@ -3,10 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
+import 'package:habido_app/models/sign_up_request.dart';
+import 'package:habido_app/models/sign_up_response.dart';
+import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/api/api_router.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/widgets/text.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -21,13 +27,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapInitBiometricsEvent();
     } else if (event is LoginEvent) {
       yield* _mapLoginEventToState(event.request);
+    } else if (event is SignUpEvent) {
+      yield* _mapSignUpToState(event.request);
+    } else if (event is VerifyCodeEvent) {
+      yield* _mapVerifyCodeToState(event.request);
     }
 
-    // else if (event is SignUp) {
-    //   yield* _mapSignUpToState(event.request);
-    // } else if (event is Verify) {
-    //   yield* _mapVerifyToState(event.request);
-    // } else if (event is ForgotPass) {
+    //else if (event is ForgotPass) {
     //   yield* _mapForgotPassToState(event.request);
     // } else if (event is ChangePass) {
     //   yield* _mapChangePassToState(event.request);
@@ -43,18 +49,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapInitBiometricsEvent() async* {
     try {
       BiometricHelper biometricHelper = new BiometricHelper();
-      await biometricHelper.initBiometric();
+      await biometricHelper.initBiometrics();
 
-      yield SetBiometrics(
-        canCheckBiometrics: biometricHelper.canCheckBiometrics,
-        availableBiometrics: biometricHelper.availableBiometrics,
-      );
+      yield SetBiometrics(biometricHelper.canCheckBiometrics, biometricHelper.availableBiometricsCount);
     } on PlatformException catch (e) {
       print(e);
-      yield SetBiometrics(
-        canCheckBiometrics: false,
-        availableBiometrics: 0,
-      );
+      yield SetBiometrics(false, 0);
     }
   }
 
@@ -77,47 +77,47 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         //   yield LoginFailed(res.message);
         // }
       } else {
-        // yield LoginFailed(res.message);
+        yield LoginFailed(res.message ?? LocaleKeys.failed);
       }
     } catch (e) {
-      // yield LoginFailed(CustomText.errorOccurred);
+      yield LoginFailed(LocaleKeys.errorOccurred);
     }
   }
 
-// static Future afterLogin() async {
-//   ApiManager.getParam();
-//   ApiManager.custPhotos();
-//   DeviceHelper.registerDeviceToken();
-// }
-//
-// Stream<AuthState> _mapSignUpToState(SignUpRequest request) async* {
-//   try {
-//     yield AuthLoading();
-//     var res = await ApiManager.signUp(request);
-//     if (res.code == ResponseCode.Success) {
-//       yield SignUpSuccess(res);
-//     } else {
-//       yield SignUpFailed(res.message);
-//     }
-//   } catch (e) {
-//     yield SignUpFailed(CustomText.errorOccurred);
-//   }
-// }
-//
-// Stream<AuthState> _mapVerifyToState(VerifyRequest request) async* {
-//   try {
-//     yield AuthLoading();
-//     var res = await ApiManager.verify(request);
-//     if (res.code == ResponseCode.Success) {
-//       yield VerifySuccess(res);
-//     } else {
-//       yield VerifyFailed(res.message);
-//     }
-//   } catch (e) {
-//     yield VerifyFailed(CustomText.errorOccurred);
-//   }
-// }
-//
+  static Future afterLogin() async {
+    // ApiManager.getParam();
+    // ApiManager.custPhotos();
+    // DeviceHelper.registerDeviceToken();
+  }
+
+  Stream<AuthState> _mapSignUpToState(SignUpRequest request) async* {
+    try {
+      yield AuthLoading();
+      var res = await ApiRouter.signUp(request);
+      if (res.code == ResponseCode.Success) {
+        yield SignUpSuccess(res);
+      } else {
+        yield SignUpFailed(res.message ?? LocaleKeys.failed);
+      }
+    } catch (e) {
+      yield SignUpFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<AuthState> _mapVerifyCodeToState(VerifyCodeRequest request) async* {
+    try {
+      yield AuthLoading();
+      var res = await ApiRouter.verifyCode(request);
+      if (res.code == ResponseCode.Success) {
+        yield VerifyCodeSuccess();
+      } else {
+        yield VerifyCodeFailed(res.message ?? LocaleKeys.failed);
+      }
+    } catch (e) {
+      yield VerifyCodeFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
 // Stream<AuthState> _mapForgotPassToState(ForgotPassRequest request) async* {
 //   try {
 //     yield AuthLoading();
@@ -188,6 +188,30 @@ abstract class AuthEvent extends Equatable {
 
 class InitBiometricsEvent extends AuthEvent {}
 
+class SignUpEvent extends AuthEvent {
+  final SignUpRequest request;
+
+  const SignUpEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'SignUp { request: $request }';
+}
+
+class VerifyCodeEvent extends AuthEvent {
+  final VerifyCodeRequest request;
+
+  const VerifyCodeEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'VerifyCodeEvent { request: $request }';
+}
+
 class LoginEvent extends AuthEvent {
   final LoginRequest request;
 
@@ -200,30 +224,6 @@ class LoginEvent extends AuthEvent {
   String toString() => 'LoginEvent { request: $request }';
 }
 
-// class SignUp extends AuthEvent {
-//   final SignUpRequest request;
-//
-//   const SignUp(this.request);
-//
-//   @override
-//   List<Object> get props => [request];
-//
-//   @override
-//   String toString() => 'SignUp { request: $request }';
-// }
-//
-// class Verify extends AuthEvent {
-//   final VerifyRequest request;
-//
-//   const Verify(this.request);
-//
-//   @override
-//   List<Object> get props => [request];
-//
-//   @override
-//   String toString() => 'Verify { request: $request }';
-// }
-//
 // class ForgotPass extends AuthEvent {
 //   final ForgotPassRequest request;
 //
@@ -290,68 +290,79 @@ class AuthLoading extends AuthState {}
 
 class SetBiometrics extends AuthState {
   final bool canCheckBiometrics;
-  final int availableBiometrics;
+  final int availableBiometricsCount;
 
-  const SetBiometrics({
-    this.canCheckBiometrics = false,
-    this.availableBiometrics = 0,
-  });
+  const SetBiometrics(this.canCheckBiometrics, this.availableBiometricsCount);
 
   @override
-  List<Object> get props => [canCheckBiometrics, availableBiometrics];
+  List<Object> get props => [canCheckBiometrics, availableBiometricsCount];
 
   @override
-  String toString() => 'SetBiometrics { canCheckBiometrics: $canCheckBiometrics, availableBiometrics: $availableBiometrics }';
+  String toString() => 'SetBiometrics { canCheckBiometrics: $canCheckBiometrics, availableBiometricsCount: $availableBiometricsCount }';
 }
 
-// class SignUpSuccess extends AuthState {
-//   final SignUpResponse response;
-//
-//   const SignUpSuccess([this.response]);
-//
-//   @override
-//   List<Object> get props => [response];
-//
-//   @override
-//   String toString() => 'SignUpSuccess { SignUpResponse: $response }';
-// }
-//
-// class SignUpFailed extends AuthState {
-//   final String msg;
-//
-//   const SignUpFailed([this.msg]);
-//
-//   @override
-//   List<Object> get props => [msg];
-//
-//   @override
-//   String toString() => 'SignUpFailed { msg: $msg }';
-// }
-//
-// class VerifySuccess extends AuthState {
-//   final BaseResponse response;
-//
-//   const VerifySuccess([this.response]);
-//
-//   @override
-//   List<Object> get props => [response];
-//
-//   @override
-//   String toString() => 'VerifySuccess { BaseResponse: $response }';
-// }
-//
-// class VerifyFailed extends AuthState {
-//   final String msg;
-//
-//   const VerifyFailed([this.msg]);
-//
-//   @override
-//   List<Object> get props => [msg];
-//
-//   @override
-//   String toString() => 'VerifyFailed { msg: $msg }';
-// }
-//
+class SignUpSuccess extends AuthState {
+  final SignUpResponse response;
+
+  const SignUpSuccess(this.response);
+
+  @override
+  List<Object> get props => [response];
+
+  @override
+  String toString() => 'SignUpSuccess { SignUpResponse: $response }';
+}
+
+class SignUpFailed extends AuthState {
+  final String message;
+
+  const SignUpFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'SignUpFailed { msg: $message }';
+}
+
+class VerifyCodeSuccess extends AuthState {}
+
+class VerifyCodeFailed extends AuthState {
+  final String message;
+
+  const VerifyCodeFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'VerifyCodeFailed { msg: $message }';
+}
+
+class LoginSuccess extends AuthState {
+  final LoginResponse response;
+
+  const LoginSuccess(this.response);
+
+  @override
+  List<Object> get props => [response];
+
+  @override
+  String toString() => 'LoginSuccess { response: $response }';
+}
+
+class LoginFailed extends AuthState {
+  final String message;
+
+  const LoginFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'LoginFailed { message: $message }';
+}
+
 // class ForgotPassSuccess extends AuthState {
 //   final SignUpResponse response;
 //
@@ -398,30 +409,6 @@ class SetBiometrics extends AuthState {
 //
 //   @override
 //   String toString() => 'ChangePassFailed { msg: $msg }';
-// }
-
-// class LoginSuccess extends AuthState {
-//   final LoginResponse? response;
-//
-//   const LoginSuccess([this.response]);
-//
-//   @override
-//   List<Object> get props => [response];
-//
-//   @override
-//   String toString() => 'LoginSuccess { BaseResponse: $response }'`;
-// }
-
-// class LoginFailed extends AuthState {
-//   final String message;
-//
-//   const LoginFailed([this.message]);
-//
-//   @override
-//   List<Object> get props => [message];
-//
-//   @override
-//   String toString() => 'LoginFailed { msg: $message }';
 // }
 
 // class ConnectDeviceSuccess extends AuthState {

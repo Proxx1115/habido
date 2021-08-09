@@ -95,7 +95,7 @@ class _LoginRouteState extends State<LoginRoute> {
   void _blocListener(BuildContext context, AuthState state) {
     if (state is SetBiometrics) {
       _canCheckBiometrics = state.canCheckBiometrics;
-      _availableBiometrics = state.availableBiometrics;
+      _availableBiometrics = state.availableBiometricsCount;
     }
 
     // else if (state is LoginSuccess) {
@@ -311,7 +311,7 @@ class _LoginRouteState extends State<LoginRoute> {
     try {
       /// Biometric
       BiometricHelper biometricHelper = new BiometricHelper();
-      await biometricHelper.initBiometric();
+      await biometricHelper.initBiometrics();
       if (await biometricHelper.checkBiometrics()) {
         didAuthenticate = true;
       } else {

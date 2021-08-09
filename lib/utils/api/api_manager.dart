@@ -103,19 +103,19 @@ class ApiManager {
         logger.log(s: 4);
 
         // Manage response
-        responseData[ResponseField.code] = ResponseCode.Success;
+        responseData[ResponseParam.code] = ResponseCode.Success;
         if (response.data == null) {
           // Empty
         } else if (response.data is String || response.data is int) {
-          responseData[ResponseField.data] = response.data; // Str, int
+          responseData[ResponseParam.data] = response.data; // Str, int
         } else if (response.data is Map<String, dynamic>) {
           responseData.addAll(response.data); // JSON object
         } else {
-          responseData[ResponseField.data] = response.data; // Other response, JSON array etc
+          responseData[ResponseParam.data] = response.data; // Other response, JSON array etc
         }
       } else {
         /// FAILED
-        responseData[ResponseField.code] = ResponseCode.Failed;
+        responseData[ResponseParam.code] = ResponseCode.Failed;
         logger.log(s: 5, m: response);
       }
 
@@ -123,20 +123,20 @@ class ApiManager {
     } on DioError catch (error) {
       /// FAILED
       logger.log(s: 10, m: "DioError Exception: $error");
-      responseData[ResponseField.code] = error.response?.statusCode;
-      responseData[ResponseField.message] = ApiHelper.getErrorMessage(ResponseCode.Failed, error.message);
+      responseData[ResponseParam.code] = error.response?.statusCode;
+      responseData[ResponseParam.message] = ApiHelper.getErrorMessage(ResponseCode.Failed, error.message);
 
       if (error.type == DioErrorType.connectTimeout) {
         // Request timeout
-        responseData[ResponseField.code] = ResponseCode.RequestTimeout;
-        responseData[ResponseField.message] = ApiHelper.getErrorMessage(ResponseCode.RequestTimeout, error.message);
+        responseData[ResponseParam.code] = ResponseCode.RequestTimeout;
+        responseData[ResponseParam.message] = ApiHelper.getErrorMessage(ResponseCode.RequestTimeout, error.message);
       } else if (error.response != null) {
         // Normal response
         response = error.response!;
         if (response.data != null && response.data is Map<String, dynamic>) {
           try {
-            responseData[ResponseField.code] = error.response?.data['StatusCode'];
-            responseData[ResponseField.message] = error.response?.data['Message'];
+            responseData[ResponseParam.code] = error.response?.data['StatusCode'];
+            responseData[ResponseParam.message] = error.response?.data['Message'];
           } catch (e) {
             print(e);
           }
@@ -155,8 +155,8 @@ class ApiManager {
     } catch (error, stacktrace) {
       print(error);
       logger.log(s: 11, m: "Exception occured: $error stackTrace: $stacktrace");
-      responseData[ResponseField.code] = ResponseCode.Failed;
-      responseData[ResponseField.message] = ApiHelper.getErrorMessage(ResponseCode.Failed, error);
+      responseData[ResponseParam.code] = ResponseCode.Failed;
+      responseData[ResponseParam.message] = ApiHelper.getErrorMessage(ResponseCode.Failed, error);
     } finally {
       response.data = responseData;
     }
@@ -193,9 +193,9 @@ class ApiManager {
 
   Map<String, dynamic> initResponseData() {
     return Map<String, dynamic>()
-      ..putIfAbsent(ResponseField.code, () => ResponseCode.Failed)
-      ..putIfAbsent(ResponseField.message, () => '')
-      ..putIfAbsent(ResponseField.data, () => null);
+      ..putIfAbsent(ResponseParam.code, () => ResponseCode.Failed)
+      ..putIfAbsent(ResponseParam.message, () => '')
+      ..putIfAbsent(ResponseParam.data, () => null);
   }
 
   Future<Response> simpleHttpRequest({
@@ -249,19 +249,19 @@ class ApiManager {
         logger.log(s: 4);
 
         // Manage response
-        responseData[ResponseField.code] = ResponseCode.Success;
+        responseData[ResponseParam.code] = ResponseCode.Success;
         if (response.data == null) {
           // Empty
         } else if (response.data is String || response.data is int) {
-          responseData[ResponseField.data] = response.data; // Str, int
+          responseData[ResponseParam.data] = response.data; // Str, int
         } else if (response.data is Map<String, dynamic>) {
           responseData.addAll(response.data); // JSON object
         } else {
-          responseData[ResponseField.data] = response.data; // Other response, JSON array etc
+          responseData[ResponseParam.data] = response.data; // Other response, JSON array etc
         }
       } else {
         /// FAILED
-        responseData[ResponseField.code] = ResponseCode.Failed;
+        responseData[ResponseParam.code] = ResponseCode.Failed;
         logger.log(s: 5, m: response);
       }
 
@@ -269,20 +269,20 @@ class ApiManager {
     } on DioError catch (error) {
       /// FAILED
       logger.log(s: 10, m: "DioError Exception: $error");
-      responseData[ResponseField.code] = error.response?.statusCode;
-      responseData[ResponseField.message] = ApiHelper.getErrorMessage(ResponseCode.Failed, error.message);
+      responseData[ResponseParam.code] = error.response?.statusCode;
+      responseData[ResponseParam.message] = ApiHelper.getErrorMessage(ResponseCode.Failed, error.message);
 
       if (error.type == DioErrorType.connectTimeout) {
         // Request timeout
-        responseData[ResponseField.code] = ResponseCode.RequestTimeout;
-        responseData[ResponseField.message] = ApiHelper.getErrorMessage(ResponseCode.RequestTimeout, error.message);
+        responseData[ResponseParam.code] = ResponseCode.RequestTimeout;
+        responseData[ResponseParam.message] = ApiHelper.getErrorMessage(ResponseCode.RequestTimeout, error.message);
       } else if (error.response != null) {
         // Normal response
         response = error.response!;
         if (response.data != null && response.data is Map<String, dynamic>) {
           try {
-            responseData[ResponseField.code] = error.response?.data['StatusCode'];
-            responseData[ResponseField.message] = error.response?.data['Message'];
+            responseData[ResponseParam.code] = error.response?.data['StatusCode'];
+            responseData[ResponseParam.message] = error.response?.data['Message'];
           } catch (e) {
             print(e);
           }
@@ -301,8 +301,8 @@ class ApiManager {
     } catch (error, stacktrace) {
       print(error);
       logger.log(s: 11, m: "Exception occured: $error stackTrace: $stacktrace");
-      responseData[ResponseField.code] = ResponseCode.Failed;
-      responseData[ResponseField.message] = ApiHelper.getErrorMessage(ResponseCode.Failed, error);
+      responseData[ResponseParam.code] = ResponseCode.Failed;
+      responseData[ResponseParam.message] = ApiHelper.getErrorMessage(ResponseCode.Failed, error);
     } finally {
       response.data = responseData;
     }

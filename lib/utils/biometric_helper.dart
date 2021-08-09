@@ -7,7 +7,7 @@ import 'package:local_auth/error_codes.dart' as auth_error;
 class BiometricHelper {
   var localAuth = LocalAuthentication();
   bool canCheckBiometrics = false;
-  int availableBiometrics = 0;
+  int availableBiometricsCount = 0;
 
   static const iosStrings = const IOSAuthMessages(
     cancelButton: 'cancel',
@@ -17,10 +17,10 @@ class BiometricHelper {
   );
 
   BiometricHelper() {
-    initBiometric();
+    initBiometrics();
   }
 
-  initBiometric() async {
+  initBiometrics() async {
     try {
       // Тухайн төхөөрөмж biometric-тэй эсэх
       canCheckBiometrics = await localAuth.canCheckBiometrics;
@@ -29,7 +29,7 @@ class BiometricHelper {
       if (canCheckBiometrics) {
         List<BiometricType> availableBiometricList = <BiometricType>[];
         availableBiometricList = await localAuth.getAvailableBiometrics();
-        availableBiometrics = availableBiometricList.length;
+        availableBiometricsCount = availableBiometricList.length;
       }
     } on PlatformException catch (e) {
       if (e.code == auth_error.notAvailable) {

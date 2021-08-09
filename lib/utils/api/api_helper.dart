@@ -44,17 +44,13 @@ class ApiHelper {
   }
 }
 
-class ResponseField {
+class ResponseParam {
   static const code = 'code';
   static const message = 'message';
   static const data = 'data';
 
-  static String getFailedDesc(String desc) {
-    if (Func.isNotEmpty(desc)) {
-      return desc;
-    } else {
-      return LocaleKeys.failed;
-    }
+  static String getFailedMessage(String message) {
+    return Func.isNotEmpty(message) ? message : LocaleKeys.failed;
   }
 }
 
