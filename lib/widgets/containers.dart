@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/utils/size_helper.dart';
-
+import 'package:habido_app/utils/theme/custom_colors.dart';
 
 // ignore: non_constant_identifier_names
 // Widget HorizontalLine({
@@ -57,43 +57,44 @@ class NoSplashContainer extends StatelessWidget {
   }
 }
 
-// class RoundedContainer extends StatelessWidget {
-//   const RoundedContainer({
-//     Key key,
-//     this.margin,
-//     this.padding,
-//     this.onTap,
-//     this.child,
-//     this.backgroundColor = Colors.white,
-//   }) : super(key: key);
-//
-//   final Widget child;
-//   final EdgeInsets margin;
-//   final EdgeInsets padding;
-//   final Function onTap;
-//   final Color backgroundColor;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return NoSplashContainer(
-//       child: InkWell(
-//         child: Container(
-//           padding: padding ?? EdgeInsets.all(12.0),
-//           margin: margin ?? EdgeInsets.zero,
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(16),
-//             color: backgroundColor,
-//           ),
-//           child: child ?? Container(),
-//         ),
-//         onTap: () {
-//           if (onTap != null) onTap();
-//         },
-//       ),
-//     );
-//   }
-// }
-//
+class StadiumContainer extends StatelessWidget {
+  final EdgeInsets margin;
+  final EdgeInsets padding;
+  final double? height;
+  final VoidCallback? onTap;
+  final Color? backgroundColor;
+  final Widget child;
+
+  const StadiumContainer({
+    Key? key,
+    this.margin = EdgeInsets.zero,
+    this.padding = EdgeInsets.zero,
+    this.height,
+    this.onTap,
+    required this.child,
+    this.backgroundColor,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return NoSplashContainer(
+      child: InkWell(
+        child: Container(
+          height: height,
+          padding: padding,
+          margin: margin,
+          decoration: BoxDecoration(
+            color: backgroundColor ?? customColors.secondaryBackground,
+            borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+          ),
+          child: child,
+        ),
+        onTap: onTap,
+      ),
+    );
+  }
+}
+
 // class RoundedBorderContainer extends StatelessWidget {
 //   final Widget child;
 //   final EdgeInsets margin;

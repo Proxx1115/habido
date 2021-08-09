@@ -109,8 +109,8 @@ class LocaleKeys {
 
   static String get hasAccount => 'Та бүртгэлтэй юу?';
 
-  // static String get useLocalAuth => 'Биометр ашиглан нэвтрэх';
-  //
+  static String get signUp => 'Бүртгүүлэх';
+
   static String get phoneNumber => 'Утасны дугаар';
 
   static String get password => 'Нууц үг';
@@ -132,11 +132,17 @@ class LocaleKeys {
 
   static String get enterPhoneNumber => 'Та өөрийн утасны дугаараа оруулна уу.';
 
-  // static String get lastName => 'Овог';
-  //
-  // static String get firstName => 'Нэр';
+  static String get enterCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу.';
 
-  static String get signUp => 'Бүртгүүлэх';
+  static String get enterProfile => 'Хувийн мэдээллээ оруулна уу.';
+
+  static String get yourName => 'Таны нэр';
+
+  static String get birthDate => 'Төрсөн огноо';
+
+// static String get lastName => 'Овог';
+
+// static String get firstName => 'Нэр';
 
 // static String get terms => 'Үйлчилгээний нөхцөл';
 //

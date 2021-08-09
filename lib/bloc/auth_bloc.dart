@@ -93,6 +93,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapSignUpToState(SignUpRequest request) async* {
     try {
       yield AuthLoading();
+
+      // todo test
+      var ress = SignUpResponse();
+      ress.userId = 1;
+      yield SignUpSuccess(ress);
+      return;
+
       var res = await ApiRouter.signUp(request);
       if (res.code == ResponseCode.Success) {
         yield SignUpSuccess(res);

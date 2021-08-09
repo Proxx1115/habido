@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/ui/auth/forgot_pass_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
+import 'package:habido_app/ui/auth/sign_up_profile_route.dart';
 import 'package:habido_app/ui/auth/sign_up_route.dart';
 import 'package:habido_app/ui/auth/verify_code_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
@@ -20,6 +21,7 @@ class Routes {
   static const login = 'login';
   static const signUp = 'signUp';
   static const verifyCode = 'verifyCode';
+  static const signUpProfile = 'signUpProfile';
   static const forgotPass = 'forgotPass';
   static const home = 'home';
 
@@ -52,8 +54,17 @@ class Routes {
           ),
           settings,
         );
+        break;
 
-        route = SlideRightRoute(VerifyCodeRoute(), settings);
+      case Routes.signUpProfile:
+        var args = settings.arguments as Map;
+        route = SlideRightRoute(
+          SignUpProfileRoute(
+            signUpResponse: _getValueByKey(args, 'signUpResponse'),
+            code: _getValueByKey(args, 'code'),
+          ),
+          settings,
+        );
         break;
 
       case Routes.forgotPass:

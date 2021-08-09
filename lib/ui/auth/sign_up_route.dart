@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
@@ -32,6 +34,9 @@ class _SignUpRouteState extends State<SignUpRoute> {
   void initState() {
     super.initState();
     _controller.addListener(() => _validateForm());
+
+    // todo test
+    _controller.text = '99887766';
   }
 
   @override
@@ -58,34 +63,11 @@ class _SignUpRouteState extends State<SignUpRoute> {
         'signUpResponse': state.response,
       });
     } else if (state is SignUpFailed) {
-      // todo test
-      // showCustomDialog(
-      //   context,
-      //   bodyText: state.message,
-      //   dialogType: DialogType.warning,
-      //   onPressedBtnPositive: () {},
-      //   btnPositiveText: CustomText.ok,
-      // );
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+      );
     }
-
-    // else if (state is LoginSuccess) {
-    //   globals.sessionToken = state.response.token;
-    //
-    //   SharedPref.saveBiometricAuth(_phoneController.text);
-    //   if (!_loginByBiometric) SharedPref.savePassword(_useBiometric ? _passwordController.text : "");
-    //   SharedPref.saveUseBiometrics(_useBiometric);
-    //
-    //   _passwordController.text = '';
-    //
-    //   _loginByBiometric = false;
-    //   Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false);
-    // }
-    // else if (state is LoginFailed) {
-    //   _loginByBiometric = false;
-    //
-    //   showCustomDialog(context,
-    //       bodyText: state.message, dialogType: DialogType.warning, onPressedBtnPositive: () {}, btnPositiveText: CustomText.ok);
-    // }
   }
 
   Widget _blocBuilder(BuildContext context, AuthState state) {
@@ -93,35 +75,32 @@ class _SignUpRouteState extends State<SignUpRoute> {
       scaffoldKey: _signUpKey,
       appBarTitle: LocaleKeys.yourRegistration,
       padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
+      loading: state is AuthLoading,
       body: Column(
         children: [
           /// Та өөрийн утасны дугаараа оруулна уу.
           CustomText(LocaleKeys.enterPhoneNumber, alignment: Alignment.center, maxLines: 2),
 
           /// Утасны дугаар
-          CustomTextField(
-            controller: _controller,
-            focusNode: _focusNode,
-            hintText: LocaleKeys.phoneNumber,
-            margin: EdgeInsets.only(top: 35.0),
-            maxLength: 8,
-            textInputType: TextInputType.number,
-          ),
+          _phoneNumberTextField(),
 
           Spacer(),
 
           /// Button next
-          CustomButton(
-            style: CustomButtonStyle.Secondary,
-            asset: Assets.arrow_next,
-            onPressed: _enabledBtnNext
-                ? () {
-                    // Api
-                  }
-                : null,
-          ), //_enabledBtnNext
+          _buttonNext(),
         ],
       ),
+    );
+  }
+
+  _phoneNumberTextField() {
+    return CustomTextField(
+      controller: _controller,
+      focusNode: _focusNode,
+      hintText: LocaleKeys.phoneNumber,
+      margin: EdgeInsets.only(top: 35.0),
+      maxLength: 8,
+      textInputType: TextInputType.number,
     );
   }
 
@@ -129,5 +108,20 @@ class _SignUpRouteState extends State<SignUpRoute> {
     setState(() {
       _enabledBtnNext = Func.isValidPhoneNumber(_controller.text);
     });
+  }
+
+  _buttonNext() {
+    return CustomButton(
+      style: CustomButtonStyle.Secondary,
+      asset: Assets.arrow_next,
+      onPressed: _enabledBtnNext
+          ? () {
+              Func.hideKeyboard(context);
+
+              var request = SignUpRequest()..phone = _controller.text;
+              BlocManager.authBloc.add(SignUpEvent(request));
+            }
+          : null,
+    );
   }
 }

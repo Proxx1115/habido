@@ -69,6 +69,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextField(
         controller: widget.controller,
         focusNode: _focusNode,
+        readOnly: true,
         decoration: InputDecoration(
           border: _border,
           focusedBorder: _border,
@@ -96,7 +97,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   InputBorder get _border => OutlineInputBorder(
         borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
         borderSide: (widget.style == CustomTextFieldStyle.primary)
-            ? BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
+            ? BorderSide.none // BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
             : BorderSide.none,
       );
 
