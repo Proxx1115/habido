@@ -11,7 +11,7 @@ class CustomScaffold extends StatelessWidget {
   final EdgeInsets padding;
   final Color? backgroundColor;
   final String? appBarTitle;
-  final Widget child;
+  final Widget body;
 
   const CustomScaffold({
     this.scaffoldKey,
@@ -20,7 +20,7 @@ class CustomScaffold extends StatelessWidget {
     this.padding = const EdgeInsets.all(0.0),
     this.backgroundColor,
     this.appBarTitle,
-    required this.child,
+    required this.body,
   });
 
   @override
@@ -46,7 +46,7 @@ class CustomScaffold extends StatelessWidget {
             appBar: _appBar(context),
             body: Container(
               padding: padding,
-              child: child,
+              child: body,
             ),
           ),
         ),

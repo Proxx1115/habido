@@ -1,38 +1,182 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/utils/assets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/text.dart';
 
-/// Дээд талаараа дугуйрсан ирмэгтэй bottom sheet dialog харуулах
-class DialogHelper {
-  static const double titleHeight = 0.0;
-  static const double statusBarHeight = 20.0;
-  static double headerHeight = kToolbarHeight + titleHeight + statusBarHeight;
+void showCustomDialog(BuildContext context, {required Widget child, bool isDismissible = false}) {
+  Func.hideKeyboard(context);
 
-  static void showBottomSheetDialog({
-    required BuildContext context,
-    required double height,
-    required Widget child,
-  }) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return Container(
-          // height: (height ?? MediaQuery.of(context).size / 2),
-          decoration: new BoxDecoration(
-            color: customColors.secondaryBackground,
-            borderRadius: new BorderRadius.only(topLeft: const Radius.circular(25.0), topRight: const Radius.circular(25.0)),
+  showModalBottomSheet(
+    context: context,
+    isDismissible: isDismissible,
+    backgroundColor: Colors.transparent,
+    isScrollControlled: true,
+    builder: (BuildContext context) {
+      return child;
+    },
+  );
+}
+
+class CustomDialogBody extends StatelessWidget {
+  final double height;
+  final String? asset;
+  final String? text;
+  final Widget? child;
+  final String? button1Text;
+  final String? button2Text;
+  final VoidCallback? onPressedButton1;
+  final VoidCallback? onPressedButton2;
+
+  const CustomDialogBody({
+    Key? key,
+    this.height = 267.0,
+    this.asset,
+    this.text,
+    this.button1Text,
+    this.button2Text,
+    this.onPressedButton1,
+    this.onPressedButton2,
+    this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      decoration: new BoxDecoration(
+        color: customColors.secondaryBackground,
+        borderRadius: new BorderRadius.only(topLeft: Radius.circular(35.0), topRight: Radius.circular(35.0)),
+      ),
+      child: ListView(
+        children: [
+          Container(
+            padding: EdgeInsets.all(45.0),
+            child: Column(
+              // mainAxisSize: MainAxisSize.min,
+              children: [
+                /// Icon
+                if (asset != null) _icon(),
+
+                /// Text
+                if (text != null) _text(),
+
+                /// Custom child
+                if (child != null) child!,
+
+                /// Buttons
+                _buttons(context),
+              ],
+            ),
           ),
-          child: child,
-        );
-      },
+        ],
+      ),
+    );
+  }
+
+  Widget _icon() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 35.0),
+      child: SvgPicture.asset(asset!, height: 50.0, width: 50.0),
+    );
+  }
+
+  Widget _text() {
+    return CustomText(
+      text,
+      margin: EdgeInsets.only(bottom: 35.0),
+      alignment: Alignment.center,
+      maxLines: 2,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
+  Widget _buttons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        /// Button1
+        if (button1Text != null)
+          Expanded(
+            child: CustomButton(
+              text: button1Text,
+              onPressed: () {
+                Navigator.pop(context);
+                if (onPressedButton1 != null) onPressedButton1!();
+              },
+            ),
+          ),
+
+        // Margin
+        if (button1Text != null && button2Text != null) SizedBox(width: 25.0),
+
+        /// Button2
+        if (button2Text != null)
+          Expanded(
+            child: CustomButton(
+              text: button2Text,
+              onPressed: () {
+                Navigator.pop(context);
+                if (onPressedButton2 != null) onPressedButton2!();
+              },
+            ),
+          ),
+      ],
     );
   }
 }
 
-enum DialogType { info, success, error, warning }
+// class DialogManager {
+// static const double titleHeight = 0.0;
+// static const double statusBarHeight = 20.0;
+// static double headerHeight = kToolbarHeight + titleHeight + statusBarHeight;
+
+// static void showCustomDialog({
+//   required BuildContext context,
+//   required String text,
+//   // required double height,
+//   // required Widget child,
+// }) {
+//   showModalBottomSheet(
+//     context: context,
+//     backgroundColor: Colors.transparent,
+//     isScrollControlled: true,
+//     builder: (BuildContext context) {
+//       return Container(
+//         // height: (height ?? MediaQuery.of(context).size / 2),
+//         decoration: new BoxDecoration(
+//           color: customColors.secondaryBackground,
+//           borderRadius: new BorderRadius.only(topLeft: const Radius.circular(25.0), topRight: const Radius.circular(25.0)),
+//         ),
+//         child: Container(),
+//       );
+//     },
+//   );
+// }
+
+// static void showBottomSheetDialog({
+//   required BuildContext context,
+//   required double height,
+//   required Widget child,
+// }) {
+//   showModalBottomSheet(
+//     context: context,
+//     backgroundColor: Colors.transparent,
+//     isScrollControlled: true,
+//     builder: (BuildContext context) {
+//       return Container(
+//         // height: (height ?? MediaQuery.of(context).size / 2),
+//         decoration: new BoxDecoration(
+//           color: customColors.secondaryBackground,
+//           borderRadius: new BorderRadius.only(topLeft: const Radius.circular(25.0), topRight: const Radius.circular(25.0)),
+//         ),
+//         child: child,
+//       );
+//     },
+//   );
+// }
+// }
 
 // void showCustomDialog(
 //   BuildContext context, {
@@ -591,3 +735,194 @@ enum DialogType { info, success, error, warning }
 //     },
 //   );
 // }
+
+//   BuildContext context, {
+//   Widget? child,
+//   DialogType dialogType = DialogType.info,
+//   String? titleText,
+//   String? bodyText,
+//   String? btnPositiveText,
+//   String? btnNegativeText,
+//   VoidCallback? onPressedBtn1,
+//   VoidCallback? onPressedBtn2,
+//   double? btn1Width,
+//   double? btn2Width,
+//   bool visibleBtnPositive = false,
+//   bool visibleBtnNegative = false,
+//   EdgeInsets padding = const EdgeInsets.all(30.0),
+//   bool dismissible = false,
+// }) {
+//   Func.hideKeyboard(context);
+//
+//   // Init icon
+//   String assetName;
+//   switch (dialogType) {
+//     case DialogType.success:
+//       assetName = Assets.success;
+//       break;
+//
+//     case DialogType.error:
+//       assetName = Assets.error;
+//       break;
+//
+//     case DialogType.info:
+//     case DialogType.warning:
+//     default:
+//       assetName = Assets.warning;
+//       break;
+//   }
+//
+//   // Init buttons
+//   visibleBtnPositive = Func.isNotEmpty(btnPositiveText);
+//   visibleBtnNegative = Func.isNotEmpty(btnNegativeText);
+//
+//   // Init button positive
+//   Widget btnPositive = visibleBtnPositive
+//       ? Btn(
+//           text: btnPositiveText,
+//           width: btn2Width ?? (!visibleBtnNegative ? (MediaQuery.of(context).size.width / 3) : double.infinity),
+//           boxHeight: SizeHelper.buttonHeightSmall,
+//           alignment: Func.isEmpty(btnNegativeText) ? MainAxisAlignment.center : MainAxisAlignment.end,
+//           onPressed: () {
+//             Navigator.pop(context);
+//             if (onPressedBtn2 != null) onPressedBtn2();
+//           },
+//         )
+//       : null;
+//
+//   // Init button negative
+//   Widget btnNegative = visibleBtnNegative
+//       ? Btn(
+//           text: btnNegativeText,
+//           width: btn1Width ?? (!visibleBtnPositive ? (MediaQuery.of(context).size.width / 3) : double.infinity),
+//           boxHeight: SizeHelper.buttonHeightSmall,
+//           alignment: Func.isEmpty(btnPositiveText) ? MainAxisAlignment.center : MainAxisAlignment.start,
+//           onPressed: () {
+//             Navigator.pop(context);
+//             if (onPressedBtn1 != null) onPressedBtn1();
+//           },
+//         )
+//       : null;
+//
+//   /// Show dialog
+//   showDialog(
+//     barrierDismissible: dismissible,
+//     context: context,
+//     builder: (BuildContext context) {
+//       return WillPopScope(
+//         onWillPop: () {
+//           return Future.value(false);
+//         },
+//         child:
+//
+//             /// Custom dialog
+//             child ??
+//
+//                 /// Default dialog
+//                 Container(
+//                   margin: EdgeInsets.symmetric(horizontal: 25),
+//                   child: AlertDialog(
+//                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
+//                     contentPadding: padding,
+//                     content: Column(
+//                       mainAxisSize: MainAxisSize.min,
+//                       children: [
+//                         /// Icon
+//                         Image.asset(assetName, height: 50.0, width: 50.0),
+//
+//                         SizedBox(height: 20.0),
+//
+//                         /// Title
+//                         if (Func.isNotEmpty(titleText))
+//                           Txt(
+//                             titleText ?? '',
+//                             textAlign: TextAlign.center,
+//                             maxLines: 10,
+//                             alignment: Alignment.center,
+//                             color: customColors.txt,
+//                             fontSize: 18.0,
+//                             fontWeight: FontWeight.bold,
+//                             margin: EdgeInsets.only(bottom: 10.0),
+//                           ),
+//
+//                         /// Body
+//                         Txt(bodyText ?? '', textAlign: TextAlign.center, maxLines: 10, alignment: Alignment.center, color: customColors.txt),
+//
+//                         SizedBox(height: 20.0),
+//
+//                         /// Buttons
+//                         Row(
+//                           mainAxisAlignment:
+//                               (visibleBtnNegative && visibleBtnPositive) ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
+//                           children: [
+//                             /// Button negative
+//                             if (visibleBtnNegative) (visibleBtnPositive ? Expanded(child: btnNegative) : btnNegative),
+//
+//                             /// Margin
+//                             if (btnNegative != null && btnPositive != null) SizedBox(width: SizeHelper.margin),
+//
+//                             /// Button positive
+//                             if (visibleBtnPositive) (visibleBtnNegative ? Expanded(child: btnPositive) : btnPositive),
+//                           ],
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//       );
+//     },
+//   );
+// }
+
+/// Show dialog
+// showDialog(
+//   barrierDismissible: dismissible,
+//   context: context,
+//   builder: (BuildContext context) {
+//     return WillPopScope(
+//       onWillPop: () {
+//         return Future.value(false);
+//       },
+//       child: AlertDialog(
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(35.0))),
+//         contentPadding: EdgeInsets.all(45.0),
+//         content: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             /// Icon
+//             if (asset != null)
+//               Container(
+//                 margin: EdgeInsets.only(bottom: 35.0),
+//                 child: SvgPicture.asset(asset, height: 50.0, width: 50.0),
+//               ),
+//
+//             /// Text
+//             if (text != null)
+//               CustomText(
+//                 text,
+//                 margin: EdgeInsets.only(bottom: 35.0),
+//                 alignment: Alignment.center,
+//                 maxLines: 10,
+//                 fontWeight: FontWeight.w500,
+//               ),
+//
+//             /// Buttons
+//             // Row(
+//             //   mainAxisAlignment: (button1Text != null && button2Text != null) ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
+//             //   children: [
+//             //     /// Button1
+//             //     if (button1 != null) (button2 != null ? Expanded(child: button1!) : button1!),
+//             //
+//             //     // Margin
+//             //     if (button1 != null && button2 != null) SizedBox(width: SizeHelper.margin),
+//             //
+//             //     /// Button2
+//             //     if (button2 != null) (button1 != null ? Expanded(child: button2!) : button2!),
+//             //   ],
+//             // ),
+//           ],
+//         ),
+//       ),
+//     );
+//   },
+// );

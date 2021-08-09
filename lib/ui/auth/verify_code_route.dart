@@ -2,22 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
-class SignUpRoute extends StatefulWidget {
+class VerifyCodeRoute extends StatefulWidget {
+  final SignUpResponse? signUpResponse;
+
+  const VerifyCodeRoute({Key? key, this.signUpResponse}) : super(key: key);
+
   @override
-  _SignUpRouteState createState() => _SignUpRouteState();
+  _VerifyCodeRouteState createState() => _VerifyCodeRouteState();
 }
 
-class _SignUpRouteState extends State<SignUpRoute> {
+class _VerifyCodeRouteState extends State<VerifyCodeRoute> {
   // UI
   final _signUpKey = GlobalKey<ScaffoldState>();
 
@@ -54,9 +58,7 @@ class _SignUpRouteState extends State<SignUpRoute> {
 
   void _blocListener(BuildContext context, AuthState state) {
     if (state is SignUpSuccess) {
-      Navigator.pushNamed(context, Routes.verifyCode, arguments: {
-        'signUpResponse': state.response,
-      });
+      // Navigator.pushNamed(context, Routes.forgotPass);
     } else if (state is SignUpFailed) {
       // todo test
       // showCustomDialog(

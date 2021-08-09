@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habido_app/ui/auth/forgot_pass_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/ui/auth/sign_up_route.dart';
+import 'package:habido_app/ui/auth/verify_code_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'route_transitions.dart';
@@ -18,6 +19,7 @@ class Routes {
   static const intro = 'intro';
   static const login = 'login';
   static const signUp = 'signUp';
+  static const verifyCode = 'verifyCode';
   static const forgotPass = 'forgotPass';
   static const home = 'home';
 
@@ -42,6 +44,18 @@ class Routes {
         route = SlideRightRoute(SignUpRoute(), settings);
         break;
 
+      case Routes.verifyCode:
+        var args = settings.arguments as Map;
+        route = SlideRightRoute(
+          VerifyCodeRoute(
+            signUpResponse: _getValueByKey(args, 'signUpResponse'),
+          ),
+          settings,
+        );
+
+        route = SlideRightRoute(VerifyCodeRoute(), settings);
+        break;
+
       case Routes.forgotPass:
         route = SlideRightRoute(ForgotPassRoute(), settings);
         break;
@@ -55,7 +69,7 @@ class Routes {
     return route;
   }
 
-  Map<String, dynamic>? _getValueByKey(Map<String, dynamic> args, String key) {
+  _getValueByKey(Map<dynamic, dynamic> args, String key) {
     try {
       return args[key];
     } catch (e) {
