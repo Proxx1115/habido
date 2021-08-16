@@ -82,7 +82,7 @@ class CustomColors {
 
   /// Light theme
   factory CustomColors.light() => CustomColors.constructor()
-      // ..primary = orange
+      // ..primary = ConstantColors.primary
       ;
 
   /// Dark theme

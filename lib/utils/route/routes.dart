@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/ui/auth/forgot_pass_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
-import 'package:habido_app/ui/auth/sign_up_profile_route.dart';
-import 'package:habido_app/ui/auth/sign_up_route.dart';
-import 'package:habido_app/ui/auth/verify_code_route.dart';
+import 'package:habido_app/ui/auth/sign_up3_profile_route.dart';
+import 'package:habido_app/ui/auth/sign_up1_phone_route.dart';
+import 'package:habido_app/ui/auth/sign_up2_code_route.dart';
+import 'package:habido_app/ui/auth/sign_up4_terms_route.dart';
+import 'package:habido_app/ui/auth/sign_up5_success_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'route_transitions.dart';
@@ -19,10 +22,12 @@ class Routes {
   static const splash = 'splash';
   static const intro = 'intro';
   static const login = 'login';
-  static const signUp = 'signUp';
-  static const verifyCode = 'verifyCode';
-  static const signUpProfile = 'signUpProfile';
   static const forgotPass = 'forgotPass';
+  static const signUp1Phone = 'signUp1Phone';
+  static const signUp2Code = 'signUp2Code';
+  static const signUp3Profile = 'signUp3Profile';
+  static const signUp4Terms = 'signUp4Terms';
+  static const signUp5Success = 'signUp5Success';
   static const home = 'home';
 
   /// Routing
@@ -39,32 +44,50 @@ class Routes {
         break;
 
       case Routes.login:
-        route = PageRouteBuilder(transitionDuration: Duration(milliseconds: 1600), pageBuilder: (_, __, ___) => LoginRoute());
+        route = PageRouteBuilder(
+          transitionDuration: Duration(milliseconds: 1600),
+          pageBuilder: (_, __, ___) => LoginRoute(),
+        );
         break;
 
-      case Routes.signUp:
-        route = SlideRightRoute(SignUpRoute(), settings);
+      case Routes.signUp1Phone:
+        route = SlideRightRoute(SignUp1PhoneRoute(), settings);
         break;
 
-      case Routes.verifyCode:
+      case Routes.signUp2Code:
         var args = settings.arguments as Map;
         route = SlideRightRoute(
-          VerifyCodeRoute(
+          SignUp2CodeRoute(
             signUpResponse: _getValueByKey(args, 'signUpResponse'),
           ),
           settings,
         );
         break;
 
-      case Routes.signUpProfile:
+      case Routes.signUp3Profile:
         var args = settings.arguments as Map;
         route = SlideRightRoute(
-          SignUpProfileRoute(
+          SignUp3ProfileRoute(
             signUpResponse: _getValueByKey(args, 'signUpResponse'),
             code: _getValueByKey(args, 'code'),
           ),
           settings,
         );
+        break;
+
+      case Routes.signUp4Terms:
+        var args = settings.arguments as Map;
+        route = SlideRightRoute(
+          SignUp4TermsRoute(
+            signUpResponse: _getValueByKey(args, 'signUpResponse'),
+            code: _getValueByKey(args, 'code'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.signUp5Success:
+        route = SlideRightRoute(SignUp5SuccessRoute(), settings);
         break;
 
       case Routes.forgotPass:

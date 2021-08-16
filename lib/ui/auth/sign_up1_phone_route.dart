@@ -14,12 +14,13 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
-class SignUpRoute extends StatefulWidget {
+/// Sign up step 1
+class SignUp1PhoneRoute extends StatefulWidget {
   @override
-  _SignUpRouteState createState() => _SignUpRouteState();
+  _SignUp1PhoneRouteState createState() => _SignUp1PhoneRouteState();
 }
 
-class _SignUpRouteState extends State<SignUpRoute> {
+class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
   // UI
   final _signUpKey = GlobalKey<ScaffoldState>();
 
@@ -59,7 +60,7 @@ class _SignUpRouteState extends State<SignUpRoute> {
 
   void _blocListener(BuildContext context, AuthState state) {
     if (state is SignUpSuccess) {
-      Navigator.pushNamed(context, Routes.verifyCode, arguments: {
+      Navigator.pushNamed(context, Routes.signUp2Code, arguments: {
         'signUpResponse': state.response,
       });
     } else if (state is SignUpFailed) {

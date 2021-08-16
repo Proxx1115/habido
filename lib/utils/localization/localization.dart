@@ -140,6 +140,8 @@ class LocaleKeys {
 
   static String get birthDate => 'Төрсөн огноо';
 
+  static String get gender => 'Хүйс';
+
 // static String get lastName => 'Овог';
 
 // static String get firstName => 'Нэр';

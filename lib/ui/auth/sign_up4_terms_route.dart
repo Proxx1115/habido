@@ -13,17 +13,18 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
-class SignUpProfileRoute extends StatefulWidget {
+/// Sign up step 4
+class SignUp4TermsRoute extends StatefulWidget {
   final SignUpResponse signUpResponse;
   final String code;
 
-  const SignUpProfileRoute({Key? key, required this.signUpResponse, required this.code}) : super(key: key);
+  const SignUp4TermsRoute({Key? key, required this.signUpResponse, required this.code}) : super(key: key);
 
   @override
-  _SignUpProfileRouteState createState() => _SignUpProfileRouteState();
+  _SignUp4TermsRouteState createState() => _SignUp4TermsRouteState();
 }
 
-class _SignUpProfileRouteState extends State<SignUpProfileRoute> {
+class _SignUp4TermsRouteState extends State<SignUp4TermsRoute> {
   // UI
   final _signUpProfileKey = GlobalKey<ScaffoldState>();
   double _maxHeight = 0.0;
@@ -101,7 +102,7 @@ class _SignUpProfileRouteState extends State<SignUpProfileRoute> {
                 _nameTextField(),
 
                 /// Хүйс
-                _genderTextField(),
+                _genderSwitch(),
 
                 Expanded(child: Container()),
 
@@ -110,64 +111,6 @@ class _SignUpProfileRouteState extends State<SignUpProfileRoute> {
                 //_enabledBtnNext
               ],
             ),
-
-            // Column(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Expanded(child: Container(), flex: 25),
-            //
-            //     /// Logo
-            //     _logo(),
-            //
-            //     Expanded(child: Container(), flex: 25),
-            //
-            //     Container(
-            //       padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
-            //       decoration: BoxDecoration(
-            //         color: customColors.secondaryBackground,
-            //         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-            //       ),
-            //       child: Column(
-            //         children: [
-            //           /// Утасны дугаар
-            //           _txtboxPhoneNumber(),
-            //
-            //           /// Нууц үг
-            //           _txtboxPassword(),
-            //
-            //           // _chkboxBiometric(),
-            //
-            //           SizedBox(height: 30.0),
-            //
-            //           Row(
-            //             children: [
-            //               Expanded(
-            //                 /// Нэвтрэх button
-            //                 child: _btnLogin(),
-            //               ),
-            //
-            //               /// Finger print button
-            //               _btnBiometrics(),
-            //             ],
-            //           ),
-            //
-            //           MarginVertical(height: 25.0),
-            //
-            //           /// Button - Нууц үг мартсан уу? Сэргээх
-            //           _btnForgotPass(),
-            //         ],
-            //       ),
-            //     ),
-            //
-            //     Expanded(
-            //       child: Container(color: customColors.secondaryBackground),
-            //       flex: 25,
-            //     ),
-            //
-            //     /// Button - Та бүртгэлтэй юу? Бүртгүүлэх
-            //     _btnSignUp(),
-            //   ],
-            // ),
           ),
         );
       }),
@@ -176,6 +119,7 @@ class _SignUpProfileRouteState extends State<SignUpProfileRoute> {
 
   _birthdayPicker() {
     return CustomDatePicker(
+      hintText: LocaleKeys.birthDate,
       onSelectedDate: (date) {
         print(date);
       },
@@ -205,12 +149,17 @@ class _SignUpProfileRouteState extends State<SignUpProfileRoute> {
       controller: _nameController,
       focusNode: _nameFocus,
       hintText: LocaleKeys.yourName,
-      margin: EdgeInsets.only(top: 35.0),
+      margin: EdgeInsets.only(top: 15.0),
     );
   }
 
-  _genderTextField() {
-    return Container();
+  _genderSwitch() {
+    return CustomTextField(
+      controller: _nameController,
+      focusNode: _nameFocus,
+      hintText: LocaleKeys.gender,
+      margin: EdgeInsets.only(top: 15.0),
+    );
   }
 
   _validateForm() {
@@ -225,8 +174,8 @@ class _SignUpProfileRouteState extends State<SignUpProfileRoute> {
       asset: Assets.arrow_next,
       onPressed: _enabledBtnNext
           ? () {
-              //
-            }
+        //
+      }
           : null,
     );
   }

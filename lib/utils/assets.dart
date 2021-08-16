@@ -11,6 +11,7 @@ class Assets {
   static const String back = 'assets/images/global/back.svg';
   static const String arrow_next = 'assets/images/global/arrow_next.svg';
   static const String ring = 'assets/images/global/ring.svg';
+  static const String expand = 'assets/images/global/expand.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
@@ -46,6 +47,7 @@ class Assets {
 // static const String print_header = 'assets/images/test/print_header.png';
 }
 
-class FontAssets {
+class FontAsset {
   static const String FiraSansCondensed = 'Fira Sans Condensed';
+  static const String SFProDisplay = 'SF Pro Display';
 }

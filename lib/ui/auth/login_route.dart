@@ -344,7 +344,7 @@ class _LoginRouteState extends State<LoginRoute> {
       textColor: customColors.secondaryText,
       padding: EdgeInsets.symmetric(vertical: 35.0),
       onPressed: () {
-        Navigator.pushNamed(context, Routes.signUp);
+        Navigator.pushNamed(context, Routes.signUp1Phone);
       },
     );
   }

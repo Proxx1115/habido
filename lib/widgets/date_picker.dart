@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
-import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/text.dart';
-import 'package:habido_app/widgets/text_field/text_fields.dart';
 
-class AlwaysDisabledFocusNode extends FocusNode {
-  @override
-  bool get hasFocus => false;
-}
+// class AlwaysDisabledFocusNode extends FocusNode {
+//   @override
+//   bool get hasFocus => false;
+// }
 
 class CustomDatePicker extends StatefulWidget {
   final Function(DateTime) onSelectedDate;
   final String? hintText;
+  final EdgeInsets? margin;
 
-  const CustomDatePicker({Key? key, required this.onSelectedDate, this.hintText}) : super(key: key);
+  const CustomDatePicker({
+    Key? key,
+    required this.onSelectedDate,
+    this.hintText,
+    this.margin = EdgeInsets.zero,
+  }) : super(key: key);
 
   @override
   _CustomDatePickerState createState() => _CustomDatePickerState();
@@ -34,49 +39,30 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return NoSplashContainer(
-      child: InkWell(
-        onTap: () async {
-          print('clicked');
-
-          _selectedDate = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2015, 8),
-            lastDate: DateTime(2101),
-          );
-
-          setState(() {
-            if (_selectedDate != null) widget.onSelectedDate(_selectedDate!);
-          });
-        },
-        child: StadiumContainer(
-          height: SizeHelper.boxHeight,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              /// Hint
-              Expanded(
-                child: CustomText(
-                  _text(),
-                  margin: EdgeInsets.only(left: 18.0),
-                ),
-              ),
-
-              /// Icon
-              Container(
-                margin: EdgeInsets.only(right: 18.0),
-                child: SvgPicture.asset(Assets.ring),
-              ),
-            ],
+    return StadiumContainer(
+      onTap: () {
+        _onTap();
+      },
+      margin: widget.margin,
+      height: SizeHelper.boxHeight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          /// Hint
+          Expanded(
+            child: CustomText(
+              _text(),
+              color: _color(),
+              margin: EdgeInsets.only(left: 18.0),
+            ),
           ),
-        ),
 
-        // CustomTextField(
-        //   controller: _controller,
-        //   // focusNode: AlwaysDisabledFocusNode(),
-        //   alwaysVisibleSuffix: true,
-        // ),
+          /// Icon
+          Container(
+            margin: EdgeInsets.only(right: 18.0),
+            child: SvgPicture.asset(Assets.expand),
+          ),
+        ],
       ),
     );
   }
@@ -90,6 +76,30 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       return '';
     }
   }
+
+  _color() {
+    if (_selectedDate != null) {
+      return customColors.primaryText;
+    } else {
+      return customColors.secondaryText;
+    }
+  }
+
+  _onTap() async {
+    print('clicked');
+
+    _selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2015, 8),
+      lastDate: DateTime(2101),
+    );
+
+    setState(() {
+      if (_selectedDate != null) widget.onSelectedDate(_selectedDate!);
+    });
+  }
+}
 
 // @override
 // Widget build(BuildContext context) {
@@ -129,4 +139,3 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 //           ? BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
 //           : BorderSide.none,
 //     );
-}

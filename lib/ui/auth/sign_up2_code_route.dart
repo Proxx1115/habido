@@ -10,16 +10,17 @@ import 'package:habido_app/widgets/code_input.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
-class VerifyCodeRoute extends StatefulWidget {
+/// Sign up step 2
+class SignUp2CodeRoute extends StatefulWidget {
   final SignUpResponse signUpResponse;
 
-  const VerifyCodeRoute({Key? key, required this.signUpResponse}) : super(key: key);
+  const SignUp2CodeRoute({Key? key, required this.signUpResponse}) : super(key: key);
 
   @override
-  _VerifyCodeRouteState createState() => _VerifyCodeRouteState();
+  _SignUp2CodeRouteState createState() => _SignUp2CodeRouteState();
 }
 
-class _VerifyCodeRouteState extends State<VerifyCodeRoute> {
+class _SignUp2CodeRouteState extends State<SignUp2CodeRoute> {
   // UI
   final _verifyCodeKey = GlobalKey<ScaffoldState>();
 
@@ -81,7 +82,7 @@ class _VerifyCodeRouteState extends State<VerifyCodeRoute> {
       asset: Assets.arrow_next,
       onPressed: _enabledBtnNext
           ? () {
-              Navigator.pushNamed(context, Routes.signUpProfile, arguments: {
+              Navigator.pushNamed(context, Routes.signUp3Profile, arguments: {
                 'signUpResponse': widget.signUpResponse,
                 'code': _code,
               });

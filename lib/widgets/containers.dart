@@ -58,8 +58,8 @@ class NoSplashContainer extends StatelessWidget {
 }
 
 class StadiumContainer extends StatelessWidget {
-  final EdgeInsets margin;
-  final EdgeInsets padding;
+  final EdgeInsets? margin;
+  final EdgeInsets? padding;
   final double? height;
   final VoidCallback? onTap;
   final Color? backgroundColor;
