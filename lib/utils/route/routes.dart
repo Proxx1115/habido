@@ -8,6 +8,7 @@ import 'package:habido_app/ui/auth/sign_up2_code_route.dart';
 import 'package:habido_app/ui/auth/sign_up4_terms_route.dart';
 import 'package:habido_app/ui/auth/sign_up5_success_route.dart';
 import 'package:habido_app/ui/auth/term_detail_route.dart';
+import 'package:habido_app/ui/chat/habido_helper_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
@@ -32,6 +33,7 @@ class Routes {
   static const signUp5Success = 'signUp5Success';
   static const termDetail = 'termDetail';
   static const home = 'home';
+  static const habidoHelper = 'habidoHelper';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -113,6 +115,10 @@ class Routes {
 
       case Routes.home:
         route = FadeRouteBuilder(HomeRoute(), settings);
+        break;
+
+      case Routes.habidoHelper:
+        route = FadeRouteBuilder(HabidoHelperRoute(), settings);
         break;
 
       case Routes.comingSoon:

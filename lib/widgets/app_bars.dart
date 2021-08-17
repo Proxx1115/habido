@@ -4,8 +4,8 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
 
 // ignore: non_constant_identifier_names
-Widget CustomAppBar({
-  required BuildContext context,
+AppBar CustomAppBar(
+  BuildContext context, {
   Color? backgroundColor = Colors.transparent,
 
   // Leading
@@ -19,6 +19,7 @@ Widget CustomAppBar({
   // Action
   Widget? actionWidget,
   String? actionAsset,
+  Color? actionAssetColor,
   VoidCallback? onPressedAction,
 }) {
   /// Init leading
@@ -47,6 +48,7 @@ Widget CustomAppBar({
   } else if (actionAsset != null) {
     actionWidget = ButtonStadium(
       asset: actionAsset,
+      iconColor: actionAssetColor,
       margin: EdgeInsets.only(left: 15.0),
       onPressed: () {
         if (onPressedAction != null) onPressedAction();

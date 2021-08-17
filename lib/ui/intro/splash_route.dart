@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
+import 'package:habido_app/utils/api/api_helper.dart';
+import 'package:habido_app/utils/api/api_router.dart';
+import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/widgets/hero.dart';
@@ -28,21 +31,30 @@ class _SplashRouteState extends State<SplashRoute> {
 
   void _init() async {
     // Check update
-    if (_needUpdate()) return;
+    if (await _needUpdate()) return;
 
     _checkSession();
   }
 
-  bool _needUpdate() {
+  Future<bool> _needUpdate() async {
     bool res = false;
 
     try {
-      // var param = await ApiManager.getParam();
-      // var currentAppVersion = await DeviceHelper.getBuildNumber();
+      var res = await ApiRouter.param();
+      if (res.code == ResponseCode.Success) {
+        //
+      }
+
+      //   var buildVersion = await DeviceHelper.getBuildNumber();
+      //   _showDialogUpdate('https://play.google.com/store/apps/details?id=mn.fr099y.optimal');
+      //
+      //   SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      //
+      // }
+
       // if (Func.isNotEmpty(currentAppVersion) && param != null) {
       //   if (Platform.isAndroid && Func.isNotEmpty(param.androidVersion)) {
       //     if (Func.toInt(currentAppVersion) < Func.toInt(param.androidVersion)) {
-      //       _showDialogUpdate('https://play.google.com/store/apps/details?id=mn.fr099y.optimal');
       //       return;
       //     }
       //   } else if (Platform.isIOS && Func.isNotEmpty(param.iosVersion)) {
@@ -51,8 +63,7 @@ class _SplashRouteState extends State<SplashRoute> {
       //       return;
       //     }
       //   }
-      //   }
-
+      // }
     } catch (e) {
       print(e);
     }
@@ -114,4 +125,18 @@ class _SplashRouteState extends State<SplashRoute> {
     //   showCustomDialog(context, dialogType: DialogType.error, bodyText: CustomText.failed, btnPositiveText: CustomText.ok);
     // }
   }
+
+// _showDialogUpdate(String deepLink) {
+//   showCustomDialog(
+//     context,
+//     dismissible: false,
+//     bodyText: AppText.pleaseUpdateApp,
+//     dialogType: DialogType.warning,
+//     btnPositiveText: AppText.ok,
+//     onPressedBtnPositive: () {
+//       _navigateToFirstRoute();
+//       _openDeeplink(deepLink);
+//     },
+//   );
+// }
 }

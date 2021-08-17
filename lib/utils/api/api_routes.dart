@@ -4,4 +4,6 @@ class ApiRoutes {
   static const String signUp = '/auth/user/signup';
   static const String verifyCode = '/auth/user/verify-code';
   static const String param = '/auth/param';
+  static const String registerDevice = '/register-device';
+  static const String firstChat = '/first-chat';
 }

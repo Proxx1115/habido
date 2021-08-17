@@ -9,6 +9,7 @@ import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -72,6 +73,8 @@ class _LoginRouteState extends State<LoginRoute> {
     // todo test
     _phoneNumberController.text = '88989800';
     _passwordController.text = '123qwe';
+    // _phoneNumberController.text = '95688910';
+    // _passwordController.text = '123qwe';
   }
 
   @override
@@ -97,22 +100,17 @@ class _LoginRouteState extends State<LoginRoute> {
       _canCheckBiometrics = state.canCheckBiometrics;
       _availableBiometrics = state.availableBiometricsCount;
     } else if (state is LoginSuccess) {
-      // globals.sessionToken = state.response.token;
-      //
-      // SharedPref.saveBiometricAuth(_phoneController.text);
-      // if (!_loginByBiometric) SharedPref.savePassword(_useBiometric ? _passwordController.text : "");
-      // SharedPref.saveUseBiometrics(_useBiometric);
-      //
-      // _passwordController.text = '';
-      //
-      // _loginByBiometric = false;
+      // Clear controllers
+      _passwordController.clear();
+      SharedPref.setPhoneNumber(_phoneNumberController.text);
 
-      // Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false);
-
-      Navigator.pushNamed(context, Routes.home);
+      if (globals.userData?.isOnboardingDone ?? false) {
+        // First chat
+        Navigator.pushNamed(context, Routes.habidoHelper);
+      } else {
+        Navigator.pushNamed(context, Routes.home);
+      }
     } else if (state is LoginFailed) {
-      // _loginByBiometric = false;
-
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),

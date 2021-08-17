@@ -8,8 +8,18 @@ class UserData extends BaseResponse {
   String? birthDay;
   int? gender;
   String? photo;
+  bool? isOnboardingDone;
 
-  UserData({this.phone, this.firstName, this.lastName, this.email, this.birthDay, this.gender, this.photo});
+  UserData({
+    this.phone,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.birthDay,
+    this.gender,
+    this.photo,
+    this.isOnboardingDone,
+  });
 
   UserData.fromJson(dynamic json) {
     parseBaseParams(json);
@@ -21,6 +31,7 @@ class UserData extends BaseResponse {
     birthDay = json['birthDay'];
     gender = json['gender'];
     photo = json['photo'];
+    isOnboardingDone = json['isOnboardingDone'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +43,7 @@ class UserData extends BaseResponse {
     map['birthDay'] = birthDay;
     map['gender'] = gender;
     map['photo'] = photo;
+    map['isOnboardingDone'] = isOnboardingDone;
     return map;
   }
 }

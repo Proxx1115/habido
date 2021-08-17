@@ -6,6 +6,7 @@ import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/ui/auth/sign_up1_phone_route.dart';
 import 'package:habido_app/ui/auth/sign_up5_success_route.dart';
+import 'package:habido_app/ui/chat/habido_helper_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/test/hero1_route.dart';
 import 'package:habido_app/ui/test/test_route.dart';
@@ -14,6 +15,7 @@ import 'package:habido_app/utils/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'bloc/bloc_manager.dart';
 import 'ui/intro/splash_route.dart';
+import 'utils/device_helper.dart';
 import 'utils/globals.dart';
 import 'utils/route/routes.dart';
 import 'utils/theme/theme_cubit.dart';
@@ -42,7 +44,10 @@ void main() async {
 class HabidoApp extends StatelessWidget {
   HabidoApp() {
     // Init global params
-    globals = Globals();
+    // globals.init();
+
+    // Init device info
+    DeviceHelper.init();
 
     // Bloc
     // BlocManager.mainBloc.add(InitEvent());

@@ -59,7 +59,7 @@ class CustomScaffold extends StatelessWidget {
       return AppBarEmpty(context: context);
     } else {
       return CustomAppBar(
-        context: context,
+        context,
         backgroundColor: backgroundColor ?? customColors.primaryBackground,
         titleText: appBarTitle,
       );

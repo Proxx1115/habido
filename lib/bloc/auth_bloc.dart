@@ -9,6 +9,7 @@ import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_router.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
+import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 
@@ -63,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       LoginResponse res = await ApiRouter.login(request);
       if (res.code == ResponseCode.Success) {
         /// Session хадгалах
-        SharedPref.saveSessionToken(res.token!);
+        SharedPref.setSessionToken(res.token!);
 
         /// Get user data
         var userData = await ApiRouter.getUserData();
@@ -83,10 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   static Future afterLogin() async {
-    // todo test
-    // ApiManager.getParam();
-    // ApiManager.custPhotos();
-    // DeviceHelper.registerDeviceToken();
+    DeviceHelper.registerDeviceToken();
   }
 
   Stream<AuthState> _mapSignUpEventToState(SignUpRequest request) async* {

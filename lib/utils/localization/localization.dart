@@ -171,6 +171,8 @@ class LocaleKeys {
 
   /// Settings
 
+  /// Chat
+  static String get habidoHelper => 'Habido туслах';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

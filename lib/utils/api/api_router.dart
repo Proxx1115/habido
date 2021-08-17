@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/first_chat_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
 import 'package:habido_app/models/param_response.dart';
+import 'package:habido_app/models/register_device_request.dart';
 import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/globals.dart';
+import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/shared_pref.dart';
 import 'api_helper.dart';
 import 'api_manager.dart';
 import 'api_routes.dart';
@@ -56,12 +60,47 @@ class ApiRouter {
   }
 
   /// Param
-  static Future<ParamResponse> param() async {
-    return ParamResponse.fromJson(await apiManager.sendRequest(
-      path: ApiRoutes.param,
-      httpMethod: HttpMethod.Get,
-      hasAuthorization: false,
+  static Future<ParamResponse> param({
+    bool fromCache = true,
+  }) async {
+    var res = ParamResponse()
+      ..code = ResponseCode.Failed
+      ..message = LocaleKeys.failed;
+
+    if (fromCache && globals.param != null) {
+      res = globals.param!;
+    } else {
+      res = ParamResponse.fromJson(await apiManager.sendRequest(
+        path: ApiRoutes.param,
+        httpMethod: HttpMethod.Get,
+        hasAuthorization: false,
+      ));
+    }
+
+    if (res.code == ResponseCode.Success) {
+      globals.param = res;
+    }
+
+    return res;
+  }
+
+  static Future<BaseResponse> registerDevice(RegisterDeviceRequest request) async {
+    var res = BaseResponse.fromJson(await apiManager.sendRequest(
+      path: ApiRoutes.registerDevice,
+      objectData: request,
     ));
+
+    if (res.code == ResponseCode.Success) {
+      SharedPref.setRegisteredPushNotifToken(true);
+    }
+
+    return res;
+  }
+
+  static Future<FirstChatResponse> firstChat(int cbId) async {
+    return FirstChatResponse.fromJson(
+      await apiManager.sendRequest(path: ApiRoutes.firstChat + '/$cbId'),
+    );
   }
 
 // static Future<BaseResponse> signOut() async {
