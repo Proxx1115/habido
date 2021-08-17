@@ -123,6 +123,12 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
         value: _genderValue,
         activeText: LocaleKeys.female,
         inactiveText: LocaleKeys.male,
+        activeColor: Colors.transparent,
+        inactiveThumbColor: Colors.transparent,
+        activeTrackColor: Colors.grey,
+        inactiveTrackColor: Colors.grey,
+        activeAsset: Assets.female,
+        inactiveAsset: Assets.male,
         onChanged: (value) {
           _genderValue = value;
         },

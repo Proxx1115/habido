@@ -26,9 +26,13 @@ class Assets {
   static const String app_icon_name = 'assets/images/auth/app_icon_name.svg';
   static const String auth_success = 'assets/images/auth/auth_success.png';
 
+  /// Profile
+  static const String male = 'assets/images/profile/male.png';
+  static const String female = 'assets/images/profile/female.png';
+
   /// Test
-  static const String male = 'assets/images/test/male.png';
-  static const String female = 'assets/images/test/female.png';
+// static const String test_male = 'assets/images/test/male.png';
+// static const String test_female = 'assets/images/test/female.png';
 
   /// Home
 // static const String cardAsset1 = 'assets/images/home/dashboard_icon_1.png';
