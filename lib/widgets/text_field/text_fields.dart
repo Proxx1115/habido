@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/containers.dart';
 
 enum CustomTextFieldStyle {
   primary, // White
@@ -117,18 +118,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget? _suffixIcon() {
     if (widget.alwaysVisibleSuffix || _focusNode.hasFocus) {
       // Show suffix icon
-      return IconButton(
-        icon: SvgPicture.asset(_suffixAsset, fit: BoxFit.scaleDown),
-        onPressed: () {
-          if (widget.onPressedSuffix != null) {
-            widget.onPressedSuffix!();
-          } else if (widget.obscureText) {
-            setState(() {
-              _obscureText = !_obscureText;
-              _suffixAsset = _obscureText ? Assets.obscure_hidden : Assets.obscure_hidden; // todo test - change obscure icon
-            });
-          }
-        },
+      return NoSplashContainer(
+        child: IconButton(
+          icon: SvgPicture.asset(_suffixAsset, fit: BoxFit.scaleDown),
+          onPressed: () {
+            if (widget.onPressedSuffix != null) {
+              widget.onPressedSuffix!();
+            } else if (widget.obscureText) {
+              setState(() {
+                _obscureText = !_obscureText;
+                _suffixAsset = _obscureText ? Assets.obscure_hidden : Assets.obscure_hidden; // todo test - change obscure icon
+              });
+            }
+          },
+        ),
       );
     } else {
       return null;

@@ -16,12 +16,16 @@ class CustomDatePicker extends StatefulWidget {
   final Function(DateTime) onSelectedDate;
   final String? hintText;
   final EdgeInsets? margin;
+  final DateTime? firstDate;
+  final DateTime? lastDate;
 
   const CustomDatePicker({
     Key? key,
     required this.onSelectedDate,
     this.hintText,
     this.margin = EdgeInsets.zero,
+    this.firstDate,
+    this.lastDate,
   }) : super(key: key);
 
   @override
@@ -91,8 +95,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     _selectedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(1900, 8),
-      lastDate: DateTime(2101),
+      firstDate: widget.firstDate ?? DateTime(1900),
+      lastDate: widget.lastDate ?? DateTime(2100),
     );
 
     setState(() {

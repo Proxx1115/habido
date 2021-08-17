@@ -9,6 +9,7 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/date_picker.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -28,7 +29,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   // UI
   final _signUp3ProfileKey = GlobalKey<ScaffoldState>();
   double _maxHeight = 0.0;
-  double _minHeight = 500; //458
+  double _minHeight = 600;
 
   // Төрсөн огноо
   DateTime? _selectedBirthDate;
@@ -40,6 +41,14 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   // Хүйс
   bool _genderValue = false;
 
+  // Нууц үг
+  final _passController = TextEditingController();
+  final _passFocus = FocusNode();
+
+  // Нууц үг давтах
+  final _passRepeatController = TextEditingController();
+  final _passRepeatFocus = FocusNode();
+
   // Button next
   bool _enabledBtnNext = false;
 
@@ -47,6 +56,8 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   void initState() {
     super.initState();
     _nameController.addListener(() => _validateForm());
+    _passController.addListener(() => _validateForm());
+    _passRepeatController.addListener(() => _validateForm());
   }
 
   @override
@@ -58,6 +69,8 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.height);
+
     return CustomScaffold(
       scaffoldKey: _signUp3ProfileKey,
       appBarTitle: LocaleKeys.yourRegistration,
@@ -83,6 +96,20 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
                 /// Хүйс
                 _genderSwitch(),
 
+                /// Нэвтрэх нууц үг үүсгэнэ үү
+                CustomText(
+                  LocaleKeys.createPassword,
+                  alignment: Alignment.center,
+                  maxLines: 2,
+                  margin: EdgeInsets.only(top: 35.0),
+                ),
+
+                /// Нууц үг
+                _passwordTextField(),
+
+                /// Нууц үг давтах
+                _passwordRepeatTextField(),
+
                 Expanded(child: Container()),
 
                 /// Button next
@@ -100,7 +127,10 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     return CustomDatePicker(
       hintText: LocaleKeys.birthDate,
       margin: EdgeInsets.only(top: 35.0),
+      lastDate: DateTime.now(),
       onSelectedDate: (date) {
+        print(date);
+
         _selectedBirthDate = date;
         _validateForm();
       },
@@ -136,9 +166,32 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     );
   }
 
+  _passwordTextField() {
+    return CustomTextField(
+      controller: _passController,
+      focusNode: _passFocus,
+      hintText: LocaleKeys.password,
+      obscureText: true,
+      margin: EdgeInsets.only(top: 35.0),
+    );
+  }
+
+  _passwordRepeatTextField() {
+    return CustomTextField(
+      controller: _passRepeatController,
+      focusNode: _passRepeatFocus,
+      hintText: LocaleKeys.passwordRepeat,
+      obscureText: true,
+      margin: EdgeInsets.only(top: 15.0),
+    );
+  }
+
   _validateForm() {
     setState(() {
-      _enabledBtnNext = _selectedBirthDate != null && _nameController.text.length > 0;
+      _enabledBtnNext = _selectedBirthDate != null &&
+          _nameController.text.length > 0 &&
+          _passController.text.length > 0 &&
+          _passRepeatController.text.length > 0;
     });
   }
 
@@ -146,18 +199,25 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     return CustomButton(
       style: CustomButtonStyle.Secondary,
       asset: Assets.long_arrow_next,
+      margin: EdgeInsets.only(top: 35.0),
       onPressed: _enabledBtnNext
           ? () {
+              // Validation
+              if (_passController.text != _passRepeatController.text) {
+                showCustomDialog(
+                  context,
+                  child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, button1Text: LocaleKeys.ok),
+                );
+
+                return;
+              }
+
               VerifyCodeRequest verifyCodeRequest = widget.verifyCodeRequest;
               verifyCodeRequest
                 ..birthday = Func.dateToStr(_selectedBirthDate!)
                 ..firstName = _nameController.text
-                ..gender = _genderValue ? Gender.Female : Gender.Female;
-
-              // todo test
-              verifyCodeRequest.password = '123qwe';
-              // verifyCodeRequest.birthday = '1900-08-17T03:07:46.015Z';
-              verifyCodeRequest.birthday = '1900-01-01';
+                ..gender = _genderValue ? Gender.Female : Gender.Female
+                ..password = _passController.text;
 
               Navigator.pushNamed(context, Routes.signUp4Terms, arguments: {
                 'verifyCodeRequest': verifyCodeRequest,

@@ -150,6 +150,12 @@ class LocaleKeys {
 
   static String get beginTogether => 'Хамтдаа аяллаа эхлүүлцгээе.';
 
+  static String get createPassword => 'Нэвтрэх нууц үг үүсгэнэ үү.';
+
+  static String get passwordRepeat => 'Нууц үг давтах';
+
+  static String get passwordsDoesNotMatch => 'Нууц үгээ зөв давтан оруулна уу!';
+
 // static String get lastName => 'Овог';
 
 // static String get firstName => 'Нэр';
@@ -159,12 +165,9 @@ class LocaleKeys {
 // static String get termCondNotFound => 'Вэб холбоос олдсонгүй';
 //
 // static String get passwordNew => 'Шинэ нууц үг';
-//
-// static String get passwordRepeat => 'Нууц үг давтах';
-//
+
 // static String get regNo => 'Регистрийн дугаар';
 //
-// static String get passwordError => 'Нууц үгээ дахин шалгана уу';
 
   /// Settings
 

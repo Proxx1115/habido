@@ -104,7 +104,7 @@ class _SignUp5SuccessRouteState extends State<SignUp5SuccessRoute> {
                   ..username = widget.verifyCodeRequest.phoneNumber
                   ..password = widget.verifyCodeRequest.password
                   ..isBiometric = false
-                  ..deviceId = '';
+                  ..deviceId = ''; // todo test
 
                 BlocManager.authBloc.add(LoginEvent(request));
 
