@@ -3,6 +3,7 @@ class Assets {
   static const String appIcon = 'assets/images/global/app_icon.svg';
   static const String close = 'assets/images/global/close.svg';
   static const String error = 'assets/images/global/error.svg';
+  static const String warning = 'assets/images/global/warning.svg';
   static const String check = 'assets/images/global/check.svg';
   static const String success = 'assets/images/global/success.svg';
   static const String clear = 'assets/images/global/clear.svg';

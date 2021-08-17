@@ -105,10 +105,11 @@ class _LoginRouteState extends State<LoginRoute> {
       SharedPref.setPhoneNumber(_phoneNumberController.text);
 
       if (globals.userData?.isOnboardingDone ?? false) {
-        // First chat
-        Navigator.pushNamed(context, Routes.habidoHelper);
-      } else {
+        /// Go to home
         Navigator.pushNamed(context, Routes.home);
+      } else {
+        /// Go to chat
+        Navigator.pushNamed(context, Routes.habidoHelper);
       }
     } else if (state is LoginFailed) {
       showCustomDialog(

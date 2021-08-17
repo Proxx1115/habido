@@ -119,11 +119,11 @@ class LocaleKeys {
 
   static String get recover => 'Сэргээх';
 
-  // static String get logout => 'Гарах';
-  //
-  // static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
-  //
-  // static String get sessionExpired => 'Холболт салсан байна. Дахин нэвтэрнэ үү.';
+  static String get logout => 'Гарах';
+
+  static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
+
+  static String get sessionExpired => 'Холболт салсан байна. Дахин нэвтэрнэ үү.';
 
   ///
   /// Sign up

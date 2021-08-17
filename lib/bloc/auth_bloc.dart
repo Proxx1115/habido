@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/login_request.dart';
@@ -8,10 +9,12 @@ import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_router.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
 import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -61,6 +64,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       yield AuthLoading();
 
+      yield LoginFailed(LocaleKeys.failed);
+      return;
+
       LoginResponse res = await ApiRouter.login(request);
       if (res.code == ResponseCode.Success) {
         /// Session хадгалах
@@ -86,6 +92,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static Future afterLogin() async {
     DeviceHelper.registerDeviceToken();
   }
+
+  /// Logout
+  static showLogoutDialog(BuildContext context) {
+    // showCustomDialog(
+    //   context,
+    //   child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+    // );
+
+    // showCustomDialog(
+    //   context,
+    //   bodyText: AppText.sureToLogout,
+    //   btnNegativeText: AppText.no,
+    //   btnPositiveText: AppText.yes,
+    //   onPressedBtnPositive: () {
+    //     logout();
+    //     Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
+    //   },
+    // );
+  }
+
+  // static Future<void> logout() async {
+  //   ApiManager.signOut();
+  //
+  //   // Session устгах
+  //   SharedPrefManager.clearSessionToken();
+  //
+  //   // Clear user data
+  //   globals.clear();
+  // }
+  //
+  // static void handleUserInteraction(AppState state) {
+  //   if (Func.isNotEmpty(globals.sessionToken)) {
+  //     //
+  //   }
+  // }
 
   Stream<AuthState> _mapSignUpEventToState(SignUpRequest request) async* {
     try {

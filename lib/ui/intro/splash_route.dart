@@ -45,6 +45,9 @@ class _SplashRouteState extends State<SplashRoute> {
         //
       }
 
+      // todo test
+      // check version
+
       //   var buildVersion = await DeviceHelper.getBuildNumber();
       //   _showDialogUpdate('https://play.google.com/store/apps/details?id=mn.fr099y.optimal');
       //

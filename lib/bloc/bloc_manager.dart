@@ -5,18 +5,21 @@ import 'package:habido_app/bloc/param_bloc.dart';
 
 import 'auth_bloc.dart';
 import 'chat_bloc.dart';
+import 'home_bloc.dart';
 
 class BlocManager {
   static final mainBloc = MainBloc();
   static final authBloc = AuthBloc();
   static final paramBloc = ParamBloc();
   static final chatBloc = ChatBloc();
+  static final homeBloc = HomeBloc();
 
   static void dispose() {
     mainBloc.close();
     authBloc.close();
     paramBloc.close();
     chatBloc.close();
+    homeBloc.close();
   }
 }
 

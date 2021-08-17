@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/first_chat_request.dart';
 import 'package:habido_app/models/first_chat_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
@@ -97,9 +98,12 @@ class ApiRouter {
     return res;
   }
 
-  static Future<FirstChatResponse> firstChat(int cbId) async {
+  static Future<FirstChatResponse> firstChat(FirstChatRequest request) async {
     return FirstChatResponse.fromJson(
-      await apiManager.sendRequest(path: ApiRoutes.firstChat + '/$cbId'),
+      await apiManager.sendRequest(
+        path: ApiRoutes.firstChat,
+        objectData: request,
+      ),
     );
   }
 

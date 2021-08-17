@@ -36,15 +36,17 @@ class DeviceHelper {
 
   /// Register device
   static void registerDeviceToken() async {
+    DeviceHelper.pushNotifToken = 'Test token'; // todo test
+
     // Validation
-    if (Func.isEmpty(DeviceHelper.deviceId) && Func.isEmpty(DeviceHelper.pushNotifToken)) {
+    if (Func.isEmpty(DeviceHelper.deviceId) || Func.isEmpty(DeviceHelper.pushNotifToken)) {
       print('empty');
       return;
     }
 
     bool isRegistered = SharedPref.getRegisteredPushNotifToken();
     if (isRegistered) {
-      print('Already registerd');
+      print('Already registered');
       return;
     }
 
@@ -54,7 +56,10 @@ class DeviceHelper {
       ..deviceName = DeviceHelper.deviceName
       ..appName = LocaleKeys.appName
       ..appVersion = await DeviceHelper.getAppVersion()
-      ..pushNotifToken = DeviceHelper.pushNotifToken;
+      ..pushNotifToken = DeviceHelper.pushNotifToken
+      ..expireTime = '2030-01-01' // todo test
+      // ..otherData = ''
+      ..isBiometric = false;
 
     ApiRouter.registerDevice(request);
   }

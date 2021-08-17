@@ -7,11 +7,9 @@ import 'package:habido_app/models/first_chat_response.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
-import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/app_bars.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
-import 'package:habido_app/widgets/scaffold.dart';
 
 class HabidoHelperRoute extends StatefulWidget {
   @override
@@ -56,7 +54,14 @@ class _HabidoHelperRouteState extends State<HabidoHelperRoute> {
     } else if (state is FirstChatFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          button1Text: LocaleKeys.ok,
+          onPressedButton1: () {
+            Navigator.pop(context);
+          },
+        ),
       );
     }
   }

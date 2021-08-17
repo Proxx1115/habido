@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/first_chat_request.dart';
 import 'package:habido_app/models/first_chat_response.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_router.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -23,7 +25,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       yield ChatLoading();
 
-      var res = await ApiRouter.firstChat(0);
+      // Validation
+      if (globals.param == null || globals.param?.onBoardingCbId == null) {
+        yield FirstChatFailed(LocaleKeys.noData);
+        return;
+      }
+
+      var request = FirstChatRequest()..cbId = globals.param!.onBoardingCbId!;
+      var res = await ApiRouter.firstChat(request);
       if (res.code == ResponseCode.Success) {
         yield FirstChatSuccess(res);
       } else {

@@ -6,7 +6,9 @@ import 'package:habido_app/widgets/loaders.dart';
 
 class CustomScaffold extends StatelessWidget {
   final GlobalKey<ScaffoldState>? scaffoldKey;
-  final WillPopCallback? onWillPop;
+
+  // final WillPopCallback? onWillPop;
+  final VoidCallback? onWillPop;
   final bool loading;
   final EdgeInsets padding;
   final Color? backgroundColor;
@@ -32,6 +34,7 @@ class CustomScaffold extends StatelessWidget {
         } else {
           Navigator.pop(context);
         }
+
         return Future.value(false);
       },
       child: GestureDetector(

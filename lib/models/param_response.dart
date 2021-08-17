@@ -4,8 +4,9 @@ class ParamResponse extends BaseResponse {
   List<TermsOfService>? termsOfService;
   String? iosVersion;
   String? androidVersion;
+  int? onBoardingCbId;
 
-  ParamResponse({this.termsOfService, this.iosVersion, this.androidVersion});
+  ParamResponse({this.termsOfService, this.iosVersion, this.androidVersion, this.onBoardingCbId});
 
   ParamResponse.fromJson(dynamic json) {
     parseBaseParams(json);
@@ -18,6 +19,7 @@ class ParamResponse extends BaseResponse {
     }
     iosVersion = json['iosVersion'];
     androidVersion = json['androidVersion'];
+    onBoardingCbId = json['onBoardingCbId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +29,7 @@ class ParamResponse extends BaseResponse {
     }
     map['iosVersion'] = iosVersion;
     map['androidVersion'] = androidVersion;
+    map['onBoardingCbId'] = onBoardingCbId;
     return map;
   }
 }
