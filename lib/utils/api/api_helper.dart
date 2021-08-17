@@ -13,7 +13,7 @@ class ApiHelper {
       "Connection": "Close",
       "Accept": "application/json",
       "Accept-Charset": "utf-8",
-      "Content-Type": "application/json; charset=utf-8; ",
+      "Content-Type": "application/json",
     });
 
     if (hasAuthorization && Func.isNotEmpty(SharedPref.getSessionToken())) {
@@ -87,8 +87,8 @@ class ResponseCode {
 }
 
 class HttpMethod {
-  static const POST = 'POST';
-  static const GET = 'GET';
-  static const PUT = 'PUT';
-  static const DELETE = 'DELETE';
+  static const Post = 'POST';
+  static const Get = 'GET';
+  static const Put = 'PUT';
+  static const Delete = 'DELETE';
 }

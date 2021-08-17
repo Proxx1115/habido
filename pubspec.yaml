@@ -52,6 +52,7 @@ flutter:
     - assets/images/global/
     - assets/images/intro/
     - assets/images/auth/
+    - assets/images/test/
 
   fonts:
     - family: Fira Sans Condensed

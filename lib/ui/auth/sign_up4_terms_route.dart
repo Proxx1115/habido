@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/models/sign_up_response.dart';
+import 'package:habido_app/models/verify_code_request.dart';
+import 'package:habido_app/ui/auth/terms_screen.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
-import 'package:habido_app/widgets/date_picker.dart';
+import 'package:habido_app/widgets/checkbox.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
-import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 /// Sign up step 4
 class SignUp4TermsRoute extends StatefulWidget {
-  final SignUpResponse signUpResponse;
-  final String code;
+  final VerifyCodeRequest verifyCodeRequest;
 
-  const SignUp4TermsRoute({Key? key, required this.signUpResponse, required this.code}) : super(key: key);
+  const SignUp4TermsRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
 
   @override
   _SignUp4TermsRouteState createState() => _SignUp4TermsRouteState();
@@ -26,31 +26,13 @@ class SignUp4TermsRoute extends StatefulWidget {
 
 class _SignUp4TermsRouteState extends State<SignUp4TermsRoute> {
   // UI
-  final _signUpProfileKey = GlobalKey<ScaffoldState>();
-  double _maxHeight = 0.0;
-  double _minHeight = 500; //458
+  final _signUp4TermsKey = GlobalKey<ScaffoldState>();
 
-  // Төрсөн огноо
-
-  // Нэр
-  final _nameController = TextEditingController();
-  final _nameFocus = FocusNode();
-
-  // Хүйс
+  // Agree checkbox
+  bool _checkBoxValue = false;
 
   // Button next
   bool _enabledBtnNext = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _nameController.addListener(() => _validateForm());
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +49,10 @@ class _SignUp4TermsRouteState extends State<SignUp4TermsRoute> {
 
   void _blocListener(BuildContext context, AuthState state) {
     if (state is VerifyCodeSuccess) {
-      // Navigator.pushNamed(context, Routes.verifyCode, arguments: {
-      //   'signUpResponse': state.response,
-      // });
-    } else if (state is SignUpFailed) {
+      Navigator.pushNamed(context, Routes.signUp5Success, arguments: {
+        'verifyCodeRequest': widget.verifyCodeRequest,
+      });
+    } else if (state is VerifyCodeFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
@@ -80,102 +62,68 @@ class _SignUp4TermsRouteState extends State<SignUp4TermsRoute> {
 
   Widget _blocBuilder(BuildContext context, AuthState state) {
     return CustomScaffold(
-      scaffoldKey: _signUpProfileKey,
+      scaffoldKey: _signUp4TermsKey,
       appBarTitle: LocaleKeys.yourRegistration,
-      body: LayoutBuilder(builder: (context, constraints) {
-        if (_maxHeight < constraints.maxHeight) _maxHeight = constraints.maxHeight;
-        if (_maxHeight < _minHeight) _maxHeight = _minHeight;
-
-        return SingleChildScrollView(
-          child: Container(
-            height: _maxHeight,
-            padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
-            child: Column(
-              children: [
-                /// Хувийн мэдээллээ оруулна уу
-                CustomText(LocaleKeys.enterProfile, alignment: Alignment.center, maxLines: 2),
-
-                /// Төрсөн огноо
-                _birthdayPicker(),
-
-                /// Таны нэр
-                _nameTextField(),
-
-                /// Хүйс
-                _genderSwitch(),
-
-                Expanded(child: Container()),
-
-                /// Button next
-                _buttonNext(),
-                //_enabledBtnNext
-              ],
+      body: Container(
+        padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
+        child: Column(
+          children: [
+            /// Та үйлчилгээний нөхцөлтэй танилцана уу.
+            CustomText(
+              LocaleKeys.readTerms,
+              maxLines: 2,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(bottom: 35.0),
             ),
-          ),
-        );
-      }),
+
+            /// Terms of service
+            Expanded(
+              child: ListView(
+                children: [
+                  TermsScreen(),
+                ],
+              ),
+            ),
+
+            /// Check agree
+            _checkboxAgree(),
+
+            /// Button next
+            _buttonNext(),
+            //_enabledBtnNext
+          ],
+        ),
+      ),
     );
   }
 
-  _birthdayPicker() {
-    return CustomDatePicker(
-      hintText: LocaleKeys.birthDate,
-      onSelectedDate: (date) {
-        print(date);
+  _checkboxAgree() {
+    return CustomCheckbox(
+      text: LocaleKeys.iAgree,
+      margin: EdgeInsets.only(top: 45.0, bottom: 45.0),
+      alignment: MainAxisAlignment.center,
+      onChanged: (value) {
+        _checkBoxValue = value;
+
+        _validateForm();
       },
-    );
-//     return CustomButton(
-//       text: 'test',
-//       onPressed: () async {
-//         var picked = await showDatePicker(
-//           context: context,
-//           initialDate: DateTime.now(),
-//           firstDate: DateTime(2015, 8),
-//           lastDate: DateTime(2101),
-//         );
-//
-//         print('test');
-//
-// //    if (picked != null && picked != selectedDate)
-// //      setState(() {
-// //        selectedDate = picked;
-// //      });
-//       },
-//     );
-  }
-
-  _nameTextField() {
-    return CustomTextField(
-      controller: _nameController,
-      focusNode: _nameFocus,
-      hintText: LocaleKeys.yourName,
-      margin: EdgeInsets.only(top: 15.0),
-    );
-  }
-
-  _genderSwitch() {
-    return CustomTextField(
-      controller: _nameController,
-      focusNode: _nameFocus,
-      hintText: LocaleKeys.gender,
-      margin: EdgeInsets.only(top: 15.0),
     );
   }
 
   _validateForm() {
     setState(() {
-      _enabledBtnNext = (_nameController.text.length > 0);
+      _enabledBtnNext = _checkBoxValue;
     });
   }
 
   _buttonNext() {
     return CustomButton(
       style: CustomButtonStyle.Secondary,
-      asset: Assets.arrow_next,
+      asset: Assets.long_arrow_next,
       onPressed: _enabledBtnNext
           ? () {
-        //
-      }
+              BlocManager.authBloc.add(VerifyCodeEvent(widget.verifyCodeRequest));
+            }
           : null,
     );
   }

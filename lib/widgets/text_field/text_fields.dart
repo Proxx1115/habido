@@ -14,6 +14,7 @@ class CustomTextField extends StatefulWidget {
   final CustomTextFieldStyle style;
   final TextEditingController controller;
   final FocusNode? focusNode;
+  final bool readOnly;
   final EdgeInsets margin;
   final int? maxLength;
   final TextInputType? textInputType;
@@ -31,6 +32,7 @@ class CustomTextField extends StatefulWidget {
     this.style = CustomTextFieldStyle.primary,
     required this.controller,
     this.focusNode,
+    this.readOnly = false,
     this.margin = EdgeInsets.zero,
     this.prefixAsset,
     this.hintText,
@@ -69,7 +71,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextField(
         controller: widget.controller,
         focusNode: _focusNode,
-        readOnly: true,
+        readOnly: widget.readOnly,
         decoration: InputDecoration(
           border: _border,
           focusedBorder: _border,
@@ -82,7 +84,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           hintStyle: TextStyle(fontSize: widget.fontSize, color: customColors.secondaryText),
           suffixIcon: _suffixIcon(),
           counterText: '',
-          contentPadding: EdgeInsets.fromLTRB(18.0, 16.0, 18.0, 16.0),
+          contentPadding: SizeHelper.boxPadding,
         ),
         style: TextStyle(color: _textColor, fontSize: widget.fontSize, fontWeight: _fontWeight),
         keyboardType: widget.textInputType,

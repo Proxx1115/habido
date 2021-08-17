@@ -13,6 +13,8 @@ class SizeHelper {
 
   static const double boxHeight = 50.0;
 
+  static const boxPadding = EdgeInsets.fromLTRB(18.0, 16.0, 18.0, 16.0);
+
   /// Screen
   static const paddingScreen = EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.marginTop, SizeHelper.margin, SizeHelper.marginBottom);
   static const double heightStatusBar = 20.0;

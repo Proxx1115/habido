@@ -4,7 +4,6 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
-import 'package:habido_app/widgets/text.dart';
 
 // ignore: must_be_immutable
 class CustomCheckbox extends StatefulWidget {
@@ -16,6 +15,7 @@ class CustomCheckbox extends StatefulWidget {
   Color? textColor;
   Color? unselectedWidgetColor;
   final EdgeInsets margin;
+  final MainAxisAlignment alignment;
 
   CustomCheckbox({
     this.text = '',
@@ -26,6 +26,7 @@ class CustomCheckbox extends StatefulWidget {
     this.textColor,
     this.unselectedWidgetColor,
     this.margin = EdgeInsets.zero,
+    this.alignment = MainAxisAlignment.start,
   });
 
   @override
@@ -51,6 +52,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
     if (!Func.isEmpty(widget.text)) {
       /// Has text
       Widget checkBoxListTile = Row(
+        mainAxisAlignment: widget.alignment,
         children: [
           SizedBox(
             height: size,

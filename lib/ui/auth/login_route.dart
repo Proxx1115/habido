@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/login_request.dart';
+import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
 import 'package:habido_app/utils/func.dart';
@@ -13,11 +14,11 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/app_bars.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/hero.dart';
-import 'package:habido_app/widgets/loaders.dart';
+import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 class LoginRoute extends StatefulWidget {
@@ -70,7 +71,7 @@ class _LoginRouteState extends State<LoginRoute> {
 
     // todo test
     _phoneNumberController.text = '88989800';
-    _passwordController.text = '123456';
+    _passwordController.text = '123qwe';
   }
 
   @override
@@ -95,108 +96,102 @@ class _LoginRouteState extends State<LoginRoute> {
     if (state is SetBiometrics) {
       _canCheckBiometrics = state.canCheckBiometrics;
       _availableBiometrics = state.availableBiometricsCount;
-    }
+    } else if (state is LoginSuccess) {
+      // globals.sessionToken = state.response.token;
+      //
+      // SharedPref.saveBiometricAuth(_phoneController.text);
+      // if (!_loginByBiometric) SharedPref.savePassword(_useBiometric ? _passwordController.text : "");
+      // SharedPref.saveUseBiometrics(_useBiometric);
+      //
+      // _passwordController.text = '';
+      //
+      // _loginByBiometric = false;
 
-    // else if (state is LoginSuccess) {
-    //   globals.sessionToken = state.response.token;
-    //
-    //   SharedPref.saveBiometricAuth(_phoneController.text);
-    //   if (!_loginByBiometric) SharedPref.savePassword(_useBiometric ? _passwordController.text : "");
-    //   SharedPref.saveUseBiometrics(_useBiometric);
-    //
-    //   _passwordController.text = '';
-    //
-    //   _loginByBiometric = false;
-    //   Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false);
-    // }
-    // else if (state is LoginFailed) {
-    //   _loginByBiometric = false;
-    //
-    //   showCustomDialog(context,
-    //       bodyText: state.message, dialogType: DialogType.warning, onPressedBtnPositive: () {}, btnPositiveText: CustomText.ok);
-    // }
+      // Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false);
+
+      Navigator.pushNamed(context, Routes.home);
+    } else if (state is LoginFailed) {
+      // _loginByBiometric = false;
+
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+      );
+    }
   }
 
   Widget _blocBuilder(BuildContext context, AuthState state) {
-    return BlurLoadingContainer(
+    return CustomScaffold(
+      scaffoldKey: _loginKey,
       loading: state is AuthLoading,
-      child: Scaffold(
-        key: _loginKey,
-        appBar: AppBarEmpty(context: context),
-        backgroundColor: customColors.primaryBackground,
-        body: GestureDetector(
-          onTap: () {
-            Func.hideKeyboard(context);
-          },
-          child: LayoutBuilder(builder: (context, constraints) {
-            if (_maxHeight < constraints.maxHeight) _maxHeight = constraints.maxHeight;
-            if (_maxHeight < SizeHelper.minHeightScreen) _maxHeight = SizeHelper.minHeightScreen;
+      backgroundColor: customColors.primaryBackground,
+      body: LayoutBuilder(builder: (context, constraints) {
+        if (_maxHeight < constraints.maxHeight) _maxHeight = constraints.maxHeight;
+        if (_maxHeight < SizeHelper.minHeightScreen) _maxHeight = SizeHelper.minHeightScreen;
 
-            return SingleChildScrollView(
-              child: Container(
-                height: _maxHeight,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(child: Container(), flex: 25),
+        return SingleChildScrollView(
+          child: Container(
+            height: _maxHeight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Container(), flex: 25),
 
-                    /// Logo
-                    _logo(),
+                /// Logo
+                _logo(),
 
-                    Expanded(child: Container(), flex: 25),
+                Expanded(child: Container(), flex: 25),
 
-                    Container(
-                      padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
-                      decoration: BoxDecoration(
-                        color: customColors.secondaryBackground,
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-                      ),
-                      child: Column(
+                Container(
+                  padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
+                  decoration: BoxDecoration(
+                    color: customColors.secondaryBackground,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                  ),
+                  child: Column(
+                    children: [
+                      /// Утасны дугаар
+                      _txtboxPhoneNumber(),
+
+                      /// Нууц үг
+                      _txtboxPassword(),
+
+                      // _chkboxBiometric(),
+
+                      SizedBox(height: 30.0),
+
+                      Row(
                         children: [
-                          /// Утасны дугаар
-                          _txtboxPhoneNumber(),
-
-                          /// Нууц үг
-                          _txtboxPassword(),
-
-                          // _chkboxBiometric(),
-
-                          SizedBox(height: 30.0),
-
-                          Row(
-                            children: [
-                              Expanded(
-                                /// Нэвтрэх button
-                                child: _btnLogin(),
-                              ),
-
-                              /// Finger print button
-                              _btnBiometrics(),
-                            ],
+                          Expanded(
+                            /// Нэвтрэх button
+                            child: _btnLogin(),
                           ),
 
-                          MarginVertical(height: 25.0),
-
-                          /// Button - Нууц үг мартсан уу? Сэргээх
-                          _btnForgotPass(),
+                          /// Finger print button
+                          _btnBiometrics(),
                         ],
                       ),
-                    ),
 
-                    Expanded(
-                      child: Container(color: customColors.secondaryBackground),
-                      flex: 25,
-                    ),
+                      MarginVertical(height: 25.0),
 
-                    /// Button - Та бүртгэлтэй юу? Бүртгүүлэх
-                    _btnSignUp(),
-                  ],
+                      /// Button - Нууц үг мартсан уу? Сэргээх
+                      _btnForgotPass(),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
-        ),
-      ),
+
+                Expanded(
+                  child: Container(color: customColors.secondaryBackground),
+                  flex: 25,
+                ),
+
+                /// Button - Та бүртгэлтэй юу? Бүртгүүлэх
+                _btnSignUp(),
+              ],
+            ),
+          ),
+        );
+      }),
     );
   }
 
@@ -263,11 +258,13 @@ class _LoginRouteState extends State<LoginRoute> {
     return CustomButton(
       text: LocaleKeys.login,
       onPressed: () {
-        if (_isEnabledBtnLogin) return;
+        if (!_isEnabledBtnLogin) return;
 
         LoginRequest request = LoginRequest();
         request.username = _phoneNumberController.text;
         request.password = _passwordController.text;
+        request.isBiometric = false;
+        request.deviceId = 'Emulator iPhone 12';
 
         BlocManager.authBloc.add(LoginEvent(request));
       },

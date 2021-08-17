@@ -91,7 +91,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     _selectedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2015, 8),
+      firstDate: DateTime(1900, 8),
       lastDate: DateTime(2101),
     );
 

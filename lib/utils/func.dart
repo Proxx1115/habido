@@ -114,14 +114,19 @@ class Func {
     return formattedDate; //trim(str.split(" ")[0]);
   }
 
-  static String toDateStr(String str) {
-    // Datetime string-ийг форматлаад буцаана '2019.01.01T15:13:00.000' to '2019.01.01'
-    if (isEmpty(str)) return '';
+  // static String toDateStr(String str) {
+  //   // Datetime string-ийг форматлаад буцаана '2019.01.01T15:13:00.000' to '2019.01.01'
+  //   if (isEmpty(str)) return '';
+  //
+  //   DateTime dateTime = DateTime.parse(str);
+  //   String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+  //
+  //   return formattedDate; //trim(str.split(" ")[0]);
+  // }
 
-    DateTime dateTime = DateTime.parse(str);
+  static String dateToStr(DateTime dateTime) {
     String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
-
-    return formattedDate; //trim(str.split(" ")[0]);
+    return formattedDate;
   }
 
   /// Can return null value

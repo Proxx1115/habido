@@ -7,12 +7,10 @@ import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
-import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/api/api_router.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
-import 'package:habido_app/widgets/text.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -28,9 +26,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is LoginEvent) {
       yield* _mapLoginEventToState(event.request);
     } else if (event is SignUpEvent) {
-      yield* _mapSignUpToState(event.request);
+      yield* _mapSignUpEventToState(event.request);
     } else if (event is VerifyCodeEvent) {
-      yield* _mapVerifyCodeToState(event.request);
+      yield* _mapVerifyCodeEventToState(event.request);
     }
 
     //else if (event is ForgotPass) {
@@ -68,14 +66,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         SharedPref.saveSessionToken(res.token!);
 
         /// Get user data
-        // var userDataResponse = await ApiRouter.getUserData();
-        // if (userDataResponse.code == ResponseCode.Success) {
-        //   await afterLogin();
-        //
-        //   yield LoginSuccess(res);
-        // } else {
-        //   yield LoginFailed(res.message);
-        // }
+        var userData = await ApiRouter.getUserData();
+        if (userData.code == ResponseCode.Success) {
+          await afterLogin();
+
+          yield LoginSuccess(res);
+        } else {
+          yield LoginFailed(res.message ?? LocaleKeys.failed);
+        }
       } else {
         yield LoginFailed(res.message ?? LocaleKeys.failed);
       }
@@ -85,20 +83,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   static Future afterLogin() async {
+    // todo test
     // ApiManager.getParam();
     // ApiManager.custPhotos();
     // DeviceHelper.registerDeviceToken();
   }
 
-  Stream<AuthState> _mapSignUpToState(SignUpRequest request) async* {
+  Stream<AuthState> _mapSignUpEventToState(SignUpRequest request) async* {
     try {
       yield AuthLoading();
-
-      // todo test
-      var ress = SignUpResponse();
-      ress.userId = 1;
-      yield SignUpSuccess(ress);
-      return;
 
       var res = await ApiRouter.signUp(request);
       if (res.code == ResponseCode.Success) {
@@ -111,9 +104,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapVerifyCodeToState(VerifyCodeRequest request) async* {
+  Stream<AuthState> _mapVerifyCodeEventToState(VerifyCodeRequest request) async* {
     try {
       yield AuthLoading();
+
+      // todo test
+      // yield VerifyCodeSuccess();
+      // return;
+
       var res = await ApiRouter.verifyCode(request);
       if (res.code == ResponseCode.Success) {
         yield VerifyCodeSuccess();
@@ -204,7 +202,7 @@ class SignUpEvent extends AuthEvent {
   List<Object> get props => [request];
 
   @override
-  String toString() => 'SignUp { request: $request }';
+  String toString() => 'SignUpEvent { request: $request }';
 }
 
 class VerifyCodeEvent extends AuthEvent {

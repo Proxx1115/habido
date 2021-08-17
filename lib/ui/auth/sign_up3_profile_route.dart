@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/bloc/auth_bloc.dart';
-import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/gender.dart';
-import 'package:habido_app/models/sign_up_response.dart';
+import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/date_picker.dart';
-import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -18,10 +16,9 @@ import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 /// Sign up step 3
 class SignUp3ProfileRoute extends StatefulWidget {
-  final SignUpResponse signUpResponse;
-  final String code;
+  final VerifyCodeRequest verifyCodeRequest;
 
-  const SignUp3ProfileRoute({Key? key, required this.signUpResponse, required this.code}) : super(key: key);
+  const SignUp3ProfileRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
 
   @override
   _SignUp3ProfileRouteState createState() => _SignUp3ProfileRouteState();
@@ -29,7 +26,7 @@ class SignUp3ProfileRoute extends StatefulWidget {
 
 class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   // UI
-  final _signUpProfileKey = GlobalKey<ScaffoldState>();
+  final _signUp3ProfileKey = GlobalKey<ScaffoldState>();
   double _maxHeight = 0.0;
   double _minHeight = 500; //458
 
@@ -42,7 +39,6 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
 
   // Хүйс
   bool _genderValue = false;
-  String _genderText = Gender.Male;
 
   // Button next
   bool _enabledBtnNext = false;
@@ -55,38 +51,15 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
 
   @override
   void dispose() {
+    _nameController.dispose();
+    _nameFocus.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: BlocManager.authBloc,
-      child: BlocListener<AuthBloc, AuthState>(
-        listener: _blocListener,
-        child: BlocBuilder<AuthBloc, AuthState>(
-          builder: _blocBuilder,
-        ),
-      ),
-    );
-  }
-
-  void _blocListener(BuildContext context, AuthState state) {
-    if (state is VerifyCodeSuccess) {
-      // Navigator.pushNamed(context, Routes.verifyCode, arguments: {
-      //   'signUpResponse': state.response,
-      // });
-    } else if (state is SignUpFailed) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
-      );
-    }
-  }
-
-  Widget _blocBuilder(BuildContext context, AuthState state) {
     return CustomScaffold(
-      scaffoldKey: _signUpProfileKey,
+      scaffoldKey: _signUp3ProfileKey,
       appBarTitle: LocaleKeys.yourRegistration,
       body: LayoutBuilder(builder: (context, constraints) {
         if (_maxHeight < constraints.maxHeight) _maxHeight = constraints.maxHeight;
@@ -109,10 +82,6 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
 
                 /// Хүйс
                 _genderSwitch(),
-
-                TextField(
-                  controller: TextEditingController(),
-                ),
 
                 Expanded(child: Container()),
 
@@ -170,10 +139,23 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   _buttonNext() {
     return CustomButton(
       style: CustomButtonStyle.Secondary,
-      asset: Assets.arrow_next,
+      asset: Assets.long_arrow_next,
       onPressed: _enabledBtnNext
           ? () {
-              //
+              VerifyCodeRequest verifyCodeRequest = widget.verifyCodeRequest;
+              verifyCodeRequest
+                ..birthday = Func.dateToStr(_selectedBirthDate!)
+                ..firstName = _nameController.text
+                ..gender = _genderValue ? Gender.Female : Gender.Female;
+
+              // todo test
+              verifyCodeRequest.password = '123qwe';
+              // verifyCodeRequest.birthday = '1900-08-17T03:07:46.015Z';
+              verifyCodeRequest.birthday = '1900-01-01';
+
+              Navigator.pushNamed(context, Routes.signUp4Terms, arguments: {
+                'verifyCodeRequest': verifyCodeRequest,
+              });
             }
           : null,
     );

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
+import 'package:habido_app/bloc/param_bloc.dart';
 
 import 'auth_bloc.dart';
 
 class BlocManager {
-  static final MainBloc mainBloc = MainBloc();
-  static final AuthBloc authBloc = AuthBloc();
+  static final mainBloc = MainBloc();
+  static final authBloc = AuthBloc();
+  static final paramBloc = ParamBloc();
 
   static void dispose() {
     mainBloc.close();
     authBloc.close();
+    paramBloc.close();
   }
 }
 

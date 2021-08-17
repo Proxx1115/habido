@@ -142,12 +142,18 @@ class LocaleKeys {
 
   static String get gender => 'Хүйс';
 
+  static String get iAgree => 'Би зөвшөөрч байна';
+
+  static String get termsOfService => 'Үйлчилгээний нөхцөл';
+
+  static String get readTerms => 'Та үйлчилгээний нөхцөлтэй танилцана уу.';
+
+  static String get beginTogether => 'Хамтдаа аяллаа эхлүүлцгээе.';
+
 // static String get lastName => 'Овог';
 
 // static String get firstName => 'Нэр';
 
-// static String get terms => 'Үйлчилгээний нөхцөл';
-//
 // static String get agreeTerms => 'Зөвшөөрөх';
 //
 // static String get termCondNotFound => 'Вэб холбоос олдсонгүй';

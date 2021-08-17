@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/models/sign_up_response.dart';
+import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -12,9 +12,9 @@ import 'package:habido_app/widgets/text.dart';
 
 /// Sign up step 2
 class SignUp2CodeRoute extends StatefulWidget {
-  final SignUpResponse signUpResponse;
+  final VerifyCodeRequest verifyCodeRequest;
 
-  const SignUp2CodeRoute({Key? key, required this.signUpResponse}) : super(key: key);
+  const SignUp2CodeRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
 
   @override
   _SignUp2CodeRouteState createState() => _SignUp2CodeRouteState();
@@ -22,7 +22,7 @@ class SignUp2CodeRoute extends StatefulWidget {
 
 class _SignUp2CodeRouteState extends State<SignUp2CodeRoute> {
   // UI
-  final _verifyCodeKey = GlobalKey<ScaffoldState>();
+  final _signUp2CodeKey = GlobalKey<ScaffoldState>();
 
   // Code input
   String? _code = '';
@@ -33,7 +33,7 @@ class _SignUp2CodeRouteState extends State<SignUp2CodeRoute> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      scaffoldKey: _verifyCodeKey,
+      scaffoldKey: _signUp2CodeKey,
       appBarTitle: LocaleKeys.yourRegistration,
       padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
       body: Column(
@@ -66,6 +66,8 @@ class _SignUp2CodeRouteState extends State<SignUp2CodeRoute> {
         _validateForm();
 
         Func.hideKeyboard(context);
+
+        _onPressedBtnNext();
       },
     );
   }
@@ -79,15 +81,23 @@ class _SignUp2CodeRouteState extends State<SignUp2CodeRoute> {
   _buttonNext() {
     return CustomButton(
       style: CustomButtonStyle.Secondary,
-      asset: Assets.arrow_next,
+      asset: Assets.long_arrow_next,
       onPressed: _enabledBtnNext
           ? () {
-              Navigator.pushNamed(context, Routes.signUp3Profile, arguments: {
-                'signUpResponse': widget.signUpResponse,
-                'code': _code,
-              });
+              _onPressedBtnNext();
             }
           : null,
     );
+  }
+
+  _onPressedBtnNext() {
+    if (!_enabledBtnNext) return;
+
+    VerifyCodeRequest verifyCodeRequest = widget.verifyCodeRequest;
+    verifyCodeRequest.code = _code;
+
+    Navigator.pushNamed(context, Routes.signUp3Profile, arguments: {
+      'verifyCodeRequest': verifyCodeRequest,
+    });
   }
 }

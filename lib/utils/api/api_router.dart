@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
+import 'package:habido_app/models/param_response.dart';
 import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
+import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/models/verify_code_request.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'api_helper.dart';
 import 'api_manager.dart';
 import 'api_routes.dart';
@@ -18,9 +22,9 @@ class ApiRouter {
     ));
   }
 
-  static Future<SignUpResponse> verifyCode(VerifyCodeRequest request) async {
-    return SignUpResponse.fromJson(await apiManager.sendRequest(
-      path: ApiRoutes.signUp,
+  static Future<BaseResponse> verifyCode(VerifyCodeRequest request) async {
+    return BaseResponse.fromJson(await apiManager.sendRequest(
+      path: ApiRoutes.verifyCode,
       objectData: request,
       hasAuthorization: false,
     ));
@@ -36,6 +40,27 @@ class ApiRouter {
       path: ApiRoutes.signIn,
       headers: headers,
       objectData: request,
+    ));
+  }
+
+  /// Check session
+  static Future<UserData> getUserData() async {
+    var res = UserData.fromJson(await apiManager.sendRequest(
+      path: ApiRoutes.checkSession,
+      httpMethod: HttpMethod.Get,
+    ));
+
+    if (res.code == ResponseCode.Success) globals.userData = res;
+
+    return res;
+  }
+
+  /// Param
+  static Future<ParamResponse> param() async {
+    return ParamResponse.fromJson(await apiManager.sendRequest(
+      path: ApiRoutes.param,
+      httpMethod: HttpMethod.Get,
+      hasAuthorization: false,
     ));
   }
 
@@ -80,19 +105,7 @@ class ApiRouter {
 //
 //   return res;
 // }
-//
-// /// Check session
-// static Future<UserData> getUserData() async {
-//   // Req
-//   var res = UserData.fromJson(
-//     (await apiManager.sendRequest(
-//       route: ApiRoutes.checkSession,
-//       httpMethod: HttpMethod.Get,
-//       requestData: BaseRequest(),
-//     ))
-//         .data,
-//   );
-//
+
 //   try {
 //     // Res
 //     if (res.code == ResponseCode.Success) {

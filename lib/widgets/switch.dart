@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class CustomSwitch extends StatefulWidget {
@@ -71,13 +72,38 @@ class _CustomSwitchState extends State<CustomSwitch> {
   Widget _switch() {
     return Theme(
       data: Theme.of(context).copyWith(
-        // primaryColor: Colors.transparent,
-        // unselectedWidgetColor: widget.unselectedWidgetColor ?? customColors.primary,
-        // splashColor: Colors.transparent,
-        // highlightColor: Colors.transparent,
-      ),
+          // primaryColor: Colors.transparent,
+          // unselectedWidgetColor: widget.unselectedWidgetColor ?? customColors.primary,
+          // splashColor: Colors.transparent,
+          // highlightColor: Colors.transparent,
+          ),
       child: Switch(
         value: _value,
+        activeColor: Colors.transparent,
+        activeTrackColor: Colors.grey,
+        activeThumbImage: AssetImage(Assets.male),
+        inactiveThumbColor: Colors.transparent,
+        inactiveTrackColor: Colors.grey,
+        inactiveThumbImage: AssetImage(Assets.female),
+
+        //Image.asset(Assets.username),
+        // onActiveThumbImageError: Colors.red,
+        // this.inactiveThumbImage,
+        // this.onInactiveThumbImageError,
+
+        // thumbColor: Colors.red,
+        // trackColor: Colors.red,
+
+        // this.materialTapTargetSize,
+        // this.dragStartBehavior = DragStartBehavior.start,
+        // this.mouseCursor,
+        // focusColor: Colors.orange,
+        // hoverColor: Colors.brown,
+
+        // overlayColor: Colors.red,
+
+        // this.splashRadius,
+        // this.focusNode,
         onChanged: (newValue) {
           setState(() {
             _value = newValue;

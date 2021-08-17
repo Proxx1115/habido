@@ -27,7 +27,7 @@ class ApiManager {
     /// Base
     String url = ApiHelper.baseUrl,
     required String path,
-    String httpMethod = HttpMethod.POST,
+    String httpMethod = HttpMethod.Post,
     Map<String, String>? headers,
     bool hasAuthorization = true,
 
@@ -84,13 +84,13 @@ class ApiManager {
 
       /// Send request
       switch (httpMethod) {
-        case HttpMethod.GET:
+        case HttpMethod.Get:
           response = await _client.get(path, queryParameters: queryParameters);
           break;
 
-        case HttpMethod.PUT:
-        case HttpMethod.DELETE:
-        case HttpMethod.POST:
+        case HttpMethod.Put:
+        case HttpMethod.Delete:
+        case HttpMethod.Post:
         default:
           response = await _client.post(path, data: requestBody);
           break;

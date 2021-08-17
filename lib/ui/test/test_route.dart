@@ -20,8 +20,12 @@ class _TestRouteState extends State<TestRoute> {
             text: 'Show dialog',
             onPressed: () {
               _onPressedButtonDialog();
+
+
             },
           ),
+
+          Text(MediaQuery.of(context).size.height.toString()),
         ],
       ),
     );

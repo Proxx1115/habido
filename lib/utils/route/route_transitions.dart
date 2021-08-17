@@ -10,12 +10,12 @@ class DefaultRoute<T> extends MaterialPageRoute<T> {
   }
 }
 
-class SlideRightRoute extends PageRouteBuilder {
+class SlideRightRouteBuilder extends PageRouteBuilder {
   final Widget w;
   @override
   final RouteSettings settings;
 
-  SlideRightRoute(this.w, this.settings)
+  SlideRightRouteBuilder(this.w, this.settings)
       : super(
           settings: settings,
           pageBuilder: (BuildContext ctx, _, __) {
@@ -42,7 +42,7 @@ class NoTransitionRoute<T> extends MaterialPageRoute<T> {
   }
 }
 
-class FadePageRouteBuilder extends PageRouteBuilder {
+class FadeRouteBuilder extends PageRouteBuilder {
   final Widget w;
 
   @override
@@ -51,7 +51,7 @@ class FadePageRouteBuilder extends PageRouteBuilder {
   @override
   Duration get transitionDuration => Duration(milliseconds: 500);
 
-  FadePageRouteBuilder(this.w, this.settings)
+  FadeRouteBuilder(this.w, this.settings)
       : super(
           settings: settings,
           pageBuilder: (BuildContext ctx, _, __) {

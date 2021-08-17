@@ -9,6 +9,7 @@ class Assets {
   static const String edit = 'assets/images/global/edit.svg';
   static const String obscure_hidden = 'assets/images/global/obscure_hidden.svg';
   static const String back = 'assets/images/global/back.svg';
+  static const String long_arrow_next = 'assets/images/global/long_arrow_next.svg';
   static const String arrow_next = 'assets/images/global/arrow_next.svg';
   static const String ring = 'assets/images/global/ring.svg';
   static const String expand = 'assets/images/global/expand.svg';
@@ -23,6 +24,11 @@ class Assets {
   static const String password = 'assets/images/auth/password.svg';
   static const String biometric = 'assets/images/auth/biometric.svg';
   static const String app_icon_name = 'assets/images/auth/app_icon_name.svg';
+  static const String auth_success = 'assets/images/auth/auth_success.png';
+
+  /// Test
+  static const String male = 'assets/images/test/male.png';
+  static const String female = 'assets/images/test/female.png';
 
   /// Home
 // static const String cardAsset1 = 'assets/images/home/dashboard_icon_1.png';

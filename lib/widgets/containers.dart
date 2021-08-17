@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/text.dart';
 
 // ignore: non_constant_identifier_names
 // Widget HorizontalLine({
@@ -90,6 +91,55 @@ class StadiumContainer extends StatelessWidget {
           child: child,
         ),
         onTap: onTap,
+      ),
+    );
+  }
+}
+
+class CustomDivider extends StatelessWidget {
+  final EdgeInsets? margin;
+  final double height;
+
+  const CustomDivider({
+    Key? key,
+    this.margin = const EdgeInsets.symmetric(vertical: 15.0),
+    this.height = 1.0,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin,
+      child: Divider(
+        height: height,
+        color: customColors.border,
+      ),
+    );
+  }
+}
+
+class InfoContainer extends StatelessWidget {
+  final String title;
+  final String body;
+
+  const InfoContainer({Key? key, required this.title, required this.body}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StadiumContainer(
+      padding: SizeHelper.boxPadding,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          /// Title
+          CustomText(title, fontWeight: FontWeight.w500),
+
+          /// Divider
+          CustomDivider(),
+
+          /// Body
+          CustomText(body, maxLines: 100),
+        ],
       ),
     );
   }

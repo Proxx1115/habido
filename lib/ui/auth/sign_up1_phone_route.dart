@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/sign_up_request.dart';
+import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -22,7 +23,7 @@ class SignUp1PhoneRoute extends StatefulWidget {
 
 class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
   // UI
-  final _signUpKey = GlobalKey<ScaffoldState>();
+  final _signUp1PhoneKey = GlobalKey<ScaffoldState>();
 
   // Утасны дугаар
   final _controller = TextEditingController();
@@ -35,13 +36,11 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
   void initState() {
     super.initState();
     _controller.addListener(() => _validateForm());
-
-    // todo test
-    _controller.text = '99887766';
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -60,8 +59,12 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
 
   void _blocListener(BuildContext context, AuthState state) {
     if (state is SignUpSuccess) {
+      var verifyCodeRequest = VerifyCodeRequest()
+        ..userId = state.response.userId
+        ..phoneNumber = _controller.text;
+
       Navigator.pushNamed(context, Routes.signUp2Code, arguments: {
-        'signUpResponse': state.response,
+        'verifyCodeRequest': verifyCodeRequest,
       });
     } else if (state is SignUpFailed) {
       showCustomDialog(
@@ -73,7 +76,7 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
 
   Widget _blocBuilder(BuildContext context, AuthState state) {
     return CustomScaffold(
-      scaffoldKey: _signUpKey,
+      scaffoldKey: _signUp1PhoneKey,
       appBarTitle: LocaleKeys.yourRegistration,
       padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
       loading: state is AuthLoading,
@@ -114,7 +117,7 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
   _buttonNext() {
     return CustomButton(
       style: CustomButtonStyle.Secondary,
-      asset: Assets.arrow_next,
+      asset: Assets.long_arrow_next,
       onPressed: _enabledBtnNext
           ? () {
               Func.hideKeyboard(context);

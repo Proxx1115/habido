@@ -7,8 +7,17 @@ class VerifyCodeRequest extends BaseRequest {
   String? gender;
   String? birthday;
   String? password;
+  String? phoneNumber; // local param
 
-  VerifyCodeRequest({this.userId, this.code, this.firstName, this.gender, this.birthday, this.password});
+  VerifyCodeRequest({
+    this.userId,
+    this.code,
+    this.firstName,
+    this.gender,
+    this.birthday,
+    this.password,
+    this.phoneNumber,
+  });
 
   VerifyCodeRequest.fromJson(dynamic json) {
     userId = json["userId"];
@@ -17,6 +26,7 @@ class VerifyCodeRequest extends BaseRequest {
     gender = json["gender"];
     birthday = json["birthday"];
     password = json["password"];
+    phoneNumber = json["phoneNumber"];
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +37,7 @@ class VerifyCodeRequest extends BaseRequest {
     map["gender"] = gender;
     map["birthday"] = birthday;
     map["password"] = password;
+    map["phoneNumber"] = phoneNumber;
     return map;
   }
 }
