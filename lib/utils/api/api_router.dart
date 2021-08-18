@@ -110,7 +110,7 @@ class ApiRouter {
   static Future<ChatResponse> continueChat(int msgId) async {
     return ChatResponse.fromJson(
       await apiManager.sendRequest(
-        path: ApiRoutes.continueChat + '/$msgId',
+        path: ApiRoutes.continueChat + '?msgId=$msgId',
       ),
     );
   }

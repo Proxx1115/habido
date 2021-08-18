@@ -71,7 +71,7 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
       } else {
         if (state.response.msgId != null) {
           // Дараагийн чатыг авах
-          BlocManager.chatBloc.add(GetNextChatEvent(state.response.msgId!));
+          BlocManager.chatBloc.add(GetNextChatEvent(state.response.continueMsgId!));
         } else {
           // Дараагийн msgId олдоогүй
           showCustomDialog(
@@ -91,9 +91,6 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
           asset: Assets.error,
           text: state.message,
           button1Text: LocaleKeys.ok,
-          onPressedButton1: () {
-            Navigator.pop(context);
-          },
         ),
       );
     }
@@ -112,18 +109,19 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
           titleText: LocaleKeys.habidoAssistant,
           leadingAsset: null,
         ),
-        body: Container(
-          padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Chats
-              for (int i = 0; i < _chatList.length; i++) _chatItem(i),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// Chats
+                for (int i = 0; i < _chatList.length; i++) _chatItem(i),
 
-              /// Typing
-              // if (state is ChatLoading)
-              ChatLoader(),
-            ],
+                /// Typing
+                if (state is ChatLoading) ChatLoader(),
+              ],
+            ),
           ),
         ),
       ),
@@ -151,14 +149,13 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
   }
 
   Widget _optionItem(int chatIndex, int optionIndex) {
-    if (_chatList[chatIndex].msgOptions![optionIndex].isVisible ?? false) {
+    if (_chatList[chatIndex].msgOptions![optionIndex].isVisible) {
       var option = _chatList[chatIndex].msgOptions![optionIndex];
 
       return ChatContainer(
         alignment: Alignment.centerRight,
-        onTap: () {
-          print('tap');
-        },
+        tweenStart: 30.0,
+        tweenEnd: 0.0,
         child: Row(
           children: [
             /// Icon
@@ -171,13 +168,44 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
             /// Icon
             SvgPicture.asset(
               Assets.circle_check,
-              color: Func.isNotEmpty(option.optionColor) ? HexColor.fromHex(option.optionColor ?? '#CBD0D7') : customColors.iconGrey,
+              color: _getOptionColor(option),
             ),
           ],
         ),
+        onTap: () {
+          // Remove unselected options
+          for (int i = 0; i < _chatList[chatIndex].msgOptions!.length; i++) {
+            if (i == optionIndex) {
+              // Selected
+              _chatList[chatIndex].msgOptions![i].isVisible = true;
+              _chatList[chatIndex].msgOptions![i].isSelected = true;
+            } else {
+              // Unselected
+              _chatList[chatIndex].msgOptions![i].isVisible = false;
+              _chatList[chatIndex].msgOptions![i].isSelected = false;
+            }
+          }
+
+          setState(() {
+            print('Selected option: $optionIndex');
+          });
+
+          // Get next chat
+          if (!(_chatList[chatIndex].isEnd ?? false) && _chatList[chatIndex].continueMsgId != null) {
+            BlocManager.chatBloc.add(GetNextChatEvent(_chatList[chatIndex].continueMsgId!));
+          }
+        },
       );
     } else {
       return Container();
+    }
+  }
+
+  Color _getOptionColor(MsgOptions option) {
+    if (option.isSelected && Func.isNotEmpty(option.optionColor)) {
+      return HexColor.fromHex(option.optionColor ?? '#CBD0D7');
+    } else {
+      return customColors.iconGrey;
     }
   }
 }

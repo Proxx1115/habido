@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/text.dart';
 
 // ignore: non_constant_identifier_names
@@ -147,20 +148,24 @@ class InfoContainer extends StatelessWidget {
 
 class ChatContainer extends StatelessWidget {
   final Widget child;
+  final VoidCallback? onTap;
   final EdgeInsets margin;
   final EdgeInsets padding;
   final double? width;
   final Alignment alignment;
-  final VoidCallback? onTap;
+  final double? tweenStart;
+  final double? tweenEnd;
 
   const ChatContainer({
     Key? key,
     required this.child,
+    this.onTap,
     this.margin = const EdgeInsets.only(bottom: 10.0),
     this.padding = const EdgeInsets.all(10.0),
     this.width,
     this.alignment = Alignment.centerLeft,
-    this.onTap,
+    this.tweenStart,
+    this.tweenEnd,
   }) : super(key: key);
 
   @override
@@ -170,15 +175,19 @@ class ChatContainer extends StatelessWidget {
       child: NoSplashContainer(
         child: InkWell(
           onTap: onTap,
-          child: Container(
-            margin: margin,
-            padding: padding,
-            width: width ?? MediaQuery.of(context).size.width * 0.6,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              color: customColors.secondaryBackground,
+          child: FadeInAnimation(
+            tweenStart: tweenStart,
+            tweenEnd: tweenEnd,
+            child: Container(
+              margin: margin,
+              padding: padding,
+              width: width ?? MediaQuery.of(context).size.width * 0.6,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                color: customColors.secondaryBackground,
+              ),
+              child: child,
             ),
-            child: child,
           ),
         ),
       ),

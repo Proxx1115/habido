@@ -103,8 +103,7 @@ class _LoginRouteState extends State<LoginRoute> {
       _passwordController.clear();
       SharedPref.setPhoneNumber(_phoneNumberController.text);
 
-      // todo test
-      // globals.userData?.isOnboardingDone = true;
+      globals.userData?.isOnboardingDone = false; // todo test
 
       if (globals.userData?.isOnboardingDone ?? false) {
         /// Go to home

@@ -6,8 +6,8 @@ class MsgOptions {
   String? optionData;
   int? nextMsgId;
   int? orderNo;
-  bool? isVisible; // Local param
-  bool? isSelected; // Local param
+  bool isVisible = true; // Local param
+  bool isSelected = false; // Local param
 
   MsgOptions({
     this.optionId,
@@ -17,8 +17,8 @@ class MsgOptions {
     this.optionData,
     this.nextMsgId,
     this.orderNo,
-    this.isVisible,
-    this.isSelected,
+    this.isVisible = true,
+    this.isSelected = false,
   });
 
   MsgOptions.fromJson(dynamic json) {

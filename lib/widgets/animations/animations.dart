@@ -1,6 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:simple_animations/simple_animations.dart';
+import 'package:supercharged/supercharged.dart';
+
+enum AniProps { opacity, translateX, translateY }
+
+class FadeInAnimation extends StatelessWidget {
+  final Widget child;
+
+  // Duration
+  final int _duration = 500; // Milliseconds
+  final double delay;
+
+  // Position
+  final bool isAxisHorizontal; // Animation horizontal, vertical
+  final double? tweenStart;
+  final double? tweenEnd;
+
+  FadeInAnimation({
+    required this.child,
+    this.delay = 1,
+    this.isAxisHorizontal = true,
+    this.tweenStart,
+    this.tweenEnd,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final tween = MultiTween<AniProps>()
+      ..add(AniProps.opacity, 0.0.tweenTo(1.0), _duration.milliseconds)
+      ..add(
+        isAxisHorizontal ? AniProps.translateX : AniProps.translateY,
+        (tweenStart ?? -30.0).tweenTo(tweenEnd ?? 0.0),
+        _duration.milliseconds,
+        Curves.easeOut,
+      );
+
+    return PlayAnimation<MultiTweenValues<AniProps>>(
+      delay: Duration(milliseconds: (_duration * delay).round()),
+      duration: tween.duration,
+      tween: tween,
+      child: child,
+      builder: (context, child, value) => Opacity(
+        opacity: value.get(AniProps.opacity),
+        child: Transform.translate(
+          offset: Offset(
+            isAxisHorizontal ? value.get(AniProps.translateX) : 0,
+            isAxisHorizontal ? 0 : value.get(AniProps.translateY),
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
 
 // enum Anims { anim1, anim2, anim3, anim4 }
 //
@@ -26,7 +79,7 @@ import 'package:simple_animations/simple_animations.dart';
 //   @override
 //   _AnimWidgetState createState() => _AnimWidgetState();
 // }
-//
+
 // class _AnimWidgetState extends State<AnimWidget> with TickerProviderStateMixin {
 //   Animation<Offset>? animation;
 //   AnimationController? animationController;
@@ -93,21 +146,41 @@ import 'package:simple_animations/simple_animations.dart';
 //     super.dispose();
 //   }
 // }
+
+// class FadeAnimation extends StatelessWidget {
+//   final Widget child;
+//   final bool visible;
 //
-// class FadeIn extends StatelessWidget {
-//   FadeIn({@required this.delay, @required this.child, this.begin, this.end});
-//
-//   Widget child;
-//   int delay;
-//   double begin;
-//   double end;
+//   const FadeAnimation({
+//     Key? key,
+//     required this.child,
+//     this.visible = true,
+//   }) : super(key: key);
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     final tween = MultiTrackTween([
-//       Track("opacity").add(Duration(milliseconds: 500), Tween(begin: 0.0, end: 1.0)),
-//       Track("translateX").add(Duration(milliseconds: 500), Tween(begin: begin ?? 0.0, end: end ?? 40.0), curve: Curves.easeOut),
-//       Track("translateY").add(Duration(milliseconds: 500), Tween(begin: end ?? 40.0, end: begin ?? 0.0), curve: Curves.easeOut)
+//     return AnimatedOpacity(
+//       opacity: visible ? 1.0 : 0.0,
+//       duration: const Duration(milliseconds: 1000),
+//       child: child,
+//     );
+//   }
+// }
+
+// class FadeIn extends StatelessWidget {
+//   final Widget child;
+//   final int delay;
+//   final double? begin;
+//   final double? end;
+//
+//   FadeIn({required this.delay, required this.child, this.begin, this.end});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final tween = MultiTween([
+//       AniProps.opacity.add(Duration(milliseconds: 500), Tween(begin: 0.0, end: 1.0)),
+//       AniProps("translateX").add(Duration(milliseconds: 500), Tween(begin: begin ?? 0.0, end: end ?? 40.0), curve: Curves.easeOut),
+//       AniProps("translateY").add(Duration(milliseconds: 500), Tween(begin: end ?? 40.0, end: begin ?? 0.0), curve: Curves.easeOut)
 //     ]);
 //
 //     return ControlledAnimation(
@@ -122,7 +195,7 @@ import 'package:simple_animations/simple_animations.dart';
 //     );
 //   }
 // }
-//
+
 // /// Move in
 // class MoveIn extends StatelessWidget {
 //   MoveIn({this.delay = 1, this.child});

@@ -1,3 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <circle id="Ellipse_3337" data-name="Ellipse 3337" cx="10" cy="10" r="10" fill="#e4e8eb"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20.001" height="20.001" viewBox="0 0 20.001 20.001">
+  <g id="Group_44278" data-name="Group 44278" transform="translate(-316.999 -391)">
+    <path id="Subtraction_30" data-name="Subtraction 30" d="M10272-11240a10.012,10.012,0,0,1-10-10,10.012,10.012,0,0,1,10-10,10.012,10.012,0,0,1,10,10A10.012,10.012,0,0,1,10272-11240Zm0-14a4,4,0,0,0-4,4,4,4,0,0,0,4,4,4,4,0,0,0,4-4A4.006,4.006,0,0,0,10272-11254Z" transform="translate(-9945 11651)" fill="#e4e8eb"/>
+  </g>
 </svg>
