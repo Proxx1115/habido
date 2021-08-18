@@ -11,10 +11,12 @@ import 'package:habido_app/models/option_type.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/app_bars.dart';
+import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
@@ -121,6 +123,8 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
 
                 /// Typing
                 // if (state is ChatLoading) ChatLoader(),
+
+                if (_visibleButtonThanks) _buttonThanks(),
               ],
             ),
           ),
@@ -262,5 +266,16 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
     } else {
       return customColors.iconGrey;
     }
+  }
+
+  Widget _buttonThanks() {
+    return CustomButton(
+      style: CustomButtonStyle.Secondary,
+      // asset: Assets.long_arrow_next,
+      text: LocaleKeys.thanks,
+      onPressed: () {
+        Navigator.pushReplacementNamed(context, Routes.home);
+      },
+    );
   }
 }

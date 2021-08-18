@@ -89,6 +89,8 @@ class LocaleKeys {
 
   static String get delete => 'Устгах';
 
+  static String get thanks => 'Баярлалаа';
+
   static String get sureToDelete => 'Устгахдаа итгэлтэй байна уу?';
 
   ///

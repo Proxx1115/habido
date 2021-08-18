@@ -15,6 +15,7 @@ enum CustomButtonStyle {
 Widget CustomButton({
   CustomButtonStyle? style = CustomButtonStyle.Primary,
   VoidCallback? onPressed,
+  BorderRadius? borderRadius,
   EdgeInsets? margin = EdgeInsets.zero,
   Alignment? alignment,
   double? width,
@@ -30,6 +31,13 @@ Widget CustomButton({
     case CustomButtonStyle.Secondary:
       width = width ?? 155.0;
       alignment = alignment ?? Alignment.centerRight;
+      borderRadius = borderRadius ??
+          BorderRadius.only(
+            topLeft: Radius.circular(5.0),
+            topRight: Radius.circular(15.0),
+            bottomRight: Radius.circular(15.0),
+            bottomLeft: Radius.circular(15.0),
+          );
       break;
 
     case CustomButtonStyle.Mini:
@@ -71,7 +79,10 @@ Widget CustomButton({
           backgroundColor: onPressed != null ? backgroundColor : disabledBackgroundColor,
           primary: onPressed != null ? textColor : disabledTextColor,
           textStyle: TextStyle(fontWeight: FontWeight.w500),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide.none),
+          shape: RoundedRectangleBorder(
+            borderRadius: borderRadius ?? BorderRadius.circular(10.0),
+            side: BorderSide.none,
+          ),
         ),
         child: _child,
       ),
