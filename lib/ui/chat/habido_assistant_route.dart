@@ -19,7 +19,6 @@ import 'package:habido_app/widgets/app_bars.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
-import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class HabidoHelperRoute extends StatefulWidget {
@@ -33,6 +32,9 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
 
   // Data
   List<ChatResponse> _chatList = [];
+
+  // List view
+  ScrollController _scrollController = new ScrollController();
 
   // Button thanks
   bool _visibleButtonThanks = false;
@@ -66,6 +68,8 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
     if (state is ChatSuccess) {
       _chatList.add(state.response);
 
+      if (state.chatIndex != null) _chatList[state.chatIndex!].isOptionSelected = true;
+
       if (state.response.isEnd ?? false) {
         // Чат дууссан
         _visibleButtonThanks = true;
@@ -74,7 +78,7 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
       } else {
         if (state.response.msgId != null) {
           // Дараагийн чатыг авах
-          BlocManager.chatBloc.add(GetNextChatEvent(state.response.continueMsgId!));
+          BlocManager.chatBloc.add(GetNextChatEvent(state.response.continueMsgId!, _chatList.length - 1));
         } else {
           // Дараагийн msgId олдоогүй
           showCustomDialog(
@@ -87,6 +91,8 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
           );
         }
       }
+
+      // _scrollToBottom();
     } else if (state is ChatFailed) {
       showCustomDialog(
         context,
@@ -112,25 +118,63 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
           titleText: LocaleKeys.habidoAssistant,
           leadingAsset: null,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// Chats
-                for (int i = 0; i < _chatList.length; i++) _chatItem(i),
+        body: AbsorbPointer(
+          absorbing: state is ChatLoading,
+          child: ListView(
+            controller: _scrollController,
+            // child:
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, SizeHelper.marginBottom),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 500.0),
 
-                /// Typing
-                // if (state is ChatLoading) ChatLoader(),
+                    /// Habido assistant image
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 15.0),
+                        child: //
+                            Image.asset(Assets.habido_assistant_png), // todo
+                        // SvgPicture.asset(Assets.habido_assistant),
+                      ),
+                    ),
 
-                if (_visibleButtonThanks) _buttonThanks(),
-              ],
-            ),
+                    /// Chats
+                    for (int i = 0; i < _chatList.length; i++) _chatItem(i),
+
+                    /// Typing
+                    // if (state is ChatLoading) ChatLoader(),
+
+                    _buttonThanks(),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  _scrollToBottom() {
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 1000),
+      );
+
+      // setState(() {
+      //   _scrollController.animateTo(
+      //     _scrollController.position.maxScrollExtent,
+      //     curve: Curves.easeOut,
+      //     duration: const Duration(milliseconds: 1000),
+      //   );
+      // });
+    });
   }
 
   Widget _chatItem(int chatIndex) {
@@ -205,6 +249,9 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
           ],
         ),
         onTap: () {
+          // Already selected
+          if (chat.isOptionSelected) return;
+
           // Remove unselected options
           for (int i = 0; i < chat.msgOptions!.length; i++) {
             if (i == optionIndex) {
@@ -222,9 +269,12 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
             print('Selected option: $optionIndex');
           });
 
+          // Already selected
+
           // Get next chat
-          if (!(chat.isEnd ?? false) && chat.continueMsgId != null) {
-            BlocManager.chatBloc.add(GetNextChatEvent(chat.continueMsgId!));
+          if (!(chat.isEnd ?? false) && chat.continueMsgId != null && option.optionId != null) {
+            BlocManager.chatBloc.add(SaveOptionEvent(chat.msgId!, option.optionId!));
+            BlocManager.chatBloc.add(GetNextChatEvent(chat.continueMsgId!, chatIndex));
           }
         },
       );
@@ -270,9 +320,10 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
 
   Widget _buttonThanks() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
-      // asset: Assets.long_arrow_next,
       text: LocaleKeys.thanks,
+      visible: _visibleButtonThanks,
+      style: CustomButtonStyle.Secondary,
+      margin: EdgeInsets.only(top: 25.0),
       onPressed: () {
         Navigator.pushReplacementNamed(context, Routes.home);
       },

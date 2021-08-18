@@ -21,6 +21,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield* _mapGetFirstChatEventToState(event);
     } else if (event is GetNextChatEvent) {
       yield* _mapGetNextChatEventToState(event);
+    } else if (event is SaveOptionEvent) {
+      yield* _mapSaveOptionEventToState(event);
     }
   }
 
@@ -50,7 +52,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       var request = ChatRequest()..cbId = globals.param!.onBoardingCbId!;
       var res = await ApiRouter.firstChat(request);
       if (res.code == ResponseCode.Success) {
-        yield ChatSuccess(res);
+        yield ChatSuccess(res, null);
       } else {
         yield ChatFailed(res.message ?? LocaleKeys.failed);
       }
@@ -63,16 +65,29 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       yield ChatLoading();
 
-      // await Future.delayed(Duration(milliseconds: 750));
-
-      var res = await ApiRouter.continueChat(event.msgId);
+      var res = await ApiRouter.continueChat(event.continueMsgId);
       if (res.code == ResponseCode.Success) {
-        yield ChatSuccess(res);
+        yield ChatSuccess(res, event.chatIndex);
       } else {
         yield ChatFailed(res.message ?? LocaleKeys.failed);
       }
     } catch (e) {
       yield ChatFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<ChatState> _mapSaveOptionEventToState(SaveOptionEvent event) async* {
+    try {
+      yield ChatLoading();
+
+      var res = await ApiRouter.msgOption(event.msgId, event.optionId);
+      if (res.code == ResponseCode.Success) {
+        yield SaveOptionSuccess();
+      } else {
+        yield SaveOptionFailed(res.message ?? LocaleKeys.failed);
+      }
+    } catch (e) {
+      yield SaveOptionFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -101,15 +116,29 @@ class GetFirstChatEvent extends ChatEvent {
 }
 
 class GetNextChatEvent extends ChatEvent {
+  final int continueMsgId;
+  final int chatIndex;
+
+  const GetNextChatEvent(this.continueMsgId, this.chatIndex);
+
+  @override
+  List<Object> get props => [continueMsgId, chatIndex];
+
+  @override
+  String toString() => 'GetNextChatEvent {  continueMsgId: $continueMsgId, chatIndex: $chatIndex }';
+}
+
+class SaveOptionEvent extends ChatEvent {
   final int msgId;
+  final int optionId;
 
-  const GetNextChatEvent(this.msgId);
-
-  @override
-  List<Object> get props => [msgId];
+  const SaveOptionEvent(this.msgId, this.optionId);
 
   @override
-  String toString() => 'GetNextChatEvent { msgId: $msgId }';
+  List<Object> get props => [msgId, optionId];
+
+  @override
+  String toString() => 'SaveMsgOptionEvent { msgId: $msgId, optionId: $optionId }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -129,14 +158,15 @@ class ChatLoading extends ChatState {}
 
 class ChatSuccess extends ChatState {
   final ChatResponse response;
+  final int? chatIndex;
 
-  const ChatSuccess(this.response);
+  const ChatSuccess(this.response, this.chatIndex);
 
   @override
   List<Object> get props => [response];
 
   @override
-  String toString() => 'ChatSuccess { response: $response }';
+  String toString() => 'ChatSuccess { response: $response, chatIndex: $chatIndex }';
 }
 
 class ChatFailed extends ChatState {
@@ -149,4 +179,18 @@ class ChatFailed extends ChatState {
 
   @override
   String toString() => 'ChatFailed { message: $message }';
+}
+
+class SaveOptionSuccess extends ChatState {}
+
+class SaveOptionFailed extends ChatState {
+  final String message;
+
+  const SaveOptionFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'SaveOptionFailed { message: $message }';
 }

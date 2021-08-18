@@ -13,6 +13,7 @@ class ChatResponse extends BaseResponse {
   String? optionType;
   List<MsgOptions>? msgOptions;
   bool? isEnd;
+  bool isOptionSelected = false; // Local param
 
   ChatResponse(
       {this.msgId,

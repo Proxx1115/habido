@@ -41,6 +41,8 @@ class Assets {
 
   /// Chat
   static const String typing = 'assets/images/chat/typing.gif';
+  static const String habido_assistant = 'assets/images/chat/habido_assistant.svg';
+  static const String habido_assistant_png = 'assets/images/chat/habido_assistant.png';
 
   /// Test
 // static const String test_male = 'assets/images/test/male.png';

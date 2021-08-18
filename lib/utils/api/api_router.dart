@@ -125,6 +125,14 @@ class ApiRouter {
     );
   }
 
+  static Future<BaseResponse> msgOption(int msgId, int optionId) async {
+    return BaseResponse.fromJson(
+      await apiManager.sendRequest(
+        path: ApiRoutes.msgOption + '?msgId=$msgId&optionId=$optionId',
+      ),
+    );
+  }
+
 // static Future<BaseResponse> signOut() async {
 //   return BaseResponse.fromJson((await apiManager.sendRequest(
 //     route: ApiRoutes.signOut,
