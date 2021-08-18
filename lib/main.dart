@@ -6,7 +6,7 @@ import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/ui/auth/sign_up1_phone_route.dart';
 import 'package:habido_app/ui/auth/sign_up5_success_route.dart';
-import 'package:habido_app/ui/chat/habido_helper_route.dart';
+import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/test/hero1_route.dart';
 import 'package:habido_app/ui/test/test_route.dart';

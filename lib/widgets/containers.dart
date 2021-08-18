@@ -145,6 +145,47 @@ class InfoContainer extends StatelessWidget {
   }
 }
 
+class ChatContainer extends StatelessWidget {
+  final Widget child;
+  final EdgeInsets margin;
+  final EdgeInsets padding;
+  final double? width;
+  final Alignment alignment;
+  final VoidCallback? onTap;
+
+  const ChatContainer({
+    Key? key,
+    required this.child,
+    this.margin = const EdgeInsets.only(bottom: 10.0),
+    this.padding = const EdgeInsets.all(10.0),
+    this.width,
+    this.alignment = Alignment.centerLeft,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: alignment,
+      child: NoSplashContainer(
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            margin: margin,
+            padding: padding,
+            width: width ?? MediaQuery.of(context).size.width * 0.6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              color: customColors.secondaryBackground,
+            ),
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // class RoundedBorderContainer extends StatelessWidget {
 //   final Widget child;
 //   final EdgeInsets margin;

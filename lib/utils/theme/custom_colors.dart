@@ -88,3 +88,14 @@ class CustomColors {
   /// Dark theme
   factory CustomColors.dark() => CustomColors.light();
 }
+
+// Test habit colors
+// #FBD277
+// #46CEAC
+// #F76C82
+// #9ED26A
+// #E3B692
+// #EB86BE
+// #9ED26A
+// #9ED26A
+// #9ED26A

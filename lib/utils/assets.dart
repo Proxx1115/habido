@@ -14,6 +14,7 @@ class Assets {
   static const String arrow_next = 'assets/images/global/arrow_next.svg';
   static const String ring = 'assets/images/global/ring.svg';
   static const String expand = 'assets/images/global/expand.svg';
+  static const String circle_check = 'assets/images/global/circle_check.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
@@ -27,9 +28,19 @@ class Assets {
   static const String app_icon_name = 'assets/images/auth/app_icon_name.svg';
   static const String auth_success = 'assets/images/auth/auth_success.png';
 
+  /// Home
+  static const String home = 'assets/images/home/home.svg';
+  static const String test = 'assets/images/home/test.svg';
+  static const String assistant = 'assets/images/home/assistant.svg';
+  static const String content = 'assets/images/home/content.svg';
+  static const String profile = 'assets/images/home/profile.svg';
+
   /// Profile
   static const String male = 'assets/images/profile/male.png';
   static const String female = 'assets/images/profile/female.png';
+
+  /// Chat
+  static const String typing = 'assets/images/chat/typing.gif';
 
   /// Test
 // static const String test_male = 'assets/images/test/male.png';

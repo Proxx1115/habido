@@ -54,7 +54,9 @@ flutter:
     - assets/images/global/
     - assets/images/intro/
     - assets/images/auth/
+    - assets/images/home/
     - assets/images/profile/
+    - assets/images/chat/
     - assets/images/test/
 
   fonts:

@@ -1,11 +1,11 @@
 import 'package:habido_app/models/base_request.dart';
 
-class FirstChatRequest extends BaseRequest {
+class ChatRequest extends BaseRequest {
   int? cbId;
 
-  FirstChatRequest({this.cbId});
+  ChatRequest({this.cbId});
 
-  FirstChatRequest.fromJson(dynamic json) {
+  ChatRequest.fromJson(dynamic json) {
     cbId = json['cbId'];
   }
 

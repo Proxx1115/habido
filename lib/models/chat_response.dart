@@ -1,6 +1,8 @@
 import 'package:habido_app/models/base_response.dart';
 
-class FirstChatResponse extends BaseResponse {
+import 'msg_options.dart';
+
+class ChatResponse extends BaseResponse {
   int? msgId;
   int? cbId;
   String? msg;
@@ -9,21 +11,22 @@ class FirstChatResponse extends BaseResponse {
   int? continueMsgId;
   bool? isOption;
   String? optionType;
+  List<MsgOptions>? msgOptions;
   bool? isEnd;
 
-  FirstChatResponse({
-    this.msgId,
-    this.cbId,
-    this.msg,
-    this.isFirst,
-    this.isContinue,
-    this.continueMsgId,
-    this.isOption,
-    this.optionType,
-    this.isEnd,
-  });
+  ChatResponse(
+      {this.msgId,
+      this.cbId,
+      this.msg,
+      this.isFirst,
+      this.isContinue,
+      this.continueMsgId,
+      this.isOption,
+      this.optionType,
+      this.msgOptions,
+      this.isEnd});
 
-  FirstChatResponse.fromJson(dynamic json) {
+  ChatResponse.fromJson(dynamic json) {
     parseBaseParams(json);
     msgId = json['msgId'];
     cbId = json['cbId'];
@@ -33,6 +36,12 @@ class FirstChatResponse extends BaseResponse {
     continueMsgId = json['continueMsgId'];
     isOption = json['isOption'];
     optionType = json['optionType'];
+    if (json['msgOptions'] != null) {
+      msgOptions = [];
+      json['msgOptions'].forEach((v) {
+        msgOptions?.add(MsgOptions.fromJson(v));
+      });
+    }
     isEnd = json['isEnd'];
   }
 
@@ -46,8 +55,10 @@ class FirstChatResponse extends BaseResponse {
     map['continueMsgId'] = continueMsgId;
     map['isOption'] = isOption;
     map['optionType'] = optionType;
+    if (msgOptions != null) {
+      map['msgOptions'] = msgOptions?.map((v) => v.toJson()).toList();
+    }
     map['isEnd'] = isEnd;
-
     return map;
   }
 }

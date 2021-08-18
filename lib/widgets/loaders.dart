@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/widgets/containers.dart';
 
 // ignore: non_constant_identifier_names
 Widget CustomLoader({
@@ -64,7 +66,7 @@ Widget BlurLoadingContainer({
           sigmaX: 1.0,
           sigmaY: 1.0,
         ),
-        child:  Center(
+        child: Center(
           child: SizedBox(
             height: SizeHelper.loaderSize,
             width: SizeHelper.loaderSize,
@@ -80,6 +82,25 @@ Widget BlurLoadingContainer({
   return Stack(children: widgetList);
 }
 
+class ChatLoader extends StatelessWidget {
+  const ChatLoader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: ChatContainer(
+        padding: EdgeInsets.zero,
+        width: 50.0,
+        child: Image.asset(
+          Assets.typing,
+          height: 38.0,
+          width: 50.0,
+        ),
+      ),
+    );
+  }
+}
 
 // class CircularLoader extends StatelessWidget {
 //   final double size;

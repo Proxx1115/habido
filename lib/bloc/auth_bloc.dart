@@ -64,8 +64,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       yield AuthLoading();
 
-      yield LoginFailed(LocaleKeys.failed);
-      return;
+      // yield LoginFailed(LocaleKeys.failed);
+      // return;
 
       LoginResponse res = await ApiRouter.login(request);
       if (res.code == ResponseCode.Success) {

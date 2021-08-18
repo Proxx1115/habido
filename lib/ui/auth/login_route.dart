@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/login_request.dart';
-import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
 import 'package:habido_app/utils/func.dart';
@@ -104,12 +103,15 @@ class _LoginRouteState extends State<LoginRoute> {
       _passwordController.clear();
       SharedPref.setPhoneNumber(_phoneNumberController.text);
 
+      // todo test
+      // globals.userData?.isOnboardingDone = true;
+
       if (globals.userData?.isOnboardingDone ?? false) {
         /// Go to home
         Navigator.pushNamed(context, Routes.home);
       } else {
         /// Go to chat
-        Navigator.pushNamed(context, Routes.habidoHelper);
+        Navigator.pushNamed(context, Routes.habidoAssistant);
       }
     } else if (state is LoginFailed) {
       showCustomDialog(

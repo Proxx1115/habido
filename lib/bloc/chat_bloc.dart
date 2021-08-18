@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/models/first_chat_request.dart';
-import 'package:habido_app/models/first_chat_response.dart';
+import 'package:habido_app/models/chat_request.dart';
+import 'package:habido_app/models/chat_response.dart';
+import 'package:habido_app/models/chat_type.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_router.dart';
 import 'package:habido_app/utils/globals.dart';
@@ -17,29 +18,59 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   @override
   Stream<ChatState> mapEventToState(ChatEvent event) async* {
     if (event is GetFirstChatEvent) {
-      yield* _mapGetFirstChatEventToState();
+      yield* _mapGetFirstChatEventToState(event);
+    } else if (event is GetNextChatEvent) {
+      yield* _mapGetNextChatEventToState(event);
     }
   }
 
-  Stream<ChatState> _mapGetFirstChatEventToState() async* {
+  Stream<ChatState> _mapGetFirstChatEventToState(GetFirstChatEvent event) async* {
     try {
       yield ChatLoading();
 
+      // Get chat bot ID
+      int? chatBotId;
+      switch (event.chatType) {
+        case ChatType.onBoarding:
+          chatBotId = globals.param?.onBoardingCbId;
+          break;
+
+        case ChatType.mainBoarding: // todo test
+          // chatBotId = globals.param?.onBoardingCbId; // todo test
+          break;
+      }
+
       // Validation
-      if (globals.param == null || globals.param?.onBoardingCbId == null) {
-        yield FirstChatFailed(LocaleKeys.noData);
+      if (chatBotId == null) {
+        yield ChatFailed(LocaleKeys.noData);
         return;
       }
 
-      var request = FirstChatRequest()..cbId = globals.param!.onBoardingCbId!;
+      // Get chat
+      var request = ChatRequest()..cbId = globals.param!.onBoardingCbId!;
       var res = await ApiRouter.firstChat(request);
       if (res.code == ResponseCode.Success) {
-        yield FirstChatSuccess(res);
+        yield ChatSuccess(res);
       } else {
-        yield FirstChatFailed(res.message ?? LocaleKeys.failed);
+        yield ChatFailed(res.message ?? LocaleKeys.failed);
       }
     } catch (e) {
-      yield FirstChatFailed(LocaleKeys.errorOccurred);
+      yield ChatFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<ChatState> _mapGetNextChatEventToState(GetNextChatEvent event) async* {
+    try {
+      yield ChatLoading();
+
+      var res = await ApiRouter.continueChat(event.msgId);
+      if (res.code == ResponseCode.Success) {
+        yield ChatSuccess(res);
+      } else {
+        yield ChatFailed(res.message ?? LocaleKeys.failed);
+      }
+    } catch (e) {
+      yield ChatFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -55,7 +86,29 @@ abstract class ChatEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetFirstChatEvent extends ChatEvent {}
+class GetFirstChatEvent extends ChatEvent {
+  final String chatType;
+
+  const GetFirstChatEvent(this.chatType);
+
+  @override
+  List<Object> get props => [chatType];
+
+  @override
+  String toString() => 'GetFirstChatEvent { chatType: $chatType }';
+}
+
+class GetNextChatEvent extends ChatEvent {
+  final int msgId;
+
+  const GetNextChatEvent(this.msgId);
+
+  @override
+  List<Object> get props => [msgId];
+
+  @override
+  String toString() => 'GetNextChatEvent { msgId: $msgId }';
+}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
@@ -72,26 +125,26 @@ class ChatInit extends ChatState {}
 
 class ChatLoading extends ChatState {}
 
-class FirstChatSuccess extends ChatState {
-  final FirstChatResponse response;
+class ChatSuccess extends ChatState {
+  final ChatResponse response;
 
-  const FirstChatSuccess(this.response);
+  const ChatSuccess(this.response);
 
   @override
   List<Object> get props => [response];
 
   @override
-  String toString() => 'FirstChatSuccess { response: $response }';
+  String toString() => 'ChatSuccess { response: $response }';
 }
 
-class FirstChatFailed extends ChatState {
+class ChatFailed extends ChatState {
   final String message;
 
-  const FirstChatFailed(this.message);
+  const ChatFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'FirstChatFailed { message: $message }';
+  String toString() => 'ChatFailed { message: $message }';
 }
