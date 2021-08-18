@@ -7,4 +7,5 @@ class ApiRoutes {
   static const String registerDevice = '/register-device';
   static const String firstChat = '/first-chat';
   static const String continueChat = '/continue-chat';
+  static const String banners = '/banners';
 }

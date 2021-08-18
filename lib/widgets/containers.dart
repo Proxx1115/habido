@@ -150,22 +150,28 @@ class ChatContainer extends StatelessWidget {
   final Widget child;
   final VoidCallback? onTap;
   final EdgeInsets margin;
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   final double? width;
+  final double? height;
+  final BorderRadius? borderRadius;
   final Alignment alignment;
   final double? tweenStart;
   final double? tweenEnd;
+  final double? delay;
 
   const ChatContainer({
     Key? key,
     required this.child,
     this.onTap,
     this.margin = const EdgeInsets.only(bottom: 10.0),
-    this.padding = const EdgeInsets.all(10.0),
+    this.padding,
     this.width,
+    this.height,
+    this.borderRadius,
     this.alignment = Alignment.centerLeft,
     this.tweenStart,
     this.tweenEnd,
+    this.delay,
   }) : super(key: key);
 
   @override
@@ -178,12 +184,14 @@ class ChatContainer extends StatelessWidget {
           child: FadeInAnimation(
             tweenStart: tweenStart,
             tweenEnd: tweenEnd,
+            delay: delay,
             child: Container(
               margin: margin,
-              padding: padding,
+              padding: padding ?? const EdgeInsets.all(10.0),
+              height: height,
               width: width ?? MediaQuery.of(context).size.width * 0.6,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(10.0)),
                 color: customColors.secondaryBackground,
               ),
               child: child,

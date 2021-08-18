@@ -1,12 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/chat_bloc.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/chat_type.dart';
 import 'package:habido_app/models/msg_options.dart';
+import 'package:habido_app/models/option_type.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -119,7 +120,7 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
                 for (int i = 0; i < _chatList.length; i++) _chatItem(i),
 
                 /// Typing
-                if (state is ChatLoading) ChatLoader(),
+                // if (state is ChatLoading) ChatLoader(),
               ],
             ),
           ),
@@ -149,16 +150,43 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
   }
 
   Widget _optionItem(int chatIndex, int optionIndex) {
-    if (_chatList[chatIndex].msgOptions![optionIndex].isVisible) {
-      var option = _chatList[chatIndex].msgOptions![optionIndex];
+    var chat = _chatList[chatIndex];
+    var option = chat.msgOptions![optionIndex];
 
+    if (option.isVisible) {
       return ChatContainer(
         alignment: Alignment.centerRight,
-        tweenStart: 30.0,
+        height: _optionHeight(chat.optionType),
+        padding: _optionPadding(chat.optionType),
+        borderRadius: _optionBorderRadius(option.habitCategoryPhotoLink),
+        tweenStart: option.isSelected ? 0.0 : 30.0,
         tweenEnd: 0.0,
+        delay: option.isSelected ? 0 : null,
         child: Row(
           children: [
             /// Icon
+            if (Func.isNotEmpty(option.habitCategoryPhotoLink))
+              Container(
+                margin: EdgeInsets.only(right: 15.0),
+                padding: EdgeInsets.all(15.0),
+                height: _optionHeight(chat.optionType),
+                decoration: BoxDecoration(
+                  color: _getOptionImageBackgroundColor(option),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5.0),
+                    topRight: Radius.circular(0.0),
+                    bottomRight: Radius.circular(0.0),
+                    bottomLeft: Radius.circular(15.0),
+                  ),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: option.habitCategoryPhotoLink!,
+                  // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+                  placeholder: (context, url) => Container(),
+                  errorWidget: (context, url, error) => Container(),
+                  fit: BoxFit.fill,
+                ),
+              ),
 
             /// Text
             Expanded(
@@ -174,15 +202,15 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
         ),
         onTap: () {
           // Remove unselected options
-          for (int i = 0; i < _chatList[chatIndex].msgOptions!.length; i++) {
+          for (int i = 0; i < chat.msgOptions!.length; i++) {
             if (i == optionIndex) {
               // Selected
-              _chatList[chatIndex].msgOptions![i].isVisible = true;
-              _chatList[chatIndex].msgOptions![i].isSelected = true;
+              chat.msgOptions![i].isVisible = true;
+              chat.msgOptions![i].isSelected = true;
             } else {
               // Unselected
-              _chatList[chatIndex].msgOptions![i].isVisible = false;
-              _chatList[chatIndex].msgOptions![i].isSelected = false;
+              chat.msgOptions![i].isVisible = false;
+              chat.msgOptions![i].isSelected = false;
             }
           }
 
@@ -191,8 +219,8 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
           });
 
           // Get next chat
-          if (!(_chatList[chatIndex].isEnd ?? false) && _chatList[chatIndex].continueMsgId != null) {
-            BlocManager.chatBloc.add(GetNextChatEvent(_chatList[chatIndex].continueMsgId!));
+          if (!(chat.isEnd ?? false) && chat.continueMsgId != null) {
+            BlocManager.chatBloc.add(GetNextChatEvent(chat.continueMsgId!));
           }
         },
       );
@@ -201,8 +229,35 @@ class _HabidoAssistantRouteState extends State<HabidoHelperRoute> {
     }
   }
 
+  double? _optionHeight(String? optionType) {
+    return (optionType == OptionType.Habit) ? SizeHelper.boxHeight : null;
+  }
+
+  EdgeInsets? _optionPadding(String? optionType) {
+    return (optionType == OptionType.Habit) ? EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0) : null;
+  }
+
+  BorderRadius? _optionBorderRadius(String? imageLink) {
+    return Func.isNotEmpty(imageLink)
+        ? BorderRadius.only(
+            topLeft: Radius.circular(5.0),
+            topRight: Radius.circular(15.0),
+            bottomRight: Radius.circular(15.0),
+            bottomLeft: Radius.circular(15.0),
+          )
+        : null;
+  }
+
   Color _getOptionColor(MsgOptions option) {
     if (option.isSelected && Func.isNotEmpty(option.optionColor)) {
+      return HexColor.fromHex(option.optionColor ?? '#CBD0D7');
+    } else {
+      return customColors.iconGrey;
+    }
+  }
+
+  Color _getOptionImageBackgroundColor(MsgOptions option) {
+    if (Func.isNotEmpty(option.optionColor)) {
       return HexColor.fromHex(option.optionColor ?? '#CBD0D7');
     } else {
       return customColors.iconGrey;

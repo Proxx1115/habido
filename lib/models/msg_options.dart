@@ -6,6 +6,7 @@ class MsgOptions {
   String? optionData;
   int? nextMsgId;
   int? orderNo;
+  String? habitCategoryPhotoLink;
   bool isVisible = true; // Local param
   bool isSelected = false; // Local param
 
@@ -17,8 +18,7 @@ class MsgOptions {
     this.optionData,
     this.nextMsgId,
     this.orderNo,
-    this.isVisible = true,
-    this.isSelected = false,
+    this.habitCategoryPhotoLink,
   });
 
   MsgOptions.fromJson(dynamic json) {
@@ -29,8 +29,7 @@ class MsgOptions {
     optionData = json['optionData'];
     nextMsgId = json['nextMsgId'];
     orderNo = json['orderNo'];
-    isVisible = true;
-    isSelected = false;
+    habitCategoryPhotoLink = json['habitCategoryPhotoLink'];
   }
 
   Map<String, dynamic> toJson() {
@@ -42,8 +41,7 @@ class MsgOptions {
     map['optionData'] = optionData;
     map['nextMsgId'] = nextMsgId;
     map['orderNo'] = orderNo;
-    map['isVisible'] = isVisible;
-    map['isSelected'] = isSelected;
+    map['habitCategoryPhotoLink'] = habitCategoryPhotoLink;
     return map;
   }
 }

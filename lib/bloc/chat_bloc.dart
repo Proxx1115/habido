@@ -63,7 +63,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       yield ChatLoading();
 
-      await Future.delayed(Duration(milliseconds: 750));
+      // await Future.delayed(Duration(milliseconds: 750));
 
       var res = await ApiRouter.continueChat(event.msgId);
       if (res.code == ResponseCode.Success) {

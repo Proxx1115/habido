@@ -10,7 +10,7 @@ class FadeInAnimation extends StatelessWidget {
 
   // Duration
   final int _duration = 500; // Milliseconds
-  final double delay;
+  final double? delay;
 
   // Position
   final bool isAxisHorizontal; // Animation horizontal, vertical
@@ -19,7 +19,7 @@ class FadeInAnimation extends StatelessWidget {
 
   FadeInAnimation({
     required this.child,
-    this.delay = 1,
+    this.delay,
     this.isAxisHorizontal = true,
     this.tweenStart,
     this.tweenEnd,
@@ -37,7 +37,7 @@ class FadeInAnimation extends StatelessWidget {
       );
 
     return PlayAnimation<MultiTweenValues<AniProps>>(
-      delay: Duration(milliseconds: (_duration * delay).round()),
+      delay: Duration(milliseconds: (_duration * (delay ?? 1)).round()),
       duration: tween.duration,
       tween: tween,
       child: child,

@@ -5,13 +5,13 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/containers.dart';
 
 // ignore: non_constant_identifier_names
-Widget CustomLoader({
-  required BuildContext context,
-  required double height,
+Widget CustomLoader(
+  context, {
+  double? size,
   bool visible = true,
 }) {
   return Container(
-    height: height,
+    height: size,
     child: visible
         ? Center(
             child: Container(
@@ -118,7 +118,7 @@ class ChatLoader extends StatelessWidget {
 //     );
 //   }
 // }
-//
+
 // // ignore: non_constant_identifier_names
 // Widget BlurLoadingContainer2({
 //   @required bool loading,

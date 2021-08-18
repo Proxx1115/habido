@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
@@ -83,6 +84,15 @@ class ApiRouter {
     }
 
     return res;
+  }
+
+  static Future<BannersResponse> banners() async {
+    return BannersResponse.fromJson(
+      await apiManager.sendRequest(
+        path: ApiRoutes.banners,
+        httpMethod: HttpMethod.Get,
+      ),
+    );
   }
 
   static Future<BaseResponse> registerDevice(RegisterDeviceRequest request) async {
@@ -516,12 +526,7 @@ class ApiRouter {
 //       .data);
 // }
 //
-// static Future<BannerResponse> getSliderImages() async {
-//   return BannerResponse.fromJson((await apiManager.simpleHttpRequest(
-//     url: 'http://ser.zeely.mn/banners',
-//   ))
-//       .data);
-// }
+
 //
 // static Future<BlogResponse> getBlogList() async {
 //   return BlogResponse.fromJson((await apiManager.simpleHttpRequest(
