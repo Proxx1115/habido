@@ -118,7 +118,7 @@ class Routes {
         break;
 
       case Routes.habidoAssistant:
-        route = FadeRouteBuilder(HabidoHelperRoute(), settings);
+        route = FadeRouteBuilder(HabidoAssistantRoute(), settings);
         break;
 
       case Routes.comingSoon:

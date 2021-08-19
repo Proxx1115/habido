@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/chat_request.dart';
-import 'package:habido_app/models/chat_response.dart';
+import 'package:habido_app/models/chat_response2.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
 import 'package:habido_app/models/param_response.dart';

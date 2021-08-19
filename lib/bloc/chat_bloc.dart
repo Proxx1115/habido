@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/chat_request.dart';
-import 'package:habido_app/models/chat_response.dart';
+import 'package:habido_app/models/chat_response2.dart';
 import 'package:habido_app/models/chat_type.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_router.dart';
