@@ -1,5 +1,5 @@
-import 'package:habido_app/models/base_response.dart';
-
+import 'base_response.dart';
+import 'content.dart';
 import 'msg_options.dart';
 
 class ChatResponse extends BaseResponse {
@@ -11,8 +11,10 @@ class ChatResponse extends BaseResponse {
   int? continueMsgId;
   bool? isOption;
   String? optionType;
+  Content? content;
   List<MsgOptions>? msgOptions;
   bool? isEnd;
+
   bool isOptionSelected = false; // Local param
 
   ChatResponse(
@@ -24,6 +26,7 @@ class ChatResponse extends BaseResponse {
       this.continueMsgId,
       this.isOption,
       this.optionType,
+      this.content,
       this.msgOptions,
       this.isEnd});
 
@@ -37,6 +40,7 @@ class ChatResponse extends BaseResponse {
     continueMsgId = json['continueMsgId'];
     isOption = json['isOption'];
     optionType = json['optionType'];
+    content = json['content'] != null ? Content.fromJson(json['content']) : null;
     if (json['msgOptions'] != null) {
       msgOptions = [];
       json['msgOptions'].forEach((v) {
@@ -56,6 +60,9 @@ class ChatResponse extends BaseResponse {
     map['continueMsgId'] = continueMsgId;
     map['isOption'] = isOption;
     map['optionType'] = optionType;
+    if (content != null) {
+      map['content'] = content?.toJson();
+    }
     if (msgOptions != null) {
       map['msgOptions'] = msgOptions?.map((v) => v.toJson()).toList();
     }

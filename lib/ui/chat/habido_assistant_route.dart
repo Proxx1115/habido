@@ -18,18 +18,6 @@ class _HabidoAssistantRouteState extends State<HabidoAssistantRoute> {
   final _habidoAssistantKey = GlobalKey<ScaffoldState>();
 
   @override
-  void initState() {
-    super.initState();
-
-    BlocManager.chatBloc.add(GetFirstChatEvent(ChatType.onBoarding));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {

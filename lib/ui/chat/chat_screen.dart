@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/chat_bloc.dart';
-import 'package:habido_app/models/chat_response2.dart';
-import 'package:habido_app/models/chat_type.dart';
+import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/msg_options.dart';
 import 'package:habido_app/models/option_type.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -30,9 +29,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _HabidoAssistantRouteState extends State<ChatScreen> {
-  // UI
-  final _habidoAssistantKey = GlobalKey<ScaffoldState>();
-
   // Data
   List<ChatResponse> _chatList = [];
 
@@ -71,19 +67,22 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
     if (state is ChatSuccess) {
       _chatList.add(state.response);
 
-      if (state.chatIndex != null) _chatList[state.chatIndex!].isOptionSelected = true;
+      if (state.chatIndex != null) {
+        print('Хариулт сонгосон');
+        _chatList[state.chatIndex!].isOptionSelected = true;
+      }
 
       if (state.response.isEnd ?? false) {
-        // Чат дууссан
+        print('Чат дууссан');
         _visibleButtonThanks = true;
       } else if (state.response.msgOptions != null && state.response.msgOptions!.length > 0) {
-        // Хариулт бөглөх
+        print('Хариулт сонгох');
       } else {
         if (state.response.msgId != null) {
-          // Дараагийн чатыг авах
+          print('Дараагийн чатыг авах');
           BlocManager.chatBloc.add(GetNextChatEvent(state.response.continueMsgId!, _chatList.length - 1));
         } else {
-          // Дараагийн msgId олдоогүй
+          print('Дараагийн msgId олдоогүй');
           showCustomDialog(
             context,
             child: CustomDialogBody(
@@ -113,7 +112,7 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
       absorbing: state is ChatLoading,
       child: ListView(
         controller: _scrollController,
-        reverse: true,
+        // reverse: true, // todo test
         padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, SizeHelper.marginBottom),
         children: [
           /// Chats

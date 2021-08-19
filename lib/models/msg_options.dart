@@ -7,19 +7,12 @@ class MsgOptions {
   int? nextMsgId;
   int? orderNo;
   String? habitCategoryPhotoLink;
+
   bool isVisible = true; // Local param
   bool isSelected = false; // Local param
 
-  MsgOptions({
-    this.optionId,
-    this.msgId,
-    this.text,
-    this.optionColor,
-    this.optionData,
-    this.nextMsgId,
-    this.orderNo,
-    this.habitCategoryPhotoLink,
-  });
+  MsgOptions(
+      {this.optionId, this.msgId, this.text, this.optionColor, this.optionData, this.nextMsgId, this.orderNo, this.habitCategoryPhotoLink});
 
   MsgOptions.fromJson(dynamic json) {
     optionId = json['optionId'];
