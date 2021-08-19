@@ -4,12 +4,12 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 
-class TestRoute extends StatefulWidget {
+class ExampleRoute extends StatefulWidget {
   @override
-  _TestRouteState createState() => _TestRouteState();
+  _ExampleRouteState createState() => _ExampleRouteState();
 }
 
-class _TestRouteState extends State<TestRoute> {
+class _ExampleRouteState extends State<ExampleRoute> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(

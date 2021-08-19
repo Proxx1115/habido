@@ -9,7 +9,7 @@ import 'package:habido_app/ui/auth/sign_up5_success_route.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/test/hero1_route.dart';
-import 'package:habido_app/ui/test/test_route.dart';
+import 'package:habido_app/ui/test/example_route.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';

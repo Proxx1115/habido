@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_bloc.dart';
+import 'package:habido_app/ui/home/assistant_screen.dart';
+import 'package:habido_app/ui/home/content_screen.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -10,6 +12,10 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
+
+import 'home_screen.dart';
+import 'profile_screen.dart';
+import 'test_screen.dart';
 
 class HomeRoute extends StatefulWidget {
   @override
@@ -53,16 +59,6 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
       _tabController.index = state.index;
       // _tabController.animateToPage(state.index, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
     } else if (state is SessionExpiredState) {
-      // showCustomDialog(
-      //   context,
-      //   dialogType: DialogType.warning,
-      //   bodyText: AppText.loginExpired,
-      //   btnPositiveText: AppText.ok,
-      //   onPressedBtnPositive: () {
-      //     Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
-      //   },
-      // );
-
       showCustomDialog(
         context,
         child: CustomDialogBody(
@@ -89,24 +85,31 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
           // todo test logout
 
         } else {
-          BlocProvider.of<HomeBloc>(context).add(NavigateToPageEvent(0));
+          BlocManager.homeBloc.add(NavigateToPageEvent(0));
         }
       },
-      body: Column(
-        children: [
-          // /// Та өөрийн утасны дугаараа оруулна уу.
-          // CustomText(LocaleKeys.enterPhoneNumber, alignment: Alignment.center, maxLines: 2),
-          //
-          // /// Утасны дугаар
-          // _phoneNumberTextField(),
-          //
-          // Spacer(),
+      body: Container(
+        padding: EdgeInsets.only(bottom: 15.0),
+        child: TabBarView(
+          controller: _tabController,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            /// Нүүр
+            HomeScreen(),
 
-          Text('qwe'),
+            /// Тест
+            TestScreen(),
 
-          // /// Button next
-          // _buttonNext(),
-        ],
+            /// Туслах
+            AssistantScreen(),
+
+            /// Контент
+            ContentScreen(),
+
+            /// Профайл
+            ProfileScreen(),
+          ],
+        ),
       ),
 
       /// Bottom navigation bar
@@ -141,7 +144,10 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   Widget _bottomNavigationBarItem(int index, String asset, String text) {
     return InkWell(
       onTap: () {
-        //
+        BlocManager.homeBloc.add(NavigateToPageEvent(index));
+        // setState(() {
+        //   _tabController.index = index;
+        // });
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
