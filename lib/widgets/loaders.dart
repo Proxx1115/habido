@@ -4,25 +4,48 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/containers.dart';
 
-// ignore: non_constant_identifier_names
-Widget CustomLoader(
-  context, {
-  double? size,
-  bool visible = true,
-}) {
-  return Container(
-    height: size,
-    child: visible
-        ? Center(
-            child: Container(
-              height: SizeHelper.loaderSize,
-              width: SizeHelper.loaderSize,
-              child: CircularProgressIndicator(),
-            ),
-          )
-        : Container(),
-  );
+class CustomLoader extends StatelessWidget {
+  final double? size;
+  final bool? visible;
+
+  const CustomLoader({Key? key, this.size, this.visible}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: size,
+      child: (visible ?? true)
+          ? Center(
+              child: Container(
+                height: SizeHelper.loaderSize,
+                width: SizeHelper.loaderSize,
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : Container(),
+    );
+  }
 }
+
+// ignore: non_constant_identifier_names
+// Widget CustomLoader(
+//   context, {
+//   double? size,
+//   bool visible = true,
+// }) {
+//   return Container(
+//     height: size,
+//     child: visible
+//         ? Center(
+//             child: Container(
+//               height: SizeHelper.loaderSize,
+//               width: SizeHelper.loaderSize,
+//               child: CircularProgressIndicator(),
+//             ),
+//           )
+//         : Container(),
+//   );
+// }
 
 // ignore: non_constant_identifier_names
 Widget CustomLoaderStack({

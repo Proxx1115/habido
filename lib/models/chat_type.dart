@@ -1,4 +1,4 @@
 class ChatType {
-  static const String onBoarding = 'onBoarding'; // Habido assistant
-  static const String mainBoarding = 'mainBoarding'; // Menu
+  static const String onBoarding = 'onBoarding'; // After sign up
+  static const String assistant = 'assistant'; // Assistant menu
 }

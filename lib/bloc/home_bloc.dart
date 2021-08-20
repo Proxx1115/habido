@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
-import 'package:habido_app/utils/api/api_manager.dart';
+import 'package:habido_app/utils/api/http_utils.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC

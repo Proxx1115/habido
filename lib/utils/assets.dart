@@ -15,6 +15,7 @@ class Assets {
   static const String ring = 'assets/images/global/ring.svg';
   static const String expand = 'assets/images/global/expand.svg';
   static const String circle_check = 'assets/images/global/circle_check.svg';
+  static const String clock = 'assets/images/global/clock.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
@@ -34,6 +35,8 @@ class Assets {
   static const String assistant = 'assets/images/home/assistant.svg';
   static const String content = 'assets/images/home/content.svg';
   static const String profile = 'assets/images/home/profile.svg';
+  static const String notification = 'assets/images/home/notification.svg';
+  static const String calendar = 'assets/images/home/calendar.svg';
 
   /// Profile
   static const String male = 'assets/images/profile/male.png';

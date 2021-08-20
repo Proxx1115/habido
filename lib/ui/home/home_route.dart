@@ -7,13 +7,12 @@ import 'package:habido_app/ui/home/assistant_screen.dart';
 import 'package:habido_app/ui/home/content_screen.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
-import 'home_screen.dart';
+import 'dashboard_screen.dart';
 import 'profile_screen.dart';
 import 'test_screen.dart';
 
@@ -76,9 +75,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   }
 
   Widget _blocBuilder(BuildContext context, HomeState state) {
-    return CustomScaffold(
-      scaffoldKey: _homeKey,
-      padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
+    return WillPopScope(
       onWillPop: () {
         if (_tabController.index == 0) {
           // AuthHelper.showLogoutDialog(context); // todo test
@@ -87,15 +84,16 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
         } else {
           BlocManager.homeBloc.add(NavigateToPageEvent(0));
         }
+
+        return Future.value(false);
       },
-      body: Container(
-        padding: EdgeInsets.only(bottom: 15.0),
-        child: TabBarView(
+      child: Scaffold(
+        body: TabBarView(
           controller: _tabController,
           physics: NeverScrollableScrollPhysics(),
           children: [
             /// Нүүр
-            HomeScreen(),
+            DashboardScreen(),
 
             /// Тест
             TestScreen(),
@@ -110,10 +108,10 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
             ProfileScreen(),
           ],
         ),
-      ),
 
-      /// Bottom navigation bar
-      bottomNavigationBar: _bottomNavigationBar(),
+        /// Bottom navigation bar
+        bottomNavigationBar: _bottomNavigationBar(),
+      ),
     );
   }
 

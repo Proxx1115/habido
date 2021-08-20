@@ -16,7 +16,8 @@ class ConstantColors {
 class CustomColors {
   /// Main
   Color primary = ConstantColors.primary;
-  Color border = ConstantColors.athensGray;
+  Color primaryBorder = ConstantColors.athensGray;
+  Color secondaryBorder = Colors.white;
 
   /// Background
   Color primaryBackground = ConstantColors.roseWhite;

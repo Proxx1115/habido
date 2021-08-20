@@ -5,6 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/chat_bloc.dart';
 import 'package:habido_app/models/chat_response.dart';
+import 'package:habido_app/models/chat_type.dart';
+import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/msg_options.dart';
 import 'package:habido_app/models/option_type.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -17,6 +19,7 @@ import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
+import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -72,9 +75,16 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
         _chatList[state.chatIndex!].isOptionSelected = true;
       }
 
+      // todo test
+      if (state.response.content != null) {
+        print('Content олдсон');
+      }
+
       if (state.response.isEnd ?? false) {
         print('Чат дууссан');
-        _visibleButtonThanks = true;
+        if (widget.chatType == ChatType.onBoarding) {
+          _visibleButtonThanks = true;
+        }
       } else if (state.response.msgOptions != null && state.response.msgOptions!.length > 0) {
         print('Хариулт сонгох');
       } else {
@@ -147,23 +157,23 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
   }
 
   Widget _chatItem(int chatIndex) {
-    if (_chatList[chatIndex].msgOptions != null && _chatList[chatIndex].msgOptions!.length > 0) {
-      return Column(
-        children: [
-          /// Chat
-          ChatContainer(
-            child: CustomText(_chatList[chatIndex].msg, maxLines: 10),
-          ),
+    return Column(
+      children: [
+        (_chatList[chatIndex].content != null)
+            ?
 
-          /// Options
+            /// Content
+            _contentItem(_chatList[chatIndex].content!)
+            :
+
+            /// Chat
+            ChatContainer(child: CustomText(_chatList[chatIndex].msg, maxLines: 10)),
+
+        /// Options
+        if (_chatList[chatIndex].msgOptions != null && _chatList[chatIndex].msgOptions!.length > 0)
           for (int j = 0; j < _chatList[chatIndex].msgOptions!.length; j++) _optionItem(chatIndex, j),
-        ],
-      );
-    } else {
-      return ChatContainer(
-        child: CustomText(_chatList[chatIndex].msg, maxLines: 10),
-      );
-    }
+      ],
+    );
   }
 
   Widget _optionItem(int chatIndex, int optionIndex) {
@@ -238,12 +248,9 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
             print('Selected option: $optionIndex');
           });
 
-          // Already selected
-
-          // Get next chat
+          // Save option
           if (!(chat.isEnd ?? false) && chat.continueMsgId != null && option.optionId != null) {
-            BlocManager.chatBloc.add(SaveOptionEvent(chat.msgId!, option.optionId!));
-            BlocManager.chatBloc.add(GetNextChatEvent(chat.continueMsgId!, chatIndex));
+            BlocManager.chatBloc.add(SaveOptionEvent(chat.msgId!, option.optionId!, chatIndex));
           }
         },
       );
@@ -285,6 +292,64 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
     } else {
       return customColors.iconGrey;
     }
+  }
+
+  Widget _contentItem(Content content) {
+    double width = MediaQuery.of(context).size.width * 0.6;
+
+    return ChatContainer(
+      padding: EdgeInsets.zero,
+      width: width,
+      child: Column(
+        children: [
+          /// Image
+          if (Func.isNotEmpty(content.contentPhoto))
+            ClipRRect(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+              child: CachedNetworkImage(
+                imageUrl: content.contentPhoto!,
+                fit: BoxFit.fill,
+                width: width,
+                placeholder: (context, url) => Container(
+                  height: width * 0.66,
+                  child: CustomLoader(),
+                ),
+                errorWidget: (context, url, error) => Container(),
+              ),
+            ),
+
+          /// Title
+          CustomText(
+            content.title,
+            margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
+            fontWeight: FontWeight.w500,
+            maxLines: 2,
+          ),
+
+          /// Body
+          CustomText(content.text, margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0), maxLines: 2),
+
+          if (content.readTime != null)
+            Container(
+              margin: EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 0.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  /// Clock icon
+                  SvgPicture.asset(Assets.clock),
+
+                  /// Read time
+                  Expanded(
+                    child: CustomText('${content.readTime} ${LocaleKeys.readMin}', margin: EdgeInsets.only(left: 7.0)),
+                  ),
+                ],
+              ),
+            ),
+
+          SizedBox(height: 15.0),
+        ],
+      ),
+    );
   }
 
   Widget _buttonThanks() {

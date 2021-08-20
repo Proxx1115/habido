@@ -1,18 +1,18 @@
-import 'banner.dart';
+import 'custom_banner.dart';
 import 'base_response.dart';
 
-class BannersResponse extends BaseResponse {
-  List<Banner>? bannerList;
+class CustomBannersResponse extends BaseResponse {
+  List<CustomBanner>? bannerList;
 
-  BannersResponse({this.bannerList});
+  CustomBannersResponse({this.bannerList});
 
-  BannersResponse.fromJson(dynamic json) {
+  CustomBannersResponse.fromJson(dynamic json) {
     parseBaseParams(json);
 
-    if (json['termsOfService'] != null) {
+    if (json['data'] != null) {
       bannerList = [];
-      json['termsOfService'].forEach((v) {
-        bannerList?.add(Banner.fromJson(v));
+      json['data'].forEach((v) {
+        bannerList?.add(CustomBanner.fromJson(v));
       });
     }
   }
@@ -20,7 +20,7 @@ class BannersResponse extends BaseResponse {
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     if (bannerList != null) {
-      map['termsOfService'] = bannerList?.map((v) => v.toJson()).toList();
+      map['data'] = bannerList?.map((v) => v.toJson()).toList();
     }
 
     return map;

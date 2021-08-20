@@ -8,7 +8,7 @@ import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
-import 'package:habido_app/utils/api/api_router.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
 import 'package:habido_app/utils/device_helper.dart';
@@ -67,13 +67,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // yield LoginFailed(LocaleKeys.failed);
       // return;
 
-      LoginResponse res = await ApiRouter.login(request);
+      LoginResponse res = await ApiManager.login(request);
       if (res.code == ResponseCode.Success) {
         /// Session хадгалах
         SharedPref.setSessionToken(res.token!);
 
         /// Get user data
-        var userData = await ApiRouter.getUserData();
+        var userData = await ApiManager.getUserData();
         if (userData.code == ResponseCode.Success) {
           await afterLogin();
 
@@ -89,8 +89,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  static Future afterLogin() async {
-    DeviceHelper.registerDeviceToken();
+  static Future<void> afterLogin() async {
+    await DeviceHelper.registerDeviceToken();
   }
 
   /// Logout
@@ -132,7 +132,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       yield AuthLoading();
 
-      var res = await ApiRouter.signUp(request);
+      var res = await ApiManager.signUp(request);
       if (res.code == ResponseCode.Success) {
         yield SignUpSuccess(res);
       } else {
@@ -151,7 +151,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // yield VerifyCodeSuccess();
       // return;
 
-      var res = await ApiRouter.verifyCode(request);
+      var res = await ApiManager.verifyCode(request);
       if (res.code == ResponseCode.Success) {
         yield VerifyCodeSuccess();
       } else {

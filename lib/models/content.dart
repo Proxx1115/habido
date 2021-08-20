@@ -10,17 +10,20 @@ class Content {
   String? text;
   int? orderNo;
   List<Tags>? tags;
+  int? readTime;
 
   Content({
-      this.contentId, 
-      this.title, 
-      this.contentPhoto, 
-      this.contentPhotoBase64, 
-      this.coverPhoto, 
-      this.coverPhotoBase64, 
-      this.text, 
-      this.orderNo, 
-      this.tags});
+    this.contentId,
+    this.title,
+    this.contentPhoto,
+    this.contentPhotoBase64,
+    this.coverPhoto,
+    this.coverPhotoBase64,
+    this.text,
+    this.orderNo,
+    this.tags,
+    this.readTime,
+  });
 
   Content.fromJson(dynamic json) {
     contentId = json['contentId'];
@@ -37,6 +40,7 @@ class Content {
         tags?.add(Tags.fromJson(v));
       });
     }
+    readTime = json['readTime'];
   }
 
   Map<String, dynamic> toJson() {
@@ -52,7 +56,7 @@ class Content {
     if (tags != null) {
       map['tags'] = tags?.map((v) => v.toJson()).toList();
     }
+    map['readTime'] = readTime;
     return map;
   }
-
 }

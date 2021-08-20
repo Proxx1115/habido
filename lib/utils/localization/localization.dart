@@ -184,6 +184,11 @@ class LocaleKeys {
 
   /// Chat
   static String get habidoAssistant => 'Habido туслах';
+
+  static String get chatBotIdNotFound => 'Habido туслахын мэдээлэл олдсонгүй';
+
+  /// Content
+  static String get readMin => 'min read';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

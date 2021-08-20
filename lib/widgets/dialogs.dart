@@ -21,6 +21,7 @@ void showCustomDialog(BuildContext context, {required Widget child, bool isDismi
 
 class CustomDialogBody extends StatelessWidget {
   final double height;
+  final Color? color;
   final String? asset;
   final String? text;
   final Widget? child;
@@ -32,6 +33,7 @@ class CustomDialogBody extends StatelessWidget {
   const CustomDialogBody({
     Key? key,
     this.height = 267.0,
+    this.color,
     this.asset,
     this.text,
     this.button1Text,
@@ -77,8 +79,15 @@ class CustomDialogBody extends StatelessWidget {
 
   Widget _icon() {
     return Container(
+      height: 55.0,
+      width: 55.0,
       margin: EdgeInsets.only(bottom: 35.0),
-      child: SvgPicture.asset(asset!, height: 50.0, width: 50.0),
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        color: color ?? customColors.primary,
+      ),
+      child: SvgPicture.asset(asset!),
     );
   }
 
@@ -105,6 +114,7 @@ class CustomDialogBody extends StatelessWidget {
                 Navigator.pop(context);
                 if (onPressedButton1 != null) onPressedButton1!();
               },
+              backgroundColor: color,
             ),
           ),
 

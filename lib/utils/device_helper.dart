@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:habido_app/models/register_device_request.dart';
-import 'package:habido_app/utils/api/api_router.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -35,7 +35,7 @@ class DeviceHelper {
   }
 
   /// Register device
-  static void registerDeviceToken() async {
+  static Future<void> registerDeviceToken() async {
     DeviceHelper.pushNotifToken = 'Test token'; // todo test
 
     // Validation
@@ -61,7 +61,7 @@ class DeviceHelper {
       // ..otherData = ''
       ..isBiometric = false;
 
-    ApiRouter.registerDevice(request);
+    ApiManager.registerDevice(request);
   }
 
 //   else {

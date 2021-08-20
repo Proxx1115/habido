@@ -14,7 +14,7 @@ class _ContentScreenState extends State<ContentScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          CustomText('AssistantScreen'),
+          CustomText('ContentScreen'),
         ],
       ),
     );

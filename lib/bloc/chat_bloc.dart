@@ -4,7 +4,7 @@ import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/chat_type.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
-import 'package:habido_app/utils/api/api_router.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
@@ -37,20 +37,20 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           chatBotId = globals.param?.onBoardingCbId;
           break;
 
-        case ChatType.mainBoarding: // todo test
-          // chatBotId = globals.param?.onBoardingCbId; // todo test
+        case ChatType.assistant:
+          chatBotId = globals.param?.assistantCbId;
           break;
       }
 
       // Validation
       if (chatBotId == null) {
-        yield ChatFailed(LocaleKeys.noData);
+        yield ChatFailed(LocaleKeys.chatBotIdNotFound);
         return;
       }
 
       // Get chat
-      var request = ChatRequest()..cbId = globals.param!.onBoardingCbId!;
-      var res = await ApiRouter.firstChat(request);
+      var request = ChatRequest()..cbId = chatBotId;
+      var res = await ApiManager.firstChat(request);
       if (res.code == ResponseCode.Success) {
         yield ChatSuccess(res, null);
       } else {
@@ -65,7 +65,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       yield ChatLoading();
 
-      var res = await ApiRouter.continueChat(event.continueMsgId);
+      var res = await ApiManager.continueChat(event.continueMsgId);
       if (res.code == ResponseCode.Success) {
         yield ChatSuccess(res, event.chatIndex);
       } else {
@@ -80,10 +80,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       yield ChatLoading();
 
-      var res = await ApiRouter.msgOption(event.msgId, event.optionId);
+      var res = await ApiManager.msgOption(event.msgId, event.optionId);
       if (res.code == ResponseCode.Success) {
-        yield SaveOptionSuccess();
+        yield ChatSuccess(res, event.chatIndex);
       } else {
+        print('Option хадгалж чадсангүй');
         yield SaveOptionFailed(res.message ?? LocaleKeys.failed);
       }
     } catch (e) {
@@ -131,14 +132,15 @@ class GetNextChatEvent extends ChatEvent {
 class SaveOptionEvent extends ChatEvent {
   final int msgId;
   final int optionId;
+  final int chatIndex;
 
-  const SaveOptionEvent(this.msgId, this.optionId);
-
-  @override
-  List<Object> get props => [msgId, optionId];
+  const SaveOptionEvent(this.msgId, this.optionId, this.chatIndex);
 
   @override
-  String toString() => 'SaveMsgOptionEvent { msgId: $msgId, optionId: $optionId }';
+  List<Object> get props => [msgId, optionId, chatIndex];
+
+  @override
+  String toString() => 'SaveMsgOptionEvent { msgId: $msgId, optionId: $optionId, chatIndex: $chatIndex }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -181,7 +183,17 @@ class ChatFailed extends ChatState {
   String toString() => 'ChatFailed { message: $message }';
 }
 
-class SaveOptionSuccess extends ChatState {}
+class SaveOptionSuccess extends ChatState {
+  final int nextMsgId;
+
+  const SaveOptionSuccess(this.nextMsgId);
+
+  @override
+  List<Object> get props => [nextMsgId];
+
+  @override
+  String toString() => 'SaveOptionSuccess { nextMsgId: $nextMsgId }';
+}
 
 class SaveOptionFailed extends ChatState {
   final String message;

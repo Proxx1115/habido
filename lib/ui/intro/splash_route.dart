@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
-import 'package:habido_app/utils/api/api_router.dart';
+import 'package:habido_app/utils/api/http_utils.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -40,7 +42,7 @@ class _SplashRouteState extends State<SplashRoute> {
     bool res = false;
 
     try {
-      var res = await ApiRouter.param();
+      var res = await ApiManager.param();
       if (res.code == ResponseCode.Success) {
         //
       }
@@ -89,17 +91,17 @@ class _SplashRouteState extends State<SplashRoute> {
   }
 
   _checkSession() {
-    /// User data
-    // ApiManager.getUserData().then((response) {
-    //   if (response.code == ResponseCode.Success) {
-    if (false) {
-      _navigateToHome();
-    } else {
-      // todo test
-      Future.delayed(Duration(seconds: 1), () {
-        _navigateToFirstRoute();
-      });
-    }
+    ApiManager.getUserData().then((response) {
+      if (response.code == ResponseCode.Success) {
+        AuthBloc.afterLogin()
+            .then((value) => {Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false)});
+      } else {
+        // todo test
+        Future.delayed(Duration(seconds: 1), () {
+          _navigateToFirstRoute();
+        });
+      }
+    });
   }
 
   _navigateToFirstRoute() {
@@ -107,11 +109,6 @@ class _SplashRouteState extends State<SplashRoute> {
       SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
       (Route<dynamic> route) => false,
     );
-  }
-
-  _navigateToHome() {
-    // AuthBloc.afterLogin();
-    // Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false);
   }
 
   _openDeeplink(String url) async {

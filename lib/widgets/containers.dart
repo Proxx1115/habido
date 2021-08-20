@@ -113,7 +113,7 @@ class CustomDivider extends StatelessWidget {
       margin: margin,
       child: Divider(
         height: height,
-        color: customColors.border,
+        color: customColors.primaryBorder,
       ),
     );
   }

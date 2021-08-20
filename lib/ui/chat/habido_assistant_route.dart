@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/chat_bloc.dart';
 import 'package:habido_app/models/chat_type.dart';
@@ -38,9 +39,7 @@ class _HabidoAssistantRouteState extends State<HabidoAssistantRoute> {
               alignment: Alignment.center,
               child: Container(
                 margin: EdgeInsets.only(bottom: 15.0),
-                child: //
-                    Image.asset(Assets.habido_assistant_png), // todo test
-                // SvgPicture.asset(Assets.habido_assistant),
+                child: Image.asset(Assets.habido_assistant_png),
               ),
             ),
 
