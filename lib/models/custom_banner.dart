@@ -1,18 +1,18 @@
-class Banner {
+class CustomBanner {
   int? bannerId;
   String? name;
   String? link;
   String? linkBase64;
   String? deeplink;
 
-  Banner({
+  CustomBanner({
       this.bannerId, 
       this.name, 
       this.link, 
       this.linkBase64, 
       this.deeplink});
 
-  Banner.fromJson(dynamic json) {
+  CustomBanner.fromJson(dynamic json) {
     bannerId = json['bannerId'];
     name = json['name'];
     link = json['link'];
