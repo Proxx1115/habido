@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
@@ -15,10 +16,14 @@ class _TestScreenState extends State<TestScreen> {
     return CustomScaffold(
       body: SingleChildScrollView(
         child: Column(
-          children: [
-            //
-          ],
+          children: [],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.testCategories);
+        },
       ),
     );
   }

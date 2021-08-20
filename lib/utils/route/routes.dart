@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/ui/auth/forgot_pass_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/ui/auth/sign_up3_profile_route.dart';
@@ -12,6 +11,7 @@ import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
+import 'package:habido_app/ui/test/test_categories/test_categories_route.dart';
 import 'route_transitions.dart';
 
 class Routes {
@@ -34,6 +34,7 @@ class Routes {
   static const termDetail = 'termDetail';
   static const home = 'home';
   static const habidoAssistant = 'habidoAssistant';
+  static const testCategories = 'testCategories';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -119,6 +120,10 @@ class Routes {
 
       case Routes.habidoAssistant:
         route = FadeRouteBuilder(HabidoAssistantRoute(), settings);
+        break;
+
+      case Routes.testCategories:
+        route = FadeRouteBuilder(TestCategoriesRoute(), settings);
         break;
 
       case Routes.comingSoon:

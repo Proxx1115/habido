@@ -9,5 +9,6 @@ class ApiRoutes {
   static const String continueChat = '/continue-chat';
   static const String msgOption = '/msg-option';
   static const String banners = '/banners';
-  // static const String banners = '/banners';
+  static const String testCategories = '/test-categories';
+  static const String testList = '/category-tests';
 }

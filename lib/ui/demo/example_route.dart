@@ -14,19 +14,18 @@ class _ExampleRouteState extends State<ExampleRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: 'Test',
-      body: Column(
-        children: [
-          CustomButton(
-            text: 'Show dialog',
-            onPressed: () {
-              _onPressedButtonDialog();
-
-
-            },
-          ),
-
-          Text(MediaQuery.of(context).size.height.toString()),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomButton(
+              text: 'Show dialog',
+              onPressed: () {
+                _onPressedButtonDialog();
+              },
+            ),
+            Text(MediaQuery.of(context).size.height.toString()),
+          ],
+        ),
       ),
     );
   }

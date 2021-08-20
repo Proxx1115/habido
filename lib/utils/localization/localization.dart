@@ -189,6 +189,9 @@ class LocaleKeys {
 
   /// Content
   static String get readMin => 'min read';
+
+  /// Psychology test
+  static String get psyTest => 'Сэтгэл зүйн тест';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {
