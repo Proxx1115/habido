@@ -114,13 +114,16 @@ class _CustomSliderState extends State<CustomSlider> {
             DeeplinkUtils.launchDeeplink(context, url: el.deeplink);
           }
         },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: CachedNetworkImage(
-            imageUrl: el.link!,
-            placeholder: (context, url) => Container(), //CustomLoader(),
-            errorWidget: (context, url, error) => Container(),
-            fit: BoxFit.fill,
+        child: Container(
+          margin: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: CachedNetworkImage(
+              imageUrl: el.link!,
+              placeholder: (context, url) => Container(), //CustomLoader(),
+              errorWidget: (context, url, error) => Container(),
+              fit: BoxFit.fill,
+            ),
           ),
         ),
       ),
