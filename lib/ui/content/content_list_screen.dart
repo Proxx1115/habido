@@ -6,6 +6,7 @@ import 'package:habido_app/ui/content/content_widget.dart';
 import 'package:habido_app/ui/home/home_app_bar.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -22,6 +23,10 @@ class _ContentListScreenState extends State<ContentListScreen> {
 
   // Data
   List<Content>? _contentList;
+
+  // Gridview
+  final double _gridViewPadding = SizeHelper.padding;
+  final double _gridViewCrossAxisSpacing = 15.0;
 
   @override
   void initState() {
@@ -87,22 +92,31 @@ class _ContentListScreenState extends State<ContentListScreen> {
   }
 
   Widget _contentListWidget() {
+    double imageWidth = (MediaQuery.of(context).size.width - _gridViewPadding - _gridViewCrossAxisSpacing * 2) / 2;
+    double imageHeight = imageWidth * 0.7;
+
     return GridView.count(
       primary: false,
-      padding: const EdgeInsets.all(SizeHelper.padding),
-      crossAxisSpacing: 15.0,
-      mainAxisSpacing: 15.0,
+      padding: EdgeInsets.all(_gridViewPadding),
+      crossAxisSpacing: _gridViewCrossAxisSpacing,
+      mainAxisSpacing: _gridViewCrossAxisSpacing,
       crossAxisCount: 2,
-      childAspectRatio: 1.2,
+      childAspectRatio: 0.6,
       children: <Widget>[
-        VerticalContent(content: _contentList![0]),
-        // _list(),
         if (_contentList != null && _contentList!.length > 0)
           for (var el in _contentList!)
             VerticalContent(
               content: el,
+              imageHeight: imageHeight,
               onPressed: () {
-                //
+                Navigator.pushNamed(context, Routes.content, arguments: {
+                  'content': el,
+                });
+
+                // Navigator.of(context).pushNamed(
+                //   SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
+                //       (Route<dynamic> route) => false,
+                // );
               },
             ),
       ],

@@ -9,6 +9,7 @@ import 'package:habido_app/ui/auth/sign_up4_terms_route.dart';
 import 'package:habido_app/ui/auth/sign_up5_success_route.dart';
 import 'package:habido_app/ui/auth/term_detail_route.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
+import 'package:habido_app/ui/content/content_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
@@ -38,6 +39,7 @@ class Routes {
   static const habidoAssistant = 'habidoAssistant';
   static const psyCategories = 'psyCategories';
   static const psyTests = 'psyTests';
+  static const content = 'content';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -137,6 +139,26 @@ class Routes {
           ),
           settings,
         );
+        break;
+
+      case Routes.content:
+        var args = settings.arguments as Map;
+        route = PageRouteBuilder(
+          transitionDuration: Duration(milliseconds: 1600),
+          pageBuilder: (_, __, ___) => ContentRoute(
+            content: _getValueByKey(args, 'content'),
+          ),
+        );
+
+        // route = ContentRoute(
+        //   content: _getValueByKey(args, 'content'),
+        // );
+        // route = SlideRightRouteBuilder(
+        //   ContentRoute(
+        //     content: _getValueByKey(args, 'content'),
+        //   ),
+        //   settings,
+        // );
         break;
 
       case Routes.comingSoon:
