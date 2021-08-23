@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/psy_test.dart';
+import 'package:habido_app/models/psy_tests_response.dart';
 import 'package:habido_app/models/test_category.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -27,7 +28,7 @@ class PsyTestsBloc extends Bloc<PsyTestsEvent, PsyTestsState> {
 
       var res = await ApiManager.psyTests(event.testCatId);
       if (res.code == ResponseCode.Success && res.psyTestList != null && res.psyTestList!.length > 0) {
-        yield PsyTestsSuccess(res.psyTestList!);
+        yield PsyTestsSuccess(res);
       } else {
         yield PsyTestsFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
@@ -76,15 +77,15 @@ class PsyTestsInit extends PsyTestsState {}
 class PsyTestsLoading extends PsyTestsState {}
 
 class PsyTestsSuccess extends PsyTestsState {
-  final List<PsyTest> psyTestList;
+  final PsyTestsResponse psyTestsResponse;
 
-  const PsyTestsSuccess(this.psyTestList);
-
-  @override
-  List<Object> get props => [psyTestList];
+  const PsyTestsSuccess(this.psyTestsResponse);
 
   @override
-  String toString() => 'PsyTestsSuccess { psyTestList: $psyTestList }';
+  List<Object> get props => [psyTestsResponse];
+
+  @override
+  String toString() => 'PsyTestsSuccess { psyTestsResponse: $psyTestsResponse }';
 }
 
 class PsyTestsFailed extends PsyTestsState {

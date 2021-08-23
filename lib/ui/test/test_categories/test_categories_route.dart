@@ -87,7 +87,7 @@ class _TestCategoriesRouteState extends State<TestCategoriesRoute> {
     return CategoryContainer(
       imageUrl: testCategory.photo,
       backgroundColor: testCategory.color,
-      text: testCategory.name! + 'asdasd',
+      text: testCategory.name!,
       onPressed: () {
         Navigator.pushNamed(context, Routes.psyTests, arguments: {
           'testCatId': testCategory.testCatId,

@@ -12,7 +12,7 @@ import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
-import 'package:habido_app/ui/test/psy_tests/psy_tests.dart';
+import 'package:habido_app/ui/test/psy_tests/psy_tests_route.dart';
 import 'package:habido_app/ui/test/test_categories/test_categories_route.dart';
 import 'route_transitions.dart';
 

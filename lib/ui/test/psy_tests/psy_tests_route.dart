@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/psy_test.dart';
-import 'package:habido_app/models/test_category.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
-import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 
@@ -27,6 +25,7 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
   late PsyTestsBloc _categoryTestsBloc;
 
   // Data
+  Content? _content;
   List<PsyTest>? _psyTestList;
 
   @override
@@ -57,11 +56,19 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
 
   void _blocListener(BuildContext context, PsyTestsState state) {
     if (state is PsyTestsSuccess) {
-      _psyTestList = state.psyTestList;
+      _content = state.psyTestsResponse.content;
+      _psyTestList = state.psyTestsResponse.psyTestList;
     } else if (state is PsyTestsFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          button1Text: LocaleKeys.ok,
+          onPressedButton1: () {
+            Navigator.pop(context);
+          },
+        ),
       );
     }
   }
