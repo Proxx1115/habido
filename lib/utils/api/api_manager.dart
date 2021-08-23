@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/category_tests_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
 import 'package:habido_app/models/param_response.dart';
+import 'package:habido_app/models/psy_tests_response.dart';
 import 'package:habido_app/models/register_device_request.dart';
 import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
@@ -142,9 +144,9 @@ class ApiManager {
     );
   }
 
-  static Future<TestCategoriesResponse> categoryTests(int testCatId) async {
-    return TestCategoriesResponse.fromJson(
-      await httpUtils.sendRequest(path: ApiRoutes.testList + '/$testCatId', httpMethod: HttpMethod.Get),
+  static Future<PsyTestsResponse> psyTests(int testCatId) async {
+    return PsyTestsResponse.fromJson(
+      await httpUtils.sendRequest(path: ApiRoutes.categoryTests + '?testCatId=$testCatId', httpMethod: HttpMethod.Get),
     );
   }
 }

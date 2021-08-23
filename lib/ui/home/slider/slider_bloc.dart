@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/custom_banner.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -26,7 +27,7 @@ class SliderBloc extends Bloc<SliderEvent, SliderState> {
       if (res.code == ResponseCode.Success && res.bannerList != null && res.bannerList!.length > 0) {
         yield BannersSuccess(res.bannerList!);
       } else {
-        yield BannersFailed(res.message ?? LocaleKeys.failed);
+        yield BannersFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
       }
     } catch (e) {
       yield BannersFailed(LocaleKeys.errorOccurred);

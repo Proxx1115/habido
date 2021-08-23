@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/models/param_response.dart';
 
@@ -27,7 +28,7 @@ class ParamBloc extends Bloc<ParamEvent, ParamState> {
       if (res.code == ResponseCode.Success) {
         yield ParamSuccess(res);
       } else {
-        yield ParamFailed(res.message ?? LocaleKeys.noData);
+        yield ParamFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield ParamFailed(LocaleKeys.errorOccurred);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/ui/auth/forgot_pass_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/ui/auth/sign_up3_profile_route.dart';
@@ -11,6 +12,7 @@ import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
+import 'package:habido_app/ui/test/psy_tests/psy_tests.dart';
 import 'package:habido_app/ui/test/test_categories/test_categories_route.dart';
 import 'route_transitions.dart';
 
@@ -35,6 +37,7 @@ class Routes {
   static const home = 'home';
   static const habidoAssistant = 'habidoAssistant';
   static const testCategories = 'testCategories';
+  static const psyTests = 'psyTests';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -124,6 +127,16 @@ class Routes {
 
       case Routes.testCategories:
         route = FadeRouteBuilder(TestCategoriesRoute(), settings);
+        break;
+
+      case Routes.psyTests:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          PsyTestsRoute(
+            testCatId: _getValueByKey(args, 'testCatId'),
+          ),
+          settings,
+        );
         break;
 
       case Routes.comingSoon:

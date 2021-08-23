@@ -5,6 +5,7 @@ import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/chat_type.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
@@ -54,7 +55,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (res.code == ResponseCode.Success) {
         yield ChatSuccess(res, null);
       } else {
-        yield ChatFailed(res.message ?? LocaleKeys.failed);
+        yield ChatFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
       }
     } catch (e) {
       yield ChatFailed(LocaleKeys.errorOccurred);
@@ -69,7 +70,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (res.code == ResponseCode.Success) {
         yield ChatSuccess(res, event.chatIndex);
       } else {
-        yield ChatFailed(res.message ?? LocaleKeys.failed);
+        yield ChatFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
       }
     } catch (e) {
       yield ChatFailed(LocaleKeys.errorOccurred);
@@ -85,7 +86,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         yield ChatSuccess(res, event.chatIndex);
       } else {
         print('Option хадгалж чадсангүй');
-        yield SaveOptionFailed(res.message ?? LocaleKeys.failed);
+        yield SaveOptionFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
       }
     } catch (e) {
       yield SaveOptionFailed(LocaleKeys.errorOccurred);

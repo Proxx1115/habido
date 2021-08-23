@@ -8,8 +8,8 @@ class BaseResponse {
   BaseResponse([this.code, this.message, this.data]);
 
   BaseResponse.fromJson(Map<String, dynamic> json)
-      : code = json[ResponseParam.code] ?? 1,
-        message = json[ResponseParam.message] ?? '',
+      : code = json[ResponseParam.code] ?? ResponseCode.Failed,
+        message = json[ResponseParam.message],
         data = json[ResponseParam.data];
 
   Map<String, dynamic> toJson() {

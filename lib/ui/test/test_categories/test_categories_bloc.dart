@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/test_category.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -27,7 +28,7 @@ class TestCategoryBloc extends Bloc<TestCategoryEvent, TestCategoryState> {
       if (res.code == ResponseCode.Success && res.testCategoryList != null && res.testCategoryList!.length > 0) {
         yield TestCategoriesSuccess(res.testCategoryList!);
       } else {
-        yield TestCategoriesFailed(res.message ?? LocaleKeys.noData);
+        yield TestCategoriesFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield TestCategoriesFailed(LocaleKeys.errorOccurred);

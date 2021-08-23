@@ -1,24 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/text.dart';
 
-// ignore: non_constant_identifier_names
-// Widget HorizontalLine({
-//   Color color,
-//   EdgeInsets margin,
-// }) {
-//   return Column(
-//     children: [
-//       Container(
-//         margin: margin ?? EdgeInsets.symmetric(vertical: SizeHelper.margin),
-//         height: 1,
-//         color: color ?? Colors.white,
-//       ),
-//     ],
-//   );
-// }
+import 'loaders.dart';
 
 class MarginVertical extends StatelessWidget {
   final double height;
@@ -202,6 +192,94 @@ class ChatContainer extends StatelessWidget {
     );
   }
 }
+
+class CategoryContainer extends StatelessWidget {
+  final String? imageUrl;
+  final String? backgroundColor;
+  final String? text;
+  final VoidCallback? onPressed;
+
+  const CategoryContainer({
+    Key? key,
+    required this.imageUrl,
+    required this.backgroundColor,
+    required this.text,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    return StadiumContainer(
+      padding: EdgeInsets.all(SizeHelper.margin),
+      onTap: onPressed,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          /// Icon
+          if (imageUrl != null)
+            Flexible(
+              flex: 2,
+              child: Container(
+                height: 40.0,
+                width: 40.0,
+                decoration: BoxDecoration(
+                  color: _getBackgroundColor(),
+                  borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                ),
+                padding: EdgeInsets.all(10.0),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl!,
+                  placeholder: (context, url) => CustomLoader(),
+                  errorWidget: (context, url, error) => Container(),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+
+          SizedBox(height: 15.0),
+
+          /// Text
+          if (text != null)
+            Flexible(
+              flex: 1,
+              child: CustomText(
+                text,
+                fontWeight: FontWeight.w500,
+                alignment: Alignment.center,
+                maxLines: 2,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  _getBackgroundColor() {
+    if (Func.isNotEmpty(backgroundColor)) {
+      return HexColor.fromHex(backgroundColor!);
+    } else {
+      return customColors.primary;
+    }
+  }
+}
+
+// ignore: non_constant_identifier_names
+// Widget HorizontalLine({
+//   Color color,
+//   EdgeInsets margin,
+// }) {
+//   return Column(
+//     children: [
+//       Container(
+//         margin: margin ?? EdgeInsets.symmetric(vertical: SizeHelper.margin),
+//         height: 1,
+//         color: color ?? Colors.white,
+//       ),
+//     ],
+//   );
+// }
 
 // class RoundedBorderContainer extends StatelessWidget {
 //   final Widget child;

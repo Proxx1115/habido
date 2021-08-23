@@ -30,10 +30,10 @@ class CustomColors {
 
   /// Button
   Color get primaryButtonBackground => primary; // enabled
-  Color primaryButtonText = Colors.white; // enabled
+  Color primaryButtonContent = Colors.white; // enabled
 
   Color get primaryButtonDisabledBackground => secondaryBackground; // disabled
-  Color primaryButtonDisabledText = ConstantColors.cornflowerBlue; // disabled
+  Color primaryButtonDisabledContent = ConstantColors.cornflowerBlue; // disabled
 
   /// TextField
   Color get primaryTextFieldBackground => secondaryBackground;

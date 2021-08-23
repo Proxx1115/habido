@@ -1,4 +1,4 @@
-class Test {
+class PsyTest {
   int? testId;
   int? testCatId;
   String? name;
@@ -11,7 +11,7 @@ class Test {
   int? repeatCnt;
   int? orderNo;
 
-  Test(
+  PsyTest(
       {this.testId,
       this.testCatId,
       this.name,
@@ -24,7 +24,7 @@ class Test {
       this.repeatCnt,
       this.orderNo});
 
-  Test.fromJson(dynamic json) {
+  PsyTest.fromJson(dynamic json) {
     testId = json['testId'];
     testCatId = json['testCatId'];
     name = json['name'];

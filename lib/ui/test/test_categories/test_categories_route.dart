@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/test_category.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -65,30 +68,31 @@ class _TestCategoriesRouteState extends State<TestCategoriesRoute> {
     return CustomScaffold(
       scaffoldKey: _testCategoryKey,
       appBarTitle: LocaleKeys.psyTest,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (_testCategoryList != null && _testCategoryList!.length > 0)
-              for (var el in _testCategoryList!) _testCategoryItem(el),
-          ],
-        ),
+      body: GridView.count(
+        primary: false,
+        padding: const EdgeInsets.all(SizeHelper.padding),
+        crossAxisSpacing: 15.0,
+        mainAxisSpacing: 15.0,
+        crossAxisCount: 2,
+        childAspectRatio: 1.2,
+        children: <Widget>[
+          if (_testCategoryList != null && _testCategoryList!.length > 0)
+            for (var el in _testCategoryList!) _testCategoryItem(el),
+        ],
       ),
     );
   }
 
   Widget _testCategoryItem(TestCategory testCategory) {
-    return InkWell(
-      onTap: () {
-        
+    return CategoryContainer(
+      imageUrl: testCategory.photo,
+      backgroundColor: testCategory.color,
+      text: testCategory.name! + 'asdasd',
+      onPressed: () {
+        Navigator.pushNamed(context, Routes.psyTests, arguments: {
+          'testCatId': testCategory.testCatId,
+        });
       },
-      child: Container(
-        height: 100.0,
-        child: Column(
-          children: [
-            CustomText(testCategory.name),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -12,6 +12,7 @@ import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
 import 'package:habido_app/utils/device_helper.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/widgets/dialogs.dart';
@@ -79,10 +80,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           yield LoginSuccess(res);
         } else {
-          yield LoginFailed(res.message ?? LocaleKeys.failed);
+          yield LoginFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
         }
       } else {
-        yield LoginFailed(res.message ?? LocaleKeys.failed);
+        yield LoginFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
       }
     } catch (e) {
       yield LoginFailed(LocaleKeys.errorOccurred);
@@ -136,7 +137,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (res.code == ResponseCode.Success) {
         yield SignUpSuccess(res);
       } else {
-        yield SignUpFailed(res.message ?? LocaleKeys.failed);
+        yield SignUpFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
       }
     } catch (e) {
       yield SignUpFailed(LocaleKeys.errorOccurred);
@@ -155,7 +156,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (res.code == ResponseCode.Success) {
         yield VerifyCodeSuccess();
       } else {
-        yield VerifyCodeFailed(res.message ?? LocaleKeys.failed);
+        yield VerifyCodeFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
       }
     } catch (e) {
       yield VerifyCodeFailed(LocaleKeys.errorOccurred);

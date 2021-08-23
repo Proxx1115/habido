@@ -167,7 +167,7 @@ class _LoginRouteState extends State<LoginRoute> {
                             child: _btnLogin(),
                           ),
 
-                          /// Finger print button
+                          /// Biometrics button
                           _btnBiometrics(),
                         ],
                       ),
@@ -322,7 +322,7 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _btnForgotPass() {
-    return ButtonText2(
+    return ButtonMultiPartText(
       text1: LocaleKeys.haveYouForgottenYourPassword,
       text2: LocaleKeys.recover,
       textColor: customColors.secondaryText,
@@ -334,7 +334,7 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _btnSignUp() {
-    return ButtonText2(
+    return ButtonMultiPartText(
       text1: LocaleKeys.hasAccount,
       text2: LocaleKeys.signUp,
       backgroundColor: customColors.secondaryBackground,
