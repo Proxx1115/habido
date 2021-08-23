@@ -192,6 +192,8 @@ class LocaleKeys {
 
   /// Psychology test
   static String get psyTest => 'Сэтгэл зүйн тест';
+
+  static String get psyStatus => 'Сэтгэл зүйн байдал';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

@@ -3,18 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_bloc.dart';
-import 'package:habido_app/ui/home/assistant_screen.dart';
-import 'package:habido_app/ui/home/content_screen.dart';
+import 'package:habido_app/ui/chat/assistant_screen.dart';
+import 'package:habido_app/ui/content/content_list_screen.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/dialogs.dart';
-import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
-
 import 'dashboard_screen.dart';
-import 'profile_screen.dart';
-import 'test_screen.dart';
+import '../profile/profile_screen.dart';
+import '../psy_test/psy_test_screen.dart';
 
 class HomeRoute extends StatefulWidget {
   @override
@@ -96,13 +94,13 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
             DashboardScreen(),
 
             /// Тест
-            TestScreen(),
+            PsyTestScreen(),
 
             /// Туслах
             AssistantScreen(),
 
             /// Контент
-            ContentScreen(),
+            ContentListScreen(),
 
             /// Профайл
             ProfileScreen(),

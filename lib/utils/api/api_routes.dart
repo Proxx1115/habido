@@ -11,4 +11,5 @@ class ApiRoutes {
   static const String banners = '/banners';
   static const String testCategories = '/test-categories';
   static const String categoryTests = '/category-tests';
+  static const String contentList = '/content/list';
 }

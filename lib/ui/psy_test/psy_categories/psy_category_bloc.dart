@@ -10,28 +10,28 @@ import 'package:habido_app/utils/localization/localization.dart';
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-class TestBloc extends Bloc<TestEvent, TestState> {
-  TestBloc() : super(TestInit());
+class PsyCategoryBloc extends Bloc<PsyCategoryEvent, PsyCategoryState> {
+  PsyCategoryBloc() : super(PsyCategoryInit());
 
   @override
-  Stream<TestState> mapEventToState(TestEvent event) async* {
-    if (event is GetTestCategoriesEvent) {
-      yield* _mapGetTestCategoriesEventToState();
+  Stream<PsyCategoryState> mapEventToState(PsyCategoryEvent event) async* {
+    if (event is GetPsyCategoriesEvent) {
+      yield* _mapGetPsyCategoriesEventToState();
     }
   }
 
-  Stream<TestState> _mapGetTestCategoriesEventToState() async* {
+  Stream<PsyCategoryState> _mapGetPsyCategoriesEventToState() async* {
     try {
-      yield TestLoading();
+      yield PsyCategoryLoading();
 
       var res = await ApiManager.psyCategories();
       if (res.code == ResponseCode.Success && res.psyCategoryList != null && res.psyCategoryList!.length > 0) {
-        yield TestCategorySuccess(res.psyCategoryList!);
+        yield PsyCategoriesSuccess(res.psyCategoryList!);
       } else {
-        yield TestCategoryFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield PsyCategoriesFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
-      yield TestCategoryFailed(LocaleKeys.errorOccurred);
+      yield PsyCategoriesFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -40,50 +40,50 @@ class TestBloc extends Bloc<TestEvent, TestState> {
 /// BLOC EVENTS
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class TestEvent extends Equatable {
-  const TestEvent();
+abstract class PsyCategoryEvent extends Equatable {
+  const PsyCategoryEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetTestCategoriesEvent extends TestEvent {}
+class GetPsyCategoriesEvent extends PsyCategoryEvent {}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class TestState extends Equatable {
-  const TestState();
+abstract class PsyCategoryState extends Equatable {
+  const PsyCategoryState();
 
   @override
   List<Object> get props => [];
 }
 
-class TestInit extends TestState {}
+class PsyCategoryInit extends PsyCategoryState {}
 
-class TestLoading extends TestState {}
+class PsyCategoryLoading extends PsyCategoryState {}
 
-class TestCategorySuccess extends TestState {
-  final List<PsyCategory> testCategoryList;
+class PsyCategoriesSuccess extends PsyCategoryState {
+  final List<PsyCategory> psyCategoryList;
 
-  const TestCategorySuccess(this.testCategoryList);
-
-  @override
-  List<Object> get props => [testCategoryList];
+  const PsyCategoriesSuccess(this.psyCategoryList);
 
   @override
-  String toString() => 'TestCategorySuccess { testCategoryList: $testCategoryList }';
+  List<Object> get props => [psyCategoryList];
+
+  @override
+  String toString() => 'PsyCategoriesSuccess { psyCategoryList: $psyCategoryList }';
 }
 
-class TestCategoryFailed extends TestState {
+class PsyCategoriesFailed extends PsyCategoryState {
   final String message;
 
-  const TestCategoryFailed(this.message);
+  const PsyCategoriesFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'TestCategoryFailed { message: $message }';
+  String toString() => 'PsyCategoriesFailed { message: $message }';
 }

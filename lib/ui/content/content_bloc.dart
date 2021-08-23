@@ -1,37 +1,36 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/models/psy_category.dart';
+import 'package:habido_app/models/content.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
-import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-class TestBloc extends Bloc<TestEvent, TestState> {
-  TestBloc() : super(TestInit());
+class ContentBloc extends Bloc<ContentEvent, ContentState> {
+  ContentBloc() : super(ContentInit());
 
   @override
-  Stream<TestState> mapEventToState(TestEvent event) async* {
-    if (event is GetTestCategoriesEvent) {
-      yield* _mapGetTestCategoriesEventToState();
+  Stream<ContentState> mapEventToState(ContentEvent event) async* {
+    if (event is GetContentListEvent) {
+      yield* _mapGetContentListEventToState();
     }
   }
 
-  Stream<TestState> _mapGetTestCategoriesEventToState() async* {
+  Stream<ContentState> _mapGetContentListEventToState() async* {
     try {
-      yield TestLoading();
+      yield ContentLoading();
 
-      var res = await ApiManager.psyCategories();
-      if (res.code == ResponseCode.Success && res.psyCategoryList != null && res.psyCategoryList!.length > 0) {
-        yield TestCategorySuccess(res.psyCategoryList!);
+      var res = await ApiManager.contentList();
+      if (res.code == ResponseCode.Success && res.contentList != null && res.contentList!.length > 0) {
+        yield ContentListSuccess(res.contentList!);
       } else {
-        yield TestCategoryFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield ContentEmpty();
       }
     } catch (e) {
-      yield TestCategoryFailed(LocaleKeys.errorOccurred);
+      yield ContentListFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -40,50 +39,52 @@ class TestBloc extends Bloc<TestEvent, TestState> {
 /// BLOC EVENTS
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class TestEvent extends Equatable {
-  const TestEvent();
+abstract class ContentEvent extends Equatable {
+  const ContentEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetTestCategoriesEvent extends TestEvent {}
+class GetContentListEvent extends ContentEvent {}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class TestState extends Equatable {
-  const TestState();
+abstract class ContentState extends Equatable {
+  const ContentState();
 
   @override
   List<Object> get props => [];
 }
 
-class TestInit extends TestState {}
+class ContentInit extends ContentState {}
 
-class TestLoading extends TestState {}
+class ContentLoading extends ContentState {}
 
-class TestCategorySuccess extends TestState {
-  final List<PsyCategory> testCategoryList;
+class ContentEmpty extends ContentState {}
 
-  const TestCategorySuccess(this.testCategoryList);
+class ContentListSuccess extends ContentState {
+  final List<Content> contentList;
+
+  const ContentListSuccess(this.contentList);
 
   @override
-  List<Object> get props => [testCategoryList];
+  List<Object> get props => [contentList];
 
   @override
-  String toString() => 'TestCategorySuccess { testCategoryList: $testCategoryList }';
+  String toString() => 'ContentListSuccess { contentList: $contentList }';
 }
 
-class TestCategoryFailed extends TestState {
+class ContentListFailed extends ContentState {
   final String message;
 
-  const TestCategoryFailed(this.message);
+  const ContentListFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'TestCategoryFailed { message: $message }';
+  String toString() => 'ContentListFailed { message: $message }';
 }

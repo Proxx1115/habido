@@ -4,6 +4,7 @@ import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/category_tests_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
+import 'package:habido_app/models/content_list_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
 import 'package:habido_app/models/param_response.dart';
@@ -11,7 +12,7 @@ import 'package:habido_app/models/psy_tests_response.dart';
 import 'package:habido_app/models/register_device_request.dart';
 import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
-import 'package:habido_app/models/test_categories_response.dart';
+import 'package:habido_app/models/psy_categories_response.dart';
 import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/globals.dart';
@@ -137,9 +138,9 @@ class ApiManager {
     );
   }
 
-  /// Test
-  static Future<TestCategoriesResponse> testCategories() async {
-    return TestCategoriesResponse.fromJson(
+  /// Psychology test
+  static Future<PsyCategoriesResponse> psyCategories() async {
+    return PsyCategoriesResponse.fromJson(
       await httpUtils.sendRequest(path: ApiRoutes.testCategories, httpMethod: HttpMethod.Get),
     );
   }
@@ -147,6 +148,13 @@ class ApiManager {
   static Future<PsyTestsResponse> psyTests(int testCatId) async {
     return PsyTestsResponse.fromJson(
       await httpUtils.sendRequest(path: ApiRoutes.categoryTests + '?testCatId=$testCatId', httpMethod: HttpMethod.Get),
+    );
+  }
+
+  /// Content - Blog
+  static Future<ContentListResponse> contentList() async {
+    return ContentListResponse.fromJson(
+      await httpUtils.sendRequest(path: ApiRoutes.contentList, httpMethod: HttpMethod.Get),
     );
   }
 }

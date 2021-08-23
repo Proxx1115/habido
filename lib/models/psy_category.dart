@@ -1,4 +1,4 @@
-class TestCategory {
+class PsyCategory {
   int? testCatId;
   String? name;
   String? photo;
@@ -7,16 +7,9 @@ class TestCategory {
   int? orderNo;
   bool? isActive;
 
-  TestCategory({
-      this.testCatId, 
-      this.name, 
-      this.photo, 
-      this.color, 
-      this.photoBase64, 
-      this.orderNo, 
-      this.isActive});
+  PsyCategory({this.testCatId, this.name, this.photo, this.color, this.photoBase64, this.orderNo, this.isActive});
 
-  TestCategory.fromJson(dynamic json) {
+  PsyCategory.fromJson(dynamic json) {
     testCatId = json['testCatId'];
     name = json['name'];
     photo = json['photo'];
@@ -37,5 +30,4 @@ class TestCategory {
     map['isActive'] = isActive;
     return map;
   }
-
 }

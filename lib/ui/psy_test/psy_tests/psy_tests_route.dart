@@ -7,7 +7,6 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-
 import 'psy_tests_bloc.dart';
 
 class PsyTestsRoute extends StatefulWidget {
@@ -22,7 +21,7 @@ class PsyTestsRoute extends StatefulWidget {
 class _PsyTestsRouteState extends State<PsyTestsRoute> {
   // UI
   final _categoryTestsKey = GlobalKey<ScaffoldState>();
-  late PsyTestsBloc _categoryTestsBloc;
+  late PsyTestBloc _categoryTestsBloc;
 
   // Data
   Content? _content;
@@ -30,7 +29,7 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
 
   @override
   void initState() {
-    _categoryTestsBloc = PsyTestsBloc();
+    _categoryTestsBloc = PsyTestBloc();
     _categoryTestsBloc.add(GetPsyTestsEvent(widget.testCatId));
     super.initState();
   }
@@ -45,16 +44,33 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _categoryTestsBloc,
-      child: BlocListener<PsyTestsBloc, PsyTestsState>(
+      child: BlocListener<PsyTestBloc, PsyTestState>(
         listener: _blocListener,
-        child: BlocBuilder<PsyTestsBloc, PsyTestsState>(
-          builder: _blocBuilder,
+        child: BlocBuilder<PsyTestBloc, PsyTestState>(
+          builder: (context, state) {
+            return CustomScaffold(
+              scaffoldKey: _categoryTestsKey,
+              appBarTitle: LocaleKeys.psyStatus,
+              body: GridView.count(
+                primary: false,
+                padding: const EdgeInsets.all(SizeHelper.padding),
+                crossAxisSpacing: 15.0,
+                mainAxisSpacing: 15.0,
+                crossAxisCount: 2,
+                childAspectRatio: 1.2,
+                children: <Widget>[
+                  if (_psyTestList != null && _psyTestList!.length > 0)
+                    for (var el in _psyTestList!) _testCategoryItem(el),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
   }
 
-  void _blocListener(BuildContext context, PsyTestsState state) {
+  void _blocListener(BuildContext context, PsyTestState state) {
     if (state is PsyTestsSuccess) {
       _content = state.psyTestsResponse.content;
       _psyTestList = state.psyTestsResponse.psyTestList;
@@ -71,25 +87,6 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
         ),
       );
     }
-  }
-
-  Widget _blocBuilder(BuildContext context, PsyTestsState state) {
-    return CustomScaffold(
-      scaffoldKey: _categoryTestsKey,
-      appBarTitle: LocaleKeys.psyTest,
-      body: GridView.count(
-        primary: false,
-        padding: const EdgeInsets.all(SizeHelper.padding),
-        crossAxisSpacing: 15.0,
-        mainAxisSpacing: 15.0,
-        crossAxisCount: 2,
-        childAspectRatio: 1.2,
-        children: <Widget>[
-          if (_psyTestList != null && _psyTestList!.length > 0)
-            for (var el in _psyTestList!) _testCategoryItem(el),
-        ],
-      ),
-    );
   }
 
   Widget _testCategoryItem(PsyTest psyTest) {

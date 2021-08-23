@@ -75,11 +75,6 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
         _chatList[state.chatIndex!].isOptionSelected = true;
       }
 
-      // todo test
-      if (state.response.content != null) {
-        print('Content олдсон');
-      }
-
       if (state.response.isEnd ?? false) {
         print('Чат дууссан');
         if (widget.chatType == ChatType.onBoarding) {

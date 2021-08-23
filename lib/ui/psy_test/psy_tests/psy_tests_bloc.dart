@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/models/psy_tests_response.dart';
-import 'package:habido_app/models/test_category.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
@@ -12,17 +10,17 @@ import 'package:habido_app/utils/localization/localization.dart';
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-class PsyTestsBloc extends Bloc<PsyTestsEvent, PsyTestsState> {
-  PsyTestsBloc() : super(PsyTestsInit());
+class PsyTestBloc extends Bloc<PsyTestEvent, PsyTestState> {
+  PsyTestBloc() : super(PsyTestsInit());
 
   @override
-  Stream<PsyTestsState> mapEventToState(PsyTestsEvent event) async* {
+  Stream<PsyTestState> mapEventToState(PsyTestEvent event) async* {
     if (event is GetPsyTestsEvent) {
       yield* _mapGetPsyTestsEventToState(event);
     }
   }
 
-  Stream<PsyTestsState> _mapGetPsyTestsEventToState(GetPsyTestsEvent event) async* {
+  Stream<PsyTestState> _mapGetPsyTestsEventToState(GetPsyTestsEvent event) async* {
     try {
       yield PsyTestsLoading();
 
@@ -42,14 +40,14 @@ class PsyTestsBloc extends Bloc<PsyTestsEvent, PsyTestsState> {
 /// BLOC EVENTS
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class PsyTestsEvent extends Equatable {
-  const PsyTestsEvent();
+abstract class PsyTestEvent extends Equatable {
+  const PsyTestEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetPsyTestsEvent extends PsyTestsEvent {
+class GetPsyTestsEvent extends PsyTestEvent {
   final int testCatId;
 
   const GetPsyTestsEvent(this.testCatId);
@@ -58,25 +56,25 @@ class GetPsyTestsEvent extends PsyTestsEvent {
   List<Object> get props => [testCatId];
 
   @override
-  String toString() => 'GetCategoryTestsEvent { testCatId: $testCatId }';
+  String toString() => 'GetPsyTestsEvent { testCatId: $testCatId }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class PsyTestsState extends Equatable {
-  const PsyTestsState();
+abstract class PsyTestState extends Equatable {
+  const PsyTestState();
 
   @override
   List<Object> get props => [];
 }
 
-class PsyTestsInit extends PsyTestsState {}
+class PsyTestsInit extends PsyTestState {}
 
-class PsyTestsLoading extends PsyTestsState {}
+class PsyTestsLoading extends PsyTestState {}
 
-class PsyTestsSuccess extends PsyTestsState {
+class PsyTestsSuccess extends PsyTestState {
   final PsyTestsResponse psyTestsResponse;
 
   const PsyTestsSuccess(this.psyTestsResponse);
@@ -88,7 +86,7 @@ class PsyTestsSuccess extends PsyTestsState {
   String toString() => 'PsyTestsSuccess { psyTestsResponse: $psyTestsResponse }';
 }
 
-class PsyTestsFailed extends PsyTestsState {
+class PsyTestsFailed extends PsyTestState {
   final String message;
 
   const PsyTestsFailed(this.message);

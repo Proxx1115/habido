@@ -5,7 +5,7 @@ import 'package:supercharged/supercharged.dart';
 
 enum AniProps { opacity, translateX, translateY }
 
-class FadeInAnimation extends StatelessWidget {
+class MoveInAnimation extends StatelessWidget {
   final Widget child;
 
   // Duration
@@ -17,7 +17,7 @@ class FadeInAnimation extends StatelessWidget {
   final double? tweenStart;
   final double? tweenEnd;
 
-  FadeInAnimation({
+  MoveInAnimation({
     required this.child,
     this.delay,
     this.isAxisHorizontal = true,
@@ -50,6 +50,35 @@ class FadeInAnimation extends StatelessWidget {
           ),
           child: child,
         ),
+      ),
+    );
+  }
+}
+
+class FadeInAnimation extends StatelessWidget {
+  final Widget child;
+
+  // Duration
+  final int _duration = 500; // Milliseconds
+  final double? delay;
+
+  FadeInAnimation({
+    required this.child,
+    this.delay,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final tween = MultiTween<AniProps>()..add(AniProps.opacity, 0.0.tweenTo(1.0), _duration.milliseconds);
+
+    return PlayAnimation<MultiTweenValues<AniProps>>(
+      delay: Duration(milliseconds: (_duration * (delay ?? 1)).round()),
+      duration: tween.duration,
+      tween: tween,
+      child: child,
+      builder: (context, child, value) => Opacity(
+        opacity: value.get(AniProps.opacity),
+        child: child,
       ),
     );
   }
