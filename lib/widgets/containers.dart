@@ -340,3 +340,53 @@ class ListItemContainer extends StatelessWidget {
     );
   }
 }
+
+class SelectableListItem extends StatelessWidget {
+  final EdgeInsets? margin;
+  final String? text;
+  final bool? isSelected;
+  final Function(bool)? onPressed;
+
+  const SelectableListItem({
+    Key? key,
+    this.margin,
+    this.text,
+    this.isSelected,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin,
+      padding: EdgeInsets.symmetric(horizontal: 18.0),
+      height: SizeHelper.boxHeight,
+      decoration: BoxDecoration(
+        borderRadius: SizeHelper.borderRadiusOdd,
+        color: customColors.secondaryBackground,
+      ),
+      child: InkWell(
+        borderRadius: SizeHelper.borderRadiusOdd,
+        onTap: () {
+          if (onPressed != null) {
+            bool value = !(isSelected ?? false);
+            onPressed!(value);
+          }
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            /// Text
+            Expanded(child: CustomText(text)),
+
+            /// Icon
+            SvgPicture.asset(
+              Assets.circle_check,
+              color: (isSelected ?? false) ? customColors.primary : customColors.iconGrey,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

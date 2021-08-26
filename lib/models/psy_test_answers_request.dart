@@ -1,11 +1,11 @@
 import 'package:habido_app/models/base_request.dart';
 
-import 'psy_test_answer.dart';
+import 'psy_test_question_answer.dart';
 
 class PsyTestAnswersRequest extends BaseRequest {
   int? testId;
   int? userTestId;
-  List<PsyTestAnswer>? dataTestQuestionAns;
+  List<PsyTestQuestionAnswer>? dataTestQuestionAns;
 
   PsyTestAnswersRequest({this.testId, this.userTestId, this.dataTestQuestionAns});
 
@@ -15,7 +15,7 @@ class PsyTestAnswersRequest extends BaseRequest {
     if (json['dataTestQuestionAns'] != null) {
       dataTestQuestionAns = [];
       json['dataTestQuestionAns'].forEach((v) {
-        dataTestQuestionAns?.add(PsyTestAnswer.fromJson(v));
+        dataTestQuestionAns?.add(PsyTestQuestionAnswer.fromJson(v));
       });
     }
   }

@@ -1,4 +1,4 @@
-import 'psy_test_answers.dart';
+import 'psy_test_answer.dart';
 
 class PsyTestQuestion {
   int? questionId;
@@ -7,7 +7,7 @@ class PsyTestQuestion {
   bool? isTimeLimit;
   int? timeLimit;
   bool? isAnsOrder;
-  List<PsyTestAnswers>? testAnswers;
+  List<PsyTestAnswer>? testAnswers;
 
   PsyTestQuestion({
       this.questionId, 
@@ -28,7 +28,7 @@ class PsyTestQuestion {
     if (json['testAnswers'] != null) {
       testAnswers = [];
       json['testAnswers'].forEach((v) {
-        testAnswers?.add(PsyTestAnswers.fromJson(v));
+        testAnswers?.add(PsyTestAnswer.fromJson(v));
       });
     }
   }
