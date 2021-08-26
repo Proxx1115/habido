@@ -144,7 +144,7 @@ class Routes {
       case Routes.content:
         var args = settings.arguments as Map;
         route = PageRouteBuilder(
-          transitionDuration: Duration(milliseconds: 1600),
+          transitionDuration: Duration(milliseconds: 1000),
           pageBuilder: (_, __, ___) => ContentRoute(
             content: _getValueByKey(args, 'content'),
           ),

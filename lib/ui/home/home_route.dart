@@ -25,6 +25,8 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
 
   // Bottom navigation bar
   late TabController _tabController;
+  double? _navBarItemWidth;
+  double _navBarHorizontalPadding = 25.0;
 
   @override
   void initState() {
@@ -120,41 +122,54 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
       elevation: 0.0,
       clipBehavior: Clip.none,
       notchMargin: 4.0,
-      child: Container(
-        height: 55.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            _bottomNavigationBarItem(0, Assets.home, LocaleKeys.home),
-            _bottomNavigationBarItem(1, Assets.test, LocaleKeys.test),
-            _bottomNavigationBarItem(2, Assets.assistant, LocaleKeys.assistant),
-            _bottomNavigationBarItem(3, Assets.content, LocaleKeys.content),
-            _bottomNavigationBarItem(4, Assets.profile, LocaleKeys.profile),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          _bottomNavigationBarItem(0, Assets.home, LocaleKeys.home),
+          _bottomNavigationBarItem(1, Assets.test, LocaleKeys.test),
+          _bottomNavigationBarItem(2, Assets.assistant, LocaleKeys.assistant),
+          _bottomNavigationBarItem(3, Assets.content, LocaleKeys.content),
+          _bottomNavigationBarItem(4, Assets.profile, LocaleKeys.profile),
+        ],
       ),
     );
   }
 
   Widget _bottomNavigationBarItem(int index, String asset, String text) {
-    return InkWell(
-      onTap: () {
-        BlocManager.homeBloc.add(NavigateToPageEvent(index));
-        // setState(() {
-        //   _tabController.index = index;
-        // });
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          /// Icon
-          SvgPicture.asset(asset, color: customColors.iconGrey),
+    _navBarItemWidth = _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
 
-          /// Text
-          CustomText(text, color: customColors.iconGrey, fontSize: 11.0, fontWeight: FontWeight.bold),
-        ],
+    return Expanded(
+      child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        onTap: () {
+          BlocManager.homeBloc.add(NavigateToPageEvent(index));
+        },
+        child: Container(
+          height: 55.0,
+          width: _navBarItemWidth,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              /// Icon
+              SizedBox(
+                width: 24.0,
+                height: 24.0,
+                child: SvgPicture.asset(asset, color: customColors.iconGrey),
+              ),
+
+              /// Text
+              CustomText(
+                text,
+                alignment: Alignment.center,
+                color: customColors.iconGrey,
+                fontSize: 11.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

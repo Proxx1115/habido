@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/containers.dart';
@@ -21,7 +22,7 @@ class _ContentRouteState extends State<ContentRoute> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBarTitle: 'Content',
+      appBarTitle: LocaleKeys.content,
       body: SingleChildScrollView(
         child: Container(
           padding: SizeHelper.paddingScreen,
@@ -44,7 +45,7 @@ class _ContentRouteState extends State<ContentRoute> {
 
               /// Text
               FadeInAnimation(
-                delay: 2,
+                delay: 1.5,
                 child: InfoContainer(
                   margin: EdgeInsets.only(top: 15.0),
                   title: widget.content.text ?? '',

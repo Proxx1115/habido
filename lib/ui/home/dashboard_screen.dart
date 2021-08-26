@@ -28,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 CustomSlider(margin: EdgeInsets.only(top: 30.0)),
 
                 /// Calendar, Title, Notification
-                HomeAppBar(title: 'Test'),
+                HomeAppBar(),
               ],
             ),
           ],
