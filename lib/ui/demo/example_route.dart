@@ -37,12 +37,12 @@ class _ExampleRouteState extends State<ExampleRoute> {
       child: CustomDialogBody(
         asset: Assets.success,
         text: 'test',
-        button1Text: 'OK',
+        buttonText: 'OK',
         // child: Container(
         //   color: Colors.red,
         //   height: 1.0,
         // ),
-        onPressedButton1: () {
+        onPressedButton: () {
           //
         },
         // button2Text: 'NO',

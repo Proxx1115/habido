@@ -32,10 +32,6 @@ class SharedPref {
     sharedPref?.setString(SharedPrefKey.sessionToken, Func.toStr(sessionToken));
   }
 
-  static void clearSessionToken() {
-    sharedPref?.setString(SharedPrefKey.sessionToken, '');
-  }
-
   static bool checkIntroLimit() {
     // sharedPref?.clear();
 

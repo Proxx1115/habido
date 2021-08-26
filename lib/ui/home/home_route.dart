@@ -8,7 +8,6 @@ import 'package:habido_app/ui/content/content_list_screen.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'dashboard_screen.dart';
 import '../profile/profile_screen.dart';
@@ -55,21 +54,6 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   void _blocListener(BuildContext context, HomeState state) {
     if (state is NavigateToPageState) {
       _tabController.index = state.index;
-      // _tabController.animateToPage(state.index, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-    } else if (state is SessionExpiredState) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(
-          asset: Assets.error,
-          text: LocaleKeys.sessionExpired,
-          button1Text: LocaleKeys.ok,
-          onPressedButton1: () {
-            // todo test logout
-
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          },
-        ),
-      );
     }
   }
 
@@ -165,6 +149,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
               /// Text
               CustomText(
                 text,
+                padding: EdgeInsets.only(top: 5.0),
                 alignment: Alignment.center,
                 color: _tabController.index == index ? customColors.primary : customColors.iconGrey,
                 fontSize: 11.0,

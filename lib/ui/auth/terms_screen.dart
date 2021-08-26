@@ -56,7 +56,7 @@ class _TermsScreenState extends State<TermsScreen> {
     } else if (state is ParamFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }

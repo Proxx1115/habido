@@ -53,6 +53,16 @@ class ApiManager {
     ));
   }
 
+  static Future<BaseResponse> logout() async {
+    var res = BaseResponse.fromJson(
+      await httpUtils.sendRequest(path: ApiRoutes.signout),
+    );
+
+    print(res.code);
+
+    return res;
+  }
+
   static Future<UserData> getUserData() async {
     // Check session
     var res = UserData.fromJson(await httpUtils.sendRequest(

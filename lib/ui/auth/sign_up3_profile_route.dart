@@ -206,7 +206,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
               if (_passController.text != _passRepeatController.text) {
                 showCustomDialog(
                   context,
-                  child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, button1Text: LocaleKeys.ok),
+                  child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, buttonText: LocaleKeys.ok),
                 );
 
                 return;

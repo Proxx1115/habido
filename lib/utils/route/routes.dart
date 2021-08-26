@@ -135,7 +135,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           PsyTestsRoute(
-            testCatId: _getValueByKey(args, 'testCatId'),
+            psyCategory: _getValueByKey(args, 'psyCategory'),
           ),
           settings,
         );

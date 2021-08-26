@@ -13,6 +13,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/biometric_helper.dart';
 import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/widgets/dialogs.dart';
@@ -30,23 +31,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapInitBiometricsEvent();
     } else if (event is LoginEvent) {
       yield* _mapLoginEventToState(event.request);
+    } else if (event is LogoutEvent) {
+      yield* _mapLogoutEventToState();
     } else if (event is SignUpEvent) {
       yield* _mapSignUpEventToState(event.request);
     } else if (event is VerifyCodeEvent) {
       yield* _mapVerifyCodeEventToState(event.request);
+    } else if (event is SessionTimeoutEvent) {
+      yield* _mapSessionTimeoutEventToState();
     }
-
-    //else if (event is ForgotPass) {
-    //   yield* _mapForgotPassToState(event.request);
-    // } else if (event is ChangePass) {
-    //   yield* _mapChangePassToState(event.request);
-    // } else if (event is InitBiometrics) {
-    //   yield* _mapInitBiometrics();
-    // } else if (event is ConnectDevice) {
-    //   yield* _mapConnectDeviceToState(event.request);
-    // } else if (event is ChangePassEvent) {
-    //   yield* _mapChangePassEventToState(event.request);
-    // }
   }
 
   Stream<AuthState> _mapInitBiometricsEvent() async* {
@@ -76,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         /// Get user data
         var userData = await ApiManager.getUserData();
         if (userData.code == ResponseCode.Success) {
-          await afterLogin();
+          // await afterLogin(); // todo test
 
           yield LoginSuccess(res);
         } else {
@@ -94,40 +87,45 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await DeviceHelper.registerDeviceToken();
   }
 
-  /// Logout
-  static showLogoutDialog(BuildContext context) {
-    // showCustomDialog(
-    //   context,
-    //   child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
-    // );
+  Stream<AuthState> _mapLogoutEventToState() async* {
+    try {
+      var res = await ApiManager.logout();
+      if (res.code == ResponseCode.Success) {
+        await afterLogout();
 
-    // showCustomDialog(
-    //   context,
-    //   bodyText: AppText.sureToLogout,
-    //   btnNegativeText: AppText.no,
-    //   btnPositiveText: AppText.yes,
-    //   onPressedBtnPositive: () {
-    //     logout();
-    //     Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
-    //   },
-    // );
+        yield LogoutSuccess();
+      } else {
+        yield LogoutFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+      }
+    } catch (e) {
+      yield LogoutFailed(LocaleKeys.errorOccurred);
+    }
   }
 
-  // static Future<void> logout() async {
-  //   ApiManager.signOut();
-  //
-  //   // Session устгах
-  //   SharedPrefManager.clearSessionToken();
-  //
-  //   // Clear user data
-  //   globals.clear();
-  // }
-  //
-  // static void handleUserInteraction(AppState state) {
-  //   if (Func.isNotEmpty(globals.sessionToken)) {
-  //     //
-  //   }
-  // }
+  Stream<AuthState> _mapSessionTimeoutEventToState() async* {
+    yield SessionTimeoutState();
+    AuthBloc.afterLogout();
+  }
+
+  static afterLogout() async {
+    SharedPref.setSessionToken('');
+    globals.clear();
+  }
+
+  static showLogoutDialog(BuildContext context) {
+    showCustomDialog(
+      context,
+      child: CustomDialogBody(
+        asset: Assets.error,
+        text: LocaleKeys.sessionExpired,
+        buttonText: LocaleKeys.ok,
+        onPressedButton: () {
+          afterLogout();
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        },
+      ),
+    );
+  }
 
   Stream<AuthState> _mapSignUpEventToState(SignUpRequest request) async* {
     try {
@@ -162,62 +160,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield VerifyCodeFailed(LocaleKeys.errorOccurred);
     }
   }
-
-// Stream<AuthState> _mapForgotPassToState(ForgotPassRequest request) async* {
-//   try {
-//     yield AuthLoading();
-//     var res = await ApiManager.forgotPass(request);
-//     if (res.code == ResponseCode.Success) {
-//       yield ForgotPassSuccess(res);
-//     } else {
-//       yield ForgotPassFailed(res.message);
-//     }
-//   } catch (e) {
-//     yield ForgotPassFailed(CustomText.errorOccurred);
-//   }
-// }
-//
-// Stream<AuthState> _mapChangePassToState(VerifyRequest request) async* {
-//   try {
-//     yield AuthLoading();
-//     var res = await ApiManager.changePass(request);
-//     if (res.code == ResponseCode.Success) {
-//       yield ChangePassSuccess(res);
-//     } else {
-//       yield ChangePassFailed(res.message);
-//     }
-//   } catch (e) {
-//     yield ChangePassFailed(CustomText.errorOccurred);
-//   }
-// }
-
-// Stream<AuthState> _mapConnectDeviceToState(ConnectDeviceRequest request) async* {
-//   try {
-//     yield AuthLoading();
-//     var res = await ApiManager.connectDevice(request);
-//     if (res.code == ResponseCode.Success) {
-//       yield ConnectDeviceSuccess(res);
-//     } else {
-//       yield ConnectDeviceFailed(res.message);
-//     }
-//   } catch (e) {
-//     yield ConnectDeviceFailed(CustomText.errorOccurred);
-//   }
-// }
-//
-// Stream<AuthState> _mapChangePassEventToState(ChangePassRequest request) async* {
-//   try {
-//     yield AuthLoading();
-//     var res = await ApiManager.changePassSettings(request);
-//     if (res.code == ResponseCode.Success) {
-//       yield ChangePassSuccessState(res);
-//     } else {
-//       yield ChangePassFailedState(res.message);
-//     }
-//   } catch (e) {
-//     yield ChangePassFailedState(CustomText.errorOccurred);
-//   }
-// }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -269,54 +211,9 @@ class LoginEvent extends AuthEvent {
   String toString() => 'LoginEvent { request: $request }';
 }
 
-// class ForgotPass extends AuthEvent {
-//   final ForgotPassRequest request;
-//
-//   const ForgotPass(this.request);
-//
-//   @override
-//   List<Object> get props => [request];
-//
-//   @override
-//   String toString() => 'ForgotPass { request: $request }';
-// }
-//
-// class ChangePass extends AuthEvent {
-//   final VerifyRequest request;
-//
-//   const ChangePass(this.request);
-//
-//   @override
-//   List<Object> get props => [request];
-//
-//   @override
-//   String toString() => 'ChangePass { request: $request }';
-// }
-//
-// class ChangePassEvent extends AuthEvent {
-//   final ChangePassRequest request;
-//
-//   const ChangePassEvent(this.request);
-//
-//   @override
-//   List<Object> get props => [request];
-//
-//   @override
-//   String toString() => 'ChangePassEvent { request: $request }';
-// }
+class LogoutEvent extends AuthEvent {}
 
-//
-// class ConnectDevice extends AuthEvent {
-//   final ConnectDeviceRequest request;
-//
-//   const ConnectDevice(this.request);
-//
-//   @override
-//   List<Object> get props => [request];
-//
-//   @override
-//   String toString() => 'ConnectDevice { request: $request }';
-// }
+class SessionTimeoutEvent extends AuthEvent {}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
@@ -408,100 +305,18 @@ class LoginFailed extends AuthState {
   String toString() => 'LoginFailed { message: $message }';
 }
 
-// class ForgotPassSuccess extends AuthState {
-//   final SignUpResponse response;
-//
-//   const ForgotPassSuccess([this.response]);
-//
-//   @override
-//   List<Object> get props => [response];
-//
-//   @override
-//   String toString() => 'ForgotPassSuccess { response: $response }';
-// }
-//
-// class ForgotPassFailed extends AuthState {
-//   final String msg;
-//
-//   const ForgotPassFailed([this.msg]);
-//
-//   @override
-//   List<Object> get props => [msg];
-//
-//   @override
-//   String toString() => 'VerifyFailed { msg: $msg }';
-// }
-//
-// class ChangePassSuccess extends AuthState {
-//   final BaseResponse response;
-//
-//   const ChangePassSuccess([this.response]);
-//
-//   @override
-//   List<Object> get props => [response];
-//
-//   @override
-//   String toString() => 'ChangePassSuccess { BaseResponse: $response }';
-// }
-//
-// class ChangePassFailed extends AuthState {
-//   final String msg;
-//
-//   const ChangePassFailed([this.msg]);
-//
-//   @override
-//   List<Object> get props => [msg];
-//
-//   @override
-//   String toString() => 'ChangePassFailed { msg: $msg }';
-// }
+class LogoutSuccess extends AuthState {}
 
-// class ConnectDeviceSuccess extends AuthState {
-//   final LoginResponse response;
-//
-//   const ConnectDeviceSuccess([this.response]);
-//
-//   @override
-//   List<Object> get props => [response];
-//
-//   @override
-//   String toString() => 'ConnectDeviceSuccess { BaseResponse: $response }';
-// }
-//
-// class ConnectDeviceFailed extends AuthState {
-//   final String msg;
-//
-//   const ConnectDeviceFailed([this.msg]);
-//
-//   @override
-//   List<Object> get props => [msg];
-//
-//   @override
-//   String toString() => 'ConnectDeviceFailed { msg: $msg }';
-// }
-//
-// class EmptyState extends AuthState {}
-//
-// class ChangePassSuccessState extends AuthState {
-//   final BaseResponse response;
-//
-//   const ChangePassSuccessState([this.response]);
-//
-//   @override
-//   List<Object> get props => [response];
-//
-//   @override
-//   String toString() => 'ChangePassSuccessState { BaseResponse: $response }';
-// }
-//
-// class ChangePassFailedState extends AuthState {
-//   final String msg;
-//
-//   const ChangePassFailedState([this.msg]);
-//
-//   @override
-//   List<Object> get props => [msg];
-//
-//   @override
-//   String toString() => 'ChangePassFailedState { msg: $msg }';
-// }
+class LogoutFailed extends AuthState {
+  final String message;
+
+  const LogoutFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'LogoutFailed { message: $message }';
+}
+
+class SessionTimeoutState extends AuthState {}

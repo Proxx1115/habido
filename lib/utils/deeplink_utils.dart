@@ -22,7 +22,7 @@ class DeeplinkUtils {
   static showFailedDialog(BuildContext context) {
     showCustomDialog(
       context,
-      child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, button1Text: LocaleKeys.ok),
+      child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
     );
   }
 }

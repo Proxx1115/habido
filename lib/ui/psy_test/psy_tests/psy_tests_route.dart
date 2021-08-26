@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/content.dart';
+import 'package:habido_app/models/psy_category.dart';
 import 'package:habido_app/models/psy_test.dart';
+import 'package:habido_app/ui/content/content_card.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -10,9 +12,9 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'psy_tests_bloc.dart';
 
 class PsyTestsRoute extends StatefulWidget {
-  final int testCatId;
+  final PsyCategory psyCategory;
 
-  const PsyTestsRoute({Key? key, required this.testCatId}) : super(key: key);
+  const PsyTestsRoute({Key? key, required this.psyCategory}) : super(key: key);
 
   @override
   _PsyTestsRouteState createState() => _PsyTestsRouteState();
@@ -30,7 +32,7 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
   @override
   void initState() {
     _categoryTestsBloc = PsyTestBloc();
-    _categoryTestsBloc.add(GetPsyTestsEvent(widget.testCatId));
+    _categoryTestsBloc.add(GetPsyTestsEvent(widget.psyCategory.testCatId ?? -99));
     super.initState();
   }
 
@@ -42,29 +44,32 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _categoryTestsBloc,
-      child: BlocListener<PsyTestBloc, PsyTestState>(
-        listener: _blocListener,
-        child: BlocBuilder<PsyTestBloc, PsyTestState>(
-          builder: (context, state) {
-            return CustomScaffold(
-              scaffoldKey: _categoryTestsKey,
-              appBarTitle: LocaleKeys.psyStatus,
-              body: GridView.count(
-                primary: false,
-                padding: const EdgeInsets.all(SizeHelper.padding),
-                crossAxisSpacing: 15.0,
-                mainAxisSpacing: 15.0,
-                crossAxisCount: 2,
-                childAspectRatio: 1.2,
-                children: <Widget>[
-                  if (_psyTestList != null && _psyTestList!.length > 0)
-                    for (var el in _psyTestList!) _testCategoryItem(el),
-                ],
-              ),
-            );
-          },
+    return CustomScaffold(
+      scaffoldKey: _categoryTestsKey,
+      appBarTitle: widget.psyCategory.name,
+      body: BlocProvider.value(
+        value: _categoryTestsBloc,
+        child: BlocListener<PsyTestBloc, PsyTestState>(
+          listener: _blocListener,
+          child: BlocBuilder<PsyTestBloc, PsyTestState>(
+            builder: (context, state) {
+              return SingleChildScrollView(
+                child: Container(
+                  padding: SizeHelper.paddingScreen,
+                  child: Column(
+                    children: <Widget>[
+                      /// Content
+                      if (_content != null) HorizontalContentCard(content: _content!),
+
+                      // /// Psy test list
+                      // if (_psyTestList != null && _psyTestList!.length > 0)
+                      //   for (var el in _psyTestList!) _testCategoryItem(el),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -80,8 +85,8 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
         child: CustomDialogBody(
           asset: Assets.error,
           text: state.message,
-          button1Text: LocaleKeys.ok,
-          onPressedButton1: () {
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
             Navigator.pop(context);
           },
         ),

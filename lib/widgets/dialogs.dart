@@ -25,9 +25,9 @@ class CustomDialogBody extends StatelessWidget {
   final String? asset;
   final String? text;
   final Widget? child;
-  final String? button1Text;
+  final String? buttonText;
   final String? button2Text;
-  final VoidCallback? onPressedButton1;
+  final VoidCallback? onPressedButton;
   final VoidCallback? onPressedButton2;
 
   const CustomDialogBody({
@@ -36,9 +36,9 @@ class CustomDialogBody extends StatelessWidget {
     this.color,
     this.asset,
     this.text,
-    this.button1Text,
+    this.buttonText,
     this.button2Text,
-    this.onPressedButton1,
+    this.onPressedButton,
     this.onPressedButton2,
     this.child,
   }) : super(key: key);
@@ -106,20 +106,20 @@ class CustomDialogBody extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         /// Button1
-        if (button1Text != null)
+        if (buttonText != null)
           Expanded(
             child: CustomButton(
-              text: button1Text,
+              text: buttonText,
               onPressed: () {
                 Navigator.pop(context);
-                if (onPressedButton1 != null) onPressedButton1!();
+                if (onPressedButton != null) onPressedButton!();
               },
               backgroundColor: color,
             ),
           ),
 
         // Margin
-        if (button1Text != null && button2Text != null) SizedBox(width: 25.0),
+        if (buttonText != null && button2Text != null) SizedBox(width: 25.0),
 
         /// Button2
         if (button2Text != null)

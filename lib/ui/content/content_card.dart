@@ -5,6 +5,7 @@ import 'package:habido_app/models/content.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
@@ -13,7 +14,8 @@ import 'package:habido_app/widgets/text.dart';
 
 class VerticalContentCard extends StatelessWidget {
   final Content content;
-  final VoidCallback? onPressed;
+
+  // final VoidCallback? onPressed;
   final double imageHeight;
 
   final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
@@ -21,7 +23,7 @@ class VerticalContentCard extends StatelessWidget {
   VerticalContentCard({
     Key? key,
     required this.content,
-    this.onPressed,
+    // this.onPressed,
     required this.imageHeight,
   }) : super(key: key);
 
@@ -29,7 +31,11 @@ class VerticalContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return FadeInAnimation(
       child: InkWell(
-        onTap: onPressed,
+        onTap: () {
+          Navigator.pushNamed(context, Routes.content, arguments: {
+            'content': content,
+          });
+        },
         borderRadius: _borderRadius,
         child: Hero(
           tag: Func.toStr(content.contentId),
@@ -137,6 +143,112 @@ class VerticalContentCard extends StatelessWidget {
                           ),
                         ),
                     ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HorizontalContentCard extends StatelessWidget {
+  final Content content;
+
+  final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
+
+  HorizontalContentCard({
+    Key? key,
+    required this.content,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeInAnimation(
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, Routes.content, arguments: {
+            'content': content,
+          });
+        },
+        borderRadius: _borderRadius,
+        child: Hero(
+          tag: Func.toStr(content.contentId),
+          child: Container(
+            height: 133.0,
+            decoration: BoxDecoration(
+              borderRadius: _borderRadius,
+              color: customColors.secondaryBackground,
+            ),
+            child: Row(
+              children: [
+                /// Cover image
+                ClipRRect(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
+                  child: CachedNetworkImage(
+                    imageUrl: content.contentPhoto ?? '',
+                    fit: BoxFit.fitHeight,
+                    // width: MediaQuery.of(context).size.width * 0.3,
+                    width: 115.0,
+                    placeholder: (context, url) => CustomLoader(),
+                    errorWidget: (context, url, error) => Container(),
+                  ),
+                ),
+
+                // 174
+                // flex: 35, // 105/289
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
+                    child: Column(
+                      children: [
+                        /// Title
+                        CustomText(
+                          content.title,
+                          fontWeight: FontWeight.w500,
+                          maxLines: 1,
+                        ),
+
+                        /// Body
+                        Expanded(
+                          child: CustomText(content.text, margin: EdgeInsets.only(top: 15.0), maxLines: 2),
+                        ),
+
+                        /// Time
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                          alignment: Alignment.bottomLeft,
+                          child: Row(
+                            children: [
+                              /// Clock icon
+                              Container(
+                                height: 24.0,
+                                width: 24.0,
+                                padding: EdgeInsets.all(5.0),
+                                alignment: Alignment.bottomLeft,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                                  color: customColors.greyBackground,
+                                ),
+                                child: SvgPicture.asset(Assets.clock),
+                              ),
+
+                              /// Read time
+                              if (content.readTime != null)
+                                Expanded(
+                                  child: CustomText(
+                                    '${content.readTime} ${LocaleKeys.readMin}',
+                                    margin: EdgeInsets.only(left: 7.0),
+                                    alignment: Alignment.bottomLeft,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

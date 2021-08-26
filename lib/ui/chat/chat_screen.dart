@@ -93,7 +93,7 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
             child: CustomDialogBody(
               asset: Assets.error,
               text: LocaleKeys.noData,
-              button1Text: LocaleKeys.ok,
+              buttonText: LocaleKeys.ok,
             ),
           );
         }
@@ -106,7 +106,7 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
         child: CustomDialogBody(
           asset: Assets.error,
           text: state.message,
-          button1Text: LocaleKeys.ok,
+          buttonText: LocaleKeys.ok,
         ),
       );
     }

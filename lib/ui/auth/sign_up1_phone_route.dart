@@ -69,7 +69,7 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
     } else if (state is SignUpFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }

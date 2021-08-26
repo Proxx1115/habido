@@ -55,7 +55,7 @@ class _SignUp4TermsRouteState extends State<SignUp4TermsRoute> {
     } else if (state is VerifyCodeFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }

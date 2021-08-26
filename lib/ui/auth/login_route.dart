@@ -115,7 +115,19 @@ class _LoginRouteState extends State<LoginRoute> {
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is SessionTimeoutState) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: LocaleKeys.sessionExpired,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {},
+        ),
       );
     }
   }

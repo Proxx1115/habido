@@ -86,7 +86,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
     } else if (state is ContentListFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -116,11 +116,6 @@ class _ContentListScreenState extends State<ContentListScreen> {
                 VerticalContentCard(
                   content: el,
                   imageHeight: _contentImageHeight!,
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.content, arguments: {
-                      'content': el,
-                    });
-                  },
                 ),
             ],
           )

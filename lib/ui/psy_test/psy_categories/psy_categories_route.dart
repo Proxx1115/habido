@@ -49,18 +49,20 @@ class _PsyCategoriesRouteState extends State<PsyCategoriesRoute> {
             return CustomScaffold(
               scaffoldKey: _psyCategoryKey,
               appBarTitle: LocaleKeys.psyTest,
-              body: GridView.count(
-                primary: false,
-                padding: const EdgeInsets.all(SizeHelper.padding),
-                crossAxisSpacing: 15.0,
-                mainAxisSpacing: 15.0,
-                crossAxisCount: 2,
-                childAspectRatio: 1.2,
-                children: <Widget>[
-                  if (_psyCategoryList != null && _psyCategoryList!.length > 0)
-                    for (var el in _psyCategoryList!) _testCategoryItem(el),
-                ],
-              ),
+              body: (_psyCategoryList != null && _psyCategoryList!.isNotEmpty)
+                  ? GridView.count(
+                      primary: false,
+                      padding: const EdgeInsets.all(SizeHelper.padding),
+                      crossAxisSpacing: 15.0,
+                      mainAxisSpacing: 15.0,
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.2,
+                      children: List.generate(
+                        _psyCategoryList!.length,
+                        (index) => _testCategoryItem(_psyCategoryList![index]),
+                      ),
+                    )
+                  : Container(),
             );
           },
         ),
@@ -74,19 +76,19 @@ class _PsyCategoriesRouteState extends State<PsyCategoriesRoute> {
     } else if (state is PsyCategoriesFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, button1Text: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
 
-  Widget _testCategoryItem(PsyCategory testCategory) {
+  Widget _testCategoryItem(PsyCategory psyCategory) {
     return CategoryContainer(
-      imageUrl: testCategory.photo,
-      backgroundColor: testCategory.color,
-      text: testCategory.name!,
+      imageUrl: psyCategory.photo,
+      backgroundColor: psyCategory.color,
+      text: psyCategory.name!,
       onPressed: () {
         Navigator.pushNamed(context, Routes.psyTests, arguments: {
-          'testCatId': testCategory.testCatId,
+          'psyCategory': psyCategory,
         });
       },
     );
