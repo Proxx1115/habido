@@ -14,6 +14,7 @@ import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
+import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_tests/psy_tests_route.dart';
 import 'route_transitions.dart';
 
@@ -36,10 +37,11 @@ class Routes {
   static const signUp5Success = 'signUp5Success';
   static const termDetail = 'termDetail';
   static const home = 'home';
+  static const content = 'content';
   static const habidoAssistant = 'habidoAssistant';
   static const psyCategories = 'psyCategories';
   static const psyTests = 'psyTests';
-  static const content = 'content';
+  static const psyIntro = 'psyIntro';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -136,6 +138,16 @@ class Routes {
         route = SlideRightRouteBuilder(
           PsyTestsRoute(
             psyCategory: _getValueByKey(args, 'psyCategory'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.psyIntro:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          PsyIntroRoute(
+            psyTest: _getValueByKey(args, 'psyTest'),
           ),
           settings,
         );

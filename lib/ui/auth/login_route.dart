@@ -29,7 +29,7 @@ class LoginRoute extends StatefulWidget {
 class _LoginRouteState extends State<LoginRoute> {
   // UI
   final _loginKey = GlobalKey<ScaffoldState>();
-  double _maxHeight = 0.0;
+  double _height = 0.0;
 
   // Утасны дугаар
   TextEditingController _phoneNumberController = TextEditingController();
@@ -138,12 +138,12 @@ class _LoginRouteState extends State<LoginRoute> {
       loading: state is AuthLoading,
       backgroundColor: customColors.primaryBackground,
       body: LayoutBuilder(builder: (context, constraints) {
-        if (_maxHeight < constraints.maxHeight) _maxHeight = constraints.maxHeight;
-        if (_maxHeight < SizeHelper.minHeightScreen) _maxHeight = SizeHelper.minHeightScreen;
+        if (_height < constraints.maxHeight) _height = constraints.maxHeight;
+        if (_height < SizeHelper.minHeightScreen) _height = SizeHelper.minHeightScreen;
 
         return SingleChildScrollView(
           child: Container(
-            height: _maxHeight,
+            height: _height,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

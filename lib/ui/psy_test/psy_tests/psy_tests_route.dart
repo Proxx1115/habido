@@ -6,6 +6,7 @@ import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/ui/content/content_card.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers.dart';
@@ -74,6 +75,11 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
                             leadingImageUrl: el.photo,
                             leadingBackgroundColor: HexColor.fromHex(el.color ?? '#F4F6F8'),
                             text: el.name ?? '',
+                            onPressed: () {
+                              Navigator.pushNamed(context, Routes.psyIntro, arguments: {
+                                'psyTest': el,
+                              });
+                            },
                           ),
                     ],
                   ),
