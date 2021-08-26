@@ -5,8 +5,11 @@ class Content {
   String? title;
   String? contentPhoto;
   String? contentPhotoBase64;
-  String? coverPhoto;
-  String? coverPhotoBase64;
+
+  // String? coverPhoto;
+  // String? coverPhotoBase64;
+  String? profilePhoto;
+  String? profilePhotoBase64;
   String? text;
   int? orderNo;
   List<Tags>? tags;
@@ -17,8 +20,10 @@ class Content {
     this.title,
     this.contentPhoto,
     this.contentPhotoBase64,
-    this.coverPhoto,
-    this.coverPhotoBase64,
+    // this.coverPhoto,
+    // this.coverPhotoBase64,
+    this.profilePhoto,
+    this.profilePhotoBase64,
     this.text,
     this.orderNo,
     this.tags,
@@ -30,8 +35,10 @@ class Content {
     title = json['title'];
     contentPhoto = json['contentPhoto'];
     contentPhotoBase64 = json['contentPhotoBase64'];
-    coverPhoto = json['coverPhoto'];
-    coverPhotoBase64 = json['coverPhotoBase64'];
+    // coverPhoto = json['coverPhoto'];
+    // coverPhotoBase64 = json['coverPhotoBase64'];
+    profilePhoto = json['profilePhoto'];
+    profilePhotoBase64 = json['profilePhotoBase64'];
     text = json['text'];
     orderNo = json['orderNo'];
     if (json['tags'] != null) {
@@ -49,8 +56,10 @@ class Content {
     map['title'] = title;
     map['contentPhoto'] = contentPhoto;
     map['contentPhotoBase64'] = contentPhotoBase64;
-    map['coverPhoto'] = coverPhoto;
-    map['coverPhotoBase64'] = coverPhotoBase64;
+    // map['coverPhoto'] = coverPhoto;
+    // map['coverPhotoBase64'] = coverPhotoBase64;
+    map['profilePhoto'] = profilePhoto;
+    map['profilePhotoBase64'] = profilePhotoBase64;
     map['text'] = text;
     map['orderNo'] = orderNo;
     if (tags != null) {

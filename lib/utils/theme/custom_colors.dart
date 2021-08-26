@@ -16,13 +16,15 @@ class ConstantColors {
 class CustomColors {
   /// Main
   Color primary = ConstantColors.primary;
-  Color primaryBorder = ConstantColors.athensGrey;
-  Color secondaryBorder = Colors.white;
 
   /// Background
   Color primaryBackground = ConstantColors.roseWhite;
   Color secondaryBackground = Colors.white;
   Color greyBackground = ConstantColors.athensGrey;
+
+  /// Border
+  Color primaryBorder = ConstantColors.athensGrey;
+  Color secondaryBorder = Colors.white;
 
   /// Text
   Color primaryText = ConstantColors.black;
@@ -43,42 +45,6 @@ class CustomColors {
 
   /// Icon
   Color iconGrey = ConstantColors.ghostGrey;
-
-  // Color? iconSecondary; // light grey
-
-  /// Shadow
-  // Color? shadow;
-
-  /// Container decoration
-  // Color? border; // grey
-  // Color? gradientBegin;
-  // Color? gradientEnd;
-  // Color? timeTableBg;
-
-  /// AppBar
-  // Color? actionIcon;
-  // Color? appBarBackground;
-  // Color? appBarTitle;
-
-  /// Line
-  // Color? line;
-
-  /// Card
-  // Color? cardMenuPos;
-  // Color? cardMenuProduct;
-  // Color? cardMenuReport;
-  // Color? cardMenuSettings;
-
-  // Color? cardIconPos;
-  // Color? cardIconProduct;
-  // Color? cardIconReport;
-  // Color? cardIconSettings;
-
-  /// CardBackground
-  // Color? cardIconPosBackground;
-  // Color? cardIconProdBackground;
-  // Color? cardIconReportBackground;
-  // Color? cardIconSettingsBackground;
 
   CustomColors.constructor();
 

@@ -42,29 +42,56 @@ class VerticalContentCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                /// Cover image
                 // flex: 45,
-                Func.isNotEmpty(content.contentPhoto)
-                    ? Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                            child: CachedNetworkImage(
-                              imageUrl: content.contentPhoto!,
-                              fit: BoxFit.fitHeight,
-                              height: imageHeight,
-                              placeholder: (context, url) => CustomLoader(),
-                              errorWidget: (context, url, error) => Container(),
-                            ),
+                Stack(
+                  children: [
+                    /// Cover image
+                    Container(
+                      padding: EdgeInsets.only(bottom: 15.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                        child: CachedNetworkImage(
+                          imageUrl: content.contentPhoto ?? '',
+                          fit: BoxFit.fitHeight,
+                          height: imageHeight,
+                          placeholder: (context, url) => CustomLoader(),
+                          errorWidget: (context, url, error) => Container(),
+                        ),
+                      ),
+                    ),
+
+                    /// Profile picture
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: customColors.secondaryBorder, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                        ),
+                        height: 34,
+                        width: 34,
+                        margin: EdgeInsets.only(left: 15.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          child: CachedNetworkImage(
+                            imageUrl: content.profilePhoto ?? '',
+                            fit: BoxFit.fill,
+                            height: 30,
+                            width: 30,
+                            placeholder: (context, url) => CustomLoader(),
+                            errorWidget: (context, url, error) => Container(),
                           ),
-                        ],
-                      )
-                    : Container(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
                 // flex: 35, // 105/289
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 15.0, 15.0, 0.0),
+                    margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
                     child: Column(
                       children: [
                         /// Title
