@@ -110,18 +110,25 @@ class CustomDivider extends StatelessWidget {
 class InfoContainer extends StatelessWidget {
   final String title;
   final String body;
+  final EdgeInsets? margin;
 
-  const InfoContainer({Key? key, required this.title, required this.body}) : super(key: key);
+  const InfoContainer({
+    Key? key,
+    required this.title,
+    required this.body,
+    this.margin,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StadiumContainer(
+      margin: margin,
       padding: SizeHelper.boxPadding,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           /// Title
-          CustomText(title, fontWeight: FontWeight.w500),
+          CustomText(title, fontWeight: FontWeight.w500, maxLines: 2),
 
           /// Divider
           CustomDivider(),
