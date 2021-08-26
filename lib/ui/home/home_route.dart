@@ -26,7 +26,6 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   // Bottom navigation bar
   late TabController _tabController;
   double? _navBarItemWidth;
-  double _navBarHorizontalPadding = 25.0;
 
   @override
   void initState() {
@@ -88,6 +87,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
         return Future.value(false);
       },
       child: Scaffold(
+        key: _homeKey,
         body: TabBarView(
           controller: _tabController,
           physics: NeverScrollableScrollPhysics(),
@@ -156,14 +156,17 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
               SizedBox(
                 width: 24.0,
                 height: 24.0,
-                child: SvgPicture.asset(asset, color: customColors.iconGrey),
+                child: SvgPicture.asset(
+                  asset,
+                  color: _tabController.index == index ? customColors.primary : customColors.iconGrey,
+                ),
               ),
 
               /// Text
               CustomText(
                 text,
                 alignment: Alignment.center,
-                color: customColors.iconGrey,
+                color: _tabController.index == index ? customColors.primary : customColors.iconGrey,
                 fontSize: 11.0,
                 fontWeight: FontWeight.bold,
               ),
