@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/ui/content/content_bloc.dart';
-import 'package:habido_app/ui/content/content_widget.dart';
+import 'package:habido_app/ui/content/content_card.dart';
 import 'package:habido_app/ui/home/home_app_bar.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -28,6 +28,10 @@ class _ContentListScreenState extends State<ContentListScreen> {
   final double _gridViewPadding = SizeHelper.padding;
   final double _gridViewCrossAxisSpacing = 15.0;
 
+  // Content
+  double? _contentImageWidth;
+  double? _contentImageHeight;
+
   @override
   void initState() {
     _contentBloc = ContentBloc();
@@ -51,9 +55,10 @@ class _ContentListScreenState extends State<ContentListScreen> {
           child: BlocBuilder<ContentBloc, ContentState>(
             builder: (context, state) {
               return Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   /// Calendar, Title, Notification
-                  HomeAppBar(title: 'Test'),
+                  HomeAppBar(title: LocaleKeys.content),
 
                   /// Search bar
                   _searchBar(),
@@ -62,7 +67,10 @@ class _ContentListScreenState extends State<ContentListScreen> {
                   _tagsList(),
 
                   /// Content list
-                  if (_contentList != null && _contentList!.length > 0) Expanded(child: _contentListWidget()),
+                  if (_contentList != null && _contentList!.length > 0)
+                    Expanded(
+                      child: _contentGridView(),
+                    ),
                 ],
               );
             },
@@ -91,36 +99,32 @@ class _ContentListScreenState extends State<ContentListScreen> {
     return Container();
   }
 
-  Widget _contentListWidget() {
-    double imageWidth = (MediaQuery.of(context).size.width - _gridViewPadding - _gridViewCrossAxisSpacing * 2) / 2;
-    double imageHeight = imageWidth * 0.7;
+  Widget _contentGridView() {
+    _contentImageWidth = _contentImageWidth ?? (MediaQuery.of(context).size.width - _gridViewPadding - _gridViewCrossAxisSpacing * 2) / 2;
+    _contentImageHeight = _contentImageHeight ?? (_contentImageWidth! * 0.7);
 
-    return GridView.count(
-      primary: false,
-      padding: EdgeInsets.all(_gridViewPadding),
-      crossAxisSpacing: _gridViewCrossAxisSpacing,
-      mainAxisSpacing: _gridViewCrossAxisSpacing,
-      crossAxisCount: 2,
-      childAspectRatio: 0.6,
-      children: <Widget>[
-        if (_contentList != null && _contentList!.length > 0)
-          for (var el in _contentList!)
-            VerticalContent(
-              content: el,
-              imageHeight: imageHeight,
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.content, arguments: {
-                  'content': el,
-                });
-
-                // Navigator.of(context).pushNamed(
-                //   SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
-                //       (Route<dynamic> route) => false,
-                // );
-              },
-            ),
-      ],
-    );
+    return (_contentList != null && _contentList!.isNotEmpty && _contentImageHeight != null)
+        ? GridView.count(
+            primary: false,
+            padding: EdgeInsets.all(_gridViewPadding),
+            crossAxisSpacing: _gridViewCrossAxisSpacing,
+            mainAxisSpacing: _gridViewCrossAxisSpacing,
+            crossAxisCount: 2,
+            childAspectRatio: 0.6,
+            children: <Widget>[
+              for (var el in _contentList!)
+                VerticalContentCard(
+                  content: el,
+                  imageHeight: _contentImageHeight!,
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.content, arguments: {
+                      'content': el,
+                    });
+                  },
+                ),
+            ],
+          )
+        : Container();
   }
 
 // List<Widget> _list() {

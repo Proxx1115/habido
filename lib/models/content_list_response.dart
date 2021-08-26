@@ -1,4 +1,5 @@
 import 'package:habido_app/models/base_response.dart';
+import 'base_response.dart';
 import 'content.dart';
 
 class ContentListResponse extends BaseResponse {

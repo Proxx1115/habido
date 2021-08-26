@@ -5,7 +5,7 @@ CustomColors customColors = CustomColors.light();
 class ConstantColors {
   static const primary = const Color(0xfffa6c51); // primary
   static const roseWhite = const Color(0xFFFFF7F6); // background
-  static const athensGray = const Color(0xFFF4F6F8); // background
+  static const athensGrey = const Color(0xFFF4F6F8); // background
   static const black = const Color(0xFF424852); // text
   static const grey = const Color(0xFFA9B0BB); // text
   static const cornflowerBlue = const Color(0xFFCAD0D7); // button text
@@ -16,12 +16,13 @@ class ConstantColors {
 class CustomColors {
   /// Main
   Color primary = ConstantColors.primary;
-  Color primaryBorder = ConstantColors.athensGray;
+  Color primaryBorder = ConstantColors.athensGrey;
   Color secondaryBorder = Colors.white;
 
   /// Background
   Color primaryBackground = ConstantColors.roseWhite;
   Color secondaryBackground = Colors.white;
+  Color greyBackground = ConstantColors.athensGrey;
 
   /// Text
   Color primaryText = ConstantColors.black;
@@ -38,7 +39,7 @@ class CustomColors {
   /// TextField
   Color get primaryTextFieldBackground => secondaryBackground;
 
-  Color get secondaryTextFieldBackground => ConstantColors.athensGray;
+  Color get secondaryTextFieldBackground => ConstantColors.athensGrey;
 
   /// Icon
   Color iconGrey = ConstantColors.ghostGrey;
