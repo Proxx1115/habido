@@ -13,4 +13,6 @@ class ApiRoutes {
   static const String testCategories = '/test-categories';
   static const String categoryTests = '/category-tests';
   static const String contentList = '/content/list';
+  static const String psyTestQuestions = '/start/user-test';
+  static const String psyTestAnswers = '/end/user-test';
 }

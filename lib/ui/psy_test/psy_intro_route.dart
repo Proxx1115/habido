@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:habido_app/models/psy_test.dart';
-import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-import 'package:habido_app/widgets/text.dart';
 
 class PsyIntroRoute extends StatefulWidget {
   final PsyTest psyTest;
@@ -88,9 +87,9 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
       text: LocaleKeys.beginTest,
       margin: EdgeInsets.only(top: 20.0),
       onPressed: () {
-        // Navigator.pushNamed(context, Routes.signUp4Terms, arguments: {
-        //   'verifyCodeRequest': verifyCodeRequest,
-        // });
+        Navigator.pushNamed(context, Routes.psyTest, arguments: {
+          'psyTest': widget.psyTest,
+        });
       },
     );
   }
