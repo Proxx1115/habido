@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/text.dart';
+
 import 'loaders.dart';
 
 class MarginVertical extends StatelessWidget {
@@ -198,13 +201,13 @@ class ChatContainer extends StatelessWidget {
   }
 }
 
-class CategoryContainer extends StatelessWidget {
+class GridItemContainer extends StatelessWidget {
   final String? imageUrl;
   final String? backgroundColor;
   final String? text;
   final VoidCallback? onPressed;
 
-  const CategoryContainer({
+  const GridItemContainer({
     Key? key,
     required this.imageUrl,
     required this.backgroundColor,
@@ -267,5 +270,73 @@ class CategoryContainer extends StatelessWidget {
     } else {
       return customColors.primary;
     }
+  }
+}
+
+class ListItemContainer extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final EdgeInsets? margin;
+  final double? height;
+  final String? leadingImageUrl;
+  final Color? leadingBackgroundColor;
+  final String text;
+
+  const ListItemContainer({
+    Key? key,
+    this.onPressed,
+    this.margin,
+    this.height,
+    this.leadingImageUrl,
+    this.leadingBackgroundColor,
+    required this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      borderRadius: SizeHelper.borderRadiusOdd,
+      child: Container(
+        margin: margin,
+        padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: SizeHelper.borderRadiusOdd,
+          color: customColors.secondaryBackground,
+        ),
+        child: Row(
+          children: [
+            /// Image
+            if (Func.isNotEmpty(leadingImageUrl))
+              Container(
+                margin: EdgeInsets.only(right: 15.0),
+                padding: EdgeInsets.all(10.0),
+                height: 40.0,
+                width: 40.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                  color: leadingBackgroundColor ?? customColors.greyBackground,
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: leadingImageUrl!,
+                  fit: BoxFit.fitWidth,
+                  width: 20.0,
+                  height: 20.0,
+                  placeholder: (context, url) => CustomLoader(),
+                  errorWidget: (context, url, error) => Container(),
+                ),
+              ),
+
+            /// Text
+            Expanded(
+              child: CustomText(text, fontWeight: FontWeight.w500),
+            ),
+
+            /// Arrow
+            SvgPicture.asset(Assets.arrow_forward),
+          ],
+        ),
+      ),
+    );
   }
 }

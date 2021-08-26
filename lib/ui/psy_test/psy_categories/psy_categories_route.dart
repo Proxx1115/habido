@@ -82,7 +82,7 @@ class _PsyCategoriesRouteState extends State<PsyCategoriesRoute> {
   }
 
   Widget _testCategoryItem(PsyCategory psyCategory) {
-    return CategoryContainer(
+    return GridItemContainer(
       imageUrl: psyCategory.photo,
       backgroundColor: psyCategory.color,
       text: psyCategory.name!,

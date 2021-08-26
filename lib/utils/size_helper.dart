@@ -8,12 +8,18 @@ class SizeHelper {
   static const double marginTop = 10.0;
   static const double marginBottom = 25.0;
 
-  static const double borderRadius = 15.0;
-  static const double borderWidth = 2.0;
-
   static const double boxHeight = 50.0;
-
   static const boxPadding = EdgeInsets.fromLTRB(18.0, 16.0, 18.0, 16.0);
+
+  /// Border
+  static const double borderWidth = 2.0;
+  static const double borderRadius = 15.0;
+  static const borderRadiusOdd = BorderRadius.only(
+    topLeft: Radius.circular(5.0),
+    topRight: Radius.circular(borderRadius),
+    bottomRight: Radius.circular(borderRadius),
+    bottomLeft: Radius.circular(borderRadius),
+  );
 
   /// Screen
   static const paddingScreen = EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.marginTop, SizeHelper.margin, SizeHelper.marginBottom);
@@ -27,15 +33,6 @@ class SizeHelper {
 
   /// Checkbox
   static const double borderRadiusChkbox = 5.0;
-
-  /// Card
-  // static const double borderRadiusCard = borderRadius;
-
-  /// CodeInput
-  // static const double borderRadiusCodeInput = borderRadius;
-
-  /// Textbox
-  // static const double textboxHeight = boxHeight;
 
   /// Icon
   static const double iconSize = 20.0;

@@ -7,6 +7,8 @@ import 'package:habido_app/ui/content/content_card.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'psy_tests_bloc.dart';
@@ -61,9 +63,18 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
                       /// Content
                       if (_content != null) HorizontalContentCard(content: _content!),
 
-                      // /// Psy test list
-                      // if (_psyTestList != null && _psyTestList!.length > 0)
-                      //   for (var el in _psyTestList!) _testCategoryItem(el),
+                      SizedBox(height: 15.0),
+
+                      /// Psy test list
+                      if (_psyTestList != null && _psyTestList!.isNotEmpty)
+                        for (var el in _psyTestList!)
+                          ListItemContainer(
+                            margin: EdgeInsets.only(bottom: 10.0),
+                            height: 70.0,
+                            leadingImageUrl: el.photo,
+                            leadingBackgroundColor: HexColor.fromHex(el.color ?? '#F4F6F8'),
+                            text: el.name ?? '',
+                          ),
                     ],
                   ),
                 ),
@@ -92,17 +103,5 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
         ),
       );
     }
-  }
-
-  Widget _testCategoryItem(PsyTest psyTest) {
-    return Container();
-    // return CategoryContainer(
-    //   imageUrl: testCategory.photo,
-    //   backgroundColor: testCategory.color,
-    //   text: testCategory.name! + 'asdasd',
-    //   onPressed: () {
-    //     Navigator.pushNamed(context, Routes.testCategories);
-    //   },
-    // );
   }
 }

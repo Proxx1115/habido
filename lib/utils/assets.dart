@@ -17,6 +17,7 @@ class Assets {
   static const String circle_check = 'assets/images/global/circle_check.svg';
   static const String clock = 'assets/images/global/clock.svg';
   static const String add = 'assets/images/global/add.svg';
+  static const String arrow_forward = 'assets/images/global/arrow_forward.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
