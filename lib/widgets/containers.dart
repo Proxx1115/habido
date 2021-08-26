@@ -228,7 +228,7 @@ class GridItemContainer extends StatelessWidget {
           /// Icon
           if (imageUrl != null)
             Flexible(
-              flex: 2,
+              flex: 20,
               child: Container(
                 height: 40.0,
                 width: 40.0,
@@ -251,7 +251,7 @@ class GridItemContainer extends StatelessWidget {
           /// Text
           if (text != null)
             Flexible(
-              flex: 1,
+              flex: 15,
               child: CustomText(
                 text,
                 fontWeight: FontWeight.w500,
@@ -322,7 +322,7 @@ class ListItemContainer extends StatelessWidget {
                   fit: BoxFit.fitWidth,
                   width: 20.0,
                   height: 20.0,
-                  placeholder: (context, url) => CustomLoader(),
+                  placeholder: (context, url) => Container(),
                   errorWidget: (context, url, error) => Container(),
                 ),
               ),

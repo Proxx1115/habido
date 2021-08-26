@@ -44,28 +44,32 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
             padding: SizeHelper.paddingScreen,
             child: Column(
               children: [
-                /// Cover image
-                if (Func.isNotEmpty(widget.psyTest.photo))
-                  ClipRRect(
-                    borderRadius: SizeHelper.borderRadiusOdd,
-                    child: CachedNetworkImage(
-                      imageUrl: widget.psyTest.photo!,
-                      fit: BoxFit.fitWidth,
-                      width: double.infinity,
-                      placeholder: (context, url) => CustomLoader(),
-                      errorWidget: (context, url, error) => Container(),
+                if (Func.isNotEmpty(widget.psyTest.description))
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        /// Cover image
+                        if (Func.isNotEmpty(widget.psyTest.photo))
+                          ClipRRect(
+                            borderRadius: SizeHelper.borderRadiusOdd,
+                            child: CachedNetworkImage(
+                              imageUrl: widget.psyTest.photo!,
+                              fit: BoxFit.fitWidth,
+                              width: double.infinity,
+                              placeholder: (context, url) => CustomLoader(),
+                              errorWidget: (context, url, error) => Container(),
+                            ),
+                          ),
+
+                        /// Info container
+                        InfoContainer(
+                          margin: EdgeInsets.only(top: 15.0),
+                          title: widget.psyTest.name ?? '',
+                          body: widget.psyTest.description ?? '',
+                        ),
+                      ],
                     ),
                   ),
-
-                /// Text
-                if (Func.isNotEmpty(widget.psyTest.description))
-                  InfoContainer(
-                    margin: EdgeInsets.only(top: 15.0),
-                    title: widget.psyTest.name ?? '',
-                    body: widget.psyTest.description ?? '',
-                  ),
-
-                Expanded(child: Container()),
 
                 /// Button next
                 _buttonNext(),
@@ -82,7 +86,7 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
     return CustomButton(
       style: CustomButtonStyle.Secondary,
       text: LocaleKeys.beginTest,
-      margin: EdgeInsets.only(top: 35.0),
+      margin: EdgeInsets.only(top: 20.0),
       onPressed: () {
         // Navigator.pushNamed(context, Routes.signUp4Terms, arguments: {
         //   'verifyCodeRequest': verifyCodeRequest,
