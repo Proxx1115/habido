@@ -202,6 +202,9 @@ class LocaleKeys {
   static String get beginTest => 'Сорил эхлэх';
 
   static String get seeResult => 'Үр дүн харах';
+
+  /// Habit
+  static String get createHabit => 'Дадал үүсгэх';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

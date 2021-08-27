@@ -11,6 +11,7 @@ import 'package:habido_app/ui/auth/term_detail_route.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
+import 'package:habido_app/ui/habit/habit_category/habit_categories_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
@@ -46,6 +47,8 @@ class Routes {
   static const psyIntro = 'psyIntro';
   static const psyTest = 'psyTest';
   static const psyTestResult = 'psyTestResult';
+  static const habitCategories = 'habitCategories';
+  static const habitHabits = 'habitHabits';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -185,16 +188,14 @@ class Routes {
             content: _getValueByKey(args, 'content'),
           ),
         );
+        break;
 
-        // route = ContentRoute(
-        //   content: _getValueByKey(args, 'content'),
-        // );
-        // route = SlideRightRouteBuilder(
-        //   ContentRoute(
-        //     content: _getValueByKey(args, 'content'),
-        //   ),
-        //   settings,
-        // );
+      case Routes.habitCategories:
+        route = SlideRightRouteBuilder(HabitCategoriesRoute(), settings);
+        break;
+
+      case Routes.habitHabits:
+        route = FadeRouteBuilder(HabitCategoriesRoute(), settings);
         break;
 
       case Routes.comingSoon:

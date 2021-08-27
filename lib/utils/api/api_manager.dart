@@ -5,6 +5,7 @@ import 'package:habido_app/models/category_tests_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/content_list_response.dart';
+import 'package:habido_app/models/habit_categories_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
 import 'package:habido_app/models/param_response.dart';
@@ -192,4 +193,15 @@ class ApiManager {
       await httpUtils.sendRequest(path: HttpPath.psyTestResults, httpMethod: HttpMethod.Get),
     );
   }
+
+  static Future<HabitCategoriesResponse> habitCategories() async {
+    return HabitCategoriesResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentList, httpMethod: HttpMethod.Get),
+    );
+  }
+
+// static const String habitCategories = '/mobile/habit/categories';
+// static const String habitHabits = '/mobile/habit/habits';
+// static const String habitDateUserHabits = '/mobile/habit/date/user-habits';
+// static const String habitCalendar = '/mobile/habit/calendar';
 }
