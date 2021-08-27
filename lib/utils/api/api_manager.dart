@@ -11,6 +11,7 @@ import 'package:habido_app/models/param_response.dart';
 import 'package:habido_app/models/psy_test_answers_request.dart';
 import 'package:habido_app/models/psy_test_questions_response.dart';
 import 'package:habido_app/models/psy_test_result.dart';
+import 'package:habido_app/models/psy_test_results_response.dart';
 import 'package:habido_app/models/psy_tests_response.dart';
 import 'package:habido_app/models/register_device_request.dart';
 import 'package:habido_app/models/sign_up_request.dart';
@@ -23,13 +24,13 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'api_helper.dart';
 import 'http_utils.dart';
-import 'api_routes.dart';
+import 'http_path.dart';
 
 class ApiManager {
   /// Authentication
   static Future<SignUpResponse> signUp(SignUpRequest request) async {
     return SignUpResponse.fromJson(await httpUtils.sendRequest(
-      path: ApiRoutes.signUp,
+      path: HttpPath.signUp,
       objectData: request,
       hasAuthorization: false,
     ));
@@ -37,7 +38,7 @@ class ApiManager {
 
   static Future<BaseResponse> verifyCode(VerifyCodeRequest request) async {
     return BaseResponse.fromJson(await httpUtils.sendRequest(
-      path: ApiRoutes.verifyCode,
+      path: HttpPath.verifyCode,
       objectData: request,
       hasAuthorization: false,
     ));
@@ -50,7 +51,7 @@ class ApiManager {
     );
 
     return LoginResponse.fromJson(await httpUtils.sendRequest(
-      path: ApiRoutes.signIn,
+      path: HttpPath.signIn,
       headers: headers,
       objectData: request,
     ));
@@ -58,7 +59,7 @@ class ApiManager {
 
   static Future<BaseResponse> logout() async {
     var res = BaseResponse.fromJson(
-      await httpUtils.sendRequest(path: ApiRoutes.signout),
+      await httpUtils.sendRequest(path: HttpPath.signout),
     );
 
     print(res.code);
@@ -69,7 +70,7 @@ class ApiManager {
   static Future<UserData> getUserData() async {
     // Check session
     var res = UserData.fromJson(await httpUtils.sendRequest(
-      path: ApiRoutes.checkSession,
+      path: HttpPath.checkSession,
       httpMethod: HttpMethod.Get,
     ));
 
@@ -80,7 +81,7 @@ class ApiManager {
 
   static Future<BaseResponse> registerDevice(RegisterDeviceRequest request) async {
     var res = BaseResponse.fromJson(await httpUtils.sendRequest(
-      path: ApiRoutes.registerDevice,
+      path: HttpPath.registerDevice,
       objectData: request,
     ));
 
@@ -103,7 +104,7 @@ class ApiManager {
       res = globals.param!;
     } else {
       res = ParamResponse.fromJson(await httpUtils.sendRequest(
-        path: ApiRoutes.param,
+        path: HttpPath.param,
         httpMethod: HttpMethod.Get,
         hasAuthorization: false,
       ));
@@ -119,7 +120,7 @@ class ApiManager {
   static Future<CustomBannersResponse> banners() async {
     return CustomBannersResponse.fromJson(
       await httpUtils.sendRequest(
-        path: ApiRoutes.banners,
+        path: HttpPath.banners,
         httpMethod: HttpMethod.Get,
       ),
     );
@@ -129,7 +130,7 @@ class ApiManager {
   static Future<ChatResponse> firstChat(ChatRequest request) async {
     return ChatResponse.fromJson(
       await httpUtils.sendRequest(
-        path: ApiRoutes.firstChat,
+        path: HttpPath.firstChat,
         objectData: request,
       ),
     );
@@ -138,7 +139,7 @@ class ApiManager {
   static Future<ChatResponse> continueChat(int msgId) async {
     return ChatResponse.fromJson(
       await httpUtils.sendRequest(
-        path: ApiRoutes.continueChat + '?msgId=$msgId',
+        path: HttpPath.continueChat + '?msgId=$msgId',
       ),
     );
   }
@@ -146,35 +147,7 @@ class ApiManager {
   static Future<ChatResponse> msgOption(int msgId, int optionId) async {
     return ChatResponse.fromJson(
       await httpUtils.sendRequest(
-        path: ApiRoutes.msgOption + '?msgId=$msgId&optionId=$optionId',
-      ),
-    );
-  }
-
-  /// Psychology test
-  static Future<PsyCategoriesResponse> psyCategories() async {
-    return PsyCategoriesResponse.fromJson(
-      await httpUtils.sendRequest(path: ApiRoutes.testCategories, httpMethod: HttpMethod.Get),
-    );
-  }
-
-  static Future<PsyTestsResponse> psyTests(int testCatId) async {
-    return PsyTestsResponse.fromJson(
-      await httpUtils.sendRequest(path: ApiRoutes.categoryTests + '?testCatId=$testCatId', httpMethod: HttpMethod.Get),
-    );
-  }
-
-  static Future<PsyTestQuestionsResponse> psyTestQuestions(int testId) async {
-    return PsyTestQuestionsResponse.fromJson(
-      await httpUtils.sendRequest(path: ApiRoutes.psyTestQuestions + '?testId=$testId'),
-    );
-  }
-
-  static Future<PsyTestResult> psyTestAnswers(PsyTestAnswersRequest request) async {
-    return PsyTestResult.fromJson(
-      await httpUtils.sendRequest(
-        path: ApiRoutes.psyTestAnswers,
-        objectData: request,
+        path: HttpPath.msgOption + '?msgId=$msgId&optionId=$optionId',
       ),
     );
   }
@@ -182,7 +155,41 @@ class ApiManager {
   /// Content - Blog
   static Future<ContentListResponse> contentList() async {
     return ContentListResponse.fromJson(
-      await httpUtils.sendRequest(path: ApiRoutes.contentList, httpMethod: HttpMethod.Get),
+      await httpUtils.sendRequest(path: HttpPath.contentList, httpMethod: HttpMethod.Get),
+    );
+  }
+
+  /// Psychology test
+  static Future<PsyCategoriesResponse> psyCategories() async {
+    return PsyCategoriesResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.testCategories, httpMethod: HttpMethod.Get),
+    );
+  }
+
+  static Future<PsyTestsResponse> psyTests(int testCatId) async {
+    return PsyTestsResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.categoryTests + '?testCatId=$testCatId', httpMethod: HttpMethod.Get),
+    );
+  }
+
+  static Future<PsyTestQuestionsResponse> psyTestQuestions(int testId) async {
+    return PsyTestQuestionsResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.psyTestQuestions + '?testId=$testId'),
+    );
+  }
+
+  static Future<PsyTestResult> psyTestAnswers(PsyTestAnswersRequest request) async {
+    return PsyTestResult.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.psyTestAnswers,
+        objectData: request,
+      ),
+    );
+  }
+
+  static Future<PsyTestResultsResponse> psyTestResults() async {
+    return PsyTestResultsResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.psyTestResults, httpMethod: HttpMethod.Get),
     );
   }
 }

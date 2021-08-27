@@ -1,13 +1,13 @@
 import 'psy_test_result.dart';
 
-class UserPsyTestResults {
+class UserPsyTestResult {
   String? color;
   String? photo;
   PsyTestResult? testResult;
 
-  UserPsyTestResults({this.color, this.photo, this.testResult});
+  UserPsyTestResult({this.color, this.photo, this.testResult});
 
-  UserPsyTestResults.fromJson(dynamic json) {
+  UserPsyTestResult.fromJson(dynamic json) {
     color = json['color'];
     photo = json['photo'];
     testResult = json['testResult'] != null ? PsyTestResult.fromJson(json['testResult']) : null;

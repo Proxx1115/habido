@@ -1,4 +1,4 @@
-class ApiRoutes {
+class HttpPath {
   static const String signIn = '/auth/user/signin';
   static const String signout = '/signout';
   static const String checkSession = '/check-session';
@@ -15,4 +15,5 @@ class ApiRoutes {
   static const String contentList = '/content/list';
   static const String psyTestQuestions = '/start/user-test';
   static const String psyTestAnswers = '/end/user-test';
+  static const String psyTestResults = '/category/user-tests';
 }

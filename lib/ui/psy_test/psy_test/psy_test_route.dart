@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/psy_test_main_bloc.dart';
 import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/models/psy_test_answer.dart';
 import 'package:habido_app/models/psy_test_answers_request.dart';
@@ -124,6 +126,9 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
         ),
       );
     } else if (state is PsyTestAnswersSuccess) {
+      // Refresh dashboard
+      BlocManager.psyTestMainBloc.add(GetPsyTestResultsEvent());
+
       showCustomDialog(
         context,
         child: CustomDialogBody(
@@ -134,8 +139,6 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
             Navigator.pushReplacementNamed(context, Routes.psyTestResult, arguments: {
               'psyTestResult': state.psyTestResult,
             });
-            // todo test
-            //
           },
         ),
       );

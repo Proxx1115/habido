@@ -6,19 +6,18 @@ import 'package:habido_app/ui/content/content_card.dart';
 import 'package:habido_app/ui/home/home_app_bar.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 
-class ContentListScreen extends StatefulWidget {
-  const ContentListScreen({Key? key}) : super(key: key);
+class ContentDashboard extends StatefulWidget {
+  const ContentDashboard({Key? key}) : super(key: key);
 
   @override
-  _ContentListScreenState createState() => _ContentListScreenState();
+  _ContentDashboardState createState() => _ContentDashboardState();
 }
 
-class _ContentListScreenState extends State<ContentListScreen> {
+class _ContentDashboardState extends State<ContentDashboard> {
   late ContentBloc _contentBloc;
 
   // Data
@@ -110,7 +109,7 @@ class _ContentListScreenState extends State<ContentListScreen> {
             crossAxisSpacing: _gridViewCrossAxisSpacing,
             mainAxisSpacing: _gridViewCrossAxisSpacing,
             crossAxisCount: 2,
-            childAspectRatio: 0.6,
+            childAspectRatio: 0.58,
             children: <Widget>[
               for (var el in _contentList!)
                 VerticalContentCard(

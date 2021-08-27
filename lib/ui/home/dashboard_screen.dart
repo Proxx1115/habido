@@ -19,20 +19,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       backgroundColor: customColors.primary,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                /// Slider
-                CustomSlider(margin: EdgeInsets.only(top: 30.0)),
+      body: Stack(
+        children: [
+          /// Slider
+          CustomSlider(margin: EdgeInsets.only(top: 30.0)),
 
-                /// Calendar, Title, Notification
-                HomeAppBar(),
-              ],
-            ),
-          ],
-        ),
+          /// Calendar, Title, Notification
+          HomeAppBar(),
+        ],
       ),
     );
   }

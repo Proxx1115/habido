@@ -1,27 +1,30 @@
-import 'user_psy_test_results.dart';
+import 'package:habido_app/models/base_response.dart';
+import 'psy_test_category_results.dart';
+import 'base_response.dart';
 
-class PsyTestResultsResponse {
-  String? categoryName;
-  List<UserPsyTestResults>? userTests;
+class PsyTestResultsResponse extends BaseResponse {
+  List<PsyTestCategoryResults>? psyTestCategoryResults;
 
-  PsyTestResultsResponse({this.categoryName, this.userTests});
+  PsyTestResultsResponse({this.psyTestCategoryResults});
 
   PsyTestResultsResponse.fromJson(dynamic json) {
-    categoryName = json['categoryName'];
-    if (json['userTests'] != null) {
-      userTests = [];
-      json['userTests'].forEach((v) {
-        userTests?.add(UserPsyTestResults.fromJson(v));
+    parseBaseParams(json);
+    if (json['data'] != null) {
+      psyTestCategoryResults = [];
+      json['data'].forEach((v) {
+        psyTestCategoryResults?.add(PsyTestCategoryResults.fromJson(v));
+        // print('test');
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map['categoryName'] = categoryName;
-    if (userTests != null) {
-      map['userTests'] = userTests?.map((v) => v.toJson()).toList();
+
+    if (psyTestCategoryResults != null) {
+      map['data'] = psyTestCategoryResults?.map((v) => v.toJson()).toList();
     }
+
     return map;
   }
 }
