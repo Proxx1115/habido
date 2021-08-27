@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/models/psy_test_answer.dart';
+import 'package:habido_app/models/psy_test_answers_request.dart';
 import 'package:habido_app/models/psy_test_question.dart';
+import 'package:habido_app/models/psy_test_question_answer.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class PsyTestRoute extends StatefulWidget {
   final PsyTest psyTest;
@@ -36,7 +41,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
   List<PsyTestQuestion>? _questionList;
 
   // Page view
-  PageController _controller = PageController();
+  PageController _pageController = PageController();
   int _currentIndex = 0;
 
   @override
@@ -57,6 +62,8 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
     return CustomScaffold(
       scaffoldKey: _psyTestKey,
       appBarTitle: widget.psyTest.name,
+      appBarOnPressedLeading: _onBackPressed,
+      onWillPop: _onBackPressed,
       body: BlocProvider.value(
         value: _psyTestBloc,
         child: BlocListener<PsyTestBloc, PsyTestState>(
@@ -66,18 +73,25 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
               return Container(
                 padding: SizeHelper.paddingScreen,
                 child: (_questionList != null && _questionList!.isNotEmpty)
-                    ?
+                    ? Column(
+                        children: [
+                          /// Indicator
+                          _indicator(),
 
-                    /// PageView
-                    PageView(
-                        controller: _controller,
-                        physics: NeverScrollableScrollPhysics(),
-                        children: List.generate(_questionList!.length, (index) => _pageViewItem(index)),
-                        onPageChanged: (index) {
-                          setState(() {
-                            _currentIndex = index;
-                          });
-                        },
+                          /// PageView
+                          Expanded(
+                            child: PageView(
+                              controller: _pageController,
+                              physics: NeverScrollableScrollPhysics(),
+                              children: List.generate(_questionList!.length, (index) => _pageViewItem(index)),
+                              onPageChanged: (index) {
+                                setState(() {
+                                  _currentIndex = index;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       )
                     :
 
@@ -109,7 +123,59 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
           },
         ),
       );
+    } else if (state is PsyTestAnswersSuccess) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.success,
+          text: LocaleKeys.psyTestSuccess,
+          buttonText: LocaleKeys.seeResult,
+          onPressedButton: () {
+            Navigator.pushReplacementNamed(context, Routes.psyTestResult, arguments: {
+              'psyTestResult': state.psyTestResult,
+            });
+            // todo test
+            //
+          },
+        ),
+      );
+    } else if (state is PsyTestAnswersFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
     }
+  }
+
+  _onBackPressed() {
+    if (_currentIndex == 0) {
+      Navigator.pop(context);
+    } else {
+      _pageController.animateToPage(_currentIndex - 1, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+    }
+  }
+
+  Widget _indicator() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+      ),
+      child: LinearPercentIndicator(
+        padding: EdgeInsets.symmetric(horizontal: 7),
+        lineHeight: 5,
+        progressColor: customColors.primary,
+        backgroundColor: Colors.white,
+        percent: 1 / _questionList!.length * (_currentIndex + 1),
+      ),
+    );
   }
 
   Widget _pageViewItem(int questionIndex) {
@@ -118,7 +184,11 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
     return Column(
       children: [
         /// Question
-        CustomText(psyTestQuestion.text, alignment: Alignment.center),
+        CustomText(
+          psyTestQuestion.text,
+          alignment: Alignment.center,
+          margin: EdgeInsets.symmetric(vertical: 50.0),
+        ),
 
         /// Answers
         Expanded(
@@ -130,7 +200,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
         ),
 
         /// Button next
-        _buttonNext(),
+        _buttonNext(questionIndex),
       ],
     );
   }
@@ -159,45 +229,54 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
     );
   }
 
-  Widget _buttonNext() {
+  Widget _buttonNext(int questionIndex) {
+    // Check enabled button
+    bool enabledButton = false;
+    for (var el in _questionList![questionIndex].testAnswers!) {
+      if (el.isSelected ?? false) {
+        enabledButton = true;
+        break;
+      }
+    }
+
     return CustomButton(
       style: CustomButtonStyle.Secondary,
       text: LocaleKeys.next,
-      onPressed: () {
-        //
-      },
+      onPressed: enabledButton
+          ? () {
+              if (_currentIndex != (_questionList!.length - 1)) {
+                // Navigate to next page
+                _pageController.animateToPage(
+                  _currentIndex + 1,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              } else {
+                // Prepare answers
+                List<PsyTestQuestionAnswer>? _answerList = [];
+                for (var question in _questionList!) {
+                  for (var answer in question.testAnswers!) {
+                    if (answer.isSelected ?? false) {
+                      var psyTestQuestionAnswer = PsyTestQuestionAnswer()
+                        ..questionId = question.questionId
+                        ..answerId = answer.answerId;
+
+                      _answerList.add(psyTestQuestionAnswer);
+                      break;
+                    }
+                  }
+                }
+
+                // Send request
+                var request = PsyTestAnswersRequest()
+                  ..userTestId = _userTestId
+                  ..testId = _testId
+                  ..dataTestQuestionAns = _answerList;
+
+                _psyTestBloc.add(SendPsyTestAnswersEvent(request));
+              }
+            }
+          : null,
     );
   }
-
-// Widget _answerItem(ResAnswers answer) {
-//   return NoSplashContainer(
-//     child: InkWell(
-//       onTap: () {
-//
-//
-//         /// Хариулсан
-//         if (_currentIndex == _questions.length - 1) {
-//           _add(answer);
-//           _finishScoring();
-//         } else {
-//           _add(answer);
-//           _controller.animateToPage(_currentIndex + 1, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-//         }
-//       },
-//       child: Container(
-//         margin: EdgeInsets.symmetric(vertical: 10),
-//         child: Container(
-//           padding: EdgeInsets.all(16),
-//           decoration: BoxDecoration(
-//               color: appColors.containerBackground, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-//           child: Txt(
-//             answer.ansText,
-//             style: TxtStyle.bodyText,
-//             maxLines: 99,
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }
 }

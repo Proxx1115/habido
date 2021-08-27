@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/models/psy_category.dart';
+import 'package:habido_app/models/psy_test_answers_request.dart';
 import 'package:habido_app/models/psy_test_questions_response.dart';
+import 'package:habido_app/models/psy_test_result.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
@@ -18,6 +19,8 @@ class PsyTestBloc extends Bloc<PsyTestEvent, PsyTestState> {
   Stream<PsyTestState> mapEventToState(PsyTestEvent event) async* {
     if (event is GetPsyTestQuestionsEvent) {
       yield* _mapGetPsyTestQuestionsEventToState(event);
+    } else if (event is SendPsyTestAnswersEvent) {
+      yield* _mapSendPsyTestAnswersEventToState(event);
     }
   }
 
@@ -33,6 +36,21 @@ class PsyTestBloc extends Bloc<PsyTestEvent, PsyTestState> {
       }
     } catch (e) {
       yield PsyQuestionsFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<PsyTestState> _mapSendPsyTestAnswersEventToState(SendPsyTestAnswersEvent event) async* {
+    try {
+      yield PsyTestLoading();
+
+      var res = await ApiManager.psyTestAnswers(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield PsyTestAnswersSuccess(res);
+      } else {
+        yield PsyTestAnswersFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+      }
+    } catch (e) {
+      yield PsyTestAnswersFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -58,6 +76,18 @@ class GetPsyTestQuestionsEvent extends PsyTestEvent {
 
   @override
   String toString() => 'GetPsyTestQuestionsEvent { testId: $testId }';
+}
+
+class SendPsyTestAnswersEvent extends PsyTestEvent {
+  final PsyTestAnswersRequest request;
+
+  const SendPsyTestAnswersEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'SendPsyTestAnswersEvent { request: $request }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -97,4 +127,28 @@ class PsyQuestionsFailed extends PsyTestState {
 
   @override
   String toString() => 'PsyQuestionsFailed { message: $message }';
+}
+
+class PsyTestAnswersSuccess extends PsyTestState {
+  final PsyTestResult psyTestResult;
+
+  const PsyTestAnswersSuccess(this.psyTestResult);
+
+  @override
+  List<Object> get props => [psyTestResult];
+
+  @override
+  String toString() => 'PsyTestResult { psyTestResult: $psyTestResult }';
+}
+
+class PsyTestAnswersFailed extends PsyTestState {
+  final String message;
+
+  const PsyTestAnswersFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'PsyTestAnswersFailed { message: $message }';
 }

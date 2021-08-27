@@ -16,6 +16,7 @@ import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
 import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
+import 'package:habido_app/ui/psy_test/psy_test_result_route.dart';
 import 'package:habido_app/ui/psy_test/psy_tests/psy_tests_route.dart';
 import 'route_transitions.dart';
 
@@ -44,6 +45,7 @@ class Routes {
   static const psyTests = 'psyTests';
   static const psyIntro = 'psyIntro';
   static const psyTest = 'psyTest';
+  static const psyTestResult = 'psyTestResult';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -160,6 +162,16 @@ class Routes {
         route = SlideRightRouteBuilder(
           PsyTestRoute(
             psyTest: _getValueByKey(args, 'psyTest'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.psyTestResult:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          PsyTestResultRoute(
+            psyTestResult: _getValueByKey(args, 'psyTestResult'),
           ),
           settings,
         );

@@ -13,6 +13,7 @@ class CustomScaffold extends StatelessWidget {
   final EdgeInsets padding;
   final Color? backgroundColor;
   final String? appBarTitle;
+  final VoidCallback? appBarOnPressedLeading;
   final Widget body;
   final Widget? floatingActionButton;
   final Widget? bottomNavigationBar;
@@ -24,6 +25,7 @@ class CustomScaffold extends StatelessWidget {
     this.padding = const EdgeInsets.all(0.0),
     this.backgroundColor,
     this.appBarTitle,
+    this.appBarOnPressedLeading,
     required this.body,
     this.floatingActionButton,
     this.bottomNavigationBar,
@@ -71,6 +73,7 @@ class CustomScaffold extends StatelessWidget {
         context,
         backgroundColor: backgroundColor ?? customColors.primaryBackground,
         titleText: appBarTitle,
+        onPressedLeading: appBarOnPressedLeading,
       );
     }
   }
