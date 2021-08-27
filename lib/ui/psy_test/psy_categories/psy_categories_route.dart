@@ -85,7 +85,7 @@ class _PsyCategoriesRouteState extends State<PsyCategoriesRoute> {
     return GridItemContainer(
       imageUrl: psyCategory.photo,
       backgroundColor: psyCategory.color,
-      text: psyCategory.name!,
+      text: psyCategory.name ?? '',
       onPressed: () {
         Navigator.pushNamed(context, Routes.psyTests, arguments: {
           'psyCategory': psyCategory,

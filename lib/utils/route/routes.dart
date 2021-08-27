@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/ui/auth/forgot_pass_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/ui/auth/sign_up3_profile_route.dart';
@@ -11,7 +10,9 @@ import 'package:habido_app/ui/auth/term_detail_route.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
-import 'package:habido_app/ui/habit/habit_category/habit_categories_route.dart';
+import 'package:habido_app/ui/habit/habit/habit_route.dart';
+import 'package:habido_app/ui/habit/habit_categories/habit_categories_route.dart';
+import 'package:habido_app/ui/habit/habit_list/habit_list_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
@@ -48,7 +49,8 @@ class Routes {
   static const psyTest = 'psyTest';
   static const psyTestResult = 'psyTestResult';
   static const habitCategories = 'habitCategories';
-  static const habitHabits = 'habitHabits';
+  static const habitList = 'habitList';
+  static const habit = 'habit';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -194,8 +196,25 @@ class Routes {
         route = SlideRightRouteBuilder(HabitCategoriesRoute(), settings);
         break;
 
-      case Routes.habitHabits:
-        route = FadeRouteBuilder(HabitCategoriesRoute(), settings);
+      case Routes.habitList:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          HabitListRoute(
+            habitCategory: _getValueByKey(args, 'habitCategory'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.habit:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          HabitRoute(
+            title: _getValueByKey(args, 'title'),
+            habit: _getValueByKey(args, 'habit'),
+          ),
+          settings,
+        );
         break;
 
       case Routes.comingSoon:

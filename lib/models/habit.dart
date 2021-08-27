@@ -1,25 +1,37 @@
+class HdGoalType {
+  // Үндсэн зорилго
+  int? goalName;
+  int? goalMin; // Feeling ued utga baihgui
+  int? goalMax;
+
+  // Дадал биелүүлэх tools
+  int? toolType; // Minute, Hour, Count, Feeling (emoji), Satisfaction, Amount (Finance), Music, Animation,
+  int? toolContent; // Минут, Цаг, Аяга, 'emoji', 'camera', '₮', 'music link', 'Tree animation, ... animation',
+}
+
 class Habit {
   int? habitId;
   int? categoryId;
   String? name;
-  bool? hasGoal;
-  int? goalTypeId;
-  int? toolId;
   int? contentId;
-  bool? isFinance;
   String? note;
+  String? color;
+  String? photo;
+  HdGoalType? habitGoalType;
 
-  Habit({this.habitId, this.categoryId, this.name, this.hasGoal, this.goalTypeId, this.toolId, this.contentId, this.isFinance, this.note});
+  Habit({
+    this.habitId,
+    this.categoryId,
+    this.name,
+    this.contentId,
+    this.note,
+  });
 
   Habit.fromJson(dynamic json) {
     habitId = json['habitId'];
     categoryId = json['categoryId'];
     name = json['name'];
-    hasGoal = json['hasGoal'];
-    goalTypeId = json['goalTypeId'];
-    toolId = json['toolId'];
     contentId = json['contentId'];
-    isFinance = json['isFinance'];
     note = json['note'];
   }
 
@@ -28,11 +40,7 @@ class Habit {
     map['habitId'] = habitId;
     map['categoryId'] = categoryId;
     map['name'] = name;
-    map['hasGoal'] = hasGoal;
-    map['goalTypeId'] = goalTypeId;
-    map['toolId'] = toolId;
     map['contentId'] = contentId;
-    map['isFinance'] = isFinance;
     map['note'] = note;
     return map;
   }

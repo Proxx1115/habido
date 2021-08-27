@@ -6,6 +6,7 @@ import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/content_list_response.dart';
 import 'package:habido_app/models/habit_categories_response.dart';
+import 'package:habido_app/models/habits_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
 import 'package:habido_app/models/param_response.dart';
@@ -196,7 +197,13 @@ class ApiManager {
 
   static Future<HabitCategoriesResponse> habitCategories() async {
     return HabitCategoriesResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.contentList, httpMethod: HttpMethod.Get),
+      await httpUtils.sendRequest(path: HttpPath.habitCategories, httpMethod: HttpMethod.Get),
+    );
+  }
+
+  static Future<HabitsResponse> habits(int catId) async {
+    return HabitsResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.habits + '?catId=$catId', httpMethod: HttpMethod.Get),
     );
   }
 
