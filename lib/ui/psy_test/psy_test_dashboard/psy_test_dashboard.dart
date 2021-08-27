@@ -56,6 +56,13 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
           ),
         ],
       ),
+      floatingActionButton: ButtonStadium(
+        style: ButtonStadiumStyle.Secondary,
+        asset: Assets.add,
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.psyCategories);
+        },
+      ),
     );
   }
 
