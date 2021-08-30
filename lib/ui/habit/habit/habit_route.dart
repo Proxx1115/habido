@@ -10,6 +10,7 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/date_picker.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
@@ -42,6 +43,10 @@ class _HabitRouteState extends State<HabitRoute> {
   // Plan
   String _selectedPlanTerm = PlanTerm.Daily;
   List<Plan> _planList = [];
+
+  // Start, end date
+  DateTime? _selectedStartDate;
+  DateTime? _selectedEndDate;
 
   @override
   void initState() {
@@ -93,6 +98,12 @@ class _HabitRouteState extends State<HabitRoute> {
 
                     /// Plan terms
                     _planTermsWidget(),
+
+                    /// Start date
+                    _startDatePicker(),
+
+                    /// End date
+                    _endDatePicker(),
                   ],
                 );
               }),
@@ -124,6 +135,30 @@ class _HabitRouteState extends State<HabitRoute> {
       planList: _planList,
       onPlanListChanged: (list) {
         _planList = list;
+      },
+    );
+  }
+
+  Widget _startDatePicker() {
+    return CustomDatePicker(
+      hintText: LocaleKeys.startDate,
+      margin: EdgeInsets.only(top: 15.0),
+      firstDate: DateTime.now(),
+      onSelectedDate: (date) {
+        print(date);
+        _selectedStartDate = date;
+      },
+    );
+  }
+
+  Widget _endDatePicker() {
+    return CustomDatePicker(
+      hintText: LocaleKeys.endDate,
+      margin: EdgeInsets.only(top: 15.0),
+      firstDate: DateTime.now(),
+      onSelectedDate: (date) {
+        print(date);
+        _selectedEndDate = date;
       },
     );
   }

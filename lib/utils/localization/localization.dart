@@ -140,6 +140,10 @@ class LocaleKeys {
 
   static String get birthDate => 'Төрсөн огноо';
 
+  static String get startDate => 'Эхлэх огноо';
+
+  static String get endDate => 'Дуусах огноо';
+
   static String get gender => 'Хүйс';
 
   static String get iAgree => 'Би зөвшөөрч байна';
