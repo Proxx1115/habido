@@ -193,7 +193,7 @@ class Routes {
         break;
 
       case Routes.habitCategories:
-        route = SlideRightRouteBuilder(HabitCategoriesRoute(), settings);
+        route = SlideBottomRouteBuilder(HabitCategoriesRoute(), settings);
         break;
 
       case Routes.habitList:

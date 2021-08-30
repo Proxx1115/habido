@@ -44,7 +44,9 @@ class _SplashRouteState extends State<SplashRoute> {
     try {
       var res = await ApiManager.param();
       if (res.code == ResponseCode.Success) {
-        //
+        print('Success');
+      } else {
+        print('Failed');
       }
 
       // todo test

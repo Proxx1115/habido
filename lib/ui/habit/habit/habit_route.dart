@@ -77,20 +77,20 @@ class _HabitRouteState extends State<HabitRoute> {
       ]
       ..plans = [
         // monthly
-        Plans()
-          ..planDate = '2021-08-27'
-          ..term = PlanTerm.Monthly,
-        Plans()
-          ..weekDay = '2021-08-27'
-          ..term = PlanTerm.Monthly,
-
-        // weekly
-        Plans()
-          ..weekDay = WeekDays.Mon
-          ..term = PlanTerm.Weekly,
-        Plans()
-          ..weekDay = WeekDays.Fri
-          ..term = PlanTerm.Week,
+        // Plans()
+        //   ..planDate = '2021-08-27'
+        //   ..term = PlanTerm.Monthly,
+        // Plans()
+        //   ..weekDay = '2021-08-27'
+        //   ..term = PlanTerm.Monthly,
+        //
+        // // weekly
+        // Plans()
+        //   ..weekDay = WeekDays.Mon
+        //   ..term = PlanTerm.Weekly,
+        // Plans()
+        //   ..weekDay = WeekDays.Fri
+        //   ..term = PlanTerm.Week,
 
         //everyday null
       ];
