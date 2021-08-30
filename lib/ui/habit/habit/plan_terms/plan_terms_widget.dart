@@ -8,12 +8,22 @@ import 'package:habido_app/widgets/text.dart';
 
 class PlanTermsWidget extends StatefulWidget {
   final Color primaryColor;
-  final Function(List<Plan>) callBack;
+
+  // Plan term
+  final String planTerm;
+  final Function(String) onPlanTermChanged;
+
+  // Plan list
+  final Function(List<Plan>) onPlanListChanged;
+  final List<Plan> planList;
 
   const PlanTermsWidget({
     Key? key,
     required this.primaryColor,
-    required this.callBack,
+    required this.planTerm,
+    required this.onPlanTermChanged,
+    required this.planList,
+    required this.onPlanListChanged,
   }) : super(key: key);
 
   @override
@@ -25,15 +35,24 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
   late PlanTermsBloc _planTermsBloc;
 
   // Data
-  var _weeklyPlanList = PlanTerm.weeklyPlanList;
-  var _monthlyPlanList = <Plan>[];
+  late List<Plan> _planList;
 
   // Tab bar
-  String _selectedPlanTerm = PlanTerm.Daily;
+  late String _selectedPlanTerm;
 
   @override
   void initState() {
     _planTermsBloc = PlanTermsBloc();
+
+    // Term
+    _selectedPlanTerm = widget.planTerm;
+
+    // Plan list
+    _planList = widget.planList;
+    if (_selectedPlanTerm == PlanTerm.Weekly && widget.planList.isEmpty) {
+      _planList = PlanTerm.weeklyPlanList;
+    } else if (_selectedPlanTerm == PlanTerm.Weekly && widget.planList.isEmpty) {}
+
     super.initState();
   }
 
@@ -68,8 +87,8 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     if (state is PlanTermChangedState) {
       _selectedPlanTerm = state.planTerm;
     } else if (state is WeekDaySelectionChangedState) {
-      _weeklyPlanList[state.index].isSelected = state.isSelected;
-      widget.callBack(_weeklyPlanList);
+      _planList[state.index].isSelected = state.isSelected;
+      widget.onPlanListChanged(_planList);
     }
   }
 
@@ -117,20 +136,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
 
   Widget _body() {
     if (_selectedPlanTerm == PlanTerm.Weekly) {
-      return Container(
-        margin: EdgeInsets.only(top: 15.0),
-        padding: EdgeInsets.fromLTRB(15.0, 15.0, 8.0, 15.0),
-        height: 80.0,
-        decoration: BoxDecoration(borderRadius: SizeHelper.borderRadiusOdd, color: customColors.secondaryBackground),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(_weeklyPlanList.length, (index) => _weekDayItem(index))
-
-            // [
-            //   for (var el in _weeklyPlanList) _weekDayItem(el),
-            // ],
-            ),
-      );
+      return _weekDaysWidget();
     } else if (_selectedPlanTerm == PlanTerm.Monthly) {
       return Container();
     } else {
@@ -138,12 +144,23 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     }
   }
 
+  Widget _weekDaysWidget() {
+    return Container(
+      margin: EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.fromLTRB(15.0, 15.0, 8.0, 15.0),
+      height: 80.0,
+      decoration: BoxDecoration(borderRadius: SizeHelper.borderRadiusOdd, color: customColors.secondaryBackground),
+      child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: List.generate(_planList.length, (index) => _weekDayItem(index))),
+    );
+  }
+
   Widget _weekDayItem(int index) {
     return Expanded(
       child: InkWell(
         onTap: () {
           _planTermsBloc.add(
-            ChangeWeekDaySelectionEvent(index, !(_weeklyPlanList[index].isSelected ?? false)),
+            ChangeWeekDaySelectionEvent(index, !(_planList[index].isSelected ?? false)),
           );
         },
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -152,22 +169,29 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
           margin: EdgeInsets.only(right: 7.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            border: (_weeklyPlanList[index].isSelected ?? false)
+            border: (_planList[index].isSelected ?? false)
                 ? null
                 : Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
-            color: (_weeklyPlanList[index].isSelected ?? false) ? widget.primaryColor : customColors.secondaryBackground,
+            color: (_planList[index].isSelected ?? false) ? widget.primaryColor : customColors.secondaryBackground,
           ),
           child: CustomText(
-            _weeklyPlanList[index].weekDayText,
+            PlanTerm.getWeekDayText(_planList[index].day ?? 0),
             alignment: Alignment.center,
-            color: (_weeklyPlanList[index].isSelected ?? false) ? customColors.whiteText : customColors.secondaryText,
+            color: (_planList[index].isSelected ?? false) ? customColors.whiteText : customColors.secondaryText,
           ),
         ),
       ),
     );
   }
 
-// Plans()
-//   ..weekDay = WeekDays.Fri
-//   ..term = PlanTerm.Week,
+  Widget _monthDaysWidget() {
+    return Container(
+      margin: EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.fromLTRB(15.0, 15.0, 8.0, 15.0),
+      height: 80.0,
+      decoration: BoxDecoration(borderRadius: SizeHelper.borderRadiusOdd, color: customColors.secondaryBackground),
+      child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: List.generate(_planList.length, (index) => _weekDayItem(index))),
+    );
+  }
 }

@@ -1,39 +1,38 @@
 import 'package:habido_app/models/base_response.dart';
-
+import 'habit.dart';
 import 'user_habit_reminders.dart';
 import 'plan.dart';
 
 class UserHabit extends BaseResponse {
   int? userHabitId;
-  int? userId;
-  int? habitId;
   String? name;
   String? startDate;
   String? endDate;
-  bool? isReminder;
-  String? repeatName;
-  bool? hasGoal;
-  String? goalValue;
-  String? note;
-  String? userNote;
-  String? status;
+  String? note; // Зөвлөмж
+  String? userNote; // Өөрийн тэмдэглэл
+
+  // HabitGoalSettings
+  String? planTerm; // PlanTerm: Daily, Weekly, Monthly
+  String? goalValue; // Min max
+
+  // Habit settings
+  int? habitId;
+  Habit? habit;
+
   List<UserHabitReminders>? userHabitReminders;
   List<Plan>? plans;
 
   UserHabit({
     this.userHabitId,
-    this.userId,
-    this.habitId,
     this.name,
     this.startDate,
     this.endDate,
-    this.isReminder,
-    this.repeatName,
-    this.hasGoal,
-    this.goalValue,
     this.note,
     this.userNote,
-    this.status,
+    this.planTerm,
+    this.goalValue,
+    this.habitId,
+    this.habit,
     this.userHabitReminders,
     this.plans,
   });
@@ -41,18 +40,15 @@ class UserHabit extends BaseResponse {
   UserHabit.fromJson(dynamic json) {
     parseBaseParams(json);
     userHabitId = json['userHabitId'];
-    userId = json['userId'];
-    habitId = json['habitId'];
     name = json['name'];
     startDate = json['startDate'];
     endDate = json['endDate'];
-    isReminder = json['isReminder'];
-    repeatName = json['repeatName'];
-    hasGoal = json['hasGoal'];
-    goalValue = json['goalValue'];
     note = json['note'];
     userNote = json['userNote'];
-    status = json['status'];
+    planTerm = json['planTerm'];
+    goalValue = json['goalValue'];
+    habitId = json['habitId'];
+    habit = json['habit'] != null ? Habit.fromJson(json['habit']) : null;
     if (json['userHabitReminders'] != null) {
       userHabitReminders = [];
       json['userHabitReminders'].forEach((v) {
@@ -70,18 +66,14 @@ class UserHabit extends BaseResponse {
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map['userHabitId'] = userHabitId;
-    map['userId'] = userId;
     map['habitId'] = habitId;
     map['name'] = name;
     map['startDate'] = startDate;
     map['endDate'] = endDate;
-    map['isReminder'] = isReminder;
-    map['repeatName'] = repeatName;
-    map['hasGoal'] = hasGoal;
+    map['planTerm'] = planTerm;
     map['goalValue'] = goalValue;
     map['note'] = note;
     map['userNote'] = userNote;
-    map['status'] = status;
     if (userHabitReminders != null) {
       map['userHabitReminders'] = userHabitReminders?.map((v) => v.toJson()).toList();
     }

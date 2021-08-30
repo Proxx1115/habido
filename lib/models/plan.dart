@@ -1,24 +1,19 @@
 import 'package:habido_app/utils/localization/localization.dart';
 
 class Plan {
-  String? weekDay;
-  String? planDate;
-
-  String? weekDayText; // Local param
+  int? day;
   bool? isSelected; // Local param
 
-  Plan({this.weekDay, this.planDate});
+  Plan({this.day});
 
   Plan.fromJson(dynamic json) {
-    weekDay = json['weekDay'];
-    planDate = json['planDate'];
+    day = json['day'];
     isSelected = false;
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map['weekDay'] = weekDay;
-    map['planDate'] = planDate;
+    map['day'] = day;
     map['isSelected'] = isSelected;
     return map;
   }
@@ -42,44 +37,36 @@ class PlanTerm {
     }
   }
 
-  static List<Plan> get weeklyPlanList => [
-        Plan()
-          ..weekDay = WeekDays.Mon
-          ..weekDayText = LocaleKeys.mo
-          ..isSelected = false,
-        Plan()
-          ..weekDay = WeekDays.Tue
-          ..weekDayText = LocaleKeys.tu
-          ..isSelected = false,
-        Plan()
-          ..weekDay = WeekDays.Wed
-          ..weekDayText = LocaleKeys.we
-          ..isSelected = false,
-        Plan()
-          ..weekDay = WeekDays.Thu
-          ..weekDayText = LocaleKeys.th
-          ..isSelected = false,
-        Plan()
-          ..weekDay = WeekDays.Fri
-          ..weekDayText = LocaleKeys.fr
-          ..isSelected = false,
-        Plan()
-          ..weekDay = WeekDays.Sat
-          ..weekDayText = LocaleKeys.sa
-          ..isSelected = false,
-        Plan()
-          ..weekDay = WeekDays.Sun
-          ..weekDayText = LocaleKeys.su
-          ..isSelected = false,
-      ];
-}
+  static List<Plan> get weeklyPlanList => List.generate(
+      7,
+      (index) => Plan()
+        ..day = index
+        ..isSelected = false);
 
-class WeekDays {
-  static const String Mon = 'Mon';
-  static const String Tue = 'Tue';
-  static const String Wed = 'Wed';
-  static const String Thu = 'Thu';
-  static const String Fri = 'Fri';
-  static const String Sat = 'Sat';
-  static const String Sun = 'Sun';
+  static List<Plan> get monthlyPlanList => List.generate(
+      30,
+      (index) => Plan()
+        ..day = index
+        ..isSelected = false);
+
+  static String getWeekDayText(int day) {
+    switch (day) {
+      case 1:
+        return LocaleKeys.mo;
+      case 2:
+        return LocaleKeys.tu;
+      case 3:
+        return LocaleKeys.we;
+      case 4:
+        return LocaleKeys.th;
+      case 5:
+        return LocaleKeys.fr;
+      case 6:
+        return LocaleKeys.sa;
+      case 7:
+        return LocaleKeys.su;
+      default:
+        return '';
+    }
+  }
 }

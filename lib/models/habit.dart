@@ -28,7 +28,7 @@ class Habit {
     name = json['name'];
     contentId = json['contentId'];
     note = json['note'];
-    color = json['note'];
+    color = json['color'];
     backgroundColor = json['backgroundColor'];
     photo = json['photo'];
     goalSettings = json['goalSettings'] != null ? HabitGoalSettings.fromJson(json['goalSettings']) : null;
