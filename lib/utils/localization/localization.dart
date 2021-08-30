@@ -204,6 +204,8 @@ class LocaleKeys {
   static String get seeResult => 'Үр дүн харах';
 
   /// Habit
+  static String get habit => 'Дадал';
+
   static String get createHabit => 'Дадал үүсгэх';
 }
 

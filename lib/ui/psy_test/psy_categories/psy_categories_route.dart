@@ -5,6 +5,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -82,15 +83,17 @@ class _PsyCategoriesRouteState extends State<PsyCategoriesRoute> {
   }
 
   Widget _testCategoryItem(PsyCategory psyCategory) {
-    return GridItemContainer(
-      imageUrl: psyCategory.photo,
-      backgroundColor: psyCategory.color,
-      text: psyCategory.name ?? '',
-      onPressed: () {
-        Navigator.pushNamed(context, Routes.psyTests, arguments: {
-          'psyCategory': psyCategory,
-        });
-      },
+    return FadeInAnimation(
+      child: GridItemContainer(
+        imageUrl: psyCategory.photo,
+        backgroundColor: psyCategory.color,
+        text: psyCategory.name ?? '',
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.psyTests, arguments: {
+            'psyCategory': psyCategory,
+          });
+        },
+      ),
     );
   }
 }

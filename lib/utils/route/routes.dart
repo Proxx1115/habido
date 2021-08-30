@@ -139,7 +139,7 @@ class Routes {
         break;
 
       case Routes.psyCategories:
-        route = FadeRouteBuilder(PsyCategoriesRoute(), settings);
+        route = SlideBottomRouteBuilder(PsyCategoriesRoute(), settings);
         break;
 
       case Routes.psyTests:

@@ -209,16 +209,14 @@ class GridItemContainer extends StatelessWidget {
 
   const GridItemContainer({
     Key? key,
-    required this.imageUrl,
-    required this.backgroundColor,
+    required this.imageUrl, // 'https://habido-test.s3-ap-southeast-1.amazonaws.com/test-category/3f010def-93c4-425a-bce3-9df854a2f73b.png'
+    required this.backgroundColor, // '#EB86BE'
     required this.text,
     this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     return StadiumContainer(
       padding: EdgeInsets.all(SizeHelper.margin),
       onTap: onPressed,

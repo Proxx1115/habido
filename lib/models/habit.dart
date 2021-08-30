@@ -1,13 +1,4 @@
-class HdGoalType {
-  // Үндсэн зорилго
-  int? goalName;
-  int? goalMin; // Feeling ued utga baihgui
-  int? goalMax;
-
-  // Дадал биелүүлэх tools
-  int? toolType; // Minute, Hour, Count, Feeling (emoji), Satisfaction, Amount (Finance), Music, Animation,
-  int? toolContent; // Минут, Цаг, Аяга, 'emoji', 'camera', '₮', 'music link', 'Tree animation, ... animation',
-}
+import 'habit_goal_settings.dart';
 
 class Habit {
   int? habitId;
@@ -17,7 +8,7 @@ class Habit {
   String? note;
   String? color;
   String? photo;
-  HdGoalType? habitGoalType;
+  HabitGoalSettings? goalSettings;
 
   Habit({
     this.habitId,
@@ -25,6 +16,9 @@ class Habit {
     this.name,
     this.contentId,
     this.note,
+    this.color,
+    this.photo,
+    this.goalSettings,
   });
 
   Habit.fromJson(dynamic json) {
@@ -33,6 +27,9 @@ class Habit {
     name = json['name'];
     contentId = json['contentId'];
     note = json['note'];
+    color = json['note'];
+    photo = json['photo'];
+    goalSettings = json['goalSettings'] != null ? HabitGoalSettings.fromJson(json['goalSettings']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -42,6 +39,11 @@ class Habit {
     map['name'] = name;
     map['contentId'] = contentId;
     map['note'] = note;
+    map['color'] = color;
+    map['photo'] = photo;
+    if (goalSettings != null) {
+      map['goalSettings'] = goalSettings?.toJson();
+    }
     return map;
   }
 }

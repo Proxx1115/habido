@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit_category.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -28,8 +30,15 @@ class _HabitCategoriesRouteState extends State<HabitCategoriesRoute> {
 
   @override
   void initState() {
-    _habitCategoryBloc.add(GetHabitCategoriesEvent());
+    // Future.delayed(Duration(milliseconds: 1000), () => _init());
+
+    _init();
+
     super.initState();
+  }
+
+  _init() {
+    _habitCategoryBloc.add(GetHabitCategoriesEvent());
   }
 
   @override
@@ -94,16 +103,20 @@ class _HabitCategoriesRouteState extends State<HabitCategoriesRoute> {
   }
 
   Widget _categoryItem(HabitCategory category) {
-    return GridItemContainer(
-      imageUrl: 'https://habido-test.s3-ap-southeast-1.amazonaws.com/test-category/3f010def-93c4-425a-bce3-9df854a2f73b.png',
-      // todo test category.photo,
-      backgroundColor: '#EB86BE', //category.color,
-      text: category.name ?? '',
-      onPressed: () {
-        Navigator.pushNamed(context, Routes.habitList, arguments: {
-          'habitCategory': category,
-        });
-      },
-    );
+    return (Func.isNotEmpty(category.photo) && Func.isNotEmpty(category.color))
+        ? FadeInAnimation(
+            child: GridItemContainer(
+              imageUrl: category.photo!,
+
+              backgroundColor: category.color!,
+              text: category.name ?? '',
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.habitList, arguments: {
+                  'habitCategory': category,
+                });
+              },
+            ),
+          )
+        : Container();
   }
 }
