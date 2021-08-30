@@ -1,7 +1,7 @@
 import 'package:habido_app/models/base_response.dart';
 
 import 'user_habit_reminders.dart';
-import 'plans.dart';
+import 'plan.dart';
 
 class UserHabit extends BaseResponse {
   int? userHabitId;
@@ -18,11 +18,7 @@ class UserHabit extends BaseResponse {
   String? userNote;
   String? status;
   List<UserHabitReminders>? userHabitReminders;
-  List<Plans>? plans;
-
-
-  // +
-  //sadf
+  List<Plan>? plans;
 
   UserHabit({
     this.userHabitId,
@@ -66,7 +62,7 @@ class UserHabit extends BaseResponse {
     if (json['plans'] != null) {
       plans = [];
       json['plans'].forEach((v) {
-        plans?.add(Plans.fromJson(v));
+        plans?.add(Plan.fromJson(v));
       });
     }
   }

@@ -207,6 +207,26 @@ class LocaleKeys {
   static String get habit => 'Дадал';
 
   static String get createHabit => 'Дадал үүсгэх';
+
+  static String get daily => 'Өдөр бүр';
+
+  static String get week => '7 хоног';
+
+  static String get monthly => 'Сар бүр';
+
+  static String get mo => 'Да';
+
+  static String get tu => 'Мя';
+
+  static String get we => 'Лх';
+
+  static String get th => 'Пү';
+
+  static String get fr => 'Ба';
+
+  static String get sa => 'Бя';
+
+  static String get su => 'Ня';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

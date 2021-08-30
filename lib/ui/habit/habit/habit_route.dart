@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit.dart';
-import 'package:habido_app/models/plans.dart';
-import 'package:habido_app/models/user_habit.dart';
-import 'package:habido_app/models/user_habit_reminders.dart';
+import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/ui/habit/habit/habit_bloc.dart';
+import 'package:habido_app/ui/habit/habit/plan_terms/plan_terms_widget.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
@@ -24,13 +26,27 @@ class HabitRoute extends StatefulWidget {
 class _HabitRouteState extends State<HabitRoute> {
   // UI
   final HabitBloc _habitBloc = HabitBloc();
+  late Color _primaryColor;
+  late Color _backgroundColor;
 
   // Name
   final _nameController = TextEditingController();
   final _nameFocusNode = FocusNode();
 
+  // Plan
+  var _planList = <Plan>[];
+
   @override
   void initState() {
+    // Color
+    // _primaryColor = Func.isNotEmpty(widget.habit?.color) ? HexColor.fromHex(widget.habit!.color!) : customColors.primary;
+    // _backgroundColor =
+    //     Func.isNotEmpty(widget.habit?.backgroundColor) ? HexColor.fromHex(widget.habit!.backgroundColor!) : customColors.primaryBackground;
+
+    // todo test
+    _primaryColor = HexColor.fromHex('#FA6C51');
+    _backgroundColor = HexColor.fromHex('#FFF7F6');
+
     // Name
     if (widget.habit?.name != null) {
       _nameController.text = widget.habit!.name!;
@@ -61,6 +77,15 @@ class _HabitRouteState extends State<HabitRoute> {
                   children: [
                     /// Name
                     _nameTextField(),
+
+                    /// Plan terms
+                    PlanTermsWidget(
+                      primaryColor: _primaryColor,
+                      callBack: (list) {
+                        print(list.first.isSelected);
+                        _planList = list;
+                      },
+                    )
                   ],
                 );
               }),
@@ -72,7 +97,7 @@ class _HabitRouteState extends State<HabitRoute> {
   }
 
   void _blocListener(BuildContext context, HabitState state) {
-    //
+//
   }
 
   Widget _nameTextField() {

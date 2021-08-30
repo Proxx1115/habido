@@ -1,42 +1,29 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/models/habit_category.dart';
-import 'package:habido_app/utils/api/api_helper.dart';
-import 'package:habido_app/utils/api/api_manager.dart';
-import 'package:habido_app/utils/func.dart';
-import 'package:habido_app/utils/localization/localization.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-class HabitBloc extends Bloc<HabitEvent, HabitState> {
-  HabitBloc() : super(HabitInit());
+class PlanTermsBloc extends Bloc<PlanTermsEvent, PlanTermsState> {
+  PlanTermsBloc() : super(PlanTermsInit());
 
   @override
-  Stream<HabitState> mapEventToState(HabitEvent event) async* {
+  Stream<PlanTermsState> mapEventToState(PlanTermsEvent event) async* {
     if (event is ChangePlanTermEvent) {
       yield* _mapChangePlanTermEventToState(event);
+    } else if (event is ChangeWeekDaySelectionEvent) {
+      yield* _mapChangeWeekDaySelectionEventToState(event);
     }
   }
 
-// Stream<HabitState> _mapGetHabitCategoriesEventToState() async* {
-//   try {
-//     yield HabitLoading();
-//
-//     var res = await ApiManager.habitCategories();
-//     if (res.code == ResponseCode.Success && res.habitCategoryList != null && res.habitCategoryList!.length > 0) {
-//       yield HabitCategoriesSuccess(res.habitCategoryList!);
-//     } else {
-//       yield HabitCategoriesFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
-//     }
-//   } catch (e) {
-//     yield HabitCategoriesFailed(LocaleKeys.errorOccurred);
-//   }
-// }
-
-  Stream<HabitState> _mapChangePlanTermEventToState(ChangePlanTermEvent event) async* {
+  Stream<PlanTermsState> _mapChangePlanTermEventToState(ChangePlanTermEvent event) async* {
     yield PlanTermChangedState(event.planTerm);
+  }
+
+  Stream<PlanTermsState> _mapChangeWeekDaySelectionEventToState(ChangeWeekDaySelectionEvent event) async* {
+    yield WeekDaySelectionChangedState(event.index, event.isSelected);
+    yield PlanTermsVoid();
   }
 }
 
@@ -44,14 +31,14 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
 /// BLOC EVENTS
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class HabitEvent extends Equatable {
-  const HabitEvent();
+abstract class PlanTermsEvent extends Equatable {
+  const PlanTermsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class ChangePlanTermEvent extends HabitEvent {
+class ChangePlanTermEvent extends PlanTermsEvent {
   final String planTerm;
 
   const ChangePlanTermEvent(this.planTerm);
@@ -63,24 +50,35 @@ class ChangePlanTermEvent extends HabitEvent {
   String toString() => 'ChangePlanTermEvent { planTerm: $planTerm }';
 }
 
+class ChangeWeekDaySelectionEvent extends PlanTermsEvent {
+  final int index;
+  final bool isSelected;
+
+  const ChangeWeekDaySelectionEvent(this.index, this.isSelected);
+
+  @override
+  List<Object> get props => [index];
+
+  @override
+  String toString() => 'ChangeWeekDaySelectionEvent { index: $index, isSelected: $isSelected }';
+}
+
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class HabitState extends Equatable {
-  const HabitState();
+abstract class PlanTermsState extends Equatable {
+  const PlanTermsState();
 
   @override
   List<Object> get props => [];
 }
 
-class HabitInit extends HabitState {}
+class PlanTermsInit extends PlanTermsState {}
 
-class HabitLoading extends HabitState {}
+class PlanTermsVoid extends PlanTermsState {}
 
-class HabitVoid extends HabitState {}
-
-class PlanTermChangedState extends HabitState {
+class PlanTermChangedState extends PlanTermsState {
   final String planTerm;
 
   const PlanTermChangedState(this.planTerm);
@@ -92,14 +90,15 @@ class PlanTermChangedState extends HabitState {
   String toString() => 'PlanTermChangedState { planTerm: $planTerm }';
 }
 
-// class HabitCategoriesFailed extends HabitState {
-//   final String message;
-//
-//   const HabitCategoriesFailed(this.message);
-//
-//   @override
-//   List<Object> get props => [message];
-//
-//   @override
-//   String toString() => 'HabitCategoriesFailed { message: $message }';
-// }
+class WeekDaySelectionChangedState extends PlanTermsState {
+  final int index;
+  final bool isSelected;
+
+  const WeekDaySelectionChangedState(this.index, this.isSelected);
+
+  @override
+  List<Object> get props => [index];
+
+  @override
+  String toString() => 'WeekDaySelectionChangedState { index: $index, isSelected: $isSelected }';
+}

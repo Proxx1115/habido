@@ -7,6 +7,7 @@ class Habit {
   int? contentId;
   String? note;
   String? color;
+  String? backgroundColor;
   String? photo;
   HabitGoalSettings? goalSettings;
 
@@ -28,6 +29,7 @@ class Habit {
     contentId = json['contentId'];
     note = json['note'];
     color = json['note'];
+    backgroundColor = json['backgroundColor'];
     photo = json['photo'];
     goalSettings = json['goalSettings'] != null ? HabitGoalSettings.fromJson(json['goalSettings']) : null;
   }
@@ -40,6 +42,7 @@ class Habit {
     map['contentId'] = contentId;
     map['note'] = note;
     map['color'] = color;
+    map['backgroundColor'] = backgroundColor;
     map['photo'] = photo;
     if (goalSettings != null) {
       map['goalSettings'] = goalSettings?.toJson();
