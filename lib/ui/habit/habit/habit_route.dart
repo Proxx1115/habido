@@ -41,7 +41,7 @@ class _HabitRouteState extends State<HabitRoute> {
 
   // Plan
   String _selectedPlanTerm = PlanTerm.Daily;
-  List<Plan> _planList = <Plan>[];
+  List<Plan> _planList = [];
 
   @override
   void initState() {
@@ -59,32 +59,10 @@ class _HabitRouteState extends State<HabitRoute> {
       _nameController.text = widget.habit!.name!;
     }
 
-    if (widget.userHabit?.planTerm != null) {
-      // Plan term
-      _selectedPlanTerm = widget.userHabit!.planTerm!;
-
-      // Plan list
-      List<Plan> tempPlanList = [];
-      switch (_selectedPlanTerm) {
-        case PlanTerm.Daily:
-          print('daily');
-          break;
-        case PlanTerm.Weekly:
-          _planList = PlanTerm.weeklyPlanList;
-          tempPlanList = (widget.userHabit!.plans != null) ? widget.userHabit!.plans! : [];
-          break;
-        case PlanTerm.Monthly:
-          _planList = PlanTerm.monthlyPlanList;
-          tempPlanList = (widget.userHabit!.plans != null) ? widget.userHabit!.plans! : PlanTerm.monthlyPlanList;
-          break;
-      }
-
-      for (var el in tempPlanList) {
-        if (el.day != null) _planList[el.day! - 1].isSelected = true;
-      }
-    } else {
-      _selectedPlanTerm = PlanTerm.Daily;
-      _planList = [];
+    // Plan term
+    if (widget.userHabit != null) {
+      _selectedPlanTerm = widget.userHabit!.planTerm ?? PlanTerm.Daily;
+      _planList = widget.userHabit!.plans ?? [];
     }
 
     super.initState();
@@ -141,12 +119,10 @@ class _HabitRouteState extends State<HabitRoute> {
       primaryColor: _primaryColor,
       planTerm: _selectedPlanTerm,
       onPlanTermChanged: (term) {
-        print(term);
         _selectedPlanTerm = term;
       },
       planList: _planList,
       onPlanListChanged: (list) {
-        print(list.first.isSelected);
         _planList = list;
       },
     );

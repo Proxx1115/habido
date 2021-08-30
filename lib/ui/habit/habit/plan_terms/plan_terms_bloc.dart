@@ -14,6 +14,8 @@ class PlanTermsBloc extends Bloc<PlanTermsEvent, PlanTermsState> {
       yield* _mapChangePlanTermEventToState(event);
     } else if (event is ChangeWeekDaySelectionEvent) {
       yield* _mapChangeWeekDaySelectionEventToState(event);
+    } else if (event is ChangeMonthDaySelectionEvent) {
+      yield* _mapMonthDaySelectionChangedStateToState(event);
     }
   }
 
@@ -23,6 +25,11 @@ class PlanTermsBloc extends Bloc<PlanTermsEvent, PlanTermsState> {
 
   Stream<PlanTermsState> _mapChangeWeekDaySelectionEventToState(ChangeWeekDaySelectionEvent event) async* {
     yield WeekDaySelectionChangedState(event.index, event.isSelected);
+    yield PlanTermsVoid();
+  }
+
+  Stream<PlanTermsState> _mapMonthDaySelectionChangedStateToState(ChangeMonthDaySelectionEvent event) async* {
+    yield MonthDaySelectionChangedState(event.index, event.isSelected);
     yield PlanTermsVoid();
   }
 }
@@ -63,6 +70,19 @@ class ChangeWeekDaySelectionEvent extends PlanTermsEvent {
   String toString() => 'ChangeWeekDaySelectionEvent { index: $index, isSelected: $isSelected }';
 }
 
+class ChangeMonthDaySelectionEvent extends PlanTermsEvent {
+  final int index;
+  final bool isSelected;
+
+  const ChangeMonthDaySelectionEvent(this.index, this.isSelected);
+
+  @override
+  List<Object> get props => [index];
+
+  @override
+  String toString() => 'ChangeMonthDaySelectionEvent { index: $index, isSelected: $isSelected }';
+}
+
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -101,4 +121,17 @@ class WeekDaySelectionChangedState extends PlanTermsState {
 
   @override
   String toString() => 'WeekDaySelectionChangedState { index: $index, isSelected: $isSelected }';
+}
+
+class MonthDaySelectionChangedState extends PlanTermsState {
+  final int index;
+  final bool isSelected;
+
+  const MonthDaySelectionChangedState(this.index, this.isSelected);
+
+  @override
+  List<Object> get props => [index];
+
+  @override
+  String toString() => 'MonthDaySelectionChangedState { index: $index, isSelected: $isSelected }';
 }

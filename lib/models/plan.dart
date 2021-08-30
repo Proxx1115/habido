@@ -40,13 +40,13 @@ class PlanTerm {
   static List<Plan> get weeklyPlanList => List.generate(
       7,
       (index) => Plan()
-        ..day = index
+        ..day = index + 1
         ..isSelected = false);
 
   static List<Plan> get monthlyPlanList => List.generate(
       30,
       (index) => Plan()
-        ..day = index
+        ..day = index + 1
         ..isSelected = false);
 
   static String getWeekDayText(int day) {
