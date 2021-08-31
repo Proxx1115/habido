@@ -147,7 +147,9 @@ class InfoContainer extends StatelessWidget {
           CustomText(title, fontWeight: FontWeight.w500, maxLines: 2),
 
           /// Divider
-          HorizontalLine(),
+          HorizontalLine(
+            margin: EdgeInsets.symmetric(vertical: 15.0),
+          ),
 
           /// Body
           CustomText(body, maxLines: 100),

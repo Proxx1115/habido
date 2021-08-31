@@ -8,7 +8,6 @@ class UserHabit extends BaseResponse {
   String? name;
   String? startDate;
   String? endDate;
-  String? note; // Зөвлөмж
   String? userNote; // Өөрийн тэмдэглэл
 
   // HabitGoalSettings
@@ -27,7 +26,6 @@ class UserHabit extends BaseResponse {
     this.name,
     this.startDate,
     this.endDate,
-    this.note,
     this.userNote,
     this.planTerm,
     this.goalValue,
@@ -43,7 +41,6 @@ class UserHabit extends BaseResponse {
     name = json['name'];
     startDate = json['startDate'];
     endDate = json['endDate'];
-    note = json['note'];
     userNote = json['userNote'];
     planTerm = json['planTerm'];
     goalValue = json['goalValue'];
@@ -72,7 +69,6 @@ class UserHabit extends BaseResponse {
     map['endDate'] = endDate;
     map['planTerm'] = planTerm;
     map['goalValue'] = goalValue;
-    map['note'] = note;
     map['userNote'] = userNote;
     if (userHabitReminders != null) {
       map['userHabitReminders'] = userHabitReminders?.map((v) => v.toJson()).toList();

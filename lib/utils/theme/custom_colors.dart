@@ -11,6 +11,7 @@ class ConstantColors {
   static const cornflowerBlue = const Color(0xFFCAD0D7); // button text
   static const ghostGrey = const Color(0xFFCBD0D7); // icon
   static const red = const Color(0xFFE8553E);
+  static const frolyRed = const Color(0xFFE8553E); // trash icon
 }
 
 class CustomColors {
@@ -45,6 +46,7 @@ class CustomColors {
 
   /// Icon
   Color iconGrey = ConstantColors.ghostGrey;
+  Color iconRed = ConstantColors.frolyRed;
 
   CustomColors.constructor();
 

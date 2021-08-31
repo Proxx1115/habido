@@ -4,6 +4,7 @@ import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/models/user_habit_reminders.dart';
 import 'package:habido_app/ui/habit/habit/goal_helper.dart';
 import 'package:habido_app/ui/habit/habit/habit_bloc.dart';
 import 'package:habido_app/ui/habit/habit/plan_terms/plan_term_helper.dart';
@@ -15,6 +16,7 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/date_picker.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -22,12 +24,11 @@ import 'package:habido_app/widgets/slider/custom_slider.dart';
 import 'package:habido_app/widgets/slider/slider_bloc.dart';
 import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
-
 import 'reminder/reminder_widget.dart';
 
 class HabitRoute extends StatefulWidget {
   final String? title;
-  final Habit? habit;
+  final Habit? habit; // UserHabit, habit 2-ын нэг нь заавал утгатай байх ёстой
   final UserHabit? userHabit;
 
   const HabitRoute({
@@ -46,6 +47,9 @@ class _HabitRouteState extends State<HabitRoute> {
   final HabitBloc _habitBloc = HabitBloc();
   late Color _primaryColor;
   late Color _backgroundColor;
+
+  // Data
+  late Habit _habit;
 
   // Name
   final _nameController = TextEditingController();
@@ -68,26 +72,45 @@ class _HabitRouteState extends State<HabitRoute> {
   // Reminder
   final _reminderBloc = ReminderBloc();
 
+  // Tip
+  String? _tip;
+
+  // Delete button
+  bool _visibleDeleteButton = false;
+
   @override
   void initState() {
-    // Color
-    _primaryColor = Func.isNotEmpty(widget.habit?.color) ? HexColor.fromHex(widget.habit!.color!) : customColors.primary;
-    _backgroundColor =
-        Func.isNotEmpty(widget.habit?.backgroundColor) ? HexColor.fromHex(widget.habit!.backgroundColor!) : customColors.primaryBackground;
+    if (widget.userHabit?.habit != null || widget.habit != null) {
+      // Habit
+      if (widget.userHabit?.habit != null) {
+        _habit = widget.userHabit!.habit!;
+      } else if (widget.habit != null) {
+        _habit = widget.habit!;
+      }
 
-    // Name
-    if (widget.habit?.name != null) {
-      _nameController.text = widget.habit!.name!;
+      // Color
+      _primaryColor = Func.isNotEmpty(_habit.color) ? HexColor.fromHex(_habit.color!) : customColors.primary;
+      _backgroundColor =
+          Func.isNotEmpty(_habit.backgroundColor) ? HexColor.fromHex(_habit.backgroundColor!) : customColors.primaryBackground;
+
+      // Name
+      _nameController.text = _habit.name ?? '';
+
+      // Plan term
+      if (widget.userHabit != null) {
+        _selectedPlanTerm = widget.userHabit!.planTerm ?? PlanTerm.Daily;
+        _planList = widget.userHabit!.plans ?? [];
+      }
+
+      // Goal
+      _initGoal();
+
+      // Tip
+      _tip = _habit.note;
+
+      // Button delete
+      _visibleDeleteButton = (widget.userHabit != null);
     }
-
-    // Plan term
-    if (widget.userHabit != null) {
-      _selectedPlanTerm = widget.userHabit!.planTerm ?? PlanTerm.Daily;
-      _planList = widget.userHabit!.plans ?? [];
-    }
-
-    // Goal
-    _initGoal();
 
     super.initState();
   }
@@ -102,40 +125,58 @@ class _HabitRouteState extends State<HabitRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: widget.title != null ? widget.title : LocaleKeys.habit,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: SizeHelper.paddingScreen,
-          child: BlocProvider.value(
-            value: _habitBloc,
-            child: BlocListener<HabitBloc, HabitState>(
-              listener: _blocListener,
-              child: BlocBuilder<HabitBloc, HabitState>(builder: (context, state) {
-                return Column(
-                  children: [
-                    /// Нэр
-                    _nameTextField(),
+      body: (widget.userHabit != null || widget.habit != null)
+          ? SingleChildScrollView(
+              child: Container(
+                padding: SizeHelper.paddingScreen,
+                child: BlocProvider.value(
+                  value: _habitBloc,
+                  child: BlocListener<HabitBloc, HabitState>(
+                    listener: _blocListener,
+                    child: BlocBuilder<HabitBloc, HabitState>(builder: (context, state) {
+                      return Column(
+                        children: [
+                          /// Нэр
+                          _nameTextField(),
 
-                    /// Plan terms
-                    _planTermsWidget(),
+                          /// Plan terms
+                          _planTermsWidget(),
 
-                    /// Зорилго
-                    _goalWidget(),
+                          /// Зорилго
+                          _goalWidget(),
 
-                    /// Эхлэх огноо
-                    _startDatePicker(),
+                          /// Эхлэх огноо
+                          _startDatePicker(),
 
-                    /// Дуусах огноо
-                    _endDatePicker(),
+                          /// Дуусах огноо
+                          _endDatePicker(),
 
-                    /// Сануулах
-                    _reminder(),
-                  ],
-                );
-              }),
-            ),
-          ),
-        ),
-      ),
+                          /// Сануулах
+                          _reminder(),
+
+                          /// Зөвлөмж
+                          _tipWidget(),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              /// Button delete
+                              _buttonDelete(),
+
+                              /// Button save
+                              Expanded(
+                                child: _buttonSave(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+                ),
+              ),
+            )
+          : Container(),
     );
   }
 
@@ -147,46 +188,21 @@ class _HabitRouteState extends State<HabitRoute> {
 
   void _initGoal() {
     // Goal
-
-    // class ToolTypes {
-    // static const String Minute = 'Minute';
-    // static const String Count = 'Count';
-    // static const String Hour = 'Hour';
-    // static const String Feeling = 'Feeling';
-    // static const String Satisfaction = 'Satisfaction';
-    // static const String Amount = 'Amount';
-    // static const String Music = 'Music';
-    // static const String Animation = 'Animation';
-    // }
-
-    HabitGoalSettings? habitGoalSettings;
     String? goalValue;
 
-    if (widget.userHabit != null) {
-      // Update
-      if (widget.userHabit!.habit?.goalSettings != null) {
-        habitGoalSettings = widget.userHabit!.habit!.goalSettings!;
-      }
-    } else if (widget.habit != null) {
-      // Insert
-      if (widget.habit!.goalSettings != null) {
-        habitGoalSettings = widget.habit!.goalSettings!;
-      }
-    }
-
-    if (habitGoalSettings != null && habitGoalSettings.toolType != null) {
+    if (_habit.goalSettings != null && _habit.goalSettings!.toolType != null) {
       _visibleGoal = true;
 
       // Slider
-      if (GoalHelper.visibleSlider(habitGoalSettings)) {
+      if (GoalHelper.visibleSlider(_habit.goalSettings!)) {
         _sliderBloc = SliderBloc(
-          minValue: Func.toDouble(habitGoalSettings.goalMin),
-          maxValue: Func.toDouble(habitGoalSettings.goalMax),
-          value: Func.toDouble(goalValue ?? habitGoalSettings.goalMin),
+          minValue: Func.toDouble(_habit.goalSettings!.goalMin),
+          maxValue: Func.toDouble(_habit.goalSettings!.goalMax),
+          value: Func.toDouble(goalValue ?? _habit.goalSettings!.goalMin),
         );
 
-        _sliderTitle = habitGoalSettings.goalName;
-        _sliderQuantity = habitGoalSettings.toolContent;
+        _sliderTitle = _habit.goalSettings!.goalName;
+        _sliderQuantity = _habit.goalSettings!.toolContent;
       }
     }
   }
@@ -280,7 +296,89 @@ class _HabitRouteState extends State<HabitRoute> {
     );
   }
 
+  Widget _tipWidget() {
+    return (_tip != null)
+        ? InfoContainer(
+            margin: EdgeInsets.only(top: 15.0),
+            title: LocaleKeys.tip,
+            body: _tip!,
+          )
+        : Container();
+  }
+
+  Widget _buttonDelete() {
+    return !_visibleDeleteButton
+        ? ButtonStadium(
+            style: ButtonStadiumStyle.Primary,
+            asset: Assets.trash,
+            iconColor: customColors.iconRed,
+            margin: EdgeInsets.only(top: 15.0),
+            onPressed: () {
+              // todo test
+            },
+          )
+        : Container();
+  }
+
+  Widget _buttonSave() {
+    return CustomButton(
+      style: CustomButtonStyle.Secondary,
+      text: LocaleKeys.save,
+      margin: EdgeInsets.only(top: 15.0),
+      backgroundColor: _primaryColor,
+      onPressed: _onPressedButtonSave,
+    );
+  }
+
   _onPressedButtonSave() {
+    var userHabit = UserHabit();
+    // if (widget.userHabit != null) {
+    //   // Update
+    //   userHabit.userHabitId = widget.userHabit!.userHabitId;
+    // }
+
+    userHabit.userHabitId = widget.userHabit?.userHabitId ?? 0;
+
+    // Habit settings
+    userHabit.habitId = _habit.habitId;
+    // userHabit.habit =
+
+    // Name
+    userHabit.name = _nameController.text;
+
+    // Plan days
+    if (_planList.isNotEmpty) {
+      userHabit.plans = [];
+      for (var el in _planList) {
+        if (el.isSelected ?? false) userHabit.plans!.add(el);
+      }
+    }
+
+    // HabitGoalSettings
+    userHabit.planTerm = _selectedPlanTerm;
+    if (_sliderBloc != null) {
+      userHabit.goalValue = Func.toStr(_sliderBloc!.value);
+    }
+
+    // Start, end date
+    userHabit.startDate = Func.dateTimeToDateStr(_selectedStartDate);
+    userHabit.endDate = Func.dateTimeToDateStr(_selectedEndDate);
+
+    // Reminder
+    if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
+      userHabit.userHabitReminders = [];
+      for (var el in _reminderBloc.timeOfDayList) {
+        userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+      }
+    }
+
+    // Note
+    userHabit.userNote = '';
+
+    _habitBloc.add(InsertUserHabitEvent(userHabit));
+
+    // List<Plan>? plans;
+
     // var request = UserHabit()
     //   // ..userHabitId = 0
     //   // ..userId = 1

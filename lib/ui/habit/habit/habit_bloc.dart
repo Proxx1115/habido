@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit_category.dart';
+import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
@@ -17,12 +18,29 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
   Stream<HabitState> mapEventToState(HabitEvent event) async* {
     if (event is GoalSwitchChangedEvent) {
       yield* _mapReminderSwitchChangedEventEventToState(event);
+    } else if (event is InsertUserHabitEvent) {
+      yield* _mapInsertUserHabitEventToState(event);
     }
   }
 
   Stream<HabitState> _mapReminderSwitchChangedEventEventToState(GoalSwitchChangedEvent event) async* {
     yield GoalSwitchChangedState(event.value);
     yield HabitVoid();
+  }
+
+  Stream<HabitState> _mapInsertUserHabitEventToState(InsertUserHabitEvent event) async* {
+    try {
+      yield HabitLoading();
+
+      var res = await ApiManager.insertUserHabit(event.userHabit);
+      if (res.code == ResponseCode.Success) {
+        yield InsertUserHabitSuccess();
+      } else {
+        yield InsertUserHabitFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+      }
+    } catch (e) {
+      yield InsertUserHabitFailed(LocaleKeys.errorOccurred);
+    }
   }
 }
 
@@ -59,6 +77,18 @@ class GoalSwitchChangedEvent extends HabitEvent {
 
   @override
   String toString() => 'GoalSwitchChangedEvent { value: $value }';
+}
+
+class InsertUserHabitEvent extends HabitEvent {
+  final UserHabit userHabit;
+
+  const InsertUserHabitEvent(this.userHabit);
+
+  @override
+  List<Object> get props => [userHabit];
+
+  @override
+  String toString() => 'InsertUserHabitEvent { userHabit: $userHabit }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -100,4 +130,18 @@ class GoalSwitchChangedState extends HabitState {
 
   @override
   String toString() => 'GoalSwitchChangedState { value: $value }';
+}
+
+class InsertUserHabitSuccess extends HabitState {}
+
+class InsertUserHabitFailed extends HabitState {
+  final String message;
+
+  const InsertUserHabitFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'InsertUserHabitFailed { messages: $message }';
 }

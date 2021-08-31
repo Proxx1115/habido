@@ -152,93 +152,6 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-// ignore: non_constant_identifier_names
-// Widget CustomButton({
-//   CustomButtonStyle? style = CustomButtonStyle.Primary,
-//   VoidCallback? onPressed,
-//   bool visible = true,
-//   BorderRadius? borderRadius,
-//   EdgeInsets? margin = EdgeInsets.zero,
-//   Alignment? alignment,
-//   double? width,
-//   double? height,
-//   Color? backgroundColor,
-//   Color? disabledBackgroundColor,
-//   String? text,
-//   String? asset,
-//   Color? contentColor, // text, asset color
-//   Color? disabledContentColor,
-// }) {
-//   // Width, alignment
-//   switch (style) {
-//     case CustomButtonStyle.Secondary:
-//       width = width ?? 155.0;
-//       height = SizeHelper.boxHeight;
-//       alignment = alignment ?? Alignment.centerRight;
-//       borderRadius = borderRadius ??
-//           BorderRadius.only(
-//             topLeft: Radius.circular(5.0),
-//             topRight: Radius.circular(15.0),
-//             bottomRight: Radius.circular(15.0),
-//             bottomLeft: Radius.circular(15.0),
-//           );
-//       break;
-//
-//     case CustomButtonStyle.Mini:
-//       width = width ?? 135.0;
-//       height = height ?? SizeHelper.heightBtnSmall;
-//       alignment = alignment ?? Alignment.center;
-//       break;
-//
-//     case CustomButtonStyle.Primary:
-//     default:
-//       width = width ?? double.infinity;
-//       height = SizeHelper.boxHeight;
-//       alignment = alignment ?? Alignment.center;
-//   }
-//
-//   // Background color
-//   backgroundColor = backgroundColor ?? customColors.primaryButtonBackground;
-//   disabledBackgroundColor = disabledBackgroundColor ?? customColors.primaryButtonDisabledBackground;
-//
-//   // Text, asset color
-//   contentColor = contentColor ?? customColors.primaryButtonContent;
-//   disabledContentColor = disabledContentColor ?? customColors.primaryButtonDisabledContent;
-//
-//   // Text or Asset
-//   Widget _child = Container();
-//   if (text != null) {
-//     _child = Text(text);
-//   } else if (asset != null) {
-//     _child = SvgPicture.asset(asset, color: onPressed != null ? contentColor : disabledContentColor);
-//   }
-//
-//   return Align(
-//     alignment: alignment,
-//     child: Visibility(
-//       visible: visible,
-//       child: Container(
-//         margin: margin,
-//         width: width,
-//         height: height,
-//         child: TextButton(
-//           onPressed: onPressed,
-//           style: TextButton.styleFrom(
-//             backgroundColor: onPressed != null ? backgroundColor : disabledBackgroundColor,
-//             primary: onPressed != null ? contentColor : disabledContentColor,
-//             textStyle: TextStyle(fontWeight: FontWeight.w500),
-//             shape: RoundedRectangleBorder(
-//               borderRadius: borderRadius ?? BorderRadius.circular(10.0),
-//               side: BorderSide.none,
-//             ),
-//           ),
-//           child: _child,
-//         ),
-//       ),
-//     ),
-//   );
-// }
-
 enum ButtonStadiumStyle {
   Primary, // Icon-той, white
   Secondary, // Зүүн дээд өнцөг нь шовх, primary color
@@ -298,7 +211,7 @@ class ButtonStadium extends StatelessWidget {
         return 55.0;
 
       case ButtonStadiumStyle.Primary:
-        return 40.0;
+        return SizeHelper.boxHeight;
     }
   }
 

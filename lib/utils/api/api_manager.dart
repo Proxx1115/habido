@@ -20,6 +20,7 @@ import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/psy_categories_response.dart';
 import 'package:habido_app/models/user_data.dart';
+import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -204,6 +205,15 @@ class ApiManager {
   static Future<HabitsResponse> habits(int catId) async {
     return HabitsResponse.fromJson(
       await httpUtils.sendRequest(path: HttpPath.habits + '?catId=$catId', httpMethod: HttpMethod.Get),
+    );
+  }
+
+  static Future<HabitsResponse> insertUserHabit(UserHabit userHabit) async {
+    return HabitsResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.insertUserHabit,
+        objectData: userHabit,
+      ),
     );
   }
 

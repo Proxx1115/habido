@@ -32,7 +32,7 @@ class HttpUtils {
 
     /// Data
     String dataType = DataType.Object,
-    BaseRequest? objectData, //  POST - Class model
+    dynamic objectData, //  POST - Class model
     dynamic dynamicData, // String, num
     Map<String, String>? queryParameters, // GET
   }) async {

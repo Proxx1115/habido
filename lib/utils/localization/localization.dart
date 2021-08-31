@@ -241,6 +241,8 @@ class LocaleKeys {
   static String get goal => 'Зорилго';
 
   static String get remind => 'Сануулах';
+
+  static String get tip => 'Зөвлөмж';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

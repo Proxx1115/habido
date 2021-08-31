@@ -23,6 +23,7 @@ class Assets {
   static const String bell = 'assets/images/global/bell.svg';
   static const String positive = 'assets/images/global/positive.svg';
   static const String negative = 'assets/images/global/negative.svg';
+  static const String trash = 'assets/images/global/trash.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';

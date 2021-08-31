@@ -20,4 +20,5 @@ class HttpPath {
   static const String habits = '/mobile/habit/habits';
   static const String habitDateUserHabits = '/mobile/habit/date/user-habits';
   static const String habitCalendar = '/mobile/habit/calendar';
+  static const String insertUserHabit = '/mobile/habit/user-habit';
 }
