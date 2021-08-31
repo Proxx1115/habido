@@ -3,6 +3,8 @@ class HabitGoalSettings {
   String? goalName; // Feeling ued utga baihgui
   int? goalMin;
   int? goalMax;
+
+  // Дадал биелүүлэх tools
   String? toolType; // Minute, Hour, Count, Feeling (emoji), Satisfaction, Amount (Finance), Music, Animation,
   String? toolContent; // Минут, Цаг, Аяга, 'emoji', 'camera', '₮', 'music link', 'Tree animation, ... animation',
 

@@ -31,19 +31,23 @@ class SliderBloc extends Bloc<SliderEvent, SliderState> {
 
   Stream<SliderState> _mapSliderChangedEventToState(SliderChangedEvent event) async* {
     value = event.value;
-    yield SliderChangedState(event.value);
+    yield SliderChangedState(value);
     yield SliderVoid();
   }
 
   Stream<SliderState> _mapSliderIncreaseEventToState(SliderIncreaseEvent event) async* {
-    value = event.value + step;
-    yield SliderChangedState(event.value);
+    if (event.value + step <= maxValue) {
+      value = event.value + step;
+      yield SliderChangedState(value);
+    }
     yield SliderVoid();
   }
 
   Stream<SliderState> _mapSliderDecreaseEventToState(SliderDecreaseEvent event) async* {
-    value = event.value - step;
-    yield SliderChangedState(event.value);
+    if (minValue <= event.value - step) {
+      value = event.value - step;
+      yield SliderChangedState(value);
+    }
     yield SliderVoid();
   }
 }

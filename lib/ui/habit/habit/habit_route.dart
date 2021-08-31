@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit.dart';
+import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/ui/habit/habit/goal_helper.dart';
 import 'package:habido_app/ui/habit/habit/habit_bloc.dart';
 import 'package:habido_app/ui/habit/habit/plan_terms/plan_term_helper.dart';
 import 'package:habido_app/ui/habit/habit/plan_terms/plan_terms_widget.dart';
@@ -47,15 +49,17 @@ class _HabitRouteState extends State<HabitRoute> {
 
   // Name
   final _nameController = TextEditingController();
-  final _nameFocusNode = FocusNode();
 
   // Plan
   String _selectedPlanTerm = PlanTerm.Daily;
   List<Plan> _planList = [];
 
   // Goal
+  bool _visibleGoal = false;
   bool _goalSwitchValue = false;
   SliderBloc? _sliderBloc;
+  String? _sliderTitle;
+  String? _sliderQuantity;
 
   // Start, end date
   DateTime? _selectedStartDate;
@@ -83,27 +87,7 @@ class _HabitRouteState extends State<HabitRoute> {
     }
 
     // Goal
-    if (widget.userHabit != null) {
-      // Update
-      if (widget.userHabit?.habit?.goalSettings != null &&
-          widget.userHabit?.habit?.goalSettings?.goalMin != null &&
-          widget.userHabit?.goalValue != null) {
-        _sliderBloc = SliderBloc(
-          minValue: Func.toDouble(widget.userHabit!.habit!.goalSettings!.goalMin!),
-          maxValue: Func.toDouble(widget.userHabit!.habit!.goalSettings!.goalMax!),
-          value: Func.toDouble(widget.userHabit!.goalValue),
-        );
-      }
-    } else {
-      // Insert
-      if (widget.habit?.goalSettings != null && widget.habit?.goalSettings?.goalMin != null) {
-        _sliderBloc = SliderBloc(
-          minValue: Func.toDouble(widget.habit!.goalSettings!.goalMin!),
-          maxValue: Func.toDouble(widget.habit!.goalSettings!.goalMax!),
-          value: Func.toDouble(widget.habit!.goalSettings!.goalMin!),
-        );
-      }
-    }
+    _initGoal();
 
     super.initState();
   }
@@ -161,6 +145,52 @@ class _HabitRouteState extends State<HabitRoute> {
     }
   }
 
+  void _initGoal() {
+    // Goal
+
+    // class ToolTypes {
+    // static const String Minute = 'Minute';
+    // static const String Count = 'Count';
+    // static const String Hour = 'Hour';
+    // static const String Feeling = 'Feeling';
+    // static const String Satisfaction = 'Satisfaction';
+    // static const String Amount = 'Amount';
+    // static const String Music = 'Music';
+    // static const String Animation = 'Animation';
+    // }
+
+    HabitGoalSettings? habitGoalSettings;
+    String? goalValue;
+
+    if (widget.userHabit != null) {
+      // Update
+      if (widget.userHabit!.habit?.goalSettings != null) {
+        habitGoalSettings = widget.userHabit!.habit!.goalSettings!;
+      }
+    } else if (widget.habit != null) {
+      // Insert
+      if (widget.habit!.goalSettings != null) {
+        habitGoalSettings = widget.habit!.goalSettings!;
+      }
+    }
+
+    if (habitGoalSettings != null && habitGoalSettings.toolType != null) {
+      _visibleGoal = true;
+
+      // Slider
+      if (GoalHelper.visibleSlider(habitGoalSettings)) {
+        _sliderBloc = SliderBloc(
+          minValue: Func.toDouble(habitGoalSettings.goalMin),
+          maxValue: Func.toDouble(habitGoalSettings.goalMax),
+          value: Func.toDouble(goalValue ?? habitGoalSettings.goalMin),
+        );
+
+        _sliderTitle = habitGoalSettings.goalName;
+        _sliderQuantity = habitGoalSettings.toolContent;
+      }
+    }
+  }
+
   Widget _nameTextField() {
     return CustomTextField(
       controller: _nameController,
@@ -183,7 +213,7 @@ class _HabitRouteState extends State<HabitRoute> {
   }
 
   Widget _goalWidget() {
-    return _sliderBloc != null
+    return _visibleGoal
         ? StadiumContainer(
             margin: EdgeInsets.only(top: 15.0),
             child: Column(
@@ -203,32 +233,18 @@ class _HabitRouteState extends State<HabitRoute> {
                 if (_goalSwitchValue) HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
 
                 /// Slider
-                if (_goalSwitchValue)
+                if (_goalSwitchValue && _sliderBloc != null)
                   CustomSlider(
                     sliderBloc: _sliderBloc!,
                     margin: EdgeInsets.symmetric(horizontal: 15.0),
                     primaryColor: _primaryColor,
-                    title: '',
-                    quantityText: '',
+                    title: _sliderTitle,
+                    quantityText: _sliderQuantity,
                     visibleButtons: true,
                   ),
               ],
             ),
           )
-
-        // GoalWidget(
-        //         goalBloc: _goalBloc,
-        //         margin: EdgeInsets.only(top: 15.0),
-        //         primaryColor: _primaryColor,
-        //         goalSlider: CustomSlider(
-        //           sliderBloc: _sliderBloc!,
-        //           margin: EdgeInsets.symmetric(horizontal: 15.0),
-        //           primaryColor: _primaryColor,
-        //           title: '',
-        //           quantityText: '',
-        //           visibleButtons: true,
-        //         ),
-        //       )
         : Container();
   }
 

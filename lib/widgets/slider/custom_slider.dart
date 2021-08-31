@@ -43,14 +43,25 @@ class _CustomSliderState extends State<CustomSlider> {
               return Column(
                 children: [
                   if (widget.title != null || widget.quantityText != null)
-                    Row(
-                      children: [
-                        /// Title
-                        if (widget.title != null) CustomText(widget.title, color: customColors.secondaryText),
+                    Container(
+                      margin: EdgeInsets.only(top: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          /// Title
+                          if (widget.title != null) CustomText(widget.title, color: customColors.secondaryText),
 
-                        /// Quantity
-                        if (widget.title != null) CustomText(widget.quantityText, color: customColors.secondaryText),
-                      ],
+                          /// Quantity
+                          if (widget.quantityText != null)
+                            Expanded(
+                              child: CustomText(
+                                '${Func.toInt(widget.sliderBloc.value)} ${widget.quantityText!.toLowerCase()}',
+                                fontWeight: FontWeight.w500,
+                                alignment: Alignment.centerRight,
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
 
                   // Slider

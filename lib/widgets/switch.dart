@@ -7,6 +7,7 @@ import 'package:habido_app/widgets/text.dart';
 class CustomSwitch extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
+  final bool enabled;
   final EdgeInsets? margin;
 
   final String? leadingAsset;
@@ -14,10 +15,8 @@ class CustomSwitch extends StatefulWidget {
 
   final Color? activeColor; //: Colors.transparent,
   final Color? inactiveThumbColor; //: Colors.transparent,
-  // String activeThumbImage: widget.activeAsset != null ? AssetImage(widget.activeAsset!) : null,
   final Color? activeTrackColor; //: Colors.grey,
   final Color? inactiveTrackColor; //: Colors.grey,
-  // inactiveThumbImage: widget.inactiveAsset != null ? AssetImage(widget.inactiveAsset!) : null,
 
   final String? activeText;
   final String? inactiveText;
@@ -28,6 +27,7 @@ class CustomSwitch extends StatefulWidget {
     Key? key,
     this.value = false,
     required this.onChanged,
+    this.enabled = true,
     this.margin,
     this.leadingAsset,
     this.leadingAssetColor,
@@ -97,14 +97,6 @@ class _CustomSwitchState extends State<CustomSwitch> {
   }
 
   Widget _switch() {
-    // return Container(
-    //   color: Colors.amber,
-    //   child: Switch(
-    //     onChanged: (bool value) {},
-    //     value: true,
-    //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    //   ),
-    // );
     return Switch(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       value: _value,
@@ -114,16 +106,18 @@ class _CustomSwitchState extends State<CustomSwitch> {
       inactiveTrackColor: widget.inactiveTrackColor,
       activeThumbImage: widget.activeAsset != null ? AssetImage(widget.activeAsset!) : null,
       inactiveThumbImage: widget.inactiveAsset != null ? AssetImage(widget.inactiveAsset!) : null,
-      onChanged: (newValue) {
-        setState(() {
-          _value = newValue;
-          _toggleText();
-        });
+      onChanged: widget.enabled
+          ? (newValue) {
+              setState(() {
+                _value = newValue;
+                _toggleText();
+              });
 
-        widget.onChanged(newValue);
+              widget.onChanged(newValue);
 
-        print('Switch value: $newValue');
-      },
+              print('Switch value: $newValue');
+            }
+          : null,
     );
   }
 
