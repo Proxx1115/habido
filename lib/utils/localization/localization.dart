@@ -238,7 +238,7 @@ class LocaleKeys {
 
   static String get addTime => 'Цаг нэмэх';
 
-  static String get purpose => 'Зорилго';
+  static String get goal => 'Зорилго';
 
   static String get remind => 'Сануулах';
 }

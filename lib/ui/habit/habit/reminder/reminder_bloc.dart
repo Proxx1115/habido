@@ -31,6 +31,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
   Stream<ReminderState> _mapAddReminderEventToState(AddReminderEvent event) async* {
     if (!timeOfDayList.contains(event.timeOfDay)) timeOfDayList.add(event.timeOfDay);
+    // todo sort
     yield AddReminderSuccessState();
     yield ReminderVoid();
   }

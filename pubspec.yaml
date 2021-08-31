@@ -61,6 +61,7 @@ flutter:
     - assets/images/profile/
     - assets/images/chat/
     - assets/images/test/
+    - assets/images/habit/
 
   fonts:
     - family: Fira Sans Condensed

@@ -21,6 +21,8 @@ class Assets {
   static const String add = 'assets/images/global/add.svg';
   static const String arrow_forward = 'assets/images/global/arrow_forward.svg';
   static const String bell = 'assets/images/global/bell.svg';
+  static const String positive = 'assets/images/global/positive.svg';
+  static const String negative = 'assets/images/global/negative.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
@@ -52,31 +54,8 @@ class Assets {
   static const String habido_assistant = 'assets/images/chat/habido_assistant.svg';
   static const String habido_assistant_png = 'assets/images/chat/habido_assistant.png';
 
-  /// Test
-// static const String test_male = 'assets/images/test/male.png';
-// static const String test_female = 'assets/images/test/female.png';
-
-  /// Home
-// static const String cardAsset1 = 'assets/images/home/dashboard_icon_1.png';
-
-  /// Settings
-// static const String phone = 'assets/images/settings/call_white_icon.png';
-
-  /// Sign Up
-// static const String refresh = 'assets/images/sign_up/ic_refresh.png';
-
-  /// product category
-// static const String productSector = 'assets/product_category/sector.txt';
-// static const String productSubSector =
-//     'assets/product_category/subSector.txt';
-// static const String productCategory = 'assets/product_category/category.txt';
-// static const String productSubCategory =
-//     'assets/product_category/subcategory.txt';
-// static const String productType = 'assets/product_category/type.txt';
-// static const String vatFree = 'assets/product_category/vatFree.txt';
-
-  /// Test
-// static const String print_header = 'assets/images/test/print_header.png';
+  /// Habit
+  static const String trophy = 'assets/images/habit/trophy.svg';
 }
 
 class FontAsset {

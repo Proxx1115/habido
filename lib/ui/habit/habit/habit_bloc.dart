@@ -15,28 +15,14 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
 
   @override
   Stream<HabitState> mapEventToState(HabitEvent event) async* {
-    if (event is ChangePlanTermEvent) {
-      yield* _mapChangePlanTermEventToState(event);
+    if (event is GoalSwitchChangedEvent) {
+      yield* _mapReminderSwitchChangedEventEventToState(event);
     }
   }
 
-// Stream<HabitState> _mapGetHabitCategoriesEventToState() async* {
-//   try {
-//     yield HabitLoading();
-//
-//     var res = await ApiManager.habitCategories();
-//     if (res.code == ResponseCode.Success && res.habitCategoryList != null && res.habitCategoryList!.length > 0) {
-//       yield HabitCategoriesSuccess(res.habitCategoryList!);
-//     } else {
-//       yield HabitCategoriesFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
-//     }
-//   } catch (e) {
-//     yield HabitCategoriesFailed(LocaleKeys.errorOccurred);
-//   }
-// }
-
-  Stream<HabitState> _mapChangePlanTermEventToState(ChangePlanTermEvent event) async* {
-    yield PlanTermChangedState(event.planTerm);
+  Stream<HabitState> _mapReminderSwitchChangedEventEventToState(GoalSwitchChangedEvent event) async* {
+    yield GoalSwitchChangedState(event.value);
+    yield HabitVoid();
   }
 }
 
@@ -61,6 +47,18 @@ class ChangePlanTermEvent extends HabitEvent {
 
   @override
   String toString() => 'ChangePlanTermEvent { planTerm: $planTerm }';
+}
+
+class GoalSwitchChangedEvent extends HabitEvent {
+  final bool value;
+
+  const GoalSwitchChangedEvent(this.value);
+
+  @override
+  List<Object> get props => [value];
+
+  @override
+  String toString() => 'GoalSwitchChangedEvent { value: $value }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -92,14 +90,14 @@ class PlanTermChangedState extends HabitState {
   String toString() => 'PlanTermChangedState { planTerm: $planTerm }';
 }
 
-// class HabitCategoriesFailed extends HabitState {
-//   final String message;
-//
-//   const HabitCategoriesFailed(this.message);
-//
-//   @override
-//   List<Object> get props => [message];
-//
-//   @override
-//   String toString() => 'HabitCategoriesFailed { message: $message }';
-// }
+class GoalSwitchChangedState extends HabitState {
+  final bool value;
+
+  const GoalSwitchChangedState(this.value);
+
+  @override
+  List<Object> get props => [value];
+
+  @override
+  String toString() => 'GoalSwitchChangedState { value: $value }';
+}

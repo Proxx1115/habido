@@ -7,13 +7,18 @@ import 'package:habido_app/ui/habit/habit/habit_bloc.dart';
 import 'package:habido_app/ui/habit/habit/plan_terms/plan_term_helper.dart';
 import 'package:habido_app/ui/habit/habit/plan_terms/plan_terms_widget.dart';
 import 'package:habido_app/ui/habit/habit/reminder/reminder_bloc.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/date_picker.dart';
 import 'package:habido_app/widgets/scaffold.dart';
+import 'package:habido_app/widgets/slider/custom_slider.dart';
+import 'package:habido_app/widgets/slider/slider_bloc.dart';
+import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 import 'reminder/reminder_widget.dart';
@@ -48,6 +53,10 @@ class _HabitRouteState extends State<HabitRoute> {
   String _selectedPlanTerm = PlanTerm.Daily;
   List<Plan> _planList = [];
 
+  // Goal
+  bool _goalSwitchValue = false;
+  SliderBloc? _sliderBloc;
+
   // Start, end date
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
@@ -62,10 +71,6 @@ class _HabitRouteState extends State<HabitRoute> {
     _backgroundColor =
         Func.isNotEmpty(widget.habit?.backgroundColor) ? HexColor.fromHex(widget.habit!.backgroundColor!) : customColors.primaryBackground;
 
-    // todo test
-    // _primaryColor = HexColor.fromHex('#FA6C51');
-    // _backgroundColor = HexColor.fromHex('#FFF7F6');
-
     // Name
     if (widget.habit?.name != null) {
       _nameController.text = widget.habit!.name!;
@@ -75,6 +80,29 @@ class _HabitRouteState extends State<HabitRoute> {
     if (widget.userHabit != null) {
       _selectedPlanTerm = widget.userHabit!.planTerm ?? PlanTerm.Daily;
       _planList = widget.userHabit!.plans ?? [];
+    }
+
+    // Goal
+    if (widget.userHabit != null) {
+      // Update
+      if (widget.userHabit?.habit?.goalSettings != null &&
+          widget.userHabit?.habit?.goalSettings?.goalMin != null &&
+          widget.userHabit?.goalValue != null) {
+        _sliderBloc = SliderBloc(
+          minValue: Func.toDouble(widget.userHabit!.habit!.goalSettings!.goalMin!),
+          maxValue: Func.toDouble(widget.userHabit!.habit!.goalSettings!.goalMax!),
+          value: Func.toDouble(widget.userHabit!.goalValue),
+        );
+      }
+    } else {
+      // Insert
+      if (widget.habit?.goalSettings != null && widget.habit?.goalSettings?.goalMin != null) {
+        _sliderBloc = SliderBloc(
+          minValue: Func.toDouble(widget.habit!.goalSettings!.goalMin!),
+          maxValue: Func.toDouble(widget.habit!.goalSettings!.goalMax!),
+          value: Func.toDouble(widget.habit!.goalSettings!.goalMin!),
+        );
+      }
     }
 
     super.initState();
@@ -100,19 +128,22 @@ class _HabitRouteState extends State<HabitRoute> {
               child: BlocBuilder<HabitBloc, HabitState>(builder: (context, state) {
                 return Column(
                   children: [
-                    /// Name
+                    /// Нэр
                     _nameTextField(),
 
                     /// Plan terms
                     _planTermsWidget(),
 
-                    /// Start date
+                    /// Зорилго
+                    _goalWidget(),
+
+                    /// Эхлэх огноо
                     _startDatePicker(),
 
-                    /// End date
+                    /// Дуусах огноо
                     _endDatePicker(),
 
-                    /// Reminder widget
+                    /// Сануулах
                     _reminder(),
                   ],
                 );
@@ -125,7 +156,9 @@ class _HabitRouteState extends State<HabitRoute> {
   }
 
   void _blocListener(BuildContext context, HabitState state) {
-//
+    if (state is GoalSwitchChangedState) {
+      _goalSwitchValue = state.value;
+    }
   }
 
   Widget _nameTextField() {
@@ -147,6 +180,56 @@ class _HabitRouteState extends State<HabitRoute> {
         _planList = list;
       },
     );
+  }
+
+  Widget _goalWidget() {
+    return _sliderBloc != null
+        ? StadiumContainer(
+            margin: EdgeInsets.only(top: 15.0),
+            child: Column(
+              children: [
+                /// Switch
+                CustomSwitch(
+                  margin: EdgeInsets.fromLTRB(15.0, 0.0, 5.0, 0.0),
+                  leadingAsset: Assets.trophy,
+                  leadingAssetColor: _primaryColor,
+                  activeText: LocaleKeys.goal,
+                  activeColor: _primaryColor,
+                  onChanged: (value) {
+                    _habitBloc.add(GoalSwitchChangedEvent(value));
+                  },
+                ),
+
+                if (_goalSwitchValue) HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
+
+                /// Slider
+                if (_goalSwitchValue)
+                  CustomSlider(
+                    sliderBloc: _sliderBloc!,
+                    margin: EdgeInsets.symmetric(horizontal: 15.0),
+                    primaryColor: _primaryColor,
+                    title: '',
+                    quantityText: '',
+                    visibleButtons: true,
+                  ),
+              ],
+            ),
+          )
+
+        // GoalWidget(
+        //         goalBloc: _goalBloc,
+        //         margin: EdgeInsets.only(top: 15.0),
+        //         primaryColor: _primaryColor,
+        //         goalSlider: CustomSlider(
+        //           sliderBloc: _sliderBloc!,
+        //           margin: EdgeInsets.symmetric(horizontal: 15.0),
+        //           primaryColor: _primaryColor,
+        //           title: '',
+        //           quantityText: '',
+        //           visibleButtons: true,
+        //         ),
+        //       )
+        : Container();
   }
 
   Widget _startDatePicker() {

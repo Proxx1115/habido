@@ -10,7 +10,6 @@ import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/time_picker.dart';
-
 import 'reminder_bloc.dart';
 
 class ReminderWidget extends StatefulWidget {

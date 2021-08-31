@@ -10,19 +10,19 @@ import 'package:habido_app/utils/localization/localization.dart';
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-class SliderBloc extends Bloc<SliderEvent, SliderState> {
-  SliderBloc() : super(SliderInit());
+class CarSliderBloc extends Bloc<CarSliderEvent, CarSliderState> {
+  CarSliderBloc() : super(CarSliderInit());
 
   @override
-  Stream<SliderState> mapEventToState(SliderEvent event) async* {
+  Stream<CarSliderState> mapEventToState(CarSliderEvent event) async* {
     if (event is GetBannersEvent) {
       yield* _mapGetBannersEventToState();
     }
   }
 
-  Stream<SliderState> _mapGetBannersEventToState() async* {
+  Stream<CarSliderState> _mapGetBannersEventToState() async* {
     try {
-      yield SliderLoading();
+      yield CarSliderLoading();
       var res = await ApiManager.banners();
       if (res.code == ResponseCode.Success && res.bannerList != null && res.bannerList!.length > 0) {
         yield BannersSuccess(res.bannerList!);
@@ -39,33 +39,33 @@ class SliderBloc extends Bloc<SliderEvent, SliderState> {
 /// BLOC EVENTS
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class SliderEvent extends Equatable {
-  const SliderEvent();
+abstract class CarSliderEvent extends Equatable {
+  const CarSliderEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetBannersEvent extends SliderEvent {}
+class GetBannersEvent extends CarSliderEvent {}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class SliderState extends Equatable {
-  const SliderState();
+abstract class CarSliderState extends Equatable {
+  const CarSliderState();
 
   @override
   List<Object> get props => [];
 }
 
-class SliderInit extends SliderState {}
+class CarSliderInit extends CarSliderState {}
 
-class SliderLoading extends SliderState {}
+class CarSliderLoading extends CarSliderState {}
 
-class SliderVoid extends SliderState {}
+class CarSliderVoid extends CarSliderState {}
 
-class BannersSuccess extends SliderState {
+class BannersSuccess extends CarSliderState {
   final List<CustomBanner> bannerList;
 
   const BannersSuccess(this.bannerList);
@@ -77,7 +77,7 @@ class BannersSuccess extends SliderState {
   String toString() => 'BannersSuccess { bannerList: $bannerList }';
 }
 
-class BannersFailed extends SliderState {
+class BannersFailed extends CarSliderState {
   final String message;
 
   const BannersFailed(this.message);
