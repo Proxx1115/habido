@@ -9,8 +9,6 @@ import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/text.dart';
 
-import 'loaders.dart';
-
 class MarginVertical extends StatelessWidget {
   final double height;
 
@@ -30,6 +28,21 @@ class MarginHorizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(width: width);
+  }
+}
+
+class HorizontalLine extends StatelessWidget {
+  final EdgeInsets? margin;
+
+  const HorizontalLine({Key? key, this.margin}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin,
+      height: SizeHelper.borderWidth,
+      color: customColors.primaryBorder,
+    );
   }
 }
 
@@ -95,7 +108,7 @@ class CustomDivider extends StatelessWidget {
   const CustomDivider({
     Key? key,
     this.margin = const EdgeInsets.symmetric(vertical: 15.0),
-    this.height = 1.0,
+    this.height = SizeHelper.borderWidth,
   }) : super(key: key);
 
   @override
@@ -134,7 +147,7 @@ class InfoContainer extends StatelessWidget {
           CustomText(title, fontWeight: FontWeight.w500, maxLines: 2),
 
           /// Divider
-          CustomDivider(),
+          HorizontalLine(),
 
           /// Body
           CustomText(body, maxLines: 100),

@@ -87,11 +87,15 @@ class LocaleKeys {
 
   static String get done => 'Болсон';
 
+  static String get cancel => 'Болих';
+
   static String get delete => 'Устгах';
 
   static String get thanks => 'Баярлалаа';
 
   static String get sureToDelete => 'Устгахдаа итгэлтэй байна уу?';
+
+  static String get selectTime => 'Цаг сонгох';
 
   ///
   /// Intro
@@ -231,6 +235,12 @@ class LocaleKeys {
   static String get sa => 'Бя';
 
   static String get su => 'Ня';
+
+  static String get addTime => 'Цаг нэмэх';
+
+  static String get purpose => 'Зорилго';
+
+  static String get remind => 'Сануулах';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

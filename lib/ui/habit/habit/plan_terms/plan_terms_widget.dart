@@ -7,6 +7,8 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
 
+import 'plan_term_helper.dart';
+
 class PlanTermsWidget extends StatefulWidget {
   final Color primaryColor;
 

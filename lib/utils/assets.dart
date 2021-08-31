@@ -6,6 +6,7 @@ class Assets {
   static const String warning = 'assets/images/global/warning.svg';
   static const String check = 'assets/images/global/check.svg';
   static const String success = 'assets/images/global/success.svg';
+  static const String clear_circle = 'assets/images/global/clear_circle.svg';
   static const String clear = 'assets/images/global/clear.svg';
   static const String edit = 'assets/images/global/edit.svg';
   static const String obscure_hidden = 'assets/images/global/obscure_hidden.svg';
@@ -16,8 +17,10 @@ class Assets {
   static const String expand = 'assets/images/global/expand.svg';
   static const String circle_check = 'assets/images/global/circle_check.svg';
   static const String clock = 'assets/images/global/clock.svg';
+  static const String clock20 = 'assets/images/global/clock20.svg';
   static const String add = 'assets/images/global/add.svg';
   static const String arrow_forward = 'assets/images/global/arrow_forward.svg';
+  static const String bell = 'assets/images/global/bell.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';

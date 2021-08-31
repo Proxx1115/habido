@@ -93,6 +93,9 @@ class _SplashRouteState extends State<SplashRoute> {
   }
 
   _checkSession() {
+    // todo test
+    // sharedPref?.clear();
+
     ApiManager.getUserData().then((response) {
       if (response.code == ResponseCode.Success) {
         AuthBloc.afterLogin()

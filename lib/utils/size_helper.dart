@@ -10,6 +10,7 @@ class SizeHelper {
 
   static const double boxHeight = 50.0;
   static const boxPadding = EdgeInsets.fromLTRB(18.0, 16.0, 18.0, 16.0);
+  static const boxPaddingHorizontal = EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 0.0);
 
   /// Border
   static const double borderWidth = 2.0;

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class CustomSwitch extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
+  final EdgeInsets? margin;
+
   final String? leadingAsset;
+  final Color? leadingAssetColor;
 
   final Color? activeColor; //: Colors.transparent,
   final Color? inactiveThumbColor; //: Colors.transparent,
@@ -23,7 +28,9 @@ class CustomSwitch extends StatefulWidget {
     Key? key,
     this.value = false,
     required this.onChanged,
+    this.margin,
     this.leadingAsset,
+    this.leadingAssetColor,
     this.activeColor,
     this.inactiveThumbColor,
     this.activeTrackColor,
@@ -55,35 +62,53 @@ class _CustomSwitchState extends State<CustomSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.leadingAsset != null || widget.activeText != null) {
-      return Row(
-        children: [
-          /// Icon
-          if (widget.leadingAsset != null)
-            Container(
-              margin: EdgeInsets.only(left: 18.0),
-              child: SvgPicture.asset(widget.leadingAsset!),
-            ),
+    return Container(
+      margin: widget.margin,
+      height: SizeHelper.boxHeight,
+      child: (widget.leadingAsset != null || text != null)
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                /// Icon
+                if (widget.leadingAsset != null)
+                  Container(
+                    child: SvgPicture.asset(
+                      widget.leadingAsset!,
+                      color: widget.leadingAssetColor ?? customColors.iconGrey,
+                    ),
+                  ),
 
-          /// Text
-          if (text != null)
-            Expanded(
-              child: CustomText(text, margin: EdgeInsets.symmetric(horizontal: 18.0)),
-            ),
+                /// Text
+                if (text != null)
+                  Expanded(
+                    child: CustomText(
+                      text,
+                      margin: EdgeInsets.symmetric(horizontal: 15.0),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
 
-          /// Switch
-          _switch(),
-        ],
-      );
-    } else {
-      return _switch();
-    }
+                /// Switch
+                _switch(),
+              ],
+            )
+          : _switch(),
+    );
   }
 
   Widget _switch() {
+    // return Container(
+    //   color: Colors.amber,
+    //   child: Switch(
+    //     onChanged: (bool value) {},
+    //     value: true,
+    //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    //   ),
+    // );
     return Switch(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       value: _value,
-      activeColor: widget.activeColor,
+      activeColor: widget.activeColor ?? customColors.primary,
       inactiveThumbColor: widget.inactiveThumbColor,
       activeTrackColor: widget.activeTrackColor,
       inactiveTrackColor: widget.inactiveTrackColor,
@@ -107,6 +132,8 @@ class _CustomSwitchState extends State<CustomSwitch> {
       text = widget.activeText;
     } else if (!_value && widget.inactiveText != null) {
       text = widget.inactiveText;
+    } else if (widget.activeText != null && widget.inactiveText == null) {
+      text = widget.activeText;
     }
   }
 }

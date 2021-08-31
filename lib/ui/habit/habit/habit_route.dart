@@ -4,7 +4,9 @@ import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit/habit/habit_bloc.dart';
+import 'package:habido_app/ui/habit/habit/plan_terms/plan_term_helper.dart';
 import 'package:habido_app/ui/habit/habit/plan_terms/plan_terms_widget.dart';
+import 'package:habido_app/ui/habit/habit/reminder/reminder_bloc.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -13,6 +15,8 @@ import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/date_picker.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
+
+import 'reminder/reminder_widget.dart';
 
 class HabitRoute extends StatefulWidget {
   final String? title;
@@ -47,6 +51,9 @@ class _HabitRouteState extends State<HabitRoute> {
   // Start, end date
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
+
+  // Reminder
+  final _reminderBloc = ReminderBloc();
 
   @override
   void initState() {
@@ -104,6 +111,9 @@ class _HabitRouteState extends State<HabitRoute> {
 
                     /// End date
                     _endDatePicker(),
+
+                    /// Reminder widget
+                    _reminder(),
                   ],
                 );
               }),
@@ -160,6 +170,14 @@ class _HabitRouteState extends State<HabitRoute> {
         print(date);
         _selectedEndDate = date;
       },
+    );
+  }
+
+  Widget _reminder() {
+    return ReminderWidget(
+      reminderBloc: _reminderBloc,
+      margin: EdgeInsets.only(top: 15.0),
+      primaryColor: _primaryColor,
     );
   }
 

@@ -220,7 +220,7 @@ class _LoginRouteState extends State<LoginRoute> {
       textInputType: TextInputType.number,
       prefixAsset: Assets.username,
       hintText: LocaleKeys.phoneNumber,
-      suffixAsset: Assets.clear,
+      suffixAsset: Assets.clear_circle,
       alwaysVisibleSuffix: false,
       onPressedSuffix: () {
         _phoneNumberController.clear();

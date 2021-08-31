@@ -11,88 +11,233 @@ enum CustomButtonStyle {
   Mini, // Үндсэн button-с арай жижиг хэмжээтэй
 }
 
-// ignore: non_constant_identifier_names
-Widget CustomButton({
-  CustomButtonStyle? style = CustomButtonStyle.Primary,
-  VoidCallback? onPressed,
-  bool visible = true,
-  BorderRadius? borderRadius,
-  EdgeInsets? margin = EdgeInsets.zero,
-  Alignment? alignment,
-  double? width,
-  Color? backgroundColor,
-  Color? disabledBackgroundColor,
-  String? text,
-  String? asset,
-  Color? textColor, // text, asset color
-  Color? disabledTextColor,
-}) {
-  // Width, alignment
-  switch (style) {
-    case CustomButtonStyle.Secondary:
-      width = width ?? 155.0;
-      alignment = alignment ?? Alignment.centerRight;
-      borderRadius = borderRadius ??
-          BorderRadius.only(
-            topLeft: Radius.circular(5.0),
-            topRight: Radius.circular(15.0),
-            bottomRight: Radius.circular(15.0),
-            bottomLeft: Radius.circular(15.0),
-          );
-      break;
+class CustomButton extends StatelessWidget {
+  final CustomButtonStyle? style;
 
-    case CustomButtonStyle.Mini:
-      width = width ?? 135.0;
-      alignment = alignment ?? Alignment.center;
-      break;
+  final VoidCallback? onPressed;
+  final bool visible;
+  final BorderRadius? borderRadius;
+  final EdgeInsets? margin;
+  final Alignment? alignment;
+  final double? width;
+  final double? height;
+  final Color? backgroundColor;
+  final Color? disabledBackgroundColor;
+  final String? text;
+  final String? asset;
+  final Color? contentColor;
+  final Color? disabledContentColor; // Text, image and so on...
 
-    case CustomButtonStyle.Primary:
-    default:
-      width = width ?? double.infinity;
-      alignment = alignment ?? Alignment.center;
-  }
+  const CustomButton({
+    Key? key,
+    this.style = CustomButtonStyle.Primary,
+    this.onPressed,
+    this.visible = true,
+    this.borderRadius,
+    this.margin = EdgeInsets.zero,
+    this.alignment,
+    this.width,
+    this.height,
+    this.backgroundColor,
+    this.disabledBackgroundColor,
+    this.text,
+    this.asset,
+    this.contentColor,
+    this.disabledContentColor,
+  }) : super(key: key);
 
-  // Background color
-  backgroundColor = backgroundColor ?? customColors.primaryButtonBackground;
-  disabledBackgroundColor = disabledBackgroundColor ?? customColors.primaryButtonDisabledBackground;
-
-  // Text, asset color
-  textColor = textColor ?? customColors.primaryButtonContent;
-  disabledTextColor = disabledTextColor ?? customColors.primaryButtonDisabledContent;
-
-  // Text or Asset
-  Widget _child = Container();
-  if (text != null) {
-    _child = Text(text);
-  } else if (asset != null) {
-    _child = SvgPicture.asset(asset, color: onPressed != null ? textColor : disabledTextColor);
-  }
-
-  return Align(
-    alignment: alignment,
-    child: Visibility(
-      visible: visible,
-      child: Container(
-        margin: margin,
-        width: width,
-        height: SizeHelper.boxHeight,
-        child: TextButton(
-          onPressed: onPressed,
-          style: TextButton.styleFrom(
-            backgroundColor: onPressed != null ? backgroundColor : disabledBackgroundColor,
-            primary: onPressed != null ? textColor : disabledTextColor,
-            textStyle: TextStyle(fontWeight: FontWeight.w500),
-            shape: RoundedRectangleBorder(
-              borderRadius: borderRadius ?? BorderRadius.circular(10.0),
-              side: BorderSide.none,
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: _alignment,
+      child: Visibility(
+        visible: visible,
+        child: Container(
+          margin: margin,
+          width: _width,
+          height: _height,
+          child: TextButton(
+            onPressed: onPressed,
+            style: TextButton.styleFrom(
+              backgroundColor: onPressed != null ? _backgroundColor : _disabledBackgroundColor,
+              primary: onPressed != null ? _contentColor : _disabledContentColor,
+              textStyle: TextStyle(fontWeight: FontWeight.w500),
+              shape: RoundedRectangleBorder(
+                borderRadius: _borderRadius,
+                side: BorderSide.none,
+              ),
             ),
+            child: _child,
           ),
-          child: _child,
         ),
       ),
-    ),
-  );
+    );
+  }
+
+  double get _width {
+    switch (style) {
+      case CustomButtonStyle.Secondary:
+        return width ?? 155.0;
+      case CustomButtonStyle.Mini:
+        return width ?? 135.0;
+      case CustomButtonStyle.Primary:
+      default:
+        return width ?? double.infinity;
+    }
+  }
+
+  double get _height {
+    switch (style) {
+      case CustomButtonStyle.Secondary:
+        return SizeHelper.boxHeight;
+      case CustomButtonStyle.Mini:
+        return height ?? SizeHelper.heightBtnSmall;
+      case CustomButtonStyle.Primary:
+      default:
+        return SizeHelper.boxHeight;
+    }
+  }
+
+  Alignment get _alignment {
+    switch (style) {
+      case CustomButtonStyle.Secondary:
+        return alignment ?? Alignment.centerRight;
+      case CustomButtonStyle.Mini:
+        return alignment ?? Alignment.center;
+      case CustomButtonStyle.Primary:
+      default:
+        return alignment ?? Alignment.center;
+    }
+  }
+
+  BorderRadius get _borderRadius {
+    switch (style) {
+      case CustomButtonStyle.Secondary:
+        return borderRadius ?? SizeHelper.borderRadiusOdd;
+      case CustomButtonStyle.Mini:
+      case CustomButtonStyle.Primary:
+      default:
+        return borderRadius ?? BorderRadius.circular(10.0);
+    }
+  }
+
+  Color get _backgroundColor {
+    return backgroundColor ?? customColors.primaryButtonBackground;
+  }
+
+  Color get _disabledBackgroundColor {
+    return disabledBackgroundColor ?? customColors.primaryButtonDisabledBackground;
+  }
+
+  Color get _contentColor {
+    return contentColor ?? customColors.primaryButtonContent;
+  }
+
+  Color get _disabledContentColor {
+    return disabledContentColor ?? customColors.primaryButtonDisabledContent;
+  }
+
+  Widget get _child {
+    if (text != null) {
+      return CustomText(
+        text,
+        color: onPressed != null ? _contentColor : _disabledContentColor,
+        alignment: Alignment.center,
+      );
+    } else if (asset != null) {
+      return SvgPicture.asset(asset!, color: onPressed != null ? _contentColor : _disabledContentColor);
+    } else {
+      return Container();
+    }
+  }
 }
+
+// ignore: non_constant_identifier_names
+// Widget CustomButton({
+//   CustomButtonStyle? style = CustomButtonStyle.Primary,
+//   VoidCallback? onPressed,
+//   bool visible = true,
+//   BorderRadius? borderRadius,
+//   EdgeInsets? margin = EdgeInsets.zero,
+//   Alignment? alignment,
+//   double? width,
+//   double? height,
+//   Color? backgroundColor,
+//   Color? disabledBackgroundColor,
+//   String? text,
+//   String? asset,
+//   Color? contentColor, // text, asset color
+//   Color? disabledContentColor,
+// }) {
+//   // Width, alignment
+//   switch (style) {
+//     case CustomButtonStyle.Secondary:
+//       width = width ?? 155.0;
+//       height = SizeHelper.boxHeight;
+//       alignment = alignment ?? Alignment.centerRight;
+//       borderRadius = borderRadius ??
+//           BorderRadius.only(
+//             topLeft: Radius.circular(5.0),
+//             topRight: Radius.circular(15.0),
+//             bottomRight: Radius.circular(15.0),
+//             bottomLeft: Radius.circular(15.0),
+//           );
+//       break;
+//
+//     case CustomButtonStyle.Mini:
+//       width = width ?? 135.0;
+//       height = height ?? SizeHelper.heightBtnSmall;
+//       alignment = alignment ?? Alignment.center;
+//       break;
+//
+//     case CustomButtonStyle.Primary:
+//     default:
+//       width = width ?? double.infinity;
+//       height = SizeHelper.boxHeight;
+//       alignment = alignment ?? Alignment.center;
+//   }
+//
+//   // Background color
+//   backgroundColor = backgroundColor ?? customColors.primaryButtonBackground;
+//   disabledBackgroundColor = disabledBackgroundColor ?? customColors.primaryButtonDisabledBackground;
+//
+//   // Text, asset color
+//   contentColor = contentColor ?? customColors.primaryButtonContent;
+//   disabledContentColor = disabledContentColor ?? customColors.primaryButtonDisabledContent;
+//
+//   // Text or Asset
+//   Widget _child = Container();
+//   if (text != null) {
+//     _child = Text(text);
+//   } else if (asset != null) {
+//     _child = SvgPicture.asset(asset, color: onPressed != null ? contentColor : disabledContentColor);
+//   }
+//
+//   return Align(
+//     alignment: alignment,
+//     child: Visibility(
+//       visible: visible,
+//       child: Container(
+//         margin: margin,
+//         width: width,
+//         height: height,
+//         child: TextButton(
+//           onPressed: onPressed,
+//           style: TextButton.styleFrom(
+//             backgroundColor: onPressed != null ? backgroundColor : disabledBackgroundColor,
+//             primary: onPressed != null ? contentColor : disabledContentColor,
+//             textStyle: TextStyle(fontWeight: FontWeight.w500),
+//             shape: RoundedRectangleBorder(
+//               borderRadius: borderRadius ?? BorderRadius.circular(10.0),
+//               side: BorderSide.none,
+//             ),
+//           ),
+//           child: _child,
+//         ),
+//       ),
+//     ),
+//   );
+// }
 
 enum ButtonStadiumStyle {
   Primary, // Icon-той, white
@@ -300,6 +445,40 @@ class ButtonMultiPartText extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CircleButton extends StatelessWidget {
+  final String asset;
+  final VoidCallback? onPressed;
+  final Color? backgroundColor;
+  final double? size;
+
+  const CircleButton({
+    Key? key,
+    required this.asset,
+    this.onPressed,
+    this.backgroundColor,
+    this.size = 20.0,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      child: TextButton(
+        child: SvgPicture.asset(asset, color: customColors.primaryButtonContent),
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all(EdgeInsets.zero),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+          ),
+          backgroundColor: MaterialStateProperty.all(backgroundColor ?? customColors.primaryButtonBackground),
+        ),
+        onPressed: onPressed,
       ),
     );
   }

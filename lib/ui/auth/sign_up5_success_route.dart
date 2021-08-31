@@ -98,7 +98,7 @@ class _SignUp5SuccessRouteState extends State<SignUp5SuccessRoute> {
               style: CustomButtonStyle.Secondary,
               asset: Assets.long_arrow_next,
               backgroundColor: customColors.secondaryBackground,
-              textColor: customColors.primaryButtonDisabledContent,
+              contentColor: customColors.primaryButtonDisabledContent,
               onPressed: () {
                 var request = LoginRequest()
                   ..username = widget.verifyCodeRequest.phoneNumber

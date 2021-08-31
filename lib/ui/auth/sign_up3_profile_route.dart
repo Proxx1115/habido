@@ -151,6 +151,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
       margin: EdgeInsets.only(top: 15.0),
       child: CustomSwitch(
         value: _genderValue,
+        margin: EdgeInsets.only(left: 18.0),
         activeText: LocaleKeys.female,
         inactiveText: LocaleKeys.male,
         activeColor: Colors.transparent,

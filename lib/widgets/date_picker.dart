@@ -58,6 +58,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               _text(),
               color: _color(),
               margin: EdgeInsets.only(left: 18.0),
+              fontWeight: FontWeight.w500,
             ),
           ),
 
