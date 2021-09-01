@@ -47,7 +47,8 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
             }
           }
 
-          yield RefreshDashboardUserHabitsSuccess(todayUserHabits: todayUserHabits, tomorrowUserHabits: tomorrowUserHabits);
+          yield RefreshDashboardUserHabitsSuccess(
+              todayUserHabits: todayUserHabits, tomorrowUserHabits: tomorrowUserHabits);
         } else {
           yield RefreshDashboardUserHabitsFailed(LocaleKeys.noData);
         }
@@ -112,7 +113,8 @@ class RefreshDashboardUserHabitsSuccess extends UserHabitState {
   List<Object> get props => [todayUserHabits ?? [], tomorrowUserHabits ?? []];
 
   @override
-  String toString() => 'RefreshDashboardUserHabitsSuccess { todayUserHabits: $todayUserHabits, tomorrowUserHabits: $tomorrowUserHabits }';
+  String toString() =>
+      'RefreshDashboardUserHabitsSuccess { todayUserHabits: $todayUserHabits, tomorrowUserHabits: $tomorrowUserHabits }';
 }
 
 class RefreshDashboardUserHabitsFailed extends UserHabitState {

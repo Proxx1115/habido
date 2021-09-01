@@ -4,10 +4,13 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
-import 'package:habido_app/ui/habit/progress/habit_timer_bloc.dart';
+import 'package:habido_app/ui/habit/progress/habit_timer/habit_timer_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -24,18 +27,33 @@ class HabitTimerRoute extends StatefulWidget {
 class _HabitTimerRouteState extends State<HabitTimerRoute> {
   // UI
   final _habitTimerBloc = HabitTimerBloc();
+  Color _primaryColor = customColors.primary;
+
+  @override
+  void initState() {
+    if (widget.userHabit.habit?.color != null) {
+      _primaryColor = HexColor.fromHex(widget.userHabit.habit!.color!);
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBarTitle: 'Timer Test',
-      body: SingleChildScrollView(
-        child: BlocProvider.value(
-          value: _habitTimerBloc,
-          child: BlocListener<HabitTimerBloc, HabitTimerState>(
-            listener: _blocListener,
+      appBarTitle: widget.userHabit.name,
+      body: BlocProvider.value(
+        value: _habitTimerBloc,
+        child: BlocListener<HabitTimerBloc, HabitTimerState>(
+          listener: _blocListener,
+          child: Container(
+            padding: SizeHelper.paddingScreen,
             child: Column(
               children: [
+                Expanded(
+                  child: Container(),
+                ),
+
                 /// Button хадгалах
                 _buttonSave(),
               ],
@@ -60,6 +78,8 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
 
   Widget _buttonSave() {
     return CustomButton(
+      style: CustomButtonStyle.Secondary,
+      backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
       onPressed: () {
         var request = SaveUserHabitProgressRequest();
