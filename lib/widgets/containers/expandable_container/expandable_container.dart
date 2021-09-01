@@ -92,11 +92,11 @@ class _ExpandableContainerState extends State<ExpandableContainer> {
       curve: Curves.easeInOut,
       width: screenWidth,
       height: _isExpanded ? _expandedHeight : _collapsedHeight,
-      child: Container(
-        child: ListView(
-          children: List.generate(
-            widget.expandableListItems.length,
-            (index) => Container(
+      child: Column(
+        children: List.generate(
+          widget.expandableListItems.length,
+          (index) => Expanded(
+            child: Container(
               margin: EdgeInsets.only(bottom: _liteItemMarginBottom),
               child: widget.expandableListItems[index],
             ),

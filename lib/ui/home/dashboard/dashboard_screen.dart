@@ -55,9 +55,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(color: customColors.primaryBackground),
-          padding: EdgeInsets.fromLTRB(SizeHelper.padding, 35.0, SizeHelper.padding, SizeHelper.marginBottom),
           child: SingleChildScrollView(
-            child: DashboardUserHabits(),
+            padding: EdgeInsets.fromLTRB(SizeHelper.padding, 35.0, SizeHelper.padding, SizeHelper.marginBottom),
+            child: Container(
+              // padding: EdgeInsets.fromLTRB(SizeHelper.padding, 35.0, SizeHelper.padding, SizeHelper.marginBottom),
+              child: DashboardUserHabits(),
+            ),
           ),
         ),
       ),

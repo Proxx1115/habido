@@ -38,59 +38,23 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
         listener: _blocListener,
         child: BlocBuilder<UserHabitBloc, UserHabitState>(
           builder: (context, state) {
-            return ExpandableContainer(
-              title: 'test',
-              expandableListItems: [
-                ExpandableListItem(text: 'test'),
-                ExpandableListItem(text: 'test'),
+            return Column(
+              children: [
+                /// Today
+                if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
+                  _expandableHabitList(
+                    LocaleKeys.today,
+                    _todayUserHabits!,
+                  ),
+
+                /// Tomorrow
+                if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty)
+                  _expandableHabitList(
+                    LocaleKeys.tomorrow,
+                    _tomorrowUserHabits!,
+                  ),
               ],
             );
-
-            // return Theme(
-            //   data: ThemeData(dividerColor: Colors.transparent),
-            //   child:
-
-            //   ExpansionTile(
-            //     // iconColor: customColors.primary,
-            //     backgroundColor: Colors.black,
-            //     iconColor: Colors.white,
-            //     // maintainState: ,
-            //     title: Text(
-            //       'test',
-            //       // items.playerName,
-            //       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-            //     ),
-            //     children: <Widget>[
-            //       // ListTile(
-            //       //   title: Text(
-            //       //     'test',
-            //       //     style: TextStyle(fontWeight: FontWeight.w700),
-            //       //   ),
-            //       // )
-            //     ],
-            //   ),
-            // );
-
-            // return ExpansionPanelList(
-            //   expansionCallback: (int index, bool isExpanded) {
-            //     setState(() {
-            //       _isExpandedTodayUserHabits = !isExpanded;
-            //       // _todayUserHabits![index].isExpanded = !isExpanded;
-            //     });
-            //   },
-            //   children: [
-            //     /// Today
-            //     // if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
-            //     //   _expansionPanel(
-            //     //     LocaleKeys.today,
-            //     //     _todayUserHabits!,
-            //     //   ),
-            //
-            //     /// Tomorrow
-            //     // if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty)
-            //     //   _dropDownContainer(LocaleKeys.tomorrow, _tomorrowUserHabits!),
-            //   ],
-            // );
           },
         ),
       ),
@@ -104,118 +68,17 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
     }
   }
 
-  Widget _dropDownContainer(String title, List<UserHabit> userHabitList) {
-    return ExpansionPanelList(
-      children: [
-        _expansionPanel('Test', userHabitList)
-        // ExpansionPanel(headerBuilder: headerBuilder, body: body),
-      ],
-    );
-
-    // return ExpansionPanel(
-    //   headerBuilder: (BuildContext context, bool isExpanded) {
-    //     return ListTile(
-    //       title: CustomText(category.categoryName),
-    //     );
-    //   },
-    //   body: Column(
-    //     children: [
-    //       if (category.psyTestResults != null)
-    //         for (var el in category.psyTestResults!)
-    //           ListTile(
-    //             title: CustomText(el.testResult?.text),
-    //             subtitle: CustomText(el.testResult?.pointRange),
-    //             // trailing: const Icon(Icons.delete),
-    //             onTap: () {
-    //               // setState(() {
-    //               //   _data.removeWhere((Item currentItem) => item == currentItem);
-    //               // });
-    //             },
-    //           ),
-    //     ],
-    //   ),
-    //   isExpanded: category.isExpanded ?? false,
-    // );
-
-    // return Container(
-    //   child: Column(
-    //     children: [
-    //       /// Title
-    //       CustomText(title),
-    //
-    //       /// List
-    //       for (var el in userHabitList) _userHabitListItem(el),
-    //     ],
-    //   ),
-    // );
-  }
-
-  ExpansionPanel _expansionPanel(String title, List<UserHabit> userHabitList) {
-    // return ExpansionPanel(
-    //   headerBuilder: (BuildContext context, bool isExpanded) {
-    //     return ListTile(
-    //       title: CustomText(category.categoryName),
-    //     );
-    //   },
-    //   body: Column(
-    //     children: [
-    //       if (category.psyTestResults != null)
-    //         for (var el in category.psyTestResults!)
-    //           ListTile(
-    //             title: CustomText(el.testResult?.text),
-    //             subtitle: CustomText(el.testResult?.pointRange),
-    //             // trailing: const Icon(Icons.delete),
-    //             onTap: () {
-    //               // setState(() {
-    //               //   _data.removeWhere((Item currentItem) => item == currentItem);
-    //               // });
-    //             },
-    //           ),
-    //     ],
-    //   ),
-    //   isExpanded: category.isExpanded ?? false,
-    // );
-
-    return ExpansionPanel(
-      isExpanded: _isExpandedTodayUserHabits,
-      backgroundColor: customColors.primaryBackground,
-      headerBuilder: (BuildContext context, bool isExpanded) {
-        return CustomText(title);
-        // return ListTile(
-        //   title: CustomText(category.categoryName),
-        // );
-      },
-      body: Column(
-        children: [
-          if (userHabitList.isNotEmpty)
-            for (var el in userHabitList) _userHabitListItem(el),
-          // ListTile(
-          //   title: CustomText(el.name),
-          //   // subtitle: CustomText(el.testResult?.pointRange),
-          //   // trailing: const Icon(Icons.delete),
-          //   onTap: () {
-          //     // setState(() {
-          //     //   _data.removeWhere((Item currentItem) => item == currentItem);
-          //     // });
-          //   },
-          // ),
-
-          // _userHabitListItem(el),
-        ],
+  Widget _expandableHabitList(String title, List<UserHabit> userHabitList) {
+    return ExpandableContainer(
+      title: title,
+      expandableListItems: List.generate(
+        userHabitList.length,
+        (index) => ExpandableListItem(
+          text: userHabitList[index].name ?? '',
+          leadingImageUrl: userHabitList[index].habit?.photo,
+          leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
+        ),
       ),
-    );
-  }
-
-  Widget _userHabitListItem(UserHabit userHabit) {
-    return ListItemContainer(
-      height: 70.0,
-      margin: EdgeInsets.only(bottom: 15.0),
-      text: userHabit.name ?? '',
-      leadingImageUrl: userHabit.habit?.photo,
-      leadingBackgroundColor: (userHabit.habit?.color != null) ? HexColor.fromHex(userHabit.habit!.color!) : null,
-      onPressed: () {
-        //
-      },
     );
   }
 }
