@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/ui/content/content_bloc.dart';
 import 'package:habido_app/ui/content/content_card.dart';
-import 'package:habido_app/ui/home/home_app_bar.dart';
+import 'package:habido_app/widgets/app_bars/home_app_bar.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';

@@ -7,7 +7,7 @@ import 'package:habido_app/ui/chat/chat_screen.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/app_bars.dart';
+import 'package:habido_app/widgets/app_bars/app_bars.dart';
 
 class HabidoAssistantRoute extends StatefulWidget {
   @override

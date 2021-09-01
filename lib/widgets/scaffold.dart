@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/app_bars.dart';
+import 'package:habido_app/widgets/app_bars/app_bars.dart';
 import 'package:habido_app/widgets/loaders.dart';
 
 class CustomScaffold extends StatelessWidget {

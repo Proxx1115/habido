@@ -12,19 +12,19 @@ import 'package:habido_app/utils/localization/localization.dart';
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-class HabitTimerBloc extends Bloc<HabitTimerEvent, HabitTimerState> {
-  HabitTimerBloc() : super(HabitTimerInit());
+class HabitProgressBloc extends Bloc<HabitProgressEvent, HabitProgressState> {
+  HabitProgressBloc() : super(HabitProgressInit());
 
   @override
-  Stream<HabitTimerState> mapEventToState(HabitTimerEvent event) async* {
+  Stream<HabitProgressState> mapEventToState(HabitProgressEvent event) async* {
     if (event is SaveUserHabitProgressEvent) {
       yield* _mapGetHabitsEventToState(event);
     }
   }
 
-  Stream<HabitTimerState> _mapGetHabitsEventToState(SaveUserHabitProgressEvent event) async* {
+  Stream<HabitProgressState> _mapGetHabitsEventToState(SaveUserHabitProgressEvent event) async* {
     try {
-      yield HabitTimerLoading();
+      yield HabitProgressLoading();
 
       var res = await ApiManager.saveUserHabitProgress(event.request);
       if (res.code == ResponseCode.Success) {
@@ -42,14 +42,14 @@ class HabitTimerBloc extends Bloc<HabitTimerEvent, HabitTimerState> {
 /// BLOC EVENTS
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class HabitTimerEvent extends Equatable {
-  const HabitTimerEvent();
+abstract class HabitProgressEvent extends Equatable {
+  const HabitProgressEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class SaveUserHabitProgressEvent extends HabitTimerEvent {
+class SaveUserHabitProgressEvent extends HabitProgressEvent {
   final SaveUserHabitProgressRequest request;
 
   const SaveUserHabitProgressEvent(this.request);
@@ -65,20 +65,20 @@ class SaveUserHabitProgressEvent extends HabitTimerEvent {
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class HabitTimerState extends Equatable {
-  const HabitTimerState();
+abstract class HabitProgressState extends Equatable {
+  const HabitProgressState();
 
   @override
   List<Object> get props => [];
 }
 
-class HabitTimerInit extends HabitTimerState {}
+class HabitProgressInit extends HabitProgressState {}
 
-class HabitTimerLoading extends HabitTimerState {}
+class HabitProgressLoading extends HabitProgressState {}
 
-class SaveUserHabitProgressSuccess extends HabitTimerState {}
+class SaveUserHabitProgressSuccess extends HabitProgressState {}
 
-class SaveUserHabitProgressFailed extends HabitTimerState {
+class SaveUserHabitProgressFailed extends HabitProgressState {
   final String message;
 
   const SaveUserHabitProgressFailed(this.message);

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:habido_app/ui/calendar/calendar_button.dart';
+import 'package:habido_app/ui/habit/calendar/calendar_button.dart';
 import 'package:habido_app/ui/notification/notification_button.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/size_helper.dart';

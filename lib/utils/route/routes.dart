@@ -10,6 +10,7 @@ import 'package:habido_app/ui/auth/term_detail_route.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
+import 'package:habido_app/ui/habit/calendar/calendar_route.dart';
 import 'package:habido_app/ui/habit/habit/habit_route.dart';
 import 'package:habido_app/ui/habit/habit_categories/habit_categories_route.dart';
 import 'package:habido_app/ui/habit/habit_list/habit_list_route.dart';
@@ -42,6 +43,7 @@ class Routes {
   static const signUp5Success = 'signUp5Success';
   static const termDetail = 'termDetail';
   static const home = 'home';
+  static const calendar = 'calendar';
   static const content = 'content';
   static const habidoAssistant = 'habidoAssistant';
   static const psyCategories = 'psyCategories';
@@ -134,6 +136,10 @@ class Routes {
 
       case Routes.home:
         route = FadeRouteBuilder(HomeRoute(), settings);
+        break;
+
+      case Routes.calendar:
+        route = FadeRouteBuilder(CalendarRoute(), settings);
         break;
 
       case Routes.habidoAssistant:
