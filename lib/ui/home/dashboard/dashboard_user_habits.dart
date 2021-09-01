@@ -6,7 +6,9 @@ import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
-import 'package:habido_app/widgets/containers.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
+import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class DashboardUserHabits extends StatefulWidget {
@@ -36,26 +38,59 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
         listener: _blocListener,
         child: BlocBuilder<UserHabitBloc, UserHabitState>(
           builder: (context, state) {
-            return ExpansionPanelList(
-              expansionCallback: (int index, bool isExpanded) {
-                setState(() {
-                  _isExpandedTodayUserHabits = !isExpanded;
-                  // _todayUserHabits![index].isExpanded = !isExpanded;
-                });
-              },
-              children: [
-                /// Today
-                if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
-                  _expansionPanel(
-                    LocaleKeys.today,
-                    _todayUserHabits!,
-                  ),
-
-                /// Tomorrow
-                // if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty)
-                //   _dropDownContainer(LocaleKeys.tomorrow, _tomorrowUserHabits!),
+            return ExpandableContainer(
+              title: 'test',
+              expandableListItems: [
+                ExpandableListItem(text: 'test'),
+                ExpandableListItem(text: 'test'),
               ],
             );
+
+            // return Theme(
+            //   data: ThemeData(dividerColor: Colors.transparent),
+            //   child:
+
+            //   ExpansionTile(
+            //     // iconColor: customColors.primary,
+            //     backgroundColor: Colors.black,
+            //     iconColor: Colors.white,
+            //     // maintainState: ,
+            //     title: Text(
+            //       'test',
+            //       // items.playerName,
+            //       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+            //     ),
+            //     children: <Widget>[
+            //       // ListTile(
+            //       //   title: Text(
+            //       //     'test',
+            //       //     style: TextStyle(fontWeight: FontWeight.w700),
+            //       //   ),
+            //       // )
+            //     ],
+            //   ),
+            // );
+
+            // return ExpansionPanelList(
+            //   expansionCallback: (int index, bool isExpanded) {
+            //     setState(() {
+            //       _isExpandedTodayUserHabits = !isExpanded;
+            //       // _todayUserHabits![index].isExpanded = !isExpanded;
+            //     });
+            //   },
+            //   children: [
+            //     /// Today
+            //     // if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
+            //     //   _expansionPanel(
+            //     //     LocaleKeys.today,
+            //     //     _todayUserHabits!,
+            //     //   ),
+            //
+            //     /// Tomorrow
+            //     // if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty)
+            //     //   _dropDownContainer(LocaleKeys.tomorrow, _tomorrowUserHabits!),
+            //   ],
+            // );
           },
         ),
       ),
@@ -144,7 +179,6 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
     return ExpansionPanel(
       isExpanded: _isExpandedTodayUserHabits,
       backgroundColor: customColors.primaryBackground,
-
       headerBuilder: (BuildContext context, bool isExpanded) {
         return CustomText(title);
         // return ListTile(
@@ -154,20 +188,19 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
       body: Column(
         children: [
           if (userHabitList.isNotEmpty)
-            for (var el in userHabitList)
-              _userHabitListItem(el),
-                    // ListTile(
-                    //   title: CustomText(el.name),
-                    //   // subtitle: CustomText(el.testResult?.pointRange),
-                    //   // trailing: const Icon(Icons.delete),
-                    //   onTap: () {
-                    //     // setState(() {
-                    //     //   _data.removeWhere((Item currentItem) => item == currentItem);
-                    //     // });
-                    //   },
-                    // ),
+            for (var el in userHabitList) _userHabitListItem(el),
+          // ListTile(
+          //   title: CustomText(el.name),
+          //   // subtitle: CustomText(el.testResult?.pointRange),
+          //   // trailing: const Icon(Icons.delete),
+          //   onTap: () {
+          //     // setState(() {
+          //     //   _data.removeWhere((Item currentItem) => item == currentItem);
+          //     // });
+          //   },
+          // ),
 
-              // _userHabitListItem(el),
+          // _userHabitListItem(el),
         ],
       ),
     );

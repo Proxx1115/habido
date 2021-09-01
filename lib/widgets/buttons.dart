@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
-import 'containers.dart';
+import 'containers/containers.dart';
 
 enum CustomButtonStyle {
   Primary,

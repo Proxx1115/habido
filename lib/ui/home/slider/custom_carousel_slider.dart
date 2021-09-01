@@ -7,7 +7,7 @@ import 'package:habido_app/utils/deeplink_utils.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/containers.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 
 import 'carousel_slider_bloc.dart';
 

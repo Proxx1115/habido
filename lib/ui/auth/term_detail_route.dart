@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habido_app/models/param_response.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
-import 'package:habido_app/widgets/containers.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 
 class TermDetailRoute extends StatefulWidget {

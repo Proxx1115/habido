@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/size_helper.dart';
-import 'package:habido_app/widgets/containers.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 
 class CustomLoader extends StatelessWidget {
   final double? size;
