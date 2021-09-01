@@ -9,7 +9,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
-import 'dashboard_screen.dart';
+import 'dashboard/dashboard_screen.dart';
 import '../profile/profile_screen.dart';
 import '../psy_test/psy_test_dashboard/psy_test_dashboard.dart';
 

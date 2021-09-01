@@ -97,6 +97,10 @@ class LocaleKeys {
 
   static String get selectTime => 'Цаг сонгох';
 
+  static String get today => 'Өнөөдөр';
+
+  static String get tomorrow => 'Маргааш';
+
   ///
   /// Intro
   ///

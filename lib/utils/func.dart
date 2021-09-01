@@ -124,7 +124,7 @@ class Func {
   //   return formattedDate; //trim(str.split(" ")[0]);
   // }
 
-  static String dateToStr(DateTime dateTime) {
+  static String toDateStr(DateTime dateTime) {
     String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
     return formattedDate;
   }
@@ -138,6 +138,17 @@ class Func {
     }
 
     return null;
+  }
+
+  static bool isSameDay(DateTime? dateTime1, DateTime? dateTime2) {
+    try {
+      if (dateTime1 == null || dateTime2 == null) return false;
+      if (dateTime1.year == dateTime2.year && dateTime1.month == dateTime2.month && dateTime1.day == dateTime2.day) return true;
+    } catch (e) {
+      print(e);
+    }
+
+    return false;
   }
 
   static String dateTimeToDateStr(DateTime? dt) {

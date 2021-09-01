@@ -4,6 +4,7 @@ import 'package:habido_app/bloc/main_bloc.dart';
 import 'package:habido_app/bloc/param_bloc.dart';
 import 'package:habido_app/bloc/psy_test_main_bloc.dart';
 import 'package:habido_app/bloc/test_bloc.dart';
+import 'package:habido_app/bloc/user_habit_bloc.dart';
 
 import 'auth_bloc.dart';
 import 'chat_bloc.dart';
@@ -16,6 +17,7 @@ class BlocManager {
   static final chatBloc = ChatBloc();
   static final homeBloc = HomeBloc();
   static final psyTestMainBloc = PsyTestMainBloc();
+  static final userHabitBloc = UserHabitBloc();
 
   static void dispose() {
     mainBloc.close();
@@ -24,6 +26,7 @@ class BlocManager {
     chatBloc.close();
     homeBloc.close();
     psyTestMainBloc.close();
+    userHabitBloc.close();
   }
 }
 

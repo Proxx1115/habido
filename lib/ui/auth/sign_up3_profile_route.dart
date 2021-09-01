@@ -215,7 +215,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
 
               VerifyCodeRequest verifyCodeRequest = widget.verifyCodeRequest;
               verifyCodeRequest
-                ..birthday = Func.dateToStr(_selectedBirthDate!)
+                ..birthday = Func.toDateStr(_selectedBirthDate!)
                 ..firstName = _nameController.text
                 ..gender = _genderValue ? Gender.Female : Gender.Female
                 ..password = _passController.text;

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/plan.dart';
@@ -13,12 +15,14 @@ import 'package:habido_app/ui/habit/habit/reminder/reminder_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers.dart';
 import 'package:habido_app/widgets/date_picker.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/slider/custom_slider.dart';
 import 'package:habido_app/widgets/slider/slider_bloc.dart';
@@ -183,6 +187,25 @@ class _HabitRouteState extends State<HabitRoute> {
   void _blocListener(BuildContext context, HabitState state) {
     if (state is GoalSwitchChangedState) {
       _goalSwitchValue = state.value;
+    } else if (state is InsertUserHabitSuccess) {
+      showCustomDialog(
+        context,
+        isDismissible: false,
+        child: CustomDialogBody(
+          asset: Assets.success,
+          text: LocaleKeys.success,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            BlocManager.userHabitBloc.add(RefreshDashboardUserHabits());
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+          },
+        ),
+      );
+    } else if (state is InsertUserHabitFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
+      );
     }
   }
 

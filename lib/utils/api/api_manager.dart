@@ -21,6 +21,8 @@ import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/psy_categories_response.dart';
 import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/models/user_habit_list_response.dart';
+import 'package:habido_app/models/user_habits_dates_response.dart';
 import 'package:habido_app/models/verify_code_request.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -208,8 +210,8 @@ class ApiManager {
     );
   }
 
-  static Future<HabitsResponse> insertUserHabit(UserHabit userHabit) async {
-    return HabitsResponse.fromJson(
+  static Future<BaseResponse> insertUserHabit(UserHabit userHabit) async {
+    return BaseResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.insertUserHabit,
         objectData: userHabit,
@@ -217,8 +219,31 @@ class ApiManager {
     );
   }
 
-// static const String habitCategories = '/mobile/habit/categories';
-// static const String habitHabits = '/mobile/habit/habits';
-// static const String habitDateUserHabits = '/mobile/habit/date/user-habits';
-// static const String habitCalendar = '/mobile/habit/calendar';
+  static Future<HabitsResponse> updateUserHabit(UserHabit userHabit) async {
+    return HabitsResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.insertUserHabit,
+        objectData: userHabit,
+        httpMethod: HttpMethod.Put,
+      ),
+    );
+  }
+
+  static Future<UserHabitsDatesResponse> userHabitsByDates(String startDate, String endDate) async {
+    return UserHabitsDatesResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.userHabitsByDates + '?startDate=$startDate&endDate=$endDate',
+        httpMethod: HttpMethod.Get,
+      ),
+    );
+  }
+
+  static Future<UserHabitListResponse> userHabitsByDate(String date) async {
+    return UserHabitListResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.userHabitsByDate + '?date=$date',
+        httpMethod: HttpMethod.Get,
+      ),
+    );
+  }
 }
