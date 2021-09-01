@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
@@ -76,7 +78,14 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
         (index) => ExpandableListItem(
           text: userHabitList[index].name ?? '',
           leadingImageUrl: userHabitList[index].habit?.photo,
-          leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
+          leadingBackgroundColor:
+              (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
+          onPressed: () {
+            // var route = HabitHelper.getProgressRoute(habitGoalSettings); // todo test
+            Navigator.pushNamed(context, Routes.habitTimer, arguments: {
+              'userHabit': userHabitList[index],
+            });
+          },
         ),
       ),
     );

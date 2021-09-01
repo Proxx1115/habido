@@ -16,6 +16,7 @@ import 'package:habido_app/models/psy_test_result.dart';
 import 'package:habido_app/models/psy_test_results_response.dart';
 import 'package:habido_app/models/psy_tests_response.dart';
 import 'package:habido_app/models/register_device_request.dart';
+import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/psy_categories_response.dart';
@@ -243,6 +244,15 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.userHabitsByDate + '?date=$date',
         httpMethod: HttpMethod.Get,
+      ),
+    );
+  }
+
+  static Future<BaseResponse> saveUserHabitProgress(SaveUserHabitProgressRequest request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.saveUserHabitProgress,
+        objectData: request,
       ),
     );
   }

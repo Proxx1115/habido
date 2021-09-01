@@ -101,6 +101,8 @@ class LocaleKeys {
 
   static String get tomorrow => 'Маргааш';
 
+  static String get finish => 'Дуусгах';
+
   ///
   /// Intro
   ///

@@ -7,7 +7,7 @@ import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_reminders.dart';
-import 'package:habido_app/ui/habit/habit/goal_helper.dart';
+import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit/habit/habit_bloc.dart';
 import 'package:habido_app/ui/habit/habit/plan_terms/plan_term_helper.dart';
 import 'package:habido_app/ui/habit/habit/plan_terms/plan_terms_widget.dart';
@@ -217,7 +217,7 @@ class _HabitRouteState extends State<HabitRoute> {
       _visibleGoal = true;
 
       // Slider
-      if (GoalHelper.visibleSlider(_habit.goalSettings!)) {
+      if (HabitHelper.visibleGoalSlider(_habit.goalSettings!)) {
         _sliderBloc = SliderBloc(
           minValue: Func.toDouble(_habit.goalSettings!.goalMin),
           maxValue: Func.toDouble(_habit.goalSettings!.goalMax),
