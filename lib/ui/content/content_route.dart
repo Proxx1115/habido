@@ -24,36 +24,34 @@ class _ContentRouteState extends State<ContentRoute> {
     return CustomScaffold(
       appBarTitle: LocaleKeys.content,
       body: SingleChildScrollView(
-        child: Container(
-          padding: SizeHelper.paddingScreen,
-          child: Column(
-            children: [
-              /// Cover image
-              Hero(
-                tag: Func.toStr(widget.content.contentId),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                  child: CachedNetworkImage(
-                    imageUrl: widget.content.contentPhoto!,
-                    fit: BoxFit.fitWidth,
-                    width: double.infinity,
-                    placeholder: (context, url) => CustomLoader(),
-                    errorWidget: (context, url, error) => Container(),
-                  ),
+        padding: SizeHelper.paddingScreen,
+        child: Column(
+          children: [
+            /// Cover image
+            Hero(
+              tag: Func.toStr(widget.content.contentId),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                child: CachedNetworkImage(
+                  imageUrl: widget.content.contentPhoto!,
+                  fit: BoxFit.fitWidth,
+                  width: double.infinity,
+                  placeholder: (context, url) => CustomLoader(),
+                  errorWidget: (context, url, error) => Container(),
                 ),
               ),
+            ),
 
-              /// Text
-              FadeInAnimation(
-                delay: 1.5,
-                child: InfoContainer(
-                  margin: EdgeInsets.only(top: 15.0),
-                  title: widget.content.text ?? '',
-                  body: widget.content.title ?? '',
-                ),
+            /// Text
+            FadeInAnimation(
+              delay: 1.5,
+              child: InfoContainer(
+                margin: EdgeInsets.only(top: 15.0),
+                title: widget.content.text ?? '',
+                body: widget.content.title ?? '',
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

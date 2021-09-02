@@ -94,8 +94,9 @@ class _HabitRouteState extends State<HabitRoute> {
 
       // Color
       _primaryColor = Func.isNotEmpty(_habit.color) ? HexColor.fromHex(_habit.color!) : customColors.primary;
-      _backgroundColor =
-          Func.isNotEmpty(_habit.backgroundColor) ? HexColor.fromHex(_habit.backgroundColor!) : customColors.primaryBackground;
+      _backgroundColor = Func.isNotEmpty(_habit.backgroundColor)
+          ? HexColor.fromHex(_habit.backgroundColor!)
+          : customColors.primaryBackground;
 
       // Name
       _nameController.text = _habit.name ?? '';
@@ -131,52 +132,50 @@ class _HabitRouteState extends State<HabitRoute> {
       appBarTitle: widget.title != null ? widget.title : LocaleKeys.habit,
       body: (widget.userHabit != null || widget.habit != null)
           ? SingleChildScrollView(
-              child: Container(
-                padding: SizeHelper.paddingScreen,
-                child: BlocProvider.value(
-                  value: _habitBloc,
-                  child: BlocListener<HabitBloc, HabitState>(
-                    listener: _blocListener,
-                    child: BlocBuilder<HabitBloc, HabitState>(builder: (context, state) {
-                      return Column(
-                        children: [
-                          /// Нэр
-                          _nameTextField(),
+              padding: SizeHelper.paddingScreen,
+              child: BlocProvider.value(
+                value: _habitBloc,
+                child: BlocListener<HabitBloc, HabitState>(
+                  listener: _blocListener,
+                  child: BlocBuilder<HabitBloc, HabitState>(builder: (context, state) {
+                    return Column(
+                      children: [
+                        /// Нэр
+                        _nameTextField(),
 
-                          /// Plan terms
-                          _planTermsWidget(),
+                        /// Plan terms
+                        _planTermsWidget(),
 
-                          /// Зорилго
-                          _goalWidget(),
+                        /// Зорилго
+                        _goalWidget(),
 
-                          /// Эхлэх огноо
-                          _startDatePicker(),
+                        /// Эхлэх огноо
+                        _startDatePicker(),
 
-                          /// Дуусах огноо
-                          _endDatePicker(),
+                        /// Дуусах огноо
+                        _endDatePicker(),
 
-                          /// Сануулах
-                          _reminder(),
+                        /// Сануулах
+                        _reminder(),
 
-                          /// Зөвлөмж
-                          _tipWidget(),
+                        /// Зөвлөмж
+                        _tipWidget(),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              /// Button delete
-                              _buttonDelete(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            /// Button delete
+                            _buttonDelete(),
 
-                              /// Button save
-                              Expanded(
-                                child: _buttonSave(),
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    }),
-                  ),
+                            /// Button save
+                            Expanded(
+                              child: _buttonSave(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  }),
                 ),
               ),
             )

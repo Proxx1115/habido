@@ -51,6 +51,9 @@ class Assets {
   /// Profile
   static const String male = 'assets/images/profile/male.png';
   static const String female = 'assets/images/profile/female.png';
+  static const String clock2 = 'assets/images/profile/clock2.svg';
+  static const String scratch = 'assets/images/profile/scratch.svg';
+  static const String calendar2 = 'assets/images/profile/calendar2.svg';
 
   /// Chat
   static const String typing = 'assets/images/chat/typing.gif';

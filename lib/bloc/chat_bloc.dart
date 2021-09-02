@@ -31,6 +31,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       yield ChatLoading();
 
+      // todo test get param
+
       // Get chat bot ID
       int? chatBotId;
       switch (event.chatType) {

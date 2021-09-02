@@ -253,6 +253,15 @@ class LocaleKeys {
   static String get tip => 'Зөвлөмж';
 
   static String get monthlyCalendar => 'Сарын төлөвлөгөө';
+
+  /// Profile
+  static String get allTime => 'Бүх цаг үе';
+
+  static String get progress => 'Гүйцэтгэл';
+
+  static String get completedHabit => 'Хэвшсэн дадал';
+
+  static String get myAchievements => 'Миний амжилт';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

@@ -57,32 +57,31 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
           child: BlocBuilder<PsyTestBloc, PsyTestState>(
             builder: (context, state) {
               return SingleChildScrollView(
-                child: Container(
-                  padding: SizeHelper.paddingScreen,
-                  child: Column(
-                    children: <Widget>[
-                      /// Content
-                      if (_content != null) HorizontalContentCard(content: _content!),
+                padding: SizeHelper.paddingScreen,
+                child: Column(
+                  children: <Widget>[
+                    /// Content
+                    if (_content != null) HorizontalContentCard(content: _content!),
 
-                      SizedBox(height: 15.0),
+                    SizedBox(height: 15.0),
 
-                      /// Psy test list
-                      if (_psyTestList != null && _psyTestList!.isNotEmpty)
-                        for (var el in _psyTestList!)
-                          ListItemContainer(
-                            margin: EdgeInsets.only(bottom: 10.0),
-                            height: 70.0,
-                            leadingImageUrl: el.photo,
-                            leadingBackgroundColor: HexColor.fromHex(el.color ?? '#F4F6F8'),
-                            text: el.name ?? '',
-                            onPressed: () {
-                              Navigator.pushNamed(context, Routes.psyIntro, arguments: {
-                                'psyTest': el,
-                              });
-                            },
-                          ),
-                    ],
-                  ),
+                    /// Psy test list
+                    if (_psyTestList != null && _psyTestList!.isNotEmpty)
+                      for (var el in _psyTestList!)
+                        ListItemContainer(
+                          margin: EdgeInsets.only(bottom: 10.0),
+                          height: 70.0,
+                          leadingImageUrl: el.photo,
+                          leadingBackgroundColor: HexColor.fromHex(el.color ?? '#F4F6F8'),
+                          text: el.name ?? '',
+                          suffixAsset: Assets.arrow_forward,
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.psyIntro, arguments: {
+                              'psyTest': el,
+                            });
+                          },
+                        ),
+                  ],
                 ),
               );
             },

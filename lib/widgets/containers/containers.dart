@@ -291,8 +291,10 @@ class ListItemContainer extends StatelessWidget {
   final EdgeInsets? margin;
   final double? height;
   final String? leadingImageUrl;
+  final String? leadingAsset;
   final Color? leadingBackgroundColor;
   final String text;
+  final String? suffixAsset;
 
   const ListItemContainer({
     Key? key,
@@ -300,8 +302,10 @@ class ListItemContainer extends StatelessWidget {
     this.margin,
     this.height,
     this.leadingImageUrl,
+    this.leadingAsset,
     this.leadingBackgroundColor,
     required this.text,
+    this.suffixAsset,
   }) : super(key: key);
 
   @override
@@ -320,7 +324,7 @@ class ListItemContainer extends StatelessWidget {
         child: Row(
           children: [
             /// Image
-            if (Func.isNotEmpty(leadingImageUrl))
+            if (Func.isNotEmpty(leadingImageUrl) || leadingAsset != null)
               Container(
                 margin: EdgeInsets.only(right: 15.0),
                 padding: EdgeInsets.all(10.0),
@@ -330,14 +334,7 @@ class ListItemContainer extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
                   color: leadingBackgroundColor ?? customColors.greyBackground,
                 ),
-                child: CachedNetworkImage(
-                  imageUrl: leadingImageUrl!,
-                  fit: BoxFit.fitWidth,
-                  width: 20.0,
-                  height: 20.0,
-                  placeholder: (context, url) => Container(),
-                  errorWidget: (context, url, error) => Container(),
-                ),
+                child: _leadingImage(),
               ),
 
             /// Text
@@ -346,11 +343,28 @@ class ListItemContainer extends StatelessWidget {
             ),
 
             /// Arrow
-            SvgPicture.asset(Assets.arrow_forward),
+            if (suffixAsset != null) SvgPicture.asset(suffixAsset!),
           ],
         ),
       ),
     );
+  }
+
+  Widget _leadingImage() {
+    if (Func.isNotEmpty(leadingImageUrl)) {
+      return CachedNetworkImage(
+        imageUrl: leadingImageUrl!,
+        fit: BoxFit.fitWidth,
+        width: 20.0,
+        height: 20.0,
+        placeholder: (context, url) => Container(),
+        errorWidget: (context, url, error) => Container(),
+      );
+    } else if (leadingAsset != null) {
+      return SvgPicture.asset(leadingAsset!);
+    } else {
+      return Container();
+    }
   }
 }
 

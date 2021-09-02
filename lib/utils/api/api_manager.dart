@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:habido_app/models/achievements_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/category_tests_response.dart';
@@ -291,6 +292,15 @@ class ApiManager {
     return NotifListResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.nextNotifs + '/$notifId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<AchievementsResponse> achievements() async {
+    return AchievementsResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.achievements,
         httpMethod: HttpMethod.get,
       ),
     );

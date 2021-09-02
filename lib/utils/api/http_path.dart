@@ -28,4 +28,5 @@ class HttpPath {
   static const String unreadNotifCount = '/mobile/notifs/not-read';
   static const String firstNotifs = '/mobile/notifs/first';
   static const String nextNotifs = '/mobile/notifs/then';
+  static const String achievements = '/mobile/user/accomplishments';
 }
