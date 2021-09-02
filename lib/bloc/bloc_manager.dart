@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
+import 'package:habido_app/bloc/notification_bloc.dart';
 import 'package:habido_app/bloc/param_bloc.dart';
 import 'package:habido_app/bloc/psy_test_main_bloc.dart';
 import 'package:habido_app/bloc/test_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 
 import 'auth_bloc.dart';
+import 'calendar_bloc.dart';
 import 'chat_bloc.dart';
 import 'home_bloc.dart';
 
@@ -18,6 +20,8 @@ class BlocManager {
   static final homeBloc = HomeBloc();
   static final psyTestMainBloc = PsyTestMainBloc();
   static final userHabitBloc = UserHabitBloc();
+  static final calendarBloc = CalendarBloc();
+  static final notifBloc = NotificationBloc();
 
   static void dispose() {
     mainBloc.close();
@@ -27,6 +31,8 @@ class BlocManager {
     homeBloc.close();
     psyTestMainBloc.close();
     userHabitBloc.close();
+    calendarBloc.close();
+    notifBloc.close();
   }
 }
 

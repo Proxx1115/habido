@@ -103,6 +103,8 @@ class LocaleKeys {
 
   static String get finish => 'Дуусгах';
 
+  static String get notification => 'Мэдэгдэл';
+
   ///
   /// Intro
   ///

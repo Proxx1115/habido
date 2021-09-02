@@ -16,22 +16,30 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   @override
   Stream<CalendarState> mapEventToState(CalendarEvent event) async* {
     if (event is GetCalendarEvent) {
-      yield* _mapInitEventToState();
+      yield* _mapGetCalendarEventToState();
     }
   }
 
-  Stream<CalendarState> _mapInitEventToState() async* {
+  Stream<CalendarState> _mapGetCalendarEventToState() async* {
     try {
-      yield ParamLoading();
+      yield CalendarLoading();
 
-      var res = await ApiManager.param();
+      var res = await ApiManager.calendar();
       if (res.code == ResponseCode.Success) {
-        yield ParamSuccess(res);
+        if (res.dateList != null && res.dateList!.isNotEmpty) {
+          var dateList = <DateTime>[];
+          for (var el in res.dateList!) {
+            var tempDate = Func.toDate(el);
+            if (tempDate != null) dateList.add(DateTime(tempDate.year, tempDate.month, tempDate.day));
+          }
+
+          yield CalendarSuccess(dateList);
+        }
       } else {
-        yield ParamFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield CalendarFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
-      yield ParamFailed(LocaleKeys.errorOccurred);
+      yield CalendarFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -62,28 +70,28 @@ abstract class CalendarState extends Equatable {
 
 class CalendarInit extends CalendarState {}
 
-class ParamLoading extends CalendarState {}
+class CalendarLoading extends CalendarState {}
 
-class ParamSuccess extends CalendarState {
-  final ParamResponse response;
+class CalendarSuccess extends CalendarState {
+  final List<DateTime> dateList;
 
-  const ParamSuccess(this.response);
-
-  @override
-  List<Object> get props => [response];
+  const CalendarSuccess(this.dateList);
 
   @override
-  String toString() => 'ParamSuccess { response: $response }';
+  List<Object> get props => [dateList];
+
+  @override
+  String toString() => 'CalendarSuccess { dateList: $dateList }';
 }
 
-class ParamFailed extends CalendarState {
+class CalendarFailed extends CalendarState {
   final String message;
 
-  const ParamFailed(this.message);
+  const CalendarFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'ParamFailed { message: $message }';
+  String toString() => 'CalendarFailed { message: $message }';
 }

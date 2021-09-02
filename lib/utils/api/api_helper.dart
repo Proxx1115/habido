@@ -87,8 +87,8 @@ class ResponseCode {
 }
 
 class HttpMethod {
-  static const Post = 'POST';
-  static const Get = 'GET';
-  static const Put = 'PUT';
-  static const Delete = 'DELETE';
+  static const post = 'POST';
+  static const get = 'GET';
+  static const put = 'PUT';
+  static const delete = 'DELETE';
 }

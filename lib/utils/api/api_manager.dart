@@ -5,10 +5,12 @@ import 'package:habido_app/models/category_tests_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/content_list_response.dart';
+import 'package:habido_app/models/habit_calendar_response.dart';
 import 'package:habido_app/models/habit_categories_response.dart';
 import 'package:habido_app/models/habits_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
+import 'package:habido_app/models/notif_list_response.dart';
 import 'package:habido_app/models/param_response.dart';
 import 'package:habido_app/models/psy_test_answers_request.dart';
 import 'package:habido_app/models/psy_test_questions_response.dart';
@@ -20,6 +22,7 @@ import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/psy_categories_response.dart';
+import 'package:habido_app/models/unread_notif_count_response.dart';
 import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_list_response.dart';
@@ -77,7 +80,7 @@ class ApiManager {
     // Check session
     var res = UserData.fromJson(await httpUtils.sendRequest(
       path: HttpPath.checkSession,
-      httpMethod: HttpMethod.Get,
+      httpMethod: HttpMethod.get,
     ));
 
     if (res.code == ResponseCode.Success) globals.userData = res;
@@ -111,7 +114,7 @@ class ApiManager {
     } else {
       res = ParamResponse.fromJson(await httpUtils.sendRequest(
         path: HttpPath.param,
-        httpMethod: HttpMethod.Get,
+        httpMethod: HttpMethod.get,
         hasAuthorization: false,
       ));
     }
@@ -127,7 +130,7 @@ class ApiManager {
     return CustomBannersResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.banners,
-        httpMethod: HttpMethod.Get,
+        httpMethod: HttpMethod.get,
       ),
     );
   }
@@ -161,20 +164,20 @@ class ApiManager {
   /// Content - Blog
   static Future<ContentListResponse> contentList() async {
     return ContentListResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.contentList, httpMethod: HttpMethod.Get),
+      await httpUtils.sendRequest(path: HttpPath.contentList, httpMethod: HttpMethod.get),
     );
   }
 
   /// Psychology test
   static Future<PsyCategoriesResponse> psyCategories() async {
     return PsyCategoriesResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.testCategories, httpMethod: HttpMethod.Get),
+      await httpUtils.sendRequest(path: HttpPath.testCategories, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<PsyTestsResponse> psyTests(int testCatId) async {
     return PsyTestsResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.categoryTests + '?testCatId=$testCatId', httpMethod: HttpMethod.Get),
+      await httpUtils.sendRequest(path: HttpPath.categoryTests + '?testCatId=$testCatId', httpMethod: HttpMethod.get),
     );
   }
 
@@ -195,19 +198,19 @@ class ApiManager {
 
   static Future<PsyTestResultsResponse> psyTestResults() async {
     return PsyTestResultsResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.psyTestResults, httpMethod: HttpMethod.Get),
+      await httpUtils.sendRequest(path: HttpPath.psyTestResults, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<HabitCategoriesResponse> habitCategories() async {
     return HabitCategoriesResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.habitCategories, httpMethod: HttpMethod.Get),
+      await httpUtils.sendRequest(path: HttpPath.habitCategories, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<HabitsResponse> habits(int catId) async {
     return HabitsResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.habits + '?catId=$catId', httpMethod: HttpMethod.Get),
+      await httpUtils.sendRequest(path: HttpPath.habits + '?catId=$catId', httpMethod: HttpMethod.get),
     );
   }
 
@@ -225,7 +228,7 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.insertUserHabit,
         objectData: userHabit,
-        httpMethod: HttpMethod.Put,
+        httpMethod: HttpMethod.put,
       ),
     );
   }
@@ -234,7 +237,7 @@ class ApiManager {
     return UserHabitsDatesResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.userHabitsByDates + '?startDate=$startDate&endDate=$endDate',
-        httpMethod: HttpMethod.Get,
+        httpMethod: HttpMethod.get,
       ),
     );
   }
@@ -243,7 +246,7 @@ class ApiManager {
     return UserHabitListResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.userHabitsByDate + '?date=$date',
-        httpMethod: HttpMethod.Get,
+        httpMethod: HttpMethod.get,
       ),
     );
   }
@@ -253,6 +256,42 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.saveUserHabitProgress,
         objectData: request,
+      ),
+    );
+  }
+
+  static Future<HabitCalendarResponse> calendar() async {
+    return HabitCalendarResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.calendar,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<UnreadNotifCountResponse> unreadNotifCount() async {
+    return UnreadNotifCountResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.unreadNotifCount,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<NotifListResponse> firstNotifs() async {
+    return NotifListResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.firstNotifs,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<NotifListResponse> nextNotifs(int notifId) async {
+    return NotifListResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.nextNotifs + '/$notifId',
+        httpMethod: HttpMethod.get,
       ),
     );
   }

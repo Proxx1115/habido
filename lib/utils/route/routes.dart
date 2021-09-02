@@ -17,6 +17,7 @@ import 'package:habido_app/ui/habit/habit_list/habit_list_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_timer/habit_timer_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
+import 'package:habido_app/ui/notification/notif_route.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
 import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
@@ -55,6 +56,7 @@ class Routes {
   static const habitList = 'habitList';
   static const habit = 'habit';
   static const habitTimer = 'habitTimer';
+  static const notif = 'notif';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -233,6 +235,10 @@ class Routes {
           ),
           settings,
         );
+        break;
+
+      case Routes.notif:
+        route = SlideRightRouteBuilder(NotifRoute(), settings);
         break;
 
       case Routes.comingSoon:

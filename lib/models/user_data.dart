@@ -9,6 +9,10 @@ class UserData extends BaseResponse {
   int? gender;
   String? photo;
   bool? isOnboardingDone;
+  int? rankId; // 1-6
+  String? rankPhoto;
+  String? rankName;
+  String? rankBody;
 
   UserData({
     this.phone,
