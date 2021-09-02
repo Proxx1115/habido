@@ -111,6 +111,7 @@ class _CountdownTimerState extends State<CountdownTimer> with TickerProviderStat
 
   Widget _button(IconData iconData, VoidCallback onPressed) {
     return FloatingActionButton(
+      heroTag: iconData.toString(),
       backgroundColor: Color.fromRGBO(254, 247, 246, 1),
       elevation: 0,
       shape: RoundedRectangleBorder(

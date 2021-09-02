@@ -12,6 +12,7 @@ import 'package:habido_app/ui/demo/hero1_route.dart';
 import 'package:habido_app/ui/demo/example_route.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'bloc/bloc_manager.dart';
 import 'ui/intro/splash_route.dart';
@@ -51,6 +52,9 @@ class HabidoApp extends StatelessWidget {
 
     // Bloc
     // BlocManager.mainBloc.add(InitEvent());
+
+    // Init locale
+    initializeDateFormatting('mn');
   }
 
   void dispose() {

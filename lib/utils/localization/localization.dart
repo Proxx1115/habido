@@ -249,6 +249,8 @@ class LocaleKeys {
   static String get remind => 'Сануулах';
 
   static String get tip => 'Зөвлөмж';
+
+  static String get monthlyCalendar => 'Сарын төлөвлөгөө';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {
