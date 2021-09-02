@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +12,6 @@ import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
@@ -43,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           listener: _blocListener,
           child: BlocBuilder<AchievementBloc, AchievementState>(
             builder: (context, state) {
-              return SingleChildScrollView(
+              return Container(
                 padding: SizeHelper.paddingScreen,
                 child: Column(
                   children: [
@@ -81,6 +81,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
 
                     /// Category achievements
+                    Expanded(
+                      child: _categoryAchievements(),
+                    ),
                   ],
                 ),
               );
@@ -157,4 +160,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  Widget _categoryAchievements() {
+    return PieChart(
+
+      PieChartData(
+        sections: _getSections(),
+      ),
+    );
+  }
+
+  _getSections() {
+    var aaa = getSections();
+    print(aaa);
+    return aaa;
+  }
+
+  List<PieChartSectionData> getSections() => PieData.data
+      .asMap()
+      .map<int, PieChartSectionData>((index, data) {
+        final value = PieChartSectionData(
+          color: data.color,
+          value: data.percent,
+          title: '${data.percent}',
+          titleStyle: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        );
+        return MapEntry(index, value);
+      })
+      .values
+      .toList();
+}
+
+class PieData {
+  static List<Data> data = [
+    Data(name: 'Red', percent: 20, color: Colors.red),
+    Data(name: 'Blue', percent: 20, color: Colors.blue),
+    Data(name: 'Yellow', percent: 20, color: Colors.yellow),
+    Data(name: 'Orange', percent: 20, color: Colors.orange),
+  ];
+}
+
+class Data {
+  final String name;
+  final double percent;
+  final Color color;
+
+  Data({required this.name, required this.percent, required this.color});
 }
