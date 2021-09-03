@@ -29,4 +29,5 @@ class HttpPath {
   static const String firstNotifs = '/mobile/notifs/first';
   static const String nextNotifs = '/mobile/notifs/then';
   static const String achievements = '/mobile/user/accomplishments';
+  static const String rankList = '/mobile/rank/list';
 }

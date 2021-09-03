@@ -224,6 +224,10 @@ class LocaleKeys {
 
   static String get createHabit => 'Дадал үүсгэх';
 
+  static String get ediHabit => 'Дадал засварлах';
+
+  static String get sureToSkipHabit => 'Та дадлаа алгасах уу?';
+
   static String get daily => 'Өдөр бүр';
 
   static String get week => '7 хоног';
@@ -262,6 +266,10 @@ class LocaleKeys {
   static String get completedHabit => 'Хэвшсэн дадал';
 
   static String get myAchievements => 'Миний амжилт';
+
+  static String get userInfo => 'Хэрэглэгчийн мэдээлэл';
+
+  static String get yourRank => 'Таны зэрэглэл';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

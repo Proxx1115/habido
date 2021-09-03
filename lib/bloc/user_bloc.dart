@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
-import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -17,6 +17,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> mapEventToState(UserEvent event) async* {
     if (event is GetUserData) {
       yield* _mapGetUserDataToState();
+    } else if (event is GetRankList) {
+      yield* _mapGetRankListToState();
     }
   }
 
@@ -29,6 +31,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
     } catch (e) {
       yield UserDataFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserState> _mapGetRankListToState() async* {
+    try {
+      var res = await ApiManager.rankList();
+      if (res.code == ResponseCode.Success) {
+        yield RankListSuccess(res.rankList ?? []);
+      } else {
+        yield UserDataFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield RankListFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -45,6 +60,8 @@ abstract class UserEvent extends Equatable {
 }
 
 class GetUserData extends UserEvent {}
+
+class GetRankList extends UserEvent {}
 
 // class GetUserHabitByDate extends UserEvent {
 //   final String date;
@@ -95,4 +112,28 @@ class UserDataFailed extends UserState {
 
   @override
   String toString() => 'UserDataFailed { message: $message }';
+}
+
+class RankListSuccess extends UserState {
+  final List<Rank> rankList;
+
+  const RankListSuccess(this.rankList);
+
+  @override
+  List<Object> get props => [rankList];
+
+  @override
+  String toString() => 'RankListSuccess { userData: $rankList }';
+}
+
+class RankListFailed extends UserState {
+  final String message;
+
+  const RankListFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'RankListFailed { message: $message }';
 }

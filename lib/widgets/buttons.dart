@@ -24,6 +24,7 @@ class CustomButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? disabledBackgroundColor;
   final String? text;
+  final FontWeight? fontWeight;
   final String? asset;
   final Color? contentColor;
   final Color? disabledContentColor; // Text, image and so on...
@@ -41,6 +42,7 @@ class CustomButton extends StatelessWidget {
     this.backgroundColor,
     this.disabledBackgroundColor,
     this.text,
+    this.fontWeight,
     this.asset,
     this.contentColor,
     this.disabledContentColor,
@@ -161,7 +163,8 @@ enum ButtonStadiumStyle {
 class ButtonStadium extends StatelessWidget {
   final ButtonStadiumStyle style;
   final String asset;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
+  final bool enabled;
   final EdgeInsets margin;
   final double? size;
   final double? borderRadius;
@@ -173,7 +176,8 @@ class ButtonStadium extends StatelessWidget {
     Key? key,
     this.style = ButtonStadiumStyle.Primary,
     required this.asset,
-    required this.onPressed,
+    this.onPressed,
+    this.enabled = true,
     this.margin = EdgeInsets.zero,
     this.size,
     this.borderRadius,
@@ -186,22 +190,28 @@ class ButtonStadium extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: margin,
-      child: InkWell(
+      child: enabled
+          ? InkWell(
+              borderRadius: _getBorderRadius(),
+              child: _body(),
+              onTap: () {
+                if (onPressed != null) onPressed!();
+              },
+            )
+          : _body(),
+    );
+  }
+
+  Widget _body() {
+    return Container(
+      height: size ?? _getSize(),
+      width: size ?? _getSize(),
+      decoration: BoxDecoration(
         borderRadius: _getBorderRadius(),
-        child: Container(
-          height: size ?? _getSize(),
-          width: size ?? _getSize(),
-          decoration: BoxDecoration(
-            borderRadius: _getBorderRadius(),
-            border: visibleBorder ? Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder) : null,
-            color: backgroundColor ?? _getBackgroundColor(),
-          ),
-          child: SvgPicture.asset(asset, fit: BoxFit.scaleDown, color: iconColor ?? _getContentColor()),
-        ),
-        onTap: () {
-          onPressed();
-        },
+        border: visibleBorder ? Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder) : null,
+        color: backgroundColor ?? _getBackgroundColor(),
       ),
+      child: SvgPicture.asset(asset, fit: BoxFit.scaleDown, color: iconColor ?? _getContentColor()),
     );
   }
 

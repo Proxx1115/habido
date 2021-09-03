@@ -69,6 +69,7 @@ class StadiumContainer extends StatelessWidget {
   final double? height;
   final VoidCallback? onTap;
   final Color? backgroundColor;
+  final BorderRadius? borderRadius;
   final Widget child;
 
   const StadiumContainer({
@@ -77,8 +78,9 @@ class StadiumContainer extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.height,
     this.onTap,
-    required this.child,
     this.backgroundColor,
+    this.borderRadius,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -91,7 +93,7 @@ class StadiumContainer extends StatelessWidget {
           margin: margin,
           decoration: BoxDecoration(
             color: backgroundColor ?? customColors.secondaryBackground,
-            borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+            borderRadius: borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
           ),
           child: child,
         ),

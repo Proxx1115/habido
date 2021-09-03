@@ -23,6 +23,10 @@ class UserData extends BaseResponse {
     this.gender,
     this.photo,
     this.isOnboardingDone,
+    this.rankId,
+    this.rankPhoto,
+    this.rankName,
+    this.rankBody,
   });
 
   UserData.fromJson(dynamic json) {
@@ -36,6 +40,10 @@ class UserData extends BaseResponse {
     gender = json['gender'];
     photo = json['photo'];
     isOnboardingDone = json['isOnboardingDone'];
+    rankId = json['rankId'];
+    rankPhoto = json['rankPhoto'];
+    rankName = json['rankName'];
+    rankBody = json['rankBody'];
   }
 
   Map<String, dynamic> toJson() {

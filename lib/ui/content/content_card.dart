@@ -28,21 +28,21 @@ class VerticalContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeInAnimation(
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, Routes.content, arguments: {
-            'content': content,
-          });
-        },
-        borderRadius: _borderRadius,
-        child: Hero(
-          tag: Func.toStr(content.contentId),
-          child: Container(
-            margin: margin,
-            decoration: BoxDecoration(
-              borderRadius: _borderRadius,
-              color: customColors.secondaryBackground,
-            ),
+      child: Container(
+        margin: margin,
+        decoration: BoxDecoration(
+          borderRadius: _borderRadius,
+          color: customColors.secondaryBackground,
+        ),
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.content, arguments: {
+              'content': content,
+            });
+          },
+          borderRadius: _borderRadius,
+          child: Hero(
+            tag: Func.toStr(content.contentId),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -59,7 +59,7 @@ class VerticalContentCard extends StatelessWidget {
                           imageUrl: content.contentPhoto ?? '',
                           fit: BoxFit.fitWidth,
                           width: double.infinity,
-                          height: width * 0.7,
+                          height: width * SizeHelper.contentImageRatio,
                           alignment: Alignment.topCenter,
                           placeholder: (context, url) => CustomLoader(),
                           errorWidget: (context, url, error) => Container(),
@@ -149,149 +149,6 @@ class VerticalContentCard extends StatelessWidget {
     );
   }
 }
-//
-// class VerticalContentCard22222 extends StatelessWidget {
-//   final Content content;
-//
-//   // final VoidCallback? onPressed;
-//   final double imageHeight;
-//
-//   final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
-//
-//   VerticalContentCard22222({
-//     Key? key,
-//     required this.content,
-//     // this.onPressed,
-//     required this.imageHeight,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return FadeInAnimation(
-//       child: InkWell(
-//         onTap: () {
-//           Navigator.pushNamed(context, Routes.content, arguments: {
-//             'content': content,
-//           });
-//         },
-//         borderRadius: _borderRadius,
-//         child: Hero(
-//           tag: Func.toStr(content.contentId),
-//           child: Container(
-//             decoration: BoxDecoration(
-//               borderRadius: _borderRadius,
-//               color: customColors.secondaryBackground,
-//             ),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               mainAxisSize: MainAxisSize.min,
-//               children: [
-//                 // flex: 45,
-//                 Stack(
-//                   children: [
-//                     /// Cover image
-//                     Container(
-//                       padding: EdgeInsets.only(bottom: 15.0),
-//                       child: ClipRRect(
-//                         borderRadius:
-//                             BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-//                         child: CachedNetworkImage(
-//                           imageUrl: content.contentPhoto ?? '',
-//                           fit: BoxFit.fitHeight,
-//                           height: imageHeight,
-//                           placeholder: (context, url) => CustomLoader(),
-//                           errorWidget: (context, url, error) => Container(),
-//                         ),
-//                       ),
-//                     ),
-//
-//                     /// Profile picture
-//                     Positioned(
-//                       bottom: 0.0,
-//                       left: 0.0,
-//                       child: Container(
-//                         decoration: BoxDecoration(
-//                           border: Border.all(color: customColors.secondaryBorder, width: 2.0),
-//                           borderRadius: BorderRadius.all(Radius.circular(25.0)),
-//                         ),
-//                         height: 34,
-//                         width: 34,
-//                         margin: EdgeInsets.only(left: 15.0),
-//                         child: ClipRRect(
-//                           borderRadius: BorderRadius.all(Radius.circular(25.0)),
-//                           child: CachedNetworkImage(
-//                             imageUrl: content.profilePhoto ?? '',
-//                             fit: BoxFit.fill,
-//                             height: 30,
-//                             width: 30,
-//                             placeholder: (context, url) => CustomLoader(),
-//                             errorWidget: (context, url, error) => Container(),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//
-//                 // flex: 35, // 105/289
-//                 Expanded(
-//                   child: Container(
-//                     margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
-//                     child: Column(
-//                       children: [
-//                         /// Title
-//                         CustomText(
-//                           content.title,
-//                           fontWeight: FontWeight.w500,
-//                           maxLines: 2,
-//                         ),
-//
-//                         /// Body
-//                         CustomText(content.text, margin: EdgeInsets.only(top: 15.0), maxLines: 2),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//
-//                 // flex: 20,
-//                 Container(
-//                   margin: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 15.0),
-//                   alignment: Alignment.bottomLeft,
-//                   child: Row(
-//                     children: [
-//                       /// Clock icon
-//                       Container(
-//                         height: 24.0,
-//                         width: 24.0,
-//                         padding: EdgeInsets.all(5.0),
-//                         alignment: Alignment.bottomLeft,
-//                         decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.all(Radius.circular(7.0)),
-//                           color: customColors.greyBackground,
-//                         ),
-//                         child: SvgPicture.asset(Assets.clock),
-//                       ),
-//
-//                       /// Read time
-//                       if (content.readTime != null)
-//                         Expanded(
-//                           child: CustomText(
-//                             '${content.readTime} ${LocaleKeys.readMin}',
-//                             margin: EdgeInsets.only(left: 7.0),
-//                             alignment: Alignment.bottomLeft,
-//                           ),
-//                         ),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class HorizontalContentCard extends StatelessWidget {
   final Content content;

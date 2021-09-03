@@ -23,7 +23,8 @@ class SizeHelper {
   );
 
   /// Screen
-  static const paddingScreen = EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.marginTop, SizeHelper.margin, SizeHelper.marginBottom);
+  static const paddingScreen =
+      EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.marginTop, SizeHelper.margin, SizeHelper.marginBottom);
   static const double heightStatusBar = 20.0;
   static double heightBottomNavigationBar = 65.0;
   static const double minHeightScreen = 650.0; // Дэлгэцний хамгийн доод өндөр
@@ -54,18 +55,6 @@ class SizeHelper {
   static const double loaderSize = 30.0;
 
   /// Font size
-  static const double fontSizeCaption = 12.0;
-  static const double fontSizeNormal = 14.0;
-  static const double fontSizeMedium = 16.0;
-  static const double fontSizeLarge = 18.0;
-  static const double fontSizeHeadline6 = 20.0;
-  static const double fontSizeHeadline5 = 24.0;
-  static const double fontSize28 = 28.0;
-  static const double fontSizeHeadline4 = 32.0;
-  static const double fontSizeHeadline3 = 45.0;
-  static const double fontSizeHeadline2 = 56.0;
-  static const double fontSizeHeadline1 = 112.0;
-  static const double fontSizeColoredHeader = 18.0;
 // NAME       SIZE   WEIGHT   SPACING  2018 NAME
 // display4   112.0  thin     0.0      headline1
 // display3   56.0   normal   0.0      headline2
@@ -80,4 +69,19 @@ class SizeHelper {
 // button     14.0   medium   0.0      button
 // subtitle   14.0   medium   0.0      subtitle2
 // overline   10.0   normal   0.0      overline
+  static const double fontSizeCaption = 12.0;
+  static const double fontSizeNormal = 14.0;
+  static const double fontSizeMedium = 16.0;
+  static const double fontSizeLarge = 18.0;
+  static const double fontSizeHeadline6 = 20.0;
+  static const double fontSizeHeadline5 = 24.0;
+  static const double fontSize28 = 28.0;
+  static const double fontSizeHeadline4 = 32.0;
+  static const double fontSizeHeadline3 = 45.0;
+  static const double fontSizeHeadline2 = 56.0;
+  static const double fontSizeHeadline1 = 112.0;
+  static const double fontSizeColoredHeader = 18.0;
+
+  /// Content
+  static const double contentImageRatio = 0.7;
 }

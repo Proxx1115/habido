@@ -19,8 +19,18 @@ class ContentRoute extends StatefulWidget {
 }
 
 class _ContentRouteState extends State<ContentRoute> {
+  double? _imageWidth;
+  final double _margin = 15.0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _imageWidth = _imageWidth ?? MediaQuery.of(context).size.width - _margin * 2;
+
     return CustomScaffold(
       appBarTitle: LocaleKeys.content,
       body: SingleChildScrollView(
@@ -36,6 +46,8 @@ class _ContentRouteState extends State<ContentRoute> {
                   imageUrl: widget.content.contentPhoto!,
                   fit: BoxFit.fitWidth,
                   width: double.infinity,
+                  // height: _imageWidth! * SizeHelper.contentImageRatio,
+                  alignment: Alignment.topCenter,
                   placeholder: (context, url) => CustomLoader(),
                   errorWidget: (context, url, error) => Container(),
                 ),

@@ -8,6 +8,7 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 
 class DashboardUserHabits extends StatefulWidget {
   const DashboardUserHabits({Key? key}) : super(key: key);
@@ -82,6 +83,32 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
               context,
               Routes.habitTimer,
               arguments: {
+                'userHabit': userHabitList[index],
+              },
+            );
+          },
+          onPressedSkip: () {
+            showCustomDialog(
+              context,
+              isDismissible: true,
+              child: CustomDialogBody(
+                text: LocaleKeys.sureToSkipHabit,
+                height: 300.0,
+                buttonText: LocaleKeys.skip,
+                button2Text: LocaleKeys.no,
+                onPressedButton: () {
+                  //
+                },
+              ),
+            );
+          },
+          onPressedEdit: () {
+            Navigator.pushNamed(
+              context,
+              Routes.habit,
+              arguments: {
+                'title': LocaleKeys.ediHabit,
+                'habit': null,
                 'userHabit': userHabitList[index],
               },
             );

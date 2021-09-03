@@ -32,7 +32,7 @@ class CustomDialogBody extends StatelessWidget {
 
   const CustomDialogBody({
     Key? key,
-    this.height = 267.0,
+    this.height = 267.0, // 300.0
     this.color,
     this.asset,
     this.text,
@@ -102,35 +102,33 @@ class CustomDialogBody extends StatelessWidget {
   }
 
   Widget _buttons(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         /// Button1
         if (buttonText != null)
-          Expanded(
-            child: CustomButton(
-              text: buttonText,
-              onPressed: () {
-                Navigator.pop(context);
-                if (onPressedButton != null) onPressedButton!();
-              },
-              backgroundColor: color,
-            ),
+          CustomButton(
+            text: buttonText,
+            onPressed: () {
+              Navigator.pop(context);
+              if (onPressedButton != null) onPressedButton!();
+            },
+            backgroundColor: color,
           ),
 
         // Margin
-        if (buttonText != null && button2Text != null) SizedBox(width: 25.0),
+        if (buttonText != null && button2Text != null) SizedBox(height: 15.0),
 
         /// Button2
         if (button2Text != null)
-          Expanded(
-            child: CustomButton(
-              text: button2Text,
-              onPressed: () {
-                Navigator.pop(context);
-                if (onPressedButton2 != null) onPressedButton2!();
-              },
-            ),
+          CustomButton(
+            text: button2Text,
+            contentColor: customColors.secondaryButtonContent,
+            backgroundColor: customColors.secondaryButtonBackground,
+            onPressed: () {
+              Navigator.pop(context);
+              if (onPressedButton2 != null) onPressedButton2!();
+            },
           ),
       ],
     );

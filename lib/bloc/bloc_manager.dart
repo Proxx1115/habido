@@ -12,10 +12,12 @@ import 'auth_bloc.dart';
 import 'calendar_bloc.dart';
 import 'chat_bloc.dart';
 import 'home_bloc.dart';
+import 'user_bloc.dart';
 
 class BlocManager {
   static final mainBloc = MainBloc();
   static final authBloc = AuthBloc();
+  static final userBloc = UserBloc();
   static final paramBloc = ParamBloc();
   static final chatBloc = ChatBloc();
   static final homeBloc = HomeBloc();
@@ -28,6 +30,7 @@ class BlocManager {
   static void dispose() {
     mainBloc.close();
     authBloc.close();
+    userBloc.close();
     paramBloc.close();
     chatBloc.close();
     homeBloc.close();

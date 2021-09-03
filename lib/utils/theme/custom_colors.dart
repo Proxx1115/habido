@@ -12,6 +12,8 @@ class ConstantColors {
   static const ghostGrey = const Color(0xFFCBD0D7); // icon
   static const red = const Color(0xFFE8553E);
   static const frolyRed = const Color(0xFFE8553E); // trash icon
+  static const yellow = const Color(0xFFFDCD56);
+  static const blue = const Color(0xFF73B0F4);
 }
 
 class CustomColors {
@@ -22,6 +24,8 @@ class CustomColors {
   Color primaryBackground = ConstantColors.roseWhite;
   Color secondaryBackground = Colors.white;
   Color greyBackground = ConstantColors.athensGrey;
+  Color yellowBackground = ConstantColors.yellow;
+  Color blueBackground = ConstantColors.blue;
 
   /// Border
   Color primaryBorder = ConstantColors.athensGrey;
@@ -39,12 +43,16 @@ class CustomColors {
   Color get primaryButtonDisabledBackground => secondaryBackground; // disabled
   Color primaryButtonDisabledContent = ConstantColors.cornflowerBlue; // disabled
 
+  Color get secondaryButtonBackground => greyBackground; // enabled
+  Color secondaryButtonContent = ConstantColors.black; // enabled
+
   /// TextField
   Color get primaryTextFieldBackground => secondaryBackground;
 
   Color get secondaryTextFieldBackground => ConstantColors.athensGrey;
 
   /// Icon
+  Color iconWhite = Colors.white;
   Color iconGrey = ConstantColors.ghostGrey;
   Color iconRed = ConstantColors.frolyRed;
 

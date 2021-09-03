@@ -9,6 +9,7 @@ class Assets {
   static const String clear_circle = 'assets/images/global/clear_circle.svg';
   static const String clear = 'assets/images/global/clear.svg';
   static const String edit = 'assets/images/global/edit.svg';
+  static const String edit24 = 'assets/images/global/edit24.svg';
   static const String obscure_hidden = 'assets/images/global/obscure_hidden.svg';
   static const String back = 'assets/images/global/back.svg';
   static const String long_arrow_next = 'assets/images/global/long_arrow_next.svg';
@@ -26,6 +27,7 @@ class Assets {
   static const String trash = 'assets/images/global/trash.svg';
   static const String expanded = 'assets/images/global/expanded.svg';
   static const String collapsed = 'assets/images/global/collapsed.svg';
+  static const String skip = 'assets/images/global/skip.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
@@ -54,6 +56,7 @@ class Assets {
   static const String clock2 = 'assets/images/profile/clock2.svg';
   static const String scratch = 'assets/images/profile/scratch.svg';
   static const String calendar2 = 'assets/images/profile/calendar2.svg';
+  static const String rank_background = 'assets/images/profile/rank_background.svg';
 
   /// Chat
   static const String typing = 'assets/images/chat/typing.gif';
