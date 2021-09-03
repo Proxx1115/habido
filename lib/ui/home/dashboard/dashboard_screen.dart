@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/widgets/app_bars/app_bars.dart';
 import 'package:habido_app/widgets/app_bars/home_app_bar.dart';
 import 'package:habido_app/ui/home/slider/custom_carousel_slider.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -20,6 +21,8 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
+    // return CustomScaffold(body: body);
+
     return CustomScaffold(
       backgroundColor: customColors.primary,
       body: Stack(
@@ -35,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
 
           /// Calendar, Title, Notification
-          HomeAppBar(),
+          HomeAppBar2(),
         ],
       ),
       floatingActionButton: ButtonStadium(

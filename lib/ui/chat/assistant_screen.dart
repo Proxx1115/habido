@@ -21,7 +21,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
       body: Column(
         children: [
           /// Calendar, Title, Notification
-          HomeAppBar(title: LocaleKeys.habidoAssistant),
+          // HomeAppBar(title: LocaleKeys.habidoAssistant),
 
           /// Habido assistant image
           Align(

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/ui/habit/calendar/calendar_button.dart';
+import 'package:habido_app/ui/notification/notif_button.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/app_bars/home_app_bar.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
 
@@ -72,7 +78,8 @@ AppBar CustomAppBar(
         /// Title
         Expanded(
           child: (titleText != null)
-              ? CustomText(titleText, alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500)
+              ? CustomText(titleText,
+                  alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500)
               : Container(),
         ),
 
@@ -99,4 +106,45 @@ PreferredSize AppBarEmpty({
       actions: <Widget>[],
     ),
   );
+}
+
+class HomeAppBar extends StatelessWidget {
+  final String? title;
+
+  const HomeAppBar({Key? key, this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      pinned: false,
+      snap: true,
+      floating: true,
+      expandedHeight: 70.0,
+      collapsedHeight: 70.0,
+      backgroundColor: customColors.primaryBackground,
+      // Remove elevation
+      elevation: 0,
+      // Remove back button
+      automaticallyImplyLeading: false,
+      title: Container(
+        margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            /// Calendar
+            CalendarButton(),
+
+            /// Title
+            if (Func.isNotEmpty(title))
+              Expanded(
+                child: CustomText(title, alignment: Alignment.center, fontWeight: FontWeight.w500),
+              ),
+
+            /// Notification
+            NotifButton(),
+          ],
+        ),
+      ),
+    );
+  }
 }

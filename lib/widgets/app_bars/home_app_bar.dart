@@ -7,16 +7,16 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
 
-class HomeAppBar extends StatefulWidget {
+class HomeAppBar2 extends StatefulWidget {
   final String? title;
 
-  const HomeAppBar({Key? key, this.title}) : super(key: key);
+  const HomeAppBar2({Key? key, this.title}) : super(key: key);
 
   @override
-  _HomeAppBarState createState() => _HomeAppBarState();
+  _HomeAppBar2State createState() => _HomeAppBar2State();
 }
 
-class _HomeAppBarState extends State<HomeAppBar> {
+class _HomeAppBar2State extends State<HomeAppBar2> {
   @override
   Widget build(BuildContext context) {
     return Container(
