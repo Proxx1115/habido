@@ -163,7 +163,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _categoryAchievements() {
     return PieChart(
-
       PieChartData(
         sections: _getSections(),
       ),
