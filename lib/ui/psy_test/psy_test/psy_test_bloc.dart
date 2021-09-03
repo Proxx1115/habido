@@ -47,7 +47,7 @@ class PsyTestBloc extends Bloc<PsyTestEvent, PsyTestState> {
       if (res.code == ResponseCode.Success) {
         yield PsyTestAnswersSuccess(res);
       } else {
-        yield PsyTestAnswersFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield PsyTestAnswersFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield PsyTestAnswersFailed(LocaleKeys.errorOccurred);

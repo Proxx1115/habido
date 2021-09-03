@@ -36,7 +36,7 @@ class HabitBloc extends Bloc<HabitEvent, HabitState> {
       if (res.code == ResponseCode.Success) {
         yield InsertUserHabitSuccess();
       } else {
-        yield InsertUserHabitFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield InsertUserHabitFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield InsertUserHabitFailed(LocaleKeys.errorOccurred);

@@ -28,8 +28,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
 
   // Content
   List<Content>? _contentList;
-  double? _contentImageWidth;
-  double? _contentImageHeight;
+  double? _contentWidth;
 
   @override
   void initState() {
@@ -111,9 +110,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
   }
 
   Widget _contentRow(int index) {
-    _contentImageWidth =
-        _contentImageWidth ?? (MediaQuery.of(context).size.width - _contentMargin - SizeHelper.margin * 2) / 2;
-    _contentImageHeight = _contentImageHeight ?? (_contentImageWidth! * 0.7);
+    _contentWidth = _contentWidth ?? (MediaQuery.of(context).size.width - _contentMargin - SizeHelper.margin * 2) / 2;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +119,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
         Expanded(
           child: VerticalContentCard(
             content: _contentList![index * 2],
-            imageHeight: _contentImageHeight!,
+            width: _contentWidth!,
             margin: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, 0.0, 0.0),
           ),
         ),
@@ -134,7 +131,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
           child: (index * 2 + 1 < _contentList!.length)
               ? VerticalContentCard(
                   content: _contentList![index * 2 + 1],
-                  imageHeight: _contentImageHeight!,
+                  width: _contentWidth!,
                   margin: EdgeInsets.fromLTRB(0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
                 )
               : Container(),

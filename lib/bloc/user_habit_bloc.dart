@@ -53,7 +53,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
           yield RefreshDashboardUserHabitsFailed(LocaleKeys.noData);
         }
       } else {
-        yield RefreshDashboardUserHabitsFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield RefreshDashboardUserHabitsFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield RefreshDashboardUserHabitsFailed(LocaleKeys.errorOccurred);

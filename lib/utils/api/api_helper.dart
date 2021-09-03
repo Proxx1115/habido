@@ -42,6 +42,10 @@ class ApiHelper {
     }
     return message;
   }
+
+  static String getFailedMessage(String? message) {
+    return Func.isNotEmpty(message) ? message! : LocaleKeys.failed;
+  }
 }
 
 class ResponseParam {

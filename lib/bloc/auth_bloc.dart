@@ -73,10 +73,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           yield LoginSuccess(res);
         } else {
-          yield LoginFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+          yield LoginFailed(ApiHelper.getFailedMessage(res.message));
         }
       } else {
-        yield LoginFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield LoginFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield LoginFailed(LocaleKeys.errorOccurred);
@@ -95,7 +95,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         yield LogoutSuccess();
       } else {
-        yield LogoutFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield LogoutFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield LogoutFailed(LocaleKeys.errorOccurred);
@@ -135,7 +135,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (res.code == ResponseCode.Success) {
         yield SignUpSuccess(res);
       } else {
-        yield SignUpFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield SignUpFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield SignUpFailed(LocaleKeys.errorOccurred);
@@ -154,7 +154,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (res.code == ResponseCode.Success) {
         yield VerifyCodeSuccess();
       } else {
-        yield VerifyCodeFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield VerifyCodeFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield VerifyCodeFailed(LocaleKeys.errorOccurred);

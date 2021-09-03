@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/models/custom_banner.dart';
+import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
@@ -10,27 +10,25 @@ import 'package:habido_app/utils/localization/localization.dart';
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-class CarSliderBloc extends Bloc<CarSliderEvent, CarSliderState> {
-  CarSliderBloc() : super(CarSliderInit());
+class UserBloc extends Bloc<UserEvent, UserState> {
+  UserBloc() : super(UserInit());
 
   @override
-  Stream<CarSliderState> mapEventToState(CarSliderEvent event) async* {
-    if (event is GetBannersEvent) {
-      yield* _mapGetBannersEventToState();
+  Stream<UserState> mapEventToState(UserEvent event) async* {
+    if (event is GetUserData) {
+      yield* _mapGetUserDataToState();
     }
   }
 
-  Stream<CarSliderState> _mapGetBannersEventToState() async* {
+  Stream<UserState> _mapGetUserDataToState() async* {
     try {
-      yield CarSliderLoading();
-      var res = await ApiManager.banners();
-      if (res.code == ResponseCode.Success && res.bannerList != null && res.bannerList!.length > 0) {
-        yield BannersSuccess(res.bannerList!);
+      var res = await ApiManager.getUserData();
+      if (res.code == ResponseCode.Success) {
       } else {
-        yield BannersFailed(ApiHelper.getFailedMessage(res.message));
+        yield UserDataFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
-      yield BannersFailed(LocaleKeys.errorOccurred);
+      yield UserDataFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -39,52 +37,62 @@ class CarSliderBloc extends Bloc<CarSliderEvent, CarSliderState> {
 /// BLOC EVENTS
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class CarSliderEvent extends Equatable {
-  const CarSliderEvent();
+abstract class UserEvent extends Equatable {
+  const UserEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetBannersEvent extends CarSliderEvent {}
+class GetUserData extends UserEvent {}
+
+// class GetUserHabitByDate extends UserEvent {
+//   final String date;
+//
+//   const GetUserHabitByDate(this.date);
+//
+//   @override
+//   List<Object> get props => [date];
+//
+//   @override
+//   String toString() => 'GetUserHabitByDate { date: $date }';
+// }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-abstract class CarSliderState extends Equatable {
-  const CarSliderState();
+abstract class UserState extends Equatable {
+  const UserState();
 
   @override
   List<Object> get props => [];
 }
 
-class CarSliderInit extends CarSliderState {}
+class UserInit extends UserState {}
 
-class CarSliderLoading extends CarSliderState {}
+class UserLoading extends UserState {}
 
-class CarSliderVoid extends CarSliderState {}
+class UserDataSuccess extends UserState {
+  final UserData userData;
 
-class BannersSuccess extends CarSliderState {
-  final List<CustomBanner> bannerList;
-
-  const BannersSuccess(this.bannerList);
+  const UserDataSuccess(this.userData);
 
   @override
-  List<Object> get props => [bannerList];
+  List<Object> get props => [userData];
 
   @override
-  String toString() => 'BannersSuccess { bannerList: $bannerList }';
+  String toString() => 'UserDataSuccess { userData: $userData }';
 }
 
-class BannersFailed extends CarSliderState {
+class UserDataFailed extends UserState {
   final String message;
 
-  const BannersFailed(this.message);
+  const UserDataFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'BannersFailed { message: $message }';
+  String toString() => 'UserDataFailed { message: $message }';
 }

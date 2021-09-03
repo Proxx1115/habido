@@ -57,7 +57,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (res.code == ResponseCode.Success) {
         yield ChatSuccess(res, null);
       } else {
-        yield ChatFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield ChatFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield ChatFailed(LocaleKeys.errorOccurred);
@@ -72,7 +72,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       if (res.code == ResponseCode.Success) {
         yield ChatSuccess(res, event.chatIndex);
       } else {
-        yield ChatFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield ChatFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield ChatFailed(LocaleKeys.errorOccurred);
@@ -88,7 +88,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         yield ChatSuccess(res, event.chatIndex);
       } else {
         print('Option хадгалж чадсангүй');
-        yield SaveOptionFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.failed);
+        yield SaveOptionFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield SaveOptionFailed(LocaleKeys.errorOccurred);
