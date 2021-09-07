@@ -45,7 +45,7 @@ class _IntroRouteState extends State<IntroRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: customColors.primary,
-      appBar: AppBarEmpty(context: context, brightness: Brightness.dark),
+      appBar: EmptyAppBar(context: context, brightness: Brightness.dark),
       key: _introKey,
       body: Stack(
         children: [

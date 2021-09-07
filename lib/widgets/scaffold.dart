@@ -67,7 +67,7 @@ class CustomScaffold extends StatelessWidget {
 
   _appBar(BuildContext context) {
     if (appBarTitle == null) {
-      return AppBarEmpty(context: context);
+      return EmptyAppBar(context: context);
     } else {
       return CustomAppBar(
         context,
