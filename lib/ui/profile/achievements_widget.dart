@@ -12,6 +12,7 @@ import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 
@@ -95,7 +96,15 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
     if (state is AchievementsSuccess) {
       _allTimeAchievement = state.response.allTimeAchievement;
       _monthlyAchievement = state.response.monthlyAchievement;
-      _habitCategoryAchievements = state.response.habitCategoryAchievements;
+
+      if (state.response.habitCategoryAchievements != null && state.response.habitCategoryAchievements!.isNotEmpty) {
+        _habitCategoryAchievements = [];
+        for (var el in state.response.habitCategoryAchievements!) {
+          if ((el.habitCatPercentage ?? 0) > 0) {
+            _habitCategoryAchievements!.add(el);
+          }
+        }
+      }
     }
   }
 
@@ -157,20 +166,49 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
   }
 
   Widget _categoryAchievements() {
-    return StadiumContainer(
-      margin: EdgeInsets.only(top: 15.0),
-      padding: EdgeInsets.fromLTRB(15.0, SizeHelper.margin, 15.0, SizeHelper.margin),
-      borderRadius: SizeHelper.borderRadiusOdd,
-      child: Column(
-        children: [
-          /// Chart
-          _categoryChart(),
+    return (_habitCategoryAchievements != null && _habitCategoryAchievements!.isNotEmpty)
+        ? StadiumContainer(
+            margin: EdgeInsets.only(top: 15.0),
+            padding: EdgeInsets.fromLTRB(15.0, SizeHelper.margin, 15.0, SizeHelper.margin),
+            borderRadius: SizeHelper.borderRadiusOdd,
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    /// Chart
+                    _categoryChart(),
 
-          /// Labels
-          _categoryChartLabels(),
-        ],
-      ),
-    );
+                    Center(
+                      child: Column(
+                        children: [
+                          /// Category count
+                          CustomText(
+                            Func.toStr(_habitCategoryAchievements!.length),
+                            alignment: Alignment.center,
+                            fontSize: 35.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+
+                          /// Дадал
+                          CustomText(
+                            LocaleKeys.habit,
+                            alignment: Alignment.center,
+                            fontSize: 13.0,
+                            color: customColors.secondaryText,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                /// Labels
+                _categoryChartLabels(),
+              ],
+            ),
+          )
+        : Container();
   }
 
   Widget _categoryChart() {
@@ -180,55 +218,96 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
         margin: EdgeInsets.symmetric(vertical: 10.0),
         child: PieChart(
           PieChartData(
-            sections: _getSections(),
+            sections: [
+              for (var el in _habitCategoryAchievements!) _pieChartData(el),
+            ],
           ),
         ),
       ),
     );
   }
 
+  PieChartSectionData _pieChartData(HabitCategoriesAchievement habitCategoriesAchievement) {
+    return PieChartSectionData(
+      color: HexColor.fromHex(habitCategoriesAchievement.categoryColor ?? '#A9B0BB'),
+      value: Func.toDouble(habitCategoriesAchievement.habitCatPercentage),
+      title: '${Func.toInt(habitCategoriesAchievement.habitCatPercentage)}%',
+      titleStyle: TextStyle(
+        fontSize: 10.0,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    );
+  }
+
   Widget _categoryChartLabels() {
-    return Container();
+    return Container(
+      margin: EdgeInsets.only(top: 25.0),
+      child: Column(
+        children: [
+          for (int i = 0; i < _habitCategoryAchievements!.length; i += 2)
+            _categoryChartLabelRow(
+              _habitCategoryAchievements![i],
+              (i + 1 <= _habitCategoryAchievements!.length) ? _habitCategoryAchievements![i + 1] : null,
+            ),
+        ],
+      ),
+    );
   }
 
-  _getSections() {
-    var aaa = getSections();
-    print(aaa);
-    return aaa;
+  Widget _categoryChartLabelRow(
+    HabitCategoriesAchievement habitCategoriesAchievement1,
+    HabitCategoriesAchievement? habitCategoriesAchievement2,
+  ) {
+    return Container(
+      margin: EdgeInsets.all(0.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _categoryChartLabelItem(habitCategoriesAchievement1),
+          SizedBox(width: 15.0),
+          _categoryChartLabelItem(habitCategoriesAchievement2),
+        ],
+      ),
+    );
   }
 
-  List<PieChartSectionData> getSections() => PieData.data
-      .asMap()
-      .map<int, PieChartSectionData>((index, data) {
-        final value = PieChartSectionData(
-          color: data.color,
-          value: data.percent,
-          title: '${data.percent}',
-          titleStyle: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        );
-        return MapEntry(index, value);
-      })
-      .values
-      .toList();
-}
+  Widget _categoryChartLabelItem(HabitCategoriesAchievement? habitCategoriesAchievement) {
+    return Expanded(
+      child: habitCategoriesAchievement != null
+          ? Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
+              height: 40.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.0),
+                color: customColors.primaryBackground,
+              ),
+              child: Row(
+                children: [
+                  /// Dot
+                  Container(
+                    height: 10.0,
+                    width: 10.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      color: HexColor.fromHex(habitCategoriesAchievement.categoryColor ?? '#fa6c51'),
+                    ),
+                  ),
 
-class PieData {
-  static List<Data> data = [
-    Data(name: 'Red', percent: 20, color: Colors.red),
-    Data(name: 'Blue', percent: 20, color: Colors.blue),
-    Data(name: 'Yellow', percent: 20, color: Colors.yellow),
-    Data(name: 'Orange', percent: 20, color: Colors.orange),
-  ];
-}
+                  SizedBox(width: 10.0),
 
-class Data {
-  final String name;
-  final double percent;
-  final Color color;
-
-  Data({required this.name, required this.percent, required this.color});
+                  /// Text
+                  Expanded(
+                    child: CustomText(
+                      habitCategoriesAchievement.habitCatName,
+                      fontSize: 13.0,
+                      color: customColors.secondaryText,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : Container(),
+    );
+  }
 }
