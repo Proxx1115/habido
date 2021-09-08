@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,6 +7,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_bloc.dart';
 import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
@@ -21,7 +23,7 @@ class YourRankRoute extends StatefulWidget {
 
 class _YourRankRouteState extends State<YourRankRoute> {
   // Page view
-  final PageController _pageController = PageController(initialPage: 0, viewportFraction: 0.2);
+  CarouselController _carouselController = CarouselController();
   int _currentIndex = 0;
 
   //
@@ -53,62 +55,91 @@ class _YourRankRouteState extends State<YourRankRoute> {
                           fit: BoxFit.fitWidth,
                         ),
 
-                        Container(
-                          // margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(),
-                              ),
+                        Column(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
 
-                              /// Page view
-                              Expanded(
-                                flex: 2,
-                                child: PageView(
-                                  scrollDirection: Axis.horizontal,
-                                  controller: _pageController,
-                                  onPageChanged: (index) {
+                            // todo test zoom
+                            CarouselSlider(
+                              carouselController: _carouselController,
+                              options: CarouselOptions(
+                                  // autoPlay: true,
+                                  aspectRatio: 2.0,
+                                  enlargeCenterPage: true,
+                                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                                  viewportFraction: 0.4,
+                                  onPageChanged: (index, asd) {
                                     setState(() {
                                       _currentIndex = index;
                                     });
-                                  },
-                                  children: <Widget>[
-                                    for (var el in _rankList!) _pageViewItem(el),
-                                  ],
-                                ),
-                              ),
+                                  }),
+                              items: [
+                                for (var el in _rankList!) _pageViewItem(el),
+                              ],
+                            ),
 
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  children: [
-                                    /// Rank
-                                    CustomText(
-                                      _rankList![_currentIndex].name,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 19.0,
-                                      alignment: Alignment.center,
-                                      margin: EdgeInsets.symmetric(vertical: 25.0),
-                                    ),
+                            /// Medal slider
+                            // Expanded(
+                            //   flex: 2,
+                            //   child: CarouselSlider(
+                            //     items: [
+                            //       for (var el in _rankList!) _pageViewItem(el),
+                            //     ],
+                            //     carouselController: _carouselController,
+                            //     options: CarouselOptions(
+                            //       aspectRatio: 2.0,
+                            //       enlargeCenterPage: true,
+                            //       enlargeStrategy: CenterPageEnlargeStrategy.height,
+                            //       viewportFraction: 0.5,
+                            //       // height: 125,
+                            //       // autoPlay: false,
+                            //       // enlargeCenterPage: true,
+                            //       // viewportFraction: 0.8,
+                            //       // aspectRatio: 2.0,
+                            //       // // enlargeCenterPage: true,
+                            //       // // aspectRatio: 1,
+                            //       // initialPage: 0,
+                            //       onPageChanged: (index, reason) {
+                            //         setState(() {
+                            //           _currentIndex = index;
+                            //         });
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
 
-                                    /// Text
-                                    CustomText(
-                                      _rankList![_currentIndex].body,
-                                      alignment: Alignment.center,
-                                      maxLines: 5,
-                                      margin: EdgeInsets.symmetric(horizontal: 60.0),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                children: [
+                                  /// Rank
+                                  CustomText(
+                                    _rankList![_currentIndex].name,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 19.0,
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.symmetric(vertical: 25.0),
+                                  ),
 
-                              Expanded(
-                                flex: 2,
-                                child: Container(),
+                                  /// Text
+                                  CustomText(
+                                    _rankList![_currentIndex].body,
+                                    alignment: Alignment.center,
+                                    maxLines: 5,
+                                    margin: EdgeInsets.symmetric(horizontal: 60.0),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+
+                            Expanded(
+                              flex: 2,
+                              child: Container(),
+                            ),
+                          ],
                         ),
                       ],
                     )
@@ -123,6 +154,19 @@ class _YourRankRouteState extends State<YourRankRoute> {
   void _blocListener(BuildContext context, UserState state) {
     if (state is RankListSuccess) {
       _rankList = state.rankList;
+
+      if (_rankList != null) {
+        for (int i = 0; i < _rankList!.length; i++) {
+          if (_rankList![i].rankId == globals.userData?.rankId) {
+            if (_currentIndex != i) {
+              _currentIndex = i;
+              Future.delayed(Duration(milliseconds: 100), () {
+                BlocManager.userBloc.add(NavigateRankEvent(3));
+              });
+            }
+          }
+        }
+      }
     } else if (state is RankListFailed) {
       showCustomDialog(
         context,
@@ -135,12 +179,15 @@ class _YourRankRouteState extends State<YourRankRoute> {
           },
         ),
       );
+    } else if (state is NavigateRankState) {
+      _carouselController.animateToPage(state.index);
     }
   }
 
   Widget _pageViewItem(Rank rank) {
     return CachedNetworkImage(
       imageUrl: rank.photo!,
+      fit: BoxFit.fitWidth,
       width: 115.0,
       height: 125.0,
       placeholder: (context, url) => Container(),

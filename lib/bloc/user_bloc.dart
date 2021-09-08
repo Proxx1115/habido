@@ -19,6 +19,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapGetUserDataToState();
     } else if (event is GetRankList) {
       yield* _mapGetRankListToState();
+    } else if (event is NavigateRankEvent) {
+      yield* _mapNavigateRankToState(event);
     }
   }
 
@@ -46,6 +48,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield RankListFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<UserState> _mapNavigateRankToState(NavigateRankEvent event) async* {
+    yield NavigateRankState(event.index);
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -63,17 +69,17 @@ class GetUserData extends UserEvent {}
 
 class GetRankList extends UserEvent {}
 
-// class GetUserHabitByDate extends UserEvent {
-//   final String date;
-//
-//   const GetUserHabitByDate(this.date);
-//
-//   @override
-//   List<Object> get props => [date];
-//
-//   @override
-//   String toString() => 'GetUserHabitByDate { date: $date }';
-// }
+class NavigateRankEvent extends UserEvent {
+  final int index;
+
+  const NavigateRankEvent(this.index);
+
+  @override
+  List<Object> get props => [index];
+
+  @override
+  String toString() => 'NavigateRank { index: $index }';
+}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
@@ -136,4 +142,16 @@ class RankListFailed extends UserState {
 
   @override
   String toString() => 'RankListFailed { message: $message }';
+}
+
+class NavigateRankState extends UserState {
+  final int index;
+
+  const NavigateRankState(this.index);
+
+  @override
+  List<Object> get props => [index];
+
+  @override
+  String toString() => 'NavigateRankState { index: $index }';
 }
