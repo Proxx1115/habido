@@ -5,16 +5,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/custom_banner.dart';
 import 'package:habido_app/utils/deeplink_utils.dart';
 import 'package:habido_app/utils/func.dart';
-import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 
 import 'carousel_slider_bloc.dart';
 
 class CustomCarouselSlider extends StatefulWidget {
-  final EdgeInsets? margin;
+  final double aspectRatio;
+  final double sliderHeight;
+  final EdgeInsets sliderMargin;
+  final double indicatorHeight;
+  final EdgeInsets indicatorMargin;
 
-  const CustomCarouselSlider({Key? key, this.margin}) : super(key: key);
+  const CustomCarouselSlider({
+    Key? key,
+    this.aspectRatio = 2.0,
+    required this.sliderHeight,
+    this.sliderMargin = const EdgeInsets.only(top: 25.0),
+    this.indicatorHeight = 15.0,
+    this.indicatorMargin = const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
+  }) : super(key: key);
 
   @override
   _CustomCarouselSliderState createState() => _CustomCarouselSliderState();
@@ -65,58 +75,55 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
   }
 
   Widget _blocBuilder(BuildContext context, CarSliderState state) {
-    return Container(
-      margin: widget.margin,
-      child: Column(
-        children: [
-          /// Slider
-          CarouselSlider(
-            items: [
-              if (_bannerList != null && _bannerList!.length > 0)
-                for (var el in _bannerList!)
-                  if (Func.isNotEmpty(el.link)) _sliderItem(el),
-            ],
-            carouselController: _carouselController,
-            options: CarouselOptions(
-              height: (MediaQuery.of(context).size.width - SizeHelper.margin * 2) / 2,
-              autoPlay: false,
-              enlargeCenterPage: true,
-              viewportFraction: 1,
-              aspectRatio: 2.0,
-              initialPage: 0,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            ),
+    return Column(
+      children: [
+        /// Slider
+        CarouselSlider(
+          items: [
+            if (_bannerList != null && _bannerList!.length > 0)
+              for (var el in _bannerList!)
+                if (Func.isNotEmpty(el.link)) _sliderItem(el),
+          ],
+          carouselController: _carouselController,
+          options: CarouselOptions(
+            height: widget.sliderHeight,
+            autoPlay: false,
+            enlargeCenterPage: true,
+            viewportFraction: 1,
+            aspectRatio: widget.aspectRatio,
+            initialPage: 0,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
           ),
+        ),
 
-          /// Indicator
-          (_bannerList != null && _bannerList!.length > 0)
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: _bannerList!.map((url) {
-                    int index = _bannerList!.indexOf(url);
-                    return _indicatorItem(index: index);
-                  }).toList(),
-                )
-              : _indicatorItem(), // Indicator holder
-        ],
-      ),
+        /// Indicator
+        (_bannerList != null && _bannerList!.length > 0)
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _bannerList!.map((url) {
+                  int index = _bannerList!.indexOf(url);
+                  return _indicatorItem(index: index);
+                }).toList(),
+              )
+            : _indicatorItem(), // Indicator holder
+      ],
     );
   }
 
   Widget _sliderItem(CustomBanner el) {
-    return NoSplashContainer(
-      child: InkWell(
-        onTap: () {
-          if (el.deeplink != null) {
-            DeeplinkUtils.launchDeeplink(context, url: el.deeplink);
-          }
-        },
-        child: Container(
-          margin: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
+    return Container(
+      margin: widget.sliderMargin,
+      child: NoSplashContainer(
+        child: InkWell(
+          onTap: () {
+            if (el.deeplink != null) {
+              DeeplinkUtils.launchDeeplink(context, url: el.deeplink);
+            }
+          },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: CachedNetworkImage(
@@ -133,9 +140,9 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
 
   Widget _indicatorItem({int? index}) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
+      margin: widget.indicatorMargin,
+      height: widget.indicatorHeight,
       width: 8.0,
-      height: 15.0,
       decoration: (index == null)
           ? null
           : BoxDecoration(

@@ -7,13 +7,19 @@ import 'package:habido_app/widgets/text.dart';
 
 class DashboardAppBar extends StatelessWidget {
   final String? title;
+  final EdgeInsets padding;
 
-  const DashboardAppBar({Key? key, this.title}) : super(key: key);
+  const DashboardAppBar({
+    Key? key,
+    this.title,
+    this.padding = EdgeInsets.zero,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      padding: padding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
