@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_bloc.dart';
-import 'package:habido_app/ui/chat/assistant_screen.dart';
+import 'package:habido_app/models/chat_type.dart';
+import 'package:habido_app/ui/chat/chat_screen.dart';
+import 'package:habido_app/ui/chat/chatbot_dashboard.dart';
 import 'package:habido_app/ui/content/content_dashboard.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -75,7 +77,6 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
         body: TabBarView(
           controller: _tabController,
           physics: NeverScrollableScrollPhysics(),
-
           children: [
             /// Нүүр
             DashboardScreen(),
@@ -84,7 +85,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
             PsyTestDashboard(),
 
             /// Туслах
-            AssistantScreen(),
+            ChatbotDashboard(),
 
             /// Контент
             ContentDashboard(),
