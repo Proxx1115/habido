@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           /// Achievements
           SliverToBoxAdapter(
             child: AchievementsWidget(
-              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 25.0, SizeHelper.margin, 0.0),
+              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 25.0, SizeHelper.margin, SizeHelper.marginBottom),
             ),
           ),
         ],
