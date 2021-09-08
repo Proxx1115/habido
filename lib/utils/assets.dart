@@ -57,6 +57,7 @@ class Assets {
   static const String scratch = 'assets/images/profile/scratch.svg';
   static const String calendar2 = 'assets/images/profile/calendar2.svg';
   static const String rank_background = 'assets/images/profile/rank_background.svg';
+  static const String rank_background2 = 'assets/images/profile/rank_background2.svg';
 
   /// Chat
   static const String typing = 'assets/images/chat/typing.gif';
