@@ -3,8 +3,10 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/achievements_bloc.dart';
 import 'package:habido_app/ui/profile/achievements_widget.dart';
 import 'package:habido_app/ui/profile/rank_widget.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/app_bars/dashboard_app_bar.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'profile_card.dart';
 
@@ -25,27 +27,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      backgroundColor: customColors.primaryBackground,
-      body: SingleChildScrollView(
-        padding: SizeHelper.paddingScreen,
-        child: Column(
-          children: [
-            SizedBox(height: 25.0),
+      body: CustomScrollView(
+        slivers: [
+          /// App bar
+          DashboardSliverAppBar(title: LocaleKeys.myCorner),
 
-            /// Profile card
-            ProfileCard(),
+          /// Profile card
+          SliverToBoxAdapter(
+            child: ProfileCard(
+              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 10.0, SizeHelper.margin, 0.0),
+            ),
+          ),
 
-            SizedBox(height: 25.0),
+          /// Rank
+          SliverToBoxAdapter(
+            child: RankWidget(
+              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 25.0, SizeHelper.margin, 0.0),
+            ),
+          ),
 
-            /// Rank
-            RankWidget(),
-
-            SizedBox(height: 25.0),
-
-            /// Achievement
-            AchievementsWidget(),
-          ],
-        ),
+          /// Achievements
+          SliverToBoxAdapter(
+            child: AchievementsWidget(
+              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 25.0, SizeHelper.margin, 0.0),
+            ),
+          ),
+        ],
       ),
     );
   }

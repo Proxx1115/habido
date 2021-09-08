@@ -1,13 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_bloc.dart';
-import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
-import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
@@ -15,7 +12,9 @@ import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class ProfileCard extends StatefulWidget {
-  const ProfileCard({Key? key}) : super(key: key);
+  final EdgeInsets? margin;
+
+  const ProfileCard({Key? key, this.margin}) : super(key: key);
 
   @override
   _ProfileCardState createState() => _ProfileCardState();
@@ -37,6 +36,7 @@ class _ProfileCardState extends State<ProfileCard> {
           builder: (context, state) {
             return (globals.userData != null && globals.userData!.rankId != null)
                 ? StadiumContainer(
+                    margin: widget.margin,
                     onTap: () {
                       // Navigator.pushNamed(context, Routes.userInfo); // todo test
                     },

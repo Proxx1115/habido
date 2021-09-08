@@ -16,7 +16,9 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class AchievementsWidget extends StatefulWidget {
-  const AchievementsWidget({Key? key}) : super(key: key);
+  final EdgeInsets? margin;
+
+  const AchievementsWidget({Key? key, this.margin}) : super(key: key);
 
   @override
   _AchievementsWidgetState createState() => _AchievementsWidgetState();
@@ -41,44 +43,47 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
         listener: _blocListener,
         child: BlocBuilder<AchievementBloc, AchievementState>(
           builder: (context, state) {
-            return Column(
-              children: [
-                /// Миний амжилт
-                Row(
-                  children: [
-                    SvgPicture.asset(Assets.scratch),
-                    CustomText(
-                      LocaleKeys.myAchievements,
-                      margin: EdgeInsets.only(left: 15.0),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 19.0,
+            return Container(
+              margin: widget.margin,
+              child: Column(
+                children: [
+                  /// Миний амжилт
+                  Row(
+                    children: [
+                      SvgPicture.asset(Assets.scratch),
+                      CustomText(
+                        LocaleKeys.myAchievements,
+                        margin: EdgeInsets.only(left: 15.0),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 19.0,
+                      ),
+                    ],
+                  ),
+
+                  /// Бүх цаг үеийн амжилт
+                  if (_allTimeAchievement != null)
+                    _achievementItem(
+                      leadingAsset: Assets.clock2,
+                      percentTitle: LocaleKeys.allTime,
+                      percentage: _allTimeAchievement!.allTimePercentage,
+                      achievement: _allTimeAchievement!.allTimeAchievement,
+                      completedHabits: _allTimeAchievement!.allTimeTotalCompletedHabits,
                     ),
-                  ],
-                ),
 
-                /// Бүх цаг үеийн амжилт
-                if (_allTimeAchievement != null)
-                  _achievementItem(
-                    leadingAsset: Assets.clock2,
-                    percentTitle: LocaleKeys.allTime,
-                    percentage: _allTimeAchievement!.allTimePercentage,
-                    achievement: _allTimeAchievement!.allTimeAchievement,
-                    completedHabits: _allTimeAchievement!.allTimeTotalCompletedHabits,
-                  ),
+                  /// Сарын амжилт
+                  if (_monthlyAchievement != null)
+                    _achievementItem(
+                      leadingAsset: Assets.calendar2,
+                      percentTitle: LocaleKeys.allTime,
+                      percentage: _monthlyAchievement!.monthlyPercentage,
+                      achievement: _monthlyAchievement!.monthlyAchievement,
+                      completedHabits: _monthlyAchievement!.monthlyTotalCompletedHabits,
+                    ),
 
-                /// Сарын амжилт
-                if (_monthlyAchievement != null)
-                  _achievementItem(
-                    leadingAsset: Assets.calendar2,
-                    percentTitle: LocaleKeys.allTime,
-                    percentage: _monthlyAchievement!.monthlyPercentage,
-                    achievement: _monthlyAchievement!.monthlyAchievement,
-                    completedHabits: _monthlyAchievement!.monthlyTotalCompletedHabits,
-                  ),
-
-                /// Category achievements
-                _categoryAchievements(),
-              ],
+                  /// Category achievements
+                  _categoryAchievements(),
+                ],
+              ),
             );
           },
         ),

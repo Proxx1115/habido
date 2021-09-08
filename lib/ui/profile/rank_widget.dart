@@ -15,7 +15,9 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class RankWidget extends StatefulWidget {
-  const RankWidget({Key? key}) : super(key: key);
+  final EdgeInsets? margin;
+
+  const RankWidget({Key? key, this.margin}) : super(key: key);
 
   @override
   _RankWidgetState createState() => _RankWidgetState();
@@ -37,8 +39,9 @@ class _RankWidgetState extends State<RankWidget> {
           builder: (context, state) {
             return (globals.userData != null && globals.userData!.rankId != null)
                 ? StadiumContainer(
-                    borderRadius: SizeHelper.borderRadiusOdd,
+                    margin: widget.margin,
                     padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
+                    borderRadius: SizeHelper.borderRadiusOdd,
                     child: Stack(
                       children: [
                         /// Background

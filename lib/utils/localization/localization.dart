@@ -196,6 +196,8 @@ class LocaleKeys {
 
   static String get profile => 'Профайл';
 
+  static String get myCorner => 'Миний булан';
+
   /// Settings
 
   /// Chat
