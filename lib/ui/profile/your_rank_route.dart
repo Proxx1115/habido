@@ -50,10 +50,11 @@ class _YourRankRouteState extends State<YourRankRoute> {
                   ? Stack(
                       children: [
                         /// Background
-                        SvgPicture.asset(
-                          Assets.rank_background2,
-                          fit: BoxFit.fitWidth,
-                        ),
+                        // todo test
+                        // SvgPicture.asset(
+                        //   Assets.rank_background2,
+                        //   fit: BoxFit.fitWidth,
+                        // ),
 
                         Column(
                           children: [

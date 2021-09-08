@@ -38,7 +38,7 @@ class _ProfileCardState extends State<ProfileCard> {
             return (globals.userData != null && globals.userData!.rankId != null)
                 ? StadiumContainer(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.userInfo);
+                      // Navigator.pushNamed(context, Routes.userInfo); // todo test
                     },
                     height: 80.0,
                     padding: EdgeInsets.all(15.0),
@@ -75,7 +75,7 @@ class _ProfileCardState extends State<ProfileCard> {
                         ),
 
                         /// Button edit
-                        SvgPicture.asset(Assets.edit),
+                        // SvgPicture.asset(Assets.edit), // todo test
                       ],
                     ),
                   )
