@@ -221,6 +221,8 @@ class LocaleKeys {
 
   static String get seeResult => 'Үр дүн харах';
 
+  static String get thanksHabido => 'Баярлалаа, Habido';
+
   /// Habit
   static String get habit => 'Дадал';
 

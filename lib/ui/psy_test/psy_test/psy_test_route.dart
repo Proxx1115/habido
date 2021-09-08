@@ -197,7 +197,8 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
         Expanded(
           child: (psyTestQuestion.testAnswers != null && psyTestQuestion.testAnswers!.isNotEmpty)
               ? ListView(
-                  children: List.generate(psyTestQuestion.testAnswers!.length, (index) => _answerItem(questionIndex, index)),
+                  children:
+                      List.generate(psyTestQuestion.testAnswers!.length, (index) => _answerItem(questionIndex, index)),
                 )
               : Container(),
         ),

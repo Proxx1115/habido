@@ -25,6 +25,7 @@ class SharedPrefKey {
 
 class SharedPref {
   static String getSessionToken() {
+    // return '';
     return sharedPref?.getString(SharedPrefKey.sessionToken) ?? '';
   }
 

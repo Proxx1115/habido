@@ -14,6 +14,7 @@ class CustomScaffold extends StatelessWidget {
   final Color? backgroundColor;
   final String? appBarTitle;
   final VoidCallback? appBarOnPressedLeading;
+  final Color? appBarLeadingBackgroundColor;
   final Widget body;
   final Widget? floatingActionButton;
   final Widget? bottomNavigationBar;
@@ -26,6 +27,7 @@ class CustomScaffold extends StatelessWidget {
     this.backgroundColor,
     this.appBarTitle,
     this.appBarOnPressedLeading,
+    this.appBarLeadingBackgroundColor,
     required this.body,
     this.floatingActionButton,
     this.bottomNavigationBar,
@@ -73,6 +75,7 @@ class CustomScaffold extends StatelessWidget {
         context,
         backgroundColor: backgroundColor ?? customColors.primaryBackground,
         titleText: appBarTitle,
+        leadingBackgroundColor: appBarLeadingBackgroundColor,
         onPressedLeading: appBarOnPressedLeading,
       );
     }

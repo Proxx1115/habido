@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/psy_test_category_results.dart';
 import 'package:habido_app/bloc/psy_test_main_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/app_bars/dashboard_app_bar.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
+import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-import 'package:habido_app/widgets/text.dart';
 
 class PsyTestDashboard extends StatefulWidget {
   const PsyTestDashboard({Key? key}) : super(key: key);
@@ -41,8 +44,11 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
       },
       body: Column(
         children: [
-          /// Calendar, Title, Notification
-          // HomeAppBar(title: LocaleKeys.psyTest),
+          /// App bar
+          DashboardAppBar(
+            title: LocaleKeys.psyTest,
+            padding: EdgeInsets.symmetric(horizontal: 15.0),
+          ),
 
           /// List
           Expanded(
@@ -80,8 +86,8 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
             return (_categoryList != null && _categoryList!.isNotEmpty)
                 ? ListView.builder(
                     padding: EdgeInsets.fromLTRB(SizeHelper.padding, 25.0, SizeHelper.margin, SizeHelper.marginBottom),
-                    itemCount: 1,
-                    itemBuilder: (context, index) => _psyTestCategoryResultsItem(),
+                    itemCount: _categoryList!.length,
+                    itemBuilder: (context, index) => _expandable(_categoryList![index]),
                   )
                 : Container();
           },
@@ -90,64 +96,28 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
     );
   }
 
-  Widget _psyTestCategoryResultsItem() {
-    return ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          _categoryList![index].isExpanded = !isExpanded;
-        });
-      },
-      children: _categoryList!.map<ExpansionPanel>((PsyTestCategoryResults category) {
-        return ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: CustomText(category.categoryName),
-            );
-          },
-          body: Column(
-            children: [
-              if (category.psyTestResults != null)
-                for (var el in category.psyTestResults!)
-                  ListTile(
-                    title: CustomText(el.testResult?.text),
-                    subtitle: CustomText(el.testResult?.pointRange),
-                    // trailing: const Icon(Icons.delete),
-                    onTap: () {
-                      // setState(() {
-                      //   _data.removeWhere((Item currentItem) => item == currentItem);
-                      // });
-                    },
-                  ),
-            ],
-          ),
-          isExpanded: category.isExpanded ?? false,
-        );
-      }).toList(),
-    );
-
-    // return Column(
-    //   children: [
-    //     CustomText('text'),
-    //     ExpansionPanel(headerBuilder: headerBuilder, body: Conatine),
-    //     ExpansionPanel(
-    //       headerBuilder: (context, isOpen) {
-    //         return CustomText(psyTestCategoryResults.categoryName);
-    //       },
-    //       body: Column(
-    //         children: [
-    //           //
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
-  }
-
-  Widget _psyTestResultItem() {
-    return Column(
-      children: [
-        //
-      ],
-    );
+  Widget _expandable(PsyTestCategoryResults category) {
+    return category.psyTestResults != null && category.psyTestResults!.length > 0
+        ? ExpandableContainer(
+            title: category.categoryName ?? '',
+            expandableListItems: List.generate(
+              category.psyTestResults!.length,
+              (index) => ExpandableListItem(
+                text: category.psyTestResults![index].testResult?.testName ?? '',
+                leadingImageUrl: category.psyTestResults![index].photo,
+                leadingBackgroundColor: (category.psyTestResults![index].color != null)
+                    ? HexColor.fromHex(category.psyTestResults![index].color!)
+                    : null,
+                onPressed: () {
+                  if (category.psyTestResults![index].testResult != null) {
+                    Navigator.pushNamed(context, Routes.psyTestResult, arguments: {
+                      'psyTestResult': category.psyTestResults![index].testResult,
+                    });
+                  }
+                },
+              ),
+            ),
+          )
+        : Container();
   }
 }

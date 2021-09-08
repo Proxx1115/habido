@@ -262,10 +262,19 @@ class ApiManager {
     );
   }
 
-  static Future<HabitCalendarResponse> calendar() async {
+  static Future<HabitCalendarResponse> calendar(String startDate, String endDate) async {
     return HabitCalendarResponse.fromJson(
       await httpUtils.sendRequest(
-        path: HttpPath.calendar,
+        path: HttpPath.calendar + '?startDate=$startDate&endDate=$endDate',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<UserHabitListResponse> calendarDate(String date) async {
+    return UserHabitListResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.calendarDate + '?date=$date',
         httpMethod: HttpMethod.get,
       ),
     );

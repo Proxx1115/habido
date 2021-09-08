@@ -11,6 +11,7 @@ AppBar CustomAppBar(
   // Leading
   Widget? leadingWidget,
   String? leadingAsset = Assets.back,
+  Color? leadingBackgroundColor,
   VoidCallback? onPressedLeading,
 
   // Title
@@ -28,6 +29,7 @@ AppBar CustomAppBar(
   } else if (leadingAsset != null) {
     leadingWidget = ButtonStadium(
       asset: leadingAsset,
+      backgroundColor: leadingBackgroundColor,
       onPressed: () {
         if (onPressedLeading != null) {
           // Custom action

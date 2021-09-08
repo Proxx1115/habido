@@ -127,34 +127,50 @@ class CustomDivider extends StatelessWidget {
 
 class InfoContainer extends StatelessWidget {
   final String title;
+  final Alignment? titleAlignment;
   final String body;
+  final String? footer;
   final EdgeInsets? margin;
+  final EdgeInsets? padding;
 
   const InfoContainer({
     Key? key,
     required this.title,
+    this.titleAlignment,
     required this.body,
+    this.footer,
     this.margin,
+    this.padding,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StadiumContainer(
       margin: margin,
-      padding: SizeHelper.boxPadding,
+      padding: padding ?? SizeHelper.boxPadding,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           /// Title
-          CustomText(title, fontWeight: FontWeight.w500, maxLines: 2),
+          CustomText(title, fontWeight: FontWeight.w500, maxLines: 2, alignment: titleAlignment),
 
           /// Divider
-          HorizontalLine(
-            margin: EdgeInsets.symmetric(vertical: 15.0),
-          ),
+          HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
           /// Body
           CustomText(body, maxLines: 100),
+
+          /// Divider
+          if (footer != null) HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+
+          /// Footer
+          if (footer != null)
+            CustomText(
+              footer,
+              alignment: Alignment.center,
+              color: customColors.primary,
+              fontWeight: FontWeight.w500,
+            ),
         ],
       ),
     );
@@ -291,6 +307,7 @@ class GridItemContainer extends StatelessWidget {
 class ListItemContainer extends StatelessWidget {
   final VoidCallback? onPressed;
   final EdgeInsets? margin;
+  final EdgeInsets? padding;
   final double? height;
   final String? leadingImageUrl;
   final String? leadingAsset;
@@ -303,6 +320,7 @@ class ListItemContainer extends StatelessWidget {
     Key? key,
     this.onPressed,
     this.margin,
+    this.padding,
     this.height,
     this.leadingImageUrl,
     this.leadingAsset,
@@ -319,7 +337,7 @@ class ListItemContainer extends StatelessWidget {
       borderRadius: SizeHelper.borderRadiusOdd,
       child: Container(
         margin: margin,
-        padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
+        padding: padding ?? EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
         height: height,
         decoration: BoxDecoration(
           borderRadius: SizeHelper.borderRadiusOdd,

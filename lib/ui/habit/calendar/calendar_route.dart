@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/calendar_bloc.dart';
+import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/localization/localization_helper.dart';
+import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -45,13 +51,14 @@ class _CalendarRouteState extends State<CalendarRoute> {
   // Dates with habits
   List<DateTime>? _dateListWithHabits;
 
+  // User habits
+  List<UserHabit>? _dailyUserHabitList;
+
   @override
   void initState() {
     // Calendar
     _selectedDay = _focusedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     _startDate = _focusedDay.add(Duration(days: -60));
-    _endDate = _focusedDay.add(Duration(days: 365));
-    _endDate = _focusedDay.add(Duration(days: 365));
     _endDate = _focusedDay.add(Duration(days: 365));
 
     // Events
@@ -64,7 +71,14 @@ class _CalendarRouteState extends State<CalendarRoute> {
     //   Event(title: 'test3'),
     //   Event(title: 'test4'),
     // ];
-    BlocManager.calendarBloc.add(GetCalendarEvent());
+
+    var now = DateTime.now();
+    BlocManager.calendarBloc.add(
+      GetCalendarEvent(
+        Func.toDateStr(DateTime(now.year, now.month - 1, 23)),
+        Func.toDateStr(DateTime(now.year, now.month + 1, 7)),
+      ),
+    );
     super.initState();
   }
 
@@ -72,18 +86,59 @@ class _CalendarRouteState extends State<CalendarRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: LocaleKeys.monthlyCalendar,
+      backgroundColor: customColors.secondaryBackground,
+      appBarLeadingBackgroundColor: customColors.primaryBackground,
       body: BlocProvider.value(
         value: BlocManager.calendarBloc,
         child: BlocListener<CalendarBloc, CalendarState>(
           listener: _blocListener,
-          child: Column(
-            children: [
-              /// Календар
-              _calendar(),
+          child: BlocBuilder<CalendarBloc, CalendarState>(
+            builder: (context, state) {
+              return Container(
+                child: Column(
+                  children: [
+                    /// Календар
+                    _calendar(),
 
-              /// Events
-              // ..._getEventsFromDay(_selectedDay).map((e) => CustomText(e.title)),
-            ],
+                    /// Events
+
+                    Expanded(
+                      child: Container(
+                        color: customColors.primaryBackground,
+                        margin: EdgeInsets.only(top: 10.0),
+                        padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, SizeHelper.marginBottom),
+                        child: (_dailyUserHabitList != null)
+                            ? ListView(
+                                children: [
+                                  for (int i = 0; i < _dailyUserHabitList!.length; i++)
+                                    ListItemContainer(
+                                      title: _dailyUserHabitList![i].name ?? '',
+                                      leadingImageUrl: _dailyUserHabitList![i].habit?.photo,
+                                      leadingBackgroundColor: (_dailyUserHabitList![i].habit?.color != null)
+                                          ? HexColor.fromHex(_dailyUserHabitList![i].habit!.color!)
+                                          : null,
+                                      margin: EdgeInsets.only(top: i == 0 ? 25.0 : 10.0),
+                                      height: 70.0,
+                                      suffixAsset: Assets.arrow_forward,
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          Routes.habitTimer,
+                                          arguments: {
+                                            'userHabit': _dailyUserHabitList![i],
+                                          },
+                                        );
+                                      },
+                                    ),
+                                ],
+                              )
+                            : Container(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -103,6 +158,13 @@ class _CalendarRouteState extends State<CalendarRoute> {
       //   });
       // });
     } else if (state is CalendarFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is CalendarDateSuccess) {
+      _dailyUserHabitList = state.userHabitList;
+    } else if (state is CalendarDateFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
@@ -196,8 +258,16 @@ class _CalendarRouteState extends State<CalendarRoute> {
       },
       onDaySelected: (selectedDay, focusedDay) {
         setState(() {
+          _dailyUserHabitList = [];
+
           _selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
           _focusedDay = DateTime(focusedDay.year, focusedDay.month, focusedDay.day);
+
+          BlocManager.calendarBloc.add(
+            GetCalendarDateEvent(
+              Func.toDateStr(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
+            ),
+          );
         });
       },
 
