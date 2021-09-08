@@ -72,7 +72,7 @@ class _HabitListRouteState extends State<HabitListRoute> {
                           //     'https://habido-test.s3-ap-southeast-1.amazonaws.com/test-category/3f010def-93c4-425a-bce3-9df854a2f73b.png',
                           //
                           // leadingBackgroundColor: HexColor.fromHex('#F4F6F8'),
-                          text: el.name ?? '',
+                          title: el.name ?? '',
                           suffixAsset: Assets.arrow_forward,
                           onPressed: () {
                             Navigator.pushNamed(context, Routes.habit, arguments: {

@@ -8,13 +8,11 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'dashboard_user_habits.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
@@ -28,8 +26,18 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  // Slider
+  double _sliderAspectRatio = 2.0;
+  double? _sliderHeight;
+  double _sliderTopMargin = 25.0;
+  double _indicatorHeight = 15.0;
+  double _indicatorVerticalMargin = 20.0;
+  double _scrollHeaderHeight = 35.0;
+
+  // User habits
   List<UserHabit>? _todayUserHabits;
-  bool _isExpandedTodayUserHabits = false;
+
+  // bool _isExpandedTodayUserHabits = false;
   List<UserHabit>? _tomorrowUserHabits;
 
   @override
@@ -94,13 +102,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
-  double _sliderAspectRatio = 2.0;
-  double? _sliderHeight;
-  double _sliderTopMargin = 25.0;
-  double _indicatorHeight = 15.0;
-  double _indicatorVerticalMargin = 20.0;
-  double _scrollHeaderHeight = 35.0;
 
   _header() {
     _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width) / _sliderAspectRatio;

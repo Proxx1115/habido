@@ -73,7 +73,7 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
                           height: 70.0,
                           leadingImageUrl: el.photo,
                           leadingBackgroundColor: HexColor.fromHex(el.color ?? '#F4F6F8'),
-                          text: el.name ?? '',
+                          title: el.name ?? '',
                           suffixAsset: Assets.arrow_forward,
                           onPressed: () {
                             Navigator.pushNamed(context, Routes.psyIntro, arguments: {

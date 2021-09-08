@@ -295,7 +295,8 @@ class ListItemContainer extends StatelessWidget {
   final String? leadingImageUrl;
   final String? leadingAsset;
   final Color? leadingBackgroundColor;
-  final String text;
+  final String title;
+  final String? body;
   final String? suffixAsset;
 
   const ListItemContainer({
@@ -306,7 +307,8 @@ class ListItemContainer extends StatelessWidget {
     this.leadingImageUrl,
     this.leadingAsset,
     this.leadingBackgroundColor,
-    required this.text,
+    required this.title,
+    this.body,
     this.suffixAsset,
   }) : super(key: key);
 
@@ -339,9 +341,23 @@ class ListItemContainer extends StatelessWidget {
                 child: _leadingImage(),
               ),
 
-            /// Text
             Expanded(
-              child: CustomText(text, fontWeight: FontWeight.w500),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  /// Title
+                  CustomText(title, fontWeight: FontWeight.w500),
+
+                  /// Body
+                  if (Func.isNotEmpty(body))
+                    CustomText(
+                      body,
+                      fontSize: 13.0,
+                      color: customColors.secondaryText,
+                      margin: EdgeInsets.only(top: 5.0),
+                    ),
+                ],
+              ),
             ),
 
             /// Arrow
