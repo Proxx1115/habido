@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/buttons.dart';
 
 import 'timer_painter.dart';
 
 class CountdownTimer extends StatefulWidget {
   final Duration duration;
+  final Color? primaryColor;
+  final bool visibleAddButton;
 
-  const CountdownTimer({Key? key, required this.duration}) : super(key: key);
+  const CountdownTimer({
+    Key? key,
+    required this.duration,
+    this.primaryColor,
+    this.visibleAddButton = true,
+  }) : super(key: key);
 
   @override
   _CountdownTimerState createState() => _CountdownTimerState();
@@ -40,22 +49,32 @@ class _CountdownTimerState extends State<CountdownTimer> with TickerProviderStat
         SizedBox(height: 30.0),
 
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             /// Add button
-            _button(Icons.add, _onPressedAdd),
+            if (widget.visibleAddButton)
+              ButtonStadium(
+                asset: Assets.add_circle,
+                iconColor: widget.primaryColor ?? customColors.primary,
+                onPressed: _onPressedAdd,
+                margin: EdgeInsets.only(right: 15.0),
+              ),
 
             /// Play button
-            _button(
-              _animationController.isAnimating ? Icons.pause : Icons.play_arrow,
-              _onPressedPlayPause,
+            ButtonStadium(
+              asset: _animationController.isAnimating ? Assets.play : Assets.play,
+              iconColor: widget.primaryColor ?? customColors.primary,
+              onPressed: _onPressedPlayPause,
             ),
 
-            /// Refresh button
-            _button(Icons.refresh, _onPressedReset),
+            SizedBox(width: 15.0),
 
-            /// Delete button
-            _button(Icons.delete, _onPressedDelete),
+            /// Reset button
+            ButtonStadium(
+              asset: Assets.reset,
+              iconColor: widget.primaryColor ?? customColors.primary,
+              onPressed: _onPressedReset,
+            ),
           ],
         )
       ],
@@ -78,7 +97,7 @@ class _CountdownTimerState extends State<CountdownTimer> with TickerProviderStat
                 painter: TimerPainter(
                   animation: _animationController,
                   borderColor: customColors.secondaryBackground,
-                  cursorColor: Color.fromRGBO(169, 208, 119, 1),
+                  cursorColor: widget.primaryColor ?? customColors.primary,
                 ),
               );
             },
@@ -106,27 +125,6 @@ class _CountdownTimerState extends State<CountdownTimer> with TickerProviderStat
           ],
         ),
       ],
-    );
-  }
-
-  Widget _button(IconData iconData, VoidCallback onPressed) {
-    return FloatingActionButton(
-      heroTag: iconData.toString(),
-      backgroundColor: Color.fromRGBO(254, 247, 246, 1),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-      ),
-      child: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, Widget? child) {
-          return Icon(
-            iconData,
-            color: Color.fromRGBO(169, 208, 119, 1),
-          );
-        },
-      ),
-      onPressed: onPressed,
     );
   }
 

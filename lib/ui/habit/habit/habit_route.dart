@@ -65,6 +65,7 @@ class _HabitRouteState extends State<HabitRoute> {
   // Goal
   bool _visibleGoal = false;
   bool _goalSwitchValue = false;
+  bool _isEnabledGoalSwitch = true;
   SliderBloc? _sliderBloc;
   String? _sliderTitle;
   String? _sliderQuantity;
@@ -213,10 +214,10 @@ class _HabitRouteState extends State<HabitRoute> {
     String? goalValue;
 
     if (_habit.goalSettings != null && _habit.goalSettings!.toolType != null) {
-      _visibleGoal = true;
-
       // Slider
       if (HabitHelper.visibleGoalSlider(_habit.goalSettings!)) {
+        _visibleGoal = true;
+
         _sliderBloc = SliderBloc(
           minValue: Func.toDouble(_habit.goalSettings!.goalMin),
           maxValue: Func.toDouble(_habit.goalSettings!.goalMax),

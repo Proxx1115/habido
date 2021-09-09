@@ -1,5 +1,6 @@
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/route/routes.dart';
 
 class HabitHelper {
@@ -12,12 +13,12 @@ class HabitHelper {
       case ToolTypes.Hour:
       case ToolTypes.Income:
       case ToolTypes.Expense:
-        if (habitGoalSettings.goalMin != null && habitGoalSettings.goalMax != null) res = true;
+      case ToolTypes.Music:
+      case ToolTypes.Animation:
+        if (Func.toInt(habitGoalSettings.goalMin) >= 0 && Func.toInt(habitGoalSettings.goalMax) > 0) res = true;
         break;
       case ToolTypes.Feeling:
       case ToolTypes.Satisfaction:
-      case ToolTypes.Music:
-      case ToolTypes.Animation:
       default:
         res = false;
     }
@@ -59,10 +60,11 @@ class HabitHelper {
 //10	Creativity	0	100	Animation	Creativity
 //9	Animation	0	100	Animation	Breathing animation
 
+/// Хэмжигдэхүүн
 class ToolTypes {
   static const String Minute = 'Minute';
-  static const String Count = 'Count';
   static const String Hour = 'Hour';
+  static const String Count = 'Count';
   static const String Feeling = 'Feeling';
   static const String Satisfaction = 'Satisfaction';
   static const String Income = 'Income';

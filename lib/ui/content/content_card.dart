@@ -96,6 +96,7 @@ class VerticalContentCard extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
+                  height: 85.0,
                   child: Column(
                     children: [
                       /// Title

@@ -59,8 +59,8 @@ class _ContentRouteState extends State<ContentRoute> {
               delay: 1.5,
               child: InfoContainer(
                 margin: EdgeInsets.only(top: 15.0),
-                title: widget.content.text ?? '',
-                body: widget.content.title ?? '',
+                title: widget.content.title ?? '',
+                body: widget.content.text ?? '',
               ),
             ),
           ],

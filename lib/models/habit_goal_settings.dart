@@ -1,20 +1,31 @@
 class HabitGoalSettings {
   int? goalTypeId;
-  String? goalName; // Feeling ued utga baihgui
+  String? goalName; // Feeling ued utga baihgui, Satisfaction
   int? goalMin;
   int? goalMax;
+  bool? goalIsExtendable;
+  bool? goalVisible; // todo test: Ireeduid nemegdene
 
   // Дадал биелүүлэх tools
   String? toolType; // Minute, Hour, Count, Feeling (emoji), Satisfaction, Amount (Finance), Music, Animation,
   String? toolContent; // Минут, Цаг, Аяга, 'emoji', 'camera', '₮', 'music link', 'Tree animation, ... animation',
 
-  HabitGoalSettings({this.goalTypeId, this.goalName, this.goalMin, this.goalMax, this.toolType, this.toolContent});
+  HabitGoalSettings({
+    this.goalTypeId,
+    this.goalName,
+    this.goalMin,
+    this.goalMax,
+    this.goalIsExtendable,
+    this.toolType,
+    this.toolContent,
+  });
 
   HabitGoalSettings.fromJson(dynamic json) {
     goalTypeId = json['goalTypeId'];
     goalName = json['goalName'];
     goalMin = json['goalMin'];
     goalMax = json['goalMax'];
+    goalIsExtendable = json['goalIsExtendable'];
     toolType = json['toolType'];
     toolContent = json['toolContent'];
   }
@@ -25,6 +36,7 @@ class HabitGoalSettings {
     map['goalName'] = goalName;
     map['goalMin'] = goalMin;
     map['goalMax'] = goalMax;
+    map['goalIsExtendable'] = goalIsExtendable;
     map['toolType'] = toolType;
     map['toolContent'] = toolContent;
     return map;

@@ -66,6 +66,10 @@ class Assets {
 
   /// Habit
   static const String trophy = 'assets/images/habit/trophy.svg';
+  static const String add_circle = 'assets/images/habit/add_circle.svg';
+  static const String play = 'assets/images/habit/play.svg';
+  static const String pause = 'assets/images/habit/pause.svg';
+  static const String reset = 'assets/images/habit/reset.svg';
 }
 
 class FontAsset {
