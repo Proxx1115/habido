@@ -166,6 +166,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       _expandableHabitList(
                         LocaleKeys.today,
                         _todayUserHabits!,
+                        true,
                       ),
 
                     /// Tomorrow
@@ -173,6 +174,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       _expandableHabitList(
                         LocaleKeys.tomorrow,
                         _tomorrowUserHabits!,
+                        false,
                       ),
                   ],
                 );
@@ -184,7 +186,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _expandableHabitList(String title, List<UserHabit> userHabitList) {
+  Widget _expandableHabitList(String title, List<UserHabit> userHabitList, bool enabled) {
     return ExpandableContainer(
       title: title,
       expandableListItems: List.generate(
@@ -195,7 +197,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           leadingBackgroundColor:
               (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           onPressed: () {
-            if (userHabitList[index].habit?.goalSettings != null) {
+            if (enabled && userHabitList[index].habit?.goalSettings != null) {
               String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!.goalSettings!);
               if (route != null) {
                 Navigator.pushNamed(

@@ -152,12 +152,15 @@ class VerticalContentCard extends StatelessWidget {
 
 class HorizontalContentCard extends StatelessWidget {
   final Content content;
+  final EdgeInsets? margin;
 
   final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
+  final double _height = 133.0;
 
   HorizontalContentCard({
     Key? key,
     required this.content,
+    this.margin,
   }) : super(key: key);
 
   @override
@@ -173,7 +176,8 @@ class HorizontalContentCard extends StatelessWidget {
         child: Hero(
           tag: Func.toStr(content.contentId),
           child: Container(
-            height: 133.0,
+            margin: margin,
+            height: _height,
             decoration: BoxDecoration(
               borderRadius: _borderRadius,
               color: customColors.secondaryBackground,
@@ -186,6 +190,7 @@ class HorizontalContentCard extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: content.contentPhoto ?? '',
                     fit: BoxFit.fitHeight,
+                    height: _height,
                     // width: MediaQuery.of(context).size.width * 0.3,
                     width: 115.0,
                     placeholder: (context, url) => CustomLoader(),

@@ -16,21 +16,38 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
   Stream<ContentState> mapEventToState(ContentEvent event) async* {
     if (event is GetContentListEvent) {
       yield* _mapGetContentListEventToState();
+    } else if (event is GetContentEvent) {
+      yield* _mapGetContentEventToState(event);
     }
   }
 
   Stream<ContentState> _mapGetContentListEventToState() async* {
     try {
-      yield ContentLoading();
+      yield ContentListLoading();
 
       var res = await ApiManager.contentList();
       if (res.code == ResponseCode.Success && res.contentList != null && res.contentList!.length > 0) {
         yield ContentListSuccess(res.contentList!);
       } else {
-        yield ContentEmpty();
+        yield ContentListEmpty();
       }
     } catch (e) {
       yield ContentListFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<ContentState> _mapGetContentEventToState(GetContentEvent event) async* {
+    try {
+      yield ContentLoading();
+
+      var res = await ApiManager.content(event.contentId);
+      if (res.code == ResponseCode.Success) {
+        yield ContentSuccess(res);
+      } else {
+        yield ContentFailed(LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield ContentFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -48,6 +65,18 @@ abstract class ContentEvent extends Equatable {
 
 class GetContentListEvent extends ContentEvent {}
 
+class GetContentEvent extends ContentEvent {
+  final int contentId;
+
+  const GetContentEvent(this.contentId);
+
+  @override
+  List<Object> get props => [contentId];
+
+  @override
+  String toString() => 'GetContentEvent { contentId: $contentId }';
+}
+
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -61,9 +90,11 @@ abstract class ContentState extends Equatable {
 
 class ContentInit extends ContentState {}
 
+class ContentListLoading extends ContentState {}
+
 class ContentLoading extends ContentState {}
 
-class ContentEmpty extends ContentState {}
+class ContentListEmpty extends ContentState {}
 
 class ContentListSuccess extends ContentState {
   final List<Content> contentList;
@@ -87,4 +118,28 @@ class ContentListFailed extends ContentState {
 
   @override
   String toString() => 'ContentListFailed { message: $message }';
+}
+
+class ContentSuccess extends ContentState {
+  final Content content;
+
+  const ContentSuccess(this.content);
+
+  @override
+  List<Object> get props => [content];
+
+  @override
+  String toString() => 'ContentSuccess { content: $content }';
+}
+
+class ContentFailed extends ContentState {
+  final String message;
+
+  const ContentFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ContentFailed { message: $message }';
 }

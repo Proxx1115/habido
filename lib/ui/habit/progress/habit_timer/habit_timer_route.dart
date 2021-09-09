@@ -41,11 +41,18 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
     _backgroundColor = HabitHelper.getBackgroundColor(widget.userHabit);
 
     // Timer
+    int? goalValue;
     if (Func.toInt(widget.userHabit.goalValue) > 0) {
+      goalValue = Func.toInt(widget.userHabit.goalValue);
+    } else if ((widget.userHabit.habit?.goalSettings?.goalMax ?? 0) > 0) {
+      goalValue = Func.toInt(widget.userHabit.habit!.goalSettings!.goalMax!);
+    }
+
+    if (goalValue != null) {
       if (widget.userHabit.habit?.goalSettings?.toolType == ToolTypes.Minute) {
-        _duration = Duration(minutes: Func.toInt(widget.userHabit.goalValue));
+        _duration = Duration(minutes: goalValue);
       } else if (widget.userHabit.habit?.goalSettings?.toolType == ToolTypes.Hour) {
-        _duration = Duration(hours: Func.toInt(widget.userHabit.goalValue));
+        _duration = Duration(hours: goalValue);
       }
     }
 
@@ -68,10 +75,13 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
               children: [
                 Expanded(child: Container()),
 
+                /// Timer
                 if (_duration != null)
                   CountdownTimer(
                     duration: _duration!,
                     primaryColor: _primaryColor,
+                    // visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
+                    visibleAddButton: false, // todo test
                   ),
 
                 Expanded(child: Container()),
@@ -89,7 +99,10 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is SaveUserHabitProgressSuccess) {
       BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
-      Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+      Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
+        'title': LocaleKeys.youDidIt,
+        'primaryColor': _primaryColor,
+      });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
         context,

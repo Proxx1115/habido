@@ -3,6 +3,7 @@ class PsyTest {
   int? testCatId;
   String? name;
   String? photo;
+  String? coverPhoto;
   String? color;
   String? photoBase64;
   String? description;
@@ -16,6 +17,7 @@ class PsyTest {
       this.testCatId,
       this.name,
       this.photo,
+      this.coverPhoto,
       this.color,
       this.photoBase64,
       this.description,
@@ -29,6 +31,7 @@ class PsyTest {
     testCatId = json['testCatId'];
     name = json['name'];
     photo = json['photo'];
+    coverPhoto = json['coverPhoto'];
     color = json['color'];
     photoBase64 = json['photoBase64'];
     description = json['description'];
@@ -44,6 +47,7 @@ class PsyTest {
     map['testCatId'] = testCatId;
     map['name'] = name;
     map['photo'] = photo;
+    map['coverPhoto'] = coverPhoto;
     map['color'] = color;
     map['photoBase64'] = photoBase64;
     map['description'] = description;

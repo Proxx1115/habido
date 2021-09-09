@@ -22,11 +22,11 @@ class NoteWidget extends StatefulWidget {
 }
 
 class _NoteWidgetState extends State<NoteWidget> {
-  final _noteController = TextEditingController();
+  // final _noteController = TextEditingController();
 
   @override
   void initState() {
-    _noteController.text = widget.userHabit.userNote ?? '';
+    // _noteController.text = widget.userHabit.userNote ?? '';
     super.initState();
   }
 
@@ -47,6 +47,9 @@ class _NoteWidgetState extends State<NoteWidget> {
               /// Edit button
               InkWell(
                 onTap: () {
+                  final _noteController = TextEditingController();
+                  _noteController.text = widget.userHabit.userNote ?? '';
+
                   showCustomDialog(
                     context,
                     isDismissible: true,
@@ -80,7 +83,7 @@ class _NoteWidgetState extends State<NoteWidget> {
           HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
           /// Body
-          CustomText(widget.userHabit.userNote),
+          CustomText(widget.userHabit.userNote, maxLines: 10),
         ],
       ),
     );

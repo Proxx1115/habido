@@ -5,6 +5,7 @@ import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/category_tests_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
+import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
 import 'package:habido_app/models/habit_calendar_response.dart';
 import 'package:habido_app/models/habit_categories_response.dart';
@@ -170,6 +171,12 @@ class ApiManager {
     );
   }
 
+  static Future<Content> content(int contentId) async {
+    return Content.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
+    );
+  }
+
   /// Psychology test
   static Future<PsyCategoriesResponse> psyCategories() async {
     return PsyCategoriesResponse.fromJson(
@@ -225,8 +232,8 @@ class ApiManager {
     );
   }
 
-  static Future<HabitsResponse> updateUserHabit(UserHabit userHabit) async {
-    return HabitsResponse.fromJson(
+  static Future<BaseResponse> updateUserHabit(UserHabit userHabit) async {
+    return BaseResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.updateUserHabit,
         objectData: userHabit,

@@ -30,7 +30,11 @@ class _CountdownTimerState extends State<CountdownTimer> with TickerProviderStat
   void initState() {
     super.initState();
     _maxDuration = widget.duration;
-    _animationController = AnimationController(vsync: this, duration: _maxDuration, value: 1);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: _maxDuration,
+      value: 1,
+    );
   }
 
   @override
@@ -185,9 +189,5 @@ class _CountdownTimerState extends State<CountdownTimer> with TickerProviderStat
       _animationController.duration = widget.duration;
       _animationController.value = 1.0;
     });
-  }
-
-  _onPressedDelete() {
-    print('onPressedDelete');
   }
 }

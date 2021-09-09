@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/ui/content/suggested_content.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit/note_widget.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -80,17 +81,16 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
                         userHabit: _userHabit,
                         margin: EdgeInsets.only(top: 15.0),
                       ),
+
+                      /// Content
+                      if (_userHabit.habit?.contentId != null)
+                        SuggestedContent(
+                          contentId: _userHabit.habit!.contentId!,
+                          margin: EdgeInsets.only(top: 30.0),
+                        ),
                     ],
                   ),
                 ),
-
-                // if (_duration != null)
-                //   CountdownTimer(
-                //     duration: _duration!,
-                //     primaryColor: _primaryColor,
-                //   ),
-                //
-                // Expanded(child: Container()),
 
                 /// Button finish
                 _buttonFinish(),
@@ -105,7 +105,14 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is SaveUserHabitProgressSuccess) {
       BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
-      Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+
+      Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
+        'title': LocaleKeys.youDidIt,
+        'primaryColor': _primaryColor,
+        // 'callback': () {
+        //   Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+        // }
+      });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
         context,
@@ -124,6 +131,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
 
   Widget _buttonFinish() {
     return CustomButton(
+      margin: EdgeInsets.only(top: 15.0),
       alignment: Alignment.bottomRight,
       style: CustomButtonStyle.Secondary,
       backgroundColor: _primaryColor,

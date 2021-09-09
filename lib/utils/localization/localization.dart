@@ -208,6 +208,8 @@ class LocaleKeys {
   /// Content
   static String get readMin => 'min read';
 
+  static String get suggestedForYou => 'Танд санал болгох';
+
   /// Psychology test
   static String get psyTest => 'Сэтгэл зүйн тест';
 
@@ -275,6 +277,8 @@ class LocaleKeys {
   static String get emoji5 => 'Маш их баяртай байна';
 
   static String get note => 'Тэмдэглэл';
+
+  static String get youDidIt => 'Та чадлаа';
 
   /// Profile
   static String get allTime => 'Бүх цаг үе';

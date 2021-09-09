@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 
@@ -113,5 +115,28 @@ class CustomText extends StatelessWidget {
       default:
         return FontWeight.normal;
     }
+  }
+}
+
+class SectionTitleText extends StatelessWidget {
+  final String? text;
+
+  const SectionTitleText({Key? key, this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SvgPicture.asset(Assets.scratch),
+        Expanded(
+          child: CustomText(
+            text,
+            margin: EdgeInsets.only(left: 15.0),
+            fontWeight: FontWeight.w500,
+            fontSize: 19.0,
+          ),
+        ),
+      ],
+    );
   }
 }

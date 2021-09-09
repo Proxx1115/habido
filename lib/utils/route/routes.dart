@@ -10,6 +10,7 @@ import 'package:habido_app/ui/auth/term_detail_route.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
+import 'package:habido_app/ui/habit/habit_success_route.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_route.dart';
 import 'package:habido_app/ui/habit/habit_categories/habit_categories_route.dart';
 import 'package:habido_app/ui/habit/habit_list/habit_list_route.dart';
@@ -63,6 +64,7 @@ class Routes {
   static const notif = 'notif';
   static const userInfo = 'userInfo';
   static const yourRank = 'yourRank';
+  static const habitSuccess = 'habitSuccess';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -263,6 +265,21 @@ class Routes {
 
       case Routes.yourRank:
         route = SlideRightRouteBuilder(YourRankRoute(), settings);
+        break;
+
+      case Routes.habitSuccess:
+        route = SlideRightRouteBuilder(HabitSuccessRoute(), settings);
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          HabitSuccessRoute(
+            title: _getValueByKey(args, 'title'),
+            text: _getValueByKey(args, 'text'),
+            primaryColor: _getValueByKey(args, 'primaryColor'),
+            callback: _getValueByKey(args, 'callback'),
+          ),
+          settings,
+        );
+
         break;
 
       case Routes.comingSoon:

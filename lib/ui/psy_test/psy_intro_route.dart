@@ -28,8 +28,6 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
   double _height = 0.0;
   double _minHeight = 600;
 
-
-
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -50,11 +48,11 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
                     child: ListView(
                       children: [
                         /// Cover image
-                        if (Func.isNotEmpty(widget.psyTest.photo))
+                        if (Func.isNotEmpty(widget.psyTest.coverPhoto))
                           ClipRRect(
                             borderRadius: SizeHelper.borderRadiusOdd,
                             child: CachedNetworkImage(
-                              imageUrl: widget.psyTest.photo!,
+                              imageUrl: widget.psyTest.coverPhoto!,
                               fit: BoxFit.fitWidth,
                               width: double.infinity,
                               placeholder: (context, url) => CustomLoader(),

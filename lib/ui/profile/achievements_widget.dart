@@ -49,17 +49,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
               child: Column(
                 children: [
                   /// Миний амжилт
-                  Row(
-                    children: [
-                      SvgPicture.asset(Assets.scratch),
-                      CustomText(
-                        LocaleKeys.myAchievements,
-                        margin: EdgeInsets.only(left: 15.0),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 19.0,
-                      ),
-                    ],
-                  ),
+                  SectionTitleText(text: LocaleKeys.myAchievements),
 
                   /// Бүх цаг үеийн амжилт
                   if (_allTimeAchievement != null)

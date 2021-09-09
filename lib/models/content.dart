@@ -1,6 +1,8 @@
+import 'package:habido_app/models/base_response.dart';
+
 import 'tags.dart';
 
-class Content {
+class Content extends BaseResponse {
   int? contentId;
   String? title;
   String? contentPhoto;
@@ -31,6 +33,8 @@ class Content {
   });
 
   Content.fromJson(dynamic json) {
+    parseBaseParams(json);
+
     contentId = json['contentId'];
     title = json['title'];
     contentPhoto = json['contentPhoto'];

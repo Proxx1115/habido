@@ -143,7 +143,8 @@ class Func {
   static bool isSameDay(DateTime? dateTime1, DateTime? dateTime2) {
     try {
       if (dateTime1 == null || dateTime2 == null) return false;
-      if (dateTime1.year == dateTime2.year && dateTime1.month == dateTime2.month && dateTime1.day == dateTime2.day) return true;
+      if (dateTime1.year == dateTime2.year && dateTime1.month == dateTime2.month && dateTime1.day == dateTime2.day)
+        return true;
     } catch (e) {
       print(e);
     }
@@ -206,7 +207,8 @@ class Func {
     return res;
   }
 
-  static double moneyToDouble(String? strDouble, {String thousandSeparator = ",", String rightSymbol = "", String leftSymbol = ""}) {
+  static double moneyToDouble(String? strDouble,
+      {String thousandSeparator = ",", String rightSymbol = "", String leftSymbol = ""}) {
     double val = 0;
 
     strDouble = (strDouble == null || strDouble.isEmpty) ? '0' : strDouble;
@@ -232,7 +234,11 @@ class Func {
       } else if (obj is double) {
         res = obj.toInt();
       } else if (obj is String) {
-        res = int.parse(obj);
+        if (obj.contains('.')) {
+          res = double.parse(obj).toInt();
+        } else {
+          res = int.parse(obj);
+        }
       }
     } catch (e) {
       print(e);
