@@ -9,6 +9,7 @@ import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -39,6 +40,8 @@ class _YourRankRouteState extends State<YourRankRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: LocaleKeys.yourRank,
+      backgroundColor: customColors.secondaryBackground,
+      appBarLeadingBackgroundColor: customColors.primaryBackground,
       body: BlocProvider.value(
         value: BlocManager.userBloc,
         child: BlocListener<UserBloc, UserState>(
@@ -50,16 +53,16 @@ class _YourRankRouteState extends State<YourRankRoute> {
                   ? Stack(
                       children: [
                         /// Background
-                        // todo test
-                        // SvgPicture.asset(
-                        //   Assets.rank_background2,
-                        //   fit: BoxFit.fitWidth,
-                        // ),
+                        Image.asset(
+                          Assets.rank_background2,
+                          fit: BoxFit.fill,
+                          width: MediaQuery.of(context).size.width,
+                        ),
 
                         Column(
                           children: [
                             Expanded(
-                              flex: 1,
+                              flex: 2,
                               child: Container(),
                             ),
 

@@ -4,27 +4,29 @@ import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/route/routes.dart';
 
 class HabitHelper {
-  static bool visibleGoalSlider(HabitGoalSettings habitGoalSettings) {
-    bool res = false;
-
-    switch (habitGoalSettings.toolType) {
-      case ToolTypes.Minute:
-      case ToolTypes.Count:
-      case ToolTypes.Hour:
-      case ToolTypes.Income:
-      case ToolTypes.Expense:
-      case ToolTypes.Music:
-      case ToolTypes.Animation:
-        if (Func.toInt(habitGoalSettings.goalMin) >= 0 && Func.toInt(habitGoalSettings.goalMax) > 0) res = true;
-        break;
-      case ToolTypes.Feeling:
-      case ToolTypes.Satisfaction:
-      default:
-        res = false;
-    }
-
-    return res;
-  }
+  // static bool visibleGoalSlider(HabitGoalSettings habitGoalSettings) {
+  //   bool res = false;
+  //
+  //   if(habitGoalSettings)
+  //
+  //   switch (habitGoalSettings.toolType) {
+  //     case ToolTypes.Minute:
+  //     case ToolTypes.Count:
+  //     case ToolTypes.Hour:
+  //     case ToolTypes.Income:
+  //     case ToolTypes.Expense:
+  //     case ToolTypes.Music:
+  //     case ToolTypes.Animation:
+  //       if (Func.toInt(habitGoalSettings.goalMin) >= 0 && Func.toInt(habitGoalSettings.goalMax) > 0) res = true;
+  //       break;
+  //     case ToolTypes.Feeling:
+  //     case ToolTypes.Satisfaction:
+  //     default:
+  //       res = false;
+  //   }
+  //
+  //   return res;
+  // }
 
   static String getProgressRoute(HabitGoalSettings habitGoalSettings) {
     String res = '';

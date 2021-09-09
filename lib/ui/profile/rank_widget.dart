@@ -46,40 +46,15 @@ class _RankWidgetState extends State<RankWidget> {
                       children: [
                         /// Background
                         if (Func.isNotEmpty(globals.userData!.rankPhoto))
-                          Positioned(
-                            top: 0,
-                            child: Opacity(
-                              opacity: 0.3,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    // BoxShadow(
-                                    //   color: Colors.red,
-                                    //   spreadRadius: -100.0,
-                                    //   blurRadius: 100.0,
-                                    // ),
-                                  ],
-                                ),
-                                child: SvgPicture.asset(
-                                  Assets.rank_background,
-                                ),
+                          Center(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 15.0),
+                              child: Image.asset(
+                                Assets.rank_background,
+                                fit: BoxFit.fitHeight,
+                                width: 240,
                               ),
                             ),
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //       // boxShadow: [
-                            //       //   BoxShadow(
-                            //       //     color: Colors.transparent,
-                            //       //   ),
-                            //       //   BoxShadow(
-                            //       //     color: Colors.blue,
-                            //       //     spreadRadius: -12.0,
-                            //       //     blurRadius: 12.0,
-                            //       //   ),
-                            //       // ],
-                            //       ),
-                            //   child: ,
-                            // ),
                           ),
 
                         Container(

@@ -3,8 +3,8 @@ class HabitGoalSettings {
   String? goalName; // Feeling ued utga baihgui, Satisfaction
   int? goalMin;
   int? goalMax;
-  bool? goalIsExtendable;
-  bool? goalVisible; // todo test: Ireeduid nemegdene
+  bool? goalIsExtendable; // Хугацаа нэмж сунгах боломжтой эсэх
+  bool? goalValueSelectable; //  Slider харуулж утга сонгох боломжтой эсэх
 
   // Дадал биелүүлэх tools
   String? toolType; // Minute, Hour, Count, Feeling (emoji), Satisfaction, Amount (Finance), Music, Animation,
@@ -16,6 +16,7 @@ class HabitGoalSettings {
     this.goalMin,
     this.goalMax,
     this.goalIsExtendable,
+    this.goalValueSelectable,
     this.toolType,
     this.toolContent,
   });
@@ -26,6 +27,7 @@ class HabitGoalSettings {
     goalMin = json['goalMin'];
     goalMax = json['goalMax'];
     goalIsExtendable = json['goalIsExtendable'];
+    goalValueSelectable = json['goalValueSelectable'];
     toolType = json['toolType'];
     toolContent = json['toolContent'];
   }
@@ -37,6 +39,7 @@ class HabitGoalSettings {
     map['goalMin'] = goalMin;
     map['goalMax'] = goalMax;
     map['goalIsExtendable'] = goalIsExtendable;
+    map['goalValueSelectable'] = goalValueSelectable;
     map['toolType'] = toolType;
     map['toolContent'] = toolContent;
     return map;
