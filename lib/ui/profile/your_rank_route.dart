@@ -70,16 +70,17 @@ class _YourRankRouteState extends State<YourRankRoute> {
                             CarouselSlider(
                               carouselController: _carouselController,
                               options: CarouselOptions(
-                                  // autoPlay: true,
-                                  aspectRatio: 2.0,
-                                  enlargeCenterPage: true,
-                                  enlargeStrategy: CenterPageEnlargeStrategy.height,
-                                  viewportFraction: 0.4,
-                                  onPageChanged: (index, asd) {
-                                    setState(() {
-                                      _currentIndex = index;
-                                    });
-                                  }),
+                                // autoPlay: true,
+                                aspectRatio: 2.0,
+                                enlargeCenterPage: true,
+                                enlargeStrategy: CenterPageEnlargeStrategy.height,
+                                viewportFraction: 0.4,
+                                onPageChanged: (index, asd) {
+                                  setState(() {
+                                    _currentIndex = index;
+                                  });
+                                },
+                              ),
                               items: [
                                 for (var el in _rankList!) _pageViewItem(el),
                               ],

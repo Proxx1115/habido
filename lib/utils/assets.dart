@@ -72,6 +72,11 @@ class Assets {
   static const String play = 'assets/images/habit/play.svg';
   static const String pause = 'assets/images/habit/pause.svg';
   static const String reset = 'assets/images/habit/reset.svg';
+  static const String emoji1 = 'assets/images/habit/emoji1.svg';
+  static const String emoji2 = 'assets/images/habit/emoji2.svg';
+  static const String emoji3 = 'assets/images/habit/emoji3.svg';
+  static const String emoji4 = 'assets/images/habit/emoji4.svg';
+  static const String emoji5 = 'assets/images/habit/emoji5.svg';
 }
 
 class FontAsset {

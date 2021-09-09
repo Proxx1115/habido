@@ -228,7 +228,7 @@ class ApiManager {
   static Future<HabitsResponse> updateUserHabit(UserHabit userHabit) async {
     return HabitsResponse.fromJson(
       await httpUtils.sendRequest(
-        path: HttpPath.insertUserHabit,
+        path: HttpPath.updateUserHabit,
         objectData: userHabit,
         httpMethod: HttpMethod.put,
       ),

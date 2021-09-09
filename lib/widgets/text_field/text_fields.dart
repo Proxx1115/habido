@@ -17,6 +17,7 @@ class CustomTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final bool readOnly;
   final EdgeInsets margin;
+  final int? maxLines;
   final int? maxLength;
   final TextInputType? textInputType;
   final bool obscureText;
@@ -41,6 +42,7 @@ class CustomTextField extends StatefulWidget {
     this.obscureText = false,
     this.fontSize = 15.0,
     this.textColor,
+    this.maxLines,
     this.maxLength,
     this.suffixAsset = Assets.edit,
     this.alwaysVisibleSuffix = true,
@@ -73,6 +75,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         controller: widget.controller,
         focusNode: _focusNode,
         readOnly: widget.readOnly,
+        maxLines: widget.maxLines ?? 1,
         decoration: InputDecoration(
           border: _border,
           focusedBorder: _border,

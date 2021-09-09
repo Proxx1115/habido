@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/user_habit_bloc.dart';
+import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -24,7 +24,7 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
 
   @override
   void initState() {
-    BlocManager.userHabitBloc.add(RefreshDashboardUserHabits());
+    BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
 
     super.initState();
   }
@@ -32,10 +32,10 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: BlocManager.userHabitBloc,
-      child: BlocListener<UserHabitBloc, UserHabitState>(
+      value: BlocManager.dashboardBloc,
+      child: BlocListener<DashboardBloc, DashboardState>(
         listener: _blocListener,
-        child: BlocBuilder<UserHabitBloc, UserHabitState>(
+        child: BlocBuilder<DashboardBloc, DashboardState>(
           builder: (context, state) {
             return Column(
               children: [
@@ -60,7 +60,7 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
     );
   }
 
-  void _blocListener(BuildContext context, UserHabitState state) {
+  void _blocListener(BuildContext context, DashboardState state) {
     if (state is RefreshDashboardUserHabitsSuccess) {
       _todayUserHabits = state.todayUserHabits;
       _tomorrowUserHabits = state.tomorrowUserHabits;
@@ -105,7 +105,7 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
           onPressedEdit: () {
             Navigator.pushNamed(
               context,
-              Routes.habit,
+              Routes.userHabit,
               arguments: {
                 'title': LocaleKeys.ediHabit,
                 'habit': null,

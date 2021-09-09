@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/widgets/app_bars/dashboard_app_bar.dart';
 import 'package:habido_app/ui/home/slider/custom_carousel_slider.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -10,7 +11,7 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'dashboard_user_habits.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/user_habit_bloc.dart';
+import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
@@ -42,7 +43,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    BlocManager.userHabitBloc.add(RefreshDashboardUserHabits());
+    BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
 
     super.initState();
   }
@@ -153,10 +154,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
       child: Container(
         child: BlocProvider.value(
-          value: BlocManager.userHabitBloc,
-          child: BlocListener<UserHabitBloc, UserHabitState>(
+          value: BlocManager.dashboardBloc,
+          child: BlocListener<DashboardBloc, DashboardState>(
             listener: _blocListener,
-            child: BlocBuilder<UserHabitBloc, UserHabitState>(
+            child: BlocBuilder<DashboardBloc, DashboardState>(
               builder: (context, state) {
                 return Column(
                   children: [
@@ -194,14 +195,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
           leadingBackgroundColor:
               (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           onPressed: () {
-            // var route = HabitHelper.getProgressRoute(habitGoalSettings); // todo test
-            Navigator.pushNamed(
-              context,
-              Routes.habitTimer,
-              arguments: {
-                'userHabit': userHabitList[index],
-              },
-            );
+            if (userHabitList[index].habit?.goalSettings != null) {
+              String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!.goalSettings!);
+              if (route != null) {
+                Navigator.pushNamed(
+                  context,
+                  route,
+                  arguments: {
+                    'userHabit': userHabitList[index],
+                  },
+                );
+              }
+            }
           },
           onPressedSkip: () {
             showCustomDialog(
@@ -221,7 +226,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           onPressedEdit: () {
             Navigator.pushNamed(
               context,
-              Routes.habit,
+              Routes.userHabit,
               arguments: {
                 'title': LocaleKeys.ediHabit,
                 'habit': null,
@@ -234,7 +239,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  void _blocListener(BuildContext context, UserHabitState state) {
+  void _blocListener(BuildContext context, DashboardState state) {
     if (state is RefreshDashboardUserHabitsSuccess) {
       _todayUserHabits = state.todayUserHabits;
       _tomorrowUserHabits = state.tomorrowUserHabits;

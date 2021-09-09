@@ -11,10 +11,11 @@ import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_route.dart';
-import 'package:habido_app/ui/habit/habit/habit_route.dart';
 import 'package:habido_app/ui/habit/habit_categories/habit_categories_route.dart';
 import 'package:habido_app/ui/habit/habit_list/habit_list_route.dart';
+import 'package:habido_app/ui/habit/progress/habit_feeling/habit_feeling_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_timer/habit_timer_route.dart';
+import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/notification/notif_route.dart';
@@ -56,8 +57,9 @@ class Routes {
   static const psyTestResult = 'psyTestResult';
   static const habitCategories = 'habitCategories';
   static const habitList = 'habitList';
-  static const habit = 'habit';
+  static const userHabit = 'userHabit';
   static const habitTimer = 'habitTimer';
+  static const habitFeeling = 'habitFeeling';
   static const notif = 'notif';
   static const userInfo = 'userInfo';
   static const yourRank = 'yourRank';
@@ -220,10 +222,10 @@ class Routes {
         );
         break;
 
-      case Routes.habit:
+      case Routes.userHabit:
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
-          HabitRoute(
+          UserHabitRoute(
             title: _getValueByKey(args, 'title'),
             habit: _getValueByKey(args, 'habit'),
           ),
@@ -235,6 +237,16 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           HabitTimerRoute(
+            userHabit: _getValueByKey(args, 'userHabit'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.habitFeeling:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          HabitFeelingRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
           ),
           settings,

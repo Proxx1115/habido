@@ -86,9 +86,12 @@ class HttpUtils {
         case HttpMethod.get:
           response = await _client.get(path, queryParameters: queryParameters);
           break;
-
         case HttpMethod.put:
+          response = await _client.put(path, data: requestBody);
+          break;
         case HttpMethod.delete:
+          response = await _client.delete(path, data: requestBody);
+          break;
         case HttpMethod.post:
         default:
           response = await _client.post(path, data: requestBody);

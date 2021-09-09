@@ -75,7 +75,7 @@ class _HabitListRouteState extends State<HabitListRoute> {
                           title: el.name ?? '',
                           suffixAsset: Assets.arrow_forward,
                           onPressed: () {
-                            Navigator.pushNamed(context, Routes.habit, arguments: {
+                            Navigator.pushNamed(context, Routes.userHabit, arguments: {
                               'title': LocaleKeys.createHabit,
                               'habit': el,
                             });

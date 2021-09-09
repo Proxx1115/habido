@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/user_habit_bloc.dart';
+import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/models/habit.dart';
-import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_reminders.dart';
-import 'package:habido_app/ui/habit/habit_helper.dart';
-import 'package:habido_app/ui/habit/habit/habit_bloc.dart';
-import 'package:habido_app/ui/habit/habit/plan_terms/plan_term_helper.dart';
-import 'package:habido_app/ui/habit/habit/plan_terms/plan_terms_widget.dart';
-import 'package:habido_app/ui/habit/habit/reminder/reminder_bloc.dart';
+import 'package:habido_app/ui/habit/user_habit/plan_terms/plan_term_helper.dart';
+import 'package:habido_app/ui/habit/user_habit/plan_terms/plan_terms_widget.dart';
+import 'package:habido_app/ui/habit/user_habit/reminder/reminder_bloc.dart';
+import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -30,12 +28,12 @@ import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'reminder/reminder_widget.dart';
 
-class HabitRoute extends StatefulWidget {
+class UserHabitRoute extends StatefulWidget {
   final String? title;
   final Habit? habit; // UserHabit, habit 2-ын нэг нь заавал утгатай байх ёстой
   final UserHabit? userHabit;
 
-  const HabitRoute({
+  const UserHabitRoute({
     Key? key,
     this.title,
     this.habit,
@@ -43,12 +41,11 @@ class HabitRoute extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _HabitRouteState createState() => _HabitRouteState();
+  _UserHabitRouteState createState() => _UserHabitRouteState();
 }
 
-class _HabitRouteState extends State<HabitRoute> {
+class _UserHabitRouteState extends State<UserHabitRoute> {
   // UI
-  final HabitBloc _habitBloc = HabitBloc();
   late Color _primaryColor;
   late Color _backgroundColor;
 
@@ -121,12 +118,6 @@ class _HabitRouteState extends State<HabitRoute> {
   }
 
   @override
-  void dispose() {
-    _habitBloc.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: widget.title != null ? widget.title : LocaleKeys.habit,
@@ -134,10 +125,10 @@ class _HabitRouteState extends State<HabitRoute> {
           ? SingleChildScrollView(
               padding: SizeHelper.paddingScreen,
               child: BlocProvider.value(
-                value: _habitBloc,
-                child: BlocListener<HabitBloc, HabitState>(
+                value: BlocManager.userHabitBloc,
+                child: BlocListener<UserHabitBloc, UserHabitState>(
                   listener: _blocListener,
-                  child: BlocBuilder<HabitBloc, HabitState>(builder: (context, state) {
+                  child: BlocBuilder<UserHabitBloc, UserHabitState>(builder: (context, state) {
                     return Column(
                       children: [
                         /// Нэр
@@ -183,7 +174,7 @@ class _HabitRouteState extends State<HabitRoute> {
     );
   }
 
-  void _blocListener(BuildContext context, HabitState state) {
+  void _blocListener(BuildContext context, UserHabitState state) {
     if (state is GoalSwitchChangedState) {
       _goalSwitchValue = state.value;
     } else if (state is InsertUserHabitSuccess) {
@@ -195,7 +186,7 @@ class _HabitRouteState extends State<HabitRoute> {
           text: LocaleKeys.success,
           buttonText: LocaleKeys.ok,
           onPressedButton: () {
-            BlocManager.userHabitBloc.add(RefreshDashboardUserHabits());
+            BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
             Navigator.popUntil(context, ModalRoute.withName(Routes.home));
           },
         ),
@@ -264,7 +255,7 @@ class _HabitRouteState extends State<HabitRoute> {
                   activeText: LocaleKeys.goal,
                   activeColor: _primaryColor,
                   onChanged: (value) {
-                    _habitBloc.add(GoalSwitchChangedEvent(value));
+                    BlocManager.userHabitBloc.add(GoalSwitchChangedEvent(value));
                   },
                 ),
 
@@ -397,7 +388,7 @@ class _HabitRouteState extends State<HabitRoute> {
     // Note
     userHabit.userNote = '';
 
-    _habitBloc.add(InsertUserHabitEvent(userHabit));
+    BlocManager.userHabitBloc.add(InsertUserHabitEvent(userHabit));
 
     // List<Plan>? plans;
 

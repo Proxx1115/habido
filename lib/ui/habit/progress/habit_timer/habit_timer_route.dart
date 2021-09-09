@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
-import 'package:habido_app/ui/habit/progress/habit_progress_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
-import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -30,9 +28,8 @@ class HabitTimerRoute extends StatefulWidget {
 
 class _HabitTimerRouteState extends State<HabitTimerRoute> {
   // UI
-  final _habitProgressBloc = HabitProgressBloc();
-  Color _primaryColor = customColors.primary;
-  Color _backgroundColor = customColors.primaryBackground;
+  late Color _primaryColor;
+  late Color _backgroundColor;
 
   // Timer
   Duration? _duration;
@@ -40,13 +37,8 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
   @override
   void initState() {
     // UI
-    if (widget.userHabit.habit?.color != null) {
-      _primaryColor = HexColor.fromHex(widget.userHabit.habit!.color!);
-    }
-
-    if (widget.userHabit.habit?.backgroundColor != null) {
-      _backgroundColor = HexColor.fromHex(widget.userHabit.habit!.backgroundColor!);
-    }
+    _primaryColor = HabitHelper.getPrimaryColor(widget.userHabit);
+    _backgroundColor = HabitHelper.getBackgroundColor(widget.userHabit);
 
     // Timer
     if (Func.toInt(widget.userHabit.goalValue) > 0) {
@@ -67,8 +59,8 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
       appBarLeadingColor: _primaryColor,
       backgroundColor: _backgroundColor,
       body: BlocProvider.value(
-        value: _habitProgressBloc,
-        child: BlocListener<HabitProgressBloc, HabitProgressState>(
+        value: BlocManager.userHabitBloc,
+        child: BlocListener<UserHabitBloc, UserHabitState>(
           listener: _blocListener,
           child: Container(
             padding: SizeHelper.paddingScreen,
@@ -85,7 +77,7 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
                 Expanded(child: Container()),
 
                 /// Button хадгалах
-                _buttonSave(),
+                _buttonFinish(),
               ],
             ),
           ),
@@ -94,9 +86,9 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
     );
   }
 
-  void _blocListener(BuildContext context, HabitProgressState state) {
+  void _blocListener(BuildContext context, UserHabitState state) {
     if (state is SaveUserHabitProgressSuccess) {
-      BlocManager.userHabitBloc.add(RefreshDashboardUserHabits());
+      BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
       Navigator.popUntil(context, ModalRoute.withName(Routes.home));
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
@@ -106,7 +98,7 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
     }
   }
 
-  Widget _buttonSave() {
+  Widget _buttonFinish() {
     return CustomButton(
       alignment: Alignment.bottomRight,
       style: CustomButtonStyle.Secondary,
@@ -116,7 +108,7 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
         var request = SaveUserHabitProgressRequest();
         request.userHabitId = widget.userHabit.userHabitId;
 
-        _habitProgressBloc.add(SaveUserHabitProgressEvent(request));
+        BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
       },
     );
   }

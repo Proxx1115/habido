@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -15,48 +16,64 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
   @override
   Stream<UserHabitState> mapEventToState(UserHabitEvent event) async* {
-    if (event is RefreshDashboardUserHabits) {
-      yield* _mapRefreshDashboardUserHabitsToState();
+    if (event is GoalSwitchChangedEvent) {
+      yield* _mapReminderSwitchChangedEventEventToState(event);
+    } else if (event is InsertUserHabitEvent) {
+      yield* _mapInsertUserHabitEventToState(event);
+    } else if (event is UpdateUserHabitEvent) {
+      yield* _mapUpdateUserHabitEventToState(event);
+    } else if (event is SaveUserHabitProgressEvent) {
+      yield* _mapSaveUserHabitProgressEventToState(event);
     }
-
-    // else if (event is RefreshHabitDashboard) {
-    //   yield* _mapRefreshHabitDashboardToState();
-    // }
   }
 
-  Stream<UserHabitState> _mapRefreshDashboardUserHabitsToState() async* {
+  Stream<UserHabitState> _mapReminderSwitchChangedEventEventToState(GoalSwitchChangedEvent event) async* {
+    yield GoalSwitchChangedState(event.value);
+    yield UserHabitDefault();
+  }
+
+  Stream<UserHabitState> _mapInsertUserHabitEventToState(InsertUserHabitEvent event) async* {
     try {
-      yield DashboardUserHabitsLoading();
+      yield UserHabitLoading();
 
-      var today = DateTime.now();
-      var tomorrow = DateTime.now().add(Duration(days: 1));
-
-      var res = await ApiManager.userHabitsByDates(Func.toDateStr(today), Func.toDateStr(tomorrow));
+      var res = await ApiManager.insertUserHabit(event.userHabit);
       if (res.code == ResponseCode.Success) {
-        if (res.userHabitsByDateList != null && res.userHabitsByDateList!.isNotEmpty) {
-          List<UserHabit>? todayUserHabits;
-          List<UserHabit>? tomorrowUserHabits;
-
-          for (var el in res.userHabitsByDateList!) {
-            if (el.date != null && el.userHabits != null && el.userHabits!.isNotEmpty) {
-              if (Func.isSameDay(Func.toDate(el.date!), today)) {
-                todayUserHabits = el.userHabits!;
-              } else if (Func.isSameDay(Func.toDate(el.date!), tomorrow)) {
-                tomorrowUserHabits = el.userHabits!;
-              }
-            }
-          }
-
-          yield RefreshDashboardUserHabitsSuccess(
-              todayUserHabits: todayUserHabits, tomorrowUserHabits: tomorrowUserHabits);
-        } else {
-          yield RefreshDashboardUserHabitsFailed(LocaleKeys.noData);
-        }
+        yield InsertUserHabitSuccess();
       } else {
-        yield RefreshDashboardUserHabitsFailed(ApiHelper.getFailedMessage(res.message));
+        yield InsertUserHabitFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
-      yield RefreshDashboardUserHabitsFailed(LocaleKeys.errorOccurred);
+      yield InsertUserHabitFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapUpdateUserHabitEventToState(UpdateUserHabitEvent event) async* {
+    try {
+      yield UserHabitLoading();
+
+      var res = await ApiManager.updateUserHabit(event.userHabit);
+      if (res.code == ResponseCode.Success) {
+        yield UpdateUserHabitSuccess(event.userHabit);
+      } else {
+        yield UpdateUserHabitFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield UpdateUserHabitFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapSaveUserHabitProgressEventToState(SaveUserHabitProgressEvent event) async* {
+    try {
+      yield UserHabitProgressLoading();
+
+      var res = await ApiManager.saveUserHabitProgress(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield SaveUserHabitProgressSuccess();
+      } else {
+        yield SaveUserHabitProgressFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield SaveUserHabitProgressFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -72,18 +89,64 @@ abstract class UserHabitEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class RefreshDashboardUserHabits extends UserHabitEvent {}
+class ChangePlanTermEvent extends UserHabitEvent {
+  final String planTerm;
 
-class GetUserHabitByDate extends UserHabitEvent {
-  final String date;
-
-  const GetUserHabitByDate(this.date);
+  const ChangePlanTermEvent(this.planTerm);
 
   @override
-  List<Object> get props => [date];
+  List<Object> get props => [planTerm];
 
   @override
-  String toString() => 'GetUserHabitByDate { date: $date }';
+  String toString() => 'ChangePlanTermEvent { planTerm: $planTerm }';
+}
+
+class GoalSwitchChangedEvent extends UserHabitEvent {
+  final bool value;
+
+  const GoalSwitchChangedEvent(this.value);
+
+  @override
+  List<Object> get props => [value];
+
+  @override
+  String toString() => 'GoalSwitchChangedEvent { value: $value }';
+}
+
+class InsertUserHabitEvent extends UserHabitEvent {
+  final UserHabit userHabit;
+
+  const InsertUserHabitEvent(this.userHabit);
+
+  @override
+  List<Object> get props => [userHabit];
+
+  @override
+  String toString() => 'InsertUserHabitEvent { userHabit: $userHabit }';
+}
+
+class UpdateUserHabitEvent extends UserHabitEvent {
+  final UserHabit userHabit;
+
+  const UpdateUserHabitEvent(this.userHabit);
+
+  @override
+  List<Object> get props => [userHabit];
+
+  @override
+  String toString() => 'UpdateUserHabitEvent { userHabit: $userHabit }';
+}
+
+class SaveUserHabitProgressEvent extends UserHabitEvent {
+  final SaveUserHabitProgressRequest request;
+
+  const SaveUserHabitProgressEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'SaveUserHabitProgressEvent { request: $request }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -99,32 +162,84 @@ abstract class UserHabitState extends Equatable {
 
 class UserHabitInit extends UserHabitState {}
 
-class DashboardUserHabitsLoading extends UserHabitState {}
-
 class UserHabitLoading extends UserHabitState {}
 
-class RefreshDashboardUserHabitsSuccess extends UserHabitState {
-  final List<UserHabit>? todayUserHabits;
-  final List<UserHabit>? tomorrowUserHabits;
+class UserHabitDefault extends UserHabitState {}
 
-  const RefreshDashboardUserHabitsSuccess({this.todayUserHabits, this.tomorrowUserHabits});
+class PlanTermChangedState extends UserHabitState {
+  final String planTerm;
 
-  @override
-  List<Object> get props => [todayUserHabits ?? [], tomorrowUserHabits ?? []];
+  const PlanTermChangedState(this.planTerm);
 
   @override
-  String toString() =>
-      'RefreshDashboardUserHabitsSuccess { todayUserHabits: $todayUserHabits, tomorrowUserHabits: $tomorrowUserHabits }';
+  List<Object> get props => [planTerm];
+
+  @override
+  String toString() => 'PlanTermChangedState { planTerm: $planTerm }';
 }
 
-class RefreshDashboardUserHabitsFailed extends UserHabitState {
+class GoalSwitchChangedState extends UserHabitState {
+  final bool value;
+
+  const GoalSwitchChangedState(this.value);
+
+  @override
+  List<Object> get props => [value];
+
+  @override
+  String toString() => 'GoalSwitchChangedState { value: $value }';
+}
+
+class InsertUserHabitSuccess extends UserHabitState {}
+
+class InsertUserHabitFailed extends UserHabitState {
   final String message;
 
-  const RefreshDashboardUserHabitsFailed(this.message);
+  const InsertUserHabitFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'RefreshDashboardUserHabitsFailed { message: $message }';
+  String toString() => 'InsertUserHabitFailed { messages: $message }';
+}
+
+class UpdateUserHabitSuccess extends UserHabitState {
+  final UserHabit userHabit;
+
+  const UpdateUserHabitSuccess(this.userHabit);
+
+  @override
+  List<Object> get props => [userHabit];
+
+  @override
+  String toString() => 'UpdateUserHabitSuccess { userHabit: $userHabit }';
+}
+
+class UpdateUserHabitFailed extends UserHabitState {
+  final String message;
+
+  const UpdateUserHabitFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'UpdateUserHabitFailed { message: $message }';
+}
+
+class UserHabitProgressLoading extends UserHabitState {}
+
+class SaveUserHabitProgressSuccess extends UserHabitState {}
+
+class SaveUserHabitProgressFailed extends UserHabitState {
+  final String message;
+
+  const SaveUserHabitProgressFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'SaveUserHabitProgressFailed { message: $message }';
 }

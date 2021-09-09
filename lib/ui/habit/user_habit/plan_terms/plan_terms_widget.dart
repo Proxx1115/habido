@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/plan.dart';
-import 'package:habido_app/ui/habit/habit/plan_terms/plan_terms_bloc.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
-
 import 'plan_term_helper.dart';
+import 'plan_terms_bloc.dart';
 
 class PlanTermsWidget extends StatefulWidget {
   final Color primaryColor;

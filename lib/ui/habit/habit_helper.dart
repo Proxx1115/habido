@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 
 class HabitHelper {
   // static bool visibleGoalSlider(HabitGoalSettings habitGoalSettings) {
@@ -28,26 +31,32 @@ class HabitHelper {
   //   return res;
   // }
 
-  static String getProgressRoute(HabitGoalSettings habitGoalSettings) {
-    String res = '';
-
+  static String? getProgressRoute(HabitGoalSettings habitGoalSettings) {
     switch (habitGoalSettings.toolType) {
       case ToolTypes.Minute:
       case ToolTypes.Count:
       case ToolTypes.Hour:
       case ToolTypes.Income:
       case ToolTypes.Expense:
-        res = Routes.habitTimer;
-        break;
+        return Routes.habitTimer;
       case ToolTypes.Feeling:
       case ToolTypes.Satisfaction:
+        return Routes.habitFeeling;
       case ToolTypes.Music:
       case ToolTypes.Animation:
       default:
-        res = Routes.habitTimer;
+        return Routes.habitTimer;
     }
+  }
 
-    return res;
+  static Color getPrimaryColor(UserHabit userHabit) {
+    return userHabit.habit?.color != null ? HexColor.fromHex(userHabit.habit!.color!) : customColors.primary;
+  }
+
+  static Color getBackgroundColor(UserHabit userHabit) {
+    return userHabit.habit?.backgroundColor != null
+        ? HexColor.fromHex(userHabit.habit!.backgroundColor!)
+        : customColors.primaryBackground;
   }
 }
 

@@ -14,6 +14,8 @@ class ConstantColors {
   static const frolyRed = const Color(0xFFE8553E); // trash icon
   static const yellow = const Color(0xFFFDCD56);
   static const blue = const Color(0xFF73B0F4);
+  static const vikingGreen = const Color(0xFF61DDBC);
+  static const yellowGreen = const Color(0xFFB4DF80);
 }
 
 class CustomColors {
@@ -56,6 +58,10 @@ class CustomColors {
   Color iconWhite = Colors.white;
   Color iconGrey = ConstantColors.ghostGrey;
   Color iconRed = ConstantColors.frolyRed;
+  Color iconYellow = ConstantColors.yellow;
+  Color iconBlue = ConstantColors.blue;
+  Color iconVikingGreen = ConstantColors.vikingGreen;
+  Color iconYellowGreen = ConstantColors.yellowGreen;
 
   CustomColors.constructor();
 

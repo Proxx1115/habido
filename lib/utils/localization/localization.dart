@@ -262,6 +262,20 @@ class LocaleKeys {
 
   static String get monthlyCalendar => 'Сарын төлөвлөгөө';
 
+  static String get pleaseSelectEmoji => 'Та мэдрэмжээ сонгоно уу?';
+
+  static String get emoji1 => 'Гунигтай байна';
+
+  static String get emoji2 => 'Тааламжгүй байна';
+
+  static String get emoji3 => 'Юу мэдэрч байгаагаа мэдэхгүй байна';
+
+  static String get emoji4 => 'Тайван сайхан байна';
+
+  static String get emoji5 => 'Маш их баяртай байна';
+
+  static String get note => 'Тэмдэглэл';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 

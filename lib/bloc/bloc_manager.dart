@@ -6,6 +6,7 @@ import 'package:habido_app/bloc/param_bloc.dart';
 import 'package:habido_app/bloc/achievements_bloc.dart';
 import 'package:habido_app/bloc/psy_test_main_bloc.dart';
 import 'package:habido_app/bloc/test_bloc.dart';
+import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 
 import 'auth_bloc.dart';
@@ -22,10 +23,11 @@ class BlocManager {
   static final chatBloc = ChatBloc();
   static final homeBloc = HomeBloc();
   static final psyTestMainBloc = PsyTestMainBloc();
-  static final userHabitBloc = UserHabitBloc();
+  static final dashboardBloc = DashboardBloc();
   static final calendarBloc = CalendarBloc();
   static final notifBloc = NotificationBloc();
   static final achievementBloc = AchievementBloc();
+  static final userHabitBloc = UserHabitBloc();
 
   static void dispose() {
     mainBloc.close();
@@ -35,10 +37,11 @@ class BlocManager {
     chatBloc.close();
     homeBloc.close();
     psyTestMainBloc.close();
-    userHabitBloc.close();
+    dashboardBloc.close();
     calendarBloc.close();
     notifBloc.close();
     achievementBloc.close();
+    userHabitBloc.close();
   }
 }
 

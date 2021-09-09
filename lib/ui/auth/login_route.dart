@@ -142,6 +142,7 @@ class _LoginRouteState extends State<LoginRoute> {
         if (_height < SizeHelper.minHeightScreen) _height = SizeHelper.minHeightScreen;
 
         return SingleChildScrollView(
+          // physics: NeverScrollableScrollPhysics(),
           child: Container(
             height: _height,
             child: Column(
