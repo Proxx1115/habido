@@ -30,6 +30,7 @@ class CustomColors {
   /// Border
   Color primaryBorder = ConstantColors.athensGrey;
   Color secondaryBorder = Colors.white;
+  Color roseWhiteBorder = ConstantColors.roseWhite;
 
   /// Text
   Color primaryText = ConstantColors.black;

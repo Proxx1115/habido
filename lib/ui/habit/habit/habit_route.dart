@@ -104,7 +104,7 @@ class _HabitRouteState extends State<HabitRoute> {
       // Plan term
       if (widget.userHabit != null) {
         _selectedPlanTerm = widget.userHabit!.planTerm ?? PlanTerm.Daily;
-        _planList = widget.userHabit!.plans ?? [];
+        _planList = widget.userHabit!.planDays ?? [];
       }
 
       // Goal
@@ -370,9 +370,9 @@ class _HabitRouteState extends State<HabitRoute> {
 
     // Plan days
     if (_planList.isNotEmpty) {
-      userHabit.plans = [];
+      userHabit.planDays = [];
       for (var el in _planList) {
-        if (el.isSelected ?? false) userHabit.plans!.add(el);
+        if (el.isSelected ?? false) userHabit.planDays!.add(el);
       }
     }
 

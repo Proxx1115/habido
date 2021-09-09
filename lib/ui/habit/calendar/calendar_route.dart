@@ -11,6 +11,7 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -94,30 +95,29 @@ class _CalendarRouteState extends State<CalendarRoute> {
           listener: _blocListener,
           child: BlocBuilder<CalendarBloc, CalendarState>(
             builder: (context, state) {
-              return Container(
-                child: Column(
-                  children: [
-                    /// Календар
-                    _calendar(),
+              return Column(
+                children: [
+                  /// Календар
+                  _calendar(),
 
-                    /// Events
-
-                    Expanded(
-                      child: Container(
-                        color: customColors.primaryBackground,
-                        margin: EdgeInsets.only(top: 10.0),
-                        padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, SizeHelper.marginBottom),
-                        child: (_dailyUserHabitList != null)
-                            ? ListView(
-                                children: [
-                                  for (int i = 0; i < _dailyUserHabitList!.length; i++)
-                                    ListItemContainer(
+                  /// Events
+                  Expanded(
+                    child: Container(
+                      color: customColors.primaryBackground,
+                      margin: EdgeInsets.only(top: 10.0),
+                      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, SizeHelper.marginBottom),
+                      child: (_dailyUserHabitList != null)
+                          ? ListView(
+                              children: [
+                                for (int i = 0; i < _dailyUserHabitList!.length; i++)
+                                  MoveInAnimation(
+                                    child: ListItemContainer(
                                       title: _dailyUserHabitList![i].name ?? '',
                                       leadingImageUrl: _dailyUserHabitList![i].habit?.photo,
                                       leadingBackgroundColor: (_dailyUserHabitList![i].habit?.color != null)
                                           ? HexColor.fromHex(_dailyUserHabitList![i].habit!.color!)
                                           : null,
-                                      margin: EdgeInsets.only(top: i == 0 ? 25.0 : 10.0),
+                                      margin: EdgeInsets.fromLTRB(15.0, i == 0 ? 25.0 : 10.0, 15.0, 0.0),
                                       height: 70.0,
                                       suffixAsset: Assets.arrow_forward,
                                       onPressed: () {
@@ -130,13 +130,13 @@ class _CalendarRouteState extends State<CalendarRoute> {
                                         );
                                       },
                                     ),
-                                ],
-                              )
-                            : Container(),
-                      ),
+                                  ),
+                              ],
+                            )
+                          : Container(),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           ),
@@ -173,106 +173,118 @@ class _CalendarRouteState extends State<CalendarRoute> {
   }
 
   Widget _calendar() {
-    return TableCalendar(
-      // General
-      locale: LocaleCode.mn_MN,
-      startingDayOfWeek: StartingDayOfWeek.monday,
-      firstDay: _startDate,
-      lastDay: _endDate,
+    return Container(
+      margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+      child: TableCalendar(
+        // General
+        locale: LocaleCode.mn_MN,
+        startingDayOfWeek: StartingDayOfWeek.monday,
+        firstDay: _startDate,
+        lastDay: _endDate,
 
-      // Style
-      calendarStyle: CalendarStyle(
-        isTodayHighlighted: true,
-        // selectedDecoration: BoxDecoration(
-        // color: customColors.primary,
-        // shape: BoxShape.rectangle,
-        // borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        // ),
-        // selectedTextStyle: TextStyle(color: customColors.whiteText),
+        // Style
+        calendarStyle: CalendarStyle(
+          isTodayHighlighted: true,
+          // selectedDecoration: BoxDecoration(
+          // color: customColors.primary,
+          // shape: BoxShape.rectangle,
+          // borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          // ),
+          // selectedTextStyle: TextStyle(color: customColors.whiteText),
 
-        canMarkersOverflow: true,
+          canMarkersOverflow: true,
 
-        // canEventMarkersOverflow: true,
-        // todayColor: Colors.orange,
-        // selectedColor: Theme.of(context).primaryColor,
-        // todayStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
-      ),
-      headerStyle: HeaderStyle(
-        formatButtonVisible: false,
-        titleCentered: true,
-      ),
-
-      // Builder
-      calendarBuilders: CalendarBuilders(
-        selectedBuilder: (context, date, events) => Container(
-          margin: const EdgeInsets.all(4.0),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(10.0)),
-          child: Text(
-            date.day.toString(),
-            style: TextStyle(color: Colors.white),
-          ),
+          // canEventMarkersOverflow: true,
+          // todayColor: Colors.orange,
+          // selectedColor: Theme.of(context).primaryColor,
+          // todayStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
         ),
-        todayBuilder: (context, date, events) => Container(
-          margin: const EdgeInsets.all(4.0),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(10.0)),
-          child: Text(
-            date.day.toString(),
-            style: TextStyle(color: Colors.white),
-          ),
+        headerStyle: HeaderStyle(
+          formatButtonVisible: false,
+          titleCentered: true,
         ),
-        // markerBuilder:
-        defaultBuilder: (context, date, events) => Container(
-          margin: const EdgeInsets.all(4.0),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: _getColor(date),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Text(
-            date.day.toString(),
-            style: TextStyle(color: customColors.secondaryText),
-          ),
-        ),
-      ),
 
-      // Format
-      calendarFormat: _calendarFormat,
-      availableCalendarFormats: {CalendarFormat.month: 'Month'},
-      onFormatChanged: (format) {
-        setState(() {
-          _calendarFormat = format;
-        });
-      },
-
-      // Focused day
-      focusedDay: _focusedDay,
-      onPageChanged: (focusedDay) {
-        _focusedDay = focusedDay;
-      },
-
-      // Selected day
-      selectedDayPredicate: (day) {
-        return isSameDay(_selectedDay, day);
-      },
-      onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          _dailyUserHabitList = [];
-
-          _selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
-          _focusedDay = DateTime(focusedDay.year, focusedDay.month, focusedDay.day);
-
-          BlocManager.calendarBloc.add(
-            GetCalendarDateEvent(
-              Func.toDateStr(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
+        // Builder
+        calendarBuilders: CalendarBuilders(
+          selectedBuilder: (context, date, events) => Container(
+            margin: const EdgeInsets.all(4.0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: customColors.primary,
+              borderRadius: BorderRadius.circular(10.0),
             ),
-          );
-        });
-      },
+            child: Text(
+              date.day.toString(),
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          todayBuilder: (context, date, events) => Container(
+            margin: const EdgeInsets.all(4.0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: customColors.primaryBackground,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Text(
+              date.day.toString(),
+              style: TextStyle(color: customColors.secondaryText),
+            ),
+          ),
+          defaultBuilder: (context, date, events) => Container(
+            margin: const EdgeInsets.all(4.0),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: _getColor(date),
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(
+                width: SizeHelper.borderWidth,
+                color: _getBorderColor(date),
+              ),
+            ),
+            child: Text(
+              date.day.toString(),
+              style: TextStyle(color: customColors.secondaryText),
+            ),
+          ),
+        ),
 
-      // Event
-      // eventLoader: _getEventsFromDay,
+        // Format
+        calendarFormat: _calendarFormat,
+        availableCalendarFormats: {CalendarFormat.month: 'Month'},
+        onFormatChanged: (format) {
+          setState(() {
+            _calendarFormat = format;
+          });
+        },
+
+        // Focused day
+        focusedDay: _focusedDay,
+        onPageChanged: (focusedDay) {
+          _focusedDay = focusedDay;
+        },
+
+        // Selected day
+        selectedDayPredicate: (day) {
+          return isSameDay(_selectedDay, day);
+        },
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _dailyUserHabitList = [];
+
+            _selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+            _focusedDay = DateTime(focusedDay.year, focusedDay.month, focusedDay.day);
+
+            BlocManager.calendarBloc.add(
+              GetCalendarDateEvent(
+                Func.toDateStr(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
+              ),
+            );
+          });
+        },
+
+        // Event
+        // eventLoader: _getEventsFromDay,
+      ),
     );
   }
 
@@ -280,11 +292,26 @@ class _CalendarRouteState extends State<CalendarRoute> {
     DateTime tempDate = convertDate(date);
 
     if (_dateListWithHabits?.contains(tempDate) ?? false) {
-      return customColors.iconRed;
-    } else {
-      return Colors.transparent;
+      if (tempDate.isBefore(convertDate(DateTime.now()))) {
+        return customColors.greyBackground;
+      }
     }
-    // return (_dateListWithHabits?.contains(tempDate) ?? false) ? customColors.iconRed : Colors.transparent;
+
+    return Colors.transparent;
+  }
+
+  Color _getBorderColor(DateTime date) {
+    DateTime tempDate = convertDate(date);
+
+    if (_dateListWithHabits?.contains(tempDate) ?? false) {
+      if (tempDate.isBefore(convertDate(DateTime.now()))) {
+        return Colors.transparent;
+      } else {
+        return customColors.primary;
+      }
+    } else {
+      return customColors.roseWhiteBorder;
+    }
   }
 
   DateTime convertDate(DateTime dateTime) {

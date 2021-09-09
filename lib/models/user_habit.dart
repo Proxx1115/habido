@@ -19,7 +19,7 @@ class UserHabit extends BaseResponse {
   Habit? habit;
 
   List<UserHabitReminders>? userHabitReminders;
-  List<Plan>? plans;
+  List<Plan>? planDays;
 
   UserHabit({
     this.userHabitId,
@@ -32,7 +32,7 @@ class UserHabit extends BaseResponse {
     this.habitId,
     this.habit,
     this.userHabitReminders,
-    this.plans,
+    this.planDays,
   });
 
   UserHabit.fromJson(dynamic json) {
@@ -52,10 +52,10 @@ class UserHabit extends BaseResponse {
         userHabitReminders?.add(UserHabitReminders.fromJson(v));
       });
     }
-    if (json['plans'] != null) {
-      plans = [];
-      json['plans'].forEach((v) {
-        plans?.add(Plan.fromJson(v));
+    if (json['planDays'] != null) {
+      planDays = [];
+      json['planDays'].forEach((v) {
+        planDays?.add(Plan.fromJson(v));
       });
     }
   }
@@ -73,8 +73,8 @@ class UserHabit extends BaseResponse {
     if (userHabitReminders != null) {
       map['userHabitReminders'] = userHabitReminders?.map((v) => v.toJson()).toList();
     }
-    if (plans != null) {
-      map['plans'] = plans?.map((v) => v.toJson()).toList();
+    if (planDays != null) {
+      map['planDays'] = planDays?.map((v) => v.toJson()).toList();
     }
     return map;
   }
