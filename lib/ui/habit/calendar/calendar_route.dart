@@ -62,6 +62,12 @@ class _CalendarRouteState extends State<CalendarRoute> {
     _startDate = _focusedDay.add(Duration(days: -60));
     _endDate = _focusedDay.add(Duration(days: 365));
 
+    BlocManager.calendarBloc.add(
+      GetCalendarDateEvent(
+        Func.toDateStr(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
+      ),
+    );
+
     // Events
     // _selectedEvents[DateTime(2021, 9, 3)] = [
     //   Event(title: 'test1'),
