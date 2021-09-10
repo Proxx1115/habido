@@ -16,6 +16,7 @@ import 'package:habido_app/ui/habit/habit_categories/habit_categories_route.dart
 import 'package:habido_app/ui/habit/habit_list/habit_list_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_feeling/habit_feeling_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_timer/habit_timer_route.dart';
+import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart';
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
@@ -61,6 +62,7 @@ class Routes {
   static const userHabit = 'userHabit';
   static const habitTimer = 'habitTimer';
   static const habitFeeling = 'habitFeeling';
+  static const habitWater = 'habitWater';
   static const notif = 'notif';
   static const userInfo = 'userInfo';
   static const yourRank = 'yourRank';
@@ -255,6 +257,16 @@ class Routes {
         );
         break;
 
+      case Routes.habitWater:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          HabitWaterRoute(
+            userHabit: _getValueByKey(args, 'userHabit'),
+          ),
+          settings,
+        );
+        break;
+
       case Routes.notif:
         route = SlideRightRouteBuilder(NotifRoute(), settings);
         break;
@@ -268,9 +280,8 @@ class Routes {
         break;
 
       case Routes.habitSuccess:
-        route = SlideRightRouteBuilder(HabitSuccessRoute(), settings);
         var args = settings.arguments as Map;
-        route = SlideRightRouteBuilder(
+        route = SlideBottomRouteBuilder(
           HabitSuccessRoute(
             title: _getValueByKey(args, 'title'),
             text: _getValueByKey(args, 'text'),

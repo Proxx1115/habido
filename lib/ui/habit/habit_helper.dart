@@ -1,41 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/user_habit.dart';
-import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 
 class HabitHelper {
-  // static bool visibleGoalSlider(HabitGoalSettings habitGoalSettings) {
-  //   bool res = false;
-  //
-  //   if(habitGoalSettings)
-  //
-  //   switch (habitGoalSettings.toolType) {
-  //     case ToolTypes.Minute:
-  //     case ToolTypes.Count:
-  //     case ToolTypes.Hour:
-  //     case ToolTypes.Income:
-  //     case ToolTypes.Expense:
-  //     case ToolTypes.Music:
-  //     case ToolTypes.Animation:
-  //       if (Func.toInt(habitGoalSettings.goalMin) >= 0 && Func.toInt(habitGoalSettings.goalMax) > 0) res = true;
-  //       break;
-  //     case ToolTypes.Feeling:
-  //     case ToolTypes.Satisfaction:
-  //     default:
-  //       res = false;
-  //   }
-  //
-  //   return res;
-  // }
-
   static String? getProgressRoute(HabitGoalSettings habitGoalSettings) {
     switch (habitGoalSettings.toolType) {
       case ToolTypes.Minute:
-      case ToolTypes.Count:
       case ToolTypes.Hour:
+        return Routes.habitTimer;
+      case ToolTypes.Count:
+        return Routes.habitWater; // todo test count-iig drink water esehiig odoohondoo yalgahgui
       case ToolTypes.Income:
       case ToolTypes.Expense:
         return Routes.habitTimer;
@@ -58,6 +35,31 @@ class HabitHelper {
         ? HexColor.fromHex(userHabit.habit!.backgroundColor!)
         : customColors.primaryBackground;
   }
+
+// static bool visibleGoalSlider(HabitGoalSettings habitGoalSettings) {
+//   bool res = false;
+//
+//   if(habitGoalSettings)
+//
+//   switch (habitGoalSettings.toolType) {
+//     case ToolTypes.Minute:
+//     case ToolTypes.Count:
+//     case ToolTypes.Hour:
+//     case ToolTypes.Income:
+//     case ToolTypes.Expense:
+//     case ToolTypes.Music:
+//     case ToolTypes.Animation:
+//       if (Func.toInt(habitGoalSettings.goalMin) >= 0 && Func.toInt(habitGoalSettings.goalMax) > 0) res = true;
+//       break;
+//     case ToolTypes.Feeling:
+//     case ToolTypes.Satisfaction:
+//     default:
+//       res = false;
+//   }
+//
+//   return res;
+// }
+
 }
 
 //1	Хугацаа	0	60	Minute	минут

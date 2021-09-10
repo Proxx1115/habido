@@ -20,6 +20,8 @@ class Assets {
   static const String clock = 'assets/images/global/clock.svg';
   static const String clock20 = 'assets/images/global/clock20.svg';
   static const String add = 'assets/images/global/add.svg';
+  static const String add10 = 'assets/images/global/add10.svg';
+  static const String subtract10 = 'assets/images/global/subtract10.svg';
   static const String arrow_forward = 'assets/images/global/arrow_forward.svg';
   static const String bell = 'assets/images/global/bell.svg';
   static const String positive = 'assets/images/global/positive.svg';
@@ -80,6 +82,7 @@ class Assets {
   static const String emoji5 = 'assets/images/habit/emoji5.svg';
   static const String success_background_png = 'assets/images/habit/success_background.png';
   static const String success_background = 'assets/images/habit/success_background.svg';
+  static const String cup_of_water = 'assets/images/habit/cup_of_water.svg';
 }
 
 class FontAsset {

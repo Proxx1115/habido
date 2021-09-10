@@ -21,6 +21,8 @@ class SharedPrefKey {
   static const String pushNotifToken = 'pushNotifToken'; // Google firebase push notification token
   static const String registeredPushNotifToken = 'registeredPushNotifToken'; // Өмнө нь server рүү бүртгүүлсэн эсэх
 
+  /// Habit
+  static const String habitProgressValue = 'habitProgressValue'; // Ус уусан тоо etc...
 }
 
 class SharedPref {
@@ -89,5 +91,17 @@ class SharedPref {
 
   static void setRegisteredPushNotifToken(bool value) {
     sharedPref?.setBool(SharedPrefKey.registeredPushNotifToken, value);
+  }
+
+  static String getHabitProgressValue(int userHabitId) {
+    var today = Func.toDateStr(DateTime.now());
+    return sharedPref?.getString('${Func.toStr(userHabitId)}_${today}_${SharedPrefKey.habitProgressValue}') ?? '';
+  }
+
+  static void setHabitProgressValue(int? userHabitId, String? value) {
+    if (userHabitId != null && value != null) {
+      var today = Func.toDateStr(DateTime.now());
+      sharedPref?.setString('${Func.toStr(userHabitId)}_${today}_${SharedPrefKey.habitProgressValue}', value);
+    }
   }
 }

@@ -5,9 +5,8 @@ import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
-import 'package:habido_app/ui/content/suggested_content.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
-import 'package:habido_app/ui/habit/note_widget.dart';
+import 'package:habido_app/ui/habit/progress/habit_water/cup_of_water.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -17,27 +16,25 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 
-import 'emoji_widget.dart';
-
-class HabitFeelingRoute extends StatefulWidget {
+class HabitWaterRoute extends StatefulWidget {
   final UserHabit userHabit;
 
-  const HabitFeelingRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitWaterRoute({Key? key, required this.userHabit}) : super(key: key);
 
   @override
-  _HabitFeelingRouteState createState() => _HabitFeelingRouteState();
+  _HabitWaterRouteState createState() => _HabitWaterRouteState();
 }
 
-class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
+class _HabitWaterRouteState extends State<HabitWaterRoute> {
   // UI
   late Color _primaryColor;
   late Color _backgroundColor;
 
-  // Emoji
-  int? _selectedEmoji;
-
   // Data
   late UserHabit _userHabit;
+
+  // Button
+  bool _enabledButtonFinish = false;
 
   @override
   void initState() {
@@ -67,33 +64,20 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
                 padding: SizeHelper.paddingScreen,
                 child: Column(
                   children: [
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          /// Emoji
-                          EmojiWidget(
-                            onSelectedEmoji: (value) {
-                              setState(() {
-                                _selectedEmoji = value;
-                              });
-                            },
-                          ),
+                    Expanded(child: Container()),
 
-                          /// Note
-                          NoteWidget(
-                            userHabit: _userHabit,
-                            margin: EdgeInsets.only(top: 15.0),
-                          ),
-
-                          /// Content
-                          if (_userHabit.habit?.contentId != null)
-                            SuggestedContent(
-                              contentId: _userHabit.habit!.contentId!,
-                              margin: EdgeInsets.only(top: 30.0),
-                            ),
-                        ],
-                      ),
+                    /// Water
+                    CupOfWater(
+                      userHabit: widget.userHabit,
+                      primaryColor: _primaryColor,
+                      onChanged: (isFinished) {
+                        setState(() {
+                          _enabledButtonFinish = isFinished;
+                        });
+                      },
                     ),
+
+                    Expanded(child: Container()),
 
                     /// Button finish
                     _buttonFinish(),
@@ -114,20 +98,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'title': LocaleKeys.youDidIt,
         'primaryColor': _primaryColor,
-        // 'callback': () {
-        //   Navigator.popUntil(context, ModalRoute.withName(Routes.home));
-        // }
       });
-    } else if (state is SaveUserHabitProgressFailed) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
-      );
-    } else if (state is UpdateUserHabitSuccess) {
-      if (state.userHabit.userHabitId == _userHabit.userHabitId) {
-        _userHabit = state.userHabit;
-      }
-      BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
         context,
@@ -143,11 +114,11 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       style: CustomButtonStyle.Secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: _selectedEmoji != null
+      onPressed: _enabledButtonFinish
           ? () {
               var request = SaveUserHabitProgressRequest();
-              request.userHabitId = _userHabit.userHabitId;
-              request.value = Func.toStr(_selectedEmoji!);
+              request.userHabitId = widget.userHabit.userHabitId;
+
               BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
             }
           : null,

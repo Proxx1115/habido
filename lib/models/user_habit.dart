@@ -13,6 +13,7 @@ class UserHabit extends BaseResponse {
   // HabitGoalSettings
   String? planTerm; // PlanTerm: Daily, Weekly, Monthly
   String? goalValue; // Min max
+  String? currentValue; // todo test us uuhad hadgalah
 
   // Habit settings
   int? habitId;

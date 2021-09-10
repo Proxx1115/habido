@@ -247,23 +247,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
       _tomorrowUserHabits = state.tomorrowUserHabits;
     }
   }
-
-  _userHabitListOld() {
-    return Expanded(
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(35.0), topRight: Radius.circular(35.0)),
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(color: customColors.primaryBackground),
-          child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(SizeHelper.padding, 35.0, SizeHelper.padding, SizeHelper.marginBottom),
-            child: Container(
-              // padding: EdgeInsets.fromLTRB(SizeHelper.padding, 35.0, SizeHelper.padding, SizeHelper.marginBottom),
-              child: DashboardUserHabits(),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
