@@ -9,7 +9,7 @@ class MoveInAnimation extends StatelessWidget {
   final Widget child;
 
   // Duration
-  final int _duration = 500; // Milliseconds
+  final int duration; // Milliseconds
   final double? delay;
 
   // Position
@@ -19,6 +19,7 @@ class MoveInAnimation extends StatelessWidget {
 
   MoveInAnimation({
     required this.child,
+    this.duration = 500,
     this.delay,
     this.isAxisHorizontal = true,
     this.tweenStart,
@@ -28,16 +29,16 @@ class MoveInAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tween = MultiTween<AniProps>()
-      ..add(AniProps.opacity, 0.0.tweenTo(1.0), _duration.milliseconds)
+      ..add(AniProps.opacity, 0.0.tweenTo(1.0), duration.milliseconds)
       ..add(
         isAxisHorizontal ? AniProps.translateX : AniProps.translateY,
         (tweenStart ?? -30.0).tweenTo(tweenEnd ?? 0.0),
-        _duration.milliseconds,
+        duration.milliseconds,
         Curves.easeOut,
       );
 
     return PlayAnimation<MultiTweenValues<AniProps>>(
-      delay: Duration(milliseconds: (_duration * (delay ?? 1)).round()),
+      delay: Duration(milliseconds: (duration * (delay ?? 1)).round()),
       duration: tween.duration,
       tween: tween,
       child: child,
@@ -59,20 +60,21 @@ class FadeInAnimation extends StatelessWidget {
   final Widget child;
 
   // Duration
-  final int _duration = 500; // Milliseconds
+  final int duration; // Milliseconds
   final double? delay;
 
   FadeInAnimation({
     required this.child,
+    this.duration = 500,
     this.delay,
   });
 
   @override
   Widget build(BuildContext context) {
-    final tween = MultiTween<AniProps>()..add(AniProps.opacity, 0.0.tweenTo(1.0), _duration.milliseconds);
+    final tween = MultiTween<AniProps>()..add(AniProps.opacity, 0.0.tweenTo(1.0), duration.milliseconds);
 
     return PlayAnimation<MultiTweenValues<AniProps>>(
-      delay: Duration(milliseconds: (_duration * (delay ?? 1)).round()),
+      delay: Duration(milliseconds: (duration * (delay ?? 1)).round()),
       duration: tween.duration,
       tween: tween,
       child: child,
