@@ -44,9 +44,11 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           }
 
           yield RefreshDashboardUserHabitsSuccess(
-              todayUserHabits: todayUserHabits, tomorrowUserHabits: tomorrowUserHabits);
+            todayUserHabits: todayUserHabits,
+            tomorrowUserHabits: tomorrowUserHabits,
+          );
         } else {
-          yield RefreshDashboardUserHabitsFailed(LocaleKeys.noData);
+          yield RefreshDashboardUserHabitsSuccess(todayUserHabits: [], tomorrowUserHabits: []);
         }
       } else {
         yield RefreshDashboardUserHabitsFailed(ApiHelper.getFailedMessage(res.message));
