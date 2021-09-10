@@ -80,7 +80,7 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
       appBarTitle: LocaleKeys.yourRegistration,
       padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
       loading: state is AuthLoading,
-      body: Column(
+      child: Column(
         children: [
           /// Та өөрийн утасны дугаараа оруулна уу.
           CustomText(LocaleKeys.enterPhoneNumber, alignment: Alignment.center, maxLines: 2),

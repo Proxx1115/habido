@@ -61,36 +61,41 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      appBarTitle: widget.userHabit.name,
-      appBarLeadingColor: _primaryColor,
-      backgroundColor: _backgroundColor,
-      body: BlocProvider.value(
-        value: BlocManager.userHabitBloc,
-        child: BlocListener<UserHabitBloc, UserHabitState>(
-          listener: _blocListener,
-          child: Container(
-            padding: SizeHelper.paddingScreen,
-            child: Column(
-              children: [
-                Expanded(child: Container()),
+    return BlocProvider.value(
+      value: BlocManager.userHabitBloc,
+      child: BlocListener<UserHabitBloc, UserHabitState>(
+        listener: _blocListener,
+        child: BlocBuilder<UserHabitBloc, UserHabitState>(
+          builder: (context, state) {
+            return CustomScaffold(
+              appBarTitle: widget.userHabit.name,
+              appBarLeadingColor: _primaryColor,
+              backgroundColor: _backgroundColor,
+              loading: state is UserHabitProgressLoading,
+              child: Container(
+                padding: SizeHelper.paddingScreen,
+                child: Column(
+                  children: [
+                    Expanded(child: Container()),
 
-                /// Timer
-                if (_duration != null)
-                  CountdownTimer(
-                    duration: _duration!,
-                    primaryColor: _primaryColor,
-                    // visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
-                    visibleAddButton: false, // todo test
-                  ),
+                    /// Timer
+                    if (_duration != null)
+                      CountdownTimer(
+                        duration: _duration!,
+                        primaryColor: _primaryColor,
+                        // visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
+                        visibleAddButton: false, // todo test
+                      ),
 
-                Expanded(child: Container()),
+                    Expanded(child: Container()),
 
-                /// Button хадгалах
-                _buttonFinish(),
-              ],
-            ),
-          ),
+                    /// Button хадгалах
+                    _buttonFinish(),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

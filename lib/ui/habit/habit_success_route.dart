@@ -44,7 +44,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> {
           onWillPop: () {
             print('nothing');
           },
-          body: Column(
+          child: Column(
             children: [
               /// Background
               SvgPicture.asset(

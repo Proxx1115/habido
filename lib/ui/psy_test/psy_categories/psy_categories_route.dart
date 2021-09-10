@@ -50,7 +50,7 @@ class _PsyCategoriesRouteState extends State<PsyCategoriesRoute> {
             return CustomScaffold(
               scaffoldKey: _psyCategoryKey,
               appBarTitle: LocaleKeys.psyTest,
-              body: (_psyCategoryList != null && _psyCategoryList!.isNotEmpty)
+              child: (_psyCategoryList != null && _psyCategoryList!.isNotEmpty)
                   ? GridView.count(
                       primary: false,
                       padding: const EdgeInsets.all(SizeHelper.padding),

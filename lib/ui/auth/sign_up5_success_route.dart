@@ -63,7 +63,7 @@ class _SignUp5SuccessRouteState extends State<SignUp5SuccessRoute> {
     return CustomScaffold(
       scaffoldKey: _signUp5SuccessKey,
       backgroundColor: customColors.primary,
-      body: Container(
+      child: Container(
         padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
         child: Stack(
           children: [

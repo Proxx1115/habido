@@ -33,7 +33,7 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
     return CustomScaffold(
       scaffoldKey: _psyIntroKey,
       appBarTitle: LocaleKeys.doTest,
-      body: LayoutBuilder(builder: (context, constraints) {
+      child: LayoutBuilder(builder: (context, constraints) {
         if (_height < constraints.maxHeight) _height = constraints.maxHeight;
         if (_height < _minHeight) _height = _minHeight;
 

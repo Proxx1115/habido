@@ -50,7 +50,7 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
     return CustomScaffold(
       scaffoldKey: _categoryTestsKey,
       appBarTitle: widget.psyCategory.name,
-      body: BlocProvider.value(
+      child: BlocProvider.value(
         value: _categoryTestsBloc,
         child: BlocListener<PsyTestBloc, PsyTestState>(
           listener: _blocListener,

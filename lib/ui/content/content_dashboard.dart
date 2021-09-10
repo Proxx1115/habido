@@ -46,7 +46,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      body: BlocProvider.value(
+      child: BlocProvider.value(
         value: _contentBloc,
         child: BlocListener<ContentBloc, ContentState>(
           listener: _blocListener,

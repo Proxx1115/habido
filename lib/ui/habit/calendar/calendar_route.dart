@@ -95,7 +95,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
       appBarTitle: LocaleKeys.monthlyCalendar,
       backgroundColor: customColors.secondaryBackground,
       appBarLeadingBackgroundColor: customColors.primaryBackground,
-      body: BlocProvider.value(
+      child: BlocProvider.value(
         value: BlocManager.calendarBloc,
         child: BlocListener<CalendarBloc, CalendarState>(
           listener: _blocListener,

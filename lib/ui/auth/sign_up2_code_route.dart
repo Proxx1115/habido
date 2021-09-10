@@ -36,7 +36,7 @@ class _SignUp2CodeRouteState extends State<SignUp2CodeRoute> {
       scaffoldKey: _signUp2CodeKey,
       appBarTitle: LocaleKeys.yourRegistration,
       padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
-      body: Column(
+      child: Column(
         children: [
           /// Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу.
           CustomText(LocaleKeys.enterCode, alignment: Alignment.center, maxLines: 2),

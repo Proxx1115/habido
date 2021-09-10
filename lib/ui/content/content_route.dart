@@ -33,7 +33,7 @@ class _ContentRouteState extends State<ContentRoute> {
 
     return CustomScaffold(
       appBarTitle: LocaleKeys.content,
-      body: SingleChildScrollView(
+      child: SingleChildScrollView(
         padding: SizeHelper.paddingScreen,
         child: Column(
           children: [

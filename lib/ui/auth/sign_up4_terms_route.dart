@@ -64,7 +64,7 @@ class _SignUp4TermsRouteState extends State<SignUp4TermsRoute> {
     return CustomScaffold(
       scaffoldKey: _signUp4TermsKey,
       appBarTitle: LocaleKeys.yourRegistration,
-      body: Container(
+      child: Container(
         padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
         child: Column(
           children: [

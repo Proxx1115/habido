@@ -54,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return CustomScaffold(
       backgroundColor: customColors.primary,
-      body: Container(
+      child: Container(
         color: customColors.primaryBackground,
         child: CustomScrollView(
           slivers: [

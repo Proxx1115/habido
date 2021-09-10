@@ -66,7 +66,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
       appBarTitle: widget.psyTest.name,
       appBarOnPressedLeading: _onBackPressed,
       onWillPop: _onBackPressed,
-      body: BlocProvider.value(
+      child: BlocProvider.value(
         value: _psyTestBloc,
         child: BlocListener<PsyTestBloc, PsyTestState>(
           listener: _blocListener,

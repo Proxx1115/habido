@@ -121,7 +121,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: widget.title != null ? widget.title : LocaleKeys.habit,
-      body: (widget.userHabit != null || widget.habit != null)
+      child: (widget.userHabit != null || widget.habit != null)
           ? SingleChildScrollView(
               padding: SizeHelper.paddingScreen,
               child: BlocProvider.value(

@@ -15,7 +15,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: LocaleKeys.userInfo,
-      body: SingleChildScrollView(
+      child: SingleChildScrollView(
         padding: SizeHelper.paddingScreen,
         child: Column(
           children: [

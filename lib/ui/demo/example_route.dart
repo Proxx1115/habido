@@ -14,7 +14,7 @@ class _ExampleRouteState extends State<ExampleRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: 'Test',
-      body: SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Column(
           children: [
             CustomButton(

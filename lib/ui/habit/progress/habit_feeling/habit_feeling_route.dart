@@ -56,7 +56,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       appBarTitle: _userHabit.name,
       appBarLeadingColor: _primaryColor,
       backgroundColor: _backgroundColor,
-      body: BlocProvider.value(
+      child: BlocProvider.value(
         value: BlocManager.userHabitBloc,
         child: BlocListener<UserHabitBloc, UserHabitState>(
           listener: _blocListener,

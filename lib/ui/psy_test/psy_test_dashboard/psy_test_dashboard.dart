@@ -42,7 +42,7 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
       onWillPop: () {
         print('nothing');
       },
-      body: Column(
+      child: Column(
         children: [
           /// App bar
           DashboardAppBar(

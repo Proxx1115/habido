@@ -42,7 +42,7 @@ class _YourRankRouteState extends State<YourRankRoute> {
       appBarTitle: LocaleKeys.yourRank,
       backgroundColor: customColors.secondaryBackground,
       appBarLeadingBackgroundColor: customColors.primaryBackground,
-      body: BlocProvider.value(
+      child: BlocProvider.value(
         value: BlocManager.userBloc,
         child: BlocListener<UserBloc, UserState>(
           listener: _blocListener,

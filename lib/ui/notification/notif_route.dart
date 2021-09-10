@@ -33,7 +33,7 @@ class _NotifRouteState extends State<NotifRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: LocaleKeys.notification,
-      body: SingleChildScrollView(
+      child: SingleChildScrollView(
         padding: SizeHelper.paddingScreen,
         child: BlocProvider.value(
           value: BlocManager.notifBloc,

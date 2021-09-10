@@ -74,7 +74,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     return CustomScaffold(
       scaffoldKey: _signUp3ProfileKey,
       appBarTitle: LocaleKeys.yourRegistration,
-      body: LayoutBuilder(builder: (context, constraints) {
+      child: LayoutBuilder(builder: (context, constraints) {
         if (_maxHeight < constraints.maxHeight) _maxHeight = constraints.maxHeight;
         if (_maxHeight < _minHeight) _maxHeight = _minHeight;
 

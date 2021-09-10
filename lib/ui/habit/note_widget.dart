@@ -39,6 +39,12 @@ class NoteWidget extends StatelessWidget {
                     Func.hideKeyboard(context);
                   },
                   child: CustomDialogBody(
+                    buttonText: LocaleKeys.save,
+                    onPressedButton: () {
+                      var userHabit = this.userHabit;
+                      userHabit.userNote = _noteController.text;
+                      BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
+                    },
                     child: Column(
                       children: [
                         CustomTextField(
@@ -47,15 +53,6 @@ class NoteWidget extends StatelessWidget {
                           hintText: LocaleKeys.note,
                           maxLines: 5,
                           autofocus: true,
-                        ),
-                        CustomButton(
-                          text: LocaleKeys.save,
-                          onPressed: () {
-                            var userHabit = this.userHabit;
-                            userHabit.userNote = _noteController.text;
-                            BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
-                            Navigator.pop(context);
-                          },
                         ),
                       ],
                     ),

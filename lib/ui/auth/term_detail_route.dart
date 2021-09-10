@@ -24,7 +24,7 @@ class _TermDetailRouteState extends State<TermDetailRoute> {
       scaffoldKey: _termDetailKey,
       appBarTitle: LocaleKeys.termsOfService,
       padding: EdgeInsets.fromLTRB(25.0, 30.0, 25.0, SizeHelper.marginBottom),
-      body: SingleChildScrollView(
+      child: SingleChildScrollView(
         child: InfoContainer(
           title: widget.termsOfService.title ?? '',
           body: widget.termsOfService.body ?? '',

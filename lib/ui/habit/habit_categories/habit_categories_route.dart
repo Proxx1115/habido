@@ -46,7 +46,7 @@ class _HabitCategoriesRouteState extends State<HabitCategoriesRoute> {
     return CustomScaffold(
       scaffoldKey: _habitCategoriesKey,
       appBarTitle: LocaleKeys.createHabit,
-      body: BlocProvider.value(
+      child: BlocProvider.value(
         value: _habitCategoryBloc,
         child: BlocListener<HabitCategoryBloc, HabitCategoryState>(
           listener: _blocListener,

@@ -19,7 +19,7 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      body: Column(
+      child: Column(
         children: [
           /// Calendar, Title, Notification
           DashboardAppBar(

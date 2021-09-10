@@ -27,7 +27,7 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
       onWillPop: () {
         Navigator.popUntil(context, ModalRoute.withName(Routes.home));
       },
-      body: Container(
+      child: Container(
         padding: SizeHelper.paddingScreen,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

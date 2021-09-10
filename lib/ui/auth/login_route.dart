@@ -137,7 +137,7 @@ class _LoginRouteState extends State<LoginRoute> {
       scaffoldKey: _loginKey,
       loading: state is AuthLoading,
       backgroundColor: customColors.primaryBackground,
-      body: LayoutBuilder(builder: (context, constraints) {
+      child: LayoutBuilder(builder: (context, constraints) {
         if (_height < constraints.maxHeight) _height = constraints.maxHeight;
         if (_height < SizeHelper.minHeightScreen) _height = SizeHelper.minHeightScreen;
 
