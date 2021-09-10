@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/models/psy_test_result.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -23,6 +24,9 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: '',
+      onWillPop: () {
+        Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+      },
       body: Container(
         padding: SizeHelper.paddingScreen,
         child: Column(
@@ -61,7 +65,7 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
               margin: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
               text: LocaleKeys.thanksHabido,
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.popUntil(context, ModalRoute.withName(Routes.home));
               },
             ),
           ],
