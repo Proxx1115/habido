@@ -17,8 +17,9 @@ class HabitHelper {
       case ToolTypes.Expense:
         return Routes.habitTimer;
       case ToolTypes.Feeling:
-      case ToolTypes.Satisfaction:
         return Routes.habitFeeling;
+      case ToolTypes.Satisfaction:
+        return Routes.habitSatisfaction;
       case ToolTypes.Music:
       case ToolTypes.Animation:
       default:

@@ -30,6 +30,7 @@ class Assets {
   static const String expanded = 'assets/images/global/expanded.svg';
   static const String collapsed = 'assets/images/global/collapsed.svg';
   static const String skip = 'assets/images/global/skip.svg';
+  static const String camera = 'assets/images/global/camera.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';

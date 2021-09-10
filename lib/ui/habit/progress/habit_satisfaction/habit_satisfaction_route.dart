@@ -6,7 +6,7 @@ import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
-import 'package:habido_app/ui/habit/progress/habit_water/cup_of_water.dart';
+import 'package:habido_app/ui/habit/progress/habit_satisfaction/satisfaction_photo.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -15,25 +15,26 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 
-class HabitWaterRoute extends StatefulWidget {
+/// Сэтгэл ханамж
+class HabitSatisfactionRoute extends StatefulWidget {
   final UserHabit userHabit;
 
-  const HabitWaterRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitSatisfactionRoute({Key? key, required this.userHabit}) : super(key: key);
 
   @override
-  _HabitWaterRouteState createState() => _HabitWaterRouteState();
+  _HabitSatisfactionRouteState createState() => _HabitSatisfactionRouteState();
 }
 
-class _HabitWaterRouteState extends State<HabitWaterRoute> {
-  // UI
+class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
+// UI
   late Color _primaryColor;
   late Color _backgroundColor;
 
   // Data
   late UserHabit _userHabit;
 
-  // Button
-  bool _enabledButtonFinish = false;
+  // Photo
+  String? _base64Image;
 
   @override
   void initState() {
@@ -65,16 +66,7 @@ class _HabitWaterRouteState extends State<HabitWaterRoute> {
                   children: [
                     Expanded(child: Container()),
 
-                    /// Water
-                    CupOfWater(
-                      userHabit: widget.userHabit,
-                      primaryColor: _primaryColor,
-                      onChanged: (isFinished) {
-                        setState(() {
-                          _enabledButtonFinish = isFinished;
-                        });
-                      },
-                    ),
+                    SatisfactionPhoto(primaryColor: _primaryColor),
 
                     Expanded(child: Container()),
 
@@ -113,10 +105,11 @@ class _HabitWaterRouteState extends State<HabitWaterRoute> {
       style: CustomButtonStyle.Secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: _enabledButtonFinish
+      onPressed: _base64Image != null
           ? () {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = widget.userHabit.userHabitId;
+              request.photoBase64 = _base64Image;
 
               BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
             }
