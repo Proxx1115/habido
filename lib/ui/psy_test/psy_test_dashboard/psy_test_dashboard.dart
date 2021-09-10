@@ -99,10 +99,12 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
   Widget _expandable(PsyTestCategoryResults category) {
     return category.psyTestResults != null && category.psyTestResults!.length > 0
         ? ExpandableContainer(
+            margin: EdgeInsets.only(bottom: 20.0),
             title: category.categoryName ?? '',
             expandableListItems: List.generate(
               category.psyTestResults!.length,
               (index) => ExpandableListItem(
+
                 text: category.psyTestResults![index].testResult?.testName ?? '',
                 leadingImageUrl: category.psyTestResults![index].photo,
                 leadingBackgroundColor: (category.psyTestResults![index].color != null)

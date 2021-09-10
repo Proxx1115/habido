@@ -35,6 +35,7 @@ class ExpandableListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return MoveInAnimation(
       duration: 400,
+
       child: Slidable(
         controller: _controller,
         actionPane: SlidableDrawerActionPane(),

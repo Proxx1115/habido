@@ -93,7 +93,6 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
               isDismissible: true,
               child: CustomDialogBody(
                 text: LocaleKeys.sureToSkipHabit,
-                height: 300.0,
                 buttonText: LocaleKeys.skip,
                 button2Text: LocaleKeys.no,
                 onPressedButton: () {

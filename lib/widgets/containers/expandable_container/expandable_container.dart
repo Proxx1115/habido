@@ -9,11 +9,13 @@ import 'package:habido_app/widgets/text.dart';
 class ExpandableContainer extends StatefulWidget {
   final String title;
   final List<ExpandableListItem> expandableListItems;
+  final EdgeInsets? margin;
 
   const ExpandableContainer({
     Key? key,
     required this.title,
     required this.expandableListItems,
+    this.margin,
   }) : super(key: key);
 
   @override
@@ -39,14 +41,17 @@ class _ExpandableContainerState extends State<ExpandableContainer> {
   Widget build(BuildContext context) {
     _expandedHeight = widget.expandableListItems.length * (_listItemHeight + _liteItemMarginBottom);
 
-    return Column(
-      children: [
-        /// Header
-        _header(),
+    return Container(
+      margin: widget.margin,
+      child: Column(
+        children: [
+          /// Header
+          _header(),
 
-        /// Body
-        _body(),
-      ],
+          /// Body
+          _body(),
+        ],
+      ),
     );
   }
 

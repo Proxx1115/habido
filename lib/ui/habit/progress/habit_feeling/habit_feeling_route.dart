@@ -60,42 +60,46 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
         value: BlocManager.userHabitBloc,
         child: BlocListener<UserHabitBloc, UserHabitState>(
           listener: _blocListener,
-          child: Container(
-            padding: SizeHelper.paddingScreen,
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                      /// Emoji
-                      EmojiWidget(
-                        onSelectedEmoji: (value) {
-                          setState(() {
-                            _selectedEmoji = value;
-                          });
-                        },
-                      ),
+          child: BlocBuilder<UserHabitBloc, UserHabitState>(
+            builder: (context, state) {
+              return Container(
+                padding: SizeHelper.paddingScreen,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          /// Emoji
+                          EmojiWidget(
+                            onSelectedEmoji: (value) {
+                              setState(() {
+                                _selectedEmoji = value;
+                              });
+                            },
+                          ),
 
-                      /// Note
-                      NoteWidget(
-                        userHabit: _userHabit,
-                        margin: EdgeInsets.only(top: 15.0),
-                      ),
+                          /// Note
+                          NoteWidget(
+                            userHabit: _userHabit,
+                            margin: EdgeInsets.only(top: 15.0),
+                          ),
 
-                      /// Content
-                      if (_userHabit.habit?.contentId != null)
-                        SuggestedContent(
-                          contentId: _userHabit.habit!.contentId!,
-                          margin: EdgeInsets.only(top: 30.0),
-                        ),
-                    ],
-                  ),
+                          /// Content
+                          if (_userHabit.habit?.contentId != null)
+                            SuggestedContent(
+                              contentId: _userHabit.habit!.contentId!,
+                              margin: EdgeInsets.only(top: 30.0),
+                            ),
+                        ],
+                      ),
+                    ),
+
+                    /// Button finish
+                    _buttonFinish(),
+                  ],
                 ),
-
-                /// Button finish
-                _buttonFinish(),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),
@@ -119,7 +123,9 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
     } else if (state is UpdateUserHabitSuccess) {
-      if (state.userHabit.userHabitId == _userHabit.userHabitId) _userHabit = state.userHabit;
+      if (state.userHabit.userHabitId == _userHabit.userHabitId) {
+        _userHabit = state.userHabit;
+      }
       BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(

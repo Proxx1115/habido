@@ -216,7 +216,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               isDismissible: true,
               child: CustomDialogBody(
                 text: LocaleKeys.sureToSkipHabit,
-                height: 300.0,
+                // height: 300.0,
                 buttonText: LocaleKeys.skip,
                 button2Text: LocaleKeys.no,
                 onPressedButton: () {

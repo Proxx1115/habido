@@ -20,7 +20,6 @@ void showCustomDialog(BuildContext context, {required Widget child, bool isDismi
 }
 
 class CustomDialogBody extends StatelessWidget {
-  final double height;
   final Color? color;
   final String? asset;
   final String? text;
@@ -32,7 +31,6 @@ class CustomDialogBody extends StatelessWidget {
 
   const CustomDialogBody({
     Key? key,
-    this.height = 267.0, // 300.0
     this.color,
     this.asset,
     this.text,
@@ -46,17 +44,17 @@ class CustomDialogBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
+      padding: MediaQuery.of(context).viewInsets,
       decoration: new BoxDecoration(
         color: customColors.secondaryBackground,
         borderRadius: new BorderRadius.only(topLeft: Radius.circular(35.0), topRight: Radius.circular(35.0)),
       ),
-      child: ListView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: EdgeInsets.all(45.0),
             child: Column(
-              // mainAxisSize: MainAxisSize.min,
               children: [
                 /// Icon
                 if (asset != null) _icon(),

@@ -15,6 +15,7 @@ class CustomTextField extends StatefulWidget {
   final CustomTextFieldStyle style;
   final TextEditingController controller;
   final FocusNode? focusNode;
+  final bool autofocus;
   final bool readOnly;
   final EdgeInsets margin;
   final int? maxLines;
@@ -34,6 +35,7 @@ class CustomTextField extends StatefulWidget {
     this.style = CustomTextFieldStyle.primary,
     required this.controller,
     this.focusNode,
+    this.autofocus = false,
     this.readOnly = false,
     this.margin = EdgeInsets.zero,
     this.prefixAsset,
@@ -76,6 +78,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         focusNode: _focusNode,
         readOnly: widget.readOnly,
         maxLines: widget.maxLines ?? 1,
+        autofocus: widget.autofocus,
         decoration: InputDecoration(
           border: _border,
           focusedBorder: _border,
@@ -107,8 +110,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             : BorderSide.none,
       );
 
-  Color get _backgroundColor =>
-      (widget.style == CustomTextFieldStyle.primary) ? customColors.primaryTextFieldBackground : customColors.secondaryTextFieldBackground;
+  Color get _backgroundColor => (widget.style == CustomTextFieldStyle.primary)
+      ? customColors.primaryTextFieldBackground
+      : customColors.secondaryTextFieldBackground;
 
   Widget? _prefixIcon() {
     return (widget.prefixAsset != null) ? SvgPicture.asset(widget.prefixAsset!, fit: BoxFit.scaleDown) : null;
@@ -130,7 +134,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             } else if (widget.obscureText) {
               setState(() {
                 _obscureText = !_obscureText;
-                _suffixAsset = _obscureText ? Assets.obscure_hidden : Assets.obscure_hidden; // todo test - change obscure icon
+                _suffixAsset =
+                    _obscureText ? Assets.obscure_hidden : Assets.obscure_hidden; // todo test - change obscure icon
               });
             }
           },
