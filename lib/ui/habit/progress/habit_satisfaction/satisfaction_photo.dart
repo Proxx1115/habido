@@ -10,8 +10,9 @@ import 'package:habido_app/widgets/containers/containers.dart';
 
 class SatisfactionPhoto extends StatefulWidget {
   final Color primaryColor;
+  final Function(String base64Image)? onImageCaptured;
 
-  const SatisfactionPhoto({Key? key, required this.primaryColor}) : super(key: key);
+  const SatisfactionPhoto({Key? key, required this.primaryColor, this.onImageCaptured}) : super(key: key);
 
   @override
   _SatisfactionPhotoState createState() => _SatisfactionPhotoState();
@@ -30,6 +31,7 @@ class _SatisfactionPhotoState extends State<SatisfactionPhoto> {
           if (res.isNotEmpty) {
             setState(() {
               _base64Image = res;
+              if (widget.onImageCaptured != null) widget.onImageCaptured!(res);
             });
           }
         },

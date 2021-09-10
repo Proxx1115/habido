@@ -7,6 +7,7 @@ import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit/progress/habit_satisfaction/satisfaction_photo.dart';
+import 'package:habido_app/ui/habit/progress/habit_satisfaction/satisfaction_slider.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -66,7 +67,20 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
                   children: [
                     Expanded(child: Container()),
 
-                    SatisfactionPhoto(primaryColor: _primaryColor),
+                    SatisfactionPhoto(
+                      primaryColor: _primaryColor,
+                      onImageCaptured: (value) {
+                        print('changes');
+                      },
+                    ),
+
+                    SatisfactionSlider(
+                      margin: EdgeInsets.only(top: 35.0),
+                      text: 'asdf',
+                      onChanged: (value) {
+                        print(value);
+                      },
+                    ),
 
                     Expanded(child: Container()),
 
