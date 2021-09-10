@@ -31,7 +31,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       yield ChatLoading();
 
-      // todo test get param
+      // Validation
+      if (globals.param == null || globals.param!.assistantCbId == null || globals.param!.onBoardingCbId == null) {
+        var paramRes = await ApiManager.param();
+      }
 
       // Get chat bot ID
       int? chatBotId;
@@ -45,7 +48,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           break;
       }
 
-      // Validation
       if (chatBotId == null) {
         yield ChatFailed(LocaleKeys.chatBotIdNotFound);
         return;
