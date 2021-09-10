@@ -29,93 +29,111 @@ class HabitSuccessRoute extends StatefulWidget {
 class _HabitSuccessRouteState extends State<HabitSuccessRoute> {
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      padding: SizeHelper.paddingScreen,
-      onWillPop: () {
-        print('nothing');
-      },
-      body: Column(
-        children: [
-          Expanded(child: Container()),
+    return Stack(
+      children: [
+        /// Background
+        SvgPicture.asset(
+          Assets.success_background_png,
+          fit: BoxFit.fitWidth,
+        ),
 
-          Column(
+        /// Body
+        CustomScaffold(
+          padding: SizeHelper.paddingScreen,
+          // backgroundColor: Colors.transparent,
+          onWillPop: () {
+            print('nothing');
+          },
+          body: Column(
             children: [
-              Stack(
-                alignment: Alignment.center,
+              /// Background
+              SvgPicture.asset(
+                Assets.success_background_png,
+                fit: BoxFit.fitWidth,
+              ),
+
+              Expanded(child: Container()),
+
+              Column(
                 children: [
-                  /// Circle
-                  Center(
-                    child: Opacity(
-                      opacity: 0.25,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: widget.primaryColor ?? customColors.primary,
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      /// Circle
+                      Center(
+                        child: Opacity(
+                          opacity: 0.25,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: widget.primaryColor ?? customColors.primary,
+                            ),
+                            width: 120.0,
+                            height: 120.0,
+                            child: Container(),
+                          ),
                         ),
-                        width: 120.0,
-                        height: 120.0,
-                        child: Container(),
                       ),
-                    ),
+
+                      /// Circle
+                      Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: widget.primaryColor ?? customColors.primary,
+                          ),
+                          width: 100.0,
+                          height: 100.0,
+                          child: Container(),
+                        ),
+                      ),
+
+                      /// Icon
+                      Center(
+                        child: SvgPicture.asset(
+                          Assets.trophy28,
+                          color: customColors.iconWhite,
+                        ),
+                      ),
+                    ],
                   ),
 
-                  /// Circle
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: widget.primaryColor ?? customColors.primary,
-                      ),
-                      width: 100.0,
-                      height: 100.0,
-                      child: Container(),
+                  /// Title
+                  if (widget.title != null)
+                    CustomText(
+                      widget.title,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(top: 25.0),
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.w500,
+                      color: widget.primaryColor ?? customColors.primary,
                     ),
-                  ),
 
-                  /// Icon
-                  Center(
-                    child: SvgPicture.asset(
-                      Assets.trophy28,
-                      color: customColors.iconWhite,
+                  /// Text
+                  if (widget.text != null)
+                    CustomText(
+                      widget.text,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(top: 25.0),
                     ),
-                  ),
                 ],
               ),
 
-              /// Title
-              if (widget.title != null)
-                CustomText(
-                  widget.title,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 25.0),
-                  fontSize: 19.0,
-                  fontWeight: FontWeight.w500,
-                  color: widget.primaryColor ?? customColors.primary,
-                ),
+              Expanded(child: Container()),
 
-              /// Text
-              if (widget.text != null)
-                CustomText(
-                  widget.text,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 25.0),
-                ),
+              /// Button finish
+              CustomButton(
+                text: LocaleKeys.finish,
+                style: CustomButtonStyle.Secondary,
+                onPressed: () {
+                  Navigator.pop(context);
+                  if (widget.callback != null) widget.callback!();
+                },
+              ),
             ],
           ),
-
-          Expanded(child: Container()),
-
-          /// Button finish
-          CustomButton(
-            text: LocaleKeys.finish,
-            style: CustomButtonStyle.Secondary,
-            onPressed: () {
-              Navigator.pop(context);
-              if (widget.callback != null) widget.callback!();
-            },
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

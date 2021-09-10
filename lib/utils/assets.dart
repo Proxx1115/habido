@@ -78,6 +78,8 @@ class Assets {
   static const String emoji3 = 'assets/images/habit/emoji3.svg';
   static const String emoji4 = 'assets/images/habit/emoji4.svg';
   static const String emoji5 = 'assets/images/habit/emoji5.svg';
+  static const String success_background_png = 'assets/images/habit/success_background.png';
+  static const String success_background = 'assets/images/habit/success_background.svg';
 }
 
 class FontAsset {
