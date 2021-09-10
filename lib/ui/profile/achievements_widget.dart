@@ -232,13 +232,13 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
 
   Widget _categoryChartLabels() {
     return Container(
-      margin: EdgeInsets.only(top: 25.0),
+      margin: EdgeInsets.only(top: 15.0),
       child: Column(
         children: [
           for (int i = 0; i < _habitCategoryAchievements!.length; i += 2)
             _categoryChartLabelRow(
               _habitCategoryAchievements![i],
-              (i + 1 <= _habitCategoryAchievements!.length) ? _habitCategoryAchievements![i + 1] : null,
+              (i + 1 < _habitCategoryAchievements!.length) ? _habitCategoryAchievements![i + 1] : null,
             ),
         ],
       ),
@@ -250,7 +250,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
     HabitCategoriesAchievement? habitCategoriesAchievement2,
   ) {
     return Container(
-      margin: EdgeInsets.all(0.0),
+      margin: EdgeInsets.only(top: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
