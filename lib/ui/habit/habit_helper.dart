@@ -55,9 +55,7 @@ class ToolUnit {
   static const String MNT = '₮';
 }
 
-class ToolContent {
-  static const String Music = 'Music link';
-  static const String TreeAnimation = 'Tree animation';
-  static const String BreathingAnimation = 'Breathing animation';
-  static const String Camera = 'camera';
+class ToolContentAnimation {
+  static const String TreeAnimation = 'TreeAnimation';
+  static const String BreathingAnimation = 'BreathingAnimation';
 }

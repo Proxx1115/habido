@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/calendar_bloc.dart';
 import 'package:habido_app/models/user_habit.dart';
@@ -39,6 +40,12 @@ class _CalendarRouteState extends State<CalendarRoute> {
   late DateTime _startDate;
   late DateTime _endDate;
 
+  // Dates with habits
+  List<DateTime>? _dateListWithHabits;
+
+  // User habits
+  List<UserHabit>? _dailyUserHabitList;
+
   // Events
   // Map<DateTime, List<Event>> _selectedEvents = {};
 
@@ -48,12 +55,6 @@ class _CalendarRouteState extends State<CalendarRoute> {
   //   print(res);
   //   return res ?? [];
   // }
-
-  // Dates with habits
-  List<DateTime>? _dateListWithHabits;
-
-  // User habits
-  List<UserHabit>? _dailyUserHabitList;
 
   @override
   void initState() {
@@ -208,7 +209,39 @@ class _CalendarRouteState extends State<CalendarRoute> {
         headerStyle: HeaderStyle(
           formatButtonVisible: false,
           titleCentered: true,
+          decoration: BoxDecoration(
+            color: customColors.primaryBackground,
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          ),
+          headerPadding: EdgeInsets.all(4.0),
+          headerMargin: EdgeInsets.only(top: 15.0, bottom: 20.0),
+          titleTextStyle: TextStyle(color: customColors.primary, fontWeight: FontWeight.w500),
+          // titleTextFormatter: (DateTime date, dynamic locale) {
+          //   return Func.toDateStr(date);
+          // },
+          leftChevronIcon: Container(
+            height: 20.0,
+            width: 20.0,
+            padding: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              color: customColors.secondaryBackground,
+              borderRadius: BorderRadius.all(Radius.circular(7.0)),
+            ),
+            child: SvgPicture.asset(Assets.back10),
+          ),
+          rightChevronIcon: Container(
+            height: 20.0,
+            width: 20.0,
+            padding: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              color: customColors.secondaryBackground,
+              borderRadius: BorderRadius.all(Radius.circular(7.0)),
+            ),
+            child: SvgPicture.asset(Assets.forward10),
+          ),
         ),
+
+        // weekendDays: [5, 6, 7],
 
         // Builder
         calendarBuilders: CalendarBuilders(

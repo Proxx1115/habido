@@ -1,3 +1,5 @@
+import 'habit_tool_content.dart';
+
 class HabitGoalSettings {
   int? goalTypeId;
   String? goalName; // Feeling ued utga baihgui, Satisfaction
@@ -11,7 +13,7 @@ class HabitGoalSettings {
   String? toolType; // Minute, Hour, Count, Feeling (emoji), Satisfaction, Amount (Finance),
   // Хасагдсан - Music, Animation, Camera
   String? toolUnit; // Нэгж - минут, цаг, аяга, 'emoji - тоо', '₮',
-  String? toolContent; // todo list болгох - 'music link', 'Tree animation, 'Breathing animation', 'camera',
+  HabitToolContent? toolContent; // ;-аар тусгаарлагдсан линк ирнэ
 
   HabitGoalSettings({
     this.goalTypeId,
@@ -36,7 +38,7 @@ class HabitGoalSettings {
     goalValueSelectable = json['goalValueSelectable'];
     toolType = json['toolType'];
     toolUnit = json['toolUnit'];
-    toolContent = json['toolContent'];
+    toolContent = json['toolContent'] != null ? HabitToolContent.fromJson(json['toolContent']) : null;
   }
 
   Map<String, dynamic> toJson() {
