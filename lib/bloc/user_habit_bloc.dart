@@ -1,7 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/habit_progress.dart';
+import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/models/user_habit_expense_category.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
@@ -24,6 +27,12 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapUpdateUserHabitEventToState(event);
     } else if (event is SaveUserHabitProgressEvent) {
       yield* _mapSaveUserHabitProgressEventToState(event);
+    } else if (event is GetHabitFinanceTotalAmountEvent) {
+      yield* _mapGetHabitFinanceTotalAmountEventToState(event);
+    } else if (event is GetHabitProgressListByDateEvent) {
+      yield* _mapGetHabitProgressListByDateEventToState(event);
+    } else if (event is AddHabitProgressEvent) {
+      yield* _mapAddHabitProgressEventToState(event);
     }
   }
 
@@ -62,6 +71,21 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
+  Stream<UserHabitState> _mapGetHabitFinanceTotalAmountEventToState(GetHabitFinanceTotalAmountEvent event) async* {
+    try {
+      yield UserHabitProgressLoading();
+
+      var res = await ApiManager.habitFinanceTotalAmount(event.userHabitId);
+      if (res.code == ResponseCode.Success) {
+        yield HabitFinanceTotalAmountSuccess(Func.toDouble(res.totalAmount), res.expenseCategories ?? []);
+      } else {
+        yield HabitFinanceTotalAmountFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield HabitFinanceTotalAmountFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
   Stream<UserHabitState> _mapSaveUserHabitProgressEventToState(SaveUserHabitProgressEvent event) async* {
     try {
       yield UserHabitProgressLoading();
@@ -74,6 +98,36 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       }
     } catch (e) {
       yield SaveUserHabitProgressFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapGetHabitProgressListByDateEventToState(GetHabitProgressListByDateEvent event) async* {
+    try {
+      yield UserHabitProgressLoading();
+
+      var res = await ApiManager.habitProgressListByDate(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield GetHabitProgressListByDateSuccess(res.habitProgressList ?? []);
+      } else {
+        yield GetHabitProgressListByDateFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetHabitProgressListByDateFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapAddHabitProgressEventToState(AddHabitProgressEvent event) async* {
+    try {
+      yield UserHabitProgressLoading();
+
+      var res = await ApiManager.addHabitProgress(event.habitProgress);
+      if (res.code == ResponseCode.Success) {
+        yield AddHabitProgressSuccess();
+      } else {
+        yield AddHabitProgressFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield AddHabitProgressFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -147,6 +201,42 @@ class SaveUserHabitProgressEvent extends UserHabitEvent {
 
   @override
   String toString() => 'SaveUserHabitProgressEvent { request: $request }';
+}
+
+class GetHabitFinanceTotalAmountEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetHabitFinanceTotalAmountEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetHabitFinanceTotalAmountEvent { userHabitId: $userHabitId }';
+}
+
+class GetHabitProgressListByDateEvent extends UserHabitEvent {
+  final HabitProgressListByDateRequest request;
+
+  const GetHabitProgressListByDateEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'GetHabitProgressListByDateEvent { request: $request }';
+}
+
+class AddHabitProgressEvent extends UserHabitEvent {
+  final HabitProgress habitProgress;
+
+  const AddHabitProgressEvent(this.habitProgress);
+
+  @override
+  List<Object> get props => [habitProgress];
+
+  @override
+  String toString() => 'AddHabitProgressEvent { habitProgress: $habitProgress }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -242,4 +332,68 @@ class SaveUserHabitProgressFailed extends UserHabitState {
 
   @override
   String toString() => 'SaveUserHabitProgressFailed { message: $message }';
+}
+
+class GetHabitProgressListByDateSuccess extends UserHabitState {
+  final List<HabitProgress> habitProgressList;
+
+  const GetHabitProgressListByDateSuccess(this.habitProgressList);
+
+  @override
+  List<Object> get props => [habitProgressList];
+
+  @override
+  String toString() => 'GetHabitProgressListByDateSuccess { habitProgressList: $habitProgressList }';
+}
+
+class GetHabitProgressListByDateFailed extends UserHabitState {
+  final String message;
+
+  const GetHabitProgressListByDateFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetHabitProgressListByDateFailed { message: $message }';
+}
+
+class HabitFinanceTotalAmountSuccess extends UserHabitState {
+  final double totalAmount;
+  final List<UserHabitExpenseCategory> expenseCategories;
+
+  const HabitFinanceTotalAmountSuccess(this.totalAmount, this.expenseCategories);
+
+  @override
+  List<Object> get props => [totalAmount, expenseCategories];
+
+  @override
+  String toString() =>
+      'HabitFinanceTotalAmountSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
+}
+
+class HabitFinanceTotalAmountFailed extends UserHabitState {
+  final String message;
+
+  const HabitFinanceTotalAmountFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'HabitFinanceTotalAmountFailed { message: $message }';
+}
+
+class AddHabitProgressSuccess extends UserHabitState {}
+
+class AddHabitProgressFailed extends UserHabitState {
+  final String message;
+
+  const AddHabitProgressFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'AddHabitProgressFailed { message: $message }';
 }

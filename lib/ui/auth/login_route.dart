@@ -218,7 +218,7 @@ class _LoginRouteState extends State<LoginRoute> {
       controller: _phoneNumberController,
       focusNode: _phoneNumberFocusNode,
       maxLength: 8,
-      textInputType: TextInputType.number,
+      keyboardType: TextInputType.number,
       prefixAsset: Assets.username,
       hintText: LocaleKeys.phoneNumber,
       suffixAsset: Assets.clear_circle,

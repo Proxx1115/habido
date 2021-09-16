@@ -9,6 +9,11 @@ import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
 import 'package:habido_app/models/habit_calendar_response.dart';
 import 'package:habido_app/models/habit_categories_response.dart';
+import 'package:habido_app/models/habit_expense_categories_response.dart';
+import 'package:habido_app/models/habit_finance_total_amount_response.dart';
+import 'package:habido_app/models/habit_progress.dart';
+import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
+import 'package:habido_app/models/habit_progress_list_response.dart';
 import 'package:habido_app/models/habits_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
@@ -264,6 +269,45 @@ class ApiManager {
     return BaseResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.saveUserHabitProgress,
+        objectData: request,
+      ),
+    );
+  }
+
+  static Future<HabitProgressListResponse> habitProgressListByDate(HabitProgressListByDateRequest request) async {
+    return HabitProgressListResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.habitProgressListByDate + '?userHabitId=${request.userHabitId}&dateTime=${request.dateTime}',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  // static const String habitExpenseCategories = '/mobile/habit/user-habit/expense-categories';
+  // static const String habitFinanceTotalAmount = '/mobile/habit/user-habit/total-amount';
+
+  static Future<HabitExpenseCategoriesResponse> habitExpenseCategories() async {
+    return HabitExpenseCategoriesResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.habitExpenseCategories,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<HabitFinanceTotalAmountResponse> habitFinanceTotalAmount(int userHabitId) async {
+    return HabitFinanceTotalAmountResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.habitFinanceTotalAmount + '?userHabitId=$userHabitId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<BaseResponse> addHabitProgress(HabitProgress request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.addHabitProgress,
         objectData: request,
       ),
     );

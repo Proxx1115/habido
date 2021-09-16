@@ -18,9 +18,10 @@ class CustomTextField extends StatefulWidget {
   final bool autofocus;
   final bool readOnly;
   final EdgeInsets margin;
+  final Color? backgroundColor;
   final int? maxLines;
   final int? maxLength;
-  final TextInputType? textInputType;
+  final TextInputType? keyboardType;
   final bool obscureText;
   final String? prefixAsset;
   final String? hintText;
@@ -38,9 +39,10 @@ class CustomTextField extends StatefulWidget {
     this.autofocus = false,
     this.readOnly = false,
     this.margin = EdgeInsets.zero,
+    this.backgroundColor,
     this.prefixAsset,
     this.hintText,
-    this.textInputType,
+    this.keyboardType,
     this.obscureText = false,
     this.fontSize = 15.0,
     this.textColor,
@@ -94,7 +96,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           contentPadding: SizeHelper.boxPadding,
         ),
         style: TextStyle(color: _textColor, fontSize: widget.fontSize, fontWeight: _fontWeight),
-        keyboardType: widget.textInputType,
+        keyboardType: widget.keyboardType,
         obscureText: _obscureText,
         textAlign: TextAlign.start,
         textAlignVertical: TextAlignVertical.center,
@@ -110,9 +112,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
             : BorderSide.none,
       );
 
-  Color get _backgroundColor => (widget.style == CustomTextFieldStyle.primary)
-      ? customColors.primaryTextFieldBackground
-      : customColors.secondaryTextFieldBackground;
+  Color get _backgroundColor =>
+      widget.backgroundColor ??
+      ((widget.style == CustomTextFieldStyle.primary)
+          ? customColors.primaryTextFieldBackground
+          : customColors.secondaryTextFieldBackground);
 
   Widget? _prefixIcon() {
     return (widget.prefixAsset != null) ? SvgPicture.asset(widget.prefixAsset!, fit: BoxFit.scaleDown) : null;

@@ -280,6 +280,18 @@ class LocaleKeys {
 
   static String get youDidIt => 'Та чадлаа';
 
+  static String get totalSavings => 'Нийт хуримтлал';
+
+  static String get totalExpense => 'Нийт зардал';
+
+  static String get total => 'Нийт';
+
+  static String get addSavings => 'Хуримтлал нэмэх';
+
+  static String get addExpense => 'Зэрдал нэмэх';
+
+  static String get enterAmount => 'Мөнгөн дүн оруулах';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 

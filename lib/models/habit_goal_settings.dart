@@ -12,10 +12,9 @@ class HabitGoalSettings {
   bool? goalValueSelectable; // Slider харуулж утга сонгох боломжтой эсэх
 
   // Дадал биелүүлэх tools
-  String? toolType; // Minute, Hour, Count, Feeling (emoji), Satisfaction, Amount (Finance),
-  // Хасагдсан - Music, Animation, Camera
-  String? toolUnit; // Нэгж - минут, цаг, аяга, 'emoji - тоо', '₮',
-  HabitToolContent? toolContent; // ;-аар тусгаарлагдсан линк ирнэ
+  String? toolType; // Minute, Hour, Count, Feeling, Satisfaction, Income, Expense
+  String? toolUnit; // Бүртгэхэд ашиглана (Нэгж: минут, цаг, аяга, 'emoji - тоо', '₮')
+  HabitToolContent? toolContent; // Хэрэгжүүлэхэд ашиглана
 
   HabitGoalSettings({
     this.goalTypeId,

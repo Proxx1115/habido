@@ -104,7 +104,7 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
       hintText: LocaleKeys.phoneNumber,
       margin: EdgeInsets.only(top: 35.0),
       maxLength: 8,
-      textInputType: TextInputType.number,
+      keyboardType: TextInputType.number,
     );
   }
 
