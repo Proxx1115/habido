@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'habit_tool_content.dart';
 
 class HabitGoalSettings {
@@ -38,7 +40,11 @@ class HabitGoalSettings {
     goalValueSelectable = json['goalValueSelectable'];
     toolType = json['toolType'];
     toolUnit = json['toolUnit'];
-    toolContent = json['toolContent'] != null ? HabitToolContent.fromJson(json['toolContent']) : null;
+
+    if (json['toolContent'] != null && (json['toolContent'] as String).isNotEmpty) {
+      var jsonData = jsonDecode(json['toolContent']);
+      toolContent = HabitToolContent.fromJson(jsonData);
+    }
   }
 
   Map<String, dynamic> toJson() {
