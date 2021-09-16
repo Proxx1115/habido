@@ -215,7 +215,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
         );
 
         _sliderTitle = _habit.goalSettings!.goalName;
-        _sliderQuantity = _habit.goalSettings!.toolContent;
+        _sliderQuantity = _habit.goalSettings!.toolUnit;
       }
     }
   }

@@ -190,6 +190,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
         CustomText(
           psyTestQuestion.text,
           alignment: Alignment.center,
+          maxLines: 10,
           margin: EdgeInsets.symmetric(vertical: 50.0),
         ),
 

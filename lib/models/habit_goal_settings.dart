@@ -3,21 +3,26 @@ class HabitGoalSettings {
   String? goalName; // Feeling ued utga baihgui, Satisfaction
   int? goalMin;
   int? goalMax;
+  int? goalStep;
   bool? goalIsExtendable; // Хугацаа нэмж сунгах боломжтой эсэх
-  bool? goalValueSelectable; //  Slider харуулж утга сонгох боломжтой эсэх
+  bool? goalValueSelectable; // Slider харуулж утга сонгох боломжтой эсэх
 
   // Дадал биелүүлэх tools
-  String? toolType; // Minute, Hour, Count, Feeling (emoji), Satisfaction, Amount (Finance), Music, Animation,
-  String? toolContent; // Минут, Цаг, Аяга, 'emoji', 'camera', '₮', 'music link', 'Tree animation, ... animation',
+  String? toolType; // Minute, Hour, Count, Feeling (emoji), Satisfaction, Amount (Finance),
+  // Хасагдсан - Music, Animation, Camera
+  String? toolUnit; // Нэгж - минут, цаг, аяга, 'emoji - тоо', '₮',
+  String? toolContent; // todo list болгох - 'music link', 'Tree animation, 'Breathing animation', 'camera',
 
   HabitGoalSettings({
     this.goalTypeId,
     this.goalName,
     this.goalMin,
     this.goalMax,
+    this.goalStep,
     this.goalIsExtendable,
     this.goalValueSelectable,
     this.toolType,
+    this.toolUnit,
     this.toolContent,
   });
 
@@ -26,9 +31,11 @@ class HabitGoalSettings {
     goalName = json['goalName'];
     goalMin = json['goalMin'];
     goalMax = json['goalMax'];
+    goalStep = json['goalStep'] ?? 1;
     goalIsExtendable = json['goalIsExtendable'];
     goalValueSelectable = json['goalValueSelectable'];
     toolType = json['toolType'];
+    toolUnit = json['toolUnit'];
     toolContent = json['toolContent'];
   }
 
@@ -38,9 +45,11 @@ class HabitGoalSettings {
     map['goalName'] = goalName;
     map['goalMin'] = goalMin;
     map['goalMax'] = goalMax;
+    map['goalStep'] = goalStep;
     map['goalIsExtendable'] = goalIsExtendable;
     map['goalValueSelectable'] = goalValueSelectable;
     map['toolType'] = toolType;
+    map['toolUnit'] = toolUnit;
     map['toolContent'] = toolContent;
     return map;
   }
