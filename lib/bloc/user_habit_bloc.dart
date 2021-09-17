@@ -100,8 +100,13 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
       var res = await ApiManager.saveUserHabitProgress(event.request);
       if (res.code == ResponseCode.Success) {
+        // Refresh dashboard
         BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
-        // todo test check session
+
+        if (res.rank != null) {
+          // Rank ахисан
+          await ApiManager.getUserData();
+        }
 
         yield SaveUserHabitProgressSuccess(res);
       } else {
