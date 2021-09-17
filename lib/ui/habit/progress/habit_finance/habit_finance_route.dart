@@ -10,7 +10,8 @@ import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
-import 'package:habido_app/ui/habit/progress/habit_finance/habit_stmt_widget.dart';
+import 'package:habido_app/ui/habit/progress/habit_finance/finance_statement_widget.dart';
+import 'package:habido_app/ui/habit/progress/habit_finance/savings_dialog_body.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -107,18 +108,30 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
               appBarLeadingColor: _primaryColor,
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
-              child: SingleChildScrollView(
+              child: Container(
                 padding: SizeHelper.paddingScreen,
                 child: Column(
                   children: [
-                    /// Total income, expense
-                    _totalAmountWidget(),
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(15.0),
+                          bottomRight: Radius.circular(15.0),
+                        ),
+                        child: ListView(
+                          children: [
+                            /// Total income, expense
+                            _totalAmountWidget(),
 
-                    /// Progress list
-                    _progressListWidget(),
+                            /// Progress list
+                            _progressListWidget(),
+                          ],
+                        ),
+                      ),
+                    ),
 
-                    /// Button finish
-                    _buttonFinish(),
+                    /// Button add
+                    _buttonAdd(),
                   ],
                 ),
               ),
@@ -149,14 +162,18 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
-    } else if (state is AddHabitProgressSuccess) {
+    } else if (state is AddHabitProgressSuccess ||
+        state is UpdateHabitProgressSuccess ||
+        state is DeleteHabitProgressSuccess) {
       var request = HabitProgressListByDateRequest()
         ..dateTime = Func.toDateStr(DateTime.now())
         ..userHabitId = widget.userHabit.userHabitId;
 
       BlocManager.userHabitBloc.add(GetHabitFinanceTotalAmountEvent(_userHabit.userHabitId ?? 0));
       BlocManager.userHabitBloc.add(GetHabitProgressListByDateEvent(request));
-    } else if (state is SaveUserHabitProgressFailed) {
+    } else if (state is SaveUserHabitProgressFailed ||
+        state is UpdateHabitProgressFailed ||
+        state is DeleteHabitProgressFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
@@ -221,8 +238,10 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
   Widget _progressListWidget() {
     return (_habitProgressList != null && _habitProgressList!.isNotEmpty)
         ? FinanceStatementWidget(
+            userHabit: widget.userHabit,
             habitProgressList: _habitProgressList!,
             primaryColor: _primaryColor,
+            backgroundColor: _backgroundColor,
             expansionTileExpanded: _expansionTileExpanded,
             onExpansionChanged: (value) {
               setState(() {
@@ -233,7 +252,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         : Container();
   }
 
-  Widget _buttonFinish() {
+  Widget _buttonAdd() {
     return CustomButton(
       margin: EdgeInsets.only(top: 15.0),
       alignment: Alignment.bottomRight,
@@ -248,68 +267,20 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
             context,
             isDismissible: true,
             child: CustomDialogBody(
-              child: _addSavingsDialogBody(),
+              child: SavingsDialogBody(
+                title: _buttonAddText,
+                buttonText: LocaleKeys.add,
+                userHabit: widget.userHabit,
+                primaryColor: _primaryColor,
+                backgroundColor: _backgroundColor,
+                controller: _amountController,
+              ),
             ),
           );
         } else if (_userHabit.habit?.goalSettings?.toolType == ToolType.Expense) {
           //
         }
       },
-    );
-  }
-
-  Widget _addSavingsDialogBody() {
-    return GestureDetector(
-      onTap: () {
-        Func.hideKeyboard(context);
-      },
-      child: Container(
-        child: Column(
-          children: [
-            /// Title
-            CustomText(_buttonAddText, fontWeight: FontWeight.w500),
-
-            HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
-
-            /// Amount
-            CustomTextField(
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              backgroundColor: _backgroundColor,
-              hintText: LocaleKeys.enterAmount,
-              maxLength: 15,
-            ),
-
-            /// Button add
-            CustomButton(
-              style: CustomButtonStyle.Secondary,
-              margin: EdgeInsets.only(top: 20.0),
-              text: _buttonAddText,
-              backgroundColor: _primaryColor,
-              alignment: Alignment.center,
-              onPressed: () {
-                Func.hideKeyboard(context);
-
-                if (_amountController.text.isNotEmpty) {
-                  var habitProgress = HabitProgress()
-                    ..progressId = 0
-                    ..planId = 0
-                    ..value = _amountController.text
-                    // ..note = ''
-                    // ..photo = ''
-                    ..progressCatId = 0
-                    ..answerId = 0
-                    ..userHabitId = _userHabit.userHabitId;
-
-                  BlocManager.userHabitBloc.add(AddHabitProgressEvent(habitProgress));
-                }
-
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

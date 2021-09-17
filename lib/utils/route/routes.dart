@@ -16,7 +16,7 @@ import 'package:habido_app/ui/habit/habit_categories/habit_categories_route.dart
 import 'package:habido_app/ui/habit/habit_list/habit_list_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_feeling/habit_feeling_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/habit_finance_route.dart';
-import 'package:habido_app/ui/habit/progress/habit_finance/habit_finance_stmt_route.dart';
+import 'package:habido_app/ui/habit/progress/habit_finance/habit_finance_statement_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_satisfaction/habit_satisfaction_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_timer/habit_timer_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart';
@@ -296,7 +296,7 @@ class Routes {
       case Routes.habitFinanceStmt:
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
-          HabitFinanceStmtRoute(
+          HabitFinanceStatementRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
           ),
           settings,

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/habit_progress.dart';
+import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/ui/habit/progress/habit_finance/savings_dialog_body.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -10,21 +13,27 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class FinanceStatementWidget extends StatelessWidget {
+  final UserHabit userHabit;
   final List<HabitProgress> habitProgressList;
   final Color? primaryColor;
+  final Color? backgroundColor;
   final bool expansionTileExpanded;
   final Function(bool)? onExpansionChanged;
   final bool enabledButtons;
 
   final SlidableController _controller = SlidableController();
+  final TextEditingController _amountController = TextEditingController();
 
   FinanceStatementWidget({
     Key? key,
+    required this.userHabit,
     required this.habitProgressList,
     this.primaryColor,
+    this.backgroundColor,
     required this.expansionTileExpanded,
     this.onExpansionChanged,
     this.enabledButtons = true,
@@ -99,10 +108,10 @@ class FinanceStatementWidget extends StatelessWidget {
                         ),
                         secondaryActions: <Widget>[
                           /// Button edit
-                          if (enabledButtons) _buttonEdit(),
+                          if (enabledButtons) _buttonEdit(context, el),
 
                           /// Button delete
-                          if (enabledButtons) _buttonDelete(),
+                          if (enabledButtons) _buttonDelete(context, el),
                         ],
                       ),
                     ],
@@ -119,11 +128,11 @@ class FinanceStatementWidget extends StatelessWidget {
     );
   }
 
-  Widget _buttonEdit() {
+  Widget _buttonEdit(BuildContext context, HabitProgress habitProgress) {
     return IconSlideAction(
       color: Colors.transparent,
       iconWidget: ButtonStadium(
-        asset: Assets.edit24,
+        asset: Assets.edit,
         size: SizeHelper.listItemHeight,
         borderRadius: 0.0,
         backgroundColor: customColors.yellowBackground,
@@ -131,16 +140,32 @@ class FinanceStatementWidget extends StatelessWidget {
         enabled: false,
       ),
       onTap: () {
-        // _onPressedEdit();
+        _amountController.text = habitProgress.value ?? '';
+
+        showCustomDialog(
+          context,
+          isDismissible: true,
+          child: CustomDialogBody(
+            child: SavingsDialogBody(
+              title: LocaleKeys.editSavings,
+              buttonText: LocaleKeys.edit2,
+              userHabit: userHabit,
+              habitProgress: habitProgress,
+              primaryColor: primaryColor,
+              backgroundColor: backgroundColor,
+              controller: _amountController,
+            ),
+          ),
+        );
       },
     );
   }
 
-  Widget _buttonDelete() {
+  Widget _buttonDelete(BuildContext context, HabitProgress habitProgress) {
     return IconSlideAction(
       color: Colors.transparent,
       iconWidget: ButtonStadium(
-        asset: Assets.skip,
+        asset: Assets.trash,
         borderRadius: 0.0,
         size: SizeHelper.listItemHeight,
         backgroundColor: customColors.pinkBackground,
@@ -148,7 +173,18 @@ class FinanceStatementWidget extends StatelessWidget {
         enabled: false,
       ),
       onTap: () {
-        // BlocManager.userHabitBloc.
+        showCustomDialog(
+          context,
+          child: CustomDialogBody(
+            asset: Assets.warning,
+            text: LocaleKeys.sureToDelete,
+            buttonText: LocaleKeys.yes,
+            onPressedButton: () {
+              BlocManager.userHabitBloc.add(DeleteHabitProgressEvent(habitProgress.progressId ?? 0));
+            },
+            button2Text: LocaleKeys.no,
+          ),
+        );
       },
     );
   }

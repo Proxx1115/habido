@@ -30,6 +30,8 @@ class HttpPath {
   static const String habitExpenseCategories = '/mobile/habit/user-habit/expense-categories';
   static const String habitFinanceTotalAmount = '/mobile/habit/user-habit/total-amount';
   static const String addHabitProgress = '/mobile/habit/user-habit/plan/progress';
+  static const String updateHabitProgress = '/mobile/habit/user-habit/plan/progress';
+  static const String deleteHabitProgress = '/mobile/habit/user-habit/plan/progress';
   static const String calendar = '/mobile/habit/calendar';
   static const String calendarDate = '/mobile/habit/date/user-habits';
   static const String unreadNotifCount = '/mobile/notifs/not-read';

@@ -43,6 +43,8 @@ class LocaleKeys {
 
   static String get edit => 'Засах';
 
+  static String get edit2 => 'Засварлах';
+
   static String get search => 'Хайх';
 
   static String get continueTxt => 'Үргэлжлүүлэх';
@@ -289,6 +291,8 @@ class LocaleKeys {
   static String get total => 'Нийт';
 
   static String get addSavings => 'Хуримтлал нэмэх';
+
+  static String get editSavings => 'Хуримтлал засварлах';
 
   static String get addExpense => 'Зэрдал нэмэх';
 

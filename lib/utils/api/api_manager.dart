@@ -313,6 +313,25 @@ class ApiManager {
     );
   }
 
+  static Future<BaseResponse> updateHabitProgress(HabitProgress request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.updateHabitProgress,
+        httpMethod: HttpMethod.put,
+        objectData: request,
+      ),
+    );
+  }
+
+  static Future<BaseResponse> deleteHabitProgress(int progressId) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.deleteHabitProgress + '/$progressId',
+        httpMethod: HttpMethod.delete,
+      ),
+    );
+  }
+
   static Future<HabitCalendarResponse> calendar(String startDate, String endDate) async {
     return HabitCalendarResponse.fromJson(
       await httpUtils.sendRequest(
