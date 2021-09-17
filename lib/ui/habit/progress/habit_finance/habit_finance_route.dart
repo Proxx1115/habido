@@ -223,10 +223,11 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
   Widget _progressListWidget() {
     return (_habitProgressList != null && _habitProgressList!.isNotEmpty)
         ? ExpandableCard(
-            title: Func.toDateStr(DateTime.now()),
-            expandableCardListItems: [
-              for (var el in _habitProgressList!) ExpandableCardListItem(text: el.value ?? ''),
-            ],
+            margin: EdgeInsets.only(top: 15.0),
+            primaryColor: _primaryColor,
+            title: Func.toWeekDay(DateTime.now()) +
+                ' ${LocaleKeys.day2}, ${Func.toDateStr(DateTime.now(), dateFormat: 'yyyy.MM.dd')}',
+            habitProgressList: _habitProgressList!,
           )
         : Container();
   }

@@ -33,6 +33,8 @@ class Assets {
   static const String camera = 'assets/images/global/camera.svg';
   static const String back10 = 'assets/images/global/back10.svg';
   static const String forward10 = 'assets/images/global/forward10.svg';
+  static const String minus12 = 'assets/images/global/minus12.svg';
+  static const String plus12 = 'assets/images/global/plus12.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';

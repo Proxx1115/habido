@@ -124,9 +124,22 @@ class Func {
   //   return formattedDate; //trim(str.split(" ")[0]);
   // }
 
-  static String toDateStr(DateTime dateTime) {
-    String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
-    return formattedDate;
+  static String toDateStr(DateTime? dateTime, {String? dateFormat}) {
+    if (dateTime == null) return '';
+
+    var res = '';
+    res = DateFormat(dateFormat ?? 'yyyy-MM-dd').format(dateTime);
+
+    return res;
+  }
+
+  static String toWeekDay(DateTime? dateTime) {
+    if (dateTime == null) return '';
+
+    var res = '';
+    res = DateFormat('EEEE', 'mn').format(dateTime);
+
+    return res;
   }
 
   /// Can return null value

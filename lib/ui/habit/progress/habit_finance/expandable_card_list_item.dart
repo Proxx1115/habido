@@ -8,22 +8,24 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class ExpandableCardListItem extends StatelessWidget {
   final VoidCallback? onPressed;
+  final BorderRadius? borderRadius;
   final String? leadingImageUrl;
   final Color? leadingBackgroundColor;
   final String text;
   final VoidCallback? onPressedSkip;
   final VoidCallback? onPressedEdit;
-  // final double
 
   final SlidableController _controller = SlidableController();
 
   ExpandableCardListItem({
     Key? key,
     this.onPressed,
+    this.borderRadius,
     this.leadingImageUrl,
     this.leadingBackgroundColor,
     required this.text,
@@ -35,7 +37,6 @@ class ExpandableCardListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return MoveInAnimation(
       duration: 400,
-
       child: Slidable(
         controller: _controller,
         actionPane: SlidableDrawerActionPane(),
@@ -77,47 +78,48 @@ class ExpandableCardListItem extends StatelessWidget {
               },
             ),
         ],
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: SizeHelper.borderRadiusOdd,
-          child: Container(
-            height: SizeHelper.listItemHeight70,
-            padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
-            decoration: BoxDecoration(
-              borderRadius: SizeHelper.borderRadiusOdd,
-              color: customColors.secondaryBackground,
-            ),
-            child: Row(
-              children: [
-                /// Image
-                if (Func.isNotEmpty(leadingImageUrl))
-                  Container(
-                    margin: EdgeInsets.only(right: 15.0),
-                    padding: EdgeInsets.all(10.0),
-                    height: 40.0,
-                    width: 40.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-                      color: leadingBackgroundColor ?? customColors.greyBackground,
+        child: NoSplashContainer(
+          child: InkWell(
+            onTap: onPressed,
+            child: Container(
+              height: SizeHelper.listItemHeight70,
+              padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
+              decoration: BoxDecoration(
+                borderRadius: borderRadius,
+                color: customColors.secondaryBackground,
+              ),
+              child: Row(
+                children: [
+                  /// Image
+                  if (Func.isNotEmpty(leadingImageUrl))
+                    Container(
+                      margin: EdgeInsets.only(right: 15.0),
+                      padding: EdgeInsets.all(10.0),
+                      height: 40.0,
+                      width: 40.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                        color: leadingBackgroundColor ?? customColors.greyBackground,
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: leadingImageUrl!,
+                        fit: BoxFit.fitWidth,
+                        width: 20.0,
+                        height: 20.0,
+                        placeholder: (context, url) => Container(),
+                        errorWidget: (context, url, error) => Container(),
+                      ),
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: leadingImageUrl!,
-                      fit: BoxFit.fitWidth,
-                      width: 20.0,
-                      height: 20.0,
-                      placeholder: (context, url) => Container(),
-                      errorWidget: (context, url, error) => Container(),
-                    ),
+
+                  /// Text
+                  Expanded(
+                    child: CustomText(text, fontWeight: FontWeight.w500),
                   ),
 
-                /// Text
-                Expanded(
-                  child: CustomText(text, fontWeight: FontWeight.w500),
-                ),
-
-                /// Arrow
-                SvgPicture.asset(Assets.arrow_forward),
-              ],
+                  /// Arrow
+                  SvgPicture.asset(Assets.arrow_forward),
+                ],
+              ),
             ),
           ),
         ),

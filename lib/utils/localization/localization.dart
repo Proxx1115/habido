@@ -105,6 +105,8 @@ class LocaleKeys {
 
   static String get notification => 'Мэдэгдэл';
 
+  static String get day2 => 'гараг';
+
   ///
   /// Intro
   ///
