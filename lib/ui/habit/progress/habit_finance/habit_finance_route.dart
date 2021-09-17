@@ -114,10 +114,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
                   children: [
                     Expanded(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15.0),
-                          bottomRight: Radius.circular(15.0),
-                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
                         child: ListView(
                           children: [
                             /// Total income, expense
