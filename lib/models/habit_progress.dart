@@ -5,17 +5,18 @@ class HabitProgress {
   String? note;
   String? photo;
   int? progressCatId;
+  String? progressCatName;
   int? answerId;
   int? userHabitId;
 
-  HabitProgress({
-      this.progressId, 
-      this.planId, 
-      this.value, 
-      this.note, 
-      this.photo, 
-      this.progressCatId, 
-      this.answerId, 
+  HabitProgress(
+      {this.progressId,
+      this.planId,
+      this.value,
+      this.note,
+      this.photo,
+      this.progressCatId,
+      this.answerId,
       this.userHabitId});
 
   HabitProgress.fromJson(dynamic json) {
@@ -25,6 +26,7 @@ class HabitProgress {
     note = json['note'];
     photo = json['photo'];
     progressCatId = json['progressCatId'];
+    progressCatName = json['progressCatName'];
     answerId = json['answerId'];
     userHabitId = json['userHabitId'];
   }
@@ -37,9 +39,9 @@ class HabitProgress {
     map['note'] = note;
     map['photo'] = photo;
     map['progressCatId'] = progressCatId;
+    map['progressCatName'] = progressCatName;
     map['answerId'] = answerId;
     map['userHabitId'] = userHabitId;
     return map;
   }
-
 }

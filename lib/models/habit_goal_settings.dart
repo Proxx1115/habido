@@ -41,7 +41,8 @@ class HabitGoalSettings {
     toolUnit = json['toolUnit'];
 
     if (json['toolContent'] != null && (json['toolContent'] as String).isNotEmpty) {
-      var jsonData = jsonDecode(json['toolContent']);
+      var str = json['toolContent'];
+      var jsonData = jsonDecode(str);
       toolContent = HabitToolContent.fromJson(jsonData);
     }
   }

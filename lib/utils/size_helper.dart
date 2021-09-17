@@ -47,7 +47,7 @@ class SizeHelper {
   static const double comboListItemHeight = 35.0;
 
   /// List
-  static const double listItemHeight = 52.0;
+  static const double listItemHeight = 50.0;
   static const double listItemHeight70 = 70.0;
   static const double menuItemHeight114 = 114.0;
 

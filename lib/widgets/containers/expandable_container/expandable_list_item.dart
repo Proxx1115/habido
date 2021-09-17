@@ -42,41 +42,7 @@ class ExpandableListItem extends StatelessWidget {
         actionExtentRatio: 0.25,
         // closeOnTap: true,
 
-        secondaryActions: <Widget>[
-          /// Button skip
-          if (onPressedSkip != null)
-            IconSlideAction(
-              color: Colors.transparent,
-              iconWidget: ButtonStadium(
-                asset: Assets.skip,
-                margin: EdgeInsets.only(left: 15.0),
-                size: SizeHelper.listItemHeight70,
-                backgroundColor: customColors.blueBackground,
-                iconColor: customColors.iconWhite,
-                enabled: false,
-              ),
-              onTap: () {
-                if (onPressedSkip != null) onPressedSkip!();
-              },
-            ),
 
-          /// Button edit
-          if (onPressedEdit != null)
-            IconSlideAction(
-              color: Colors.transparent,
-              iconWidget: ButtonStadium(
-                asset: Assets.edit24,
-                margin: EdgeInsets.only(left: 15.0),
-                size: SizeHelper.listItemHeight70,
-                backgroundColor: customColors.yellowBackground,
-                iconColor: customColors.iconWhite,
-                enabled: false,
-              ),
-              onTap: () {
-                if (onPressedEdit != null) onPressedEdit!();
-              },
-            ),
-        ],
         child: InkWell(
           onTap: onPressed,
           borderRadius: SizeHelper.borderRadiusOdd,

@@ -10,8 +10,7 @@ import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
-import 'package:habido_app/ui/habit/progress/habit_finance/expandable_card.dart';
-import 'package:habido_app/ui/habit/progress/habit_finance/expandable_card_list_item.dart';
+import 'package:habido_app/ui/habit/progress/habit_finance/habit_stmt_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -51,6 +50,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
   List<UserHabitExpenseCategory>? _expenseCategories;
 
   // Progress
+  bool _expansionTileExpanded = true;
   List<HabitProgress>? _habitProgressList;
 
   // Button add
@@ -107,7 +107,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
               appBarLeadingColor: _primaryColor,
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
-              child: Container(
+              child: SingleChildScrollView(
                 padding: SizeHelper.paddingScreen,
                 child: Column(
                   children: [
@@ -115,9 +115,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
                     _totalAmountWidget(),
 
                     /// Progress list
-                    Expanded(
-                      child: _progressListWidget(),
-                    ),
+                    _progressListWidget(),
 
                     /// Button finish
                     _buttonFinish(),
@@ -222,12 +220,15 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
 
   Widget _progressListWidget() {
     return (_habitProgressList != null && _habitProgressList!.isNotEmpty)
-        ? ExpandableCard(
-            margin: EdgeInsets.only(top: 15.0),
-            primaryColor: _primaryColor,
-            title: Func.toWeekDay(DateTime.now()) +
-                ' ${LocaleKeys.day2}, ${Func.toDateStr(DateTime.now(), dateFormat: 'yyyy.MM.dd')}',
+        ? FinanceStatementWidget(
             habitProgressList: _habitProgressList!,
+            primaryColor: _primaryColor,
+            expansionTileExpanded: _expansionTileExpanded,
+            onExpansionChanged: (value) {
+              setState(() {
+                _expansionTileExpanded = value;
+              });
+            },
           )
         : Container();
   }
