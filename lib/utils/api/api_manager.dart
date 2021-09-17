@@ -24,7 +24,9 @@ import 'package:habido_app/models/psy_test_questions_response.dart';
 import 'package:habido_app/models/psy_test_result.dart';
 import 'package:habido_app/models/psy_test_results_response.dart';
 import 'package:habido_app/models/psy_tests_response.dart';
+import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/models/rank_list_response.dart';
+import 'package:habido_app/models/rank_response.dart';
 import 'package:habido_app/models/register_device_request.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/sign_up_request.dart';
@@ -265,8 +267,8 @@ class ApiManager {
     );
   }
 
-  static Future<BaseResponse> saveUserHabitProgress(SaveUserHabitProgressRequest request) async {
-    return BaseResponse.fromJson(
+  static Future<Rank> saveUserHabitProgress(SaveUserHabitProgressRequest request) async {
+    return Rank.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.saveUserHabitProgress,
         objectData: request,
