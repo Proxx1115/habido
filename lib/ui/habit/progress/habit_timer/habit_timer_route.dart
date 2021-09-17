@@ -84,7 +84,7 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
                         duration: _duration!,
                         primaryColor: _primaryColor,
                         // visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
-                        visibleAddButton: false, // todo test
+                        visibleAddButton: true,
                       ),
 
                     Expanded(child: Container()),
@@ -105,7 +105,7 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
     if (state is SaveUserHabitProgressSuccess) {
       BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
-        'title': LocaleKeys.youDidIt,
+        'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
       });
     } else if (state is SaveUserHabitProgressFailed) {

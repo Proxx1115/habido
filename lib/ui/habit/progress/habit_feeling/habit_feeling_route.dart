@@ -112,7 +112,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
 
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
-        'title': LocaleKeys.youDidIt,
+        'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
         // 'callback': () {
         //   Navigator.popUntil(context, ModalRoute.withName(Routes.home));

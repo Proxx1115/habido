@@ -319,8 +319,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideBottomRouteBuilder(
           HabitSuccessRoute(
-            title: _getValueByKey(args, 'title'),
-            text: _getValueByKey(args, 'text'),
+            habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
             callback: _getValueByKey(args, 'callback'),
           ),

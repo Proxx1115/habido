@@ -1,6 +1,6 @@
 import 'package:habido_app/models/base_response.dart';
 
-class Rank extends BaseResponse {
+class Rank {
   int? rankId;
   String? name;
   String? body;
@@ -31,8 +31,6 @@ class Rank extends BaseResponse {
       this.type});
 
   Rank.fromJson(dynamic json) {
-    parseBaseParams(json);
-
     rankId = json['rankId'];
     name = json['name'];
     body = json['body'];

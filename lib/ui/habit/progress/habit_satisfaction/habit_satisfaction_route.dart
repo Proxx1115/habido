@@ -101,7 +101,7 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
       BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
 
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
-        'title': LocaleKeys.youDidIt,
+        'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
       });
     } else if (state is SaveUserHabitProgressFailed) {

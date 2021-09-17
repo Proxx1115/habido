@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
+import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
@@ -96,8 +97,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
       var res = await ApiManager.saveUserHabitProgress(event.request);
       if (res.code == ResponseCode.Success) {
-        yield SaveUserHabitProgressSuccess();
-        // todo test refresh rank call checksession
+        yield SaveUserHabitProgressSuccess(res);
       } else {
         yield SaveUserHabitProgressFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
@@ -379,7 +379,17 @@ class UpdateUserHabitFailed extends UserHabitState {
 
 class UserHabitProgressLoading extends UserHabitState {}
 
-class SaveUserHabitProgressSuccess extends UserHabitState {}
+class SaveUserHabitProgressSuccess extends UserHabitState {
+  final HabitProgressResponse habitProgressResponse;
+
+  const SaveUserHabitProgressSuccess(this.habitProgressResponse);
+
+  @override
+  List<Object> get props => [habitProgressResponse];
+
+  @override
+  String toString() => 'SaveUserHabitProgressSuccess { habitProgressResponse: $habitProgressResponse }';
+}
 
 class SaveUserHabitProgressFailed extends UserHabitState {
   final String message;

@@ -298,6 +298,8 @@ class LocaleKeys {
 
   static String get enterAmount => 'Мөнгөн дүн оруулах';
 
+  static String get congratulations => 'Танд баяр хүргэе';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 

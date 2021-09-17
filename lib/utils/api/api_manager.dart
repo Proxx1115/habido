@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:habido_app/models/achievements_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
-import 'package:habido_app/models/category_tests_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/content.dart';
@@ -14,6 +13,7 @@ import 'package:habido_app/models/habit_finance_total_amount_response.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_response.dart';
+import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habits_response.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
@@ -26,7 +26,6 @@ import 'package:habido_app/models/psy_test_results_response.dart';
 import 'package:habido_app/models/psy_tests_response.dart';
 import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/models/rank_list_response.dart';
-import 'package:habido_app/models/rank_response.dart';
 import 'package:habido_app/models/register_device_request.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/sign_up_request.dart';
@@ -267,8 +266,8 @@ class ApiManager {
     );
   }
 
-  static Future<Rank> saveUserHabitProgress(SaveUserHabitProgressRequest request) async {
-    return Rank.fromJson(
+  static Future<HabitProgressResponse> saveUserHabitProgress(SaveUserHabitProgressRequest request) async {
+    return HabitProgressResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.saveUserHabitProgress,
         objectData: request,
