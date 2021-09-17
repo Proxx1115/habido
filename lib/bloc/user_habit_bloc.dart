@@ -11,6 +11,9 @@ import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
+import 'bloc_manager.dart';
+import 'dashboard_bloc.dart';
+
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -97,6 +100,9 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
       var res = await ApiManager.saveUserHabitProgress(event.request);
       if (res.code == ResponseCode.Success) {
+        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+        // todo test check session
+
         yield SaveUserHabitProgressSuccess(res);
       } else {
         yield SaveUserHabitProgressFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);

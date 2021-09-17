@@ -151,8 +151,6 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
     } else if (state is SaveUserHabitProgressSuccess) {
-      BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
-
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,

@@ -98,8 +98,6 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
 
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is SaveUserHabitProgressSuccess) {
-      BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
-
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
