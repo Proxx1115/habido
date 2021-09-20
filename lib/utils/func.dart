@@ -314,4 +314,12 @@ class Func {
     FocusScope.of(context).requestFocus(new FocusNode());
     SystemChannels.textInput.invokeMethod('TextInput.hide'); // hide keyboard
   }
+
+  static bool visibleKeyboard(BuildContext context) {
+    if (MediaQuery.of(context).viewInsets.bottom == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

@@ -80,7 +80,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                   SizedBox(height: 20.0),
 
                   RoundedCornerListView(
-                    padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, 0.0),
+                    padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
                     children: [
                       /// Profile pic
                       _profilePicture(),
@@ -111,8 +111,21 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   }
 
   void _blocListener(BuildContext context, UserState state) {
-    if (state is UpdateUserDataSuccess || state is UpdateProfilePictureSuccess) {
+    if (state is UpdateProfilePictureSuccess) {
       BlocManager.userBloc.add(GetUserDataEvent());
+    } else if (state is UpdateUserDataSuccess) {
+      BlocManager.userBloc.add(GetUserDataEvent());
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.success,
+          text: LocaleKeys.success,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
     } else if (state is UpdateUserDataFailed) {
       showCustomDialog(
         context,
@@ -127,41 +140,42 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   }
 
   Widget _profilePicture() {
-    return InkWell(
-      onTap: () async {
-        String base64Image = await ImageUtils.getBase64Image(context);
-        if (base64Image.isNotEmpty) {
-          var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
-          BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
-        }
-      },
-      child: Container(
-        width: _profilePictureSize,
-        height: _profilePictureSize,
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            /// Image
-            if (Func.isNotEmpty(globals.userData!.photo))
-              Align(
-                alignment: Alignment.topCenter,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
-                  child: CachedNetworkImage(
-                    imageUrl: globals.userData!.photo!,
-                    fit: BoxFit.fill,
-                    width: _profilePictureSize,
-                    height: _profilePictureSize,
-                    placeholder: (context, url) => CustomLoader(size: _profilePictureSize),
-                    // placeholder: (context, url, error) => Container(),
-                    errorWidget: (context, url, error) => Container(),
-                  ),
-                ),
-              ),
-
-            /// Overlay
+    return Container(
+      width: _profilePictureSize,
+      height: _profilePictureSize,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          /// Image
+          if (Func.isNotEmpty(globals.userData!.photo))
             Align(
               alignment: Alignment.topCenter,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
+                child: CachedNetworkImage(
+                  imageUrl: globals.userData!.photo!,
+                  fit: BoxFit.fill,
+                  width: _profilePictureSize,
+                  height: _profilePictureSize,
+                  placeholder: (context, url) => CustomLoader(size: _profilePictureSize),
+                  // placeholder: (context, url, error) => Container(),
+                  errorWidget: (context, url, error) => Container(),
+                ),
+              ),
+            ),
+
+          /// Overlay
+          Align(
+            alignment: Alignment.topCenter,
+            child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
+              onTap: () async {
+                String base64Image = await ImageUtils.getBase64Image(context);
+                if (base64Image.isNotEmpty) {
+                  var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
+                  BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
+                }
+              },
               child: Opacity(
                 opacity: 0.75,
                 child: ClipRRect(
@@ -176,8 +190,8 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -242,25 +256,26 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   }
 
   _buttonSave() {
-    // var s = MediaQuery.of(context).viewInsets.bottom == 0;
-    // print(s);
+    var s = MediaQuery.of(context).viewInsets.bottom == 0;
+    print(s);
 
-    return CustomButton(
-      style: CustomButtonStyle.Secondary,
-      text: LocaleKeys.save,
-      margin: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, SizeHelper.marginBottom),
-      onPressed: _enabledBtnSave
-          ? () {
-              UpdateUserDataRequest request = UpdateUserDataRequest();
-              request
-                ..lastName = _lastNameController.text
-                ..firstName = _firstNameController.text
-                ..birthday = Func.toDateStr(_selectedBirthDate!)
-                ..userGender = _genderValue ? Gender.Female : Gender.Female;
+    return !Func.visibleKeyboard(context)
+        ? CustomButton(
+            style: CustomButtonStyle.Secondary,
+            text: LocaleKeys.save,
+            margin: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
+            onPressed: _enabledBtnSave
+                ? () {
+                    var request = UpdateUserDataRequest()
+                      ..lastName = _lastNameController.text
+                      ..firstName = _firstNameController.text
+                      ..birthday = Func.toDateStr(_selectedBirthDate!)
+                      ..userGender = _genderValue ? Gender.Female : Gender.Male;
 
-              BlocManager.userBloc.add(UpdateUserDataEvent(request));
-            }
-          : null,
-    );
+                    BlocManager.userBloc.add(UpdateUserDataEvent(request));
+                  }
+                : null,
+          )
+        : Container();
   }
 }

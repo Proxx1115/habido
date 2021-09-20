@@ -5,7 +5,7 @@ class Assets {
   static const String error = 'assets/images/global/error.svg';
   static const String warning = 'assets/images/global/warning.svg';
   static const String check = 'assets/images/global/check.svg';
-  static const String success = 'assets/images/global/success.svg';
+  static const String success = 'assets/images/global/success24.svg';
   static const String clear_circle = 'assets/images/global/clear_circle.svg';
   static const String clear = 'assets/images/global/clear.svg';
   static const String edit = 'assets/images/global/edit.svg';
