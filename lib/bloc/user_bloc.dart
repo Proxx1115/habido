@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/models/update_profile_picture_request.dart';
+import 'package:habido_app/models/update_user_data_request.dart';
 import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -24,6 +25,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapNavigateRankToState(event);
     } else if (event is UpdateProfilePictureEvent) {
       yield* _mapUpdateProfilePictureEventToState(event);
+    } else if (event is UpdateUserDataEvent) {
+      yield* _mapUpdateUserDataEventToState(event);
     }
   }
 
@@ -69,6 +72,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield UpdateProfilePictureFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<UserState> _mapUpdateUserDataEventToState(UpdateUserDataEvent event) async* {
+    try {
+      var res = await ApiManager.updateUserData(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield UpdateUserDataSuccess();
+      } else {
+        yield UpdateUserDataFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield UpdateUserDataFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -108,6 +124,18 @@ class UpdateProfilePictureEvent extends UserEvent {
 
   @override
   String toString() => 'UpdateProfilePictureEvent { request: $request }';
+}
+
+class UpdateUserDataEvent extends UserEvent {
+  final UpdateUserDataRequest request;
+
+  const UpdateUserDataEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'UpdateUserDataEvent { request: $request }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -197,4 +225,18 @@ class UpdateProfilePictureFailed extends UserState {
 
   @override
   String toString() => 'UpdateProfilePictureFailed { message: $message }';
+}
+
+class UpdateUserDataSuccess extends UserState {}
+
+class UpdateUserDataFailed extends UserState {
+  final String message;
+
+  const UpdateUserDataFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'UpdateUserDataFailed { message: $message }';
 }

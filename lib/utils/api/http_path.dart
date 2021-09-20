@@ -5,6 +5,7 @@ class HttpPath {
   static const String signUp = '/auth/user/signup';
   static const String verifyCode = '/auth/user/verify-code';
   static const String updateProfilePic = '/mobile/change/user-photo';
+  static const String updateUserData = '/mobile/change/user-info';
   static const String param = '/auth/param';
   static const String registerDevice = '/main/register-device';
   static const String firstChat = '/mobile/first-chat';
