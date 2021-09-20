@@ -110,6 +110,10 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
       // Goal
       _initGoal();
 
+      // Start date, end date
+      _selectedStartDate = DateTime.now();
+      _selectedEndDate = DateTime.now();
+
       // Tip
       _tip = _habit.note;
 
@@ -303,7 +307,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
       hintText: LocaleKeys.startDate,
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
-      initialDate: DateTime.now(),
+      initialDate: _selectedStartDate,
       onSelectedDate: (date) {
         print(date);
         _selectedStartDate = date;
@@ -316,7 +320,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
       hintText: LocaleKeys.endDate,
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
-      initialDate: DateTime.now(),
+      initialDate: _selectedEndDate,
       onSelectedDate: (date) {
         print(date);
         _selectedEndDate = date;
