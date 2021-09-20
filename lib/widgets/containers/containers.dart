@@ -453,3 +453,25 @@ class SelectableListItem extends StatelessWidget {
     );
   }
 }
+
+class RoundedCornerListView extends StatelessWidget {
+  final List<Widget> children;
+  final EdgeInsets? padding;
+
+  const RoundedCornerListView({Key? key, required this.children, this.padding}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: padding,
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          child: ListView(
+            children: children,
+          ),
+        ),
+      ),
+    );
+  }
+}

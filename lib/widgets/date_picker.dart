@@ -13,6 +13,7 @@ import 'package:habido_app/widgets/text.dart';
 // }
 
 class CustomDatePicker extends StatefulWidget {
+  final DateTime? initialDate;
   final Function(DateTime) onSelectedDate;
   final String? hintText;
   final EdgeInsets? margin;
@@ -21,6 +22,7 @@ class CustomDatePicker extends StatefulWidget {
 
   const CustomDatePicker({
     Key? key,
+    this.initialDate,
     required this.onSelectedDate,
     this.hintText,
     this.margin = EdgeInsets.zero,
@@ -38,6 +40,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
   @override
   void initState() {
+    _selectedDate = widget.initialDate;
+
     super.initState();
   }
 

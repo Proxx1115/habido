@@ -23,8 +23,12 @@ class SizeHelper {
   );
 
   /// Screen
-  static const paddingScreen =
-      EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.marginTop, SizeHelper.margin, SizeHelper.marginBottom);
+  static const paddingScreen = EdgeInsets.fromLTRB(
+    SizeHelper.margin,
+    SizeHelper.marginTop,
+    SizeHelper.margin,
+    SizeHelper.marginBottom,
+  );
   static const double heightStatusBar = 20.0;
   static double heightBottomNavigationBar = 65.0;
   static const double minHeightScreen = 650.0; // Дэлгэцний хамгийн доод өндөр

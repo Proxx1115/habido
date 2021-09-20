@@ -32,6 +32,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Stream<UserState> _mapGetUserDataEventToState() async* {
     try {
+      yield UserLoading();
+
       var res = await ApiManager.getUserData();
       if (res.code == ResponseCode.Success) {
         yield UserDataSuccess(res);
@@ -75,6 +77,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Stream<UserState> _mapUpdateUserDataEventToState(UpdateUserDataEvent event) async* {
     try {
+      yield UserLoading();
+
       var res = await ApiManager.updateUserData(event.request);
       if (res.code == ResponseCode.Success) {
         yield UpdateUserDataSuccess();

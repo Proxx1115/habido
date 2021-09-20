@@ -176,9 +176,9 @@ class LocaleKeys {
 
   static String get passwordsDoesNotMatch => 'Нууц үгээ зөв давтан оруулна уу!';
 
-// static String get lastName => 'Овог';
+  static String get lastName => 'Овог';
 
-// static String get firstName => 'Нэр';
+  static String get firstName => 'Нэр';
 
 // static String get agreeTerms => 'Зөвшөөрөх';
 //

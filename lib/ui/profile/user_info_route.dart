@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_bloc.dart';
+import 'package:habido_app/models/gender.dart';
 import 'package:habido_app/models/update_profile_picture_request.dart';
+import 'package:habido_app/models/update_user_data_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
@@ -12,9 +14,14 @@ import 'package:habido_app/utils/image_utils.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/date_picker.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
+import 'package:habido_app/widgets/switch.dart';
+import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 class UserInfoRoute extends StatefulWidget {
   const UserInfoRoute({Key? key}) : super(key: key);
@@ -27,27 +34,77 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   // Profile picture
   double _profilePictureSize = 105.0;
 
+  // Овог
+  final _lastNameController = TextEditingController();
+
+  // Нэр
+  final _firstNameController = TextEditingController();
+
+  // Төрсөн огноо
+  DateTime? _selectedBirthDate;
+
+  // Хүйс
+  bool _genderValue = false;
+
+  // Button save
+  bool _enabledBtnSave = false;
+
+  @override
+  void initState() {
+    _lastNameController.addListener(() => _validateForm());
+    _firstNameController.addListener(() => _validateForm());
+
+    if (globals.userData?.lastName != null) _lastNameController.text = globals.userData!.lastName!;
+    if (globals.userData?.firstName != null) _firstNameController.text = globals.userData!.firstName!;
+    if (globals.userData?.gender != null) _genderValue = globals.userData!.gender == Gender.Female;
+    if (globals.userData?.birthDay != null) _selectedBirthDate = Func.toDate(globals.userData!.birthDay!);
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) => _validateForm());
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      appBarTitle: LocaleKeys.userInfo,
-      child: BlocProvider.value(
-        value: BlocManager.userBloc,
-        child: BlocListener<UserBloc, UserState>(
-          listener: _blocListener,
-          child: BlocBuilder<UserBloc, UserState>(
-            builder: (context, state) {
-              return SingleChildScrollView(
-                padding: SizeHelper.paddingScreen,
-                child: Column(
-                  children: [
-                    /// Profile pic
-                    _profilePicture(),
-                  ],
-                ),
-              );
-            },
-          ),
+    return BlocProvider.value(
+      value: BlocManager.userBloc,
+      child: BlocListener<UserBloc, UserState>(
+        listener: _blocListener,
+        child: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
+            return CustomScaffold(
+              appBarTitle: LocaleKeys.userInfo,
+              loading: state is UserLoading,
+              child: Column(
+                children: [
+                  SizedBox(height: 20.0),
+
+                  RoundedCornerListView(
+                    padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, 0.0),
+                    children: [
+                      /// Profile pic
+                      _profilePicture(),
+
+                      /// Овог
+                      _lastNameTextField(),
+
+                      /// Таны нэр
+                      _firstNameTextField(),
+
+                      /// Төрсөн огноо
+                      _birthdayPicker(),
+
+                      /// Хүйс
+                      _genderSwitch(),
+                    ],
+                  ),
+
+                  /// Button save
+                  _buttonSave(),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -78,46 +135,132 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
           BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
         }
       },
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          /// Image
-          if (Func.isNotEmpty(globals.userData!.photo))
+      child: Container(
+        width: _profilePictureSize,
+        height: _profilePictureSize,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            /// Image
+            if (Func.isNotEmpty(globals.userData!.photo))
+              Align(
+                alignment: Alignment.topCenter,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
+                  child: CachedNetworkImage(
+                    imageUrl: globals.userData!.photo!,
+                    fit: BoxFit.fill,
+                    width: _profilePictureSize,
+                    height: _profilePictureSize,
+                    placeholder: (context, url) => CustomLoader(size: _profilePictureSize),
+                    // placeholder: (context, url, error) => Container(),
+                    errorWidget: (context, url, error) => Container(),
+                  ),
+                ),
+              ),
+
+            /// Overlay
             Align(
               alignment: Alignment.topCenter,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
-                child: CachedNetworkImage(
-                  imageUrl: globals.userData!.photo!,
-                  fit: BoxFit.fill,
-                  width: _profilePictureSize,
-                  height: _profilePictureSize,
-                  placeholder: (context, url) => CustomLoader(size: _profilePictureSize),
-                  // placeholder: (context, url, error) => Container(),
-                  errorWidget: (context, url, error) => Container(),
+              child: Opacity(
+                opacity: 0.75,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
+                  child: Container(
+                    padding: EdgeInsets.all(41.0),
+                    height: _profilePictureSize,
+                    width: _profilePictureSize,
+                    decoration: BoxDecoration(color: customColors.primary),
+                    child: SvgPicture.asset(Assets.camera, color: customColors.iconWhite),
+                  ),
                 ),
               ),
             ),
-
-          /// Overlay
-          Align(
-            alignment: Alignment.topCenter,
-            child: Opacity(
-              opacity: 0.75,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
-                child: Container(
-                  padding: EdgeInsets.all(41.0),
-                  height: _profilePictureSize,
-                  width: _profilePictureSize,
-                  decoration: BoxDecoration(color: customColors.primary),
-                  child: SvgPicture.asset(Assets.camera, color: customColors.iconWhite),
-                ),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
+    );
+  }
+
+  _lastNameTextField() {
+    return CustomTextField(
+      controller: _lastNameController,
+      hintText: LocaleKeys.lastName,
+      margin: EdgeInsets.only(top: 15.0),
+    );
+  }
+
+  _firstNameTextField() {
+    return CustomTextField(
+      controller: _firstNameController,
+      hintText: LocaleKeys.yourName,
+      margin: EdgeInsets.only(top: 15.0),
+    );
+  }
+
+  _birthdayPicker() {
+    return CustomDatePicker(
+      initialDate: _selectedBirthDate,
+      hintText: LocaleKeys.birthDate,
+      margin: EdgeInsets.only(top: 15.0),
+      lastDate: DateTime.now(),
+      onSelectedDate: (date) {
+        print(date);
+
+        _selectedBirthDate = date;
+        _validateForm();
+      },
+    );
+  }
+
+  _genderSwitch() {
+    return StadiumContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      child: CustomSwitch(
+        value: _genderValue,
+        // margin: EdgeInsets.only(left: 18.0),
+        activeText: LocaleKeys.female,
+        inactiveText: LocaleKeys.male,
+        activeColor: Colors.transparent,
+        inactiveThumbColor: Colors.transparent,
+        activeTrackColor: Colors.grey,
+        inactiveTrackColor: Colors.grey,
+        activeAsset: Assets.female,
+        inactiveAsset: Assets.male,
+        onChanged: (value) {
+          _genderValue = value;
+        },
+      ),
+    );
+  }
+
+  _validateForm() {
+    setState(() {
+      _enabledBtnSave =
+          _selectedBirthDate != null && _lastNameController.text.length > 0 && _firstNameController.text.length > 0;
+    });
+  }
+
+  _buttonSave() {
+    // var s = MediaQuery.of(context).viewInsets.bottom == 0;
+    // print(s);
+
+    return CustomButton(
+      style: CustomButtonStyle.Secondary,
+      text: LocaleKeys.save,
+      margin: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, SizeHelper.marginBottom),
+      onPressed: _enabledBtnSave
+          ? () {
+              UpdateUserDataRequest request = UpdateUserDataRequest();
+              request
+                ..lastName = _lastNameController.text
+                ..firstName = _firstNameController.text
+                ..birthday = Func.toDateStr(_selectedBirthDate!)
+                ..userGender = _genderValue ? Gender.Female : Gender.Female;
+
+              BlocManager.userBloc.add(UpdateUserDataEvent(request));
+            }
+          : null,
     );
   }
 }

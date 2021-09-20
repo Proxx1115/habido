@@ -6,7 +6,7 @@ class UserData extends BaseResponse {
   String? lastName;
   String? email;
   String? birthDay;
-  int? gender;
+  String? gender;
   String? photo;
   bool? isOnboardingDone;
   int? rankId; // 1-6
