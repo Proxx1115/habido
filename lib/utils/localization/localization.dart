@@ -109,6 +109,8 @@ class LocaleKeys {
 
   static String get day2 => 'гараг';
 
+  static String get resendVerifyCode => 'Дахин код авах';
+
   ///
   /// Intro
   ///

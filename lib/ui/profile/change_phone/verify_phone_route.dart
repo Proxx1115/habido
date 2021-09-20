@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/verify_phone_request.dart';
+import 'package:habido_app/ui/habit/progress/habit_timer/countdown_timer.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -13,6 +14,8 @@ import 'package:habido_app/widgets/code_input.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 class VerifyPhoneRoute extends StatefulWidget {
   final String phoneNumber;
@@ -26,6 +29,12 @@ class VerifyPhoneRoute extends StatefulWidget {
 class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
   // Code
   String? _code = '';
+
+  // Time
+  CountdownTimerController _countdownTimerController;
+
+  // Button resend code
+  bool _enabledBtnResend = false;
 
   // Button next
   bool _enabledBtnNext = false;
@@ -53,8 +62,21 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
                       alignment: Alignment.center,
                     ),
 
-                    /// Утасны дугаар
+                    /// Код
                     _codeInput(),
+
+                    /// Цаг
+                    if (widget.visibleBtnResend)
+                      CountdownTimer(
+                        controller: _countdownTimerController,
+                        onEnd: _onEndCountDown,
+                        endTime: _endTime,
+                        endWidget:
+                            Txt('00 : 00 : 00', color: appColors.lbl, alignment: Alignment.center, fontSize: 14.0),
+                      ),
+
+
+                    _buttonResend(),
 
                     Expanded(child: Container()),
 
@@ -107,6 +129,20 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
 
         _onPressedBtnNext();
       },
+    );
+  }
+
+
+
+  _buttonResend() {
+    return CustomButton(
+      style: CustomButtonStyle.Secondary,
+      text: LocaleKeys.resendVerifyCode,
+      onPressed: _enabledBtnResend
+          ? () {
+        _onPressedBtnNext();
+      }
+          : null,
     );
   }
 
