@@ -6,6 +6,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
+import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
@@ -176,7 +177,24 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
     } else if (state is HabitFinanceTotalAmountSuccess) {
       _totalAmount = state.totalAmount;
       _expenseCategories = state.expenseCategories;
+
+      if (_totalAmount >= Func.toDouble(_userHabit.goalValue)) {
+        SaveUserHabitProgressRequest request = SaveUserHabitProgressRequest()
+          ..userHabitId = _userHabit.userHabitId
+          ..value = Func.toStr(_totalAmount);
+        BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+      }
     } else if (state is HabitFinanceTotalAmountFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is SaveUserHabitProgressSuccess) {
+      Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
+        'habitProgressResponse': state.habitProgressResponse,
+        'primaryColor': _primaryColor,
+      });
+    } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
