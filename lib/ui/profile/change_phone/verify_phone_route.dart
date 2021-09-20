@@ -116,7 +116,7 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
           text: LocaleKeys.success,
           buttonText: LocaleKeys.ok,
           onPressedButton: () {
-            Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+            Navigator.popUntil(context, ModalRoute.withName(Routes.userInfo));
           },
         ),
       );
