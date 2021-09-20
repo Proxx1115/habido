@@ -166,6 +166,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
       BlocManager.userHabitBloc.add(GetHabitFinanceTotalAmountEvent(_userHabit.userHabitId ?? 0));
       BlocManager.userHabitBloc.add(GetHabitProgressListByDateEvent(request));
     } else if (state is SaveUserHabitProgressFailed ||
+        state is AddHabitProgressFailed ||
         state is UpdateHabitProgressFailed ||
         state is DeleteHabitProgressFailed) {
       showCustomDialog(
@@ -222,11 +223,6 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
               if (_enabledTotalAmountCard) SvgPicture.asset(Assets.arrow_forward),
             ],
           ),
-
-          /// Progress bar
-          Container(
-            padding: EdgeInsets.only(top: 15.0),
-          )
         ],
       ),
     );
@@ -235,15 +231,15 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
   Widget _indicator() {
     return (Func.toDouble(_userHabit.goalValue) > 0)
         ? Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.0),
+            margin: EdgeInsets.only(top: 15.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
             ),
             child: LinearPercentIndicator(
-              padding: EdgeInsets.symmetric(horizontal: 7),
+              padding: EdgeInsets.symmetric(horizontal: 0),
               lineHeight: 5,
-              progressColor: customColors.primary,
-              backgroundColor: Colors.white,
+              progressColor: _primaryColor,
+              backgroundColor: customColors.greyBackground,
               percent: (_totalAmount > Func.toDouble(_userHabit.goalValue))
                   ? 1
                   : _totalAmount / Func.toDouble(_userHabit.goalValue),
