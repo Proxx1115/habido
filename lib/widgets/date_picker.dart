@@ -104,47 +104,12 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       lastDate: widget.lastDate ?? DateTime(2100),
     );
 
+    print(_selectedDate);
+
     setState(() {
-      if (_selectedDate != null) widget.onSelectedDate(_selectedDate!);
+      if (_selectedDate != null) {
+        widget.onSelectedDate(_selectedDate!);
+      }
     });
   }
 }
-
-// @override
-// Widget build(BuildContext context) {
-//   return Container(
-//     margin: widget.margin,
-//     child: TextField(
-//       controller: widget.controller,
-//       focusNode: _focusNode,
-//       readOnly: true,
-//       decoration: InputDecoration(
-//         border: _border,
-//         focusedBorder: _border,
-//         enabledBorder: _border,
-//         disabledBorder: _border,
-//         filled: true,
-//         fillColor: _backgroundColor,
-//         prefixIcon: _prefixIcon(),
-//         hintText: widget.hintText,
-//         hintStyle: TextStyle(fontSize: widget.fontSize, color: customColors.secondaryText),
-//         suffixIcon: _suffixIcon(),
-//         counterText: '',
-//         contentPadding: EdgeInsets.fromLTRB(18.0, 16.0, 18.0, 16.0),
-//       ),
-//       style: TextStyle(color: _textColor, fontSize: widget.fontSize, fontWeight: _fontWeight),
-//       keyboardType: widget.textInputType,
-//       obscureText: _obscureText,
-//       textAlign: TextAlign.start,
-//       textAlignVertical: TextAlignVertical.center,
-//       maxLength: widget.maxLength,
-//     ),
-//   );
-// }
-//
-// InputBorder get _border => OutlineInputBorder(
-//       borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-//       borderSide: (widget.style == CustomTextFieldStyle.primary)
-//           ? BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
-//           : BorderSide.none,
-//     );
