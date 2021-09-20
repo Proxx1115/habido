@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
-
 import 'timer_painter.dart';
 
-class CountdownTimer extends StatefulWidget {
+class CustomCountdownTimer extends StatefulWidget {
   final Duration duration;
   final Color? primaryColor;
   final bool visibleAddButton;
 
-  const CountdownTimer({
+  const CustomCountdownTimer({
     Key? key,
     required this.duration,
     this.primaryColor,
@@ -18,10 +17,10 @@ class CountdownTimer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CountdownTimerState createState() => _CountdownTimerState();
+  _CustomCountdownTimerState createState() => _CustomCountdownTimerState();
 }
 
-class _CountdownTimerState extends State<CountdownTimer> with TickerProviderStateMixin {
+class _CustomCountdownTimerState extends State<CustomCountdownTimer> with TickerProviderStateMixin {
   // Animation
   late AnimationController _animationController;
   late Duration _maxDuration;

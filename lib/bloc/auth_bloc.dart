@@ -48,6 +48,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapChangePhoneEventToState(event);
     } else if (event is VerifyPhoneEvent) {
       yield* _mapVerifyPhoneEventToState(event);
+    } else if (event is ResendCodeEvent) {
+      yield* _mapResendCodeEventToState(event);
     }
   }
 
@@ -213,6 +215,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield VerifyPhoneFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<AuthState> _mapResendCodeEventToState(ResendCodeEvent event) async* {
+    try {
+      yield AuthLoading();
+
+      var res = await ApiManager.changePhone(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield ResendCodeSuccess();
+      } else {
+        yield ResendCodeFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield ResendCodeFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -302,6 +319,18 @@ class VerifyPhoneEvent extends AuthEvent {
 
   @override
   String toString() => 'VerifyPhoneEvent { request: $request }';
+}
+
+class ResendCodeEvent extends AuthEvent {
+  final ChangePhoneRequest request;
+
+  const ResendCodeEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'ResendCodeEvent { request: $request }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -461,4 +490,18 @@ class VerifyPhoneFailed extends AuthState {
 
   @override
   String toString() => 'VerifyPhoneFailed { message: $message }';
+}
+
+class ResendCodeSuccess extends AuthState {}
+
+class ResendCodeFailed extends AuthState {
+  final String message;
+
+  const ResendCodeFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ResendCodeFailed { message: $message }';
 }

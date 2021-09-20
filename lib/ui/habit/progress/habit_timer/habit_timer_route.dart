@@ -15,7 +15,7 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 
-import 'countdown_timer.dart';
+import 'custom_countdown_timer.dart';
 
 class HabitTimerRoute extends StatefulWidget {
   final UserHabit userHabit;
@@ -80,7 +80,7 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
 
                     /// Timer
                     if (_duration != null)
-                      CountdownTimer(
+                      CustomCountdownTimer(
                         duration: _duration!,
                         primaryColor: _primaryColor,
                         // visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
