@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/models/habit.dart';
@@ -25,6 +26,7 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/slider/custom_slider.dart';
 import 'package:habido_app/widgets/slider/slider_bloc.dart';
 import 'package:habido_app/widgets/switch.dart';
+import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'reminder/reminder_widget.dart';
 
@@ -61,7 +63,8 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
 
   // Goal
   bool _visibleGoal = false;
-  bool _goalSwitchValue = false;
+
+  // bool _goalSwitchValue = false;
   SliderBloc? _sliderBloc;
   String? _sliderTitle;
   String? _sliderQuantity;
@@ -176,7 +179,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
 
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is GoalSwitchChangedState) {
-      _goalSwitchValue = state.value;
+      // _goalSwitchValue = state.value;
     } else if (state is InsertUserHabitSuccess) {
       showCustomDialog(
         context,
@@ -211,7 +214,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
         _sliderBloc = SliderBloc(
           minValue: Func.toDouble(_habit.goalSettings!.goalMin),
           maxValue: Func.toDouble(_habit.goalSettings!.goalMax),
-          value: Func.toDouble(goalValue ?? _habit.goalSettings!.goalMin),
+          value: (Func.toDouble(_habit.goalSettings!.goalMax) - Func.toDouble(_habit.goalSettings!.goalMin)) / 2,
           step: Func.toDouble(_habit.goalSettings!.goalStep),
         );
 
@@ -249,21 +252,38 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
             child: Column(
               children: [
                 /// Switch
-                CustomSwitch(
-                  margin: EdgeInsets.fromLTRB(15.0, 0.0, 5.0, 0.0),
-                  leadingAsset: Assets.trophy,
-                  leadingAssetColor: _primaryColor,
-                  activeText: LocaleKeys.goal,
-                  activeColor: _primaryColor,
-                  onChanged: (value) {
-                    BlocManager.userHabitBloc.add(GoalSwitchChangedEvent(value));
-                  },
+                // CustomSwitch(
+                //   margin: EdgeInsets.fromLTRB(15.0, 0.0, 5.0, 0.0),
+                //   leadingAsset: Assets.trophy,
+                //   leadingAssetColor: _primaryColor,
+                //   activeText: LocaleKeys.goal,
+                //   activeColor: _primaryColor,
+                //   onChanged: (value) {
+                //     BlocManager.userHabitBloc.add(GoalSwitchChangedEvent(value));
+                //   },
+                // ),
+
+                Container(
+                  margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(Assets.trophy, color: _primaryColor),
+                      SizedBox(width: 15.0),
+                      Expanded(
+                        child: CustomText(
+                          LocaleKeys.goal,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
-                if (_goalSwitchValue) HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
+                // if (_goalSwitchValue)
+                HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
 
                 /// Slider
-                if (_goalSwitchValue && _sliderBloc != null)
+                if ( //_goalSwitchValue &&
+                _sliderBloc != null)
                   CustomSlider(
                     sliderBloc: _sliderBloc!,
                     margin: EdgeInsets.symmetric(horizontal: 15.0),
@@ -283,6 +303,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
       hintText: LocaleKeys.startDate,
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
+      initialDate: DateTime.now(),
       onSelectedDate: (date) {
         print(date);
         _selectedStartDate = date;
@@ -295,6 +316,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
       hintText: LocaleKeys.endDate,
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
+      initialDate: DateTime.now(),
       onSelectedDate: (date) {
         print(date);
         _selectedEndDate = date;
