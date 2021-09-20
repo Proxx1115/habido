@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
@@ -23,7 +22,7 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
-import 'package:habido_app/widgets/text_field/text_fields.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class HabitFinanceRoute extends StatefulWidget {
   final UserHabit userHabit;
@@ -82,7 +81,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
     // Get progress
     var request = HabitProgressListByDateRequest()
       ..dateTime = Func.toDateStr(DateTime.now())
-      ..userHabitId = widget.userHabit.userHabitId;
+      ..userHabitId = _userHabit.userHabitId;
     BlocManager.userHabitBloc.add(GetHabitProgressListByDateEvent(request));
 
     // Button add
@@ -162,7 +161,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         state is DeleteHabitProgressSuccess) {
       var request = HabitProgressListByDateRequest()
         ..dateTime = Func.toDateStr(DateTime.now())
-        ..userHabitId = widget.userHabit.userHabitId;
+        ..userHabitId = _userHabit.userHabitId;
 
       BlocManager.userHabitBloc.add(GetHabitFinanceTotalAmountEvent(_userHabit.userHabitId ?? 0));
       BlocManager.userHabitBloc.add(GetHabitProgressListByDateEvent(request));
@@ -212,6 +211,9 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
                       fontSize: 30.0,
                       fontWeight: FontWeight.w600,
                     ),
+
+                    /// Indicator
+                    _indicator(),
                   ],
                 ),
               ),
@@ -230,10 +232,30 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
     );
   }
 
+  Widget _indicator() {
+    return (Func.toDouble(_userHabit.goalValue) > 0)
+        ? Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: LinearPercentIndicator(
+              padding: EdgeInsets.symmetric(horizontal: 7),
+              lineHeight: 5,
+              progressColor: customColors.primary,
+              backgroundColor: Colors.white,
+              percent: (_totalAmount > Func.toDouble(_userHabit.goalValue))
+                  ? 1
+                  : _totalAmount / Func.toDouble(_userHabit.goalValue),
+            ),
+          )
+        : Container();
+  }
+
   Widget _progressListWidget() {
     return (_habitProgressList != null && _habitProgressList!.isNotEmpty)
         ? FinanceStatementWidget(
-            userHabit: widget.userHabit,
+            userHabit: _userHabit,
             habitProgressList: _habitProgressList!,
             primaryColor: _primaryColor,
             backgroundColor: _backgroundColor,
@@ -265,7 +287,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
               child: SavingsDialogBody(
                 title: _buttonAddText,
                 buttonText: LocaleKeys.add,
-                userHabit: widget.userHabit,
+                userHabit: _userHabit,
                 primaryColor: _primaryColor,
                 backgroundColor: _backgroundColor,
                 controller: _amountController,

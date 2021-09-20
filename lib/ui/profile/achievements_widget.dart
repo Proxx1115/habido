@@ -142,15 +142,17 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
   }
 
   Widget _achievementRowItem({required String title, String? body}) {
-    return Container(
-      margin: EdgeInsets.only(left: 12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomText(title, fontSize: 13.0, color: customColors.secondaryText),
-          if (body != null) CustomText(body, fontWeight: FontWeight.w500),
-        ],
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.only(left: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomText(title, fontSize: 13.0, color: customColors.secondaryText),
+            if (body != null) CustomText(body, fontWeight: FontWeight.w500),
+          ],
+        ),
       ),
     );
   }

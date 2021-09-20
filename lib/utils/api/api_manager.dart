@@ -32,6 +32,7 @@ import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/psy_categories_response.dart';
 import 'package:habido_app/models/unread_notif_count_response.dart';
+import 'package:habido_app/models/update_profile_picture_request.dart';
 import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_list_response.dart';
@@ -51,6 +52,14 @@ class ApiManager {
       path: HttpPath.signUp,
       objectData: request,
       hasAuthorization: false,
+    ));
+  }
+
+  static Future<BaseResponse> updateProfilePic(UpdateProfilePictureRequest request) async {
+    return BaseResponse.fromJson(await httpUtils.sendRequest(
+      path: HttpPath.updateProfilePic,
+      objectData: request,
+      httpMethod: HttpMethod.put,
     ));
   }
 

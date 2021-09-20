@@ -12,18 +12,15 @@ class CustomLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: size,
-      child: (visible ?? true)
-          ? Center(
-              child: Container(
-                height: SizeHelper.loaderSize,
-                width: SizeHelper.loaderSize,
-                child: CircularProgressIndicator(),
-              ),
-            )
-          : Container(),
-    );
+    return (visible ?? true)
+        ? Center(
+            child: Container(
+              height: size ?? SizeHelper.loaderSize,
+              width: size ?? SizeHelper.loaderSize,
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : Container();
   }
 }
 

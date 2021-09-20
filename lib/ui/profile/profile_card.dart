@@ -1,13 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_bloc.dart';
+import 'package:habido_app/models/update_profile_picture_request.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
+import 'package:habido_app/utils/image_utils.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text.dart';
 
@@ -75,7 +81,7 @@ class _ProfileCardState extends State<ProfileCard> {
                         ),
 
                         /// Button edit
-                        // SvgPicture.asset(Assets.edit), // todo test
+                        SvgPicture.asset(Assets.edit),
                       ],
                     ),
                   )
@@ -89,24 +95,55 @@ class _ProfileCardState extends State<ProfileCard> {
   void _blocListener(BuildContext context, UserState state) {
     if (state is UserDataSuccess) {
       print('');
+    } else if (state is UpdateProfilePictureSuccess) {
+      BlocManager.userBloc.add(GetUserDataEvent());
+    } else if (state is UpdateProfilePictureFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
     }
   }
 
   Widget _profilePicture() {
-    return Func.isNotEmpty(globals.userData!.photo)
-        ? ClipRRect(
+    return InkWell(
+      onTap: () async {
+        String base64Image = await ImageUtils.getBase64Image(context);
+        if (base64Image.isNotEmpty) {
+          var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
+          BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
+        }
+      },
+      child: Stack(
+        children: [
+          /// Background
+          ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(25.0)),
-            child: CachedNetworkImage(
-              // imageUrl: globals.userData!.photo!, // todo test
-              imageUrl:
-                  'https://habido-test.s3-ap-southeast-1.amazonaws.com/test-category/3f010def-93c4-425a-bce3-9df854a2f73b.png',
-              fit: BoxFit.fill,
-              width: SizeHelper.boxHeight,
+            child: Container(
+              padding: EdgeInsets.all(15.0),
               height: SizeHelper.boxHeight,
-              placeholder: (context, url) => CustomLoader(size: SizeHelper.boxHeight),
-              errorWidget: (context, url, error) => Container(),
+              width: SizeHelper.boxHeight,
+              decoration: BoxDecoration(color: customColors.primaryBackground),
+              child: SvgPicture.asset(Assets.camera, color: customColors.iconGrey),
             ),
-          )
-        : Container();
+          ),
+
+          /// Image
+          if (Func.isNotEmpty(globals.userData!.photo))
+            ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              child: CachedNetworkImage(
+                imageUrl: globals.userData!.photo!,
+                fit: BoxFit.fill,
+                width: SizeHelper.boxHeight,
+                height: SizeHelper.boxHeight,
+                placeholder: (context, url) => CustomLoader(size: SizeHelper.boxHeight),
+                // placeholder: (context, url, error) => Container(),
+                errorWidget: (context, url, error) => Container(),
+              ),
+            )
+        ],
+      ),
+    );
   }
 }

@@ -205,7 +205,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
 
     if (_habit.goalSettings != null && _habit.goalSettings!.toolType != null) {
       // Slider
-      if (_habit.goalSettings!.goalValueSelectable ?? false) {
+      if (_habit.goalSettings!.goalRequired ?? false) {
         _visibleGoal = true;
 
         _sliderBloc = SliderBloc(

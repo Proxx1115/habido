@@ -9,7 +9,7 @@ class HabitGoalSettings {
   int? goalMax;
   int? goalStep;
   bool? goalIsExtendable; // Хугацаа нэмж сунгах боломжтой эсэх
-  bool? goalValueSelectable; // Slider харуулж утга сонгох боломжтой эсэх
+  bool? goalRequired; // Slider харуулах эсэх, 0-ээс их утгатай байна
 
   // Дадал биелүүлэх tools
   String? toolType; // Minute, Hour, Count, Feeling, Satisfaction, Income, Expense
@@ -23,7 +23,7 @@ class HabitGoalSettings {
     this.goalMax,
     this.goalStep,
     this.goalIsExtendable,
-    this.goalValueSelectable,
+    this.goalRequired,
     this.toolType,
     this.toolUnit,
     this.toolContent,
@@ -36,7 +36,7 @@ class HabitGoalSettings {
     goalMax = json['goalMax'];
     goalStep = json['goalStep'] ?? 1;
     goalIsExtendable = json['goalIsExtendable'];
-    goalValueSelectable = json['goalValueSelectable'];
+    goalRequired = json['goalRequired'];
     toolType = json['toolType'];
     toolUnit = json['toolUnit'];
 
@@ -55,7 +55,7 @@ class HabitGoalSettings {
     map['goalMax'] = goalMax;
     map['goalStep'] = goalStep;
     map['goalIsExtendable'] = goalIsExtendable;
-    map['goalValueSelectable'] = goalValueSelectable;
+    map['goalRequired'] = goalRequired;
     map['toolType'] = toolType;
     map['toolUnit'] = toolUnit;
     map['toolContent'] = toolContent;

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/rank.dart';
+import 'package:habido_app/models/update_profile_picture_request.dart';
 import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -15,19 +16,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
-    if (event is GetUserData) {
-      yield* _mapGetUserDataToState();
+    if (event is GetUserDataEvent) {
+      yield* _mapGetUserDataEventToState();
     } else if (event is GetRankList) {
       yield* _mapGetRankListToState();
     } else if (event is NavigateRankEvent) {
       yield* _mapNavigateRankToState(event);
+    } else if (event is UpdateProfilePictureEvent) {
+      yield* _mapUpdateProfilePictureEventToState(event);
     }
   }
 
-  Stream<UserState> _mapGetUserDataToState() async* {
+  Stream<UserState> _mapGetUserDataEventToState() async* {
     try {
       var res = await ApiManager.getUserData();
       if (res.code == ResponseCode.Success) {
+        yield UserDataSuccess(res);
       } else {
         yield UserDataFailed(ApiHelper.getFailedMessage(res.message));
       }
@@ -52,6 +56,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> _mapNavigateRankToState(NavigateRankEvent event) async* {
     yield NavigateRankState(event.index);
   }
+
+  Stream<UserState> _mapUpdateProfilePictureEventToState(UpdateProfilePictureEvent event) async* {
+    try {
+      var res = await ApiManager.updateProfilePic(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield UpdateProfilePictureSuccess();
+      } else {
+        yield UpdateProfilePictureFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield UpdateProfilePictureFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -65,7 +82,7 @@ abstract class UserEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetUserData extends UserEvent {}
+class GetUserDataEvent extends UserEvent {}
 
 class GetRankList extends UserEvent {}
 
@@ -79,6 +96,18 @@ class NavigateRankEvent extends UserEvent {
 
   @override
   String toString() => 'NavigateRank { index: $index }';
+}
+
+class UpdateProfilePictureEvent extends UserEvent {
+  final UpdateProfilePictureRequest request;
+
+  const UpdateProfilePictureEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'UpdateProfilePictureEvent { request: $request }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -154,4 +183,18 @@ class NavigateRankState extends UserState {
 
   @override
   String toString() => 'NavigateRankState { index: $index }';
+}
+
+class UpdateProfilePictureSuccess extends UserState {}
+
+class UpdateProfilePictureFailed extends UserState {
+  final String message;
+
+  const UpdateProfilePictureFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'UpdateProfilePictureFailed { message: $message }';
 }
