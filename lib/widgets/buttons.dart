@@ -91,12 +91,12 @@ class CustomButton extends StatelessWidget {
   double get _height {
     switch (style) {
       case CustomButtonStyle.Secondary:
-        return SizeHelper.boxHeight;
+        return height ?? SizeHelper.boxHeight;
       case CustomButtonStyle.Mini:
         return height ?? SizeHelper.heightBtnSmall;
       case CustomButtonStyle.Primary:
       default:
-        return SizeHelper.boxHeight;
+        return height ?? SizeHelper.boxHeight;
     }
   }
 

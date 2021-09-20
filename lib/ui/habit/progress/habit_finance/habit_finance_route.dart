@@ -261,7 +261,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
   }
 
   Widget _indicator() {
-    return (Func.toDouble(_userHabit.goalValue) > 0)
+    return (_userHabit.habit?.goalSettings?.toolType == ToolType.Income && Func.toDouble(_userHabit.goalValue) > 0)
         ? Container(
             margin: EdgeInsets.only(top: 15.0),
             decoration: BoxDecoration(

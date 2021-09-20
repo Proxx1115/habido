@@ -11,6 +11,7 @@ import 'package:habido_app/ui/habit/progress/habit_finance/savings_dialog_body.d
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -122,6 +123,21 @@ class FinanceStatementWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+
+              /// Button - Дэлгэрэнгүй
+              CustomButton(
+                text: LocaleKeys.detail,
+                margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, SizeHelper.margin),
+                style: CustomButtonStyle.Mini,
+                alignment: Alignment.center,
+                backgroundColor: primaryColor,
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.habitFinanceStmt, arguments: {
+                    'userHabit': userHabit,
+                  });
+                },
+              ),
+
               // ListTile(title: Text('This is tile number 2')),
             ],
             onExpansionChanged: (bool expanded) {

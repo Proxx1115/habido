@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
@@ -53,20 +52,6 @@ class _HabitFinanceStatementRouteState extends State<HabitFinanceStatementRoute>
     _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
     _backgroundColor = HabitHelper.getBackgroundColor(_userHabit);
 
-    // Total amount
-    if (_userHabit.habit?.goalSettings?.toolType == ToolType.Income) {
-      _totalAmountTitle = LocaleKeys.totalSavings;
-      _totalAmount = Func.toDouble(_userHabit.goalValue);
-    } else if (_userHabit.habit?.goalSettings?.toolType == ToolType.Expense) {
-      _totalAmountTitle = LocaleKeys.totalExpense;
-    }
-
-    // Get progress
-    var request = HabitProgressListByDateRequest()
-      ..dateTime = Func.toDateStr(DateTime.now())
-      ..userHabitId = widget.userHabit.userHabitId;
-    BlocManager.userHabitBloc.add(GetHabitProgressListByDateEvent(request));
-
     super.initState();
   }
 
@@ -79,7 +64,7 @@ class _HabitFinanceStatementRouteState extends State<HabitFinanceStatementRoute>
         child: BlocBuilder<UserHabitBloc, UserHabitState>(
           builder: (context, state) {
             return CustomScaffold(
-              appBarTitle: _userHabit.name,
+              appBarTitle: LocaleKeys.detail,
               appBarLeadingColor: _primaryColor,
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
