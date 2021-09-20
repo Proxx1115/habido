@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_bloc.dart';
 import 'package:habido_app/models/chat_type.dart';
@@ -63,9 +64,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
     return WillPopScope(
       onWillPop: () {
         if (_tabController.index == 0) {
-          // AuthHelper.showLogoutDialog(context); // todo test
-          // todo test logout
-
+          AuthBloc.showLogoutDialog(context);
         } else {
           BlocManager.homeBloc.add(NavigateToPageEvent(0));
         }

@@ -334,55 +334,57 @@ class ListItemContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: borderRadius ?? SizeHelper.borderRadiusOdd,
-      child: Container(
-        margin: margin,
-        padding: padding ?? EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: borderRadius ?? SizeHelper.borderRadiusOdd,
-          color: customColors.secondaryBackground,
-        ),
-        child: Row(
-          children: [
-            /// Image
-            if (Func.isNotEmpty(leadingImageUrl) || leadingAsset != null)
-              Container(
-                margin: EdgeInsets.only(right: 15.0),
-                padding: EdgeInsets.all(10.0),
-                height: 40.0,
-                width: 40.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-                  color: leadingBackgroundColor ?? customColors.greyBackground,
+    return NoSplashContainer(
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: borderRadius ?? SizeHelper.borderRadiusOdd,
+        child: Container(
+          margin: margin,
+          padding: padding ?? EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
+          height: height,
+          decoration: BoxDecoration(
+            borderRadius: borderRadius ?? SizeHelper.borderRadiusOdd,
+            color: customColors.secondaryBackground,
+          ),
+          child: Row(
+            children: [
+              /// Image
+              if (Func.isNotEmpty(leadingImageUrl) || leadingAsset != null)
+                Container(
+                  margin: EdgeInsets.only(right: 15.0),
+                  padding: EdgeInsets.all(10.0),
+                  height: 40.0,
+                  width: 40.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                    color: leadingBackgroundColor ?? customColors.greyBackground,
+                  ),
+                  child: _leadingImage(),
                 ),
-                child: _leadingImage(),
+
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    /// Title
+                    CustomText(title, fontWeight: FontWeight.w500),
+
+                    /// Body
+                    if (Func.isNotEmpty(body))
+                      CustomText(
+                        body,
+                        fontSize: 13.0,
+                        color: customColors.secondaryText,
+                        margin: EdgeInsets.only(top: 5.0),
+                      ),
+                  ],
+                ),
               ),
 
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  /// Title
-                  CustomText(title, fontWeight: FontWeight.w500),
-
-                  /// Body
-                  if (Func.isNotEmpty(body))
-                    CustomText(
-                      body,
-                      fontSize: 13.0,
-                      color: customColors.secondaryText,
-                      margin: EdgeInsets.only(top: 5.0),
-                    ),
-                ],
-              ),
-            ),
-
-            /// Arrow
-            if (suffixAsset != null) SvgPicture.asset(suffixAsset!),
-          ],
+              /// Arrow
+              if (suffixAsset != null) SvgPicture.asset(suffixAsset!),
+            ],
+          ),
         ),
       ),
     );

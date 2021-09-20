@@ -109,6 +109,7 @@ class _SignUp5SuccessRouteState extends State<SignUp5SuccessRoute> {
                 BlocManager.authBloc.add(LoginEvent(request));
 
                 Navigator.of(context).popUntil((route) => route.isFirst); // Navigate to first route
+                // Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
               },
             ),
           ],

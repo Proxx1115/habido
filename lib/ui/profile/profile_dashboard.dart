@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/achievements_bloc.dart';
 import 'package:habido_app/ui/profile/achievements_widget.dart';
@@ -29,7 +30,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: CustomScrollView(
         slivers: [
           /// App bar
-          DashboardSliverAppBar(title: LocaleKeys.myCorner),
+          DashboardSliverAppBar(
+            title: LocaleKeys.myCorner,
+            onPressedLogout: () {
+              AuthBloc.showLogoutDialog(context);
+            },
+          ),
 
           /// Profile card
           SliverToBoxAdapter(

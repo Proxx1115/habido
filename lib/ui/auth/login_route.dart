@@ -118,7 +118,7 @@ class _LoginRouteState extends State<LoginRoute> {
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is SessionTimeoutState) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
 
       showCustomDialog(
         context,

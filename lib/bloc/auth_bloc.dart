@@ -18,6 +18,7 @@ import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 
@@ -101,13 +102,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapLogoutEventToState() async* {
     try {
       var res = await ApiManager.logout();
-      if (res.code == ResponseCode.Success) {
-        await afterLogout();
-
-        yield LogoutSuccess();
-      } else {
-        yield LogoutFailed(ApiHelper.getFailedMessage(res.message));
-      }
+      await afterLogout();
+      yield LogoutSuccess();
     } catch (e) {
       yield LogoutFailed(LocaleKeys.errorOccurred);
     }
@@ -123,7 +119,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     globals.clear();
   }
 
-  static showLogoutDialog(BuildContext context) {
+  static showSessionExpiredDialog(BuildContext context) {
     showCustomDialog(
       context,
       child: CustomDialogBody(
@@ -132,8 +128,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         buttonText: LocaleKeys.ok,
         onPressedButton: () {
           afterLogout();
-          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
         },
+      ),
+    );
+  }
+
+  static showLogoutDialog(BuildContext context) {
+    showCustomDialog(
+      context,
+      child: CustomDialogBody(
+        asset: Assets.warning,
+        text: LocaleKeys.sureToLogout,
+        buttonText: LocaleKeys.yes,
+        onPressedButton: () async {
+          await ApiManager.logout();
+          await afterLogout();
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
+        },
+        button2Text: LocaleKeys.no,
       ),
     );
   }
