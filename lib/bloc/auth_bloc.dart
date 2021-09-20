@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/change_password_request.dart';
+import 'package:habido_app/models/change_phone_request.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
 import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/verify_code_request.dart';
+import 'package:habido_app/models/verify_phone_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -42,6 +44,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapSessionTimeoutEventToState();
     } else if (event is ChangePasswordEvent) {
       yield* _mapChangePasswordEventToState(event);
+    } else if (event is ChangePhoneEvent) {
+      yield* _mapChangePhoneEventToState(event);
+    } else if (event is VerifyPhoneEvent) {
+      yield* _mapVerifyPhoneEventToState(event);
     }
   }
 
@@ -177,6 +183,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield ChangePasswordFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<AuthState> _mapChangePhoneEventToState(ChangePhoneEvent event) async* {
+    try {
+      yield AuthLoading();
+
+      var res = await ApiManager.changePhone(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield ChangePhoneSuccess(event.request.phone ?? '');
+      } else {
+        yield ChangePhoneFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield ChangePhoneFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<AuthState> _mapVerifyPhoneEventToState(VerifyPhoneEvent event) async* {
+    try {
+      yield AuthLoading();
+
+      var res = await ApiManager.verifyPhone(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield VerifyPhoneSuccess();
+      } else {
+        yield VerifyPhoneFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield VerifyPhoneFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -242,6 +278,30 @@ class ChangePasswordEvent extends AuthEvent {
 
   @override
   String toString() => 'ChangePasswordEvent { request: $request }';
+}
+
+class ChangePhoneEvent extends AuthEvent {
+  final ChangePhoneRequest request;
+
+  const ChangePhoneEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'ChangePhoneEvent { request: $request }';
+}
+
+class VerifyPhoneEvent extends AuthEvent {
+  final VerifyPhoneRequest request;
+
+  const VerifyPhoneEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'VerifyPhoneEvent { request: $request }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -363,4 +423,42 @@ class ChangePasswordFailed extends AuthState {
 
   @override
   String toString() => 'ChangePasswordFailed { message: $message }';
+}
+
+class ChangePhoneSuccess extends AuthState {
+  final String phoneNumber;
+
+  const ChangePhoneSuccess(this.phoneNumber);
+
+  @override
+  List<Object> get props => [phoneNumber];
+
+  @override
+  String toString() => 'ChangePhoneSuccess { phoneNumber: $phoneNumber }';
+}
+
+class ChangePhoneFailed extends AuthState {
+  final String message;
+
+  const ChangePhoneFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ChangePhoneFailed { message: $message }';
+}
+
+class VerifyPhoneSuccess extends AuthState {}
+
+class VerifyPhoneFailed extends AuthState {
+  final String message;
+
+  const VerifyPhoneFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'VerifyPhoneFailed { message: $message }';
 }

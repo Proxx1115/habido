@@ -42,4 +42,6 @@ class HttpPath {
   static const String nextNotifs = '/mobile/notifs/then';
   static const String achievements = '/mobile/user/accomplishments';
   static const String rankList = '/mobile/rank/list';
+  static const String changePhone = '/mobile/change/phone';
+  static const String verifyPhone = '/mobile/verify/phone';
 }

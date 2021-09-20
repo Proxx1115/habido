@@ -78,11 +78,11 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
               loading: state is UserLoading,
               child: Column(
                 children: [
-                  SizedBox(height: 20.0),
-
                   RoundedCornerListView(
                     padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
                     children: [
+                      SizedBox(height: 10.0),
+
                       /// Profile pic
                       _profilePicture(),
 
@@ -97,6 +97,9 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
 
                       /// Хүйс
                       _genderSwitch(),
+
+                      /// Утасны дугаар солих
+                      _changePhoneCard(),
 
                       /// Нууц үг солих
                       _changePasswordCard(),
@@ -249,6 +252,18 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
           _genderValue = value;
         },
       ),
+    );
+  }
+
+  Widget _changePhoneCard() {
+    return ListItemContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+      title: LocaleKeys.phoneNumber,
+      suffixAsset: Assets.arrow_forward,
+      onPressed: () {
+        Navigator.pushNamed(context, Routes.changePhone);
+      },
     );
   }
 

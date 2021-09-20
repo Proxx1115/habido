@@ -3,6 +3,7 @@ import 'package:habido_app/models/achievements_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/change_password_request.dart';
+import 'package:habido_app/models/change_phone_request.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/content.dart';
@@ -40,6 +41,7 @@ import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_list_response.dart';
 import 'package:habido_app/models/user_habits_dates_response.dart';
 import 'package:habido_app/models/verify_code_request.dart';
+import 'package:habido_app/models/verify_phone_request.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -418,6 +420,25 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.rankList,
         httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<BaseResponse> changePhone(ChangePhoneRequest request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.changePhone,
+        httpMethod: HttpMethod.put,
+        objectData: request,
+      ),
+    );
+  }
+
+  static Future<BaseResponse> verifyPhone(VerifyPhoneRequest request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.verifyPhone,
+        objectData: request,
       ),
     );
   }

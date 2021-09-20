@@ -25,6 +25,8 @@ import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/notification/notif_route.dart';
 import 'package:habido_app/ui/profile/change_password_route.dart';
+import 'package:habido_app/ui/profile/change_phone/change_phone_route.dart';
+import 'package:habido_app/ui/profile/change_phone/verify_phone_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
@@ -57,6 +59,8 @@ class Routes {
   static const calendar = 'calendar';
   static const content = 'content';
   static const habidoAssistant = 'habidoAssistant';
+  static const changePhone = 'changePhone';
+  static const verifyPhone = 'verifyPhone';
   static const psyCategories = 'psyCategories';
   static const psyTests = 'psyTests';
   static const psyIntro = 'psyIntro';
@@ -168,6 +172,20 @@ class Routes {
 
       case Routes.habidoAssistant:
         route = FadeRouteBuilder(HabidoAssistantRoute(), settings);
+        break;
+
+      case Routes.changePhone:
+        route = SlideRightRouteBuilder(ChangePhoneRoute(), settings);
+        break;
+
+      case Routes.verifyPhone:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          VerifyPhoneRoute(
+            phoneNumber: _getValueByKey(args, 'phoneNumber'),
+          ),
+          settings,
+        );
         break;
 
       case Routes.psyCategories:

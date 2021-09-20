@@ -314,6 +314,8 @@ class LocaleKeys {
   static String get yourRank => 'Таны зэрэглэл';
 
   static String get changePassword => 'Нууц үг солих';
+
+  static String get pleaseEnterVerifyCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу.';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {
