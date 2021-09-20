@@ -12,6 +12,7 @@ import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/image_utils.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -96,6 +97,9 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
 
                       /// Хүйс
                       _genderSwitch(),
+
+                      /// Нууц үг солих
+                      _changePasswordCard(),
                     ],
                   ),
 
@@ -248,6 +252,18 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     );
   }
 
+  Widget _changePasswordCard() {
+    return ListItemContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+      title: LocaleKeys.changePassword,
+      suffixAsset: Assets.arrow_forward,
+      onPressed: () {
+        Navigator.pushNamed(context, Routes.changePass);
+      },
+    );
+  }
+
   _validateForm() {
     setState(() {
       _enabledBtnSave =
@@ -256,9 +272,6 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   }
 
   _buttonSave() {
-    var s = MediaQuery.of(context).viewInsets.bottom == 0;
-    print(s);
-
     return !Func.visibleKeyboard(context)
         ? CustomButton(
             style: CustomButtonStyle.Secondary,

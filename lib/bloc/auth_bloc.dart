@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/change_password_request.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
 import 'package:habido_app/models/sign_up_request.dart';
@@ -39,6 +40,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapVerifyCodeEventToState(event.request);
     } else if (event is SessionTimeoutEvent) {
       yield* _mapSessionTimeoutEventToState();
+    } else if (event is ChangePasswordEvent) {
+      yield* _mapChangePasswordEventToState(event);
     }
   }
 
@@ -146,7 +149,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       yield AuthLoading();
 
-      // todo test
       // yield VerifyCodeSuccess();
       // return;
 
@@ -158,6 +160,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     } catch (e) {
       yield VerifyCodeFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<AuthState> _mapChangePasswordEventToState(ChangePasswordEvent event) async* {
+    try {
+      yield AuthLoading();
+
+      var res = await ApiManager.changePassword(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield ChangePasswordSuccess();
+      } else {
+        yield ChangePasswordFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield ChangePasswordFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -215,6 +232,18 @@ class LogoutEvent extends AuthEvent {}
 
 class SessionTimeoutEvent extends AuthEvent {}
 
+class ChangePasswordEvent extends AuthEvent {
+  final ChangePasswordRequest request;
+
+  const ChangePasswordEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'ChangePasswordEvent { request: $request }';
+}
+
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -240,7 +269,8 @@ class SetBiometrics extends AuthState {
   List<Object> get props => [canCheckBiometrics, availableBiometricsCount];
 
   @override
-  String toString() => 'SetBiometrics { canCheckBiometrics: $canCheckBiometrics, availableBiometricsCount: $availableBiometricsCount }';
+  String toString() =>
+      'SetBiometrics { canCheckBiometrics: $canCheckBiometrics, availableBiometricsCount: $availableBiometricsCount }';
 }
 
 class SignUpSuccess extends AuthState {
@@ -320,3 +350,17 @@ class LogoutFailed extends AuthState {
 }
 
 class SessionTimeoutState extends AuthState {}
+
+class ChangePasswordSuccess extends AuthState {}
+
+class ChangePasswordFailed extends AuthState {
+  final String message;
+
+  const ChangePasswordFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ChangePasswordFailed { message: $message }';
+}

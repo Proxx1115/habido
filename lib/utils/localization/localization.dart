@@ -176,6 +176,8 @@ class LocaleKeys {
 
   static String get passwordsDoesNotMatch => 'Нууц үгээ зөв давтан оруулна уу!';
 
+  static String get oldPassword => 'Хуучин нууц үг';
+
   static String get lastName => 'Овог';
 
   static String get firstName => 'Нэр';
@@ -201,8 +203,6 @@ class LocaleKeys {
   static String get profile => 'Профайл';
 
   static String get myCorner => 'Миний булан';
-
-  /// Settings
 
   /// Chat
   static String get habidoAssistant => 'Habido туслах';
@@ -312,6 +312,8 @@ class LocaleKeys {
   static String get userInfo => 'Хэрэглэгчийн мэдээлэл';
 
   static String get yourRank => 'Таны зэрэглэл';
+
+  static String get changePassword => 'Нууц үг солих';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

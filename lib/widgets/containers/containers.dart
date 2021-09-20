@@ -308,6 +308,7 @@ class ListItemContainer extends StatelessWidget {
   final VoidCallback? onPressed;
   final EdgeInsets? margin;
   final EdgeInsets? padding;
+  final BorderRadius? borderRadius;
   final double? height;
   final String? leadingImageUrl;
   final String? leadingAsset;
@@ -321,6 +322,7 @@ class ListItemContainer extends StatelessWidget {
     this.onPressed,
     this.margin,
     this.padding,
+    this.borderRadius,
     this.height,
     this.leadingImageUrl,
     this.leadingAsset,
@@ -334,13 +336,13 @@ class ListItemContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      borderRadius: SizeHelper.borderRadiusOdd,
+      borderRadius: borderRadius ?? SizeHelper.borderRadiusOdd,
       child: Container(
         margin: margin,
         padding: padding ?? EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
         height: height,
         decoration: BoxDecoration(
-          borderRadius: SizeHelper.borderRadiusOdd,
+          borderRadius: borderRadius ?? SizeHelper.borderRadiusOdd,
           color: customColors.secondaryBackground,
         ),
         child: Row(

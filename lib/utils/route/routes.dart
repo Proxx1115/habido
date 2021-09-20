@@ -24,6 +24,7 @@ import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/notification/notif_route.dart';
+import 'package:habido_app/ui/profile/change_password_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
@@ -45,6 +46,7 @@ class Routes {
   static const intro = 'intro';
   static const login = '/login';
   static const forgotPass = 'forgotPass';
+  static const changePass = 'changePass';
   static const signUp1Phone = 'signUp1Phone';
   static const signUp2Code = 'signUp2Code';
   static const signUp3Profile = 'signUp3Profile';
@@ -150,6 +152,10 @@ class Routes {
 
       case Routes.forgotPass:
         route = SlideRightRouteBuilder(ForgotPassRoute(), settings);
+        break;
+
+      case Routes.changePass:
+        route = SlideRightRouteBuilder(ChangePasswordRoute(), settings);
         break;
 
       case Routes.home:

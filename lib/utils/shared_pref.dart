@@ -69,13 +69,13 @@ class SharedPref {
     sharedPref?.setBool(SharedPrefKey.biometricAuth, useBiometric ?? false);
   }
 
-  static String getPassword() {
-    return Func.fromBase64Str(sharedPref?.getString(SharedPrefKey.password) ?? '');
-  }
-
-  static void setPassword(String? password) {
-    sharedPref?.setString(SharedPrefKey.password, Func.toBase64Str(password ?? ''));
-  }
+  // static String getPassword() {
+  //   return Func.fromBase64Str(sharedPref?.getString(SharedPrefKey.password) ?? '');
+  // }
+  //
+  // static void setPassword(String? password) {
+  //   sharedPref?.setString(SharedPrefKey.password, Func.toBase64Str(password ?? ''));
+  // }
 
   static String getPushNotifToken() {
     return sharedPref?.getString(SharedPrefKey.pushNotifToken) ?? '';
