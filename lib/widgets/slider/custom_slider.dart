@@ -108,7 +108,7 @@ class _CustomSliderState extends State<CustomSlider> {
       value: widget.sliderBloc.value,
       min: widget.sliderBloc.minValue,
       max: widget.sliderBloc.maxValue,
-      divisions: Func.toInt((widget.sliderBloc.maxValue - widget.sliderBloc.minValue)),
+      divisions: Func.toInt((widget.sliderBloc.maxValue - widget.sliderBloc.minValue) / widget.sliderBloc.step),
       label: widget.sliderBloc.value.round().toString(),
       activeColor: widget.primaryColor ?? customColors.primary,
       onChanged: (double value) {

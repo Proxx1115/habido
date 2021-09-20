@@ -212,6 +212,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
           minValue: Func.toDouble(_habit.goalSettings!.goalMin),
           maxValue: Func.toDouble(_habit.goalSettings!.goalMax),
           value: Func.toDouble(goalValue ?? _habit.goalSettings!.goalMin),
+          step: Func.toDouble(_habit.goalSettings!.goalStep),
         );
 
         _sliderTitle = _habit.goalSettings!.goalName;

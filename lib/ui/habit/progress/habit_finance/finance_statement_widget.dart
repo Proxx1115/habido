@@ -5,6 +5,8 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/ui/habit/habit_helper.dart';
+import 'package:habido_app/ui/habit/progress/habit_finance/expense_dialog_body.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/savings_dialog_body.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -12,6 +14,7 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/combobox/combo_helper.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -19,6 +22,7 @@ import 'package:habido_app/widgets/text.dart';
 class FinanceStatementWidget extends StatelessWidget {
   final UserHabit userHabit;
   final List<HabitProgress> habitProgressList;
+  final List<ComboItem> expenseCategoryComboList;
   final Color? primaryColor;
   final Color? backgroundColor;
   final bool expansionTileExpanded;
@@ -32,6 +36,7 @@ class FinanceStatementWidget extends StatelessWidget {
     Key? key,
     required this.userHabit,
     required this.habitProgressList,
+    required this.expenseCategoryComboList,
     this.primaryColor,
     this.backgroundColor,
     required this.expansionTileExpanded,
@@ -142,21 +147,40 @@ class FinanceStatementWidget extends StatelessWidget {
       onTap: () {
         _amountController.text = habitProgress.value ?? '';
 
-        showCustomDialog(
-          context,
-          isDismissible: true,
-          child: CustomDialogBody(
-            child: SavingsDialogBody(
-              title: LocaleKeys.editSavings,
-              buttonText: LocaleKeys.edit2,
-              userHabit: userHabit,
-              habitProgress: habitProgress,
-              primaryColor: primaryColor,
-              backgroundColor: backgroundColor,
-              controller: _amountController,
+        if (userHabit.habit?.goalSettings?.toolType == ToolType.Income) {
+          showCustomDialog(
+            context,
+            isDismissible: true,
+            child: CustomDialogBody(
+              child: SavingsDialogBody(
+                title: LocaleKeys.editSavings,
+                buttonText: LocaleKeys.edit2,
+                userHabit: userHabit,
+                habitProgress: habitProgress,
+                primaryColor: primaryColor,
+                backgroundColor: backgroundColor,
+                controller: _amountController,
+              ),
             ),
-          ),
-        );
+          );
+        } else if (userHabit.habit?.goalSettings?.toolType == ToolType.Expense) {
+          showCustomDialog(
+            context,
+            isDismissible: true,
+            child: CustomDialogBody(
+              child: ExpenseDialogBody(
+                title: LocaleKeys.editExpense,
+                buttonText: LocaleKeys.edit2,
+                userHabit: userHabit,
+                habitProgress: habitProgress,
+                primaryColor: primaryColor,
+                backgroundColor: backgroundColor,
+                controller: _amountController,
+                habitExpenseCategoryComboList: expenseCategoryComboList,
+              ),
+            ),
+          );
+        }
       },
     );
   }

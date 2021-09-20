@@ -296,11 +296,17 @@ class LocaleKeys {
 
   static String get editSavings => 'Хуримтлал засварлах';
 
+  static String get editExpense => 'Зардал засварлах';
+
   static String get addExpense => 'Зэрдал нэмэх';
 
   static String get enterAmount => 'Мөнгөн дүн оруулах';
 
   static String get congratulations => 'Танд баяр хүргэе';
+
+  static String get pleaseSelectCategory => 'Ангилал сонгоно уу.';
+
+  static String get selectCategory => 'Ангилал сонгох';
 
   /// Profile
   static String get allTime => 'Бүх цаг үе';

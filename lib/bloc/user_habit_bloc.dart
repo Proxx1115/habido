@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/habit_expense_category.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
@@ -10,6 +11,7 @@ import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/widgets/combobox/combo_helper.dart';
 
 import 'bloc_manager.dart';
 import 'dashboard_bloc.dart';
@@ -41,6 +43,8 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapUpdateHabitProgressEventToState(event);
     } else if (event is DeleteHabitProgressEvent) {
       yield* _mapDeleteHabitProgressEventToState(event);
+    } else if (event is GetExpenseCategoriesEvent) {
+      yield* _mapGetExpenseCategoriesEventToState();
     }
   }
 
@@ -176,6 +180,33 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield DeleteHabitProgressFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<UserHabitState> _mapGetExpenseCategoriesEventToState() async* {
+    try {
+      yield UserHabitProgressLoading();
+
+      var res = await ApiManager.habitExpenseCategories();
+      if (res.code == ResponseCode.Success) {
+        List<ComboItem> list = [];
+
+        if (res.habitExpenseCategoryList != null && res.habitExpenseCategoryList!.isNotEmpty) {
+          for (var el in res.habitExpenseCategoryList!) {
+            list.add(
+              ComboItem()
+                ..val = el
+                ..txt = el.name ?? '',
+            );
+          }
+        }
+
+        yield GetExpenseCategoriesSuccess(list);
+      } else {
+        yield GetExpenseCategoriesFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetExpenseCategoriesFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -308,6 +339,8 @@ class DeleteHabitProgressEvent extends UserHabitEvent {
   @override
   String toString() => 'DeleteHabitProgressEvent { progressId: $progressId }';
 }
+
+class GetExpenseCategoriesEvent extends UserHabitEvent {}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
@@ -504,4 +537,28 @@ class DeleteHabitProgressFailed extends UserHabitState {
 
   @override
   String toString() => 'DeleteHabitProgressFailed { message: $message }';
+}
+
+class GetExpenseCategoriesSuccess extends UserHabitState {
+  final List<ComboItem> habitExpenseCategoryList;
+
+  const GetExpenseCategoriesSuccess(this.habitExpenseCategoryList);
+
+  @override
+  List<Object> get props => [habitExpenseCategoryList];
+
+  @override
+  String toString() => 'GetExpenseCategoriesSuccess { habitExpenseCategoryList: $habitExpenseCategoryList }';
+}
+
+class GetExpenseCategoriesFailed extends UserHabitState {
+  final String message;
+
+  const GetExpenseCategoriesFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetExpenseCategoriesFailed { message: $message }';
 }

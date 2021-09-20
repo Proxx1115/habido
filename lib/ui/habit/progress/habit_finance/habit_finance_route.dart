@@ -8,7 +8,6 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
-import 'package:habido_app/models/user_habit_expense_category.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/finance_statement_widget.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/savings_dialog_body.dart';
@@ -19,11 +18,13 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/combobox/combo_helper.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'expense_dialog_body.dart';
 
 class HabitFinanceRoute extends StatefulWidget {
   final UserHabit userHabit;
@@ -48,7 +49,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
   bool _enabledTotalAmountCard = false;
 
   // Graph
-  List<UserHabitExpenseCategory>? _expenseCategories;
+  // List<ComboItem>? _expenseCategoryList;
 
   // Progress
   bool _expansionTileExpanded = true;
@@ -59,10 +60,13 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
 
   // Add dialog
   TextEditingController _amountController = TextEditingController();
+  List<ComboItem>? _expenseCategoryComboList;
 
   @override
   void initState() {
     _userHabit = widget.userHabit;
+
+    BlocManager.userHabitBloc.add(GetExpenseCategoriesEvent());
 
     // UI
     _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
@@ -176,13 +180,16 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
       );
     } else if (state is HabitFinanceTotalAmountSuccess) {
       _totalAmount = state.totalAmount;
-      _expenseCategories = state.expenseCategories;
+      // _expenseCategoryList = state.expenseCategories;
 
-      if (_totalAmount >= Func.toDouble(_userHabit.goalValue)) {
-        SaveUserHabitProgressRequest request = SaveUserHabitProgressRequest()
-          ..userHabitId = _userHabit.userHabitId
-          ..value = Func.toStr(_totalAmount);
-        BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+      // Total amount бүрдсэн бол дадлыг дуусгана
+      if (_userHabit.habit?.goalSettings?.toolType == ToolType.Income) {
+        if (_totalAmount >= Func.toDouble(_userHabit.goalValue)) {
+          SaveUserHabitProgressRequest request = SaveUserHabitProgressRequest()
+            ..userHabitId = _userHabit.userHabitId
+            ..value = Func.toStr(_totalAmount);
+          BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+        }
       }
     } else if (state is HabitFinanceTotalAmountFailed) {
       showCustomDialog(
@@ -198,6 +205,13 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is GetExpenseCategoriesSuccess) {
+      _expenseCategoryComboList = state.habitExpenseCategoryList;
+    } else if (state is GetExpenseCategoriesFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -267,13 +281,17 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
   }
 
   Widget _progressListWidget() {
-    return (_habitProgressList != null && _habitProgressList!.isNotEmpty)
+    return (_habitProgressList != null &&
+            _habitProgressList!.isNotEmpty &&
+            _expenseCategoryComboList != null &&
+            _expenseCategoryComboList!.isNotEmpty)
         ? FinanceStatementWidget(
             userHabit: _userHabit,
             habitProgressList: _habitProgressList!,
             primaryColor: _primaryColor,
             backgroundColor: _backgroundColor,
             expansionTileExpanded: _expansionTileExpanded,
+            expenseCategoryComboList: _expenseCategoryComboList!,
             onExpansionChanged: (value) {
               setState(() {
                 _expansionTileExpanded = value;
@@ -294,6 +312,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         _amountController.clear();
 
         if (_userHabit.habit?.goalSettings?.toolType == ToolType.Income) {
+          // Орлого
           showCustomDialog(
             context,
             isDismissible: true,
@@ -309,7 +328,24 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
             ),
           );
         } else if (_userHabit.habit?.goalSettings?.toolType == ToolType.Expense) {
-          //
+          // Зарлага
+          if (_expenseCategoryComboList == null || _expenseCategoryComboList!.isNotEmpty) {
+            showCustomDialog(
+              context,
+              isDismissible: true,
+              child: CustomDialogBody(
+                child: ExpenseDialogBody(
+                  title: _buttonAddText,
+                  buttonText: LocaleKeys.add,
+                  userHabit: _userHabit,
+                  habitExpenseCategoryComboList: _expenseCategoryComboList!,
+                  primaryColor: _primaryColor,
+                  backgroundColor: _backgroundColor,
+                  controller: _amountController,
+                ),
+              ),
+            );
+          }
         }
       },
     );

@@ -28,6 +28,7 @@ class CustomTextField extends StatefulWidget {
   final double fontSize;
   final Color? textColor;
   final String suffixAsset;
+  final Color? suffixColor;
   final bool alwaysVisibleSuffix;
   final VoidCallback? onPressedSuffix;
 
@@ -49,6 +50,7 @@ class CustomTextField extends StatefulWidget {
     this.maxLines,
     this.maxLength,
     this.suffixAsset = Assets.edit,
+    this.suffixColor,
     this.alwaysVisibleSuffix = true,
     this.onPressedSuffix,
   }) : super(key: key);
@@ -131,7 +133,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
       // Show suffix icon
       return NoSplashContainer(
         child: IconButton(
-          icon: SvgPicture.asset(_suffixAsset, fit: BoxFit.scaleDown),
+          icon: SvgPicture.asset(
+            _suffixAsset,
+            fit: BoxFit.scaleDown,
+            color: widget.suffixColor ?? customColors.iconGrey,
+          ),
           onPressed: () {
             if (widget.onPressedSuffix != null) {
               widget.onPressedSuffix!();
