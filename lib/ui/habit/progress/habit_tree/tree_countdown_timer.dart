@@ -7,6 +7,7 @@ import 'package:habido_app/widgets/buttons.dart';
 
 class TreeCountdownTimer extends StatefulWidget {
   final Duration duration;
+  final Duration additionalDuration;
   final Color? primaryColor;
   final bool visibleAddButton;
   final VoidCallback? callBack;
@@ -14,6 +15,7 @@ class TreeCountdownTimer extends StatefulWidget {
   const TreeCountdownTimer({
     Key? key,
     required this.duration,
+    this.additionalDuration = const Duration(minutes: 5),
     this.primaryColor,
     this.visibleAddButton = false,
     this.callBack,
@@ -202,18 +204,15 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
       // Current duration
       Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
 
-      // Additional duration
-      var additionalDuration = Duration(seconds: 60);
-
       // New duration
-      Duration newDuration = currentDuration + additionalDuration;
+      Duration newDuration = currentDuration + widget.additionalDuration;
       if (newDuration > _duration) {
         // Calculation
         // 1	                  20 + 1
         // k = 20.5 / 21        19.5 + 1
 
         // Replace current duration
-        _duration += additionalDuration;
+        _duration += widget.additionalDuration;
         _animationController.duration = _duration;
       } else {
         // Calculation

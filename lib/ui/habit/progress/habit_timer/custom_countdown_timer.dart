@@ -6,6 +6,7 @@ import 'package:habido_app/widgets/timer/timer_painter.dart';
 
 class CustomCountdownTimer extends StatefulWidget {
   final Duration duration;
+  final Duration additionalDuration;
   final Color? primaryColor;
   final bool visibleAddButton;
   final VoidCallback? callBack;
@@ -13,6 +14,7 @@ class CustomCountdownTimer extends StatefulWidget {
   const CustomCountdownTimer({
     Key? key,
     required this.duration,
+    this.additionalDuration = const Duration(minutes: 5),
     this.primaryColor,
     this.visibleAddButton = false,
     this.callBack,
@@ -26,7 +28,6 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
   // Animation
   late AnimationController _animationController;
   late Duration _duration;
-  late Duration _maxDuration;
 
   // Reset
   bool _callBack = true;
@@ -34,10 +35,10 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
   @override
   void initState() {
     super.initState();
-    _maxDuration = widget.duration;
+    _duration = widget.duration;
     _animationController = AnimationController(
       vsync: this,
-      duration: _maxDuration,
+      duration: _duration,
       value: 1,
     )..addStatusListener((AnimationStatus status) {
         print(status);
@@ -135,7 +136,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
                   _timeString(),
                   style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 70,
+                    fontSize: 35,
                     fontWeight: FontWeight.bold,
                   ),
                 );
@@ -148,8 +149,19 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
   }
 
   String _timeString() {
-    Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
-    String res = '${currentDuration.inMinutes}:${(currentDuration.inSeconds % 60).floor().toString().padLeft(2, '0')}';
+    Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
+    String res = '';
+
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String hours = twoDigits(currentDuration.inHours);
+    String minutes = twoDigits(currentDuration.inMinutes.remainder(60));
+    String seconds = twoDigits(currentDuration.inSeconds.remainder(60));
+
+    if (currentDuration.inHours > 0) {
+      res = '$hours:$minutes:$seconds';
+    } else {
+      res = '$minutes:$seconds';
+    }
 
     return res;
   }
@@ -165,18 +177,15 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       // Current duration
       Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
 
-      // Additional duration
-      var additionalDuration = Duration(seconds: 60);
-
       // New duration
-      Duration newDuration = currentDuration + additionalDuration;
+      Duration newDuration = currentDuration + widget.additionalDuration;
       if (newDuration > _duration) {
         // Calculation
         // 1	                  20 + 1
         // k = 20.5 / 21        19.5 + 1
 
         // Replace current duration
-        _duration += additionalDuration;
+        _duration += widget.additionalDuration;
         _animationController.duration = _duration;
       } else {
         // Calculation
