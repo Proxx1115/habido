@@ -64,7 +64,7 @@ class _HabitFinanceStatementRouteState extends State<HabitFinanceStatementRoute>
               appBarTitle: LocaleKeys.detail,
               appBarLeadingColor: _primaryColor,
               backgroundColor: _backgroundColor,
-              loading: state is UserHabitProgressLoading,
+              loading: state is HabitFinanceStatementLoading,
               child: Container(
                 padding: SizeHelper.paddingScreen,
                 child: Column(

@@ -126,7 +126,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
   Stream<UserHabitState> _mapGetHabitProgressListWithDateEventToState(GetHabitProgressListWithDateEvent event) async* {
     try {
-      yield UserHabitProgressLoading();
+      yield HabitFinanceStatementLoading();
 
       var res = await ApiManager.habitProgressListWithDate(event.userHabitId);
       if (res.code == ResponseCode.Success) {
@@ -452,6 +452,8 @@ class UpdateUserHabitFailed extends UserHabitState {
 }
 
 class UserHabitProgressLoading extends UserHabitState {}
+
+class HabitFinanceStatementLoading extends UserHabitState {}
 
 class SaveUserHabitProgressSuccess extends UserHabitState {
   final HabitProgressResponse habitProgressResponse;
