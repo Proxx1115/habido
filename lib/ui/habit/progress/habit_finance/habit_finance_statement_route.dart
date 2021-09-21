@@ -65,7 +65,7 @@ class _HabitFinanceStatementRouteState extends State<HabitFinanceStatementRoute>
               appBarLeadingColor: _primaryColor,
               backgroundColor: _backgroundColor,
               loading: state is HabitFinanceStatementLoading,
-              child: Container(
+              child: SingleChildScrollView(
                 padding: SizeHelper.paddingScreen,
                 child: Column(
                   children: [
