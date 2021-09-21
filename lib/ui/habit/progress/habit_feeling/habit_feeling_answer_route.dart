@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
-import 'package:habido_app/ui/content/suggested_content.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
-import 'package:habido_app/ui/habit/note_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
+import 'package:habido_app/widgets/text.dart';
+import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 import 'emoji_widget.dart';
 
@@ -37,11 +39,18 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
   // Data
   late UserHabit _userHabit;
 
-  // Questions
-  HabitQuestionResponse? _habitQuestion;
+  // Question
+  HabitQuestion? _question;
 
-  // Emoji
-  int? _selectedEmoji;
+  // Answers
+  List<HabitAnswer>? _answerList;
+
+  // TextField
+  final _conclusionController = TextEditingController();
+  String _conclusion = '';
+
+  // Button
+  bool _enabledButton = false;
 
   @override
   void initState() {
@@ -56,6 +65,11 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
     }
 
     super.initState();
+
+    _conclusionController.addListener(() {
+      _conclusion = _conclusionController.text;
+      _validateForm();
+    });
   }
 
   @override
@@ -76,13 +90,24 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: ListView(
-                        children: [
-                          //
+                      child: (_question != null && _answerList != null && _answerList!.isNotEmpty)
+                          ? StadiumContainer(
+                              padding: SizeHelper.boxPadding,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                child: ListView(
+                                  children: [
+                                    /// Question
+                                    CustomText(_question!.questionText, fontWeight: FontWeight.w500, maxLines: 5),
 
-                          // _habitQuestionsWithAnswers
-                        ],
-                      ),
+                                    HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+
+                                    for (int i = 0; i < _answerList!.length; i++) _listItem(i),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Container(),
                     ),
 
                     /// Button finish
@@ -110,13 +135,134 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
       );
     }
     if (state is HabitQuestionSuccess) {
-      _habitQuestion = state.habitQuestionResponse;
+      _question = state.habitQuestionResponse.habitQuestion;
+      _answerList = state.habitQuestionResponse.answers;
+
+      if (_answerList != null && _answerList!.isNotEmpty) {
+        _answerList![0].isSelected = true;
+      }
     } else if (state is HabitQuestionFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
     }
+  }
+
+  Widget _listItem(int index) {
+    return Container(
+      margin: EdgeInsets.only(top: index == 0 ? 0 : 15.0),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          dividerColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+          child: ExpansionTile(
+            collapsedBackgroundColor: _backgroundColor,
+            backgroundColor: _backgroundColor,
+            initiallyExpanded: index == 0,
+            //_answers![index].isSelected,
+
+            /// Title
+            title: CustomText(
+              _answerList![index].answerText,
+              fontWeight: FontWeight.w500,
+            ),
+
+            /// Icon
+            trailing: Container(
+              height: 20.0,
+              width: 20.0,
+              // padding: EdgeInsets.all(6.0),
+              // decoration: BoxDecoration(shape: BoxShape.circle, color: _primaryColor),
+              child: SvgPicture.asset(
+                _answerList![index].isSelected ? Assets.circle_check : Assets.circle_check,
+                color: _answerList![index].isSelected ? _primaryColor : customColors.iconGrey,
+              ),
+            ),
+
+            /// Progress list
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  border: Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
+                ),
+                child: Column(
+                  children: [
+                    /// Дүгнэлт бичих
+                    CustomTextField(
+                      controller: _conclusionController,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(SizeHelper.borderRadius),
+                        topRight: Radius.circular(SizeHelper.borderRadius),
+                      ),
+                      alwaysVisibleSuffix: false,
+                      hintText: LocaleKeys.writeConclusion,
+                      maxLines: 5,
+                      autofocus: true,
+                    ),
+
+                    /// Emoji
+                    EmojiWidget(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(SizeHelper.borderRadius),
+                        bottomRight: Radius.circular(SizeHelper.borderRadius),
+                      ),
+                      visibleHeader: false,
+                      onSelectedEmoji: (value) {
+                        _answerList![index].selectedEmoji = value;
+                        _validateForm();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+            onExpansionChanged: (bool expanded) {
+              // Clear text
+              _conclusionController.text = '';
+
+              // Answers
+              _answerList![index].isSelected = expanded;
+              if (expanded) {
+                for (int i = 0; i < _answerList!.length; i++) {
+                  if (index != i) {
+                    _answerList![i].isSelected = false;
+                  }
+                  // print('$i  ${_answers![i].isSelected}');
+                }
+              }
+
+              _validateForm();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _validateForm() {
+    setState(() {
+      _enabledButton = _getSelectedAnswer() != null;
+    });
+  }
+
+  HabitAnswer? _getSelectedAnswer() {
+    HabitAnswer? answer;
+
+    if (_answerList != null && _answerList!.isNotEmpty && _question != null) {
+      for (var el in _answerList!) {
+        if (el.isSelected && Func.isNotEmpty(_conclusion) && el.selectedEmoji != null) {
+          answer = el;
+        }
+      }
+    }
+
+    return answer;
   }
 
   Widget _buttonFinish() {
@@ -126,12 +272,18 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
       style: CustomButtonStyle.Secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: _selectedEmoji != null
+      onPressed: _enabledButton
           ? () {
-              var request = SaveUserHabitProgressRequest();
-              request.userHabitId = _userHabit.userHabitId;
-              request.value = Func.toStr(_selectedEmoji!);
-              BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+              HabitAnswer? answer = _getSelectedAnswer();
+
+              if (answer != null) {
+                var request = SaveUserHabitProgressRequest();
+                request.userHabitId = _userHabit.userHabitId;
+                request.value = Func.toStr(answer.selectedEmoji ?? '');
+                request.note = Func.toStr(_conclusion);
+
+                BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+              }
             }
           : null,
     );

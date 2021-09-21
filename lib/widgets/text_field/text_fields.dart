@@ -19,6 +19,7 @@ class CustomTextField extends StatefulWidget {
   final bool readOnly;
   final EdgeInsets margin;
   final Color? backgroundColor;
+  final BorderRadius? borderRadius;
   final int? maxLines;
   final int? maxLength;
   final TextInputType? keyboardType;
@@ -41,6 +42,7 @@ class CustomTextField extends StatefulWidget {
     this.readOnly = false,
     this.margin = EdgeInsets.zero,
     this.backgroundColor,
+    this.borderRadius,
     this.prefixAsset,
     this.hintText,
     this.keyboardType,
@@ -108,7 +110,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   InputBorder get _border => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+        borderRadius: widget.borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
         borderSide: (widget.style == CustomTextFieldStyle.primary)
             ? BorderSide.none // BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
             : BorderSide.none,

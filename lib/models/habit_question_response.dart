@@ -67,12 +67,17 @@ class HabitAnswer {
     habitQuestionId = json['habitQuestionId'];
     answerText = json['answerText'];
     orderNo = json['orderNo'];
+    isSelected = false;
   }
 
   int? habitQuestionAnsId;
   int? habitQuestionId;
   String? answerText;
   int? orderNo;
+
+  bool isSelected = false; // Local param
+  int? selectedEmoji; // Local param
+  // String? note; // Local param
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

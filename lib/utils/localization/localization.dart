@@ -284,6 +284,8 @@ class LocaleKeys {
 
   static String get note => 'Тэмдэглэл';
 
+  static String get writeConclusion => 'Дүгнэлт бичих';
+
   static String get youDidIt => 'Та чадлаа';
 
   static String get totalSavings => 'Нийт хуримтлал';

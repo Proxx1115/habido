@@ -9,8 +9,15 @@ import 'package:habido_app/widgets/text.dart';
 
 class EmojiWidget extends StatefulWidget {
   final Function(int) onSelectedEmoji;
+  final BorderRadius? borderRadius;
+  final bool visibleHeader;
 
-  const EmojiWidget({Key? key, required this.onSelectedEmoji}) : super(key: key);
+  const EmojiWidget({
+    Key? key,
+    required this.onSelectedEmoji,
+    this.borderRadius,
+    this.visibleHeader = true,
+  }) : super(key: key);
 
   @override
   _EmojiWidgetState createState() => _EmojiWidgetState();
@@ -22,19 +29,21 @@ class _EmojiWidgetState extends State<EmojiWidget> {
   @override
   Widget build(BuildContext context) {
     return StadiumContainer(
+      borderRadius: widget.borderRadius,
       padding: SizeHelper.boxPadding,
       child: Column(
         children: [
           /// Text
-          CustomText(
-            _getText(),
-            fontWeight: FontWeight.w500,
-            alignment: Alignment.center,
-            color: _getColor(_selectedIndex ?? -1),
-          ),
+          if (widget.visibleHeader)
+            CustomText(
+              _getText(),
+              fontWeight: FontWeight.w500,
+              alignment: Alignment.center,
+              color: _getColor(_selectedIndex ?? -1),
+            ),
 
           /// Divider
-          HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+          if (widget.visibleHeader) HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
           /// Emojis
           Row(
