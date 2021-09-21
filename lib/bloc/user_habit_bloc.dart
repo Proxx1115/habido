@@ -9,6 +9,7 @@ import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
+import 'package:habido_app/ui/habit/user_habit/reminder/reminder_bloc.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
@@ -27,12 +28,12 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
   @override
   Stream<UserHabitState> mapEventToState(UserHabitEvent event) async* {
-    if (event is GoalSwitchChangedEvent) {
-      yield* _mapReminderSwitchChangedEventEventToState(event);
-    } else if (event is InsertUserHabitEvent) {
+    if (event is InsertUserHabitEvent) {
       yield* _mapInsertUserHabitEventToState(event);
     } else if (event is UpdateUserHabitEvent) {
       yield* _mapUpdateUserHabitEventToState(event);
+    } else if (event is DeleteUserHabitEvent) {
+      yield* _mapDeleteUserHabitEventToState(event);
     } else if (event is SaveUserHabitProgressEvent) {
       yield* _mapSaveUserHabitProgressEventToState(event);
     } else if (event is GetHabitFinanceTotalAmountEvent) {
@@ -52,11 +53,10 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     } else if (event is GetHabitQuestionEvent) {
       yield* _mapGetHabitQuestionEventToState(event);
     }
-  }
 
-  Stream<UserHabitState> _mapReminderSwitchChangedEventEventToState(GoalSwitchChangedEvent event) async* {
-    yield GoalSwitchChangedState(event.value);
-    yield UserHabitDefault();
+    // if (event is GoalSwitchChangedEvent) {
+    //   yield* _mapReminderSwitchChangedEventEventToState(event);
+    // } else
   }
 
   Stream<UserHabitState> _mapInsertUserHabitEventToState(InsertUserHabitEvent event) async* {
@@ -86,6 +86,21 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       }
     } catch (e) {
       yield UpdateUserHabitFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapDeleteUserHabitEventToState(DeleteUserHabitEvent event) async* {
+    try {
+      yield UserHabitLoading();
+
+      var res = await ApiManager.deleteUserHabit(event.userHabit.userHabitId ?? 0);
+      if (res.code == ResponseCode.Success) {
+        yield DeleteUserHabitSuccess(event.userHabit);
+      } else {
+        yield DeleteUserHabitFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield DeleteUserHabitFailed(LocaleKeys.errorOccurred);
     }
   }
 
@@ -243,6 +258,11 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield HabitQuestionFailed(LocaleKeys.errorOccurred);
     }
   }
+
+// Stream<UserHabitState> _mapReminderSwitchChangedEventEventToState(ReminderSwitchChangedEvent event) async* {
+//   yield ReminderSwitchChangedEvent(event.value);
+//   yield UserHabitDefault();
+// }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -302,6 +322,18 @@ class UpdateUserHabitEvent extends UserHabitEvent {
 
   @override
   String toString() => 'UpdateUserHabitEvent { userHabit: $userHabit }';
+}
+
+class DeleteUserHabitEvent extends UserHabitEvent {
+  final UserHabit userHabit;
+
+  const DeleteUserHabitEvent(this.userHabit);
+
+  @override
+  List<Object> get props => [userHabit];
+
+  @override
+  String toString() => 'DeleteUserHabitEvent { userHabit: $userHabit }';
 }
 
 class SaveUserHabitProgressEvent extends UserHabitEvent {
@@ -431,17 +463,17 @@ class PlanTermChangedState extends UserHabitState {
   String toString() => 'PlanTermChangedState { planTerm: $planTerm }';
 }
 
-class GoalSwitchChangedState extends UserHabitState {
-  final bool value;
-
-  const GoalSwitchChangedState(this.value);
-
-  @override
-  List<Object> get props => [value];
-
-  @override
-  String toString() => 'GoalSwitchChangedState { value: $value }';
-}
+// class GoalSwitchChangedState extends UserHabitState {
+//   final bool value;
+//
+//   const GoalSwitchChangedState(this.value);
+//
+//   @override
+//   List<Object> get props => [value];
+//
+//   @override
+//   String toString() => 'GoalSwitchChangedState { value: $value }';
+// }
 
 class InsertUserHabitSuccess extends UserHabitState {}
 
@@ -479,6 +511,30 @@ class UpdateUserHabitFailed extends UserHabitState {
 
   @override
   String toString() => 'UpdateUserHabitFailed { message: $message }';
+}
+
+class DeleteUserHabitSuccess extends UserHabitState {
+  final UserHabit userHabit;
+
+  const DeleteUserHabitSuccess(this.userHabit);
+
+  @override
+  List<Object> get props => [userHabit];
+
+  @override
+  String toString() => 'DeleteUserHabitSuccess { userHabit: $userHabit }';
+}
+
+class DeleteUserHabitFailed extends UserHabitState {
+  final String message;
+
+  const DeleteUserHabitFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'DeleteUserHabitFailed { message: $message }';
 }
 
 class UserHabitProgressLoading extends UserHabitState {}

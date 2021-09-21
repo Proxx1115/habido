@@ -43,10 +43,18 @@ class HabitHelper {
     return userHabit.habit?.color != null ? HexColor.fromHex(userHabit.habit!.color!) : customColors.primary;
   }
 
+  static Color getPrimaryColor2(Habit habit) {
+    return habit.color != null ? HexColor.fromHex(habit.color!) : customColors.primary;
+  }
+
   static Color getBackgroundColor(UserHabit userHabit) {
     return userHabit.habit?.backgroundColor != null
         ? HexColor.fromHex(userHabit.habit!.backgroundColor!)
         : customColors.primaryBackground;
+  }
+
+  static Color getBackgroundColor2(Habit habit) {
+    return habit.backgroundColor != null ? HexColor.fromHex(habit.backgroundColor!) : customColors.primaryBackground;
   }
 }
 

@@ -269,6 +269,7 @@ class Routes {
         route = SlideRightRouteBuilder(
           UserHabitRoute(
             title: _getValueByKey(args, 'title'),
+            userHabit: _getValueByKey(args, 'userHabit'),
             habit: _getValueByKey(args, 'habit'),
           ),
           settings,

@@ -279,6 +279,15 @@ class ApiManager {
     );
   }
 
+  static Future<BaseResponse> deleteUserHabit(int userHabitId) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.deleteUserHabit + '/$userHabitId',
+        httpMethod: HttpMethod.delete,
+      ),
+    );
+  }
+
   static Future<UserHabitsDatesResponse> userHabitsByDates(String startDate, String endDate) async {
     return UserHabitsDatesResponse.fromJson(
       await httpUtils.sendRequest(

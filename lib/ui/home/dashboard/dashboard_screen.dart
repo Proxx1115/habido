@@ -250,8 +250,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Routes.userHabit,
               arguments: {
                 'title': LocaleKeys.ediHabit,
-                'habit': null,
                 'userHabit': userHabitList[index],
+                'habit': null,
               },
             );
           },
