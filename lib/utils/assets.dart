@@ -90,6 +90,7 @@ class Assets {
   static const String success_background_png = 'assets/images/habit/success_background.png';
   static const String success_background = 'assets/images/habit/success_background.svg';
   static const String cup_of_water = 'assets/images/habit/cup_of_water.svg';
+  static const String breath = 'assets/images/habit/breath.svg';
 }
 
 class FontAsset {

@@ -10,9 +10,14 @@ class HabitHelper {
     switch (habitGoalSettings.toolType) {
       case ToolType.Minute:
       case ToolType.Hour:
-        return Routes.habitTimer;
+        if (habitGoalSettings.toolContent?.animation == ToolContentAnimation.BreathingAnimation) {
+          return Routes.habitBreath;
+        } else {
+          return Routes.habitTimer;
+        }
       case ToolType.Count:
-        return Routes.habitWater; // todo test count-iig drink water esehiig odoohondoo yalgahgui
+        // todo test count-iig drink water esehiig odoohondoo yalgahgui
+        return Routes.habitWater;
       case ToolType.Income:
       case ToolType.Expense:
         return Routes.habitFinance;
