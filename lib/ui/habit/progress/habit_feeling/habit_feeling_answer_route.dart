@@ -161,6 +161,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
           child: ExpansionTile(
+            maintainState: false,
             collapsedBackgroundColor: _backgroundColor,
             backgroundColor: _backgroundColor,
             initiallyExpanded: index == 0,
@@ -200,7 +201,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                         topLeft: Radius.circular(SizeHelper.borderRadius),
                         topRight: Radius.circular(SizeHelper.borderRadius),
                       ),
-                      alwaysVisibleSuffix: false,
+                      alwaysVisibleSuffix: true,
                       hintText: LocaleKeys.writeConclusion,
                       maxLines: 5,
                       autofocus: true,
@@ -223,12 +224,12 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
               ),
             ],
             onExpansionChanged: (bool expanded) {
-              // Clear text
-              _conclusionController.text = '';
-
               // Answers
               _answerList![index].isSelected = expanded;
               if (expanded) {
+                // Clear text
+                // _conclusionController.text = '';
+
                 for (int i = 0; i < _answerList!.length; i++) {
                   if (index != i) {
                     _answerList![i].isSelected = false;
