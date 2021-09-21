@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/calendar_bloc.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -128,13 +129,21 @@ class _CalendarRouteState extends State<CalendarRoute> {
                                       height: 70.0,
                                       suffixAsset: Assets.arrow_forward,
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                          context,
-                                          Routes.habitTimer,
-                                          arguments: {
-                                            'userHabit': _dailyUserHabitList![i],
-                                          },
-                                        );
+                                        if (isSameDay(_selectedDay, DateTime.now())) {
+                                          if (_dailyUserHabitList![i].habit?.goalSettings != null) {
+                                            String? route =
+                                                HabitHelper.getProgressRoute(_dailyUserHabitList![i].habit!);
+                                            if (route != null) {
+                                              Navigator.pushNamed(
+                                                context,
+                                                route,
+                                                arguments: {
+                                                  'userHabit': _dailyUserHabitList![i],
+                                                },
+                                              );
+                                            }
+                                          }
+                                        }
                                       },
                                     ),
                                   ),
@@ -263,6 +272,10 @@ class _CalendarRouteState extends State<CalendarRoute> {
             decoration: BoxDecoration(
               color: customColors.primaryBackground,
               borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(
+                width: SizeHelper.borderWidth,
+                color: _getBorderColor(date),
+              ),
             ),
             child: Text(
               date.day.toString(),

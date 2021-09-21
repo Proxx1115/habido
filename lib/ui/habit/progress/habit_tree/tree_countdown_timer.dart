@@ -132,20 +132,25 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
         animation: _animationController,
         builder: (context, Widget? child) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               /// Tree
-              _treeWidget(),
+              Expanded(
+                child: _treeWidget(),
+              ),
 
               SizedBox(height: 15.0),
 
               /// Time
-              Text(
-                _timeString(),
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500,
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  _timeString(),
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ],
