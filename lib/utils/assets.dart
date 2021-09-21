@@ -92,6 +92,10 @@ class Assets {
   static const String success_background = 'assets/images/habit/success_background.svg';
   static const String cup_of_water = 'assets/images/habit/cup_of_water.svg';
   static const String breath = 'assets/images/habit/breath.svg';
+  static const String tree1 = 'assets/images/habit/tree1.svg';
+  static const String tree2 = 'assets/images/habit/tree2.svg';
+  static const String tree3 = 'assets/images/habit/tree3.svg';
+  static const String soil = 'assets/images/habit/soil.svg';
 }
 
 class FontAsset {

@@ -13,7 +13,6 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-
 import 'tree_countdown_timer.dart';
 
 class HabitTreeRoute extends StatefulWidget {
@@ -32,6 +31,9 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
 
   // Timer
   Duration? _duration;
+
+  // Button
+  bool _enabledButton = false;
 
   @override
   void initState() {
@@ -84,6 +86,11 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
                         primaryColor: _primaryColor,
                         // visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
                         visibleAddButton: true,
+                        callBack: () {
+                          setState(() {
+                            _enabledButton = true;
+                          });
+                        },
                       ),
 
                     Expanded(child: Container()),
@@ -120,12 +127,14 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
       style: CustomButtonStyle.Secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: () {
-        var request = SaveUserHabitProgressRequest();
-        request.userHabitId = widget.userHabit.userHabitId;
+      onPressed: _enabledButton
+          ? () {
+              var request = SaveUserHabitProgressRequest();
+              request.userHabitId = widget.userHabit.userHabitId;
 
-        BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
-      },
+              BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+            }
+          : null,
     );
   }
 }
