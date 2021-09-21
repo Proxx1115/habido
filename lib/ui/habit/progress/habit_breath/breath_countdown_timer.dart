@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 
@@ -21,10 +22,8 @@ class BreathCountdownTimer extends StatefulWidget {
 class _BreathCountdownTimerState extends State<BreathCountdownTimer> with TickerProviderStateMixin {
   // Animation
   late AnimationController _animationController;
-  var _maxDuration = Duration(seconds: 36);
+  var _maxDuration = Duration(seconds: 48);
   late Color _primaryColor;
-
-  int _step = 4;
 
   @override
   void initState() {
@@ -32,22 +31,15 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
 
     super.initState();
 
-
     _animationController = AnimationController(
       vsync: this,
       duration: _maxDuration,
       value: 1,
     )..addStatusListener((AnimationStatus status) {
         print(status);
-        if (status == AnimationStatus.completed) {
-          // print('completed');
-        } else if (status == AnimationStatus.dismissed) {
-          _step--;
-
-          if (widget.callBack != null) {
-            // print('dismissed');
-            widget.callBack!();
-          }
+        if (status == AnimationStatus.dismissed) {
+          if (widget.callBack != null) widget.callBack!();
+          _onPressedReset();
         }
       });
   }
@@ -106,13 +98,32 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
             AnimatedBuilder(
               animation: _animationController,
               builder: (context, Widget? child) {
-                return Text(
-                  _timeString(),
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 70,
-                    fontWeight: FontWeight.bold,
-                  ),
+                return Column(
+                  children: [
+                    /// Step
+                    Text(
+                      _timeString(),
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: customColors.whiteText,
+                        fontSize: 55,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+
+                    SizedBox(height: 5),
+
+                    /// Status
+                    Text(
+                      _statusString(),
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: customColors.whiteText,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 );
               },
             )
@@ -124,7 +135,33 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
 
   String _timeString() {
     Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
-    String res = '${currentDuration.inMinutes}:${(currentDuration.inSeconds % 60).floor().toString().padLeft(2, '0')}';
+    int sec = currentDuration.inSeconds;
+
+    String res = '';
+    int tmp = (sec ~/ 4) * 4;
+    res = (sec - tmp).toString();
+    res = (res == '0') ? '4' : res;
+
+    return res;
+  }
+
+  String _statusString() {
+    Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
+
+    // todo test
+    // Easiest way too ez
+    int sec = currentDuration.inSeconds;
+    String res = '';
+    if ((0 <= sec && sec <= 4) || (12 < sec && sec <= 16) || (24 < sec && sec <= 28) || (36 < sec && sec <= 40)) {
+      res = LocaleKeys.breatheTake;
+    } else if ((4 < sec && sec <= 8) || (16 < sec && sec <= 20) || (28 < sec && sec <= 32) || (40 < sec && sec <= 44)) {
+      res = LocaleKeys.breatheHold;
+    } else if ((8 <= sec && sec <= 12) ||
+        (20 < sec && sec <= 24) ||
+        (32 < sec && sec <= 36) ||
+        (44 < sec && sec <= 48)) {
+      res = LocaleKeys.breatheExhale;
+    }
 
     return res;
   }
@@ -134,9 +171,7 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
       if (_animationController.isAnimating) {
         _animationController.stop();
       } else {
-        if (_step > 0) {
-          _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
-        }
+        _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
       }
     });
   }

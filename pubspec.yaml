@@ -43,7 +43,6 @@ dependencies:
   badges: ^2.0.1
   fl_chart: ^0.40.0
   flutter_countdown_timer: ^4.1.0
-  pausable_timer: ^1.0.0+1
 #  infinite_scroll_pagination: ^3.1.0
 
 dev_dependencies:

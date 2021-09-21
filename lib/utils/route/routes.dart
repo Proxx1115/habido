@@ -21,6 +21,7 @@ import 'package:habido_app/ui/habit/progress/habit_finance/habit_finance_stateme
 import 'package:habido_app/ui/habit/progress/habit_finance/total_expense_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_satisfaction/habit_satisfaction_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_timer/habit_timer_route.dart';
+import 'package:habido_app/ui/habit/progress/habit_tree/habit_tree_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart';
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
@@ -76,6 +77,7 @@ class Routes {
   static const habitWater = 'habitWater';
   static const habitSatisfaction = 'habitSatisfaction';
   static const habitBreath = 'habitBreath';
+  static const habitTree = 'habitTree';
   static const habitFinance = 'habitFinance';
   static const habitFinanceStmt = 'habitFinanceStmt';
   static const habitTotalExpense = 'habitTotalExpense';
@@ -315,6 +317,16 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           HabitBreathRoute(
+            userHabit: _getValueByKey(args, 'userHabit'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.habitTree:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          HabitTreeRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
           ),
           settings,

@@ -6,48 +6,56 @@ import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-import 'breath_countdown_timer.dart';
 
-class HabitBreathRoute extends StatefulWidget {
+import 'tree_countdown_timer.dart';
+
+class HabitTreeRoute extends StatefulWidget {
   final UserHabit userHabit;
 
-  const HabitBreathRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitTreeRoute({Key? key, required this.userHabit}) : super(key: key);
 
   @override
-  _HabitBreathRouteState createState() => _HabitBreathRouteState();
+  _HabitTreeRouteState createState() => _HabitTreeRouteState();
 }
 
-class _HabitBreathRouteState extends State<HabitBreathRoute> {
+class _HabitTreeRouteState extends State<HabitTreeRoute> {
   // UI
   late Color _primaryColor;
   late Color _backgroundColor;
 
-  // Data
-  late UserHabit _userHabit;
-
-  // Button
-  bool _enabledButton = false;
+  // Timer
+  Duration? _duration;
 
   @override
   void initState() {
-    _userHabit = widget.userHabit;
-
     // UI
-    _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
-    _backgroundColor = HabitHelper.getBackgroundColor(_userHabit);
+    _primaryColor = HabitHelper.getPrimaryColor(widget.userHabit);
+    _backgroundColor = HabitHelper.getBackgroundColor(widget.userHabit);
+
+    // Timer
+    int? goalValue;
+    if (Func.toInt(widget.userHabit.goalValue) > 0) {
+      goalValue = Func.toInt(widget.userHabit.goalValue);
+    } else if ((widget.userHabit.habit?.goalSettings?.goalMax ?? 0) > 0) {
+      goalValue = Func.toInt(widget.userHabit.habit!.goalSettings!.goalMax!);
+    }
+
+    if (goalValue != null) {
+      if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Minute) {
+        _duration = Duration(minutes: goalValue);
+      } else if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Hour) {
+        _duration = Duration(hours: goalValue);
+      }
+    }
 
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -59,7 +67,7 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
         child: BlocBuilder<UserHabitBloc, UserHabitState>(
           builder: (context, state) {
             return CustomScaffold(
-              appBarTitle: _userHabit.name,
+              appBarTitle: widget.userHabit.name,
               appBarLeadingColor: _primaryColor,
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
@@ -69,19 +77,18 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
                   children: [
                     Expanded(child: Container()),
 
-                    BreathCountdownTimer(
-                      primaryColor: _primaryColor,
-                      callBack: () {
-                        print('callback');
-                        setState(() {
-                          _enabledButton = true;
-                        });
-                      },
-                    ),
+                    /// Timer
+                    if (_duration != null)
+                      TreeCountdownTimer(
+                        duration: _duration!,
+                        primaryColor: _primaryColor,
+                        // visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
+                        visibleAddButton: true,
+                      ),
 
                     Expanded(child: Container()),
 
-                    /// Button finish
+                    /// Button хадгалах
                     _buttonFinish(),
                   ],
                 ),
@@ -109,18 +116,16 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
 
   Widget _buttonFinish() {
     return CustomButton(
-      margin: EdgeInsets.only(top: 15.0),
       alignment: Alignment.bottomRight,
       style: CustomButtonStyle.Secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: _enabledButton
-          ? () {
-              var request = SaveUserHabitProgressRequest();
-              request.userHabitId = widget.userHabit.userHabitId;
-              BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
-            }
-          : null,
+      onPressed: () {
+        var request = SaveUserHabitProgressRequest();
+        request.userHabitId = widget.userHabit.userHabitId;
+
+        BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+      },
     );
   }
 }

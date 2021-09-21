@@ -12,6 +12,8 @@ class HabitHelper {
       case ToolType.Hour:
         if (habitGoalSettings.toolContent?.animation == ToolContentAnimation.BreathingAnimation) {
           return Routes.habitBreath;
+        } else if (habitGoalSettings.toolContent?.animation == ToolContentAnimation.TreeAnimation) {
+          return Routes.habitTree;
         } else {
           return Routes.habitTimer;
         }

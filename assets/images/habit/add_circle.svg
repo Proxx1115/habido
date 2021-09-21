@@ -1,11 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-  <g id="Group_44294" data-name="Group 44294" transform="translate(3121 4336)">
-    <g id="Group_44292" data-name="Group 44292">
-      <rect id="Rectangle_15406" data-name="Rectangle 15406" width="50" height="50" rx="15" transform="translate(-3121 -4336)" fill="#fff"/>
-      <g id="Group_44291" data-name="Group 44291" transform="translate(-3121 -5253)">
-        <rect id="Rectangle_11460" data-name="Rectangle 11460" width="20" height="20" rx="10" transform="translate(15 932)" fill="#46ceac"/>
-        <path id="Path_54965" data-name="Path 54965" d="M14.75,9.75h-2.5V7.25a1.25,1.25,0,0,0-2.5,0v2.5H7.25a1.25,1.25,0,0,0,0,2.5h2.5v2.5a1.25,1.25,0,0,0,2.5,0v-2.5h2.5a1.25,1.25,0,0,0,0-2.5Z" transform="translate(14 931)" fill="#fff"/>
-      </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_44435" data-name="Group 44435" transform="translate(-208 -609)">
+    <g id="Group_44433" data-name="Group 44433" transform="translate(193 -323)">
+      <path id="Subtraction_62" data-name="Subtraction 62" d="M4668-1166a10.011,10.011,0,0,1-10-10,10.012,10.012,0,0,1,10-10,10.011,10.011,0,0,1,10,10A10.011,10.011,0,0,1,4668-1166Zm-3.75-11.25A1.252,1.252,0,0,0,4663-1176a1.251,1.251,0,0,0,1.25,1.249h2.5v2.5A1.251,1.251,0,0,0,4668-1171a1.251,1.251,0,0,0,1.25-1.249v-2.5h2.5A1.251,1.251,0,0,0,4673-1176a1.252,1.252,0,0,0-1.25-1.25h-2.5v-2.5A1.251,1.251,0,0,0,4668-1181a1.251,1.251,0,0,0-1.25,1.249v2.5Z" transform="translate(-4643 2118)" fill="#fff"/>
     </g>
   </g>
 </svg>

@@ -310,6 +310,12 @@ class LocaleKeys {
 
   static String get selectCategory => 'Ангилал сонгох';
 
+  static String get breatheTake => 'Хамраараа амьсгал авах';
+
+  static String get breatheHold => 'Амьсгал түгжих';
+
+  static String get breatheExhale => 'Амаараа амьсгал гаргах';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 

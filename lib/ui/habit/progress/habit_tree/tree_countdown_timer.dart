@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
-import '../../../../widgets/timer/timer_painter.dart';
+import 'package:habido_app/widgets/timer/timer_painter.dart';
 
-class CustomCountdownTimer extends StatefulWidget {
+class TreeCountdownTimer extends StatefulWidget {
   final Duration duration;
   final Color? primaryColor;
   final bool visibleAddButton;
 
-  const CustomCountdownTimer({
+  const TreeCountdownTimer({
     Key? key,
     required this.duration,
     this.primaryColor,
@@ -17,10 +17,10 @@ class CustomCountdownTimer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomCountdownTimerState createState() => _CustomCountdownTimerState();
+  _TreeCountdownTimerState createState() => _TreeCountdownTimerState();
 }
 
-class _CustomCountdownTimerState extends State<CustomCountdownTimer> with TickerProviderStateMixin {
+class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProviderStateMixin {
   // Animation
   late AnimationController _animationController;
   late Duration _maxDuration;
@@ -57,7 +57,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
             /// Add button
             if (widget.visibleAddButton)
               ButtonStadium(
-                asset: Assets.add_stadium,
+                asset: Assets.add_circle,
                 iconColor: widget.primaryColor ?? customColors.primary,
                 onPressed: _onPressedAdd,
                 margin: EdgeInsets.only(right: 15.0),
