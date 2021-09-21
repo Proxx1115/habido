@@ -2,12 +2,12 @@ import 'package:habido_app/models/base_response.dart';
 import 'base_response.dart';
 import 'habit_progress.dart';
 
-class HabitProgressListResponse extends BaseResponse {
+class HabitProgressListByDateResponse extends BaseResponse {
   List<HabitProgress>? habitProgressList;
 
-  HabitProgressListResponse({this.habitProgressList});
+  HabitProgressListByDateResponse({this.habitProgressList});
 
-  HabitProgressListResponse.fromJson(dynamic json) {
+  HabitProgressListByDateResponse.fromJson(dynamic json) {
     parseBaseParams(json);
     if (json['data'] != null) {
       habitProgressList = [];

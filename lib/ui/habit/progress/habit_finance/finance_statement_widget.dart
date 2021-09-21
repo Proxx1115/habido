@@ -22,13 +22,15 @@ import 'package:habido_app/widgets/text.dart';
 
 class FinanceStatementWidget extends StatelessWidget {
   final UserHabit userHabit;
+  final DateTime? date;
   final List<HabitProgress> habitProgressList;
   final List<ComboItem> expenseCategoryComboList;
   final Color? primaryColor;
   final Color? backgroundColor;
   final bool expansionTileExpanded;
   final Function(bool)? onExpansionChanged;
-  final bool enabledButtons;
+  final bool enabledActionButtons;
+  final bool visibleDetailButton;
 
   final SlidableController _controller = SlidableController();
   final TextEditingController _amountController = TextEditingController();
@@ -36,13 +38,15 @@ class FinanceStatementWidget extends StatelessWidget {
   FinanceStatementWidget({
     Key? key,
     required this.userHabit,
+    this.date,
     required this.habitProgressList,
     required this.expenseCategoryComboList,
     this.primaryColor,
     this.backgroundColor,
     required this.expansionTileExpanded,
     this.onExpansionChanged,
-    this.enabledButtons = true,
+    this.enabledActionButtons = true,
+    this.visibleDetailButton = true,
   }) : super(key: key);
 
   @override
@@ -64,8 +68,9 @@ class FinanceStatementWidget extends StatelessWidget {
 
             /// Title
             title: CustomText(
-              Func.toWeekDay(DateTime.now()) +
-                  ' ${LocaleKeys.day2}, ${Func.toDateStr(DateTime.now(), dateFormat: 'yyyy.MM.dd')}',
+              date != null
+                  ? Func.toWeekDay(date) + ' ${LocaleKeys.day2}, ${Func.toDateStr(date, dateFormat: 'yyyy.MM.dd')}'
+                  : '',
               fontWeight: FontWeight.w500,
             ),
 
@@ -114,10 +119,10 @@ class FinanceStatementWidget extends StatelessWidget {
                         ),
                         secondaryActions: <Widget>[
                           /// Button edit
-                          if (enabledButtons) _buttonEdit(context, el),
+                          if (enabledActionButtons) _buttonEdit(context, el),
 
                           /// Button delete
-                          if (enabledButtons) _buttonDelete(context, el),
+                          if (enabledActionButtons) _buttonDelete(context, el),
                         ],
                       ),
                     ],
@@ -125,18 +130,19 @@ class FinanceStatementWidget extends StatelessWidget {
                 ),
 
               /// Button - Дэлгэрэнгүй
-              CustomButton(
-                text: LocaleKeys.detail,
-                margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, SizeHelper.margin),
-                style: CustomButtonStyle.Mini,
-                alignment: Alignment.center,
-                backgroundColor: primaryColor,
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.habitFinanceStmt, arguments: {
-                    'userHabit': userHabit,
-                  });
-                },
-              ),
+              if (visibleDetailButton)
+                CustomButton(
+                  text: LocaleKeys.detail,
+                  margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, SizeHelper.margin),
+                  style: CustomButtonStyle.Mini,
+                  alignment: Alignment.center,
+                  backgroundColor: primaryColor,
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.habitFinanceStmt, arguments: {
+                      'userHabit': userHabit,
+                    });
+                  },
+                ),
 
               // ListTile(title: Text('This is tile number 2')),
             ],

@@ -287,6 +287,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
             _expenseCategoryComboList!.isNotEmpty)
         ? FinanceStatementWidget(
             userHabit: _userHabit,
+            date: DateTime.now(),
             habitProgressList: _habitProgressList!,
             primaryColor: _primaryColor,
             backgroundColor: _backgroundColor,

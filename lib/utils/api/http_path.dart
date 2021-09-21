@@ -29,6 +29,7 @@ class HttpPath {
   static const String userHabitsByDate = '/mobile/habit/date/user-habits';
   static const String userHabitsByDates = '/mobile/habit/dates/user-habits';
   static const String saveUserHabitProgress = '/mobile/habit/save-progress';
+  static const String habitProgressListWithDate = '/mobile/habit/user-habit/progresses';
   static const String habitProgressListByDate = '/mobile/habit/user-habit/date/progress';
   static const String habitExpenseCategories = '/mobile/habit/user-habit/expense-categories';
   static const String habitFinanceTotalAmount = '/mobile/habit/user-habit/total-amount';
