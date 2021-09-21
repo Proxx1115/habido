@@ -8,6 +8,7 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/models/user_habit_expense_category.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/finance_statement_widget.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/savings_dialog_body.dart';
@@ -49,7 +50,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
   bool _enabledTotalAmountCard = false;
 
   // Graph
-  // List<ComboItem>? _expenseCategoryList;
+  List<UserHabitExpenseCategory>? _expenseCategoryList;
 
   // Progress
   bool _expansionTileExpanded = true;
@@ -180,7 +181,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
       );
     } else if (state is HabitFinanceTotalAmountSuccess) {
       _totalAmount = state.totalAmount;
-      // _expenseCategoryList = state.expenseCategories;
+      _expenseCategoryList = state.expenseCategories;
 
       // Total amount бүрдсэн бол дадлыг дуусгана
       if (_userHabit.habit?.goalSettings?.toolType == ToolType.Income) {
@@ -219,9 +220,11 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
   Widget _totalAmountWidget() {
     return StadiumContainer(
       onTap: () {
-        if (_enabledTotalAmountCard) {
-          Navigator.pushNamed(context, Routes.habitFinanceStmt, arguments: {
-            'userHabit': _userHabit,
+        if (_enabledTotalAmountCard && _expenseCategoryList != null && _expenseCategoryList!.isNotEmpty) {
+          Navigator.pushNamed(context, Routes.habitTotalExpense, arguments: {
+            'expenseCategoryList': _expenseCategoryList,
+            'primaryColor': _primaryColor,
+            'backgroundColor': _backgroundColor,
           });
         }
       },

@@ -290,6 +290,8 @@ class LocaleKeys {
 
   static String get totalExpense => 'Нийт зардал';
 
+  static String get expense => 'Зардал';
+
   static String get total => 'Нийт';
 
   static String get addSavings => 'Хуримтлал нэмэх';
