@@ -15,7 +15,7 @@ class TreeCountdownTimer extends StatefulWidget {
     Key? key,
     required this.duration,
     this.primaryColor,
-    this.visibleAddButton = true,
+    this.visibleAddButton = false,
     this.callBack,
   }) : super(key: key);
 

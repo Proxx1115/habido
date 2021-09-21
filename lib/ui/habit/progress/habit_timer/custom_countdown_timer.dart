@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
-import '../../../../widgets/timer/timer_painter.dart';
+import 'package:habido_app/widgets/timer/timer_painter.dart';
 
 class CustomCountdownTimer extends StatefulWidget {
   final Duration duration;
   final Color? primaryColor;
   final bool visibleAddButton;
+  final VoidCallback? callBack;
 
   const CustomCountdownTimer({
     Key? key,
     required this.duration,
     this.primaryColor,
-    this.visibleAddButton = true,
+    this.visibleAddButton = false,
+    this.callBack,
   }) : super(key: key);
 
   @override
@@ -23,7 +25,11 @@ class CustomCountdownTimer extends StatefulWidget {
 class _CustomCountdownTimerState extends State<CustomCountdownTimer> with TickerProviderStateMixin {
   // Animation
   late AnimationController _animationController;
+  late Duration _duration;
   late Duration _maxDuration;
+
+  // Reset
+  bool _callBack = true;
 
   @override
   void initState() {
@@ -33,7 +39,17 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       vsync: this,
       duration: _maxDuration,
       value: 1,
-    );
+    )..addStatusListener((AnimationStatus status) {
+        print(status);
+        if (status == AnimationStatus.reverse) {
+          _callBack = true;
+          print('callback: $_callBack');
+        } else if (status == AnimationStatus.dismissed) {
+          if (_callBack && widget.callBack != null) {
+            widget.callBack!();
+          }
+        }
+      });
   }
 
   @override
@@ -57,7 +73,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
             /// Add button
             if (widget.visibleAddButton)
               ButtonStadium(
-                asset: Assets.add_stadium,
+                asset: Assets.add_circle,
                 iconColor: widget.primaryColor ?? customColors.primary,
                 onPressed: _onPressedAdd,
                 margin: EdgeInsets.only(right: 15.0),
@@ -65,7 +81,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
 
             /// Play button
             ButtonStadium(
-              asset: _animationController.isAnimating ? Assets.play : Assets.play,
+              asset: _animationController.isAnimating ? Assets.pause : Assets.play,
               iconColor: widget.primaryColor ?? customColors.primary,
               onPressed: _onPressedPlayPause,
             ),
@@ -140,6 +156,9 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
 
   _onPressedAdd() {
     setState(() {
+      // Temp status
+      bool wasAnimating = _animationController.isAnimating;
+
       // Stop animation
       _animationController.stop();
 
@@ -166,9 +185,11 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       _animationController.value = newDuration.inSeconds / _maxDuration.inSeconds;
 
       // Resume animation
-      _animationController.reverse(
-        from: _animationController.value == 0.0 ? 1.0 : _animationController.value,
-      );
+      if (wasAnimating) {
+        _animationController.reverse(
+          from: _animationController.value == 0.0 ? 1.0 : _animationController.value,
+        );
+      }
     });
   }
 
@@ -184,8 +205,12 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
 
   _onPressedReset() {
     setState(() {
+      _callBack = false;
+      print('callback: $_callBack');
+
       _animationController.reset();
-      _animationController.duration = widget.duration;
+      _duration = widget.duration;
+      _animationController.duration = _duration;
       _animationController.value = 1.0;
     });
   }

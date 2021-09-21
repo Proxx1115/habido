@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
@@ -33,6 +32,9 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
 
   // Timer
   Duration? _duration;
+
+  // Button
+  bool _enabledButton = false;
 
   @override
   void initState() {
@@ -83,8 +85,10 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
                       CustomCountdownTimer(
                         duration: _duration!,
                         primaryColor: _primaryColor,
-                        // visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
-                        visibleAddButton: true,
+                        visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
+                        callBack: () {
+                          setState(() {});
+                        },
                       ),
 
                     Expanded(child: Container()),
@@ -121,12 +125,14 @@ class _HabitTimerRouteState extends State<HabitTimerRoute> {
       style: CustomButtonStyle.Secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: () {
-        var request = SaveUserHabitProgressRequest();
-        request.userHabitId = widget.userHabit.userHabitId;
+      onPressed: _enabledButton
+          ? () {
+              var request = SaveUserHabitProgressRequest();
+              request.userHabitId = widget.userHabit.userHabitId;
 
-        BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
-      },
+              BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+            }
+          : null,
     );
   }
 }

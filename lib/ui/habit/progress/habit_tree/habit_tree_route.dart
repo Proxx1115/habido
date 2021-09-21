@@ -84,8 +84,7 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
                       TreeCountdownTimer(
                         duration: _duration!,
                         primaryColor: _primaryColor,
-                        // visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
-                        visibleAddButton: true,
+                        visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
                         callBack: () {
                           setState(() {
                             _enabledButton = true;
