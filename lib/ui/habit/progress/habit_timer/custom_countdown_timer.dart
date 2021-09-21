@@ -163,18 +163,21 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       _animationController.stop();
 
       // Current duration
-      Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
+      Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
+
+      // Additional duration
+      var additionalDuration = Duration(seconds: 60);
 
       // New duration
-      Duration newDuration = currentDuration + Duration(seconds: 60);
-      if (newDuration > _maxDuration) {
+      Duration newDuration = currentDuration + additionalDuration;
+      if (newDuration > _duration) {
         // Calculation
         // 1	                  20 + 1
         // k = 20.5 / 21        19.5 + 1
 
         // Replace current duration
-        _maxDuration += Duration(seconds: 60);
-        _animationController.duration = _maxDuration;
+        _duration += additionalDuration;
+        _animationController.duration = _duration;
       } else {
         // Calculation
         // 1	                  20
@@ -182,7 +185,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       }
 
       // Set animation value
-      _animationController.value = newDuration.inSeconds / _maxDuration.inSeconds;
+      _animationController.value = newDuration.inSeconds / _duration.inSeconds;
 
       // Resume animation
       if (wasAnimating) {
