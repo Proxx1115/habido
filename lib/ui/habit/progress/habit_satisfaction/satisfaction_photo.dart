@@ -26,6 +26,7 @@ class _SatisfactionPhotoState extends State<SatisfactionPhoto> {
   Widget build(BuildContext context) {
     return NoSplashContainer(
       child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(_size)),
         onTap: () async {
           String res = await ImageUtils.getBase64Image(context);
           if (res.isNotEmpty) {

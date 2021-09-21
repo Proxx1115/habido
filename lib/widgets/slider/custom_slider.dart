@@ -30,10 +30,8 @@ class CustomSlider extends StatefulWidget {
 }
 
 class _CustomSliderState extends State<CustomSlider> {
-
   @override
   void initState() {
-
     super.initState();
   }
 

@@ -316,6 +316,10 @@ class LocaleKeys {
 
   static String get breatheExhale => 'Амаараа амьсгал гаргах';
 
+  static String get evaluation => 'Үнэлгээ';
+
+  static String get pleasing => 'Тааламжтай';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 

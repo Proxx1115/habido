@@ -376,6 +376,7 @@ class ButtonMultiPartText extends StatelessWidget {
 class CircleButton extends StatelessWidget {
   final String asset;
   final VoidCallback? onPressed;
+  final Color? contentColor;
   final Color? backgroundColor;
   final double? size;
 
@@ -383,6 +384,7 @@ class CircleButton extends StatelessWidget {
     Key? key,
     required this.asset,
     this.onPressed,
+    this.contentColor,
     this.backgroundColor,
     this.size = 20.0,
   }) : super(key: key);
@@ -393,7 +395,7 @@ class CircleButton extends StatelessWidget {
       width: size,
       height: size,
       child: TextButton(
-        child: SvgPicture.asset(asset, color: customColors.primaryButtonContent),
+        child: SvgPicture.asset(asset, color: contentColor ?? customColors.primaryButtonContent),
         style: ButtonStyle(
           padding: MaterialStateProperty.all(EdgeInsets.zero),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(

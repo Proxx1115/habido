@@ -218,7 +218,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
         _sliderBloc = SliderBloc(
           minValue: Func.toDouble(_habit.goalSettings!.goalMin),
           maxValue: Func.toDouble(_habit.goalSettings!.goalMax),
-          value: (Func.toDouble(_habit.goalSettings!.goalMax) - Func.toDouble(_habit.goalSettings!.goalMin)) / 2,
+          value: Func.toDouble(_habit.goalSettings!.goalMax) / 2,
           step: Func.toDouble(_habit.goalSettings!.goalStep),
         );
 
