@@ -5,6 +5,7 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_with_date.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
+import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
@@ -48,6 +49,8 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapDeleteHabitProgressEventToState(event);
     } else if (event is GetExpenseCategoriesEvent) {
       yield* _mapGetExpenseCategoriesEventToState();
+    } else if (event is GetHabitQuestionEvent) {
+      yield* _mapGetHabitQuestionEventToState(event);
     }
   }
 
@@ -225,6 +228,21 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield GetExpenseCategoriesFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<UserHabitState> _mapGetHabitQuestionEventToState(GetHabitQuestionEvent event) async* {
+    try {
+      yield UserHabitProgressLoading();
+
+      var res = await ApiManager.habitQuestions(event.questionId);
+      if (res.code == ResponseCode.Success) {
+        yield HabitQuestionSuccess(res);
+      } else {
+        yield HabitQuestionFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield HabitQuestionFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -371,6 +389,18 @@ class DeleteHabitProgressEvent extends UserHabitEvent {
 }
 
 class GetExpenseCategoriesEvent extends UserHabitEvent {}
+
+class GetHabitQuestionEvent extends UserHabitEvent {
+  final int questionId;
+
+  const GetHabitQuestionEvent(this.questionId);
+
+  @override
+  List<Object> get props => [questionId];
+
+  @override
+  String toString() => 'GetHabitQuestions { questionId: $questionId }';
+}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
@@ -617,4 +647,28 @@ class GetExpenseCategoriesFailed extends UserHabitState {
 
   @override
   String toString() => 'GetExpenseCategoriesFailed { message: $message }';
+}
+
+class HabitQuestionSuccess extends UserHabitState {
+  final HabitQuestionResponse habitQuestionResponse;
+
+  const HabitQuestionSuccess(this.habitQuestionResponse);
+
+  @override
+  List<Object> get props => [habitQuestionResponse];
+
+  @override
+  String toString() => 'GetHabitQuestionsSuccess { habitQuestionResponse: $habitQuestionResponse }';
+}
+
+class HabitQuestionFailed extends UserHabitState {
+  final String message;
+
+  const HabitQuestionFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetHabitQuestionsFailed { message: $message }';
 }

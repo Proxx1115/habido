@@ -198,7 +198,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           onPressed: () {
             if (enabled && userHabitList[index].habit?.goalSettings != null) {
-              String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!.goalSettings!);
+              String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!);
               if (route != null) {
                 Navigator.pushNamed(
                   context,

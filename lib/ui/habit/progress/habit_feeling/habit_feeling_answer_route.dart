@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
+import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/content/suggested_content.dart';
@@ -19,25 +20,28 @@ import 'package:habido_app/widgets/scaffold.dart';
 
 import 'emoji_widget.dart';
 
-class HabitFeelingRoute extends StatefulWidget {
+class HabitFeelingAnswerRoute extends StatefulWidget {
   final UserHabit userHabit;
 
-  const HabitFeelingRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitFeelingAnswerRoute({Key? key, required this.userHabit}) : super(key: key);
 
   @override
-  _HabitFeelingRouteState createState() => _HabitFeelingRouteState();
+  _HabitFeelingAnswerRouteState createState() => _HabitFeelingAnswerRouteState();
 }
 
-class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
+class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
   // UI
   late Color _primaryColor;
   late Color _backgroundColor;
 
-  // Emoji
-  int? _selectedEmoji;
-
   // Data
   late UserHabit _userHabit;
+
+  // Questions
+  HabitQuestionResponse? _habitQuestion;
+
+  // Emoji
+  int? _selectedEmoji;
 
   @override
   void initState() {
@@ -46,6 +50,10 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
     // UI
     _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
     _backgroundColor = HabitHelper.getBackgroundColor(_userHabit);
+
+    if (_userHabit.habit?.questionId != null) {
+      BlocManager.userHabitBloc.add(GetHabitQuestionEvent(_userHabit.habit!.questionId!));
+    }
 
     super.initState();
   }
@@ -70,27 +78,9 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
                     Expanded(
                       child: ListView(
                         children: [
-                          /// Emoji
-                          EmojiWidget(
-                            onSelectedEmoji: (value) {
-                              setState(() {
-                                _selectedEmoji = value;
-                              });
-                            },
-                          ),
+                          //
 
-                          /// Note
-                          NoteWidget(
-                            userHabit: _userHabit,
-                            margin: EdgeInsets.only(top: 15.0),
-                          ),
-
-                          /// Content
-                          if (_userHabit.habit?.contentId != null)
-                            SuggestedContent(
-                              contentId: _userHabit.habit!.contentId!,
-                              margin: EdgeInsets.only(top: 30.0),
-                            ),
+                          // _habitQuestionsWithAnswers
                         ],
                       ),
                     ),
@@ -112,21 +102,16 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
-        // 'callback': () {
-        //   Navigator.popUntil(context, ModalRoute.withName(Routes.home));
-        // }
       });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
-    } else if (state is UpdateUserHabitSuccess) {
-      if (state.userHabit.userHabitId == _userHabit.userHabitId) {
-        _userHabit = state.userHabit;
-      }
-      BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
-    } else if (state is UpdateUserHabitFailed) {
+    }
+    if (state is HabitQuestionSuccess) {
+      _habitQuestion = state.habitQuestionResponse;
+    } else if (state is HabitQuestionFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),

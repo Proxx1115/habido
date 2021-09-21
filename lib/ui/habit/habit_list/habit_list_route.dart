@@ -67,11 +67,6 @@ class _HabitListRouteState extends State<HabitListRoute> {
                           height: 70.0,
                           leadingImageUrl: el.photo,
                           leadingBackgroundColor: HexColor.fromHex(el.color ?? '#F4F6F8'),
-                          // // todo test category.photo,
-                          // leadingImageUrl:
-                          //     'https://habido-test.s3-ap-southeast-1.amazonaws.com/test-category/3f010def-93c4-425a-bce3-9df854a2f73b.png',
-                          //
-                          // leadingBackgroundColor: HexColor.fromHex('#F4F6F8'),
                           title: el.name ?? '',
                           suffixAsset: Assets.arrow_forward,
                           onPressed: () {

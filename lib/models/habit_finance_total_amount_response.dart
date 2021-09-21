@@ -1,5 +1,4 @@
 import 'package:habido_app/models/base_response.dart';
-
 import 'user_habit_expense_category.dart';
 
 class HabitFinanceTotalAmountResponse extends BaseResponse {

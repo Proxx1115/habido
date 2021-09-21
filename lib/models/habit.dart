@@ -5,6 +5,7 @@ class Habit {
   int? categoryId;
   String? name;
   int? contentId;
+  int? questionId;
   String? note;
   String? color;
   String? backgroundColor;
@@ -16,6 +17,7 @@ class Habit {
     this.categoryId,
     this.name,
     this.contentId,
+    this.questionId,
     this.note,
     this.color,
     this.photo,
@@ -27,6 +29,7 @@ class Habit {
     categoryId = json['categoryId'];
     name = json['name'];
     contentId = json['contentId'];
+    questionId = json['questionId'];
     note = json['note'];
     color = json['color'];
     backgroundColor = json['backgroundColor'];
@@ -40,6 +43,7 @@ class Habit {
     map['categoryId'] = categoryId;
     map['name'] = name;
     map['contentId'] = contentId;
+    map['questionId'] = questionId;
     map['note'] = note;
     map['color'] = color;
     map['backgroundColor'] = backgroundColor;

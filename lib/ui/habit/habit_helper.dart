@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -6,13 +7,15 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 
 class HabitHelper {
-  static String? getProgressRoute(HabitGoalSettings habitGoalSettings) {
-    switch (habitGoalSettings.toolType) {
+  static String? getProgressRoute(Habit habit) {
+    HabitGoalSettings? habitGoalSettings = habit.goalSettings;
+
+    switch (habitGoalSettings?.toolType) {
       case ToolType.Minute:
       case ToolType.Hour:
-        if (habitGoalSettings.toolContent?.animation == ToolContentAnimation.BreathingAnimation) {
+        if (habitGoalSettings?.toolContent?.animation == ToolContentAnimation.BreathingAnimation) {
           return Routes.habitBreath;
-        } else if (habitGoalSettings.toolContent?.animation == ToolContentAnimation.TreeAnimation) {
+        } else if (habitGoalSettings?.toolContent?.animation == ToolContentAnimation.TreeAnimation) {
           return Routes.habitTree;
         } else {
           return Routes.habitTimer;
@@ -24,7 +27,11 @@ class HabitHelper {
       case ToolType.Expense:
         return Routes.habitFinance;
       case ToolType.Feeling:
-        return Routes.habitFeeling;
+        if (habit.questionId != null) {
+          return Routes.habitFeelingAnswer;
+        } else {
+          return Routes.habitFeeling;
+        }
       case ToolType.Satisfaction:
         return Routes.habitSatisfaction;
       default:
