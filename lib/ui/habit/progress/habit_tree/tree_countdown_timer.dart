@@ -187,8 +187,18 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
 
   String _timeString() {
     Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
-    String res = '${currentDuration.inMinutes.floor().toString().padLeft(2, '0')}:' +
-        '${(currentDuration.inSeconds % 60).floor().toString().padLeft(2, '0')}';
+    String res = '';
+
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String hours = twoDigits(currentDuration.inHours);
+    String minutes = twoDigits(currentDuration.inMinutes.remainder(60));
+    String seconds = twoDigits(currentDuration.inSeconds.remainder(60));
+
+    if (currentDuration.inHours > 0) {
+      res = '$hours:$minutes:$seconds';
+    } else {
+      res = '$minutes:$seconds';
+    }
 
     return res;
   }
