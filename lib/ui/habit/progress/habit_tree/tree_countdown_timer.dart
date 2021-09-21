@@ -29,6 +29,9 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
   late Duration _duration;
   late Color _primaryColor;
 
+  // Reset
+  bool _callBack = true;
+
   @override
   void initState() {
     super.initState();
@@ -43,10 +46,29 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
       value: 1,
     )..addStatusListener((AnimationStatus status) {
         print(status);
-        if (status == AnimationStatus.dismissed) {
-          if (widget.callBack != null) widget.callBack!();
-          _onPressedReset();
+        if (status == AnimationStatus.reverse) {
+          _callBack = true;
+          print('callback: $_callBack');
+        } else if (status == AnimationStatus.dismissed) {
+          if (_callBack && widget.callBack != null) {
+            widget.callBack!();
+          }
         }
+
+        //start
+        //flutter: AnimationStatus.completed
+        //flutter: AnimationStatus.reverse
+
+        //after reset start
+        //flutter: AnimationStatus.reverse
+
+        //reset
+        //flutter: AnimationStatus.dismissed
+        //flutter: AnimationStatus.completed
+
+        //time finished
+        //flutter: AnimationStatus.dismissed
+        //flutter: AnimationStatus.completed
       });
   }
 
@@ -223,6 +245,9 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
 
   _onPressedReset() {
     setState(() {
+      _callBack = false;
+      print('callback: $_callBack');
+
       _animationController.reset();
       _duration = widget.duration;
       _animationController.duration = _duration;
