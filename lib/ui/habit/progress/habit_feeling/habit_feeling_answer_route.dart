@@ -85,35 +85,40 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
               appBarLeadingColor: _primaryColor,
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
-              child: Container(
-                padding: SizeHelper.paddingScreen,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: (_question != null && _answerList != null && _answerList!.isNotEmpty)
-                          ? StadiumContainer(
-                              padding: SizeHelper.boxPadding,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                child: ListView(
-                                  children: [
-                                    /// Question
-                                    CustomText(_question!.questionText, fontWeight: FontWeight.w500, maxLines: 5),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: (_question != null && _answerList != null && _answerList!.isNotEmpty)
+                        ? Container(
+                            padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  StadiumContainer(
+                                    padding: SizeHelper.boxPadding,
+                                    child: Column(
+                                      children: [
+                                        /// Question
+                                        CustomText(_question!.questionText, fontWeight: FontWeight.w500, maxLines: 5),
 
-                                    HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+                                        HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
-                                    for (int i = 0; i < _answerList!.length; i++) _listItem(i),
-                                  ],
-                                ),
+                                        for (int i = 0; i < _answerList!.length; i++) _listItem(i),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            )
-                          : Container(),
-                    ),
+                            ),
+                          )
+                        : Container(),
+                  ),
 
-                    /// Button finish
-                    _buttonFinish(),
-                  ],
-                ),
+                  /// Button finish
+                  _buttonFinish(),
+                ],
               ),
             );
           },
@@ -139,7 +144,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
       _answerList = state.habitQuestionResponse.answers;
 
       if (_answerList != null && _answerList!.isNotEmpty) {
-        _answerList![0].isSelected = true;
+        // _answerList![0].isSelected = true;
       }
     } else if (state is HabitQuestionFailed) {
       showCustomDialog(
@@ -164,7 +169,8 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
             maintainState: false,
             collapsedBackgroundColor: _backgroundColor,
             backgroundColor: _backgroundColor,
-            initiallyExpanded: index == 0,
+            initiallyExpanded: false,
+            //index == 0,
             //_answers![index].isSelected,
 
             /// Title
@@ -215,6 +221,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                       ),
                       visibleHeader: false,
                       onSelectedEmoji: (value) {
+                        Func.hideKeyboard(context);
                         _answerList![index].selectedEmoji = value;
                         _validateForm();
                       },
@@ -224,6 +231,9 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
               ),
             ],
             onExpansionChanged: (bool expanded) {
+              // Clear emoji
+              _answerList![index].selectedEmoji = null;
+
               // Answers
               _answerList![index].isSelected = expanded;
               if (expanded) {
@@ -267,26 +277,28 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
   }
 
   Widget _buttonFinish() {
-    return CustomButton(
-      margin: EdgeInsets.only(top: 15.0),
-      alignment: Alignment.bottomRight,
-      style: CustomButtonStyle.Secondary,
-      backgroundColor: _primaryColor,
-      text: LocaleKeys.finish,
-      onPressed: _enabledButton
-          ? () {
-              HabitAnswer? answer = _getSelectedAnswer();
+    return !Func.visibleKeyboard(context)
+        ? CustomButton(
+            margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, SizeHelper.marginBottom),
+            alignment: Alignment.bottomRight,
+            style: CustomButtonStyle.Secondary,
+            backgroundColor: _primaryColor,
+            text: LocaleKeys.finish,
+            onPressed: _enabledButton
+                ? () {
+                    HabitAnswer? answer = _getSelectedAnswer();
 
-              if (answer != null) {
-                var request = SaveUserHabitProgressRequest();
-                request.userHabitId = _userHabit.userHabitId;
-                request.value = Func.toStr(answer.selectedEmoji ?? '');
-                request.note = Func.toStr(_conclusion);
+                    if (answer != null) {
+                      var request = SaveUserHabitProgressRequest();
+                      request.userHabitId = _userHabit.userHabitId;
+                      request.value = Func.toStr(answer.selectedEmoji ?? '');
+                      request.note = Func.toStr(_conclusion);
 
-                BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
-              }
-            }
-          : null,
-    );
+                      BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+                    }
+                  }
+                : null,
+          )
+        : Container();
   }
 }
