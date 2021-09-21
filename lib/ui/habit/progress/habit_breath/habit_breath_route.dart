@@ -88,10 +88,9 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
                     Expanded(child: Container()),
 
                     BreathCountdownTimer(
-                      duration: Duration(seconds: _countdownSec),
                       primaryColor: _primaryColor,
                       callBack: () {
-                        print('finished');
+                        print('callback');
                       },
                     ),
 

@@ -5,13 +5,11 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 
 class BreathCountdownTimer extends StatefulWidget {
-  final Duration duration;
   final Color? primaryColor;
   final VoidCallback? callBack;
 
   const BreathCountdownTimer({
     Key? key,
-    required this.duration,
     this.primaryColor,
     this.callBack,
   }) : super(key: key);
@@ -23,8 +21,10 @@ class BreathCountdownTimer extends StatefulWidget {
 class _BreathCountdownTimerState extends State<BreathCountdownTimer> with TickerProviderStateMixin {
   // Animation
   late AnimationController _animationController;
-  late Duration _maxDuration;
+  var _maxDuration = Duration(seconds: 36);
   late Color _primaryColor;
+
+  int _step = 4;
 
   @override
   void initState() {
@@ -32,15 +32,22 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
 
     super.initState();
 
-    _maxDuration = widget.duration;
+
     _animationController = AnimationController(
       vsync: this,
       duration: _maxDuration,
       value: 1,
     )..addStatusListener((AnimationStatus status) {
+        print(status);
         if (status == AnimationStatus.completed) {
-          if (widget.callBack != null) widget.callBack!();
-          print('completed');
+          // print('completed');
+        } else if (status == AnimationStatus.dismissed) {
+          _step--;
+
+          if (widget.callBack != null) {
+            // print('dismissed');
+            widget.callBack!();
+          }
         }
       });
   }
@@ -65,7 +72,7 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
           children: <Widget>[
             /// Play button
             ButtonStadium(
-              asset: _animationController.isAnimating ? Assets.play : Assets.play,
+              asset: _animationController.isAnimating ? Assets.pause : Assets.play,
               iconColor: _primaryColor,
               onPressed: _onPressedPlayPause,
             ),
@@ -127,7 +134,9 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
       if (_animationController.isAnimating) {
         _animationController.stop();
       } else {
-        _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
+        if (_step > 0) {
+          _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
+        }
       }
     });
   }
@@ -135,7 +144,7 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
   _onPressedReset() {
     setState(() {
       _animationController.reset();
-      _animationController.duration = widget.duration;
+      _animationController.duration = _maxDuration;
       _animationController.value = 1.0;
     });
   }
