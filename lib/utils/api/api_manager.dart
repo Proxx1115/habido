@@ -35,6 +35,7 @@ import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/sign_up_request.dart';
 import 'package:habido_app/models/sign_up_response.dart';
 import 'package:habido_app/models/psy_categories_response.dart';
+import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/models/unread_notif_count_response.dart';
 import 'package:habido_app/models/update_profile_picture_request.dart';
 import 'package:habido_app/models/update_user_data_request.dart';
@@ -284,6 +285,12 @@ class ApiManager {
         path: HttpPath.userHabitsByDates + '?startDate=$startDate&endDate=$endDate',
         httpMethod: HttpMethod.get,
       ),
+    );
+  }
+
+  static Future<BaseResponse> skipUserHabit(SkipUserHabitRequest request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.skipUserHabit, objectData: request),
     );
   }
 

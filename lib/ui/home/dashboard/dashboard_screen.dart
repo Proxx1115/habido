@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/widgets/app_bars/dashboard_app_bar.dart';
 import 'package:habido_app/ui/home/slider/custom_carousel_slider.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -186,6 +188,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  void _blocListener(BuildContext context, DashboardState state) {
+    if (state is RefreshDashboardUserHabitsSuccess) {
+      _todayUserHabits = state.todayUserHabits;
+      _tomorrowUserHabits = state.tomorrowUserHabits;
+    } else if (state is SkipUserHabitSuccess) {
+      BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+    } else if (state is SkipUserHabitFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    }
+  }
+
   Widget _expandableHabitList(String title, List<UserHabit> userHabitList, bool enabled) {
     return ExpandableContainer(
       title: title,
@@ -220,7 +236,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 buttonText: LocaleKeys.skip,
                 button2Text: LocaleKeys.no,
                 onPressedButton: () {
-                  //
+                  var skipUserHabitRequest = SkipUserHabitRequest()
+                    ..userHabitId = userHabitList[index].userHabitId
+                    ..skipDay = Func.toDateStr(DateTime.now());
+                  BlocManager.dashboardBloc.add(SkipUserHabitEvent(skipUserHabitRequest));
                 },
               ),
             );
@@ -239,12 +258,5 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
     );
-  }
-
-  void _blocListener(BuildContext context, DashboardState state) {
-    if (state is RefreshDashboardUserHabitsSuccess) {
-      _todayUserHabits = state.todayUserHabits;
-      _tomorrowUserHabits = state.tomorrowUserHabits;
-    }
   }
 }

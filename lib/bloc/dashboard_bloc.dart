@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -17,6 +18,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   Stream<DashboardState> mapEventToState(DashboardEvent event) async* {
     if (event is RefreshDashboardUserHabits) {
       yield* _mapRefreshDashboardUserHabitsToState();
+    } else if (event is SkipUserHabitEvent) {
+      yield* _mapSkipUserHabitEventToState(event);
     }
   }
 
@@ -57,6 +60,21 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       yield RefreshDashboardUserHabitsFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<DashboardState> _mapSkipUserHabitEventToState(SkipUserHabitEvent event) async* {
+    try {
+      yield DashboardUserHabitsLoading();
+
+      var res = await ApiManager.skipUserHabit(event.skipUserHabitRequest);
+      if (res.code == ResponseCode.Success) {
+        yield SkipUserHabitSuccess();
+      } else {
+        yield SkipUserHabitFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield SkipUserHabitFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -82,6 +100,18 @@ class GetUserHabitByDate extends DashboardEvent {
 
   @override
   String toString() => 'GetUserHabitByDate { date: $date }';
+}
+
+class SkipUserHabitEvent extends DashboardEvent {
+  final SkipUserHabitRequest skipUserHabitRequest;
+
+  const SkipUserHabitEvent(this.skipUserHabitRequest);
+
+  @override
+  List<Object> get props => [skipUserHabitRequest];
+
+  @override
+  String toString() => 'SkipUserHabitEvent { skipUserHabitRequest: $skipUserHabitRequest }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -127,4 +157,18 @@ class RefreshDashboardUserHabitsFailed extends DashboardState {
 
   @override
   String toString() => 'RefreshDashboardUserHabitsFailed { message: $message }';
+}
+
+class SkipUserHabitSuccess extends DashboardState {}
+
+class SkipUserHabitFailed extends DashboardState {
+  final String message;
+
+  const SkipUserHabitFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'SkipUserHabitFailed { message: $message }';
 }

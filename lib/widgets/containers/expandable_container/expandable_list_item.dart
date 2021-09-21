@@ -17,6 +17,7 @@ class ExpandableListItem extends StatelessWidget {
   final String text;
   final VoidCallback? onPressedSkip;
   final VoidCallback? onPressedEdit;
+
   // final double
 
   final SlidableController _controller = SlidableController();
@@ -35,14 +36,10 @@ class ExpandableListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return MoveInAnimation(
       duration: 400,
-
       child: Slidable(
         controller: _controller,
         actionPane: SlidableDrawerActionPane(),
         actionExtentRatio: 0.25,
-        // closeOnTap: true,
-
-
         child: InkWell(
           onTap: onPressed,
           borderRadius: SizeHelper.borderRadiusOdd,
@@ -87,7 +84,47 @@ class ExpandableListItem extends StatelessWidget {
             ),
           ),
         ),
+        secondaryActions: [
+          /// Button skip
+          if (onPressedSkip != null) _buttonSkip(context),
+
+          /// Button edit
+          if (onPressedEdit != null) _buttonEdit(context),
+        ],
       ),
+    );
+  }
+
+  Widget _buttonSkip(BuildContext context) {
+    return IconSlideAction(
+      color: Colors.transparent,
+      iconWidget: ButtonStadium(
+        asset: Assets.skip,
+        size: SizeHelper.listItemHeight70,
+        margin: EdgeInsets.zero,
+        backgroundColor: customColors.blueBackground,
+        iconColor: customColors.iconWhite,
+        enabled: false,
+      ),
+      onTap: () {
+        if (onPressedSkip != null) onPressedSkip!();
+      },
+    );
+  }
+
+  Widget _buttonEdit(BuildContext context) {
+    return IconSlideAction(
+      color: Colors.transparent,
+      iconWidget: ButtonStadium(
+        asset: Assets.edit24,
+        size: SizeHelper.listItemHeight70,
+        backgroundColor: customColors.yellowBackground,
+        iconColor: customColors.iconWhite,
+        enabled: false,
+      ),
+      onTap: () {
+        if (onPressedEdit != null) onPressedEdit!();
+      },
     );
   }
 }
