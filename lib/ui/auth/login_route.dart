@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/login_request.dart';
@@ -221,7 +222,19 @@ class _LoginRouteState extends State<LoginRoute> {
       keyboardType: TextInputType.number,
       prefixAsset: Assets.username,
       hintText: LocaleKeys.phoneNumber,
-      suffixAsset: Assets.clear_circle,
+      suffixWidget: Container(
+        height: 20.0,
+        width: 20.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: customColors.iconGrey,
+        ),
+        child: SvgPicture.asset(
+          Assets.clear,
+          fit: BoxFit.scaleDown,
+          color: customColors.iconWhite,
+        ),
+      ),
       alwaysVisibleSuffix: false,
       onPressedSuffix: () {
         _phoneNumberController.clear();
