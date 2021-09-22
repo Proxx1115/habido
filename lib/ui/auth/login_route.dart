@@ -222,19 +222,7 @@ class _LoginRouteState extends State<LoginRoute> {
       keyboardType: TextInputType.number,
       prefixAsset: Assets.username,
       hintText: LocaleKeys.phoneNumber,
-      suffixWidget: Container(
-        height: 20.0,
-        width: 20.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: customColors.iconGrey,
-        ),
-        child: SvgPicture.asset(
-          Assets.clear,
-          fit: BoxFit.scaleDown,
-          color: customColors.iconWhite,
-        ),
-      ),
+      suffixWidget: ClearIcon(),
       alwaysVisibleSuffix: false,
       onPressedSuffix: () {
         _phoneNumberController.clear();

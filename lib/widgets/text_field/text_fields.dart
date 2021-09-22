@@ -161,6 +161,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 }
 
+class ClearIcon extends StatelessWidget {
+  const ClearIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 20.0,
+      width: 20.0,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: customColors.iconGrey),
+      child: SvgPicture.asset(
+        Assets.clear,
+        fit: BoxFit.scaleDown,
+        color: customColors.secondaryTextFieldBackground,
+      ),
+    );
+  }
+}
+
 // decoration: InputDecoration(
 // border: OutlineInputBorder(
 // borderSide: BorderSide.none,
