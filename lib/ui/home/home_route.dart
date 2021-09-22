@@ -181,6 +181,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
       onTap: () {
+
         BlocManager.homeBloc.add(NavigateToPageEvent(index));
       },
       child: Container(
@@ -196,8 +197,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               height: 24.0,
               child: SvgPicture.asset(
                 asset,
-                // color: _tabController.index == index ? customColors.primary : customColors.iconGrey,
-                color: customColors.primary,
+                color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
               ),
             ),
 
@@ -206,8 +206,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               text,
               padding: EdgeInsets.only(top: 5.0),
               alignment: Alignment.center,
-              // color: _tabController.index == index ? customColors.primary : customColors.iconGrey,
-              color: customColors.primary,
+              color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
               fontSize: 11.0,
               fontWeight: FontWeight.bold,
             ),

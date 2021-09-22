@@ -8,6 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInit());
 
+  int currentTabIndex = 0;
+
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is NavigateToPageEvent) {
@@ -16,6 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Stream<HomeState> _mapNavigateToPageToState(int index) async* {
+    currentTabIndex = index;
     yield NavigateToPageState(index);
     yield HomeVoidState();
   }
