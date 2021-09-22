@@ -6,7 +6,9 @@ import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/checkbox.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/date_picker.dart';
 import 'package:habido_app/widgets/dialogs.dart';
@@ -29,7 +31,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   // UI
   final _signUp3ProfileKey = GlobalKey<ScaffoldState>();
   double _maxHeight = 0.0;
-  double _minHeight = 600;
+  double _minHeight = 660;
 
   // Төрсөн огноо
   DateTime? _selectedBirthDate;
@@ -40,6 +42,9 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
 
   // Хүйс
   bool _genderValue = false;
+
+  // Term cond
+  bool _checkBoxValue = false;
 
   // Button next
   bool _enabledBtnNext = false;
@@ -89,6 +94,9 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
                 /// TermCond
                 _termCond(),
 
+                /// Check
+                _checkboxAgree(),
+
                 Expanded(child: Container()),
 
                 /// Button next
@@ -102,7 +110,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     );
   }
 
-  _birthdayPicker() {
+  Widget _birthdayPicker() {
     return CustomDatePicker(
       hintText: LocaleKeys.birthDate,
       margin: EdgeInsets.only(top: 35.0),
@@ -116,7 +124,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     );
   }
 
-  _nameTextField() {
+  Widget _nameTextField() {
     return CustomTextField(
       controller: _nameController,
       focusNode: _nameFocus,
@@ -125,7 +133,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     );
   }
 
-  _genderSwitch() {
+  Widget _genderSwitch() {
     return StadiumContainer(
       margin: EdgeInsets.only(top: 15.0),
       child: CustomSwitch(
@@ -146,15 +154,44 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     );
   }
 
-  _termCond() {
-    return CustomText(
-      LocaleKeys.agreeTermCond,
+  Widget _termCond() {
+    return StadiumContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      padding: SizeHelper.boxPadding,
+      child: RichText(
+        text: TextSpan(
+          text: LocaleKeys.agreeTermCond1,
+          style: TextStyle(color: customColors.primaryText),
+          children: <TextSpan>[
+            TextSpan(
+                text: LocaleKeys.agreeTermCond2,
+                style: TextStyle(
+                  color: customColors.primaryText,
+                  fontWeight: FontWeight.w600,
+                )),
+            TextSpan(text: LocaleKeys.agreeTermCond3, style: TextStyle(color: customColors.primaryText)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _checkboxAgree() {
+    return CustomCheckbox(
+      text: LocaleKeys.iAgree,
+      margin: EdgeInsets.only(top: 45.0, bottom: 45.0),
+      alignment: MainAxisAlignment.center,
+      onChanged: (value) {
+        _checkBoxValue = value;
+
+        _validateForm();
+      },
     );
   }
 
   _validateForm() {
     setState(() {
-      _enabledBtnNext = _selectedBirthDate != null && _nameController.text.length > 0;
+      _enabledBtnNext = _selectedBirthDate != null && _nameController.text.length > 0 && _checkBoxValue;
     });
   }
 
