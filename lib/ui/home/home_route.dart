@@ -12,6 +12,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'dashboard/dashboard_screen.dart';
 import '../profile/profile_dashboard.dart';
 import '../psy_test/psy_test_dashboard/psy_test_dashboard.dart';
@@ -27,7 +28,8 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
 
   // Bottom navigation bar
   late TabController _tabController;
-  double? _navBarItemWidth;
+
+  GlobalKey _one = GlobalKey();
 
   @override
   void initState() {
@@ -71,36 +73,69 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
 
         return Future.value(false);
       },
-      child: Scaffold(
-        key: _homeKey,
-        body: TabBarView(
-          controller: _tabController,
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            /// Нүүр
-            DashboardScreen(),
+      child: ShowCaseWidget(
+        builder: Builder(
+          builder: (context) {
+            return Scaffold(
+              key: _homeKey,
+              body: TabBarView(
+                controller: _tabController,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  /// Нүүр
+                  DashboardScreen(),
 
-            /// Тест
-            PsyTestDashboard(),
+                  /// Тест
+                  PsyTestDashboard(),
 
-            /// Туслах
-            ChatbotDashboard(),
+                  /// Туслах
+                  ChatbotDashboard(),
 
-            /// Контент
-            ContentDashboard(),
+                  /// Контент
+                  ContentDashboard(),
 
-            /// Профайл
-            ProfileScreen(),
-          ],
+                  /// Профайл
+                  ProfileScreen(),
+                ],
+              ),
+
+              /// Bottom navigation bar
+              bottomNavigationBar: CustomBottomNavigationBar(),
+            );
+          },
         ),
-
-        /// Bottom navigation bar
-        bottomNavigationBar: _bottomNavigationBar(),
       ),
     );
   }
+}
 
-  Widget _bottomNavigationBar() {
+class CustomBottomNavigationBar extends StatefulWidget {
+  const CustomBottomNavigationBar({Key? key}) : super(key: key);
+
+  @override
+  _CustomBottomNavigationBarState createState() => _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  double? _navBarItemWidth;
+
+  GlobalKey _one = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(milliseconds: 1000), () {
+      ShowCaseWidget.of(context)?.startShowCase(
+        [
+          _one,
+        ],
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BottomAppBar(
       shape: CircularNotchedRectangle(),
       color: customColors.secondaryBackground,
@@ -108,14 +143,33 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
       clipBehavior: Clip.none,
       notchMargin: 4.0,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          _bottomNavigationBarItem(0, Assets.home, LocaleKeys.home),
-          _bottomNavigationBarItem(1, Assets.test, LocaleKeys.test),
-          _bottomNavigationBarItem(2, Assets.assistant, LocaleKeys.assistant),
-          _bottomNavigationBarItem(3, Assets.content, LocaleKeys.content),
-          _bottomNavigationBarItem(4, Assets.profile, LocaleKeys.profile),
+          // Showcase(
+          //   key: _one,
+          //   description: 'Tap to see menu options',
+          //   child: _bottomNavigationBarItem(0, Assets.home, LocaleKeys.home),
+          // ),
+          Expanded(
+            child: _bottomNavigationBarItem(0, Assets.home, LocaleKeys.home),
+          ),
+          Expanded(
+            child: Showcase(
+              key: _one,
+              description: 'Tap to see menu options',
+              child: _bottomNavigationBarItem(1, Assets.test, LocaleKeys.test),
+            ),
+          ),
+          Expanded(
+            child: _bottomNavigationBarItem(2, Assets.assistant, LocaleKeys.assistant),
+          ),
+          Expanded(
+            child: _bottomNavigationBarItem(3, Assets.content, LocaleKeys.content),
+          ),
+          Expanded(
+            child: _bottomNavigationBarItem(4, Assets.profile, LocaleKeys.profile),
+          ),
         ],
       ),
     );
@@ -124,40 +178,40 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   Widget _bottomNavigationBarItem(int index, String asset, String text) {
     _navBarItemWidth = _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
 
-    return Expanded(
-      child: InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        onTap: () {
-          BlocManager.homeBloc.add(NavigateToPageEvent(index));
-        },
-        child: Container(
-          height: 55.0,
-          width: _navBarItemWidth,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              /// Icon
-              SizedBox(
-                width: 24.0,
-                height: 24.0,
-                child: SvgPicture.asset(
-                  asset,
-                  color: _tabController.index == index ? customColors.primary : customColors.iconGrey,
-                ),
+    return InkWell(
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      onTap: () {
+        BlocManager.homeBloc.add(NavigateToPageEvent(index));
+      },
+      child: Container(
+        height: 55.0,
+        width: _navBarItemWidth,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /// Icon
+            SizedBox(
+              width: 24.0,
+              height: 24.0,
+              child: SvgPicture.asset(
+                asset,
+                // color: _tabController.index == index ? customColors.primary : customColors.iconGrey,
+                color: customColors.primary,
               ),
+            ),
 
-              /// Text
-              CustomText(
-                text,
-                padding: EdgeInsets.only(top: 5.0),
-                alignment: Alignment.center,
-                color: _tabController.index == index ? customColors.primary : customColors.iconGrey,
-                fontSize: 11.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ],
-          ),
+            /// Text
+            CustomText(
+              text,
+              padding: EdgeInsets.only(top: 5.0),
+              alignment: Alignment.center,
+              // color: _tabController.index == index ? customColors.primary : customColors.iconGrey,
+              color: customColors.primary,
+              fontSize: 11.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ],
         ),
       ),
     );
