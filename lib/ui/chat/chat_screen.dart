@@ -28,10 +28,10 @@ class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key, required this.chatType}) : super(key: key);
 
   @override
-  _HabidoAssistantRouteState createState() => _HabidoAssistantRouteState();
+  _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _HabidoAssistantRouteState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> {
   // Data
   List<ChatResponse> _chatList = [];
 
@@ -60,7 +60,26 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
       child: BlocListener<ChatBloc, ChatState>(
         listener: _blocListener,
         child: BlocBuilder<ChatBloc, ChatState>(
-          builder: _blocBuilder,
+          builder: (context, state) {
+            return AbsorbPointer(
+              absorbing: state is ChatLoading,
+              child: ListView(
+                controller: _scrollController,
+                // reverse: true, // todo test
+                padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, SizeHelper.marginBottom),
+                children: [
+                  /// Chats
+                  for (int i = 0; i < _chatList.length; i++) _chatItem(i),
+
+                  /// Typing
+                  // if (state is ChatLoading) ChatLoader(),
+
+                  /// Button thanks
+                  _buttonThanks(),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -112,27 +131,6 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
     }
   }
 
-  Widget _blocBuilder(BuildContext context, ChatState state) {
-    return AbsorbPointer(
-      absorbing: state is ChatLoading,
-      child: ListView(
-        controller: _scrollController,
-        // reverse: true, // todo test
-        padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, SizeHelper.marginBottom),
-        children: [
-          /// Chats
-          for (int i = 0; i < _chatList.length; i++) _chatItem(i),
-
-          /// Typing
-          // if (state is ChatLoading) ChatLoader(),
-
-          /// Button thanks
-          _buttonThanks(),
-        ],
-      ),
-    );
-  }
-
   _scrollToBottom() {
     Future.delayed(const Duration(milliseconds: 1000), () {
       _scrollController.animateTo(
@@ -161,10 +159,12 @@ class _HabidoAssistantRouteState extends State<ChatScreen> {
             _contentItem(_chatList[chatIndex].content!)
             :
 
-            /// Chat
-            ChatContainer(child: CustomText(_chatList[chatIndex].msg, maxLines: 10)),
+            /// Bot chat
+            ChatContainer(
+                child: CustomText(_chatList[chatIndex].msg, maxLines: 10),
+              ),
 
-        /// Options
+        /// User chat - Options
         if (_chatList[chatIndex].msgOptions != null && _chatList[chatIndex].msgOptions!.length > 0)
           for (int j = 0; j < _chatList[chatIndex].msgOptions!.length; j++) _optionItem(chatIndex, j),
       ],

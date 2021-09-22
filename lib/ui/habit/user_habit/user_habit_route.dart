@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/plan.dart';
+import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_reminders.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
@@ -30,11 +31,6 @@ import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'reminder/reminder_widget.dart';
-
-class ScreenMode {
-  static const New = 'New';
-  static const Edit = 'Edit';
-}
 
 class UserHabitRoute extends StatefulWidget {
   final String? title;
