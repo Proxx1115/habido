@@ -11,7 +11,6 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/checkbox.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/date_picker.dart';
-import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -30,8 +29,6 @@ class SignUp3ProfileRoute extends StatefulWidget {
 class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   // UI
   final _signUp3ProfileKey = GlobalKey<ScaffoldState>();
-  double _maxHeight = 0.0;
-  double _minHeight = 660;
 
   // Төрсөн огноо
   DateTime? _selectedBirthDate;
@@ -44,6 +41,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   bool _genderValue = false;
 
   // Term cond
+  bool _visibleTermCond = false;
   bool _checkBoxValue = false;
 
   // Button next
@@ -69,44 +67,44 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     return CustomScaffold(
       scaffoldKey: _signUp3ProfileKey,
       appBarTitle: LocaleKeys.yourRegistration,
-      child: LayoutBuilder(builder: (context, constraints) {
-        if (_maxHeight < constraints.maxHeight) _maxHeight = constraints.maxHeight;
-        if (_maxHeight < _minHeight) _maxHeight = _minHeight;
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    /// Хувийн мэдээллээ оруулна уу
+                    CustomText(LocaleKeys.enterProfile, alignment: Alignment.center, maxLines: 2),
 
-        return SingleChildScrollView(
-          child: Container(
-            height: _maxHeight,
-            padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
-            child: Column(
-              children: [
-                /// Хувийн мэдээллээ оруулна уу
-                CustomText(LocaleKeys.enterProfile, alignment: Alignment.center, maxLines: 2),
+                    /// Төрсөн огноо
+                    _birthdayPicker(),
 
-                /// Төрсөн огноо
-                _birthdayPicker(),
+                    /// Таны нэр
+                    _nameTextField(),
 
-                /// Таны нэр
-                _nameTextField(),
+                    /// Хүйс
+                    _genderSwitch(),
 
-                /// Хүйс
-                _genderSwitch(),
+                    /// TermCond
+                    _termCond(),
 
-                /// TermCond
-                _termCond(),
-
-                /// Check
-                _checkboxAgree(),
-
-                Expanded(child: Container()),
-
-                /// Button next
-                _buttonNext(),
-                //_enabledBtnNext
-              ],
+                    /// Check
+                    _checkboxAgree(),
+                  ],
+                ),
+              ),
             ),
           ),
-        );
-      }),
+
+          /// Button next
+          _buttonNext(),
+          //_enabledBtnNext
+        ],
+      ),
     );
   }
 
@@ -116,8 +114,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
       margin: EdgeInsets.only(top: 35.0),
       lastDate: DateTime.now(),
       onSelectedDate: (date) {
-        print(date);
-
+        // print(date);
         _selectedBirthDate = date;
         _validateForm();
       },
@@ -138,7 +135,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
       margin: EdgeInsets.only(top: 15.0),
       child: CustomSwitch(
         value: _genderValue,
-        margin: EdgeInsets.only(left: 18.0),
+        margin: EdgeInsets.only(left: 2.0),
         activeText: LocaleKeys.female,
         inactiveText: LocaleKeys.male,
         activeColor: Colors.transparent,
@@ -155,64 +152,81 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   }
 
   Widget _termCond() {
-    return StadiumContainer(
-      margin: EdgeInsets.only(top: 15.0),
-      padding: SizeHelper.boxPadding,
-      child: RichText(
-        text: TextSpan(
-          text: LocaleKeys.agreeTermCond1,
-          style: TextStyle(color: customColors.primaryText),
-          children: <TextSpan>[
-            TextSpan(
-                text: LocaleKeys.agreeTermCond2,
-                style: TextStyle(
-                  color: customColors.primaryText,
-                  fontWeight: FontWeight.w600,
-                )),
-            TextSpan(text: LocaleKeys.agreeTermCond3, style: TextStyle(color: customColors.primaryText)),
-          ],
-        ),
-      ),
-    );
+    return _visibleTermCond
+        ? StadiumContainer(
+            margin: EdgeInsets.only(top: 15.0),
+            padding: SizeHelper.boxPadding,
+            child: RichText(
+              text: TextSpan(
+                text: LocaleKeys.agreeTermCond1,
+                style: TextStyle(color: customColors.primaryText),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: LocaleKeys.agreeTermCond2,
+                      style: TextStyle(
+                        color: customColors.primaryText,
+                        fontWeight: FontWeight.w600,
+                      )),
+                  TextSpan(text: LocaleKeys.agreeTermCond3, style: TextStyle(color: customColors.primaryText)),
+                ],
+              ),
+            ),
+          )
+        : Container();
   }
 
   _checkboxAgree() {
-    return CustomCheckbox(
-      text: LocaleKeys.iAgree,
-      margin: EdgeInsets.only(top: 45.0, bottom: 45.0),
-      alignment: MainAxisAlignment.center,
-      onChanged: (value) {
-        _checkBoxValue = value;
+    return _visibleTermCond
+        ? CustomCheckbox(
+            text: LocaleKeys.iAgree,
+            margin: EdgeInsets.only(top: 30.0, bottom: 30.0),
+            alignment: MainAxisAlignment.center,
+            onChanged: (value) {
+              _checkBoxValue = value;
 
-        _validateForm();
-      },
-    );
+              _validateForm();
+            },
+          )
+        : Container();
   }
 
   _validateForm() {
     setState(() {
-      _enabledBtnNext = _selectedBirthDate != null && _nameController.text.length > 0 && _checkBoxValue;
+      // Term cond
+      if (_selectedBirthDate == null) {
+        _visibleTermCond = false;
+      } else if (Func.isAdult(_selectedBirthDate!)) {
+        _visibleTermCond = false;
+      } else {
+        _visibleTermCond = true;
+      }
+
+      // Button next
+      _enabledBtnNext =
+          _selectedBirthDate != null && _nameController.text.length > 0 && (_visibleTermCond ? _checkBoxValue : true);
     });
   }
 
   _buttonNext() {
-    return CustomButton(
-      style: CustomButtonStyle.Secondary,
-      asset: Assets.long_arrow_next,
-      margin: EdgeInsets.only(top: 35.0),
-      onPressed: _enabledBtnNext
-          ? () {
-              SignUpRegisterRequest verifyCodeRequest = widget.signUpRegisterRequest;
-              verifyCodeRequest
-                ..birthday = Func.toDateStr(_selectedBirthDate!)
-                ..firstName = _nameController.text
-                ..gender = _genderValue ? Gender.Female : Gender.Male;
+    return !Func.visibleKeyboard(context)
+        ? CustomButton(
+            margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, SizeHelper.marginBottom),
+            style: CustomButtonStyle.Secondary,
+            asset: Assets.long_arrow_next,
+            onPressed: _enabledBtnNext
+                ? () {
+                    SignUpRegisterRequest verifyCodeRequest = widget.signUpRegisterRequest;
+                    verifyCodeRequest
+                      ..birthday = Func.toDateStr(_selectedBirthDate!)
+                      ..firstName = _nameController.text
+                      ..gender = _genderValue ? Gender.Female : Gender.Male;
 
-              Navigator.pushNamed(context, Routes.signUp4Password, arguments: {
-                'signUpRegisterRequest': verifyCodeRequest,
-              });
-            }
-          : null,
-    );
+                    Navigator.pushNamed(context, Routes.signUp4Password, arguments: {
+                      'signUpRegisterRequest': verifyCodeRequest,
+                    });
+                  }
+                : null,
+          )
+        : Container();
   }
 }

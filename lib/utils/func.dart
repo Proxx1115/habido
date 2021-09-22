@@ -310,6 +310,16 @@ class Func {
     return res;
   }
 
+  static bool isAdult(DateTime birthDate) {
+    DateTime today = DateTime.now();
+
+    int yearDiff = today.year - birthDate.year;
+    int monthDiff = today.month - birthDate.month;
+    int dayDiff = today.day - birthDate.day;
+
+    return yearDiff > 18 || yearDiff == 18 && monthDiff >= 0 && dayDiff >= 0;
+  }
+
   static void hideKeyboard(BuildContext context) {
     FocusScope.of(context).requestFocus(new FocusNode());
     SystemChannels.textInput.invokeMethod('TextInput.hide'); // hide keyboard
