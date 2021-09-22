@@ -98,8 +98,8 @@ class _SplashRouteState extends State<SplashRoute> {
 
     ApiManager.getUserData().then((response) {
       if (response.code == ResponseCode.Success) {
-        AuthBloc.afterLogin()
-            .then((value) => {Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false)});
+        AuthBloc.afterLogin().then(
+            (value) => {Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false)});
       } else {
         // todo test
         Future.delayed(Duration(seconds: 1), () {

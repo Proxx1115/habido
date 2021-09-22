@@ -94,7 +94,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         /// Get user data
         var userData = await ApiManager.getUserData();
         if (userData.code == ResponseCode.Success) {
-          // await afterLogin(); // todo test
+          await afterLogin();
 
           yield LoginSuccess(res);
         } else {

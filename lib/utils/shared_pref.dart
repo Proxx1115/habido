@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'func.dart';
+import 'globals.dart';
 
 SharedPreferences? sharedPref;
 
@@ -86,11 +87,17 @@ class SharedPref {
   }
 
   static bool getRegisteredPushNotifToken() {
-    return sharedPref?.getBool(SharedPrefKey.registeredPushNotifToken) ?? false;
+    if (Func.isNotEmpty(globals.userData?.phone)) {
+      return sharedPref?.getBool(SharedPrefKey.registeredPushNotifToken + '_${globals.userData!.phone!}') ?? false;
+    }
+
+    return false;
   }
 
   static void setRegisteredPushNotifToken(bool value) {
-    sharedPref?.setBool(SharedPrefKey.registeredPushNotifToken, value);
+    if (Func.isNotEmpty(globals.userData?.phone)) {
+      sharedPref?.setBool(SharedPrefKey.registeredPushNotifToken + '_${globals.userData!.phone!}', value);
+    }
   }
 
   static String getHabitProgressValue(int userHabitId) {
