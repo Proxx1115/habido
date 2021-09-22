@@ -21,13 +21,14 @@ class ChangePasswordRoute extends StatefulWidget {
 
 class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
   // Хуучин нууц үг
-  final _oldPassController = TextEditingController();
+  // Бусад dispose хийгдээгүй TextField-үүдээс нэрийг нь өөр өгөх хэрэгтэй
+  final _oldPsController = TextEditingController();
 
   // Нууц үг
-  final _passController = TextEditingController();
+  final _psController = TextEditingController();
 
   // Нууц үг давтах
-  final _passRepeatController = TextEditingController();
+  final _psRepeatController = TextEditingController();
 
   // Button save
   bool _enabledBtnSave = false;
@@ -35,9 +36,9 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
   @override
   void initState() {
     super.initState();
-    _oldPassController.addListener(() => _validateForm());
-    _passController.addListener(() => _validateForm());
-    _passRepeatController.addListener(() => _validateForm());
+    _oldPsController.addListener(() => _validateForm());
+    _psController.addListener(() => _validateForm());
+    _psRepeatController.addListener(() => _validateForm());
   }
 
   @override
@@ -101,7 +102,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
 
   _oldPassTextField() {
     return CustomTextField(
-      controller: _oldPassController,
+      controller: _oldPsController,
       hintText: LocaleKeys.oldPassword,
       margin: EdgeInsets.only(top: 15.0),
       obscureText: true,
@@ -110,7 +111,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
 
   _passTextField() {
     return CustomTextField(
-      controller: _passController,
+      controller: _psController,
       hintText: LocaleKeys.password,
       margin: EdgeInsets.only(top: 15.0),
       obscureText: true,
@@ -119,7 +120,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
 
   _passRepeatTextField() {
     return CustomTextField(
-      controller: _passRepeatController,
+      controller: _psRepeatController,
       hintText: LocaleKeys.passwordRepeat,
       margin: EdgeInsets.only(top: 15.0),
       obscureText: true,
@@ -128,9 +129,8 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
 
   _validateForm() {
     setState(() {
-      _enabledBtnSave = _oldPassController.text.length > 0 &&
-          _passController.text.length > 0 &&
-          _passRepeatController.text.length > 0;
+      _enabledBtnSave =
+          _oldPsController.text.length > 0 && _psController.text.length > 0 && _psRepeatController.text.length > 0;
     });
   }
 
@@ -141,7 +141,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
       onPressed: _enabledBtnSave
           ? () {
               // Validation
-              if (_passController.text != _passRepeatController.text) {
+              if (_psController.text != _psRepeatController.text) {
                 showCustomDialog(
                   context,
                   child: CustomDialogBody(
@@ -152,8 +152,8 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
               }
 
               var request = ChangePasswordRequest()
-                ..oldPassword = _oldPassController.text
-                ..newPassword = _passController.text;
+                ..oldPassword = _oldPsController.text
+                ..newPassword = _psController.text;
 
               BlocManager.authBloc.add(ChangePasswordEvent(request));
             }

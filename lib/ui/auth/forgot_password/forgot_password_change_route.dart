@@ -32,10 +32,10 @@ class ForgotPasswordChangeRoute extends StatefulWidget {
 
 class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
   // Нууц үг
-  final _passController = TextEditingController();
+  final _pController = TextEditingController(); // Бусад dispose хийгдээгүй TextField-үүдээс нэрийг нь өөр өгөх хэрэгтэй
 
   // Нууц үг давтах
-  final _passRepeatController = TextEditingController();
+  final _pRepeatController = TextEditingController();
 
   // Button save
   bool _enabledBtnSave = false;
@@ -43,8 +43,8 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
   @override
   void initState() {
     super.initState();
-    _passController.addListener(() => _validateForm());
-    _passRepeatController.addListener(() => _validateForm());
+    _pController.addListener(() => _validateForm());
+    _pRepeatController.addListener(() => _validateForm());
   }
 
   @override
@@ -105,7 +105,7 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
 
   _passTextField() {
     return CustomTextField(
-      controller: _passController,
+      controller: _pController,
       hintText: LocaleKeys.password,
       margin: EdgeInsets.only(top: 15.0),
       obscureText: true,
@@ -114,7 +114,7 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
 
   _passRepeatTextField() {
     return CustomTextField(
-      controller: _passRepeatController,
+      controller: _pRepeatController,
       hintText: LocaleKeys.passwordRepeat,
       margin: EdgeInsets.only(top: 15.0),
       obscureText: true,
@@ -123,7 +123,7 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
 
   _validateForm() {
     setState(() {
-      _enabledBtnSave = _passController.text.length > 0 && _passRepeatController.text.length > 0;
+      _enabledBtnSave = _pController.text.length > 0 && _pRepeatController.text.length > 0;
     });
   }
 
@@ -134,7 +134,7 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
       onPressed: _enabledBtnSave
           ? () {
               // Validation
-              if (_passController.text != _passRepeatController.text) {
+              if (_pController.text != _pRepeatController.text) {
                 showCustomDialog(
                   context,
                   child: CustomDialogBody(
@@ -147,7 +147,7 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
               var request = ForgotPasswordChangeRequest()
                 ..userId = widget.userId
                 ..code = widget.code
-                ..newPassword = _passController.text;
+                ..newPassword = _pController.text;
 
               BlocManager.authBloc.add(ForgotPasswordChangeEvent(request));
             }
