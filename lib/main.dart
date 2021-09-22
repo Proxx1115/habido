@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
-import 'package:habido_app/models/sign_up_register_request.dart';
-import 'package:habido_app/ui/auth/login_route.dart';
-import 'package:habido_app/ui/auth/sign_up/sign_up1_phone_route.dart';
-import 'package:habido_app/ui/auth/sign_up/sign_up6_success_route.dart';
-import 'package:habido_app/ui/chat/habido_assistant_route.dart';
-import 'package:habido_app/ui/intro/intro_route.dart';
-import 'package:habido_app/ui/demo/hero1_route.dart';
-import 'package:habido_app/ui/demo/example_route.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/push_notif_manager.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'bloc/bloc_manager.dart';
 import 'ui/intro/splash_route.dart';
 import 'utils/device_helper.dart';
-import 'utils/globals.dart';
 import 'utils/route/routes.dart';
-import 'utils/theme/theme_cubit.dart';
 
 void main() async {
   // Binds the framework to flutter engine
@@ -29,10 +19,7 @@ void main() async {
     sharedPref = instance;
 
     // Firebase push notification
-    // pushNotifManager.init();
-
-    // API
-    // apiCaller = new ApiCaller();
+    pushNotifManager.init();
 
     // Local notification
     // LocalNotifHelper.init();

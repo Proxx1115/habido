@@ -1,0 +1,151 @@
+import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'func.dart';
+import 'shared_pref.dart';
+
+PushNotifManager pushNotifManager = PushNotifManager();
+
+class PushNotifManager {
+  late FirebaseApp firebaseApp;
+  late FirebaseMessaging messaging;
+  FlutterLocalNotificationsPlugin? localNotif;
+  AndroidNotificationChannel? notifChannel; // Local notification
+
+  init() async {
+    ///
+    /// Firebase app
+    ///
+    firebaseApp = await Firebase.initializeApp();
+
+    ///
+    /// Firebase messaging
+    ///
+    messaging = FirebaseMessaging.instance;
+    if (Platform.isIOS) {
+      messaging.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
+    }
+
+    ///
+    /// Notification permission
+    ///
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    print('User granted permission: ${settings.authorizationStatus}');
+
+    ///
+    /// Push notification token
+    ///
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      var currentToken = SharedPref.getPushNotifToken();
+      print('Push notif token: ' + currentToken + '\n');
+      if (Func.isEmpty(currentToken)) {
+        var newToken = await messaging.getToken(); // getToken(vapidKey: "BGpdLRs......"
+        if (newToken != null) {
+          print(newToken);
+          SharedPref.setPushNotifToken(newToken);
+        }
+      }
+    }
+
+    ///
+    /// Local notification
+    ///
+    if (Platform.isAndroid) {
+      var initSettings = InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher'));
+
+      localNotif = FlutterLocalNotificationsPlugin();
+      await localNotif?.initialize(initSettings, onSelectNotification: (payload) async {
+        if (payload != null) {
+          print('notification payload: ' + payload);
+        }
+        // selectNotificationSubject.add(payload);
+      });
+
+      notifChannel = AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        'This channel is used for important notifications.', // description
+        importance: Importance.max,
+      );
+
+      await localNotif
+          ?.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(notifChannel!);
+      print('Local notif initialized');
+    }
+
+    ///
+    /// Background message handler
+    ///
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+    ///
+    /// Foreground message handler
+    ///
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // Logging
+      print('Got a message whilst in the foreground! \n Message data: ${message.data}');
+      if (message.notification != null) print('Message also contained a notification: ${message.notification}');
+
+      ///
+      /// Show local notification
+      ///
+      if (Platform.isAndroid) {
+        _showLocalNotif(message);
+      }
+    });
+
+    print('done');
+  }
+
+  _showLocalNotif(RemoteMessage message) async {
+    try {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? androidNotif = message.notification?.android;
+
+      // If `onMessage` is triggered with a notification, construct our own
+      // local notification to show to users using the created channel.
+      if (notification != null) {
+        if (notifChannel != null) {
+          var notifDetail = NotificationDetails(
+            android: AndroidNotificationDetails(notifChannel!.id, notifChannel!.name, notifChannel!.description,
+                icon: androidNotif?.smallIcon),
+          );
+
+          // message['notification']['title']
+          // message['notification']['body'])
+          // localNotif?.show(notification.hashCode, notification.title, notification.body, notifDetail);
+
+          // const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+          //     'your channel id', 'your channel name', 'your channel description',
+          //     importance: Importance.max, priority: Priority.high, showWhen: false);
+          // const IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails();
+          // const NotificationDetails platformChannelSpecifics = NotificationDetails(
+          //   android: androidPlatformChannelSpecifics,
+          //   iOS: iOSPlatformChannelSpecifics,
+          // );
+
+          await localNotif?.show(0, notification.title ?? '', notification.body ?? '', notifDetail, payload: 'item x');
+          print('done');
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+// Note: Function заавал тусдаа, class-ын гадна байх ёстой
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('Handling a background message ${message.messageId}');
+}
