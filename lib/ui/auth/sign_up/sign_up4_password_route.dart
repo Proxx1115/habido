@@ -17,9 +17,9 @@ import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 /// Sign up step 4
 class SignUp4PasswordRoute extends StatefulWidget {
-  final SignUpRegisterRequest verifyCodeRequest;
+  final SignUpRegisterRequest signUpRegisterRequest;
 
-  const SignUp4PasswordRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
+  const SignUp4PasswordRoute({Key? key, required this.signUpRegisterRequest}) : super(key: key);
 
   @override
   _SignUp4PasswordRouteState createState() => _SignUp4PasswordRouteState();
@@ -144,11 +144,11 @@ class _SignUp4PasswordRouteState extends State<SignUp4PasswordRoute> {
                 return;
               }
 
-              SignUpRegisterRequest verifyCodeRequest = widget.verifyCodeRequest;
+              SignUpRegisterRequest verifyCodeRequest = widget.signUpRegisterRequest;
               verifyCodeRequest.password = _pssController.text;
 
               Navigator.pushNamed(context, Routes.signUp5Terms, arguments: {
-                'verifyCodeRequest': verifyCodeRequest,
+                'signUpRegisterRequest': verifyCodeRequest,
               });
             }
           : null,

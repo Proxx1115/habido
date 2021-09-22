@@ -42,6 +42,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapLogoutEventToState();
     } else if (event is SignUpPhoneEvent) {
       yield* _mapSignUpPhoneEventToState(event.request);
+    } else if (event is SignUpPhoneResendEvent) {
+      yield* _mapSignUpPhoneResendEventToState(event.request);
     } else if (event is SignUpVerifyCodeEvent) {
       yield* _mapSignUpVerifyCodeEventToState(event);
     } else if (event is SignUpRegisterEvent) {
@@ -174,6 +176,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     } catch (e) {
       yield SignUpPhoneFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<AuthState> _mapSignUpPhoneResendEventToState(SignUpPhoneRequest request) async* {
+    try {
+      yield AuthLoading();
+
+      var res = await ApiManager.signUpPhone(request);
+      if (res.code == ResponseCode.Success) {
+        yield SignUpPhoneResendSuccess(res);
+      } else {
+        yield SignUpPhoneResendFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield SignUpPhoneResendFailed(LocaleKeys.errorOccurred);
     }
   }
 
@@ -339,6 +356,18 @@ class SignUpPhoneEvent extends AuthEvent {
 
   @override
   String toString() => 'SignUpEvent { request: $request }';
+}
+
+class SignUpPhoneResendEvent extends AuthEvent {
+  final SignUpPhoneRequest request;
+
+  const SignUpPhoneResendEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'SignUpPhoneResendEvent { request: $request }';
 }
 
 class SignUpVerifyCodeEvent extends AuthEvent {
@@ -516,6 +545,30 @@ class SignUpPhoneFailed extends AuthState {
 
   @override
   String toString() => 'SignUpPhoneFailed { msg: $message }';
+}
+
+class SignUpPhoneResendSuccess extends AuthState {
+  final SignUpPhoneResponse response;
+
+  const SignUpPhoneResendSuccess(this.response);
+
+  @override
+  List<Object> get props => [response];
+
+  @override
+  String toString() => 'SignUpPhoneResendSuccess { SignUpResponse: $response }';
+}
+
+class SignUpPhoneResendFailed extends AuthState {
+  final String message;
+
+  const SignUpPhoneResendFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'SignUpPhoneResendFailed { msg: $message }';
 }
 
 class SignUpVerifyCodeSuccess extends AuthState {}

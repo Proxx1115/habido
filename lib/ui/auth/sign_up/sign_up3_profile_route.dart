@@ -17,9 +17,9 @@ import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 /// Sign up step 3
 class SignUp3ProfileRoute extends StatefulWidget {
-  final SignUpRegisterRequest verifyCodeRequest;
+  final SignUpRegisterRequest signUpRegisterRequest;
 
-  const SignUp3ProfileRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
+  const SignUp3ProfileRoute({Key? key, required this.signUpRegisterRequest}) : super(key: key);
 
   @override
   _SignUp3ProfileRouteState createState() => _SignUp3ProfileRouteState();
@@ -165,14 +165,14 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
       margin: EdgeInsets.only(top: 35.0),
       onPressed: _enabledBtnNext
           ? () {
-              SignUpRegisterRequest verifyCodeRequest = widget.verifyCodeRequest;
+              SignUpRegisterRequest verifyCodeRequest = widget.signUpRegisterRequest;
               verifyCodeRequest
                 ..birthday = Func.toDateStr(_selectedBirthDate!)
                 ..firstName = _nameController.text
                 ..gender = _genderValue ? Gender.Female : Gender.Male;
 
               Navigator.pushNamed(context, Routes.signUp4Password, arguments: {
-                'verifyCodeRequest': verifyCodeRequest,
+                'signUpRegisterRequest': verifyCodeRequest,
               });
             }
           : null,

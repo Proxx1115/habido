@@ -67,11 +67,15 @@ class ApiManager {
   }
 
   static Future<BaseResponse> signUpVerifyCode(SignUpVerifyCodeRequest request) async {
-    return BaseResponse.fromJson(await httpUtils.sendRequest(
+    var res = BaseResponse.fromJson(await httpUtils.sendRequest(
       path: HttpPath.signUpVerifyCode,
       objectData: request,
       hasAuthorization: false,
     ));
+
+    print('test');
+
+    return res;
   }
 
   static Future<BaseResponse> signUpRegister(SignUpRegisterRequest request) async {

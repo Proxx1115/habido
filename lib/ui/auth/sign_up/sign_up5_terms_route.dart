@@ -16,9 +16,9 @@ import 'terms_screen.dart';
 
 /// Sign up step 5
 class SignUp5TermsRoute extends StatefulWidget {
-  final SignUpRegisterRequest verifyCodeRequest;
+  final SignUpRegisterRequest signUpRegisterRequest;
 
-  const SignUp5TermsRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
+  const SignUp5TermsRoute({Key? key, required this.signUpRegisterRequest}) : super(key: key);
 
   @override
   _SignUp5TermsRouteState createState() => _SignUp5TermsRouteState();
@@ -50,7 +50,7 @@ class _SignUp5TermsRouteState extends State<SignUp5TermsRoute> {
   void _blocListener(BuildContext context, AuthState state) {
     if (state is SignUpRegisterSuccess) {
       Navigator.pushNamed(context, Routes.signUp6Success, arguments: {
-        'verifyCodeRequest': widget.verifyCodeRequest,
+        'signUpRegisterRequest': widget.signUpRegisterRequest,
       });
     } else if (state is SignUpRegisterFailed) {
       showCustomDialog(
@@ -122,7 +122,7 @@ class _SignUp5TermsRouteState extends State<SignUp5TermsRoute> {
       asset: Assets.long_arrow_next,
       onPressed: _enabledBtnNext
           ? () {
-              BlocManager.authBloc.add(SignUpRegisterEvent(widget.verifyCodeRequest));
+              BlocManager.authBloc.add(SignUpRegisterEvent(widget.signUpRegisterRequest));
             }
           : null,
     );

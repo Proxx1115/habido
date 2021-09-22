@@ -132,7 +132,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            verifyCodeRequest: _getValueByKey(args, 'verifyCodeRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -142,7 +142,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            verifyCodeRequest: _getValueByKey(args, 'verifyCodeRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -152,7 +152,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            verifyCodeRequest: _getValueByKey(args, 'verifyCodeRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -162,7 +162,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = FadeRouteBuilder(
           SignUp6SuccessRoute(
-            verifyCodeRequest: _getValueByKey(args, 'verifyCodeRequest'),
+            verifyCodeRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
