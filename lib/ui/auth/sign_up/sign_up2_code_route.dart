@@ -29,6 +29,14 @@ class _SignUp2CodeRouteState extends State<SignUp2CodeRoute> {
   // UI
   final _signUp2CodeKey = GlobalKey<ScaffoldState>();
 
+  // Countdown timer
+  // CountdownTimerController? _countdownTimerController;
+  // int _countdownSec = 60;
+  // late int _endTime;
+  //
+  // // Button resend code
+  // bool _enabledBtnResend = false;
+
   // Code input
   String? _code = '';
 

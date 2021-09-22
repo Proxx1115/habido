@@ -96,7 +96,7 @@ class _VerifyPasswordRouteState extends State<VerifyPasswordRoute> {
                             _timer(),
 
                             /// Button resend
-                            _buttonResend(),
+                            _buttonResend()
                           ],
                         ),
 
