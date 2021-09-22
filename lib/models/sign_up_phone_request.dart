@@ -1,11 +1,11 @@
 import 'package:habido_app/models/base_request.dart';
 
-class SignUpRequest extends BaseRequest {
+class SignUpPhoneRequest extends BaseRequest {
   String? phone;
 
-  SignUpRequest({this.phone});
+  SignUpPhoneRequest({this.phone});
 
-  SignUpRequest.fromJson(dynamic json) {
+  SignUpPhoneRequest.fromJson(dynamic json) {
     phone = json["phone"];
   }
 

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/models/verify_code_request.dart';
-import 'package:habido_app/ui/auth/terms_screen.dart';
+import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -13,18 +12,19 @@ import 'package:habido_app/widgets/checkbox.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'terms_screen.dart';
 
-/// Sign up step 4
-class SignUp4TermsRoute extends StatefulWidget {
-  final VerifyCodeRequest verifyCodeRequest;
+/// Sign up step 5
+class SignUp5TermsRoute extends StatefulWidget {
+  final SignUpRegisterRequest verifyCodeRequest;
 
-  const SignUp4TermsRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
+  const SignUp5TermsRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
 
   @override
-  _SignUp4TermsRouteState createState() => _SignUp4TermsRouteState();
+  _SignUp5TermsRouteState createState() => _SignUp5TermsRouteState();
 }
 
-class _SignUp4TermsRouteState extends State<SignUp4TermsRoute> {
+class _SignUp5TermsRouteState extends State<SignUp5TermsRoute> {
   // UI
   final _signUp4TermsKey = GlobalKey<ScaffoldState>();
 
@@ -48,11 +48,11 @@ class _SignUp4TermsRouteState extends State<SignUp4TermsRoute> {
   }
 
   void _blocListener(BuildContext context, AuthState state) {
-    if (state is VerifyCodeSuccess) {
-      Navigator.pushNamed(context, Routes.signUp5Success, arguments: {
+    if (state is SignUpRegisterSuccess) {
+      Navigator.pushNamed(context, Routes.signUp6Success, arguments: {
         'verifyCodeRequest': widget.verifyCodeRequest,
       });
-    } else if (state is VerifyCodeFailed) {
+    } else if (state is SignUpRegisterFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
@@ -122,7 +122,7 @@ class _SignUp4TermsRouteState extends State<SignUp4TermsRoute> {
       asset: Assets.long_arrow_next,
       onPressed: _enabledBtnNext
           ? () {
-              BlocManager.authBloc.add(VerifyCodeEvent(widget.verifyCodeRequest));
+              BlocManager.authBloc.add(SignUpRegisterEvent(widget.verifyCodeRequest));
             }
           : null,
     );

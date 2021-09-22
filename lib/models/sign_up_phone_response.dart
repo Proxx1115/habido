@@ -1,11 +1,11 @@
 import 'package:habido_app/models/base_response.dart';
 
-class SignUpResponse extends BaseResponse {
+class SignUpPhoneResponse extends BaseResponse {
   int? userId;
 
-  SignUpResponse({this.userId});
+  SignUpPhoneResponse({this.userId});
 
-  SignUpResponse.fromJson(Map<String, dynamic> json) {
+  SignUpPhoneResponse.fromJson(Map<String, dynamic> json) {
     parseBaseParams(json);
     userId = json["userId"] ?? '';
   }

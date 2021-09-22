@@ -2,8 +2,9 @@ class HttpPath {
   static const String signIn = '/auth/user/signin';
   static const String signout = '/mobile/signout';
   static const String checkSession = '/mobile/check-session';
-  static const String signUp = '/auth/user/signup';
-  static const String verifyCode = '/auth/user/verify-code';
+  static const String signUpPhone = '/auth/user/signup';
+  static const String signUpVerifyCode = '/auth/user/verify-code';
+  static const String signUpRegister = '/auth/user/register';
   static const String changePassword = '/mobile/change/pass';
   static const String updateProfilePic = '/mobile/change/user-photo';
   static const String updateUserData = '/mobile/change/user-info';

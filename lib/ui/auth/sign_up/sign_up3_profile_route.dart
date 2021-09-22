@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/models/gender.dart';
-import 'package:habido_app/models/verify_code_request.dart';
+import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -17,7 +17,7 @@ import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 /// Sign up step 3
 class SignUp3ProfileRoute extends StatefulWidget {
-  final VerifyCodeRequest verifyCodeRequest;
+  final SignUpRegisterRequest verifyCodeRequest;
 
   const SignUp3ProfileRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
 
@@ -41,14 +41,6 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   // Хүйс
   bool _genderValue = false;
 
-  // Нууц үг
-  final _passController = TextEditingController();
-  final _passFocus = FocusNode();
-
-  // Нууц үг давтах
-  final _passRepeatController = TextEditingController();
-  final _passRepeatFocus = FocusNode();
-
   // Button next
   bool _enabledBtnNext = false;
 
@@ -56,8 +48,6 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   void initState() {
     super.initState();
     _nameController.addListener(() => _validateForm());
-    _passController.addListener(() => _validateForm());
-    _passRepeatController.addListener(() => _validateForm());
   }
 
   @override
@@ -96,19 +86,8 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
                 /// Хүйс
                 _genderSwitch(),
 
-                /// Нэвтрэх нууц үг үүсгэнэ үү
-                CustomText(
-                  LocaleKeys.createPassword,
-                  alignment: Alignment.center,
-                  maxLines: 2,
-                  margin: EdgeInsets.only(top: 35.0),
-                ),
-
-                /// Нууц үг
-                _passwordTextField(),
-
-                /// Нууц үг давтах
-                _passwordRepeatTextField(),
+                /// TermCond
+                _termCond(),
 
                 Expanded(child: Container()),
 
@@ -167,32 +146,15 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     );
   }
 
-  _passwordTextField() {
-    return CustomTextField(
-      controller: _passController,
-      focusNode: _passFocus,
-      hintText: LocaleKeys.password,
-      obscureText: true,
-      margin: EdgeInsets.only(top: 35.0),
-    );
-  }
-
-  _passwordRepeatTextField() {
-    return CustomTextField(
-      controller: _passRepeatController,
-      focusNode: _passRepeatFocus,
-      hintText: LocaleKeys.passwordRepeat,
-      obscureText: true,
-      margin: EdgeInsets.only(top: 15.0),
+  _termCond() {
+    return CustomText(
+      LocaleKeys.agreeTermCond,
     );
   }
 
   _validateForm() {
     setState(() {
-      _enabledBtnNext = _selectedBirthDate != null &&
-          _nameController.text.length > 0 &&
-          _passController.text.length > 0 &&
-          _passRepeatController.text.length > 0;
+      _enabledBtnNext = _selectedBirthDate != null && _nameController.text.length > 0;
     });
   }
 
@@ -203,24 +165,13 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
       margin: EdgeInsets.only(top: 35.0),
       onPressed: _enabledBtnNext
           ? () {
-              // Validation
-              if (_passController.text != _passRepeatController.text) {
-                showCustomDialog(
-                  context,
-                  child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, buttonText: LocaleKeys.ok),
-                );
-
-                return;
-              }
-
-              VerifyCodeRequest verifyCodeRequest = widget.verifyCodeRequest;
+              SignUpRegisterRequest verifyCodeRequest = widget.verifyCodeRequest;
               verifyCodeRequest
                 ..birthday = Func.toDateStr(_selectedBirthDate!)
                 ..firstName = _nameController.text
-                ..gender = _genderValue ? Gender.Female : Gender.Female
-                ..password = _passController.text;
+                ..gender = _genderValue ? Gender.Female : Gender.Male;
 
-              Navigator.pushNamed(context, Routes.signUp4Terms, arguments: {
+              Navigator.pushNamed(context, Routes.signUp4Password, arguments: {
                 'verifyCodeRequest': verifyCodeRequest,
               });
             }

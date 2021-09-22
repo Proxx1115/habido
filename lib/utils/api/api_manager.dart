@@ -35,9 +35,10 @@ import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/models/rank_list_response.dart';
 import 'package:habido_app/models/register_device_request.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
-import 'package:habido_app/models/sign_up_request.dart';
-import 'package:habido_app/models/sign_up_response.dart';
+import 'package:habido_app/models/sign_up_phone_request.dart';
+import 'package:habido_app/models/sign_up_phone_response.dart';
 import 'package:habido_app/models/psy_categories_response.dart';
+import 'package:habido_app/models/sign_up_verify_code_request.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/models/unread_notif_count_response.dart';
 import 'package:habido_app/models/update_profile_picture_request.dart';
@@ -46,7 +47,7 @@ import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_list_response.dart';
 import 'package:habido_app/models/user_habits_dates_response.dart';
-import 'package:habido_app/models/verify_code_request.dart';
+import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/models/verify_phone_request.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -57,33 +58,25 @@ import 'http_path.dart';
 
 class ApiManager {
   /// Authentication
-  static Future<SignUpResponse> signUp(SignUpRequest request) async {
-    return SignUpResponse.fromJson(await httpUtils.sendRequest(
-      path: HttpPath.signUp,
+  static Future<SignUpPhoneResponse> signUpPhone(SignUpPhoneRequest request) async {
+    return SignUpPhoneResponse.fromJson(await httpUtils.sendRequest(
+      path: HttpPath.signUpPhone,
       objectData: request,
       hasAuthorization: false,
     ));
   }
 
-  static Future<BaseResponse> updateProfilePic(UpdateProfilePictureRequest request) async {
+  static Future<BaseResponse> signUpVerifyCode(SignUpVerifyCodeRequest request) async {
     return BaseResponse.fromJson(await httpUtils.sendRequest(
-      path: HttpPath.updateProfilePic,
+      path: HttpPath.signUpVerifyCode,
       objectData: request,
-      httpMethod: HttpMethod.put,
+      hasAuthorization: false,
     ));
   }
 
-  static Future<BaseResponse> updateUserData(UpdateUserDataRequest request) async {
+  static Future<BaseResponse> signUpRegister(SignUpRegisterRequest request) async {
     return BaseResponse.fromJson(await httpUtils.sendRequest(
-      path: HttpPath.updateUserData,
-      objectData: request,
-      httpMethod: HttpMethod.put,
-    ));
-  }
-
-  static Future<BaseResponse> verifyCode(VerifyCodeRequest request) async {
-    return BaseResponse.fromJson(await httpUtils.sendRequest(
-      path: HttpPath.verifyCode,
+      path: HttpPath.signUpRegister,
       objectData: request,
       hasAuthorization: false,
     ));
@@ -141,6 +134,23 @@ class ApiManager {
     return BaseResponse.fromJson(await httpUtils.sendRequest(
       path: HttpPath.changePassword,
       objectData: request,
+    ));
+  }
+
+  /// User
+  static Future<BaseResponse> updateProfilePic(UpdateProfilePictureRequest request) async {
+    return BaseResponse.fromJson(await httpUtils.sendRequest(
+      path: HttpPath.updateProfilePic,
+      objectData: request,
+      httpMethod: HttpMethod.put,
+    ));
+  }
+
+  static Future<BaseResponse> updateUserData(UpdateUserDataRequest request) async {
+    return BaseResponse.fromJson(await httpUtils.sendRequest(
+      path: HttpPath.updateUserData,
+      objectData: request,
+      httpMethod: HttpMethod.put,
     ));
   }
 

@@ -1,17 +1,15 @@
 import 'package:habido_app/models/base_request.dart';
 
-class VerifyCodeRequest extends BaseRequest {
+class SignUpRegisterRequest extends BaseRequest {
   int? userId;
-  String? code;
   String? firstName;
   String? gender;
   String? birthday;
   String? password;
   String? phoneNumber; // local param
 
-  VerifyCodeRequest({
+  SignUpRegisterRequest({
     this.userId,
-    this.code,
     this.firstName,
     this.gender,
     this.birthday,
@@ -19,9 +17,8 @@ class VerifyCodeRequest extends BaseRequest {
     this.phoneNumber,
   });
 
-  VerifyCodeRequest.fromJson(dynamic json) {
+  SignUpRegisterRequest.fromJson(dynamic json) {
     userId = json["userId"];
-    code = json["code"];
     firstName = json["firstName"];
     gender = json["gender"];
     birthday = json["birthday"];
@@ -32,7 +29,6 @@ class VerifyCodeRequest extends BaseRequest {
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map["userId"] = userId;
-    map["code"] = code;
     map["firstName"] = firstName;
     map["gender"] = gender;
     map["birthday"] = birthday;

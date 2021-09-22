@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/login_request.dart';
-import 'package:habido_app/models/verify_code_request.dart';
+import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -14,17 +14,17 @@ import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
-/// Sign up step 5
-class SignUp5SuccessRoute extends StatefulWidget {
-  final VerifyCodeRequest verifyCodeRequest;
+/// Sign up step 6
+class SignUp6SuccessRoute extends StatefulWidget {
+  final SignUpRegisterRequest verifyCodeRequest;
 
-  const SignUp5SuccessRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
+  const SignUp6SuccessRoute({Key? key, required this.verifyCodeRequest}) : super(key: key);
 
   @override
-  _SignUp5SuccessRouteState createState() => _SignUp5SuccessRouteState();
+  _SignUp6SuccessRouteState createState() => _SignUp6SuccessRouteState();
 }
 
-class _SignUp5SuccessRouteState extends State<SignUp5SuccessRoute> {
+class _SignUp6SuccessRouteState extends State<SignUp6SuccessRoute> {
   // UI
   final _signUp5SuccessKey = GlobalKey<ScaffoldState>();
 

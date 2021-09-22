@@ -8,9 +8,10 @@ import 'package:habido_app/models/forgot_password_change_request.dart';
 import 'package:habido_app/models/forgot_password_request.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
-import 'package:habido_app/models/sign_up_request.dart';
-import 'package:habido_app/models/sign_up_response.dart';
-import 'package:habido_app/models/verify_code_request.dart';
+import 'package:habido_app/models/sign_up_phone_request.dart';
+import 'package:habido_app/models/sign_up_phone_response.dart';
+import 'package:habido_app/models/sign_up_verify_code_request.dart';
+import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/models/verify_phone_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -39,10 +40,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapLoginEventToState(event.request);
     } else if (event is LogoutEvent) {
       yield* _mapLogoutEventToState();
-    } else if (event is SignUpEvent) {
-      yield* _mapSignUpEventToState(event.request);
-    } else if (event is VerifyCodeEvent) {
-      yield* _mapVerifyCodeEventToState(event.request);
+    } else if (event is SignUpPhoneEvent) {
+      yield* _mapSignUpPhoneEventToState(event.request);
+    } else if (event is SignUpVerifyCodeEvent) {
+      yield* _mapSignUpVerifyCodeEventToState(event);
+    } else if (event is SignUpRegisterEvent) {
+      yield* _mapSignUpRegisterEventToState(event.request);
     } else if (event is SessionTimeoutEvent) {
       yield* _mapSessionTimeoutEventToState();
     } else if (event is ChangePasswordEvent) {
@@ -159,36 +162,51 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  Stream<AuthState> _mapSignUpEventToState(SignUpRequest request) async* {
+  Stream<AuthState> _mapSignUpPhoneEventToState(SignUpPhoneRequest request) async* {
     try {
       yield AuthLoading();
 
-      var res = await ApiManager.signUp(request);
+      var res = await ApiManager.signUpPhone(request);
       if (res.code == ResponseCode.Success) {
-        yield SignUpSuccess(res);
+        yield SignUpPhoneSuccess(res);
       } else {
-        yield SignUpFailed(ApiHelper.getFailedMessage(res.message));
+        yield SignUpPhoneFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
-      yield SignUpFailed(LocaleKeys.errorOccurred);
+      yield SignUpPhoneFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<AuthState> _mapVerifyCodeEventToState(VerifyCodeRequest request) async* {
+  Stream<AuthState> _mapSignUpVerifyCodeEventToState(SignUpVerifyCodeEvent event) async* {
+    try {
+      yield AuthLoading();
+
+      var res = await ApiManager.signUpVerifyCode(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield SignUpVerifyCodeSuccess();
+      } else {
+        yield SignUpVerifyCodeFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield SignUpVerifyCodeFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<AuthState> _mapSignUpRegisterEventToState(SignUpRegisterRequest request) async* {
     try {
       yield AuthLoading();
 
       // yield VerifyCodeSuccess();
       // return;
 
-      var res = await ApiManager.verifyCode(request);
+      var res = await ApiManager.signUpRegister(request);
       if (res.code == ResponseCode.Success) {
-        yield VerifyCodeSuccess();
+        yield SignUpRegisterSuccess();
       } else {
-        yield VerifyCodeFailed(ApiHelper.getFailedMessage(res.message));
+        yield SignUpRegisterFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
-      yield VerifyCodeFailed(LocaleKeys.errorOccurred);
+      yield SignUpRegisterFailed(LocaleKeys.errorOccurred);
     }
   }
 
@@ -311,10 +329,10 @@ abstract class AuthEvent extends Equatable {
 
 class InitBiometricsEvent extends AuthEvent {}
 
-class SignUpEvent extends AuthEvent {
-  final SignUpRequest request;
+class SignUpPhoneEvent extends AuthEvent {
+  final SignUpPhoneRequest request;
 
-  const SignUpEvent(this.request);
+  const SignUpPhoneEvent(this.request);
 
   @override
   List<Object> get props => [request];
@@ -323,16 +341,28 @@ class SignUpEvent extends AuthEvent {
   String toString() => 'SignUpEvent { request: $request }';
 }
 
-class VerifyCodeEvent extends AuthEvent {
-  final VerifyCodeRequest request;
+class SignUpVerifyCodeEvent extends AuthEvent {
+  final SignUpVerifyCodeRequest request;
 
-  const VerifyCodeEvent(this.request);
+  const SignUpVerifyCodeEvent(this.request);
 
   @override
   List<Object> get props => [request];
 
   @override
-  String toString() => 'VerifyCodeEvent { request: $request }';
+  String toString() => 'SignUpVerifyCodeEvent { request: $request }';
+}
+
+class SignUpRegisterEvent extends AuthEvent {
+  final SignUpRegisterRequest request;
+
+  const SignUpRegisterEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'SignUpRegisterEvent { request: $request }';
 }
 
 class LoginEvent extends AuthEvent {
@@ -464,42 +494,56 @@ class SetBiometrics extends AuthState {
       'SetBiometrics { canCheckBiometrics: $canCheckBiometrics, availableBiometricsCount: $availableBiometricsCount }';
 }
 
-class SignUpSuccess extends AuthState {
-  final SignUpResponse response;
+class SignUpPhoneSuccess extends AuthState {
+  final SignUpPhoneResponse response;
 
-  const SignUpSuccess(this.response);
+  const SignUpPhoneSuccess(this.response);
 
   @override
   List<Object> get props => [response];
 
   @override
-  String toString() => 'SignUpSuccess { SignUpResponse: $response }';
+  String toString() => 'SignUpPhoneSuccess { SignUpResponse: $response }';
 }
 
-class SignUpFailed extends AuthState {
+class SignUpPhoneFailed extends AuthState {
   final String message;
 
-  const SignUpFailed(this.message);
+  const SignUpPhoneFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'SignUpFailed { msg: $message }';
+  String toString() => 'SignUpPhoneFailed { msg: $message }';
 }
 
-class VerifyCodeSuccess extends AuthState {}
+class SignUpVerifyCodeSuccess extends AuthState {}
 
-class VerifyCodeFailed extends AuthState {
+class SignUpVerifyCodeFailed extends AuthState {
   final String message;
 
-  const VerifyCodeFailed(this.message);
+  const SignUpVerifyCodeFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'VerifyCodeFailed { msg: $message }';
+  String toString() => 'SignUpVerifyCodeFailed { msg: $message }';
+}
+
+class SignUpRegisterSuccess extends AuthState {}
+
+class SignUpRegisterFailed extends AuthState {
+  final String message;
+
+  const SignUpRegisterFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'SignUpRegisterFailed { msg: $message }';
 }
 
 class LoginSuccess extends AuthState {

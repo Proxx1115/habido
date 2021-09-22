@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/models/sign_up_request.dart';
-import 'package:habido_app/models/verify_code_request.dart';
+import 'package:habido_app/models/sign_up_phone_request.dart';
+import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -58,15 +58,15 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
   }
 
   void _blocListener(BuildContext context, AuthState state) {
-    if (state is SignUpSuccess) {
-      var verifyCodeRequest = VerifyCodeRequest()
+    if (state is SignUpPhoneSuccess) {
+      var verifyCodeRequest = SignUpRegisterRequest()
         ..userId = state.response.userId
         ..phoneNumber = _controller.text;
 
       Navigator.pushNamed(context, Routes.signUp2Code, arguments: {
-        'verifyCodeRequest': verifyCodeRequest,
+        'signUpRegisterRequest': verifyCodeRequest,
       });
-    } else if (state is SignUpFailed) {
+    } else if (state is SignUpPhoneFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
@@ -122,8 +122,8 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
           ? () {
               Func.hideKeyboard(context);
 
-              var request = SignUpRequest()..phone = _controller.text;
-              BlocManager.authBloc.add(SignUpEvent(request));
+              var request = SignUpPhoneRequest()..phone = _controller.text;
+              BlocManager.authBloc.add(SignUpPhoneEvent(request));
             }
           : null,
     );

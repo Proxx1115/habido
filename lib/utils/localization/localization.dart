@@ -186,6 +186,9 @@ class LocaleKeys {
 
   static String get firstName => 'Нэр';
 
+  static String get agreeTermCond =>
+      'Хэрэглэгч нь 18 нас хүрээгүй тохиолдолд түүний эцэг, эх, асран хамгаалагч, харгалзан дэмжигчээс "Үйлчилгээний нөхцөл"-ийг зөвшөөрсөн тохиолдолд "Habido"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу.';
+
 // static String get agreeTerms => 'Зөвшөөрөх';
 //
 // static String get termCondNotFound => 'Вэб холбоос олдсонгүй';
