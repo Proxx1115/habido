@@ -8,6 +8,9 @@ import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
+import 'package:habido_app/models/forgot_password_change_request.dart';
+import 'package:habido_app/models/forgot_password_request.dart';
+import 'package:habido_app/models/forgot_password_response.dart';
 import 'package:habido_app/models/habit_calendar_response.dart';
 import 'package:habido_app/models/habit_categories_response.dart';
 import 'package:habido_app/models/habit_expense_categories_response.dart';
@@ -474,6 +477,24 @@ class ApiManager {
     return BaseResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.verifyPhone,
+        objectData: request,
+      ),
+    );
+  }
+
+  static Future<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request) async {
+    return ForgotPasswordResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.forgotPassword,
+        objectData: request,
+      ),
+    );
+  }
+
+  static Future<ForgotPasswordResponse> forgotPasswordChange(ForgotPasswordChangeRequest request) async {
+    return ForgotPasswordResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.forgotPasswordChange,
         objectData: request,
       ),
     );

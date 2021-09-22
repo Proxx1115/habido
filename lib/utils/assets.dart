@@ -11,6 +11,7 @@ class Assets {
   static const String edit = 'assets/images/global/edit.svg';
   static const String edit24 = 'assets/images/global/edit24.svg';
   static const String obscure_hidden = 'assets/images/global/obscure_hidden.svg';
+  static const String obscure = 'assets/images/global/obscure.svg';
   static const String back = 'assets/images/global/back.svg';
   static const String long_arrow_next = 'assets/images/global/long_arrow_next.svg';
   static const String arrow_next = 'assets/images/global/arrow_next.svg';

@@ -48,4 +48,6 @@ class HttpPath {
   static const String rankList = '/mobile/rank/list';
   static const String changePhone = '/mobile/change/phone';
   static const String verifyPhone = '/mobile/verify/phone';
+  static const String forgotPassword = '/auth/user/forgot-pass';
+  static const String forgotPasswordChange = '/auth/user/change-pass';
 }

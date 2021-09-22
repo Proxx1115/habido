@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/change_password_request.dart';
 import 'package:habido_app/models/change_phone_request.dart';
+import 'package:habido_app/models/forgot_password_change_request.dart';
+import 'package:habido_app/models/forgot_password_request.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/login_response.dart';
 import 'package:habido_app/models/sign_up_request.dart';
@@ -49,8 +51,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapChangePhoneEventToState(event);
     } else if (event is VerifyPhoneEvent) {
       yield* _mapVerifyPhoneEventToState(event);
-    } else if (event is ResendCodeEvent) {
-      yield* _mapResendCodeEventToState(event);
+    } else if (event is ChangePhoneResendCodeEvent) {
+      yield* _mapChangePhoneResendCodeEventToState(event);
+    } else if (event is ForgotPasswordEvent) {
+      yield* _mapForgotPasswordEventToState(event);
+    } else if (event is ForgotPasswordResendCodeEvent) {
+      yield* _mapForgotPasswordResendCodeEventToState(event);
+    } else if (event is ForgotPasswordChangeEvent) {
+      yield* _mapForgotPasswordChangeEventToState(event);
     }
   }
 
@@ -229,18 +237,63 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapResendCodeEventToState(ResendCodeEvent event) async* {
+  Stream<AuthState> _mapChangePhoneResendCodeEventToState(ChangePhoneResendCodeEvent event) async* {
     try {
       yield AuthLoading();
 
       var res = await ApiManager.changePhone(event.request);
       if (res.code == ResponseCode.Success) {
-        yield ResendCodeSuccess();
+        yield ChangePhoneResendCodeSuccess();
       } else {
-        yield ResendCodeFailed(ApiHelper.getFailedMessage(res.message));
+        yield ChangePhoneResendCodeFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
-      yield ResendCodeFailed(LocaleKeys.errorOccurred);
+      yield ChangePhoneResendCodeFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<AuthState> _mapForgotPasswordEventToState(ForgotPasswordEvent event) async* {
+    try {
+      yield AuthLoading();
+
+      var res = await ApiManager.forgotPassword(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield ForgotPasswordSuccess(event.request.phone ?? '', res.userId ?? 0);
+      } else {
+        yield ForgotPasswordFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield ForgotPasswordFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<AuthState> _mapForgotPasswordResendCodeEventToState(ForgotPasswordResendCodeEvent event) async* {
+    try {
+      yield AuthLoading();
+
+      var res = await ApiManager.forgotPassword(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield ForgotPasswordResendCodeSuccess();
+      } else {
+        yield ForgotPasswordResendCodeFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield ForgotPasswordResendCodeFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<AuthState> _mapForgotPasswordChangeEventToState(ForgotPasswordChangeEvent event) async* {
+    try {
+      yield AuthLoading();
+
+      var res = await ApiManager.forgotPasswordChange(event.request);
+      if (res.code == ResponseCode.Success) {
+        yield ForgotPasswordChangeSuccess();
+      } else {
+        yield ForgotPasswordChangeFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield ForgotPasswordChangeFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -334,16 +387,52 @@ class VerifyPhoneEvent extends AuthEvent {
   String toString() => 'VerifyPhoneEvent { request: $request }';
 }
 
-class ResendCodeEvent extends AuthEvent {
+class ChangePhoneResendCodeEvent extends AuthEvent {
   final ChangePhoneRequest request;
 
-  const ResendCodeEvent(this.request);
+  const ChangePhoneResendCodeEvent(this.request);
 
   @override
   List<Object> get props => [request];
 
   @override
-  String toString() => 'ResendCodeEvent { request: $request }';
+  String toString() => 'ChangePhoneResendCodeEvent { request: $request }';
+}
+
+class ForgotPasswordEvent extends AuthEvent {
+  final ForgotPasswordRequest request;
+
+  const ForgotPasswordEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'ForgotPasswordEvent { request: $request }';
+}
+
+class ForgotPasswordResendCodeEvent extends AuthEvent {
+  final ForgotPasswordRequest request;
+
+  const ForgotPasswordResendCodeEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'ForgotPasswordResendCodeEvent { request: $request }';
+}
+
+class ForgotPasswordChangeEvent extends AuthEvent {
+  final ForgotPasswordChangeRequest request;
+
+  const ForgotPasswordChangeEvent(this.request);
+
+  @override
+  List<Object> get props => [request];
+
+  @override
+  String toString() => 'ForgotPasswordChangeEvent { request: $request }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -505,16 +594,69 @@ class VerifyPhoneFailed extends AuthState {
   String toString() => 'VerifyPhoneFailed { message: $message }';
 }
 
-class ResendCodeSuccess extends AuthState {}
+class ChangePhoneResendCodeSuccess extends AuthState {}
 
-class ResendCodeFailed extends AuthState {
+class ChangePhoneResendCodeFailed extends AuthState {
   final String message;
 
-  const ResendCodeFailed(this.message);
+  const ChangePhoneResendCodeFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
   String toString() => 'ResendCodeFailed { message: $message }';
+}
+
+class ForgotPasswordSuccess extends AuthState {
+  final String phoneNumber;
+  final int userId;
+
+  const ForgotPasswordSuccess(this.phoneNumber, this.userId);
+
+  @override
+  List<Object> get props => [phoneNumber];
+
+  @override
+  String toString() => 'ForgotPasswordSuccess { phoneNumber: $phoneNumber, userId: $userId }';
+}
+
+class ForgotPasswordFailed extends AuthState {
+  final String message;
+
+  const ForgotPasswordFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ResendCodeFailed { message: $message }';
+}
+
+class ForgotPasswordResendCodeSuccess extends AuthState {}
+
+class ForgotPasswordResendCodeFailed extends AuthState {
+  final String message;
+
+  const ForgotPasswordResendCodeFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ForgotPasswordResendCodeFailed { message: $message }';
+}
+
+class ForgotPasswordChangeSuccess extends AuthState {}
+
+class ForgotPasswordChangeFailed extends AuthState {
+  final String message;
+
+  const ForgotPasswordChangeFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ForgotPasswordChangeFailed { message: $message }';
 }

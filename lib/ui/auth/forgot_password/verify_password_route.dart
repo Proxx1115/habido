@@ -4,6 +4,7 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/change_phone_request.dart';
+import 'package:habido_app/models/forgot_password_request.dart';
 import 'package:habido_app/models/verify_phone_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -20,16 +21,21 @@ import 'package:habido_app/widgets/text.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
-class VerifyPhoneRoute extends StatefulWidget {
+class VerifyPasswordRoute extends StatefulWidget {
   final String phoneNumber;
+  final int userId;
 
-  const VerifyPhoneRoute({Key? key, required this.phoneNumber}) : super(key: key);
+  const VerifyPasswordRoute({
+    Key? key,
+    required this.phoneNumber,
+    required this.userId,
+  }) : super(key: key);
 
   @override
-  _VerifyPhoneRouteState createState() => _VerifyPhoneRouteState();
+  _VerifyPasswordRouteState createState() => _VerifyPasswordRouteState();
 }
 
-class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
+class _VerifyPasswordRouteState extends State<VerifyPasswordRoute> {
   // Code
   String? _code = '';
 
@@ -67,7 +73,7 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             return CustomScaffold(
-              appBarTitle: LocaleKeys.phoneNumber,
+              appBarTitle: LocaleKeys.resetPassword,
               loading: state is AuthLoading,
               child: (_countdownTimerController != null)
                   ? Column(
@@ -107,27 +113,9 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
   }
 
   void _blocListener(BuildContext context, AuthState state) {
-    if (state is VerifyPhoneSuccess) {
-      showCustomDialog(
-        context,
-        isDismissible: false,
-        child: CustomDialogBody(
-          asset: Assets.success,
-          text: LocaleKeys.success,
-          buttonText: LocaleKeys.ok,
-          onPressedButton: () {
-            Navigator.popUntil(context, ModalRoute.withName(Routes.userInfo));
-          },
-        ),
-      );
-    } else if (state is VerifyPhoneFailed) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
-      );
-    } else if (state is ChangePhoneResendCodeSuccess) {
+    if (state is ForgotPasswordResendCodeSuccess) {
       print('ResendCodeSuccess');
-    } else if (state is ChangePhoneResendCodeFailed) {
+    } else if (state is ForgotPasswordResendCodeFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
@@ -204,8 +192,8 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
               _startCountDown(_countdownSec);
               setState(() => _enabledBtnResend = false);
 
-              var request = ChangePhoneRequest()..phone = widget.phoneNumber;
-              BlocManager.authBloc.add(ChangePhoneResendCodeEvent(request));
+              var request = ForgotPasswordRequest()..phone = widget.phoneNumber;
+              BlocManager.authBloc.add(ForgotPasswordResendCodeEvent(request));
             }
           : null,
     );
@@ -235,9 +223,10 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
 
     if (!_enabledBtnNext) return;
 
-    var request = VerifyPhoneRequest()
-      ..phone = widget.phoneNumber
-      ..code = _code;
-    BlocManager.authBloc.add(VerifyPhoneEvent(request));
+    Navigator.pushNamed(context, Routes.forgotPassChange, arguments: {
+      'userId': widget.userId,
+      'phoneNumber': widget.phoneNumber,
+      'code': _code,
+    });
   }
 }

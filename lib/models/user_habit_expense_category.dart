@@ -1,7 +1,7 @@
 class UserHabitExpenseCategory {
   String? expenseCatName;
   String? categoryColor;
-  int? habitCatPercentage;
+  double? habitCatPercentage;
 
   UserHabitExpenseCategory({
       this.expenseCatName, 

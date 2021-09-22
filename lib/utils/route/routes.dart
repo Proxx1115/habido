@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/ui/auth/forgot_pass_route.dart';
+import 'package:habido_app/ui/auth/forgot_password/forgot_password_change_route.dart';
+import 'package:habido_app/ui/auth/forgot_password/forgot_password_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/ui/auth/sign_up3_profile_route.dart';
 import 'package:habido_app/ui/auth/sign_up1_phone_route.dart';
@@ -7,6 +8,7 @@ import 'package:habido_app/ui/auth/sign_up2_code_route.dart';
 import 'package:habido_app/ui/auth/sign_up4_terms_route.dart';
 import 'package:habido_app/ui/auth/sign_up5_success_route.dart';
 import 'package:habido_app/ui/auth/term_detail_route.dart';
+import 'package:habido_app/ui/auth/forgot_password/verify_password_route.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
@@ -52,6 +54,8 @@ class Routes {
   static const intro = 'intro';
   static const login = '/login';
   static const forgotPass = 'forgotPass';
+  static const verifyPassword = 'verifyPassword';
+  static const forgotPassChange = 'forgotPassChange';
   static const changePass = 'changePass';
   static const signUp1Phone = 'signUp1Phone';
   static const signUp2Code = 'signUp2Code';
@@ -163,7 +167,30 @@ class Routes {
         break;
 
       case Routes.forgotPass:
-        route = SlideRightRouteBuilder(ForgotPassRoute(), settings);
+        route = SlideRightRouteBuilder(ForgotPasswordRoute(), settings);
+        break;
+
+      case Routes.verifyPassword:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          VerifyPasswordRoute(
+            phoneNumber: _getValueByKey(args, 'phoneNumber'),
+            userId: _getValueByKey(args, 'userId'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.forgotPassChange:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          ForgotPasswordChangeRoute(
+            userId: _getValueByKey(args, 'userId'),
+            phoneNumber: _getValueByKey(args, 'phoneNumber'),
+            code: _getValueByKey(args, 'code'),
+          ),
+          settings,
+        );
         break;
 
       case Routes.changePass:

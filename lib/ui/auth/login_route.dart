@@ -341,7 +341,7 @@ class _LoginRouteState extends State<LoginRoute> {
       textColor: customColors.secondaryText,
       alignment: Alignment.center,
       onPressed: () {
-        // Navigator.pushNamed(context, Routes.forgotPass);// todo test
+        Navigator.pushNamed(context, Routes.forgotPass);
       },
     );
   }

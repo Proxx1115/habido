@@ -135,6 +135,8 @@ class LocaleKeys {
 
   static String get haveYouForgottenYourPassword => 'Нууц үг мартсан уу?';
 
+  static String get resetPassword => 'Нууц үг сэргээх';
+
   static String get recover => 'Сэргээх';
 
   static String get logout => 'Гарах';
