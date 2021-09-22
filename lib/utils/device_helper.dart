@@ -36,7 +36,7 @@ class DeviceHelper {
 
   /// Register device
   static Future<void> registerDeviceToken() async {
-    DeviceHelper.pushNotifToken = 'Test token'; // todo test
+    DeviceHelper.pushNotifToken = SharedPref.getPushNotifToken();
 
     // Validation
     if (Func.isEmpty(DeviceHelper.deviceId) || Func.isEmpty(DeviceHelper.pushNotifToken)) {
