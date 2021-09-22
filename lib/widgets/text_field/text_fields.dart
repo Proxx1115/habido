@@ -146,8 +146,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             } else if (widget.obscureText) {
               setState(() {
                 _obscureText = !_obscureText;
-                _suffixAsset =
-                    _obscureText ? Assets.obscure_hidden : Assets.obscure_hidden; // todo test - change obscure icon
+                _suffixAsset = _obscureText ? Assets.obscure_hidden : Assets.obscure;
               });
             }
           },
