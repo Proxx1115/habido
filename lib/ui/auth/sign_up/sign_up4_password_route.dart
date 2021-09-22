@@ -78,7 +78,6 @@ class _SignUp4PasswordRouteState extends State<SignUp4PasswordRoute> {
                   LocaleKeys.createPassword,
                   alignment: Alignment.center,
                   maxLines: 2,
-                  margin: EdgeInsets.only(top: 35.0),
                 ),
 
                 /// Нууц үг
