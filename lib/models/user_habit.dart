@@ -17,6 +17,8 @@ class UserHabit extends BaseResponse {
 
   // Habit settings
   int? habitId;
+
+  bool? isDynamicHabit;
   Habit? habit;
 
   List<UserHabitReminders>? userHabitReminders;

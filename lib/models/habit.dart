@@ -1,16 +1,16 @@
 import 'habit_goal_settings.dart';
 
 class Habit {
-  int? habitId;
-  int? categoryId;
-  String? name;
-  int? contentId;
-  int? questionId;
-  String? note;
-  String? color;
-  String? backgroundColor;
-  String? photo;
-  HabitGoalSettings? goalSettings;
+  int? habitId; // 0
+  int? categoryId; // avtsan
+  String? name; // user habit name
+  int? contentId; // 0
+  int? questionId; // 0
+  String? note; // ''
+  String? color; // required
+  String? backgroundColor; // ''
+  String? photo; // required link
+  HabitGoalSettings? goalSettings; //
 
   Habit({
     this.habitId,
