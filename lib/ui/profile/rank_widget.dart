@@ -67,6 +67,7 @@ class _RankWidgetState extends State<RankWidget> {
                                   imageUrl: globals.userData!.rankPhoto!,
                                   fit: BoxFit.fitWidth,
                                   width: 115.0,
+                                  height: 125.0,
                                   placeholder: (context, url) => Container(),
                                   errorWidget: (context, url, error) => Container(),
                                 ),
@@ -81,7 +82,7 @@ class _RankWidgetState extends State<RankWidget> {
                                   fontWeight: FontWeight.w500,
                                 ),
 
-                              /// Rank name
+                              /// Rank text
                               if (Func.isNotEmpty(globals.userData!.rankBody))
                                 Container(
                                   margin: EdgeInsets.only(top: 15.0),
