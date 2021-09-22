@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/models/user_habit.dart';
@@ -6,6 +7,8 @@ import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/utils/show_case_helper.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -20,6 +23,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       yield* _mapRefreshDashboardUserHabitsToState();
     } else if (event is SkipUserHabitEvent) {
       yield* _mapSkipUserHabitEventToState(event);
+    } else if (event is DashboardShowcaseEvent) {
+      yield* _mapDashboardShowcaseEventState(event);
     }
   }
 
@@ -75,6 +80,16 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       yield SkipUserHabitFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<DashboardState> _mapDashboardShowcaseEventState(DashboardShowcaseEvent event) async* {
+    if (!SharedPref.getShowcaseStatus(event.showcaseKeyName)) {
+      var key = ShowcaseKey.getKeyByName(event.showcaseKeyName);
+      if (key != null) {
+        yield DashboardShowcaseState(key);
+        SharedPref.setShowcaseStatus(event.showcaseKeyName, true);
+      }
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -89,6 +104,18 @@ abstract class DashboardEvent extends Equatable {
 }
 
 class RefreshDashboardUserHabits extends DashboardEvent {}
+
+class DashboardShowcaseEvent extends DashboardEvent {
+  final String showcaseKeyName;
+
+  const DashboardShowcaseEvent(this.showcaseKeyName);
+
+  @override
+  List<Object> get props => [showcaseKeyName];
+
+  @override
+  String toString() => 'DashboardShowcaseEvent { showcaseKeyName: $showcaseKeyName }';
+}
 
 class GetUserHabitByDate extends DashboardEvent {
   final String date;
@@ -171,4 +198,16 @@ class SkipUserHabitFailed extends DashboardState {
 
   @override
   String toString() => 'SkipUserHabitFailed { message: $message }';
+}
+
+class DashboardShowcaseState extends DashboardState {
+  final GlobalKey showcaseKey;
+
+  const DashboardShowcaseState(this.showcaseKey);
+
+  @override
+  List<Object> get props => [showcaseKey];
+
+  @override
+  String toString() => 'DashboardShowcaseState { showcaseKey: $showcaseKey }';
 }

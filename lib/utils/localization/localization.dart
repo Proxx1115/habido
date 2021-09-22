@@ -216,6 +216,9 @@ class LocaleKeys {
 
   static String get myCorner => 'Миний булан';
 
+  /// Showcase
+  static String get showcasePsyText => 'Сэтгэл зүйн тест бөглөх';
+
   /// Chat
   static String get habidoAssistant => 'Habido туслах';
 

@@ -4,12 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_bloc.dart';
-import 'package:habido_app/models/chat_type.dart';
-import 'package:habido_app/ui/chat/chat_screen.dart';
 import 'package:habido_app/ui/chat/chatbot_dashboard.dart';
 import 'package:habido_app/ui/content/content_dashboard.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/show_case_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -28,8 +27,6 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
 
   // Bottom navigation bar
   late TabController _tabController;
-
-  GlobalKey _one = GlobalKey();
 
   @override
   void initState() {
@@ -119,19 +116,17 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   double? _navBarItemWidth;
 
-  GlobalKey _one = GlobalKey();
-
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 1000), () {
-      ShowCaseWidget.of(context)?.startShowCase(
-        [
-          _one,
-        ],
-      );
-    });
+    // Future.delayed(Duration(milliseconds: 1000), () {
+    //   ShowCaseWidget.of(context)?.startShowCase(
+    //     [
+    //       ShowcaseBloc.psyTest,
+    //     ],
+    //   );
+    // });
   }
 
   @override
@@ -143,30 +138,34 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       clipBehavior: Clip.none,
       notchMargin: 4.0,
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        // crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          // Showcase(
-          //   key: _one,
-          //   description: 'Tap to see menu options',
-          //   child: _bottomNavigationBarItem(0, Assets.home, LocaleKeys.home),
-          // ),
+          /// Нүүр
           Expanded(
             child: _bottomNavigationBarItem(0, Assets.home, LocaleKeys.home),
           ),
+
+          /// Тест
           Expanded(
             child: Showcase(
-              key: _one,
-              description: 'Tap to see menu options',
+              key: ShowcaseKey.psyTest,
+              description: LocaleKeys.showcasePsyText,
               child: _bottomNavigationBarItem(1, Assets.test, LocaleKeys.test),
             ),
           ),
+
+          /// Туслах
           Expanded(
             child: _bottomNavigationBarItem(2, Assets.assistant, LocaleKeys.assistant),
           ),
+
+          /// Контент
           Expanded(
             child: _bottomNavigationBarItem(3, Assets.content, LocaleKeys.content),
           ),
+
+          /// Профайл
           Expanded(
             child: _bottomNavigationBarItem(4, Assets.profile, LocaleKeys.profile),
           ),
@@ -181,7 +180,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
       onTap: () {
-
         BlocManager.homeBloc.add(NavigateToPageEvent(index));
       },
       child: Container(
