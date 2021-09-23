@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/psy_tests_response.dart';
@@ -6,6 +7,8 @@ import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/utils/showcase_helper.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -18,6 +21,8 @@ class HabitListBloc extends Bloc<HabitListEvent, HabitListState> {
   Stream<HabitListState> mapEventToState(HabitListEvent event) async* {
     if (event is GetHabitsEvent) {
       yield* _mapGetHabitsEventToState(event);
+    } else if (event is HabitListShowcaseEvent) {
+      yield* _mapHabitListShowcaseEventToState(event);
     }
   }
 
@@ -33,6 +38,16 @@ class HabitListBloc extends Bloc<HabitListEvent, HabitListState> {
       }
     } catch (e) {
       yield HabitsFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<HabitListState> _mapHabitListShowcaseEventToState(HabitListShowcaseEvent event) async* {
+    if (!SharedPref.getShowcaseStatus(event.showcaseKeyName)) {
+      List<GlobalKey> keyList = ShowcaseKey.getKeysByName(event.showcaseKeyName);
+      if (keyList.isNotEmpty) {
+        yield HabitListShowcaseState(keyList);
+        SharedPref.setShowcaseStatus(event.showcaseKeyName, true);
+      }
     }
   }
 }
@@ -58,6 +73,18 @@ class GetHabitsEvent extends HabitListEvent {
 
   @override
   String toString() => 'GetHabitsEvent { catId: $catId }';
+}
+
+class HabitListShowcaseEvent extends HabitListEvent {
+  final String showcaseKeyName;
+
+  const HabitListShowcaseEvent(this.showcaseKeyName);
+
+  @override
+  List<Object> get props => [showcaseKeyName];
+
+  @override
+  String toString() => 'HabitListShowcaseEvent { showcaseKeyName: $showcaseKeyName }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -97,4 +124,16 @@ class HabitsFailed extends HabitListState {
 
   @override
   String toString() => 'HabitsFailed { message: $message }';
+}
+
+class HabitListShowcaseState extends HabitListState {
+  final List<GlobalKey> showcaseKeyList;
+
+  const HabitListShowcaseState(this.showcaseKeyList);
+
+  @override
+  List<Object> get props => [showcaseKeyList];
+
+  @override
+  String toString() => 'HabitListShowcaseState { showcaseKeyList: $showcaseKeyList }';
 }
