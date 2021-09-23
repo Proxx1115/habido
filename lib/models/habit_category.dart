@@ -3,6 +3,7 @@ class HabitCategory {
   String? name;
   String? photo;
   String? color;
+  String? backgroundColor;
 
   HabitCategory({
     this.categoryId,
@@ -16,6 +17,7 @@ class HabitCategory {
     name = json['name'];
     photo = json['photo'];
     color = json['color'];
+    backgroundColor = json['backgroundColor'];
   }
 
   Map<String, dynamic> toJson() {
@@ -24,6 +26,7 @@ class HabitCategory {
     map['name'] = name;
     map['photo'] = photo;
     map['color'] = color;
+    map['backgroundColor'] = backgroundColor;
 
     return map;
   }

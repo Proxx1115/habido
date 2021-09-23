@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/models/habit.dart';
+import 'package:habido_app/models/habit_category.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -47,6 +48,10 @@ class HabitHelper {
     return habit.color != null ? HexColor.fromHex(habit.color!) : customColors.primary;
   }
 
+  static Color getPrimaryColor3(HabitCategory habitCategory) {
+    return habitCategory.color != null ? HexColor.fromHex(habitCategory.color!) : customColors.primary;
+  }
+
   static Color getBackgroundColor(UserHabit userHabit) {
     return userHabit.habit?.backgroundColor != null
         ? HexColor.fromHex(userHabit.habit!.backgroundColor!)
@@ -55,6 +60,12 @@ class HabitHelper {
 
   static Color getBackgroundColor2(Habit habit) {
     return habit.backgroundColor != null ? HexColor.fromHex(habit.backgroundColor!) : customColors.primaryBackground;
+  }
+
+  static Color getBackgroundColor3(HabitCategory habitCategory) {
+    return habitCategory.backgroundColor != null
+        ? HexColor.fromHex(habitCategory.backgroundColor!)
+        : customColors.primaryBackground;
   }
 }
 

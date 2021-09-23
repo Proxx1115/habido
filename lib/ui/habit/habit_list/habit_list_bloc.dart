@@ -137,3 +137,15 @@ class HabitListShowcaseState extends HabitListState {
   @override
   String toString() => 'HabitListShowcaseState { showcaseKeyList: $showcaseKeyList }';
 }
+
+class UserHabitShowcaseState extends HabitListState {
+  final List<GlobalKey> showcaseKeyList;
+
+  const UserHabitShowcaseState(this.showcaseKeyList);
+
+  @override
+  List<Object> get props => [showcaseKeyList];
+
+  @override
+  String toString() => 'UserHabitShowcaseState { showcaseKeyList: $showcaseKeyList }';
+}

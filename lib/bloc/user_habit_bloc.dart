@@ -55,10 +55,6 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     } else if (event is UserHabitShowcaseEvent) {
       yield* _mapUserHabitShowcaseEventToState(event);
     }
-
-    // if (event is GoalSwitchChangedEvent) {
-    //   yield* _mapReminderSwitchChangedEventEventToState(event);
-    // } else
   }
 
   Stream<UserHabitState> _mapInsertUserHabitEventToState(InsertUserHabitEvent event) async* {

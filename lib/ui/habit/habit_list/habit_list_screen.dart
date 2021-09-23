@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_category.dart';
+import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -24,6 +25,10 @@ class HabitListScreen extends StatefulWidget {
 }
 
 class _HabitListScreenState extends State<HabitListScreen> {
+  // UI
+  late Color _primaryColor;
+  late Color _backgroundColor;
+
   // Bloc
   final _habitListBloc = HabitListBloc();
 
@@ -32,7 +37,12 @@ class _HabitListScreenState extends State<HabitListScreen> {
 
   @override
   void initState() {
+    // Color
+    _primaryColor = HabitHelper.getPrimaryColor3(widget.habitCategory);
+    _backgroundColor = HabitHelper.getBackgroundColor3(widget.habitCategory);
+
     _habitListBloc.add(GetHabitsEvent(widget.habitCategory.categoryId ?? -99));
+
     super.initState();
   }
 
@@ -104,7 +114,7 @@ class _HabitListScreenState extends State<HabitListScreen> {
       margin: EdgeInsets.only(bottom: 10.0),
       height: 70.0,
       leadingImageUrl: _habitList![index].photo,
-      leadingBackgroundColor: HexColor.fromHex(_habitList![index].color ?? '#F4F6F8'),
+      leadingBackgroundColor: _primaryColor,
       title: _habitList![index].name ?? '',
       suffixAsset: Assets.arrow_forward,
       onPressed: () {
