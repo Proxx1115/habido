@@ -1,10 +1,13 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit_category.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/utils/showcase_helper.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -17,6 +20,8 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
   Stream<HabitCategoryState> mapEventToState(HabitCategoryEvent event) async* {
     if (event is GetHabitCategoriesEvent) {
       yield* _mapGetHabitCategoriesEventToState();
+    } else if (event is HabitCategoryShowcaseEvent) {
+      yield* _mapHabitCategoryShowcaseEventState(event);
     }
   }
 
@@ -34,6 +39,16 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
       yield HabitCategoriesFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<HabitCategoryState> _mapHabitCategoryShowcaseEventState(HabitCategoryShowcaseEvent event) async* {
+    if (!SharedPref.getShowcaseStatus(event.showcaseKeyName)) {
+      List<GlobalKey> keyList = ShowcaseKey.getKeysByName(event.showcaseKeyName);
+      if (keyList.isNotEmpty) {
+        yield HabitCategoryShowcaseState(keyList);
+        SharedPref.setShowcaseStatus(event.showcaseKeyName, true);
+      }
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -48,6 +63,18 @@ abstract class HabitCategoryEvent extends Equatable {
 }
 
 class GetHabitCategoriesEvent extends HabitCategoryEvent {}
+
+class HabitCategoryShowcaseEvent extends HabitCategoryEvent {
+  final String showcaseKeyName;
+
+  const HabitCategoryShowcaseEvent(this.showcaseKeyName);
+
+  @override
+  List<Object> get props => [showcaseKeyName];
+
+  @override
+  String toString() => 'HabitCategoryShowcaseEvent { showcaseKeyNameList: $showcaseKeyName }';
+}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
@@ -88,4 +115,16 @@ class HabitCategoriesFailed extends HabitCategoryState {
 
   @override
   String toString() => 'HabitCategoriesFailed { message: $message }';
+}
+
+class HabitCategoryShowcaseState extends HabitCategoryState {
+  final List<GlobalKey> showcaseKeyList;
+
+  const HabitCategoryShowcaseState(this.showcaseKeyList);
+
+  @override
+  List<Object> get props => [showcaseKeyList];
+
+  @override
+  String toString() => 'HabitCategoryShowcaseState { showcaseKeyList: $showcaseKeyList }';
 }
