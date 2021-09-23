@@ -16,13 +16,17 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-
 import 'emoji_widget.dart';
 
 class HabitFeelingRoute extends StatefulWidget {
   final UserHabit userHabit;
+  final VoidCallback? callBack;
 
-  const HabitFeelingRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitFeelingRoute({
+    Key? key,
+    required this.userHabit,
+    this.callBack,
+  }) : super(key: key);
 
   @override
   _HabitFeelingRouteState createState() => _HabitFeelingRouteState();
@@ -112,9 +116,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
-        // 'callback': () {
-        //   Navigator.popUntil(context, ModalRoute.withName(Routes.home));
-        // }
+        'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
@@ -125,7 +127,6 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       if (state.userHabit.userHabitId == _userHabit.userHabitId) {
         _userHabit = state.userHabit;
       }
-      BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
     } else if (state is UpdateUserHabitFailed) {
       showCustomDialog(
         context,

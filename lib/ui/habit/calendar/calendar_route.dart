@@ -117,36 +117,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
                       child: (_dailyUserHabitList != null)
                           ? ListView(
                               children: [
-                                for (int i = 0; i < _dailyUserHabitList!.length; i++)
-                                  MoveInAnimation(
-                                    child: ListItemContainer(
-                                      title: _dailyUserHabitList![i].name ?? '',
-                                      leadingImageUrl: _dailyUserHabitList![i].habit?.photo,
-                                      leadingBackgroundColor: (_dailyUserHabitList![i].habit?.color != null)
-                                          ? HexColor.fromHex(_dailyUserHabitList![i].habit!.color!)
-                                          : null,
-                                      margin: EdgeInsets.fromLTRB(15.0, i == 0 ? 25.0 : 10.0, 15.0, 0.0),
-                                      height: 70.0,
-                                      suffixAsset: Assets.arrow_forward,
-                                      onPressed: () {
-                                        if (isSameDay(_selectedDay, DateTime.now())) {
-                                          if (_dailyUserHabitList![i].habit?.goalSettings != null) {
-                                            String? route =
-                                                HabitHelper.getProgressRoute(_dailyUserHabitList![i].habit!);
-                                            if (route != null) {
-                                              Navigator.pushNamed(
-                                                context,
-                                                route,
-                                                arguments: {
-                                                  'userHabit': _dailyUserHabitList![i],
-                                                },
-                                              );
-                                            }
-                                          }
-                                        }
-                                      },
-                                    ),
-                                  ),
+                                for (int i = 0; i < _dailyUserHabitList!.length; i++) _listItem(i),
                               ],
                             )
                           : Container(),
@@ -368,5 +339,47 @@ class _CalendarRouteState extends State<CalendarRoute> {
 
   DateTime convertDate(DateTime dateTime) {
     return DateTime(dateTime.year, dateTime.month, dateTime.day);
+  }
+
+  Widget _listItem(int i) {
+    return MoveInAnimation(
+      child: ListItemContainer(
+        title: _dailyUserHabitList![i].name ?? '',
+        leadingImageUrl: _dailyUserHabitList![i].habit?.photo,
+        leadingBackgroundColor: (_dailyUserHabitList![i].habit?.color != null)
+            ? HexColor.fromHex(_dailyUserHabitList![i].habit!.color!)
+            : null,
+        margin: EdgeInsets.fromLTRB(15.0, i == 0 ? 25.0 : 10.0, 15.0, 0.0),
+        height: 70.0,
+        suffixAsset: Assets.arrow_forward,
+        onPressed: () {
+          // Validation
+          if (!isSameDay(_selectedDay, DateTime.now()) || !(_dailyUserHabitList![i].habit?.goalSettings != null)) {
+            print('not validated');
+            return;
+          }
+
+          // Navigate
+          String? route = HabitHelper.getProgressRoute(_dailyUserHabitList![i].habit!);
+          if (route != null) {
+            Navigator.pushNamed(
+              context,
+              route,
+              arguments: {
+                'userHabit': _dailyUserHabitList![i],
+                'callBack': () {
+                  // Refresh calendar
+                  BlocManager.calendarBloc.add(
+                    GetCalendarDateEvent(
+                      Func.toDateStr(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
+                    ),
+                  );
+                }
+              },
+            );
+          }
+        },
+      ),
+    );
   }
 }

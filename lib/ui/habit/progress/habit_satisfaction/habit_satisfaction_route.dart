@@ -19,8 +19,13 @@ import 'package:habido_app/widgets/scaffold.dart';
 /// Сэтгэл ханамж
 class HabitSatisfactionRoute extends StatefulWidget {
   final UserHabit userHabit;
+  final VoidCallback? callBack;
 
-  const HabitSatisfactionRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitSatisfactionRoute({
+    Key? key,
+    required this.userHabit,
+    this.callBack,
+  }) : super(key: key);
 
   @override
   _HabitSatisfactionRouteState createState() => _HabitSatisfactionRouteState();
@@ -125,6 +130,7 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
+        'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(

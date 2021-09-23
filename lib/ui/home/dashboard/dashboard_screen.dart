@@ -49,7 +49,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
     super.initState();
-
   }
 
   @override
@@ -197,7 +196,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       _todayUserHabits = state.todayUserHabits;
       _tomorrowUserHabits = state.tomorrowUserHabits;
     } else if (state is SkipUserHabitSuccess) {
-      BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+      print('SkipUserHabitSuccess');
     } else if (state is SkipUserHabitFailed) {
       showCustomDialog(
         context,

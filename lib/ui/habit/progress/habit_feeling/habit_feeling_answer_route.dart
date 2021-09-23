@@ -19,13 +19,17 @@ import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
-
 import 'emoji_widget.dart';
 
 class HabitFeelingAnswerRoute extends StatefulWidget {
   final UserHabit userHabit;
+  final VoidCallback? callBack;
 
-  const HabitFeelingAnswerRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitFeelingAnswerRoute({
+    Key? key,
+    required this.userHabit,
+    this.callBack,
+  }) : super(key: key);
 
   @override
   _HabitFeelingAnswerRouteState createState() => _HabitFeelingAnswerRouteState();
@@ -132,6 +136,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
+        'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(

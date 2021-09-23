@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
@@ -17,8 +16,13 @@ import 'package:habido_app/widgets/scaffold.dart';
 
 class HabitWaterRoute extends StatefulWidget {
   final UserHabit userHabit;
+  final VoidCallback? callBack;
 
-  const HabitWaterRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitWaterRoute({
+    Key? key,
+    required this.userHabit,
+    this.callBack,
+  }) : super(key: key);
 
   @override
   _HabitWaterRouteState createState() => _HabitWaterRouteState();
@@ -95,6 +99,7 @@ class _HabitWaterRouteState extends State<HabitWaterRoute> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
+        'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(

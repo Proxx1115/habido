@@ -268,7 +268,6 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
           text: LocaleKeys.success,
           buttonText: LocaleKeys.ok,
           onPressedButton: () {
-            BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
             Navigator.popUntil(context, ModalRoute.withName(Routes.home));
           },
         ),

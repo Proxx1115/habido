@@ -341,12 +341,14 @@ class Routes {
             ? SlideRightRouteBuilder(
                 HabitTimerRoute(
                   userHabit: _getValueByKey(args, 'userHabit'),
+                  callBack: _getValueByKey(args, 'callBack'),
                 ),
                 settings,
               )
             : SlideBottomRouteBuilder(
                 HabitTimerRoute(
                   userHabit: _getValueByKey(args, 'userHabit'),
+                  callBack: _getValueByKey(args, 'callBack'),
                 ),
                 settings,
               );
@@ -357,6 +359,7 @@ class Routes {
         route = SlideRightRouteBuilder(
           HabitFeelingRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
+            callBack: _getValueByKey(args, 'callBack'),
           ),
           settings,
         );
@@ -367,6 +370,7 @@ class Routes {
         route = SlideRightRouteBuilder(
           HabitFeelingAnswerRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
+            callBack: _getValueByKey(args, 'callBack'),
           ),
           settings,
         );
@@ -377,6 +381,7 @@ class Routes {
         route = SlideRightRouteBuilder(
           HabitWaterRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
+            callBack: _getValueByKey(args, 'callBack'),
           ),
           settings,
         );
@@ -387,6 +392,7 @@ class Routes {
         route = SlideRightRouteBuilder(
           HabitSatisfactionRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
+            callBack: _getValueByKey(args, 'callBack'),
           ),
           settings,
         );
@@ -397,6 +403,7 @@ class Routes {
         route = SlideRightRouteBuilder(
           HabitBreathRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
+            callBack: _getValueByKey(args, 'callBack'),
           ),
           settings,
         );
@@ -407,6 +414,7 @@ class Routes {
         route = SlideRightRouteBuilder(
           HabitTreeRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
+            callBack: _getValueByKey(args, 'callBack'),
           ),
           settings,
         );
@@ -417,6 +425,7 @@ class Routes {
         route = SlideRightRouteBuilder(
           HabitFinanceRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
+            callBack: _getValueByKey(args, 'callBack'),
           ),
           settings,
         );

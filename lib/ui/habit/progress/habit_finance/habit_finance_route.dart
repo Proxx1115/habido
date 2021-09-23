@@ -29,8 +29,13 @@ import 'expense_dialog_body.dart';
 
 class HabitFinanceRoute extends StatefulWidget {
   final UserHabit userHabit;
+  final VoidCallback? callBack;
 
-  const HabitFinanceRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitFinanceRoute({
+    Key? key,
+    required this.userHabit,
+    this.callBack,
+  }) : super(key: key);
 
   @override
   _HabitFinanceRouteState createState() => _HabitFinanceRouteState();
@@ -156,6 +161,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
+        'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
@@ -201,6 +207,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
+        'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(

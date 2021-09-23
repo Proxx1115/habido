@@ -21,8 +21,13 @@ import 'custom_countdown_timer.dart';
 
 class HabitTimerScreen extends StatefulWidget {
   final UserHabit userHabit;
+  final VoidCallback? callBack;
 
-  const HabitTimerScreen({Key? key, required this.userHabit}) : super(key: key);
+  const HabitTimerScreen({
+    Key? key,
+    required this.userHabit,
+    this.callBack,
+  }) : super(key: key);
 
   @override
   _HabitTimerScreenState createState() => _HabitTimerScreenState();
@@ -126,6 +131,7 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
+        'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(

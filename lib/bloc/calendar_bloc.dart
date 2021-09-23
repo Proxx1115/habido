@@ -52,9 +52,8 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
       var res = await ApiManager.calendarDate(event.date);
       if (res.code == ResponseCode.Success) {
-        if (res.userHabitList != null && res.userHabitList!.isNotEmpty) {
-          yield CalendarDateSuccess(res.userHabitList!);
-        }
+        yield CalendarDateSuccess(res.userHabitList ?? []);
+        yield CalendarDefault();
       } else {
         yield CalendarDateFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
@@ -114,6 +113,8 @@ abstract class CalendarState extends Equatable {
 class CalendarInit extends CalendarState {}
 
 class CalendarLoading extends CalendarState {}
+
+class CalendarDefault extends CalendarState {}
 
 class CalendarSuccess extends CalendarState {
   final List<DateTime> dateList;

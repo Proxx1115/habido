@@ -63,6 +63,9 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
       var res = await ApiManager.insertUserHabit(event.userHabit);
       if (res.code == ResponseCode.Success) {
+        // Refresh dashboard
+        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+
         yield InsertUserHabitSuccess();
       } else {
         yield InsertUserHabitFailed(ApiHelper.getFailedMessage(res.message));
@@ -78,6 +81,9 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
       var res = await ApiManager.updateUserHabit(event.userHabit);
       if (res.code == ResponseCode.Success) {
+        // Refresh dashboard
+        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+
         yield UpdateUserHabitSuccess(event.userHabit);
       } else {
         yield UpdateUserHabitFailed(ApiHelper.getFailedMessage(res.message));
@@ -93,6 +99,9 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
       var res = await ApiManager.deleteUserHabit(event.userHabit.userHabitId ?? 0);
       if (res.code == ResponseCode.Success) {
+        // Refresh dashboard
+        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+
         yield DeleteUserHabitSuccess(event.userHabit);
       } else {
         yield DeleteUserHabitFailed(ApiHelper.getFailedMessage(res.message));

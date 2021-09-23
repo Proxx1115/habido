@@ -16,8 +16,13 @@ import 'breath_countdown_timer.dart';
 
 class HabitBreathRoute extends StatefulWidget {
   final UserHabit userHabit;
+  final VoidCallback? callBack;
 
-  const HabitBreathRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitBreathRoute({
+    Key? key,
+    required this.userHabit,
+    this.callBack,
+  }) : super(key: key);
 
   @override
   _HabitBreathRouteState createState() => _HabitBreathRouteState();
@@ -98,6 +103,7 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
+        'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(

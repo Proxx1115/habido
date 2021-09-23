@@ -10,6 +10,8 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 
+import 'bloc_manager.dart';
+
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -70,6 +72,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
       var res = await ApiManager.skipUserHabit(event.skipUserHabitRequest);
       if (res.code == ResponseCode.Success) {
+        // Refresh dashboard
+        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+
         yield SkipUserHabitSuccess();
       } else {
         yield SkipUserHabitFailed(ApiHelper.getFailedMessage(res.message));

@@ -20,8 +20,13 @@ import 'custom_countdown_timer.dart';
 
 class HabitTimerRoute extends StatefulWidget {
   final UserHabit userHabit;
+  final VoidCallback? callBack;
 
-  const HabitTimerRoute({Key? key, required this.userHabit}) : super(key: key);
+  const HabitTimerRoute({
+    Key? key,
+    required this.userHabit,
+    this.callBack,
+  }) : super(key: key);
 
   @override
   _HabitTimerRouteState createState() => _HabitTimerRouteState();
