@@ -217,7 +217,29 @@ class LocaleKeys {
   static String get myCorner => 'Миний булан';
 
   /// Showcase
-  static String get showcasePsyText => 'Сэтгэл зүйн тест бөглөх';
+  static String get showcaseAddHabit => 'Шинэ дадал үүсгэхдээ энд дарна';
+
+  static String get showcasePsyTest => 'Сэтгэл зүйн тест бөглөх';
+
+  static String get showcaseAssistant => 'Туслахтай харилцаж, чиглүүлэг авах';
+
+  static String get showcaseContent => 'Сонирхолтой нийтлэл унших';
+
+  static String get showcaseProfile => 'Өөрийн гүйцэтгэлийг харах';
+
+  static String get showcaseCalendar => 'Тухайн сард хийх дадлын төлөвлөгөөг харах';
+
+  static String get showcaseNotification => 'Сануулга харах';
+
+  static String get showcaseHabitCategory => 'Өөртөө хэвшүүлэхийг хүсэж буй дадлын төрлийг сонгоно.';
+
+  static String get showcaseHabit => 'Сонгосон төрөл доторх дадлуудаас өөрийн хэрэгжүүлэхээр дадлыг сонгоно.';
+
+  static String get showcaseUserHabit => 'Сонгосон дадлынхаа төлөвлөгөөг гарган бүртгэл үүсгэн хадгална.';
+
+  static String get showcaseTimer => 'Тухайн дадлыг хэвшүүлэхдээ бүртгэл хийнэ.';
+
+  static String get showcaseSlidable => 'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой.';
 
   /// Chat
   static String get habidoAssistant => 'Habido туслах';

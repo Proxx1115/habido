@@ -8,7 +8,7 @@ import 'package:habido_app/ui/chat/chatbot_dashboard.dart';
 import 'package:habido_app/ui/content/content_dashboard.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/show_case_helper.dart';
+import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -150,7 +150,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           Expanded(
             child: Showcase(
               key: ShowcaseKey.psyTest,
-              description: LocaleKeys.showcasePsyText,
+              description: LocaleKeys.showcasePsyTest,
               child: _bottomNavigationBarItem(1, Assets.test, LocaleKeys.test),
             ),
           ),

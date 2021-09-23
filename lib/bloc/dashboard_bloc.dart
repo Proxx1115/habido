@@ -8,7 +8,7 @@ import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
-import 'package:habido_app/utils/show_case_helper.dart';
+import 'package:habido_app/utils/showcase_helper.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
