@@ -8,7 +8,7 @@ import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
-import 'package:habido_app/models/dynamic_habit_settings_response.dart';
+import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/forgot_password_change_request.dart';
 import 'package:habido_app/models/forgot_password_request.dart';
 import 'package:habido_app/models/forgot_password_response.dart';
@@ -272,8 +272,8 @@ class ApiManager {
     );
   }
 
-  static Future<DynamicHabitSettingsResponse> dynamicHabitSettings() async {
-    return DynamicHabitSettingsResponse.fromJson(
+  static Future<CustomHabitSettingsResponse> dynamicHabitSettings() async {
+    return CustomHabitSettingsResponse.fromJson(
       await httpUtils.sendRequest(path: HttpPath.dynamicHabitSettings, httpMethod: HttpMethod.get),
     );
   }

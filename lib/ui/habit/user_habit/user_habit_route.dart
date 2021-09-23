@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
+import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/utils/screen_mode.dart';
@@ -38,12 +39,14 @@ class UserHabitRoute extends StatefulWidget {
   final String? title;
   final UserHabit? userHabit; // UserHabit, habit 2-ын нэг нь заавал утгатай байх ёстой
   final Habit? habit;
+  final CustomHabitSettingsResponse? customHabitSettings;
 
   const UserHabitRoute({
     Key? key,
     this.title,
     this.userHabit,
     this.habit,
+    this.customHabitSettings,
   }) : super(key: key);
 
   @override
@@ -60,6 +63,7 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
             title: widget.title,
             userHabit: widget.userHabit,
             habit: widget.habit,
+            customHabitSettings: widget.customHabitSettings,
           );
         },
       ),

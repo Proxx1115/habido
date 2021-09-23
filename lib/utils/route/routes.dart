@@ -322,6 +322,7 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               )
@@ -330,6 +331,7 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               );

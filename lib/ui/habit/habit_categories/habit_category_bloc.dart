@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/models/dynamic_habit_settings_response.dart';
+import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_category.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
@@ -25,8 +25,8 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
       yield* _mapGetHabitCategoriesEventToState();
     } else if (event is HabitCategoryShowcaseEvent) {
       yield* _mapHabitCategoryShowcaseEventState(event);
-    } else if (event is GetDynamicHabitSettingsEvent) {
-      yield* _mapGetDynamicHabitSettingsEventState(event);
+    } else if (event is GetCustomHabitSettingsEvent) {
+      yield* _mapGetCustomHabitSettingsEventState(event);
     }
   }
 
@@ -55,15 +55,13 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
     }
   }
 
-  Stream<HabitCategoryState> _mapGetDynamicHabitSettingsEventState(GetDynamicHabitSettingsEvent event) async* {
+  Stream<HabitCategoryState> _mapGetCustomHabitSettingsEventState(GetCustomHabitSettingsEvent event) async* {
     try {
       yield HabitCategoriesLoading();
 
       var res = await ApiManager.dynamicHabitSettings();
       if (res.code == ResponseCode.Success) {
-        // Dynamic habit
-
-        var habit = Habit()
+        var customHabit = Habit()
           ..habitId = 0
           ..categoryId = event.habitCategory.categoryId
           ..name = ''
@@ -73,14 +71,14 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
           ..color = event.habitCategory.color
           ..backgroundColor = event.habitCategory.backgroundColor
           ..photo = ''
-          ..goalSettings = res.goalSettings![0]; // todo test
+          ..goalSettings = null;
 
-        yield DynamicHabitSettingsSuccess(habit, res);
+        yield CustomHabitSettingsSuccess(customHabit, res);
       } else {
-        yield DynamicHabitSettingsFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield CustomHabitSettingsFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
-      yield DynamicHabitSettingsFailed(LocaleKeys.errorOccurred);
+      yield CustomHabitSettingsFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -110,16 +108,16 @@ class HabitCategoryShowcaseEvent extends HabitCategoryEvent {
   String toString() => 'HabitCategoryShowcaseEvent { showcaseKeyNameList: $showcaseKeyName }';
 }
 
-class GetDynamicHabitSettingsEvent extends HabitCategoryEvent {
+class GetCustomHabitSettingsEvent extends HabitCategoryEvent {
   final HabitCategory habitCategory;
 
-  const GetDynamicHabitSettingsEvent(this.habitCategory);
+  const GetCustomHabitSettingsEvent(this.habitCategory);
 
   @override
   List<Object> get props => [habitCategory];
 
   @override
-  String toString() => 'GetDynamicHabitSettingsEvent { habitCategory: $habitCategory }';
+  String toString() => 'GetCustomHabitSettingsEvent { habitCategory: $habitCategory }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -175,27 +173,28 @@ class HabitCategoryShowcaseState extends HabitCategoryState {
   String toString() => 'HabitCategoryShowcaseState { showcaseKeyList: $showcaseKeyList }';
 }
 
-class DynamicHabitSettingsSuccess extends HabitCategoryState {
-  final Habit habit;
-  final DynamicHabitSettingsResponse dynamicHabitSettings;
+class CustomHabitSettingsSuccess extends HabitCategoryState {
+  final Habit customHabit;
+  final CustomHabitSettingsResponse customHabitSettings;
 
-  const DynamicHabitSettingsSuccess(this.habit, this.dynamicHabitSettings);
-
-  @override
-  List<Object> get props => [dynamicHabitSettings];
+  const CustomHabitSettingsSuccess(this.customHabit, this.customHabitSettings);
 
   @override
-  String toString() => 'DynamicHabitSettingsSuccess { habit: $habit, dynamicHabitSettings: $dynamicHabitSettings }';
+  List<Object> get props => [customHabitSettings];
+
+  @override
+  String toString() =>
+      'DynamicHabitSettingsSuccess { habit: $customHabit, dynamicHabitSettings: $customHabitSettings }';
 }
 
-class DynamicHabitSettingsFailed extends HabitCategoryState {
+class CustomHabitSettingsFailed extends HabitCategoryState {
   final String message;
 
-  const DynamicHabitSettingsFailed(this.message);
+  const CustomHabitSettingsFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'DynamicHabitSettingsFailed { message: $message }';
+  String toString() => 'CustomHabitSettingsFailed { message: $message }';
 }

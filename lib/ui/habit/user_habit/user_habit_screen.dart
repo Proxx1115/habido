@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/dashboard_bloc.dart';
+import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/utils/screen_mode.dart';
@@ -20,7 +20,6 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
@@ -29,7 +28,6 @@ import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/slider/custom_slider.dart';
 import 'package:habido_app/widgets/slider/slider_bloc.dart';
-import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -39,12 +37,14 @@ class UserHabitScreen extends StatefulWidget {
   final String? title;
   final UserHabit? userHabit; // UserHabit, habit 2-ын нэг нь заавал утгатай байх ёстой
   final Habit? habit;
+  final CustomHabitSettingsResponse? customHabitSettings;
 
   const UserHabitScreen({
     Key? key,
     this.title,
     this.userHabit,
     this.habit,
+    this.customHabitSettings,
   }) : super(key: key);
 
   @override
@@ -60,6 +60,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   // Data
   UserHabit? _userHabit;
   late Habit _habit;
+  CustomHabitSettingsResponse? _customHabitSettings;
 
   // Name
   final _nameController = TextEditingController();
@@ -89,7 +90,13 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     _userHabit = widget.userHabit;
 
     /// Screen mode
-    _screenMode = _userHabit != null ? ScreenMode.Edit : ScreenMode.New;
+    if (_userHabit != null) {
+      _screenMode = ScreenMode.Edit;
+    } else if (widget.customHabitSettings != null) {
+      _screenMode = ScreenMode.Custom;
+    } else {
+      _screenMode = ScreenMode.New;
+    }
 
     /// Habit
     if (_userHabit != null && _userHabit!.habit != null) {
@@ -309,18 +316,6 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
             margin: EdgeInsets.only(top: 15.0),
             child: Column(
               children: [
-                /// Switch
-                // CustomSwitch(
-                //   margin: EdgeInsets.fromLTRB(15.0, 0.0, 5.0, 0.0),
-                //   leadingAsset: Assets.trophy,
-                //   leadingAssetColor: _primaryColor,
-                //   activeText: LocaleKeys.goal,
-                //   activeColor: _primaryColor,
-                //   onChanged: (value) {
-                //     BlocManager.userHabitBloc.add(GoalSwitchChangedEvent(value));
-                //   },
-                // ),
-
                 Container(
                   margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
                   child: Row(
@@ -391,7 +386,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   }
 
   Widget _tipWidget() {
-    return (_tip != null)
+    return (Func.isNotEmpty(_tip))
         ? InfoContainer(
             margin: EdgeInsets.only(top: 15.0),
             title: LocaleKeys.tip,
@@ -487,47 +482,5 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     } else {
       BlocManager.userHabitBloc.add(InsertUserHabitEvent(userHabit));
     }
-
-    // List<Plan>? plans;
-
-    // var request = UserHabit()
-    //   // ..userHabitId = 0
-    //   // ..userId = 1
-    //   ..habitId = widget.habit.habitId
-    //   ..name = 'Явган алхах'
-    //   ..startDate = '' //everyday
-    //   ..endDate = '' //everyday
-    //   ..isReminder = true
-    //   ..repeatName = PlanTerm.Daily //'Daily' //'Weekly', 'Monthly'
-    //   ..hasGoal = false
-    //   ..goalValue = ''
-    //   ..note = ''
-    //   ..userNote = ''
-    //   ..status = ''
-    //   ..userHabitReminders = [
-    //     UserHabitReminders()
-    //       // ..reminderId;
-    //       // ..userHabitId;
-    //       ..time = 1 // minutaar
-    //   ]
-    //   ..plans = [
-    // monthly
-    // Plans()
-    //   ..planDate = '2021-08-27'
-    //   ..term = PlanTerm.Monthly,
-    // Plans()
-    //   ..weekDay = '2021-08-27'
-    //   ..term = PlanTerm.Monthly,
-    //
-    // // weekly
-    // Plans()
-    //   ..weekDay = WeekDays.Mon
-    //   ..term = PlanTerm.Weekly,
-    // Plans()
-    //   ..weekDay = WeekDays.Fri
-    //   ..term = PlanTerm.Week,
-
-    //everyday null
-    // ];
   }
 }

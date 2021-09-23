@@ -1,14 +1,14 @@
 import 'package:habido_app/models/base_response.dart';
 import 'habit_goal_settings.dart';
 
-class DynamicHabitSettingsResponse extends BaseResponse {
-  DynamicHabitSettingsResponse({
+class CustomHabitSettingsResponse extends BaseResponse {
+  CustomHabitSettingsResponse({
     this.colors,
     this.icons,
     this.goalSettings,
   });
 
-  DynamicHabitSettingsResponse.fromJson(dynamic json) {
+  CustomHabitSettingsResponse.fromJson(dynamic json) {
     parseBaseParams(json);
     if (json['colors'] != null) {
       colors = [];
@@ -52,12 +52,14 @@ class DynamicHabitSettingsResponse extends BaseResponse {
 class DynamicHabitColors {
   DynamicHabitColors({
     this.color,
-    this.bgColor,});
+    this.bgColor,
+  });
 
   DynamicHabitColors.fromJson(dynamic json) {
     color = json['color'];
     bgColor = json['bgColor'];
   }
+
   String? color;
   String? bgColor;
 
@@ -71,11 +73,13 @@ class DynamicHabitColors {
 
 class DynamicHabitIcons {
   DynamicHabitIcons({
-    this.link,});
+    this.link,
+  });
 
   DynamicHabitIcons.fromJson(dynamic json) {
     link = json['link'];
   }
+
   String? link;
 
   Map<String, dynamic> toJson() {
@@ -83,5 +87,4 @@ class DynamicHabitIcons {
     map['link'] = link;
     return map;
   }
-
 }

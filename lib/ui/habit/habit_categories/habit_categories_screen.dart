@@ -99,6 +99,24 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
       );
     } else if (state is HabitCategoryShowcaseState) {
       ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
+    } else if (state is CustomHabitSettingsSuccess) {
+      Navigator.pushNamed(context, Routes.userHabit, arguments: {
+        'title': LocaleKeys.createHabit,
+        'habit': state.customHabit,
+        'customHabitSettings': state.customHabitSettings,
+      });
+    } else if (state is CustomHabitSettingsFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
     }
   }
 
@@ -111,7 +129,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
               text: category.name ?? '',
               onPressed: () {
                 if (Func.toInt(category.userId) > 0) {
-                  _habitCategoryBloc.add(GetDynamicHabitSettingsEvent(category));
+                  _habitCategoryBloc.add(GetCustomHabitSettingsEvent(category));
                 } else {
                   // Default habit
                   Navigator.pushNamed(context, Routes.habitList, arguments: {
