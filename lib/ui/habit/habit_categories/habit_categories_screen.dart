@@ -27,7 +27,8 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
   // Bloc
   final _habitCategoryBloc = HabitCategoryBloc();
 
-  // Data
+  // Gridview
+  double _mainAxisSpacing = 15.0;
   List<HabitCategory>? _habitCategoryList;
 
   @override
@@ -53,7 +54,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                       primary: false,
                       padding: const EdgeInsets.all(SizeHelper.padding),
                       crossAxisSpacing: 15.0,
-                      mainAxisSpacing: 15.0,
+                      mainAxisSpacing: _mainAxisSpacing,
                       crossAxisCount: 2,
                       childAspectRatio: 1.2,
                       children: List.generate(
