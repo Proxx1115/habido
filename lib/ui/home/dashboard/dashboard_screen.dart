@@ -3,7 +3,7 @@ import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
-import 'package:habido_app/widgets/app_bars/dashboard_app_bar.dart';
+import 'package:habido_app/ui/home/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/ui/home/slider/custom_carousel_slider.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -49,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
     super.initState();
-    BlocManager.dashboardBloc.add(DashboardShowcaseEvent(ShowcaseKeyName.addHabit));
+    BlocManager.dashboardBloc.add(DashboardShowcaseEvent(ShowcaseKeyName.dashboard));
   }
 
   @override
@@ -204,9 +204,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is DashboardShowcaseState) {
-      ShowCaseWidget.of(context)?.startShowCase(
-        [state.showcaseKey],
-      );
+      ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
     }
   }
 

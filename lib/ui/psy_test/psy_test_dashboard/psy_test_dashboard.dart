@@ -8,7 +8,7 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
-import 'package:habido_app/widgets/app_bars/dashboard_app_bar.dart';
+import 'package:habido_app/ui/home/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';

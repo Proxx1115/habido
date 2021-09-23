@@ -10,6 +10,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'dashboard/dashboard_screen.dart';
@@ -31,6 +32,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
+    BlocManager.homeBloc.currentTabIndex = 0;
     _tabController = TabController(initialIndex: 0, length: 5, vsync: this);
   }
 
@@ -148,8 +150,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Тест
           Expanded(
-            child: Showcase(
-              key: ShowcaseKey.psyTest,
+            child: CustomShowcase(
+              showcaseKey: ShowcaseKey.psyTest,
               description: LocaleKeys.showcasePsyTest,
               child: _bottomNavigationBarItem(1, Assets.test, LocaleKeys.test),
             ),
@@ -157,17 +159,29 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Туслах
           Expanded(
-            child: _bottomNavigationBarItem(2, Assets.assistant, LocaleKeys.assistant),
+            child: CustomShowcase(
+              showcaseKey: ShowcaseKey.assistant,
+              description: LocaleKeys.showcaseAssistant,
+              child: _bottomNavigationBarItem(2, Assets.assistant, LocaleKeys.assistant),
+            ),
           ),
 
           /// Контент
           Expanded(
-            child: _bottomNavigationBarItem(3, Assets.content, LocaleKeys.content),
+            child: CustomShowcase(
+              showcaseKey: ShowcaseKey.content,
+              description: LocaleKeys.showcaseContent,
+              child: _bottomNavigationBarItem(3, Assets.content, LocaleKeys.content),
+            ),
           ),
 
           /// Профайл
           Expanded(
-            child: _bottomNavigationBarItem(4, Assets.profile, LocaleKeys.profile),
+            child: CustomShowcase(
+              showcaseKey: ShowcaseKey.profile,
+              description: LocaleKeys.showcaseProfile,
+              child: _bottomNavigationBarItem(4, Assets.profile, LocaleKeys.profile),
+            ),
           ),
         ],
       ),

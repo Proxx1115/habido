@@ -6,7 +6,8 @@ import 'package:habido_app/ui/profile/achievements_widget.dart';
 import 'package:habido_app/ui/profile/rank_widget.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
-import 'package:habido_app/widgets/app_bars/dashboard_app_bar.dart';
+import 'package:habido_app/ui/home/dashboard/dashboard_app_bar.dart';
+import 'package:habido_app/widgets/app_bars/dashboard_sliver_app_bar.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'profile_card.dart';
 

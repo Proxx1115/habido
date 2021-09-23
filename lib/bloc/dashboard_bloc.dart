@@ -83,9 +83,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   Stream<DashboardState> _mapDashboardShowcaseEventState(DashboardShowcaseEvent event) async* {
     if (!SharedPref.getShowcaseStatus(event.showcaseKeyName)) {
-      var key = ShowcaseKey.getKeyByName(event.showcaseKeyName);
-      if (key != null) {
-        yield DashboardShowcaseState(key);
+      List<GlobalKey> keyList = ShowcaseKey.getKeysByName(event.showcaseKeyName);
+      if (keyList.isNotEmpty) {
+        yield DashboardShowcaseState(keyList);
         SharedPref.setShowcaseStatus(event.showcaseKeyName, true);
       }
     }
@@ -114,7 +114,7 @@ class DashboardShowcaseEvent extends DashboardEvent {
   List<Object> get props => [showcaseKeyName];
 
   @override
-  String toString() => 'DashboardShowcaseEvent { showcaseKeyName: $showcaseKeyName }';
+  String toString() => 'DashboardShowcaseEvent { showcaseKeyNameList: $showcaseKeyName }';
 }
 
 class GetUserHabitByDate extends DashboardEvent {
@@ -201,13 +201,13 @@ class SkipUserHabitFailed extends DashboardState {
 }
 
 class DashboardShowcaseState extends DashboardState {
-  final GlobalKey showcaseKey;
+  final List<GlobalKey> showcaseKeyList;
 
-  const DashboardShowcaseState(this.showcaseKey);
-
-  @override
-  List<Object> get props => [showcaseKey];
+  const DashboardShowcaseState(this.showcaseKeyList);
 
   @override
-  String toString() => 'DashboardShowcaseState { showcaseKey: $showcaseKey }';
+  List<Object> get props => [showcaseKeyList];
+
+  @override
+  String toString() => 'DashboardShowcaseState { showcaseKeyList: $showcaseKeyList }';
 }
