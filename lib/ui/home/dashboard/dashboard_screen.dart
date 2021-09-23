@@ -49,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
     super.initState();
-    BlocManager.dashboardBloc.add(DashboardShowcaseEvent(ShowcaseKeyName.dashboard));
+
   }
 
   @override
@@ -203,8 +203,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
-    } else if (state is DashboardShowcaseState) {
-      ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
     }
   }
 

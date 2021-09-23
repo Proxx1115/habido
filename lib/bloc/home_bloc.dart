@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/utils/showcase_helper.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -16,6 +18,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is NavigateToPageEvent) {
       yield* _mapNavigateToPageToState(event.index);
+    } else if (event is HomeShowcaseEvent) {
+      yield* _mapHomeShowcaseEventState(event);
     }
   }
 
@@ -23,6 +27,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     currentTabIndex = index;
     yield NavigateToPageState(index);
     yield HomeVoidState();
+  }
+
+  Stream<HomeState> _mapHomeShowcaseEventState(HomeShowcaseEvent event) async* {
+    if (!SharedPref.getShowcaseStatus(event.showcaseKeyName)) {
+      List<GlobalKey> keyList = ShowcaseKey.getKeysByName(event.showcaseKeyName);
+      if (keyList.isNotEmpty) {
+        yield HomeShowcaseState(keyList);
+        SharedPref.setShowcaseStatus(event.showcaseKeyName, true);
+      }
+    }
   }
 }
 
@@ -47,6 +61,18 @@ class NavigateToPageEvent extends HomeEvent {
 
   @override
   String toString() => 'NavigateToPage { index: $index }';
+}
+
+class HomeShowcaseEvent extends HomeEvent {
+  final String showcaseKeyName;
+
+  const HomeShowcaseEvent(this.showcaseKeyName);
+
+  @override
+  List<Object> get props => [showcaseKeyName];
+
+  @override
+  String toString() => 'DashboardShowcaseEvent { showcaseKeyNameList: $showcaseKeyName }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -74,4 +100,16 @@ class NavigateToPageState extends HomeState {
 
   @override
   String toString() => 'NavigateToPageState { index: $index }';
+}
+
+class HomeShowcaseState extends HomeState {
+  final List<GlobalKey> showcaseKeyList;
+
+  const HomeShowcaseState(this.showcaseKeyList);
+
+  @override
+  List<Object> get props => [showcaseKeyList];
+
+  @override
+  String toString() => 'DashboardShowcaseState { showcaseKeyList: $showcaseKeyList }';
 }

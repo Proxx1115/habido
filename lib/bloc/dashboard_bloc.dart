@@ -23,8 +23,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       yield* _mapRefreshDashboardUserHabitsToState();
     } else if (event is SkipUserHabitEvent) {
       yield* _mapSkipUserHabitEventToState(event);
-    } else if (event is DashboardShowcaseEvent) {
-      yield* _mapDashboardShowcaseEventState(event);
     }
   }
 
@@ -80,16 +78,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       yield SkipUserHabitFailed(LocaleKeys.errorOccurred);
     }
   }
-
-  Stream<DashboardState> _mapDashboardShowcaseEventState(DashboardShowcaseEvent event) async* {
-    if (!SharedPref.getShowcaseStatus(event.showcaseKeyName)) {
-      List<GlobalKey> keyList = ShowcaseKey.getKeysByName(event.showcaseKeyName);
-      if (keyList.isNotEmpty) {
-        yield DashboardShowcaseState(keyList);
-        SharedPref.setShowcaseStatus(event.showcaseKeyName, true);
-      }
-    }
-  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -104,18 +92,6 @@ abstract class DashboardEvent extends Equatable {
 }
 
 class RefreshDashboardUserHabits extends DashboardEvent {}
-
-class DashboardShowcaseEvent extends DashboardEvent {
-  final String showcaseKeyName;
-
-  const DashboardShowcaseEvent(this.showcaseKeyName);
-
-  @override
-  List<Object> get props => [showcaseKeyName];
-
-  @override
-  String toString() => 'DashboardShowcaseEvent { showcaseKeyNameList: $showcaseKeyName }';
-}
 
 class GetUserHabitByDate extends DashboardEvent {
   final String date;
@@ -198,16 +174,4 @@ class SkipUserHabitFailed extends DashboardState {
 
   @override
   String toString() => 'SkipUserHabitFailed { message: $message }';
-}
-
-class DashboardShowcaseState extends DashboardState {
-  final List<GlobalKey> showcaseKeyList;
-
-  const DashboardShowcaseState(this.showcaseKeyList);
-
-  @override
-  List<Object> get props => [showcaseKeyList];
-
-  @override
-  String toString() => 'DashboardShowcaseState { showcaseKeyList: $showcaseKeyList }';
 }

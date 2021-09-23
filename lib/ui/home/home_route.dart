@@ -34,6 +34,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
     super.initState();
     BlocManager.homeBloc.currentTabIndex = 0;
     _tabController = TabController(initialIndex: 0, length: 5, vsync: this);
+    BlocManager.homeBloc.add(HomeShowcaseEvent(ShowcaseKeyName.dashboard));
   }
 
   @override
@@ -44,21 +45,25 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: BlocManager.homeBloc,
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: _blocListener,
-        child: BlocBuilder<HomeBloc, HomeState>(
-          builder: _blocBuilder,
-        ),
-      ),
+    return ShowCaseWidget(
+      builder: Builder(builder: (context) {
+        return BlocProvider.value(
+          value: BlocManager.homeBloc,
+          child: BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is NavigateToPageState) {
+                _tabController.index = state.index;
+              } else if (state is HomeShowcaseState) {
+                ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
+              }
+            },
+            child: BlocBuilder<HomeBloc, HomeState>(
+              builder: _blocBuilder,
+            ),
+          ),
+        );
+      }),
     );
-  }
-
-  void _blocListener(BuildContext context, HomeState state) {
-    if (state is NavigateToPageState) {
-      _tabController.index = state.index;
-    }
   }
 
   Widget _blocBuilder(BuildContext context, HomeState state) {
@@ -72,37 +77,31 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
 
         return Future.value(false);
       },
-      child: ShowCaseWidget(
-        builder: Builder(
-          builder: (context) {
-            return Scaffold(
-              key: _homeKey,
-              body: TabBarView(
-                controller: _tabController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  /// Нүүр
-                  DashboardScreen(),
+      child: Scaffold(
+        key: _homeKey,
+        body: TabBarView(
+          controller: _tabController,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            /// Нүүр
+            DashboardScreen(),
 
-                  /// Тест
-                  PsyTestDashboard(),
+            /// Тест
+            PsyTestDashboard(),
 
-                  /// Туслах
-                  ChatbotDashboard(),
+            /// Туслах
+            ChatbotDashboard(),
 
-                  /// Контент
-                  ContentDashboard(),
+            /// Контент
+            ContentDashboard(),
 
-                  /// Профайл
-                  ProfileScreen(),
-                ],
-              ),
-
-              /// Bottom navigation bar
-              bottomNavigationBar: CustomBottomNavigationBar(),
-            );
-          },
+            /// Профайл
+            ProfileScreen(),
+          ],
         ),
+
+        /// Bottom navigation bar
+        bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
   }
@@ -121,14 +120,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   void initState() {
     super.initState();
-
-    // Future.delayed(Duration(milliseconds: 1000), () {
-    //   ShowCaseWidget.of(context)?.startShowCase(
-    //     [
-    //       ShowcaseBloc.psyTest,
-    //     ],
-    //   );
-    // });
   }
 
   @override
