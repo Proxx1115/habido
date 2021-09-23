@@ -295,7 +295,7 @@ class Routes {
 
       case Routes.habitList:
         var args = settings.arguments as Map;
-        route = SlideRightRouteBuilder(
+        route = SlideBottomRouteBuilder(
           HabitListRoute(
             habitCategory: _getValueByKey(args, 'habitCategory'),
           ),

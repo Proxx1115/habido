@@ -62,7 +62,7 @@ class _HabitListScreenState extends State<HabitListScreen> {
                               showcaseKey: ShowcaseKey.habit,
                               description: LocaleKeys.showcaseHabitCategory,
                               overlayOpacity: 0.5,
-                              overlayPadding: EdgeInsets.all(-5.0),
+                              overlayPadding: EdgeInsets.fromLTRB(-5.0, -5.0, -5.0, -10.0),
                               child: _listItem(i),
                             )
                           : _listItem(i),

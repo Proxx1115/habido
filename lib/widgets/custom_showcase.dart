@@ -9,6 +9,7 @@ class CustomShowcase extends StatelessWidget {
   final ShapeBorder? shapeBorder;
   final EdgeInsets overlayPadding;
   final double overlayOpacity;
+  final Color? overlayColor;
 
   const CustomShowcase({
     Key? key,
@@ -18,6 +19,7 @@ class CustomShowcase extends StatelessWidget {
     this.shapeBorder,
     this.overlayPadding = EdgeInsets.zero,
     this.overlayOpacity = 0.95,
+    this.overlayColor,
   }) : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class CustomShowcase extends StatelessWidget {
       description: description,
       showcaseBackgroundColor: customColors.primary,
       textColor: customColors.whiteText,
-      overlayColor: customColors.secondaryBackground,
+      overlayColor: overlayColor ?? customColors.secondaryBackground,
       overlayOpacity: overlayOpacity,
       shapeBorder: shapeBorder,
       contentPadding: EdgeInsets.all(10.0),
