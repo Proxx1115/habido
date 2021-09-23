@@ -104,8 +104,6 @@ class _LoginRouteState extends State<LoginRoute> {
       _passwordController.clear();
       SharedPref.setPhoneNumber(_phoneNumberController.text);
 
-      // globals.userData?.isOnboardingDone = false; // todo test
-
       if (globals.userData?.isOnboardingDone ?? false) {
         /// Go to home
         Navigator.pushNamed(context, Routes.home);

@@ -18,6 +18,9 @@ class _SplashRouteState extends State<SplashRoute> {
   @override
   void initState() {
     super.initState();
+
+    // sharedPref?.clear();
+
     WidgetsBinding.instance?.addPostFrameCallback((_) => _init());
   }
 
@@ -93,9 +96,6 @@ class _SplashRouteState extends State<SplashRoute> {
   }
 
   _checkSession() {
-    // todo test
-    // sharedPref?.clear();
-
     ApiManager.getUserData().then((response) {
       if (response.code == ResponseCode.Success) {
         AuthBloc.afterLogin().then(
