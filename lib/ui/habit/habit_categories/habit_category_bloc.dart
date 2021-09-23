@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/dynamic_habit_settings_response.dart';
+import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_category.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -23,6 +25,8 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
       yield* _mapGetHabitCategoriesEventToState();
     } else if (event is HabitCategoryShowcaseEvent) {
       yield* _mapHabitCategoryShowcaseEventState(event);
+    } else if (event is GetDynamicHabitSettingsEvent) {
+      yield* _mapGetDynamicHabitSettingsEventState(event);
     }
   }
 
@@ -50,6 +54,35 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
       }
     }
   }
+
+  Stream<HabitCategoryState> _mapGetDynamicHabitSettingsEventState(GetDynamicHabitSettingsEvent event) async* {
+    try {
+      yield HabitCategoriesLoading();
+
+      var res = await ApiManager.dynamicHabitSettings();
+      if (res.code == ResponseCode.Success) {
+        // Dynamic habit
+
+        var habit = Habit()
+          ..habitId = 0
+          ..categoryId = event.habitCategory.categoryId
+          ..name = ''
+          ..contentId = 0
+          ..questionId = 0
+          ..tip = ''
+          ..color = event.habitCategory.color
+          ..backgroundColor = event.habitCategory.backgroundColor
+          ..photo = ''
+          ..goalSettings = res.goalSettings![0]; // todo test
+
+        yield DynamicHabitSettingsSuccess(habit, res);
+      } else {
+        yield DynamicHabitSettingsFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield DynamicHabitSettingsFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -75,6 +108,18 @@ class HabitCategoryShowcaseEvent extends HabitCategoryEvent {
 
   @override
   String toString() => 'HabitCategoryShowcaseEvent { showcaseKeyNameList: $showcaseKeyName }';
+}
+
+class GetDynamicHabitSettingsEvent extends HabitCategoryEvent {
+  final HabitCategory habitCategory;
+
+  const GetDynamicHabitSettingsEvent(this.habitCategory);
+
+  @override
+  List<Object> get props => [habitCategory];
+
+  @override
+  String toString() => 'GetDynamicHabitSettingsEvent { habitCategory: $habitCategory }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -128,4 +173,29 @@ class HabitCategoryShowcaseState extends HabitCategoryState {
 
   @override
   String toString() => 'HabitCategoryShowcaseState { showcaseKeyList: $showcaseKeyList }';
+}
+
+class DynamicHabitSettingsSuccess extends HabitCategoryState {
+  final Habit habit;
+  final DynamicHabitSettingsResponse dynamicHabitSettings;
+
+  const DynamicHabitSettingsSuccess(this.habit, this.dynamicHabitSettings);
+
+  @override
+  List<Object> get props => [dynamicHabitSettings];
+
+  @override
+  String toString() => 'DynamicHabitSettingsSuccess { habit: $habit, dynamicHabitSettings: $dynamicHabitSettings }';
+}
+
+class DynamicHabitSettingsFailed extends HabitCategoryState {
+  final String message;
+
+  const DynamicHabitSettingsFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'DynamicHabitSettingsFailed { message: $message }';
 }

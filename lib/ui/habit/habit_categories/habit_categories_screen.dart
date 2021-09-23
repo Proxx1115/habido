@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_category.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -109,9 +110,14 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
               backgroundColor: category.color!,
               text: category.name ?? '',
               onPressed: () {
-                Navigator.pushNamed(context, Routes.habitList, arguments: {
-                  'habitCategory': category,
-                });
+                if (Func.toInt(category.userId) > 0) {
+                  _habitCategoryBloc.add(GetDynamicHabitSettingsEvent(category));
+                } else {
+                  // Default habit
+                  Navigator.pushNamed(context, Routes.habitList, arguments: {
+                    'habitCategory': category,
+                  });
+                }
               },
             ),
           )

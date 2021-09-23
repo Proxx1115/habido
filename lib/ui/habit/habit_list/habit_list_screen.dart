@@ -12,6 +12,7 @@ import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/dialogs.dart';
+import 'package:habido_app/widgets/scaffold.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'habit_list_bloc.dart';
 
@@ -26,6 +27,7 @@ class HabitListScreen extends StatefulWidget {
 
 class _HabitListScreenState extends State<HabitListScreen> {
   // UI
+  final _habitHabitsKey = GlobalKey<ScaffoldState>();
   late Color _primaryColor;
   late Color _backgroundColor;
 
@@ -54,32 +56,37 @@ class _HabitListScreenState extends State<HabitListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _habitListBloc,
-      child: BlocListener<HabitListBloc, HabitListState>(
-        listener: _blocListener,
-        child: BlocBuilder<HabitListBloc, HabitListState>(
-          builder: (context, state) {
-            return SingleChildScrollView(
-              padding: SizeHelper.paddingScreen,
-              child: Column(
-                children: <Widget>[
-                  /// HabitList
-                  if (_habitList != null && _habitList!.isNotEmpty)
-                    for (int i = 0; i < _habitList!.length; i++)
-                      (i == 0)
-                          ? CustomShowcase(
-                              showcaseKey: ShowcaseKey.habit,
-                              description: LocaleKeys.showcaseHabitCategory,
-                              overlayOpacity: 0.5,
-                              overlayPadding: EdgeInsets.fromLTRB(-5.0, -5.0, -5.0, -10.0),
-                              child: _listItem(i),
-                            )
-                          : _listItem(i),
-                ],
-              ),
-            );
-          },
+    return CustomScaffold(
+      scaffoldKey: _habitHabitsKey,
+      appBarTitle: LocaleKeys.createHabit,
+      backgroundColor: _backgroundColor,
+      child: BlocProvider.value(
+        value: _habitListBloc,
+        child: BlocListener<HabitListBloc, HabitListState>(
+          listener: _blocListener,
+          child: BlocBuilder<HabitListBloc, HabitListState>(
+            builder: (context, state) {
+              return SingleChildScrollView(
+                padding: SizeHelper.paddingScreen,
+                child: Column(
+                  children: <Widget>[
+                    /// HabitList
+                    if (_habitList != null && _habitList!.isNotEmpty)
+                      for (int i = 0; i < _habitList!.length; i++)
+                        (i == 0)
+                            ? CustomShowcase(
+                                showcaseKey: ShowcaseKey.habit,
+                                description: LocaleKeys.showcaseHabitCategory,
+                                overlayOpacity: 0.5,
+                                overlayPadding: EdgeInsets.fromLTRB(-5.0, -5.0, -5.0, -10.0),
+                                child: _listItem(i),
+                              )
+                            : _listItem(i),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

@@ -51,4 +51,5 @@ class HttpPath {
   static const String verifyPhone = '/mobile/verify/phone';
   static const String forgotPassword = '/auth/user/forgot-pass';
   static const String forgotPasswordChange = '/auth/user/change-pass';
+  static const String dynamicHabitSettings = '/mobile/habit/settings';
 }
