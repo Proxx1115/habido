@@ -42,11 +42,11 @@ class HabitListBloc extends Bloc<HabitListEvent, HabitListState> {
   }
 
   Stream<HabitListState> _mapHabitListShowcaseEventToState(HabitListShowcaseEvent event) async* {
-    if (!SharedPref.getShowcaseStatus(event.showcaseKeyName)) {
+    if (!SharedPref.getShowcaseHasShown(event.showcaseKeyName)) {
       List<GlobalKey> keyList = ShowcaseKey.getKeysByName(event.showcaseKeyName);
       if (keyList.isNotEmpty) {
         yield HabitListShowcaseState(keyList);
-        SharedPref.setShowcaseStatus(event.showcaseKeyName, true);
+        SharedPref.setShowcaseHasShown(event.showcaseKeyName, true);
       }
     }
   }

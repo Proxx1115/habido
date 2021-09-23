@@ -26,7 +26,7 @@ class SharedPrefKey {
   static const String habitProgressValue = 'habitProgressValue'; // Ус уусан тоо etc...
 
   /// Showcase
-  static const String showcase = 'showcase'; // Ус уусан тоо etc...
+  static const String showcase = 'showcase'; // Showcase харуулсан эсэх
 }
 
 class SharedPref {
@@ -73,12 +73,12 @@ class SharedPref {
     sharedPref?.setBool(SharedPrefKey.biometricAuth, useBiometric ?? false);
   }
 
-  static bool getShowcaseStatus(String showcaseName) {
+  static bool getShowcaseHasShown(String showcaseName) {
     return false; // todo test
     return sharedPref?.getBool(SharedPrefKey.showcase + '_$showcaseName') ?? false;
   }
 
-  static void setShowcaseStatus(String showcaseName, bool hasShown) {
+  static void setShowcaseHasShown(String showcaseName, bool hasShown) {
     sharedPref?.setBool(SharedPrefKey.showcase + '_$showcaseName', hasShown);
   }
 

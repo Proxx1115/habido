@@ -41,6 +41,8 @@ import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test_result_route.dart';
 import 'package:habido_app/ui/psy_test/psy_tests/psy_tests_route.dart';
+import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/utils/showcase_helper.dart';
 import 'route_transitions.dart';
 
 class Routes {
@@ -290,39 +292,64 @@ class Routes {
         break;
 
       case Routes.habitCategories:
-        route = SlideBottomRouteBuilder(HabitCategoriesRoute(), settings);
+        route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.habitCategory)
+            ? SlideRightRouteBuilder(HabitCategoriesRoute(), settings)
+            : SlideBottomRouteBuilder(HabitCategoriesRoute(), settings);
         break;
 
       case Routes.habitList:
         var args = settings.arguments as Map;
-        route = SlideBottomRouteBuilder(
-          HabitListRoute(
-            habitCategory: _getValueByKey(args, 'habitCategory'),
-          ),
-          settings,
-        );
+        route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.habit)
+            ? SlideRightRouteBuilder(
+                HabitListRoute(
+                  habitCategory: _getValueByKey(args, 'habitCategory'),
+                ),
+                settings,
+              )
+            : SlideBottomRouteBuilder(
+                HabitListRoute(
+                  habitCategory: _getValueByKey(args, 'habitCategory'),
+                ),
+                settings,
+              );
         break;
 
       case Routes.userHabit:
         var args = settings.arguments as Map;
-        route = SlideRightRouteBuilder(
-          UserHabitRoute(
-            title: _getValueByKey(args, 'title'),
-            userHabit: _getValueByKey(args, 'userHabit'),
-            habit: _getValueByKey(args, 'habit'),
-          ),
-          settings,
-        );
+        route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.userHabit)
+            ? SlideRightRouteBuilder(
+                UserHabitRoute(
+                  title: _getValueByKey(args, 'title'),
+                  userHabit: _getValueByKey(args, 'userHabit'),
+                  habit: _getValueByKey(args, 'habit'),
+                ),
+                settings,
+              )
+            : SlideBottomRouteBuilder(
+                UserHabitRoute(
+                  title: _getValueByKey(args, 'title'),
+                  userHabit: _getValueByKey(args, 'userHabit'),
+                  habit: _getValueByKey(args, 'habit'),
+                ),
+                settings,
+              );
         break;
 
       case Routes.habitTimer:
         var args = settings.arguments as Map;
-        route = SlideRightRouteBuilder(
-          HabitTimerRoute(
-            userHabit: _getValueByKey(args, 'userHabit'),
-          ),
-          settings,
-        );
+        route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.timer)
+            ? SlideRightRouteBuilder(
+                HabitTimerRoute(
+                  userHabit: _getValueByKey(args, 'userHabit'),
+                ),
+                settings,
+              )
+            : SlideBottomRouteBuilder(
+                HabitTimerRoute(
+                  userHabit: _getValueByKey(args, 'userHabit'),
+                ),
+                settings,
+              );
         break;
 
       case Routes.habitFeeling:

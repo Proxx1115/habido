@@ -5,7 +5,8 @@ class NoTransitionRoute<T> extends MaterialPageRoute<T> {
   NoTransitionRoute(Widget widget, RouteSettings settings) : super(builder: (_) => widget, settings: settings);
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(
+      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
     return child;
   }
 }
@@ -33,8 +34,13 @@ class FadeRouteBuilder extends PageRouteBuilder {
 
 class SlideRightRouteBuilder extends PageRouteBuilder {
   final Widget w;
+
   @override
   final RouteSettings settings;
+
+
+  // @override
+  // Duration get transitionDuration => Duration(milliseconds: 300);
 
   SlideRightRouteBuilder(this.w, this.settings)
       : super(
@@ -42,7 +48,8 @@ class SlideRightRouteBuilder extends PageRouteBuilder {
           pageBuilder: (BuildContext ctx, _, __) {
             return w;
           },
-          transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+          transitionsBuilder:
+              (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
             return SlideTransition(
               position: Tween<Offset>(
                 begin: const Offset(1.0, 0.0),
@@ -60,10 +67,15 @@ class SlideBottomRouteBuilder<T> extends MaterialPageRoute<T> {
     end: Offset.zero,
   ).chain(CurveTween(curve: Curves.ease));
 
-  SlideBottomRouteBuilder(Widget widget, RouteSettings settings) : super(builder: (context) => widget, settings: settings);
+  SlideBottomRouteBuilder(Widget widget, RouteSettings settings)
+      : super(builder: (context) => widget, settings: settings);
+
+  // @override
+  // Duration get transitionDuration => Duration(milliseconds: 300);
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(
+      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
     return SlideTransition(
       position: animation.drive(tween),
       child: child,

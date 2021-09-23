@@ -262,12 +262,12 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
   }
 
   Stream<UserHabitState> _mapUserHabitShowcaseEventToState(UserHabitShowcaseEvent event) async* {
-    if (!SharedPref.getShowcaseStatus(event.showcaseKeyName)) {
+    if (!SharedPref.getShowcaseHasShown(event.showcaseKeyName)) {
       List<GlobalKey> keyList = ShowcaseKey.getKeysByName(event.showcaseKeyName);
       if (keyList.isNotEmpty) {
         yield UserHabitShowcaseState(keyList);
         yield UserHabitDefault();
-        SharedPref.setShowcaseStatus(event.showcaseKeyName, true);
+        SharedPref.setShowcaseHasShown(event.showcaseKeyName, true);
       }
     }
   }
