@@ -355,6 +355,8 @@ class LocaleKeys {
 
   static String get evaluation => 'Үнэлгээ';
 
+  static String get howAreYouFeeling => 'Та хэр сэтгэл ханамжтай байсан бэ?';
+
   static String get pleasing => 'Тааламжтай';
 
   /// Profile

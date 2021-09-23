@@ -87,7 +87,7 @@ class _SatisfactionSliderState extends State<SatisfactionSlider> {
                 children: [
                   /// Үнэлгээ
                   Expanded(
-                    child: CustomText(widget.text, color: customColors.secondaryText),
+                    child: CustomText(LocaleKeys.evaluation, color: customColors.secondaryText),
                   ),
 
                   /// Тааламжтай

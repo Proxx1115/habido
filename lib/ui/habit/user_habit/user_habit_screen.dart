@@ -165,7 +165,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     }
 
     /// Tip
-    _tip = _habit.note;
+    _tip = _habit.tip;
 
     /// Showcase
     BlocManager.userHabitBloc.add(UserHabitShowcaseEvent(ShowcaseKeyName.userHabit));

@@ -100,7 +100,7 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
                                 child: SatisfactionSlider(
                                   userHabit: _userHabit,
                                   margin: EdgeInsets.only(top: 35.0),
-                                  text: LocaleKeys.evaluation,
+                                  text: LocaleKeys.howAreYouFeeling,
                                   onChanged: (value) {
                                     print(value);
                                     _sliderValue = value;

@@ -75,6 +75,7 @@ class _YourRankRouteState extends State<YourRankRoute> {
                                 enlargeCenterPage: true,
                                 enlargeStrategy: CenterPageEnlargeStrategy.height,
                                 viewportFraction: 0.4,
+                                enableInfiniteScroll: false,
                                 onPageChanged: (index, asd) {
                                   setState(() {
                                     _currentIndex = index;
@@ -131,7 +132,7 @@ class _YourRankRouteState extends State<YourRankRoute> {
 
                                   /// Text
                                   CustomText(
-                                    _rankList![_currentIndex].body,
+                                    _rankList![_currentIndex].conditionText,
                                     alignment: Alignment.center,
                                     maxLines: 5,
                                     margin: EdgeInsets.symmetric(horizontal: 60.0),
@@ -166,7 +167,7 @@ class _YourRankRouteState extends State<YourRankRoute> {
             if (_currentIndex != i) {
               _currentIndex = i;
               Future.delayed(Duration(milliseconds: 100), () {
-                BlocManager.userBloc.add(NavigateRankEvent(3));
+                BlocManager.userBloc.add(NavigateRankEvent(i));
               });
             }
           }
