@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit_category.dart';
-import 'package:habido_app/ui/habit/habit_categories/habit_categories_screen.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -63,6 +61,8 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                             ? CustomShowcase(
                                 showcaseKey: ShowcaseKey.habitCategory,
                                 description: LocaleKeys.showcaseHabitCategory,
+                                overlayOpacity: 0.5,
+                                overlayPadding: EdgeInsets.all(-5.0),
                                 child: _categoryItem(_habitCategoryList![index]),
                               )
                             : _categoryItem(_habitCategoryList![index]),

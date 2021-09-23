@@ -42,11 +42,7 @@ class DashboardSliverAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             /// Calendar
-            Showcase(
-              description: LocaleKeys.showcaseCalendar,
-              key: ShowcaseKey.calendar,
-              child: CalendarButton(),
-            ),
+            CalendarButton(),
 
             /// Title
             if (Func.isNotEmpty(title))
