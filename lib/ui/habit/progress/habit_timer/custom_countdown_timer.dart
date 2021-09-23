@@ -10,6 +10,7 @@ class CustomCountdownTimer extends StatefulWidget {
   final Color? primaryColor;
   final bool visibleAddButton;
   final VoidCallback? callBack;
+  final double timerSize;
 
   const CustomCountdownTimer({
     Key? key,
@@ -18,6 +19,7 @@ class CustomCountdownTimer extends StatefulWidget {
     this.primaryColor,
     this.visibleAddButton = false,
     this.callBack,
+    this.timerSize = 265.0,
   }) : super(key: key);
 
   @override
@@ -107,8 +109,8 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       children: <Widget>[
         /// Cursor
         Container(
-          height: 265.0,
-          width: 265.0,
+          height: widget.timerSize,
+          width: widget.timerSize,
           decoration: BoxDecoration(shape: BoxShape.circle, color: customColors.secondaryBackground),
           child: AnimatedBuilder(
             animation: _animationController,

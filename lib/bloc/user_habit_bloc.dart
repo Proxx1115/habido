@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/models/habit_expense_category.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_with_date.dart';
@@ -9,13 +9,13 @@ import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
-import 'package:habido_app/ui/habit/user_habit/reminder/reminder_bloc.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/widgets/combobox/combo_helper.dart';
-
 import 'bloc_manager.dart';
 import 'dashboard_bloc.dart';
 
@@ -52,6 +52,8 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapGetExpenseCategoriesEventToState();
     } else if (event is GetHabitQuestionEvent) {
       yield* _mapGetHabitQuestionEventToState(event);
+    } else if (event is UserHabitShowcaseEvent) {
+      yield* _mapUserHabitShowcaseEventToState(event);
     }
 
     // if (event is GoalSwitchChangedEvent) {
@@ -259,10 +261,16 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
-// Stream<UserHabitState> _mapReminderSwitchChangedEventEventToState(ReminderSwitchChangedEvent event) async* {
-//   yield ReminderSwitchChangedEvent(event.value);
-//   yield UserHabitDefault();
-// }
+  Stream<UserHabitState> _mapUserHabitShowcaseEventToState(UserHabitShowcaseEvent event) async* {
+    if (!SharedPref.getShowcaseStatus(event.showcaseKeyName)) {
+      List<GlobalKey> keyList = ShowcaseKey.getKeysByName(event.showcaseKeyName);
+      if (keyList.isNotEmpty) {
+        yield UserHabitShowcaseState(keyList);
+        yield UserHabitDefault();
+        SharedPref.setShowcaseStatus(event.showcaseKeyName, true);
+      }
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -434,6 +442,18 @@ class GetHabitQuestionEvent extends UserHabitEvent {
   String toString() => 'GetHabitQuestions { questionId: $questionId }';
 }
 
+class UserHabitShowcaseEvent extends UserHabitEvent {
+  final String showcaseKeyName;
+
+  const UserHabitShowcaseEvent(this.showcaseKeyName);
+
+  @override
+  List<Object> get props => [showcaseKeyName];
+
+  @override
+  String toString() => 'UserHabitShowcaseEvent { showcaseKeyName: $showcaseKeyName }';
+}
+
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -462,18 +482,6 @@ class PlanTermChangedState extends UserHabitState {
   @override
   String toString() => 'PlanTermChangedState { planTerm: $planTerm }';
 }
-
-// class GoalSwitchChangedState extends UserHabitState {
-//   final bool value;
-//
-//   const GoalSwitchChangedState(this.value);
-//
-//   @override
-//   List<Object> get props => [value];
-//
-//   @override
-//   String toString() => 'GoalSwitchChangedState { value: $value }';
-// }
 
 class InsertUserHabitSuccess extends UserHabitState {}
 
@@ -727,4 +735,16 @@ class HabitQuestionFailed extends UserHabitState {
 
   @override
   String toString() => 'GetHabitQuestionsFailed { message: $message }';
+}
+
+class UserHabitShowcaseState extends UserHabitState {
+  final List<GlobalKey> showcaseKeyList;
+
+  const UserHabitShowcaseState(this.showcaseKeyList);
+
+  @override
+  List<Object> get props => [showcaseKeyList];
+
+  @override
+  String toString() => 'UserHabitShowcaseState { showcaseKeyList: $showcaseKeyList }';
 }
