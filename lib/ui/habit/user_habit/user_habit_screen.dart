@@ -93,6 +93,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     if (_userHabit != null) {
       _screenMode = ScreenMode.Edit;
     } else if (widget.customHabitSettings != null) {
+      _customHabitSettings = widget.customHabitSettings;
       _screenMode = ScreenMode.Custom;
     } else {
       _screenMode = ScreenMode.New;
