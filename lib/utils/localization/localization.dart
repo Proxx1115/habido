@@ -365,6 +365,8 @@ class LocaleKeys {
 
   static String get pickColor => 'Өнгө сонгох';
 
+  static String get pickShape => 'Дүрс сонгох';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 

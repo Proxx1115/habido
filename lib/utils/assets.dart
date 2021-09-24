@@ -100,6 +100,7 @@ class Assets {
   static const String brush = 'assets/images/habit/brush.svg';
   static const String color_picker_png = 'assets/images/habit/color_picker.png';
   static const String color_picker = 'assets/images/habit/color_picker.svg';
+  static const String icon_picker = 'assets/images/habit/icon_picker.svg';
 }
 
 class FontAsset {

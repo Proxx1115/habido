@@ -33,6 +33,7 @@ import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'custom_color_picker.dart';
+import 'custom_icon_picker.dart';
 import 'reminder/reminder_widget.dart';
 
 class UserHabitScreen extends StatefulWidget {
@@ -70,6 +71,9 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   // Color
   CustomHabitColor? _selectedCustomHabitColor;
 
+  // Icon
+  CustomHabitIcon? _selectedCustomHabitIcon;
+
   // Plan
   late String _selectedPlanTerm;
   late List<Plan> _planList;
@@ -96,12 +100,20 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
 
     /// Screen mode
     if (_userHabit != null) {
-      _screenMode = ScreenMode.Edit;
-    } else if (widget.customHabitSettings != null) {
-      _customHabitSettings = widget.customHabitSettings;
-      _screenMode = ScreenMode.CustomNew;
+      // Edit
+      if ((_userHabit!.isDynamicHabit ?? false) && widget.customHabitSettings != null) {
+        _screenMode = ScreenMode.CustomEdit;
+      } else {
+        _screenMode = ScreenMode.Edit;
+      }
     } else {
-      _screenMode = ScreenMode.New;
+      // New
+      if (widget.customHabitSettings != null) {
+        _customHabitSettings = widget.customHabitSettings;
+        _screenMode = ScreenMode.CustomNew;
+      } else {
+        _screenMode = ScreenMode.New;
+      }
     }
 
     /// Habit
@@ -114,6 +126,21 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     /// Color
     _primaryColor = HabitHelper.getPrimaryColor2(_habit);
     _backgroundColor = HabitHelper.getBackgroundColor2(_habit);
+
+    if (_screenMode == ScreenMode.CustomNew || _screenMode == ScreenMode.CustomEdit) {
+      if (Func.isNotEmpty(_habit.color) && Func.isNotEmpty(_habit.backgroundColor)) {
+        _selectedCustomHabitColor = CustomHabitColor()
+          ..color = _habit.color
+          ..bgColor = _habit.backgroundColor;
+      }
+    }
+
+    /// Icon
+    if (_screenMode == ScreenMode.CustomEdit) {
+      if (Func.isNotEmpty(_habit.photo)) {
+        _selectedCustomHabitIcon = CustomHabitIcon()..link = _habit.photo;
+      }
+    }
 
     /// Name
     _nameController.text = _habit.name ?? '';
@@ -221,6 +248,9 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                                       /// Өнгө сонгох
                                       _colorPicker(),
 
+                                      /// Дүрс сонгох
+                                      _iconPicker(),
+
                                       /// Plan terms
                                       _planTermsWidget(),
 
@@ -310,16 +340,30 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     return _screenMode == ScreenMode.CustomNew
         ? CustomColorPicker(
             colorList: _customHabitSettings?.colors ?? [],
+            initialColor: _selectedCustomHabitColor,
             margin: EdgeInsets.only(top: 15.0),
             onColorSelected: (value) {
-              _selectedCustomHabitColor = value;
-              if (_selectedCustomHabitColor != null) {
-                // todo test
-                setState(() {
-                  _primaryColor = HexColor.fromHex(_selectedCustomHabitColor!.color ?? ColorCodes.primary);
-                  _backgroundColor = HexColor.fromHex(_selectedCustomHabitColor!.bgColor ?? ColorCodes.roseWhite);
-                });
-              }
+              setState(() {
+                _primaryColor = HexColor.fromHex(value.color ?? ColorCodes.primary);
+                _backgroundColor = HexColor.fromHex(value.bgColor ?? ColorCodes.roseWhite);
+                _selectedCustomHabitColor = value;
+              });
+            },
+          )
+        : Container();
+  }
+
+  Widget _iconPicker() {
+    return _screenMode == ScreenMode.CustomNew
+        ? CustomIconPicker(
+            iconList: _customHabitSettings?.icons ?? [],
+            selectedIcon: _selectedCustomHabitIcon,
+            margin: EdgeInsets.only(top: 15.0),
+            primaryColor: _primaryColor,
+            onIconSelected: (value) {
+              setState(() {
+                _selectedCustomHabitIcon = value;
+              });
             },
           )
         : Container();

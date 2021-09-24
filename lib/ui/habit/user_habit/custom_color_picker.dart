@@ -12,12 +12,14 @@ import 'package:habido_app/widgets/text.dart';
 
 class CustomColorPicker extends StatefulWidget {
   final List<CustomHabitColor> colorList;
+  final CustomHabitColor? initialColor;
   final Function(CustomHabitColor)? onColorSelected;
   final EdgeInsets? margin;
 
   const CustomColorPicker({
     Key? key,
     required this.colorList,
+    this.initialColor,
     this.onColorSelected,
     this.margin,
   }) : super(key: key);
@@ -27,16 +29,18 @@ class CustomColorPicker extends StatefulWidget {
 }
 
 class _CustomColorPickerState extends State<CustomColorPicker> {
+  // Selected color
+  CustomHabitColor? _selectedCustomHabitColor;
+
   // Color list
   int get _rowCount =>
       widget.colorList.length % 4 == 0 ? widget.colorList.length ~/ 4 : widget.colorList.length ~/ 4 + 1;
 
-  // Selected color
-  CustomHabitColor? _selectedCustomHabitColor;
-
   @override
   void initState() {
-    if (widget.colorList.isNotEmpty) {
+    if (widget.initialColor != null) {
+      _selectedCustomHabitColor = widget.initialColor;
+    } else if (widget.colorList.isNotEmpty) {
       _selectedCustomHabitColor = widget.colorList.first;
     }
     super.initState();
@@ -46,7 +50,7 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
   Widget build(BuildContext context) {
     return StadiumContainer(
       margin: widget.margin,
-      padding: SizeHelper.boxPadding,
+      padding:  EdgeInsets.fromLTRB(18.0, 16.0, 14.0, 16.0),
       child: Row(
         children: [
           /// Icon
