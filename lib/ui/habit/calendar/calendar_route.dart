@@ -95,7 +95,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: LocaleKeys.monthlyCalendar,
-      backgroundColor: customColors.secondaryBackground,
+      backgroundColor: customColors.whiteBackground,
       appBarLeadingBackgroundColor: customColors.primaryBackground,
       child: BlocProvider.value(
         value: BlocManager.calendarBloc,
@@ -204,7 +204,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
             width: 20.0,
             padding: EdgeInsets.all(5.0),
             decoration: BoxDecoration(
-              color: customColors.secondaryBackground,
+              color: customColors.whiteBackground,
               borderRadius: BorderRadius.all(Radius.circular(7.0)),
             ),
             child: SvgPicture.asset(Assets.back10),
@@ -214,7 +214,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
             width: 20.0,
             padding: EdgeInsets.all(5.0),
             decoration: BoxDecoration(
-              color: customColors.secondaryBackground,
+              color: customColors.whiteBackground,
               borderRadius: BorderRadius.all(Radius.circular(7.0)),
             ),
             child: SvgPicture.asset(Assets.forward10),

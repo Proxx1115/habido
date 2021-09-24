@@ -3,9 +3,11 @@ import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_category.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/combobox/combo_helper.dart';
 
 class HabitHelper {
   static String? getProgressRoute(Habit habit) {
@@ -40,19 +42,45 @@ class HabitHelper {
     }
   }
 
-  static Color getPrimaryColor(UserHabit userHabit) {
+  static Color getPrimaryColor(String? colorCode) {
+    var res = customColors.primary;
+    try {
+      if (Func.isNotEmpty(colorCode)) {
+        res = HexColor.fromHex(colorCode!);
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    return res;
+  }
+
+  static Color getBackgroundColor(String? colorCode) {
+    var res = customColors.primaryBackground;
+    try {
+      if (Func.isNotEmpty(colorCode)) {
+        res = HexColor.fromHex(colorCode!);
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    return res;
+  }
+
+  static Color getPrimaryColor1(UserHabit userHabit) {
     return userHabit.habit?.color != null ? HexColor.fromHex(userHabit.habit!.color!) : customColors.primary;
   }
 
-  static Color getPrimaryColor2(Habit habit) {
-    return habit.color != null ? HexColor.fromHex(habit.color!) : customColors.primary;
-  }
+  // static Color getPrimaryColor2(Habit habit) {
+  //   return habit.color != null ? HexColor.fromHex(habit.color!) : customColors.primary;
+  // }
 
   static Color getPrimaryColor3(HabitCategory habitCategory) {
     return habitCategory.color != null ? HexColor.fromHex(habitCategory.color!) : customColors.primary;
   }
 
-  static Color getBackgroundColor(UserHabit userHabit) {
+  static Color getBackgroundColor1(UserHabit userHabit) {
     return userHabit.habit?.backgroundColor != null
         ? HexColor.fromHex(userHabit.habit!.backgroundColor!)
         : customColors.primaryBackground;
@@ -66,6 +94,22 @@ class HabitHelper {
     return habitCategory.backgroundColor != null
         ? HexColor.fromHex(habitCategory.backgroundColor!)
         : customColors.primaryBackground;
+  }
+
+  static List<ComboItem>? getGoalMeasureList(List<HabitGoalSettings>? goalSettingsList) {
+    var list = <ComboItem>[];
+    try {
+      if (goalSettingsList != null) {
+        list = List.generate(
+          goalSettingsList.length,
+          (index) => ComboItem(txt: goalSettingsList[index].toolUnit ?? '', val: goalSettingsList[index]),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    return list;
   }
 }
 

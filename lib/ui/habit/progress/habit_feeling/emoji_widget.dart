@@ -92,7 +92,7 @@ class _EmojiWidgetState extends State<EmojiWidget> {
             color: _selectedIndex == index ? _getColor(index) : customColors.primaryBorder,
           ),
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          color: _selectedIndex == index ? _getColor(index) : customColors.secondaryBackground,
+          color: _selectedIndex == index ? _getColor(index) : customColors.whiteBackground,
         ),
         child: SvgPicture.asset(
           _getAsset(index),

@@ -92,7 +92,7 @@ class StadiumContainer extends StatelessWidget {
           padding: padding,
           margin: margin,
           decoration: BoxDecoration(
-            color: backgroundColor ?? customColors.secondaryBackground,
+            color: backgroundColor ?? customColors.whiteBackground,
             borderRadius: borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
           ),
           child: child,
@@ -223,7 +223,7 @@ class ChatContainer extends StatelessWidget {
               width: width ?? MediaQuery.of(context).size.width * 0.6,
               decoration: BoxDecoration(
                 borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(10.0)),
-                color: customColors.secondaryBackground,
+                color: customColors.whiteBackground,
               ),
               child: child,
             ),
@@ -344,7 +344,7 @@ class ListItemContainer extends StatelessWidget {
           height: height,
           decoration: BoxDecoration(
             borderRadius: borderRadius ?? SizeHelper.borderRadiusOdd,
-            color: customColors.secondaryBackground,
+            color: customColors.whiteBackground,
           ),
           child: Row(
             children: [
@@ -430,7 +430,7 @@ class SelectableListItem extends StatelessWidget {
       height: SizeHelper.boxHeight,
       decoration: BoxDecoration(
         borderRadius: SizeHelper.borderRadiusOdd,
-        color: customColors.secondaryBackground,
+        color: customColors.whiteBackground,
       ),
       child: InkWell(
         borderRadius: SizeHelper.borderRadiusOdd,

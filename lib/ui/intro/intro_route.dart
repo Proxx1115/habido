@@ -83,8 +83,8 @@ class _IntroRouteState extends State<IntroRoute> {
               effect: ExpandingDotsEffect(
                 dotHeight: 15,
                 dotWidth: 9,
-                activeDotColor: customColors.secondaryBackground,
-                dotColor: customColors.secondaryBackground.withOpacity(0.3),
+                activeDotColor: customColors.whiteBackground,
+                dotColor: customColors.whiteBackground.withOpacity(0.3),
                 expansionFactor: 1.3,
                 radius: 10.0,
                 paintStyle: PaintingStyle.fill,

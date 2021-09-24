@@ -339,7 +339,7 @@ class LocaleKeys {
 
   static String get editExpense => 'Зардал засварлах';
 
-  static String get addExpense => 'Зэрдал нэмэх';
+  static String get addExpense => 'Зардал нэмэх';
 
   static String get enterAmount => 'Мөнгөн дүн оруулах';
 
@@ -348,6 +348,8 @@ class LocaleKeys {
   static String get pleaseSelectCategory => 'Ангилал сонгоно уу.';
 
   static String get selectCategory => 'Ангилал сонгох';
+
+  static String get selectMeasure => 'Хэмжигдэхүүн сонгох';
 
   static String get breatheTake => 'Хамраараа амьсгал авах';
 

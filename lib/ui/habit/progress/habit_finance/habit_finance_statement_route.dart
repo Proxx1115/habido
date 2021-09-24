@@ -44,8 +44,8 @@ class _HabitFinanceStatementRouteState extends State<HabitFinanceStatementRoute>
     _userHabit = widget.userHabit;
 
     // UI
-    _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
-    _backgroundColor = HabitHelper.getBackgroundColor(_userHabit);
+    _primaryColor = HabitHelper.getPrimaryColor1(_userHabit);
+    _backgroundColor = HabitHelper.getBackgroundColor1(_userHabit);
 
     BlocManager.userHabitBloc.add(GetHabitProgressListWithDateEvent(_userHabit.userHabitId ?? 0));
 

@@ -61,8 +61,8 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
     _userHabit = widget.userHabit;
 
     // UI
-    _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
-    _backgroundColor = HabitHelper.getBackgroundColor(_userHabit);
+    _primaryColor = HabitHelper.getPrimaryColor1(_userHabit);
+    _backgroundColor = HabitHelper.getBackgroundColor1(_userHabit);
 
     if (_userHabit.habit?.questionId != null) {
       BlocManager.userHabitBloc.add(GetHabitQuestionEvent(_userHabit.habit!.questionId!));

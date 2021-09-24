@@ -41,7 +41,7 @@ class _SatisfactionPhotoState extends State<SatisfactionPhoto> {
           width: _size,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: customColors.secondaryBackground,
+            color: customColors.whiteBackground,
             border: Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
           ),
           child: Stack(

@@ -97,7 +97,7 @@ class _SignUp6SuccessRouteState extends State<SignUp6SuccessRoute> {
               alignment: Alignment.bottomRight,
               style: CustomButtonStyle.Secondary,
               asset: Assets.long_arrow_next,
-              backgroundColor: customColors.secondaryBackground,
+              backgroundColor: customColors.whiteBackground,
               contentColor: customColors.primaryButtonDisabledContent,
               onPressed: () {
                 var request = LoginRequest()

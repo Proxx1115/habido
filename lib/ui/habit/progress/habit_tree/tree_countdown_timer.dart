@@ -127,7 +127,7 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
       height: 265.0,
       width: 265.0,
       padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
-      decoration: BoxDecoration(shape: BoxShape.circle, color: customColors.secondaryBackground),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: customColors.whiteBackground),
       child: AnimatedBuilder(
         animation: _animationController,
         builder: (context, Widget? child) {

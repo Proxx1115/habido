@@ -1,9 +1,11 @@
 import 'package:habido_app/utils/func.dart';
 
 class ComboItem {
+  ComboItem({this.txt = '', this.val, this.imageAssetName});
+
   String txt = '';
   dynamic val;
-  String? imageAssetName; // Icon asset name
+  String? imageAssetName;
 }
 
 class ComboHelper {
@@ -12,13 +14,6 @@ class ComboHelper {
 
     if (Func.isNotEmpty(value)) {
       for (var el in list) {
-        // if (el.val is DictData) {
-        //   /// Dictionary
-        //   if ((el.val as DictData).val == value) {
-        //     text = (el.val as DictData).txt ?? '';
-        //     break;
-        //   }
-        // } else
         if (el.val == value) {
           /// String
           text = el.txt;

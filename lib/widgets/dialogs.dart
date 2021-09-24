@@ -46,7 +46,7 @@ class CustomDialogBody extends StatelessWidget {
     return Container(
       padding: MediaQuery.of(context).viewInsets,
       decoration: new BoxDecoration(
-        color: customColors.secondaryBackground,
+        color: customColors.whiteBackground,
         borderRadius: new BorderRadius.only(topLeft: Radius.circular(35.0), topRight: Radius.circular(35.0)),
       ),
       child: Column(

@@ -12,14 +12,14 @@ import 'package:habido_app/widgets/text.dart';
 
 class CustomColorPicker extends StatefulWidget {
   final List<CustomHabitColor> colorList;
-  final CustomHabitColor? initialColor;
+  final CustomHabitColor? initialCustomHabitColor;
   final Function(CustomHabitColor)? onColorSelected;
   final EdgeInsets? margin;
 
   const CustomColorPicker({
     Key? key,
     required this.colorList,
-    this.initialColor,
+    this.initialCustomHabitColor,
     this.onColorSelected,
     this.margin,
   }) : super(key: key);
@@ -38,8 +38,8 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
 
   @override
   void initState() {
-    if (widget.initialColor != null) {
-      _selectedCustomHabitColor = widget.initialColor;
+    if (widget.initialCustomHabitColor != null) {
+      _selectedCustomHabitColor = widget.initialCustomHabitColor;
     } else if (widget.colorList.isNotEmpty) {
       _selectedCustomHabitColor = widget.colorList.first;
     }
@@ -50,13 +50,13 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
   Widget build(BuildContext context) {
     return StadiumContainer(
       margin: widget.margin,
-      padding:  EdgeInsets.fromLTRB(18.0, 16.0, 14.0, 16.0),
+      padding: EdgeInsets.fromLTRB(18.0, 16.0, 14.0, 16.0),
       child: Row(
         children: [
           /// Icon
           SvgPicture.asset(
             Assets.brush,
-            color: HexColor.fromHex(_selectedCustomHabitColor?.color ?? ColorCodes.primary),
+            color: HexColor.fromHex(_selectedCustomHabitColor?.primaryColor ?? ColorCodes.primary),
           ),
 
           /// Өнгө сонгох
@@ -75,7 +75,7 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
               width: 18.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(7.0)),
-                color: HexColor.fromHex(_selectedCustomHabitColor?.color ?? ColorCodes.primary),
+                color: HexColor.fromHex(_selectedCustomHabitColor?.primaryColor ?? ColorCodes.primary),
               ),
             ),
         ],
@@ -152,12 +152,13 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
           border: Border.all(
-            width: _selectedCustomHabitColor?.color == customHabitColor.color ? 0.0 : SizeHelper.borderWidth,
+            width:
+                _selectedCustomHabitColor?.primaryColor == customHabitColor.primaryColor ? 0.0 : SizeHelper.borderWidth,
             color: customColors.roseWhiteBorder,
           ),
-          color: _selectedCustomHabitColor?.color == customHabitColor.color
+          color: _selectedCustomHabitColor?.primaryColor == customHabitColor.primaryColor
               ? customColors.greyBackground
-              : customColors.secondaryBackground,
+              : customColors.whiteBackground,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -168,7 +169,7 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
                 Assets.color_picker_png,
                 height: 18.0,
                 width: 18.0,
-                color: HexColor.fromHex(customHabitColor.color ?? ColorCodes.primary),
+                color: HexColor.fromHex(customHabitColor.primaryColor ?? ColorCodes.primary),
               ),
             ),
           ],

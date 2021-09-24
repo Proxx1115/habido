@@ -111,14 +111,14 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
         Container(
           height: widget.timerSize,
           width: widget.timerSize,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: customColors.secondaryBackground),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: customColors.whiteBackground),
           child: AnimatedBuilder(
             animation: _animationController,
             builder: (BuildContext context, Widget? child) {
               return CustomPaint(
                 painter: TimerPainter(
                   animation: _animationController,
-                  borderColor: customColors.secondaryBackground,
+                  borderColor: customColors.whiteBackground,
                   cursorColor: widget.primaryColor ?? customColors.primary,
                 ),
               );

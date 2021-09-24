@@ -48,7 +48,7 @@ class ExpandableListItem extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
             decoration: BoxDecoration(
               borderRadius: SizeHelper.borderRadiusOdd,
-              color: customColors.secondaryBackground,
+              color: customColors.whiteBackground,
             ),
             child: Row(
               children: [

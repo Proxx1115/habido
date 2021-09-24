@@ -62,8 +62,8 @@ class FinanceStatementWidget extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
           child: ExpansionTile(
-            collapsedBackgroundColor: customColors.secondaryBackground,
-            backgroundColor: customColors.secondaryBackground,
+            collapsedBackgroundColor: customColors.whiteBackground,
+            backgroundColor: customColors.whiteBackground,
             initiallyExpanded: expansionTileExpanded,
 
             /// Title

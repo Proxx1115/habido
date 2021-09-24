@@ -111,7 +111,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
       height: 70.0,
       decoration: BoxDecoration(
         borderRadius: SizeHelper.borderRadiusOdd,
-        color: customColors.secondaryBackground,
+        color: customColors.whiteBackground,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

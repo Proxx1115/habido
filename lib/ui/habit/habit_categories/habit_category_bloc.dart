@@ -67,16 +67,10 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
           ..contentId = 0
           ..questionId = 0
           ..tip = ''
-          ..color = event.habitCategory.color
-          ..backgroundColor = event.habitCategory.backgroundColor
-          ..photo = ''
-          ..goalSettings = null;
-
-        // Set color
-        if (res.colors != null && res.colors!.isNotEmpty) {
-          if (Func.isNotEmpty(res.colors!.first.color)) customHabit.color = res.colors!.first.color;
-          if (Func.isNotEmpty(res.colors!.first.bgColor)) customHabit.backgroundColor = res.colors!.first.bgColor;
-        }
+          ..color = res.colorList?.first.primaryColor
+          ..backgroundColor = res.colorList!.first.backgroundColor
+          ..photo = res.iconList?.first.link
+          ..goalSettings = res.goalSettingsList?.first;
 
         yield CustomHabitSettingsSuccess(customHabit, res);
       } else {

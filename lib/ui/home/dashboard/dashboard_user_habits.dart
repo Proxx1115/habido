@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
@@ -106,9 +107,10 @@ class _DashboardUserHabitsState extends State<DashboardUserHabits> {
               context,
               Routes.userHabit,
               arguments: {
-                'title': LocaleKeys.ediHabit,
-                'habit': null,
+                'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
+                'habit': userHabitList[index].habit,
                 'userHabit': userHabitList[index],
+                'title': LocaleKeys.ediHabit,
               },
             );
           },

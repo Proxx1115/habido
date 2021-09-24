@@ -44,8 +44,8 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
     _userHabit = widget.userHabit;
 
     // UI
-    _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
-    _backgroundColor = HabitHelper.getBackgroundColor(_userHabit);
+    _primaryColor = HabitHelper.getPrimaryColor1(_userHabit);
+    _backgroundColor = HabitHelper.getBackgroundColor1(_userHabit);
 
     super.initState();
   }

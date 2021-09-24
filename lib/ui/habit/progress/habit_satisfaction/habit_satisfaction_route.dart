@@ -50,8 +50,8 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
     _userHabit = widget.userHabit;
 
     // UI
-    _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
-    _backgroundColor = HabitHelper.getBackgroundColor(_userHabit);
+    _primaryColor = HabitHelper.getPrimaryColor1(_userHabit);
+    _backgroundColor = HabitHelper.getBackgroundColor1(_userHabit);
 
     // Slider
     _sliderValue = Func.toInt(Func.toInt(_userHabit.habit!.goalSettings!.goalMax) / 2);

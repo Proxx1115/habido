@@ -4,11 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/habit.dart';
+import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/plan.dart';
+import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_reminders.dart';
-import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit/user_habit/plan_terms/plan_term_helper.dart';
 import 'package:habido_app/ui/habit/user_habit/plan_terms/plan_terms_widget.dart';
 import 'package:habido_app/ui/habit/user_habit/reminder/reminder_bloc.dart';
@@ -20,8 +21,9 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/combobox/combo_helper.dart';
+import 'package:habido_app/widgets/combobox/combobox.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/date_picker.dart';
@@ -37,17 +39,19 @@ import 'custom_icon_picker.dart';
 import 'reminder/reminder_widget.dart';
 
 class UserHabitScreen extends StatefulWidget {
-  final String? title;
-  final UserHabit? userHabit; // UserHabit, habit 2-ын нэг нь заавал утгатай байх ёстой
-  final Habit? habit;
+  final String screenMode;
+  final Habit habit;
+  final UserHabit? userHabit;
   final CustomHabitSettingsResponse? customHabitSettings;
+  final String? title;
 
   const UserHabitScreen({
     Key? key,
-    this.title,
+    required this.screenMode,
+    required this.habit,
     this.userHabit,
-    this.habit,
     this.customHabitSettings,
+    this.title,
   }) : super(key: key);
 
   @override
@@ -55,37 +59,42 @@ class UserHabitScreen extends StatefulWidget {
 }
 
 class _UserHabitScreenState extends State<UserHabitScreen> {
-  // UI
-  String _screenMode = ScreenMode.New;
-  late Color _primaryColor;
-  late Color _backgroundColor;
-
-  // Data
-  UserHabit? _userHabit;
+  // Main
+  late String _screenMode;
   late Habit _habit;
-  CustomHabitSettingsResponse? _customHabitSettings;
+  UserHabit? _userHabit;
 
   // Name
   final _nameController = TextEditingController();
 
   // Color
-  CustomHabitColor? _selectedCustomHabitColor;
+  List<CustomHabitColor>? _colorList;
+  String? _primaryColorCode;
+  String? _backgroundColorCode;
 
   // Icon
-  CustomHabitIcon? _selectedCustomHabitIcon;
+  List<CustomHabitIcon>? _iconList;
+  CustomHabitIcon? _icon;
 
   // Plan
-  late String _selectedPlanTerm;
   late List<Plan> _planList;
+  late String _planTerm;
 
-  // bool _goalSwitchValue = false;
-  SliderBloc? _sliderBloc;
-  String? _sliderTitle;
-  String? _sliderQuantity;
+  // Goal
+  List<HabitGoalSettings>? _goalSettingsList;
+  HabitGoalSettings? _goalSettings;
+
+  // Goal measure
+  bool _visibleGoalMeasure = false;
+  List<ComboItem>? _goalMeasureList;
+  ComboItem? _goalMeasure;
+
+  // Goal slider
+  SliderBloc? _goalSliderBloc;
 
   // Start, end date
-  DateTime? _selectedStartDate;
-  DateTime? _selectedEndDate;
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   // Reminder
   final _reminderBloc = ReminderBloc();
@@ -95,113 +104,149 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
 
   @override
   void initState() {
-    /// User habit
-    _userHabit = widget.userHabit;
-
     /// Screen mode
-    if (_userHabit != null) {
-      // Edit
-      if ((_userHabit!.isDynamicHabit ?? false) && widget.customHabitSettings != null) {
-        _screenMode = ScreenMode.CustomEdit;
-      } else {
-        _screenMode = ScreenMode.Edit;
-      }
-    } else {
-      // New
-      if (widget.customHabitSettings != null) {
-        _customHabitSettings = widget.customHabitSettings;
-        _screenMode = ScreenMode.CustomNew;
-      } else {
-        _screenMode = ScreenMode.New;
-      }
-    }
+    _screenMode = widget.screenMode;
 
     /// Habit
-    if (_userHabit != null && _userHabit!.habit != null) {
-      _habit = _userHabit!.habit!;
-    } else if (widget.habit != null) {
-      _habit = widget.habit!;
-    }
+    _habit = widget.habit;
 
-    /// Color
-    _primaryColor = HabitHelper.getPrimaryColor2(_habit);
-    _backgroundColor = HabitHelper.getBackgroundColor2(_habit);
-
-    if (_screenMode == ScreenMode.CustomNew || _screenMode == ScreenMode.CustomEdit) {
-      if (Func.isNotEmpty(_habit.color) && Func.isNotEmpty(_habit.backgroundColor)) {
-        _selectedCustomHabitColor = CustomHabitColor()
-          ..color = _habit.color
-          ..bgColor = _habit.backgroundColor;
-      }
-    }
-
-    /// Icon
-    if (_screenMode == ScreenMode.CustomEdit) {
-      if (Func.isNotEmpty(_habit.photo)) {
-        _selectedCustomHabitIcon = CustomHabitIcon()..link = _habit.photo;
-      }
-    }
+    /// User habit
+    _userHabit = widget.userHabit;
 
     /// Name
     _nameController.text = _habit.name ?? '';
 
+    /// Color
+    _colorList = widget.customHabitSettings?.colorList;
+    switch (_screenMode) {
+      case ScreenMode.New:
+      case ScreenMode.Edit:
+        _primaryColorCode = _habit.color;
+        _backgroundColorCode = _habit.backgroundColor;
+        break;
+      case ScreenMode.CustomNew:
+        _primaryColorCode = _colorList?.first.primaryColor;
+        _backgroundColorCode = _colorList?.first.backgroundColor;
+        break;
+      case ScreenMode.CustomEdit:
+        _primaryColorCode = _habit.color;
+        _backgroundColorCode = _habit.backgroundColor;
+        break;
+    }
+
+    /// Icon
+    _iconList = widget.customHabitSettings?.iconList;
+    switch (_screenMode) {
+      case ScreenMode.New:
+      case ScreenMode.Edit:
+        break;
+      case ScreenMode.CustomNew:
+        if (Func.isNotEmpty(_iconList?.first.link)) {
+          _icon = CustomHabitIcon()..link = _iconList?.first.link;
+        }
+        break;
+      case ScreenMode.CustomEdit:
+        if (Func.isNotEmpty(_habit.photo)) {
+          _icon = CustomHabitIcon()..link = _habit.photo;
+        }
+        break;
+    }
+
     /// Plan term
-    if (_screenMode == ScreenMode.Edit) {
-      _selectedPlanTerm = _userHabit!.planTerm ?? PlanTerm.Daily;
-      _planList = _userHabit!.planDays ?? [];
-    } else {
-      _selectedPlanTerm = PlanTerm.Daily;
-      _planList = [];
+    switch (_screenMode) {
+      case ScreenMode.Edit:
+      case ScreenMode.CustomEdit:
+        _planTerm = _userHabit!.planTerm ?? PlanTerm.Daily;
+        _planList = _userHabit!.planDays ?? [];
+        break;
+      case ScreenMode.New:
+      case ScreenMode.CustomNew:
+      default:
+        _planTerm = PlanTerm.Daily;
+        _planList = [];
+        break;
     }
 
     /// Goal
-    if (_habit.goalSettings != null && _habit.goalSettings!.toolType != null) {
-      // Slider
-      if (_habit.goalSettings!.goalRequired ?? false) {
-        // Value
-        late double value;
-        if (_screenMode == ScreenMode.Edit) {
+    _goalSettingsList = widget.customHabitSettings?.goalSettingsList;
+    switch (_screenMode) {
+      case ScreenMode.New:
+        _goalSettings = _habit.goalSettings;
+        break;
+      case ScreenMode.Edit:
+        _goalSettings = _userHabit?.habit?.goalSettings;
+        break;
+      case ScreenMode.CustomNew:
+        _goalSettings = _goalSettingsList?.first;
+        _visibleGoalMeasure = true;
+        _goalMeasureList = HabitHelper.getGoalMeasureList(_goalSettingsList);
+        break;
+      case ScreenMode.CustomEdit:
+        _goalSettings = _userHabit?.habit?.goalSettings;
+
+        _visibleGoalMeasure = true;
+        _goalMeasureList = HabitHelper.getGoalMeasureList(_goalSettingsList);
+        break;
+    }
+
+    // Slider
+    if (_goalSettings != null && (_goalSettings!.goalRequired ?? false)) {
+      // Value
+      late double value;
+      switch (_screenMode) {
+        case ScreenMode.Edit:
+        case ScreenMode.CustomEdit:
           value = Func.toDouble(_userHabit!.goalValue);
-        } else {
-          value = Func.toDouble(_habit.goalSettings!.goalMax) / 2;
-        }
-
-        _sliderBloc = SliderBloc(
-          minValue: Func.toDouble(_habit.goalSettings!.goalMin),
-          maxValue: Func.toDouble(_habit.goalSettings!.goalMax),
-          value: value,
-          step: Func.toDouble(_habit.goalSettings!.goalStep),
-        );
-
-        _sliderTitle = _habit.goalSettings!.goalName;
-        _sliderQuantity = _habit.goalSettings!.toolUnit;
+          break;
+        case ScreenMode.New:
+        case ScreenMode.CustomNew:
+        default:
+          value = Func.toDouble(_goalSettings!.goalMax) / 2;
+          break;
       }
+
+      _goalSliderBloc = SliderBloc(
+        minValue: Func.toDouble(_goalSettings!.goalMin),
+        maxValue: Func.toDouble(_goalSettings!.goalMax),
+        value: value,
+        step: Func.toDouble(_goalSettings!.goalStep),
+      );
     }
 
     /// Start date, end date
-    if (_screenMode == ScreenMode.Edit) {
-      _selectedStartDate = Func.toDate(_userHabit!.startDate ?? '');
-      _selectedEndDate = Func.toDate(_userHabit!.endDate ?? '');
-    } else {
-      _selectedStartDate = DateTime.now();
-      _selectedEndDate = DateTime.now();
+    switch (_screenMode) {
+      case ScreenMode.Edit:
+      case ScreenMode.CustomEdit:
+        _startDate = Func.toDate(_userHabit!.startDate ?? '');
+        _endDate = Func.toDate(_userHabit!.endDate ?? '');
+        break;
+      case ScreenMode.New:
+      case ScreenMode.CustomNew:
+      default:
+        _startDate = DateTime.now();
+        _endDate = DateTime.now();
+        break;
     }
 
     /// Reminder
-    if (_screenMode == ScreenMode.Edit) {
-      if (_userHabit!.userHabitReminders != null && _userHabit!.userHabitReminders!.isNotEmpty) {
-        _reminderBloc.switchValue = true;
-
-        _reminderBloc.timeOfDayList = [];
-        for (var el in _userHabit!.userHabitReminders!) {
-          _reminderBloc.timeOfDayList.add(TimeOfDay(
-            hour: Func.toInt(el.time) ~/ 60,
-            minute: Func.toInt(el.time) % 60,
-          ));
+    switch (_screenMode) {
+      case ScreenMode.Edit:
+      case ScreenMode.CustomEdit:
+        if (_userHabit!.userHabitReminders != null && _userHabit!.userHabitReminders!.isNotEmpty) {
+          _reminderBloc.switchValue = true;
+          _reminderBloc.timeOfDayList = [];
+          for (var el in _userHabit!.userHabitReminders!) {
+            _reminderBloc.timeOfDayList.add(TimeOfDay(
+              hour: Func.toInt(el.time) ~/ 60,
+              minute: Func.toInt(el.time) % 60,
+            ));
+          }
         }
-      }
-    } else {
-      //
+        break;
+      case ScreenMode.New:
+      case ScreenMode.CustomNew:
+      default:
+        break;
     }
 
     /// Tip
@@ -217,90 +262,88 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: widget.title != null ? widget.title : LocaleKeys.habit,
-      backgroundColor: _backgroundColor,
-      child: (_userHabit != null || widget.habit != null)
-          ? BlocProvider.value(
-              value: BlocManager.userHabitBloc,
-              child: BlocListener<UserHabitBloc, UserHabitState>(
-                listener: _blocListener,
-                child: BlocBuilder<UserHabitBloc, UserHabitState>(builder: (context, state) {
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                            child: ListView(
-                              shrinkWrap: true,
+      backgroundColor: HabitHelper.getBackgroundColor(_backgroundColorCode),
+      child: BlocProvider.value(
+        value: BlocManager.userHabitBloc,
+        child: BlocListener<UserHabitBloc, UserHabitState>(
+          listener: _blocListener,
+          child: BlocBuilder<UserHabitBloc, UserHabitState>(builder: (context, state) {
+            return Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                          CustomShowcase(
+                            showcaseKey: ShowcaseKey.userHabit,
+                            description: LocaleKeys.showcaseUserHabit,
+                            overlayOpacity: 0.9,
+                            overlayPadding: EdgeInsets.all(20.0),
+                            shapeBorder: CircleBorder(),
+                            child: Column(
                               children: [
-                                CustomShowcase(
-                                  showcaseKey: ShowcaseKey.userHabit,
-                                  description: LocaleKeys.showcaseUserHabit,
-                                  overlayOpacity: 0.9,
-                                  overlayPadding: EdgeInsets.all(20.0),
-                                  shapeBorder: CircleBorder(),
-                                  child: Column(
-                                    children: [
-                                      /// Нэр
-                                      _nameTextField(),
+                                /// Нэр
+                                _nameTextField(),
 
-                                      /// Өнгө сонгох
-                                      _colorPicker(),
+                                /// Өнгө сонгох
+                                _colorPicker(),
 
-                                      /// Дүрс сонгох
-                                      _iconPicker(),
+                                /// Дүрс сонгох
+                                _iconPicker(),
 
-                                      /// Plan terms
-                                      _planTermsWidget(),
+                                /// Plan terms
+                                _planTermsWidget(),
 
-                                      /// Зорилго
-                                      _goalWidget(),
+                                /// Зорилго
+                                _goalWidget(),
 
-                                      /// Эхлэх огноо
-                                      _startDatePicker(),
+                                /// Эхлэх огноо
+                                _startDatePicker(),
 
-                                      /// Дуусах огноо
-                                      _endDatePicker(),
+                                /// Дуусах огноо
+                                _endDatePicker(),
 
-                                      /// Сануулах
-                                      _reminder(),
+                                /// Сануулах
+                                _reminder(),
 
-                                      // SizedBox(height: 300.0),
-                                    ],
-                                  ),
-                                ),
-
-                                /// Зөвлөмж
-                                _tipWidget(),
+                                // SizedBox(height: 300.0),
                               ],
                             ),
                           ),
-                        ),
+
+                          /// Зөвлөмж
+                          _tipWidget(),
+                        ],
                       ),
+                    ),
+                  ),
+                ),
 
-                      /// Buttons
-                      Container(
-                        margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, SizeHelper.marginBottom),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            /// Button delete
-                            _buttonDelete(),
+                /// Buttons
+                Container(
+                  margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, SizeHelper.marginBottom),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /// Button delete
+                      _buttonDelete(),
 
-                            /// Button save
-                            Expanded(
-                              child: _buttonSave(),
-                            ),
-                          ],
-                        ),
+                      /// Button save
+                      Expanded(
+                        child: _buttonSave(),
                       ),
                     ],
-                  );
-                }),
-              ),
-            )
-          : Container(),
+                  ),
+                ),
+              ],
+            );
+          }),
+        ),
+      ),
     );
   }
 
@@ -339,14 +382,16 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   Widget _colorPicker() {
     return _screenMode == ScreenMode.CustomNew
         ? CustomColorPicker(
-            colorList: _customHabitSettings?.colors ?? [],
-            initialColor: _selectedCustomHabitColor,
+            colorList: _colorList ?? [],
+            initialCustomHabitColor: CustomHabitColor(
+              primaryColor: _primaryColorCode,
+              backgroundColor: _backgroundColorCode,
+            ),
             margin: EdgeInsets.only(top: 15.0),
             onColorSelected: (value) {
               setState(() {
-                _primaryColor = HexColor.fromHex(value.color ?? ColorCodes.primary);
-                _backgroundColor = HexColor.fromHex(value.bgColor ?? ColorCodes.roseWhite);
-                _selectedCustomHabitColor = value;
+                _primaryColorCode = value.primaryColor ?? ColorCodes.primary;
+                _backgroundColorCode = value.backgroundColor ?? ColorCodes.roseWhite;
               });
             },
           )
@@ -354,27 +399,33 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   }
 
   Widget _iconPicker() {
-    return _screenMode == ScreenMode.CustomNew
-        ? CustomIconPicker(
-            iconList: _customHabitSettings?.icons ?? [],
-            selectedIcon: _selectedCustomHabitIcon,
-            margin: EdgeInsets.only(top: 15.0),
-            primaryColor: _primaryColor,
-            onIconSelected: (value) {
-              setState(() {
-                _selectedCustomHabitIcon = value;
-              });
-            },
-          )
-        : Container();
+    switch (_screenMode) {
+      case ScreenMode.CustomNew:
+      case ScreenMode.CustomEdit:
+        return CustomIconPicker(
+          iconList: _iconList ?? [],
+          selectedIcon: _icon,
+          margin: EdgeInsets.only(top: 15.0),
+          primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
+          onIconSelected: (value) {
+            setState(() {
+              _icon = value;
+            });
+          },
+        );
+      case ScreenMode.New:
+      case ScreenMode.Edit:
+      default:
+        return Container();
+    }
   }
 
   Widget _planTermsWidget() {
     return PlanTermsWidget(
-      primaryColor: _primaryColor,
-      planTerm: _selectedPlanTerm,
+      primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
+      planTerm: _planTerm,
       onPlanTermChanged: (term) {
-        _selectedPlanTerm = term;
+        _planTerm = term;
       },
       planList: _planList,
       onPlanListChanged: (list) {
@@ -384,44 +435,73 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   }
 
   Widget _goalWidget() {
-    return _habit.goalSettings?.goalRequired ?? false
-        ? StadiumContainer(
-            margin: EdgeInsets.only(top: 15.0),
-            child: Column(
+    if (!(_goalSettings?.goalRequired ?? false)) return Container();
+
+    switch (_screenMode) {
+      case ScreenMode.CustomNew:
+      case ScreenMode.CustomEdit:
+
+      case ScreenMode.New:
+      case ScreenMode.Edit:
+      default:
+    }
+
+    /// Default
+    return StadiumContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      child: Column(
+        children: [
+          /// Зорилго
+          Container(
+            margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+            child: Row(
               children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(Assets.trophy, color: _primaryColor),
-                      SizedBox(width: 15.0),
-                      Expanded(
-                        child: CustomText(
-                          LocaleKeys.goal,
-                        ),
-                      ),
-                    ],
+                SvgPicture.asset(Assets.trophy, color: HabitHelper.getPrimaryColor(_primaryColorCode)),
+                SizedBox(width: 15.0),
+                Expanded(
+                  child: CustomText(
+                    LocaleKeys.goal,
                   ),
                 ),
-
-                // if (_goalSwitchValue)
-                HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
-
-                /// Slider
-                if ( //_goalSwitchValue &&
-                _sliderBloc != null)
-                  CustomSlider(
-                    sliderBloc: _sliderBloc!,
-                    margin: EdgeInsets.symmetric(horizontal: 15.0),
-                    primaryColor: _primaryColor,
-                    title: _sliderTitle,
-                    quantityText: _sliderQuantity,
-                    visibleButtons: true,
-                  ),
               ],
             ),
-          )
-        : Container();
+          ),
+
+          /// Measure combo
+          _visibleGoalMeasure
+              ? CustomCombobox(
+                  margin: EdgeInsets.only(top: 15.0),
+                  primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
+                  backgroundColor: customColors.whiteBackground,
+                  initialText: _goalMeasure != null ? Func.toStr(_goalMeasure!.txt) : LocaleKeys.selectMeasure,
+                  selectedItem: _goalMeasure != null
+                      ? ComboItem(
+                          txt: _goalMeasure?.txt ?? '',
+                          val: _goalMeasure,
+                        )
+                      : null,
+                  list: _goalMeasureList,
+                  onItemSelected: (ComboItem item) {
+                    _goalMeasure = item.val;
+                  },
+                )
+              : Container(),
+
+          HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
+
+          /// Slider
+          if (_goalSliderBloc != null)
+            CustomSlider(
+              sliderBloc: _goalSliderBloc!,
+              margin: EdgeInsets.symmetric(horizontal: 15.0),
+              primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
+              title: _goalSettings!.goalName,
+              quantityText: _goalSettings!.toolUnit,
+              visibleButtons: true,
+            ),
+        ],
+      ),
+    );
   }
 
   Widget _startDatePicker() {
@@ -429,10 +509,10 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       hintText: LocaleKeys.startDate,
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
-      initialDate: _selectedStartDate,
+      initialDate: _startDate,
       onSelectedDate: (date) {
         print(date);
-        _selectedStartDate = date;
+        _startDate = date;
       },
     );
   }
@@ -442,10 +522,10 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       hintText: LocaleKeys.endDate,
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
-      initialDate: _selectedEndDate,
+      initialDate: _endDate,
       onSelectedDate: (date) {
         print(date);
-        _selectedEndDate = date;
+        _endDate = date;
       },
     );
   }
@@ -454,7 +534,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     return ReminderWidget(
       reminderBloc: _reminderBloc,
       margin: EdgeInsets.only(top: 15.0),
-      primaryColor: _primaryColor,
+      primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
     );
   }
 
@@ -500,7 +580,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       style: CustomButtonStyle.Secondary,
       text: LocaleKeys.save,
       margin: EdgeInsets.only(top: 15.0),
-      backgroundColor: _primaryColor,
+      backgroundColor: HabitHelper.getPrimaryColor(_primaryColorCode),
       onPressed: _onPressedButtonSave,
     );
   }
@@ -521,7 +601,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     userHabit.name = _nameController.text;
 
     /// Plan
-    userHabit.planTerm = _selectedPlanTerm;
+    userHabit.planTerm = _planTerm;
 
     if (_planList.isNotEmpty) {
       userHabit.planDays = [];
@@ -531,13 +611,13 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     }
 
     /// Goal
-    if (_habit.goalSettings?.goalRequired ?? false) {
-      userHabit.goalValue = Func.toStr(_sliderBloc?.value);
+    if (_goalSettings?.goalRequired ?? false) {
+      userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
     }
 
     /// Start, end date
-    userHabit.startDate = Func.dateTimeToDateStr(_selectedStartDate);
-    userHabit.endDate = Func.dateTimeToDateStr(_selectedEndDate);
+    userHabit.startDate = Func.dateTimeToDateStr(_startDate);
+    userHabit.endDate = Func.dateTimeToDateStr(_endDate);
 
     /// Reminder
     if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {

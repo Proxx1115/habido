@@ -36,17 +36,19 @@ import 'reminder/reminder_widget.dart';
 import 'user_habit_screen.dart';
 
 class UserHabitRoute extends StatefulWidget {
-  final String? title;
-  final UserHabit? userHabit; // UserHabit, habit 2-ын нэг нь заавал утгатай байх ёстой
-  final Habit? habit;
+  final String screenMode;
+  final Habit habit;
+  final UserHabit? userHabit;
   final CustomHabitSettingsResponse? customHabitSettings;
+  final String? title;
 
   const UserHabitRoute({
     Key? key,
-    this.title,
+    required this.screenMode,
+    required this.habit,
     this.userHabit,
-    this.habit,
     this.customHabitSettings,
+    this.title,
   }) : super(key: key);
 
   @override
@@ -60,10 +62,11 @@ class _UserHabitRouteState extends State<UserHabitRoute> {
       builder: Builder(
         builder: (context) {
           return UserHabitScreen(
-            title: widget.title,
-            userHabit: widget.userHabit,
+            screenMode: widget.screenMode,
             habit: widget.habit,
+            userHabit: widget.userHabit,
             customHabitSettings: widget.customHabitSettings,
+            title: widget.title,
           );
         },
       ),

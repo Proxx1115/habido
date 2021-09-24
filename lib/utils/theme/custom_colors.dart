@@ -31,7 +31,7 @@ class CustomColors {
 
   /// Background
   Color primaryBackground = ConstantColors.roseWhite;
-  Color secondaryBackground = Colors.white;
+  Color whiteBackground = Colors.white;
   Color greyBackground = ConstantColors.athensGrey;
   Color yellowBackground = ConstantColors.yellow;
   Color blueBackground = ConstantColors.blue;
@@ -51,14 +51,14 @@ class CustomColors {
   Color get primaryButtonBackground => primary; // enabled
   Color primaryButtonContent = Colors.white; // enabled
 
-  Color get primaryButtonDisabledBackground => secondaryBackground; // disabled
+  Color get primaryButtonDisabledBackground => whiteBackground; // disabled
   Color primaryButtonDisabledContent = ConstantColors.cornflowerBlue; // disabled
 
   Color get secondaryButtonBackground => greyBackground; // enabled
   Color secondaryButtonContent = ConstantColors.black; // enabled
 
   /// TextField
-  Color get primaryTextFieldBackground => secondaryBackground;
+  Color get primaryTextFieldBackground => whiteBackground;
 
   Color get secondaryTextFieldBackground => ConstantColors.athensGrey;
 

@@ -32,7 +32,7 @@ class VerticalContentCard extends StatelessWidget {
         margin: margin,
         decoration: BoxDecoration(
           borderRadius: _borderRadius,
-          color: customColors.secondaryBackground,
+          color: customColors.whiteBackground,
         ),
         child: InkWell(
           onTap: () {
@@ -180,7 +180,7 @@ class HorizontalContentCard extends StatelessWidget {
             height: _height,
             decoration: BoxDecoration(
               borderRadius: _borderRadius,
-              color: customColors.secondaryBackground,
+              color: customColors.whiteBackground,
             ),
             child: Row(
               children: [

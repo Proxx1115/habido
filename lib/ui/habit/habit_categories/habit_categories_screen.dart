@@ -6,6 +6,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
@@ -101,9 +102,10 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
       ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
     } else if (state is CustomHabitSettingsSuccess) {
       Navigator.pushNamed(context, Routes.userHabit, arguments: {
-        'title': LocaleKeys.createHabit,
+        'screenMode': ScreenMode.CustomNew,
         'habit': state.customHabit,
         'customHabitSettings': state.customHabitSettings,
+        'title': LocaleKeys.createHabit,
       });
     } else if (state is CustomHabitSettingsFailed) {
       showCustomDialog(

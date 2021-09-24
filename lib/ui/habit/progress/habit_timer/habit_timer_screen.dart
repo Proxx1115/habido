@@ -48,8 +48,8 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
   @override
   void initState() {
     // UI
-    _primaryColor = HabitHelper.getPrimaryColor(widget.userHabit);
-    _backgroundColor = HabitHelper.getBackgroundColor(widget.userHabit);
+    _primaryColor = HabitHelper.getPrimaryColor1(widget.userHabit);
+    _backgroundColor = HabitHelper.getBackgroundColor1(widget.userHabit);
 
     // Timer
     int? goalValue;

@@ -46,7 +46,7 @@ class _SatisfactionSliderState extends State<SatisfactionSlider> {
     _userHabit = widget.userHabit;
 
     // UI
-    _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
+    _primaryColor = HabitHelper.getPrimaryColor1(_userHabit);
 
     if (_userHabit.habit?.goalSettings != null && _userHabit.habit?.goalSettings!.toolType != null) {
       _minValue = Func.toInt(_userHabit.habit!.goalSettings!.goalMin);

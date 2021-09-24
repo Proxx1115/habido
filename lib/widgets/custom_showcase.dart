@@ -29,7 +29,7 @@ class CustomShowcase extends StatelessWidget {
       description: description,
       showcaseBackgroundColor: customColors.primary,
       textColor: customColors.whiteText,
-      overlayColor: overlayColor ?? customColors.secondaryBackground,
+      overlayColor: overlayColor ?? customColors.whiteBackground,
       overlayOpacity: overlayOpacity,
       shapeBorder: shapeBorder,
       contentPadding: EdgeInsets.all(10.0),

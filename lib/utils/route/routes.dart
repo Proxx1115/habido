@@ -319,6 +319,7 @@ class Routes {
         route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.userHabit)
             ? SlideRightRouteBuilder(
                 UserHabitRoute(
+                  screenMode: _getValueByKey(args, 'screenMode'),
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
@@ -328,6 +329,7 @@ class Routes {
               )
             : SlideBottomRouteBuilder(
                 UserHabitRoute(
+                  screenMode: _getValueByKey(args, 'screenMode'),
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),

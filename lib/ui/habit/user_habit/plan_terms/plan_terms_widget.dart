@@ -121,7 +121,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
       height: 40.0,
       decoration: BoxDecoration(
         borderRadius: SizeHelper.borderRadiusOdd,
-        color: customColors.secondaryBackground,
+        color: customColors.whiteBackground,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,7 +144,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: SizeHelper.borderRadiusOdd,
-            color: _selectedPlanTerm == planTerm ? widget.primaryColor : customColors.secondaryBackground,
+            color: _selectedPlanTerm == planTerm ? widget.primaryColor : customColors.whiteBackground,
           ),
           child: CustomText(
             PlanTerm.planTermText(planTerm),
@@ -171,7 +171,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     return Container(
       margin: EdgeInsets.only(top: 15.0),
       padding: EdgeInsets.fromLTRB(15.0, 15.0, 8.0, 15.0),
-      decoration: BoxDecoration(borderRadius: SizeHelper.borderRadiusOdd, color: customColors.secondaryBackground),
+      decoration: BoxDecoration(borderRadius: SizeHelper.borderRadiusOdd, color: customColors.whiteBackground),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(_weeklyPlanList.length, (index) => _weekDayItem(index)),
@@ -196,7 +196,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
             border: (_weeklyPlanList[index].isSelected ?? false)
                 ? null
                 : Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
-            color: (_weeklyPlanList[index].isSelected ?? false) ? widget.primaryColor : customColors.secondaryBackground,
+            color: (_weeklyPlanList[index].isSelected ?? false) ? widget.primaryColor : customColors.whiteBackground,
           ),
           child: CustomText(
             PlanTerm.getWeekDayText(_weeklyPlanList[index].day ?? 0),
@@ -212,7 +212,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     return Container(
       margin: EdgeInsets.only(top: 15.0),
       padding: EdgeInsets.fromLTRB(15.0, 15.0, 8.0, 15.0),
-      decoration: BoxDecoration(borderRadius: SizeHelper.borderRadiusOdd, color: customColors.secondaryBackground),
+      decoration: BoxDecoration(borderRadius: SizeHelper.borderRadiusOdd, color: customColors.whiteBackground),
       child: Column(
         children: [
           Row(
@@ -276,7 +276,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
             border: (_monthlyPlanList[index].isSelected ?? false)
                 ? null
                 : Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
-            color: (_monthlyPlanList[index].isSelected ?? false) ? widget.primaryColor : customColors.secondaryBackground,
+            color: (_monthlyPlanList[index].isSelected ?? false) ? widget.primaryColor : customColors.whiteBackground,
           ),
           child: CustomText(
             Func.toStr(_monthlyPlanList[index].day ?? 0),

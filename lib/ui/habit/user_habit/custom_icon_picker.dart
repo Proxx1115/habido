@@ -129,7 +129,7 @@ class CustomIconPicker extends StatelessWidget {
                 ),
                 color: selectedIcon?.link == customHabitIcon.link
                     ? customColors.greyBackground
-                    : customColors.secondaryBackground,
+                    : customColors.whiteBackground,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

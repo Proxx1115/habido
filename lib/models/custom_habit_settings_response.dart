@@ -3,47 +3,47 @@ import 'habit_goal_settings.dart';
 
 class CustomHabitSettingsResponse extends BaseResponse {
   CustomHabitSettingsResponse({
-    this.colors,
-    this.icons,
-    this.goalSettings,
+    this.colorList,
+    this.iconList,
+    this.goalSettingsList,
   });
 
   CustomHabitSettingsResponse.fromJson(dynamic json) {
     parseBaseParams(json);
     if (json['colors'] != null) {
-      colors = [];
+      colorList = [];
       json['colors'].forEach((v) {
-        colors?.add(CustomHabitColor.fromJson(v));
+        colorList?.add(CustomHabitColor.fromJson(v));
       });
     }
     if (json['icons'] != null) {
-      icons = [];
+      iconList = [];
       json['icons'].forEach((v) {
-        icons?.add(CustomHabitIcon.fromJson(v));
+        iconList?.add(CustomHabitIcon.fromJson(v));
       });
     }
     if (json['goalSettings'] != null) {
-      goalSettings = [];
+      goalSettingsList = [];
       json['goalSettings'].forEach((v) {
-        goalSettings?.add(HabitGoalSettings.fromJson(v));
+        goalSettingsList?.add(HabitGoalSettings.fromJson(v));
       });
     }
   }
 
-  List<CustomHabitColor>? colors;
-  List<CustomHabitIcon>? icons;
-  List<HabitGoalSettings>? goalSettings;
+  List<CustomHabitColor>? colorList;
+  List<CustomHabitIcon>? iconList;
+  List<HabitGoalSettings>? goalSettingsList;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    if (colors != null) {
-      map['colors'] = colors?.map((v) => v.toJson()).toList();
+    if (colorList != null) {
+      map['colors'] = colorList?.map((v) => v.toJson()).toList();
     }
-    if (icons != null) {
-      map['icons'] = icons?.map((v) => v.toJson()).toList();
+    if (iconList != null) {
+      map['icons'] = iconList?.map((v) => v.toJson()).toList();
     }
-    if (goalSettings != null) {
-      map['goalSettings'] = goalSettings?.map((v) => v.toJson()).toList();
+    if (goalSettingsList != null) {
+      map['goalSettings'] = goalSettingsList?.map((v) => v.toJson()).toList();
     }
     return map;
   }
@@ -51,22 +51,22 @@ class CustomHabitSettingsResponse extends BaseResponse {
 
 class CustomHabitColor {
   CustomHabitColor({
-    this.color,
-    this.bgColor,
+    this.primaryColor,
+    this.backgroundColor,
   });
 
   CustomHabitColor.fromJson(dynamic json) {
-    color = json['color'];
-    bgColor = json['bgColor'];
+    primaryColor = json['color'];
+    backgroundColor = json['bgColor'];
   }
 
-  String? color;
-  String? bgColor;
+  String? primaryColor;
+  String? backgroundColor;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['color'] = color;
-    map['bgColor'] = bgColor;
+    map['color'] = primaryColor;
+    map['bgColor'] = backgroundColor;
     return map;
   }
 }

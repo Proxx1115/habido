@@ -245,7 +245,7 @@ class ButtonStadium extends StatelessWidget {
   Color _getBackgroundColor() {
     switch (style) {
       case ButtonStadiumStyle.Primary:
-        return customColors.secondaryBackground;
+        return customColors.whiteBackground;
 
       case ButtonStadiumStyle.Secondary:
         return customColors.primaryButtonBackground;

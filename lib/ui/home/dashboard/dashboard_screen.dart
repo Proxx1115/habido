@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/ui/home/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/ui/home/slider/custom_carousel_slider.dart';
@@ -12,7 +13,6 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
@@ -252,9 +252,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               context,
               Routes.userHabit,
               arguments: {
-                'title': LocaleKeys.ediHabit,
+                'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
+                'habit': userHabitList[index].habit,
                 'userHabit': userHabitList[index],
-                'habit': null,
+                'title': LocaleKeys.ediHabit,
               },
             );
           },

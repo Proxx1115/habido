@@ -40,7 +40,7 @@ class _YourRankRouteState extends State<YourRankRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: LocaleKeys.yourRank,
-      backgroundColor: customColors.secondaryBackground,
+      backgroundColor: customColors.whiteBackground,
       appBarLeadingBackgroundColor: customColors.primaryBackground,
       child: BlocProvider.value(
         value: BlocManager.userBloc,

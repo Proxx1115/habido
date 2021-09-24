@@ -6,6 +6,7 @@ import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
@@ -126,8 +127,9 @@ class _HabitListScreenState extends State<HabitListScreen> {
       suffixAsset: Assets.arrow_forward,
       onPressed: () {
         Navigator.pushNamed(context, Routes.userHabit, arguments: {
-          'title': LocaleKeys.createHabit,
+          'screenMode': ScreenMode.New,
           'habit': _habitList![index],
+          'title': LocaleKeys.createHabit,
         });
       },
     );

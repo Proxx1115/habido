@@ -29,11 +29,11 @@ class CustomCodeInput extends StatelessWidget {
           emptySize: Size(45.0, SizeHelper.boxHeight),
           filledSize: Size(45.0, SizeHelper.boxHeight),
           emptyDecoration: BoxDecoration(
-            color: customColors.secondaryBackground,
+            color: customColors.whiteBackground,
             borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
           ),
           filledDecoration: BoxDecoration(
-            color: customColors.secondaryBackground,
+            color: customColors.whiteBackground,
             borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
           ),
           emptyTextStyle: TextStyle(color: customColors.secondaryText, fontWeight: FontWeight.w500),

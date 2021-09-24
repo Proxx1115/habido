@@ -157,7 +157,7 @@ class _LoginRouteState extends State<LoginRoute> {
                 Container(
                   padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
                   decoration: BoxDecoration(
-                    color: customColors.secondaryBackground,
+                    color: customColors.whiteBackground,
                     borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
                   ),
                   child: Column(
@@ -193,7 +193,7 @@ class _LoginRouteState extends State<LoginRoute> {
                 ),
 
                 Expanded(
-                  child: Container(color: customColors.secondaryBackground),
+                  child: Container(color: customColors.whiteBackground),
                   flex: 25,
                 ),
 
@@ -349,7 +349,7 @@ class _LoginRouteState extends State<LoginRoute> {
     return ButtonMultiPartText(
       text1: LocaleKeys.hasAccount,
       text2: LocaleKeys.signUp,
-      backgroundColor: customColors.secondaryBackground,
+      backgroundColor: customColors.whiteBackground,
       textColor: customColors.secondaryText,
       padding: EdgeInsets.symmetric(vertical: 35.0),
       onPressed: () {

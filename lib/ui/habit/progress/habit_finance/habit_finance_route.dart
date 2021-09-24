@@ -75,8 +75,8 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
     BlocManager.userHabitBloc.add(GetExpenseCategoriesEvent());
 
     // UI
-    _primaryColor = HabitHelper.getPrimaryColor(_userHabit);
-    _backgroundColor = HabitHelper.getBackgroundColor(_userHabit);
+    _primaryColor = HabitHelper.getPrimaryColor1(_userHabit);
+    _backgroundColor = HabitHelper.getBackgroundColor1(_userHabit);
 
     // Total amount
     if (_userHabit.habit?.goalSettings?.toolType == ToolType.Income) {

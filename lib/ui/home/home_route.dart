@@ -126,7 +126,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     return BottomAppBar(
       shape: CircularNotchedRectangle(),
-      color: customColors.secondaryBackground,
+      color: customColors.whiteBackground,
       elevation: 0.0,
       clipBehavior: Clip.none,
       notchMargin: 4.0,

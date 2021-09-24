@@ -58,7 +58,7 @@ class _CupOfWaterState extends State<CupOfWater> {
             padding: EdgeInsets.fromLTRB(18.0, 25.0, 18.0, 25.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              color: customColors.secondaryBackground,
+              color: customColors.whiteBackground,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
