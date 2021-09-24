@@ -96,13 +96,13 @@ class HabitHelper {
         : customColors.primaryBackground;
   }
 
-  static List<ComboItem>? getGoalMeasureList(List<HabitGoalSettings>? goalSettingsList) {
+  static List<ComboItem>? getGoalSettingsComboList(List<HabitGoalSettings>? goalSettingsList) {
     var list = <ComboItem>[];
     try {
       if (goalSettingsList != null) {
         list = List.generate(
           goalSettingsList.length,
-          (index) => ComboItem(txt: goalSettingsList[index].toolUnit ?? '', val: goalSettingsList[index]),
+          (index) => ComboItem(txt: goalSettingsList[index].goalName ?? '', val: goalSettingsList[index]),
         );
       }
     } catch (e) {
@@ -110,6 +110,10 @@ class HabitHelper {
     }
 
     return list;
+  }
+
+  static ComboItem? getGoalSettingsComboItem(HabitGoalSettings? goalSettings) {
+    return goalSettings != null ? ComboItem(txt: goalSettings.goalName ?? '', val: goalSettings) : null;
   }
 }
 

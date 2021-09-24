@@ -41,9 +41,9 @@ class ChatResponse extends BaseResponse {
     isOption = json['isOption'];
     optionType = json['optionType'];
     content = json['content'] != null ? Content.fromJson(json['content']) : null;
-    if (json['msgOptions'] != null) {
+    if (json['hdChatBotMsgOptions'] != null) {
       msgOptions = [];
-      json['msgOptions'].forEach((v) {
+      json['hdChatBotMsgOptions'].forEach((v) {
         msgOptions?.add(MsgOptions.fromJson(v));
       });
     }
@@ -64,7 +64,7 @@ class ChatResponse extends BaseResponse {
       map['content'] = content?.toJson();
     }
     if (msgOptions != null) {
-      map['msgOptions'] = msgOptions?.map((v) => v.toJson()).toList();
+      map['hdChatBotMsgOptions'] = msgOptions?.map((v) => v.toJson()).toList();
     }
     map['isEnd'] = isEnd;
     return map;

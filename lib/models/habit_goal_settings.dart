@@ -13,7 +13,9 @@ class HabitGoalSettings {
 
   // Дадал биелүүлэх tools
   String? toolType; // Minute, Hour, Count, Feeling, Satisfaction, Income, Expense
+  String? toolMeasure; // Бүртгэхэд ашиглана (Нэгж: минут, цаг, аяга, 'emoji - тоо', '₮')
   String? toolUnit; // Бүртгэхэд ашиглана (Нэгж: минут, цаг, аяга, 'emoji - тоо', '₮')
+  String? toolIcon;
   HabitToolContent? toolContent; // Хэрэгжүүлэхэд ашиглана
 
   HabitGoalSettings({
@@ -25,7 +27,9 @@ class HabitGoalSettings {
     this.goalIsExtendable,
     this.goalRequired,
     this.toolType,
+    this.toolMeasure,
     this.toolUnit,
+    this.toolIcon,
     this.toolContent,
   });
 
@@ -38,8 +42,9 @@ class HabitGoalSettings {
     goalIsExtendable = json['goalIsExtendable'];
     goalRequired = json['goalRequired'];
     toolType = json['toolType'];
+    toolMeasure = json['toolMeasure'];
     toolUnit = json['toolUnit'];
-
+    toolIcon = json['toolIcon'];
     if (json['toolContent'] != null && (json['toolContent'] as String).isNotEmpty) {
       var str = json['toolContent'];
       var jsonData = jsonDecode(str);
@@ -57,7 +62,9 @@ class HabitGoalSettings {
     map['goalIsExtendable'] = goalIsExtendable;
     map['goalRequired'] = goalRequired;
     map['toolType'] = toolType;
+    map['toolMeasure'] = toolMeasure;
     map['toolUnit'] = toolUnit;
+    map['toolIcon'] = toolIcon;
     map['toolContent'] = toolContent;
     return map;
   }

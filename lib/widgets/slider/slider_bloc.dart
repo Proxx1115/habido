@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 class SliderBloc extends Bloc<SliderEvent, SliderState> {
-  final double minValue;
-  final double maxValue;
+  double minValue;
+  double maxValue;
   double value;
   double step;
 
@@ -20,7 +20,9 @@ class SliderBloc extends Bloc<SliderEvent, SliderState> {
 
   @override
   Stream<SliderState> mapEventToState(SliderEvent event) async* {
-    if (event is SliderChangedEvent) {
+    if (event is SliderResetEvent) {
+      yield* _mapSliderResetEventToState(event);
+    } else if (event is SliderChangedEvent) {
       yield* _mapSliderChangedEventToState(event);
     } else if (event is SliderIncreaseEvent) {
       yield* _mapSliderIncreaseEventToState(event);
@@ -29,10 +31,20 @@ class SliderBloc extends Bloc<SliderEvent, SliderState> {
     }
   }
 
+  Stream<SliderState> _mapSliderResetEventToState(SliderResetEvent event) async* {
+    minValue = event.minValue;
+    maxValue = event.maxValue;
+    value = event.value;
+    step = event.step;
+
+    yield SliderResetState();
+    yield SliderDefault();
+  }
+
   Stream<SliderState> _mapSliderChangedEventToState(SliderChangedEvent event) async* {
     value = event.value;
     yield SliderChangedState(value);
-    yield SliderVoid();
+    yield SliderDefault();
   }
 
   Stream<SliderState> _mapSliderIncreaseEventToState(SliderIncreaseEvent event) async* {
@@ -40,7 +52,7 @@ class SliderBloc extends Bloc<SliderEvent, SliderState> {
       value = event.value + step;
       yield SliderChangedState(value);
     }
-    yield SliderVoid();
+    yield SliderDefault();
   }
 
   Stream<SliderState> _mapSliderDecreaseEventToState(SliderDecreaseEvent event) async* {
@@ -48,7 +60,7 @@ class SliderBloc extends Bloc<SliderEvent, SliderState> {
       value = event.value - step;
       yield SliderChangedState(value);
     }
-    yield SliderVoid();
+    yield SliderDefault();
   }
 }
 
@@ -61,6 +73,21 @@ abstract class SliderEvent extends Equatable {
 
   @override
   List<Object> get props => [];
+}
+
+class SliderResetEvent extends SliderEvent {
+  final double minValue;
+  final double maxValue;
+  final double value;
+  final double step;
+
+  const SliderResetEvent(this.minValue, this.maxValue, this.value, this.step);
+
+  @override
+  List<Object> get props => [minValue, maxValue, value, step];
+
+  @override
+  String toString() => 'SliderResetEvent { value: $value }';
 }
 
 class SliderChangedEvent extends SliderEvent {
@@ -112,7 +139,9 @@ abstract class SliderState extends Equatable {
 
 class SliderInit extends SliderState {}
 
-class SliderVoid extends SliderState {}
+class SliderResetState extends SliderState {}
+
+class SliderDefault extends SliderState {}
 
 class SliderChangedState extends SliderState {
   final double value;

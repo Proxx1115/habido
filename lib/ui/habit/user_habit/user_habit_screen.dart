@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -86,8 +87,9 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
 
   // Goal measure
   bool _visibleGoalMeasure = false;
-  List<ComboItem>? _goalMeasureList;
-  ComboItem? _goalMeasure;
+
+  // List<ComboItem>? _goalMeasureList;
+  // ComboItem? _goalMeasure;
 
   // Goal slider
   SliderBloc? _goalSliderBloc;
@@ -179,13 +181,10 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       case ScreenMode.CustomNew:
         _goalSettings = _goalSettingsList?.first;
         _visibleGoalMeasure = true;
-        _goalMeasureList = HabitHelper.getGoalMeasureList(_goalSettingsList);
         break;
       case ScreenMode.CustomEdit:
         _goalSettings = _userHabit?.habit?.goalSettings;
-
         _visibleGoalMeasure = true;
-        _goalMeasureList = HabitHelper.getGoalMeasureList(_goalSettingsList);
         break;
     }
 
@@ -467,23 +466,41 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
             ),
           ),
 
-          /// Measure combo
           _visibleGoalMeasure
-              ? CustomCombobox(
-                  margin: EdgeInsets.only(top: 15.0),
-                  primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
-                  backgroundColor: customColors.whiteBackground,
-                  initialText: _goalMeasure != null ? Func.toStr(_goalMeasure!.txt) : LocaleKeys.selectMeasure,
-                  selectedItem: _goalMeasure != null
-                      ? ComboItem(
-                          txt: _goalMeasure?.txt ?? '',
-                          val: _goalMeasure,
-                        )
-                      : null,
-                  list: _goalMeasureList,
-                  onItemSelected: (ComboItem item) {
-                    _goalMeasure = item.val;
-                  },
+              ? Row(
+                  children: [
+                    /// Icon
+                    // (_goalSettings == null)
+                    //     ? SvgPicture.asset(Assets.icon_picker)
+                    //     : CachedNetworkImage(imageUrl: _goalMeasure.val as HabitGoalSettings),
+
+                    /// Measure combo
+                    Expanded(
+                      child: CustomCombobox(
+                        primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
+                        backgroundColor: customColors.whiteBackground,
+                        initialText: HabitHelper.getGoalSettingsComboItem(_goalSettings) != null
+                            ? Func.toStr(_goalSettings!.goalName)
+                            : LocaleKeys.selectMeasure,
+                        selectedItem: HabitHelper.getGoalSettingsComboItem(_goalSettings),
+                        list: HabitHelper.getGoalSettingsComboList(_goalSettingsList),
+                        onItemSelected: (ComboItem item) {
+                          setState(() {
+                            _goalSettings = item.val;
+                          });
+
+                          print('test');
+
+                          _goalSliderBloc?.add(SliderResetEvent(
+                            Func.toDouble(_goalSettings!.goalMin),
+                            Func.toDouble(_goalSettings!.goalMax),
+                            Func.toDouble(_goalSettings!.goalMax) / 2,
+                            Func.toDouble(_goalSettings!.goalStep),
+                          ));
+                        },
+                      ),
+                    ),
+                  ],
                 )
               : Container(),
 
@@ -495,7 +512,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
               sliderBloc: _goalSliderBloc!,
               margin: EdgeInsets.symmetric(horizontal: 15.0),
               primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
-              title: _goalSettings!.goalName,
+              title: _goalSettings!.toolMeasure,
               quantityText: _goalSettings!.toolUnit,
               visibleButtons: true,
             ),
