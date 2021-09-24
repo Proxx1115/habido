@@ -99,7 +99,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       _screenMode = ScreenMode.Edit;
     } else if (widget.customHabitSettings != null) {
       _customHabitSettings = widget.customHabitSettings;
-      _screenMode = ScreenMode.Custom;
+      _screenMode = ScreenMode.CustomNew;
     } else {
       _screenMode = ScreenMode.New;
     }
@@ -307,7 +307,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   }
 
   Widget _colorPicker() {
-    return _screenMode == ScreenMode.Custom
+    return _screenMode == ScreenMode.CustomNew
         ? CustomColorPicker(
             colorList: _customHabitSettings?.colors ?? [],
             margin: EdgeInsets.only(top: 15.0),

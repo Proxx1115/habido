@@ -1,5 +1,6 @@
 class ScreenMode {
   static const New = 'New';
   static const Edit = 'Edit';
-  static const Custom = 'Custom';
+  static const CustomNew = 'CustomNew';
+  static const CustomEdit = 'CustomEdit';
 }

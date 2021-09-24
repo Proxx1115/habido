@@ -147,7 +147,13 @@ class _CustomColorPickerState extends State<CustomColorPicker> {
         height: 50.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          border: Border.all(width: SizeHelper.borderWidth, color: customColors.roseWhiteBorder),
+          border: Border.all(
+            width: _selectedCustomHabitColor?.color == customHabitColor.color ? 0.0 : SizeHelper.borderWidth,
+            color: customColors.roseWhiteBorder,
+          ),
+          color: _selectedCustomHabitColor?.color == customHabitColor.color
+              ? customColors.greyBackground
+              : customColors.secondaryBackground,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
