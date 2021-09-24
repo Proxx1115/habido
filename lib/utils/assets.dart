@@ -97,6 +97,9 @@ class Assets {
   static const String tree2 = 'assets/images/habit/tree2.svg';
   static const String tree3 = 'assets/images/habit/tree3.svg';
   static const String soil = 'assets/images/habit/soil.svg';
+  static const String brush = 'assets/images/habit/brush.svg';
+  static const String color_picker_png = 'assets/images/habit/color_picker.png';
+  static const String color_picker = 'assets/images/habit/color_picker.svg';
 }
 
 class FontAsset {

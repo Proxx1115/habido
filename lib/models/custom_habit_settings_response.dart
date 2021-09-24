@@ -13,13 +13,13 @@ class CustomHabitSettingsResponse extends BaseResponse {
     if (json['colors'] != null) {
       colors = [];
       json['colors'].forEach((v) {
-        colors?.add(DynamicHabitColors.fromJson(v));
+        colors?.add(CustomHabitColor.fromJson(v));
       });
     }
     if (json['icons'] != null) {
       icons = [];
       json['icons'].forEach((v) {
-        icons?.add(DynamicHabitIcons.fromJson(v));
+        icons?.add(CustomHabitIcon.fromJson(v));
       });
     }
     if (json['goalSettings'] != null) {
@@ -30,8 +30,8 @@ class CustomHabitSettingsResponse extends BaseResponse {
     }
   }
 
-  List<DynamicHabitColors>? colors;
-  List<DynamicHabitIcons>? icons;
+  List<CustomHabitColor>? colors;
+  List<CustomHabitIcon>? icons;
   List<HabitGoalSettings>? goalSettings;
 
   Map<String, dynamic> toJson() {
@@ -49,13 +49,13 @@ class CustomHabitSettingsResponse extends BaseResponse {
   }
 }
 
-class DynamicHabitColors {
-  DynamicHabitColors({
+class CustomHabitColor {
+  CustomHabitColor({
     this.color,
     this.bgColor,
   });
 
-  DynamicHabitColors.fromJson(dynamic json) {
+  CustomHabitColor.fromJson(dynamic json) {
     color = json['color'];
     bgColor = json['bgColor'];
   }
@@ -71,12 +71,12 @@ class DynamicHabitColors {
   }
 }
 
-class DynamicHabitIcons {
-  DynamicHabitIcons({
+class CustomHabitIcon {
+  CustomHabitIcon({
     this.link,
   });
 
-  DynamicHabitIcons.fromJson(dynamic json) {
+  CustomHabitIcon.fromJson(dynamic json) {
     link = json['link'];
   }
 

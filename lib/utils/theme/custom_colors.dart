@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 CustomColors customColors = CustomColors.light();
 
+class ColorCodes {
+  static const primary = 'FA6C51';
+  static const ghostGrey = 'CBD0D7';
+  static const roseWhite = 'FFF7F6';
+}
+
 class ConstantColors {
   static const primary = const Color(0xfffa6c51); // primary
   static const roseWhite = const Color(0xFFFFF7F6); // background

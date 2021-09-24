@@ -269,6 +269,8 @@ class LocaleKeys {
   /// Habit
   static String get habit => 'Дадал';
 
+  static String get habitName => 'Дадлын нэр';
+
   static String get createHabit => 'Дадал үүсгэх';
 
   static String get ediHabit => 'Дадал засварлах';
@@ -360,6 +362,8 @@ class LocaleKeys {
   static String get pleasing => 'Тааламжтай';
 
   static String get addNew => 'Шинээр нэмэх';
+
+  static String get pickColor => 'Өнгө сонгох';
 
   /// Profile
   static String get allTime => 'Бүх цаг үе';

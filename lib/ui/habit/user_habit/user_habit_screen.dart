@@ -20,6 +20,7 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
@@ -31,6 +32,7 @@ import 'package:habido_app/widgets/slider/slider_bloc.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'custom_color_picker.dart';
 import 'reminder/reminder_widget.dart';
 
 class UserHabitScreen extends StatefulWidget {
@@ -64,6 +66,9 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
 
   // Name
   final _nameController = TextEditingController();
+
+  // Color
+  CustomHabitColor? _selectedCustomHabitColor;
 
   // Plan
   late String _selectedPlanTerm;
@@ -213,6 +218,9 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                                       /// Нэр
                                       _nameTextField(),
 
+                                      /// Өнгө сонгох
+                                      _colorPicker(),
+
                                       /// Plan terms
                                       _planTermsWidget(),
 
@@ -293,8 +301,28 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   Widget _nameTextField() {
     return CustomTextField(
       controller: _nameController,
+      hintText: LocaleKeys.habitName,
       maxLength: 30,
     );
+  }
+
+  Widget _colorPicker() {
+    return _screenMode == ScreenMode.Custom
+        ? CustomColorPicker(
+            colorList: _customHabitSettings?.colors ?? [],
+            margin: EdgeInsets.only(top: 15.0),
+            onColorSelected: (value) {
+              _selectedCustomHabitColor = value;
+              if (_selectedCustomHabitColor != null) {
+                // todo test
+                setState(() {
+                  _primaryColor = HexColor.fromHex(_selectedCustomHabitColor!.color ?? ColorCodes.primary);
+                  _backgroundColor = HexColor.fromHex(_selectedCustomHabitColor!.bgColor ?? ColorCodes.roseWhite);
+                });
+              }
+            },
+          )
+        : Container();
   }
 
   Widget _planTermsWidget() {

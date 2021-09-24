@@ -275,7 +275,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Color _getOptionColor(MsgOptions option) {
     if (option.isSelected && Func.isNotEmpty(option.optionColor)) {
-      return HexColor.fromHex(option.optionColor ?? '#CBD0D7');
+      return HexColor.fromHex(option.optionColor ?? ColorCodes.ghostGrey);
     } else {
       return customColors.iconGrey;
     }
@@ -283,7 +283,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Color _getOptionImageBackgroundColor(MsgOptions option) {
     if (Func.isNotEmpty(option.optionColor)) {
-      return HexColor.fromHex(option.optionColor ?? '#CBD0D7');
+      return HexColor.fromHex(option.optionColor ?? ColorCodes.ghostGrey);
     } else {
       return customColors.iconGrey;
     }
