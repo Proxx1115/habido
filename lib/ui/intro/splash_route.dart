@@ -51,48 +51,11 @@ class _SplashRouteState extends State<SplashRoute> {
       } else {
         print('Failed');
       }
-
-      // todo test
-      // check version
-
-      //   var buildVersion = await DeviceHelper.getBuildNumber();
-      //   _showDialogUpdate('https://play.google.com/store/apps/details?id=mn.fr099y.optimal');
-      //
-      //   SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-      //
-      // }
-
-      // if (Func.isNotEmpty(currentAppVersion) && param != null) {
-      //   if (Platform.isAndroid && Func.isNotEmpty(param.androidVersion)) {
-      //     if (Func.toInt(currentAppVersion) < Func.toInt(param.androidVersion)) {
-      //       return;
-      //     }
-      //   } else if (Platform.isIOS && Func.isNotEmpty(param.iosVersion)) {
-      //     if (Func.toInt(currentAppVersion) < Func.toInt(param.iosVersion)) {
-      //       _showDialogUpdate('https://apps.apple.com/mn/app/zeely-by-optimal/id1419637942');
-      //       return;
-      //     }
-      //   }
-      // }
     } catch (e) {
       print(e);
     }
 
     return res;
-  }
-
-  _showDialogNewVersion(String deepLink) {
-    // showCustomDialog(
-    //   context,
-    //   dismissible: false,
-    //   bodyText: CustomText.pleaseUpdateApp,
-    //   dialogType: DialogType.warning,
-    //   btnPositiveText: CustomText.ok,
-    //   onPressedBtnPositive: () {
-    //     _navigateToFirstRoute();
-    //     _openDeeplink(deepLink);
-    //   },
-    // );
   }
 
   _checkSession() {
@@ -101,7 +64,6 @@ class _SplashRouteState extends State<SplashRoute> {
         AuthBloc.afterLogin().then(
             (value) => {Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false)});
       } else {
-        // todo test
         Future.delayed(Duration(seconds: 1), () {
           _navigateToFirstRoute();
         });
@@ -115,33 +77,4 @@ class _SplashRouteState extends State<SplashRoute> {
       (Route<dynamic> route) => false,
     );
   }
-
-  _openDeeplink(String url) async {
-    // try {
-    //   // url = 'khanbank://q?qPay_QRcode=7729010259415096644150863802398062&object_type=&object_id='; // test
-    //
-    //   if (await canLaunch(url)) {
-    //     await launch(url);
-    //   } else {
-    //     showCustomDialog(context, dialogType: DialogType.error, bodyText: CustomText.failed, btnPositiveText: CustomText.ok);
-    //   }
-    // } catch (e) {
-    //   print(e);
-    //   showCustomDialog(context, dialogType: DialogType.error, bodyText: CustomText.failed, btnPositiveText: CustomText.ok);
-    // }
-  }
-
-// _showDialogUpdate(String deepLink) {
-//   showCustomDialog(
-//     context,
-//     dismissible: false,
-//     bodyText: AppText.pleaseUpdateApp,
-//     dialogType: DialogType.warning,
-//     btnPositiveText: AppText.ok,
-//     onPressedBtnPositive: () {
-//       _navigateToFirstRoute();
-//       _openDeeplink(deepLink);
-//     },
-//   );
-// }
 }

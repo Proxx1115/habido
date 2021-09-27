@@ -30,7 +30,7 @@ import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart'
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
-import 'package:habido_app/ui/notification/notif_route.dart';
+import 'package:habido_app/ui/notification/notification_route.dart';
 import 'package:habido_app/ui/profile/change_password_route.dart';
 import 'package:habido_app/ui/profile/change_phone/change_phone_route.dart';
 import 'package:habido_app/ui/profile/change_phone/verify_phone_route.dart';
@@ -458,7 +458,7 @@ class Routes {
         break;
 
       case Routes.notif:
-        route = SlideRightRouteBuilder(NotifRoute(), settings);
+        route = SlideRightRouteBuilder(NotificationRoute(), settings);
         break;
 
       case Routes.userInfo:

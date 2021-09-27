@@ -24,8 +24,7 @@ class HabitHelper {
           return Routes.habitTimer;
         }
       case ToolType.Count:
-        // todo test count-iig drink water esehiig odoohondoo yalgahgui
-        return Routes.habitWater;
+        return Routes.habitWater; // count-iig drink water esehiig odoohondoo yalgahgui
       case ToolType.Income:
       case ToolType.Expense:
         return Routes.habitFinance;

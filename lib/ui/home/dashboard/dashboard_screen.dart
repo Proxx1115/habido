@@ -135,6 +135,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           /// Calendar, Title, Notification
           DashboardAppBar(
             padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+            visibleShowCase: true,
           ),
 
           /// Scroll header

@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -43,14 +44,7 @@ class _SignUp6SuccessRouteState extends State<SignUp6SuccessRoute> {
 
   void _blocListener(BuildContext context, AuthState state) {
     if (state is LoginSuccess) {
-      // todo test
-      // if(globals.userData.asd)
-      if (!true) {
-        Navigator.pushNamed(context, Routes.home);
-      } else {
-        /// Судалгаа бөглөх
-        Navigator.pushNamed(context, Routes.home);
-      }
+      Navigator.pushNamed(context, Routes.home);
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
@@ -104,7 +98,7 @@ class _SignUp6SuccessRouteState extends State<SignUp6SuccessRoute> {
                   ..username = widget.verifyCodeRequest.phoneNumber
                   ..password = widget.verifyCodeRequest.password
                   ..isBiometric = false
-                  ..deviceId = ''; // todo test
+                  ..deviceId = DeviceHelper.deviceId ?? '';
 
                 BlocManager.authBloc.add(LoginEvent(request));
 

@@ -9,14 +9,14 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
 
-class NotifButton extends StatefulWidget {
-  const NotifButton({Key? key}) : super(key: key);
+class NotificationButton extends StatefulWidget {
+  const NotificationButton({Key? key}) : super(key: key);
 
   @override
-  _NotifButtonState createState() => _NotifButtonState();
+  _NotificationButtonState createState() => _NotificationButtonState();
 }
 
-class _NotifButtonState extends State<NotifButton> {
+class _NotificationButtonState extends State<NotificationButton> {
   int _unreadNotifCount = 0;
 
   @override

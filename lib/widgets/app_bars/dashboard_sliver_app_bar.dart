@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_button.dart';
-import 'package:habido_app/ui/notification/notif_button.dart';
+import 'package:habido_app/ui/notification/notification_button.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -65,7 +65,7 @@ class DashboardSliverAppBar extends StatelessWidget {
                   )
 
                 /// Notification
-                : NotifButton(),
+                : NotificationButton(),
           ],
         ),
       ),

@@ -148,7 +148,6 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
   String _statusString() {
     Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
 
-    // todo test
     // Easiest way too ez
     int sec = currentDuration.inSeconds;
     String res = '';

@@ -57,7 +57,7 @@ class DeviceHelper {
       ..appName = LocaleKeys.appName
       ..appVersion = await DeviceHelper.getAppVersion()
       ..pushNotifToken = DeviceHelper.pushNotifToken
-      ..expireTime = '2030-01-01' // todo test
+      ..expireTime = '2030-01-01'
       // ..otherData = ''
       ..isBiometric = false;
 

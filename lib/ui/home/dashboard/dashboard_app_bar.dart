@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_button.dart';
-import 'package:habido_app/ui/notification/notif_button.dart';
+import 'package:habido_app/ui/notification/notification_button.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -13,11 +13,13 @@ import 'package:habido_app/widgets/text.dart';
 class DashboardAppBar extends StatelessWidget {
   final String? title;
   final EdgeInsets padding;
+  final bool visibleShowCase;
 
   const DashboardAppBar({
     Key? key,
     this.title,
     this.padding = EdgeInsets.zero,
+    this.visibleShowCase = false,
   }) : super(key: key);
 
   @override
@@ -29,12 +31,14 @@ class DashboardAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           /// Calendar
-          CustomShowcase(
-            description: LocaleKeys.showcaseCalendar,
-            showcaseKey: ShowcaseKey.calendar,
-            shapeBorder: CircleBorder(),
-            child: CalendarButton(),
-          ),
+          visibleShowCase
+              ? CustomShowcase(
+                  description: LocaleKeys.showcaseCalendar,
+                  showcaseKey: ShowcaseKey.calendar,
+                  shapeBorder: CircleBorder(),
+                  child: CalendarButton(),
+                )
+              : CalendarButton(),
 
           /// Title
           if (Func.isNotEmpty(title))
@@ -43,13 +47,15 @@ class DashboardAppBar extends StatelessWidget {
             ),
 
           /// Notification
-          CustomShowcase(
-            description: LocaleKeys.showcaseNotification,
-            showcaseKey: ShowcaseKey.notification,
-            overlayPadding: EdgeInsets.all(-5.0),
-            shapeBorder: CircleBorder(),
-            child: NotifButton(),
-          ),
+          visibleShowCase
+              ? CustomShowcase(
+                  description: LocaleKeys.showcaseNotification,
+                  showcaseKey: ShowcaseKey.notification,
+                  overlayPadding: EdgeInsets.all(-5.0),
+                  shapeBorder: CircleBorder(),
+                  child: NotificationButton(),
+                )
+              : NotificationButton(),
         ],
       ),
     );

@@ -66,7 +66,6 @@ class _YourRankRouteState extends State<YourRankRoute> {
                               child: Container(),
                             ),
 
-                            // todo test zoom
                             CarouselSlider(
                               carouselController: _carouselController,
                               options: CarouselOptions(

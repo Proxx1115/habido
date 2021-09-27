@@ -10,16 +10,15 @@ import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-import 'package:habido_app/widgets/text.dart';
 
-class NotifRoute extends StatefulWidget {
-  const NotifRoute({Key? key}) : super(key: key);
+class NotificationRoute extends StatefulWidget {
+  const NotificationRoute({Key? key}) : super(key: key);
 
   @override
-  _NotifRouteState createState() => _NotifRouteState();
+  _NotificationRouteState createState() => _NotificationRouteState();
 }
 
-class _NotifRouteState extends State<NotifRoute> {
+class _NotificationRouteState extends State<NotificationRoute> {
   List<Notif>? _notifList;
 
   @override
