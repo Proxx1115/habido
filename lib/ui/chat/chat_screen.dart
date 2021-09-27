@@ -363,6 +363,12 @@ class _ChatScreenState extends State<ChatScreen> {
     return ChatContainer(
       padding: EdgeInsets.zero,
       width: width,
+      onTap: () {
+        Navigator.pushNamed(context, Routes.content, arguments: {
+          'content': content,
+          'routeBuilder': 'SlideRightRouteBuilder',
+        });
+      },
       child: Column(
         children: [
           /// Image

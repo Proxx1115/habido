@@ -283,12 +283,23 @@ class Routes {
 
       case Routes.content:
         var args = settings.arguments as Map;
-        route = PageRouteBuilder(
-          transitionDuration: Duration(milliseconds: 1000),
-          pageBuilder: (_, __, ___) => ContentRoute(
-            content: _getValueByKey(args, 'content'),
-          ),
-        );
+        var routeBuilder = _getValueByKey(args, 'routeBuilder');
+        if (routeBuilder == 'SlideRightRouteBuilder') {
+          route = SlideRightRouteBuilder(
+            ContentRoute(
+              content: _getValueByKey(args, 'content'),
+            ),
+            settings,
+          );
+        } else {
+          route = PageRouteBuilder(
+            transitionDuration: Duration(milliseconds: 1000),
+            pageBuilder: (_, __, ___) => ContentRoute(
+              content: _getValueByKey(args, 'content'),
+            ),
+          );
+        }
+
         break;
 
       case Routes.habitCategories:
