@@ -27,6 +27,9 @@ class SharedPrefKey {
 
   /// Showcase
   static const String showcase = 'showcase'; // Showcase харуулсан эсэх
+
+  /// Notif count
+  static const String lastNotifDateTime = 'lastNotifDateTime'; // Хамгийн сүүлд notif count авсан хугацаа
 }
 
 class SharedPref {
@@ -122,5 +125,18 @@ class SharedPref {
       var today = Func.toDateStr(DateTime.now());
       sharedPref?.setString('${Func.toStr(userHabitId)}_${today}_${SharedPrefKey.habitProgressValue}', value);
     }
+  }
+
+  static DateTime? getLastNotifDateTime() {
+    var res = sharedPref?.getString(SharedPrefKey.lastNotifDateTime) ?? '';
+    if (Func.isNotEmpty(res)) {
+      return Func.toDate(res);
+    } else {
+      return null;
+    }
+  }
+
+  static void setLastNotifDateTime(DateTime dateTime) {
+    sharedPref?.setString(SharedPrefKey.lastNotifDateTime, dateTime.toString());
   }
 }

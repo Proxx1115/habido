@@ -5,6 +5,7 @@ import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/shared_pref.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -16,23 +17,46 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   @override
   Stream<NotificationState> mapEventToState(NotificationEvent event) async* {
     if (event is GetUnreadNotifCount) {
-      yield* _mapGetUnreadNotifCountToState();
+      yield* _mapGetUnreadNotifCountToState(event);
     } else if (event is GetFirstNotifsEvent) {
       yield* _mapGetFirstNotifsToState();
     } else if (event is GetNextNotifsEvent) {
       yield* _mapGetNextNotifsToState(event);
+    } else if (event is ReadAllNotifEvent) {
+      yield* _mapReadAllNotifEventToState();
     }
   }
 
-  Stream<NotificationState> _mapGetUnreadNotifCountToState() async* {
+  Stream<NotificationState> _mapGetUnreadNotifCountToState(GetUnreadNotifCount event) async* {
     try {
       yield NotificationLoading();
 
-      var res = await ApiManager.unreadNotifCount();
-      if (res.code == ResponseCode.Success) {
-        yield GetUnreadNotifCountSuccess(res.notifCount ?? 0);
+      bool forceUpdate = true;
+      if (event.forceUpdate) {
+        print('forceUpdate = true');
       } else {
-        yield GetUnreadNotifCountFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        var lastDateTime = SharedPref.getLastNotifDateTime();
+        if (lastDateTime == null) {
+          print('forceUpdate = true');
+        } else {
+          DateTime expirationDateTime = DateTime.now().subtract(Duration(seconds: 60));
+          if (lastDateTime.isBefore(expirationDateTime)) {
+            print('forceUpdate = true');
+          } else {
+            print('forceUpdate = false');
+            forceUpdate = false;
+          }
+        }
+      }
+
+      if (forceUpdate) {
+        var res = await ApiManager.unreadNotifCount();
+        if (res.code == ResponseCode.Success) {
+          SharedPref.setLastNotifDateTime(DateTime.now());
+          yield GetUnreadNotifCountSuccess(res.notifCount ?? 0);
+        } else {
+          yield GetUnreadNotifCountFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        }
       }
     } catch (e) {
       yield GetUnreadNotifCountFailed(LocaleKeys.errorOccurred);
@@ -68,6 +92,21 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       yield GetNextNotifsFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<NotificationState> _mapReadAllNotifEventToState() async* {
+    try {
+      yield NotificationLoading();
+
+      var res = await ApiManager.readAllNotif();
+      if (res.code == ResponseCode.Success) {
+        yield ReadAllNotifSuccess();
+      } else {
+        yield ReadAllNotifFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield ReadAllNotifFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,7 +120,19 @@ abstract class NotificationEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetUnreadNotifCount extends NotificationEvent {}
+class GetUnreadNotifCount extends NotificationEvent {
+  final bool forceUpdate;
+
+  const GetUnreadNotifCount(this.forceUpdate);
+
+  @override
+  List<Object> get props => [forceUpdate];
+
+  @override
+  String toString() => 'GetUnreadNotifCount { forceUpdate: $forceUpdate }';
+}
+
+class ReadAllNotifEvent extends NotificationEvent {}
 
 class GetFirstNotifsEvent extends NotificationEvent {}
 
@@ -182,4 +233,18 @@ class GetNextNotifsFailed extends NotificationState {
 
   @override
   String toString() => 'GetNextNotifsFailed { message: $message }';
+}
+
+class ReadAllNotifSuccess extends NotificationState {}
+
+class ReadAllNotifFailed extends NotificationState {
+  final String message;
+
+  const ReadAllNotifFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ReadAllNotifFailed { message: $message }';
 }

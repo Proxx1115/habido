@@ -21,7 +21,7 @@ class _NotifButtonState extends State<NotifButton> {
 
   @override
   void initState() {
-    BlocManager.notifBloc.add(GetUnreadNotifCount());
+    BlocManager.notifBloc.add(GetUnreadNotifCount(false));
     super.initState();
   }
 

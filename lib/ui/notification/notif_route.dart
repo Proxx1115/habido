@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/notification_bloc.dart';
 import 'package:habido_app/models/notif.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
@@ -23,11 +25,9 @@ class _NotifRouteState extends State<NotifRoute> {
   @override
   void initState() {
     BlocManager.notifBloc.add(GetFirstNotifsEvent());
+    BlocManager.notifBloc.add(ReadAllNotifEvent());
     super.initState();
   }
-
-  // todo test
-  // unlimited
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +66,6 @@ class _NotifRouteState extends State<NotifRoute> {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     BlocManager.notifBloc.add(GetNextNotifsEvent(_notifList!.last.notifId ?? 0));
-      //   },
-      // ),
     );
   }
 
@@ -79,6 +74,13 @@ class _NotifRouteState extends State<NotifRoute> {
       _notifList = state.notifList;
     } else if (state is GetNextNotifsSuccess) {
       _notifList?.addAll(state.notifList);
+    } else if (state is ReadAllNotifSuccess) {
+      BlocManager.notifBloc.add(GetUnreadNotifCount(true));
+    } else if (state is ReadAllNotifFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
     }
   }
 }

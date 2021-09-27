@@ -45,6 +45,7 @@ class HttpPath {
   static const String calendar = '/mobile/habit/calendar';
   static const String calendarDate = '/mobile/habit/date/user-habits';
   static const String unreadNotifCount = '/mobile/notifs/not-read';
+  static const String readAllNotif = '/mobile/notifs/read-all';
   static const String firstNotifs = '/mobile/notifs/first';
   static const String nextNotifs = '/mobile/notifs/then';
   static const String achievements = '/mobile/user/accomplishments';

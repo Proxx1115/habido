@@ -468,6 +468,15 @@ class ApiManager {
     );
   }
 
+  static Future<BaseResponse> readAllNotif() async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.readAllNotif,
+        httpMethod: HttpMethod.put,
+      ),
+    );
+  }
+
   static Future<NotifListResponse> firstNotifs() async {
     return NotifListResponse.fromJson(
       await httpUtils.sendRequest(
