@@ -39,6 +39,8 @@
         <true/>
         <key>NSAllowsArbitraryLoadsInWebContent</key>
         <true/>
+        <key>NSAllowsArbitraryLoadsForMedia</key>
+        <true/>
     </dict>
     <key>NSAppleMusicUsageDescription</key>
 	<string>Music!</string>

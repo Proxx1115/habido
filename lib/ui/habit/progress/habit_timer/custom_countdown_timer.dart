@@ -3,6 +3,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/timer/timer_painter.dart';
+// import 'package:just_audio/just_audio.dart';
 
 class CustomCountdownTimer extends StatefulWidget {
   final Duration duration;
@@ -11,6 +12,7 @@ class CustomCountdownTimer extends StatefulWidget {
   final bool visibleAddButton;
   final VoidCallback? callBack;
   final double timerSize;
+  final String? music;
 
   const CustomCountdownTimer({
     Key? key,
@@ -20,6 +22,7 @@ class CustomCountdownTimer extends StatefulWidget {
     this.visibleAddButton = false,
     this.callBack,
     this.timerSize = 265.0,
+    this.music,
   }) : super(key: key);
 
   @override
@@ -34,9 +37,12 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
   // Reset
   bool _callBack = true;
 
+  // AudioPlayer? _audioPlayer;
+
   @override
   void initState() {
     super.initState();
+    // Animation
     _duration = widget.duration;
     _animationController = AnimationController(
       vsync: this,
@@ -53,7 +59,22 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
           }
         }
       });
+
+    // Music
+
+    // _initAudioPlayer();
   }
+
+  // _initAudioPlayer() async {
+  //   if (Func.isNotEmpty(widget.music)) {
+  //     _audioPlayer = AudioPlayer();
+  //     var duration = await _audioPlayer!.setUrl(widget.music!);
+  //
+  //     Future.delayed(Duration(milliseconds: 500), () {
+  //       _audioPlayer?.play();
+  //     });
+  //   }
+  // }
 
   @override
   void dispose() {

@@ -105,6 +105,7 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
                           primaryColor: _primaryColor,
                           visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
                           timerSize: _timerSize,
+                          music: widget.userHabit.habit?.goalSettings?.toolContent?.music,
                           callBack: () {
                             setState(() {
                               _enabledButton = true;

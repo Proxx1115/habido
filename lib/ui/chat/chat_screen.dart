@@ -103,6 +103,10 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       );
     } else if (state is GetChatSuccess) {
+      // List<ChatResponse> tempList = [state.response];
+      // tempList.addAll(_chatList);
+      // _chatList = tempList;
+
       _chatList.add(state.response);
 
       if (state.chatIndex != null) {
