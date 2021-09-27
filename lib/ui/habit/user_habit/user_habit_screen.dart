@@ -490,7 +490,6 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
               HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
 
               /// Slider
-
               if (_goalSliderBloc != null && (_goalSettings?.goalRequired ?? false))
                 CustomSlider(
                   sliderBloc: _goalSliderBloc!,
@@ -626,54 +625,187 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   }
 
   _onPressedButtonSave() {
-    late UserHabit userHabit;
-    if (_screenMode == ScreenMode.Edit) {
-      userHabit = _userHabit!;
-    } else {
-      userHabit = UserHabit();
-      userHabit.userHabitId = 0;
+    switch (_screenMode) {
+      case ScreenMode.New:
 
-      // Habit settings
-      userHabit.habitId = _habit.habitId;
-    }
+        /// New
+        var userHabit = UserHabit();
+        userHabit.userHabitId = 0;
 
-    /// Name
-    userHabit.name = _nameController.text;
+        // Habit settings
+        userHabit.habitId = _habit.habitId;
 
-    /// Plan
-    userHabit.planTerm = _planTerm;
+        // Name
+        userHabit.name = _nameController.text;
 
-    if (_planList.isNotEmpty) {
-      userHabit.planDays = [];
-      for (var el in _planList) {
-        if (el.isSelected ?? false) userHabit.planDays!.add(el);
-      }
-    }
+        // Plan
+        userHabit.planTerm = _planTerm;
 
-    /// Goal
-    if (_goalSettings?.goalRequired ?? false) {
-      userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
-    }
+        if (_planList.isNotEmpty) {
+          userHabit.planDays = [];
+          for (var el in _planList) {
+            if (el.isSelected ?? false) userHabit.planDays!.add(el);
+          }
+        }
 
-    /// Start, end date
-    userHabit.startDate = Func.dateTimeToDateStr(_startDate);
-    userHabit.endDate = Func.dateTimeToDateStr(_endDate);
+        // Goal
+        if (_goalSettings?.goalRequired ?? false) {
+          userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
+        }
 
-    /// Reminder
-    if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
-      userHabit.userHabitReminders = [];
-      for (var el in _reminderBloc.timeOfDayList) {
-        userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
-      }
-    }
+        // Start, end date
+        userHabit.startDate = Func.dateTimeToDateStr(_startDate);
+        userHabit.endDate = Func.dateTimeToDateStr(_endDate);
 
-    /// Note
-    userHabit.userNote = '';
+        // Reminder
+        if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
+          userHabit.userHabitReminders = [];
+          for (var el in _reminderBloc.timeOfDayList) {
+            userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+          }
+        }
 
-    if (_screenMode == ScreenMode.Edit) {
-      BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
-    } else {
-      BlocManager.userHabitBloc.add(InsertUserHabitEvent(userHabit));
+        // Note
+        userHabit.userNote = '';
+
+        BlocManager.userHabitBloc.add(InsertUserHabitEvent(userHabit));
+        break;
+      case ScreenMode.Edit:
+
+        /// Edit
+        var userHabit = _userHabit!;
+
+        // Name
+        userHabit.name = _nameController.text;
+
+        // Plan
+        userHabit.planTerm = _planTerm;
+
+        if (_planList.isNotEmpty) {
+          userHabit.planDays = [];
+          for (var el in _planList) {
+            if (el.isSelected ?? false) userHabit.planDays!.add(el);
+          }
+        }
+
+        // Goal
+        if (_goalSettings?.goalRequired ?? false) {
+          userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
+        }
+
+        // Start, end date
+        userHabit.startDate = Func.dateTimeToDateStr(_startDate);
+        userHabit.endDate = Func.dateTimeToDateStr(_endDate);
+
+        // Reminder
+        if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
+          userHabit.userHabitReminders = [];
+          for (var el in _reminderBloc.timeOfDayList) {
+            userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+          }
+        }
+
+        // Note
+        userHabit.userNote = '';
+
+        BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
+        break;
+      case ScreenMode.CustomNew:
+
+        /// Custom new habit
+        var userHabit = UserHabit();
+        userHabit.habit = Habit();
+        userHabit.userHabitId = 0;
+
+        // Habit settings
+        userHabit.habitId = _habit.habitId;
+
+        // Name
+        userHabit.name = _nameController.text;
+
+        // Color
+        userHabit.habit!.color = _primaryColorCode;
+        userHabit.habit!.backgroundColor = _backgroundColorCode;
+
+        // Icon
+        userHabit.habit!.photo = _icon?.link;
+
+        // Plan
+        userHabit.planTerm = _planTerm;
+
+        if (_planList.isNotEmpty) {
+          userHabit.planDays = [];
+          for (var el in _planList) {
+            if (el.isSelected ?? false) userHabit.planDays!.add(el);
+          }
+        }
+
+        // Goal
+        userHabit.habit!.goalSettings = _goalSettings;
+
+        if (_goalSettings?.goalRequired ?? false) {
+          userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
+        }
+
+        // Start, end date
+        userHabit.startDate = Func.dateTimeToDateStr(_startDate);
+        userHabit.endDate = Func.dateTimeToDateStr(_endDate);
+
+        // Reminder
+        if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
+          userHabit.userHabitReminders = [];
+          for (var el in _reminderBloc.timeOfDayList) {
+            userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+          }
+        }
+
+        // Note
+        userHabit.userNote = '';
+
+        BlocManager.userHabitBloc.add(InsertUserHabitEvent(userHabit));
+        break;
+      case ScreenMode.CustomEdit:
+
+        /// Edit custom habit
+        var userHabit = _userHabit!;
+
+        // Name
+        userHabit.name = _nameController.text;
+
+        // Plan
+        userHabit.planTerm = _planTerm;
+
+        if (_planList.isNotEmpty) {
+          userHabit.planDays = [];
+          for (var el in _planList) {
+            if (el.isSelected ?? false) userHabit.planDays!.add(el);
+          }
+        }
+
+        // Goal
+        if (_goalSettings?.goalRequired ?? false) {
+          userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
+        }
+
+        // Start, end date
+        userHabit.startDate = Func.dateTimeToDateStr(_startDate);
+        userHabit.endDate = Func.dateTimeToDateStr(_endDate);
+
+        // Reminder
+        if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
+          userHabit.userHabitReminders = [];
+          for (var el in _reminderBloc.timeOfDayList) {
+            userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+          }
+        }
+
+        // Note
+        userHabit.userNote = '';
+
+        BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
+        break;
+      case ScreenMode.CustomEdit:
+        break;
     }
   }
 }
