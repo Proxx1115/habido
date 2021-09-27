@@ -42,13 +42,14 @@ class ChatResponse extends BaseResponse {
     isOption = json['isOption'];
     optionType = json['optionType'];
     content = json['content'] != null ? Content.fromJson(json['content']) : null;
+    isEnd = json['isEnd'];
     if (json['hdChatBotMsgOptions'] != null) {
       msgOptions = [];
       json['hdChatBotMsgOptions'].forEach((v) {
         msgOptions?.add(MsgOption.fromJson(v));
       });
     }
-    isEnd = json['isEnd'];
+    selectedMsgOption = json['selectedMsgOption'] != null ? MsgOption.fromJson(json['selectedMsgOption']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -67,7 +68,9 @@ class ChatResponse extends BaseResponse {
     if (msgOptions != null) {
       map['hdChatBotMsgOptions'] = msgOptions?.map((v) => v.toJson()).toList();
     }
-    map['isEnd'] = isEnd;
+    if (selectedMsgOption != null) {
+      map['selectedMsgOption'] = selectedMsgOption?.toJson();
+    }
     return map;
   }
 }

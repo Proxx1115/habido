@@ -38,8 +38,8 @@ class _HabidoAssistantRouteState extends State<HabidoAssistantRoute> {
             Align(
               alignment: Alignment.center,
               child: Container(
-                margin: EdgeInsets.only(bottom: 15.0),
-                child: Image.asset(Assets.habido_assistant_png),
+                margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: Image.asset(Assets.habido_assistant_png, height: 75.0, width: 75.0),
               ),
             ),
 

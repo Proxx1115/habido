@@ -42,6 +42,8 @@ class _ChatScreenState extends State<ChatScreen> {
   // Button thanks
   bool _visibleButtonThanks = false;
 
+  //
+
   @override
   void initState() {
     super.initState();
@@ -142,25 +144,18 @@ class _ChatScreenState extends State<ChatScreen> {
           buttonText: LocaleKeys.ok,
         ),
       );
-    }
-  }
-
-  _scrollToBottom() {
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        curve: Curves.easeOut,
-        duration: const Duration(milliseconds: 1000),
+    } else if (state is ChatHistorySuccess) {
+      _chatList = state.chatList ?? [];
+    } else if (state is ChatHistoryFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          buttonText: LocaleKeys.ok,
+        ),
       );
-
-      // setState(() {
-      //   _scrollController.animateTo(
-      //     _scrollController.position.maxScrollExtent,
-      //     curve: Curves.easeOut,
-      //     duration: const Duration(milliseconds: 1000),
-      //   );
-      // });
-    });
+    }
   }
 
   Widget _chatItem(int chatIndex) {
@@ -178,8 +173,14 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: CustomText(_chatList[chatIndex].msg, maxLines: 10),
               ),
 
-        /// User chat - Options
-        if (_chatList[chatIndex].msgOptions != null && _chatList[chatIndex].msgOptions!.length > 0)
+        /// Selected option
+        if (_chatList[chatIndex].selectedMsgOption != null)
+          _selectedOptionItem(chatIndex, _chatList[chatIndex].selectedMsgOption!),
+
+        /// Option
+        if (_chatList[chatIndex].selectedMsgOption == null &&
+            _chatList[chatIndex].msgOptions != null &&
+            _chatList[chatIndex].msgOptions!.length > 0)
           for (int j = 0; j < _chatList[chatIndex].msgOptions!.length; j++) _optionItem(chatIndex, j),
       ],
     );
@@ -266,6 +267,59 @@ class _ChatScreenState extends State<ChatScreen> {
     } else {
       return Container();
     }
+  }
+
+  Widget _selectedOptionItem(int chatIndex, MsgOption msgOption) {
+    var chat = _chatList[chatIndex];
+    var option = msgOption;
+    option.isSelected = true;
+
+    return ChatContainer(
+      alignment: Alignment.centerRight,
+      height: _optionHeight(chat.optionType),
+      padding: _optionPadding(chat.optionType),
+      borderRadius: _optionBorderRadius(option.habitCategoryPhotoLink),
+      tweenStart: 30.0,
+      tweenEnd: 0.0,
+      child: Row(
+        children: [
+          /// Icon
+          if (Func.isNotEmpty(option.habitCategoryPhotoLink))
+            Container(
+              margin: EdgeInsets.only(right: 15.0),
+              padding: EdgeInsets.all(15.0),
+              height: _optionHeight(chat.optionType),
+              decoration: BoxDecoration(
+                color: _getOptionImageBackgroundColor(option),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5.0),
+                  topRight: Radius.circular(0.0),
+                  bottomRight: Radius.circular(0.0),
+                  bottomLeft: Radius.circular(15.0),
+                ),
+              ),
+              child: CachedNetworkImage(
+                imageUrl: option.habitCategoryPhotoLink!,
+                // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+                placeholder: (context, url) => Container(),
+                errorWidget: (context, url, error) => Container(),
+                fit: BoxFit.fill,
+              ),
+            ),
+
+          /// Text
+          Expanded(
+            child: CustomText(option.text, maxLines: 10),
+          ),
+
+          /// Icon
+          SvgPicture.asset(
+            Assets.circle_check,
+            color: _getOptionColor(option),
+          ),
+        ],
+      ),
+    );
   }
 
   double? _optionHeight(String? optionType) {
@@ -372,4 +426,22 @@ class _ChatScreenState extends State<ChatScreen> {
       },
     );
   }
+
+// _scrollToBottom() {
+//   Future.delayed(const Duration(milliseconds: 1000), () {
+//     _scrollController.animateTo(
+//       _scrollController.position.maxScrollExtent,
+//       curve: Curves.easeOut,
+//       duration: const Duration(milliseconds: 1000),
+//     );
+//
+//     // setState(() {
+//     //   _scrollController.animateTo(
+//     //     _scrollController.position.maxScrollExtent,
+//     //     curve: Curves.easeOut,
+//     //     duration: const Duration(milliseconds: 1000),
+//     //   );
+//     // });
+//   });
+// }
 }

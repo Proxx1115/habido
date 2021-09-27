@@ -226,6 +226,7 @@ class ApiManager {
     return ChatHistoryResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.userChats + '?cbId=$cbId',
+        httpMethod: HttpMethod.get,
       ),
     );
   }

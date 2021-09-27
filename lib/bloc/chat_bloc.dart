@@ -52,7 +52,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             break;
 
           case ChatType.assistant:
-            if (chatbotsResponse.isAssistantChatDone ?? false) {
+            // if (chatbotsResponse.isAssistantChatDone ?? false) {
+            if (true) {
               /// Get chat history
               var res = await ApiManager.chatHistory(chatbotsResponse.assistantCbId ?? 0);
               if (res.code == ResponseCode.Success) {
