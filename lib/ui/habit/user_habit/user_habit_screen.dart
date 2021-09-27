@@ -676,6 +676,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
 
         /// Edit
         var userHabit = _userHabit!;
+        userHabit.isDynamicHabit = false;
 
         // Name
         userHabit.name = _nameController.text;

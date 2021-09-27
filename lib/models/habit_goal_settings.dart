@@ -65,7 +65,8 @@ class HabitGoalSettings {
     map['toolMeasure'] = toolMeasure;
     map['toolUnit'] = toolUnit;
     map['toolIcon'] = toolIcon;
-    map['toolContent'] = toolContent;
+    map['toolContent'] = toolContent.toString();
+    // map['toolContent'] = toolContent;
     return map;
   }
 }
