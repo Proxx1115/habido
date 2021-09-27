@@ -11,6 +11,7 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/checkbox.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/date_picker.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -207,6 +208,18 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     });
   }
 
+  _validateAge() {
+    // Is older than 12 years old
+    if (_selectedBirthDate == null) return false;
+
+    DateTime today = DateTime.now();
+    int yearDiff = today.year - _selectedBirthDate!.year;
+    int monthDiff = today.month - _selectedBirthDate!.month;
+    int dayDiff = today.day - _selectedBirthDate!.day;
+
+    return yearDiff > 12 || yearDiff == 12 && monthDiff >= 0 && dayDiff >= 0;
+  }
+
   _buttonNext() {
     return !Func.visibleKeyboard(context)
         ? CustomButton(
@@ -215,6 +228,18 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
             asset: Assets.long_arrow_next,
             onPressed: _enabledBtnNext
                 ? () {
+                    // Validation
+                    if (!_validateAge()) {
+                      showCustomDialog(
+                        context,
+                        child: CustomDialogBody(
+                            asset: Assets.error, text: LocaleKeys.validate12, buttonText: LocaleKeys.ok),
+                      );
+
+                      return;
+                    }
+
+                    // Next
                     SignUpRegisterRequest verifyCodeRequest = widget.signUpRegisterRequest;
                     verifyCodeRequest
                       ..birthday = Func.toDateStr(_selectedBirthDate!)

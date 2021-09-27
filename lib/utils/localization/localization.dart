@@ -369,6 +369,8 @@ class LocaleKeys {
 
   static String get pickShape => 'Дүрс сонгох';
 
+  static String get validate12 => 'Уучлаарай, 12-оос доош насны хүн бүртгүүлэх боломжгүй.';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 

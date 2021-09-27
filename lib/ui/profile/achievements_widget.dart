@@ -174,9 +174,9 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                     Center(
                       child: Column(
                         children: [
-                          /// Category count
+                          /// Хэвшсэн дадал
                           CustomText(
-                            Func.toStr(_habitCategoryAchievements!.length),
+                            Func.toStr(_allTimeAchievement!.allTimeTotalCompletedHabits),
                             alignment: Alignment.center,
                             fontSize: 35.0,
                             fontWeight: FontWeight.w500,
