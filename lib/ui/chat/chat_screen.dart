@@ -6,6 +6,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/chat_bloc.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/chat_type.dart';
+import 'package:habido_app/models/chatbots_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/msg_options.dart';
 import 'package:habido_app/models/option_type.dart';
@@ -45,10 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
 
-
-
-
-    BlocManager.chatBloc.add(GetFirstChatEvent(widget.chatType));
+    BlocManager.chatBloc.add(GetChatbotsEvent(widget.chatType));
   }
 
   @override
@@ -89,7 +87,20 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _blocListener(BuildContext context, ChatState state) {
-    if (state is ChatSuccess) {
+    if (state is GetChatbotsSuccess) {
+      // ChatbotsResponse res = state.response;
+      // if(res.isAssistantChatDone ?? false && res.) {
+      // } else ()
+    } else if (state is GetChatbotsFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          buttonText: LocaleKeys.ok,
+        ),
+      );
+    } else if (state is GetChatSuccess) {
       _chatList.add(state.response);
 
       if (state.chatIndex != null) {
@@ -99,7 +110,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       if (state.response.isEnd ?? false) {
         print('Чат дууссан');
-        if (widget.chatType == ChatType.onBoarding) {
+        if (widget.chatType == ChatType.onboarding) {
           _visibleButtonThanks = true;
         }
       } else if (state.response.msgOptions != null && state.response.msgOptions!.length > 0) {
@@ -122,7 +133,7 @@ class _ChatScreenState extends State<ChatScreen> {
       }
 
       // _scrollToBottom();
-    } else if (state is ChatFailed) {
+    } else if (state is GetChatFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(
@@ -276,7 +287,7 @@ class _ChatScreenState extends State<ChatScreen> {
         : null;
   }
 
-  Color _getOptionColor(MsgOptions option) {
+  Color _getOptionColor(MsgOption option) {
     if (option.isSelected && Func.isNotEmpty(option.optionColor)) {
       return HexColor.fromHex(option.optionColor ?? ColorCodes.ghostGrey);
     } else {
@@ -284,7 +295,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  Color _getOptionImageBackgroundColor(MsgOptions option) {
+  Color _getOptionImageBackgroundColor(MsgOption option) {
     if (Func.isNotEmpty(option.optionColor)) {
       return HexColor.fromHex(option.optionColor ?? ColorCodes.ghostGrey);
     } else {

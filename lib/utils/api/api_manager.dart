@@ -4,6 +4,7 @@ import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/change_password_request.dart';
 import 'package:habido_app/models/change_phone_request.dart';
+import 'package:habido_app/models/chat_history_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/chatbots_response.dart';
@@ -195,11 +196,10 @@ class ApiManager {
   }
 
   /// Chat bot
-  static Future<ChatbotsResponse> chatbots(ChatRequest request) async {
+  static Future<ChatbotsResponse> chatbots() async {
     return ChatbotsResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.chatbots,
-        objectData: request,
         httpMethod: HttpMethod.get,
       ),
     );
@@ -218,6 +218,14 @@ class ApiManager {
     return ChatResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.continueChat + '?msgId=$msgId',
+      ),
+    );
+  }
+
+  static Future<ChatHistoryResponse> chatHistory(int cbId) async {
+    return ChatHistoryResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.userChats + '?cbId=$cbId',
       ),
     );
   }

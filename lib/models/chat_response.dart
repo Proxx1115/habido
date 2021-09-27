@@ -12,8 +12,9 @@ class ChatResponse extends BaseResponse {
   bool? isOption;
   String? optionType;
   Content? content;
-  List<MsgOptions>? msgOptions;
   bool? isEnd;
+  List<MsgOption>? msgOptions;
+  MsgOption? selectedMsgOption;
 
   bool isOptionSelected = false; // Local param
 
@@ -44,7 +45,7 @@ class ChatResponse extends BaseResponse {
     if (json['hdChatBotMsgOptions'] != null) {
       msgOptions = [];
       json['hdChatBotMsgOptions'].forEach((v) {
-        msgOptions?.add(MsgOptions.fromJson(v));
+        msgOptions?.add(MsgOption.fromJson(v));
       });
     }
     isEnd = json['isEnd'];

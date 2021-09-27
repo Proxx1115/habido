@@ -13,6 +13,7 @@ class HttpPath {
   static const String chatbots = '/mobile/chatbots';
   static const String firstChat = '/mobile/first-chat';
   static const String continueChat = '/mobile/continue-chat';
+  static const String userChats = '/mobile/user-chats';
   static const String msgOption = '/mobile/msg-option';
   static const String banners = '/mobile/banners';
   static const String testCategories = '/mobile/test-categories';

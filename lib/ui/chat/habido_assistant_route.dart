@@ -45,7 +45,7 @@ class _HabidoAssistantRouteState extends State<HabidoAssistantRoute> {
 
             /// Chat widget
             Expanded(
-              child: ChatScreen(chatType: ChatType.onBoarding),
+              child: ChatScreen(chatType: ChatType.onboarding),
             ),
           ],
         ),

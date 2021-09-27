@@ -4,7 +4,8 @@ class ChatbotsResponse extends BaseResponse {
   ChatbotsResponse({
     this.onBoardingCbId,
     this.assistantCbId,
-    this.isAssistantChatDone,});
+    this.isAssistantChatDone,
+  });
 
   ChatbotsResponse.fromJson(dynamic json) {
     parseBaseParams(json);
@@ -24,5 +25,4 @@ class ChatbotsResponse extends BaseResponse {
     map['isAssistantChatDone'] = isAssistantChatDone;
     return map;
   }
-
 }
