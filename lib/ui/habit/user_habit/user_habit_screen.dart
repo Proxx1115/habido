@@ -632,6 +632,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
         /// New
         var userHabit = UserHabit();
         userHabit.userHabitId = 0;
+        userHabit.isDynamicHabit = false;
 
         // Habit settings
         userHabit.habitId = _habit.habitId;

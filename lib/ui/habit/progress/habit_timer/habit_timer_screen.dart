@@ -16,7 +16,6 @@ import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:showcaseview/showcaseview.dart';
-
 import 'custom_countdown_timer.dart';
 
 class HabitTimerScreen extends StatefulWidget {
@@ -107,7 +106,9 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
                           visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
                           timerSize: _timerSize,
                           callBack: () {
-                            setState(() {});
+                            setState(() {
+                              _enabledButton = true;
+                            });
                           },
                         ),
                       ),
