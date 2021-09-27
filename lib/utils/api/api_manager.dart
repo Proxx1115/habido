@@ -6,6 +6,7 @@ import 'package:habido_app/models/change_password_request.dart';
 import 'package:habido_app/models/change_phone_request.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
+import 'package:habido_app/models/chatbots_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
 import 'package:habido_app/models/custom_habit_settings_response.dart';
@@ -194,6 +195,16 @@ class ApiManager {
   }
 
   /// Chat bot
+  static Future<ChatbotsResponse> chatbots(ChatRequest request) async {
+    return ChatbotsResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.chatbots,
+        objectData: request,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
   static Future<ChatResponse> firstChat(ChatRequest request) async {
     return ChatResponse.fromJson(
       await httpUtils.sendRequest(

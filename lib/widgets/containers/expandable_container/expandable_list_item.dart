@@ -13,6 +13,7 @@ import 'package:habido_app/widgets/text.dart';
 class ExpandableListItem extends StatelessWidget {
   final VoidCallback? onPressed;
   final String? leadingImageUrl;
+  final Color? leadingImageColor;
   final Color? leadingBackgroundColor;
   final String text;
   final VoidCallback? onPressedSkip;
@@ -26,6 +27,7 @@ class ExpandableListItem extends StatelessWidget {
     Key? key,
     this.onPressed,
     this.leadingImageUrl,
+    this.leadingImageColor,
     this.leadingBackgroundColor,
     required this.text,
     this.onPressedSkip,
@@ -65,6 +67,7 @@ class ExpandableListItem extends StatelessWidget {
                     ),
                     child: CachedNetworkImage(
                       imageUrl: leadingImageUrl!,
+                      color: leadingImageColor,
                       fit: BoxFit.fitWidth,
                       width: 20.0,
                       height: 20.0,

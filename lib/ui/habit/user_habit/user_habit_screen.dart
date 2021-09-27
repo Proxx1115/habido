@@ -8,6 +8,7 @@ import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_reminders.dart';
@@ -714,11 +715,14 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
 
         /// Custom new habit
         var userHabit = UserHabit();
-        userHabit.habit = Habit();
         userHabit.userHabitId = 0;
+        userHabit.isDynamicHabit = true;
+        userHabit.habitId = 0;
 
-        // Habit settings
-        userHabit.habitId = _habit.habitId;
+        // Habit
+        userHabit.habit = Habit();
+        userHabit.habit!.habitId = 0;
+        userHabit.habit!.categoryId = globals.userData?.habitCategoryId;
 
         // Name
         userHabit.name = _nameController.text;

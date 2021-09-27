@@ -18,7 +18,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   @override
   Stream<ChatState> mapEventToState(ChatEvent event) async* {
-    if (event is GetFirstChatEvent) {
+    if (event is GetChatbotsEvent) {
+      yield* _mapGetChatbotsEventToState();
+    } else if (event is GetFirstChatEvent) {
       yield* _mapGetFirstChatEventToState(event);
     } else if (event is GetNextChatEvent) {
       yield* _mapGetNextChatEventToState(event);
@@ -27,43 +29,58 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
+  Stream<ChatState> _mapGetChatbotsEventToState() async* {
+    // try {
+    //   yield ChatLoading();
+    //
+    //   var res = await ApiManager.continueChat(event.continueMsgId);
+    //   if (res.code == ResponseCode.Success) {
+    //     yield ChatSuccess(res, event.chatIndex);
+    //   } else {
+    //     yield ChatFailed(ApiHelper.getFailedMessage(res.message));
+    //   }
+    // } catch (e) {
+    //   yield ChatFailed(LocaleKeys.errorOccurred);
+    // }
+  }
+
   Stream<ChatState> _mapGetFirstChatEventToState(GetFirstChatEvent event) async* {
-    try {
-      yield ChatLoading();
-
-      // Validation
-      if (globals.param == null || globals.param!.assistantCbId == null || globals.param!.onBoardingCbId == null) {
-        var paramRes = await ApiManager.param();
-      }
-
-      // Get chat bot ID
-      int? chatBotId;
-      switch (event.chatType) {
-        case ChatType.onBoarding:
-          chatBotId = globals.param?.onBoardingCbId;
-          break;
-
-        case ChatType.assistant:
-          chatBotId = globals.param?.assistantCbId;
-          break;
-      }
-
-      if (chatBotId == null) {
-        yield ChatFailed(LocaleKeys.chatBotIdNotFound);
-        return;
-      }
-
-      // Get chat
-      var request = ChatRequest()..cbId = chatBotId;
-      var res = await ApiManager.firstChat(request);
-      if (res.code == ResponseCode.Success) {
-        yield ChatSuccess(res, null);
-      } else {
-        yield ChatFailed(ApiHelper.getFailedMessage(res.message));
-      }
-    } catch (e) {
-      yield ChatFailed(LocaleKeys.errorOccurred);
-    }
+    // try {
+    //   yield ChatLoading();
+    //
+    //   // Validation
+    //   if (globals.param == null || globals.param!.assistantCbId == null || globals.param!.onBoardingCbId == null) {
+    //     var paramRes = await ApiManager.param();
+    //   }
+    //
+    //   // Get chat bot ID
+    //   int? chatBotId;
+    //   switch (event.chatType) {
+    //     case ChatType.onBoarding:
+    //       chatBotId = globals.param?.onBoardingCbId;
+    //       break;
+    //
+    //     case ChatType.assistant:
+    //       chatBotId = globals.param?.assistantCbId;
+    //       break;
+    //   }
+    //
+    //   if (chatBotId == null) {
+    //     yield ChatFailed(LocaleKeys.chatBotIdNotFound);
+    //     return;
+    //   }
+    //
+    //   // Get chat
+    //   var request = ChatRequest()..cbId = chatBotId;
+    //   var res = await ApiManager.firstChat(request);
+    //   if (res.code == ResponseCode.Success) {
+    //     yield ChatSuccess(res, null);
+    //   } else {
+    //     yield ChatFailed(ApiHelper.getFailedMessage(res.message));
+    //   }
+    // } catch (e) {
+    //   yield ChatFailed(LocaleKeys.errorOccurred);
+    // }
   }
 
   Stream<ChatState> _mapGetNextChatEventToState(GetNextChatEvent event) async* {
@@ -108,6 +125,8 @@ abstract class ChatEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetChatbotsEvent extends ChatEvent {}
 
 class GetFirstChatEvent extends ChatEvent {
   final String chatType;
@@ -162,6 +181,31 @@ abstract class ChatState extends Equatable {
 class ChatInit extends ChatState {}
 
 class ChatLoading extends ChatState {}
+
+class GetChatbotsSuccess extends ChatState {
+  final ChatResponse response;
+  final int? chatIndex;
+
+  const GetChatbotsSuccess(this.response, this.chatIndex);
+
+  @override
+  List<Object> get props => [response];
+
+  @override
+  String toString() => 'GetChatbotsSuccess { response: $response, chatIndex: $chatIndex }';
+}
+
+class GetChatbotsFailed extends ChatState {
+  final String message;
+
+  const GetChatbotsFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetChatbotsFailed { message: $message }';
+}
 
 class ChatSuccess extends ChatState {
   final ChatResponse response;

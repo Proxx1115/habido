@@ -45,6 +45,9 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
 
+
+
+
     BlocManager.chatBloc.add(GetFirstChatEvent(widget.chatType));
   }
 

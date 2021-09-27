@@ -62,6 +62,7 @@ class UserData extends BaseResponse {
     map['gender'] = gender;
     map['photo'] = photo;
     map['isOnboardingDone'] = isOnboardingDone;
+
     return map;
   }
 }

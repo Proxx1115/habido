@@ -213,6 +213,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         (index) => ExpandableListItem(
           text: userHabitList[index].name ?? '',
           leadingImageUrl: userHabitList[index].habit?.photo,
+          leadingImageColor: customColors.iconWhite,
           leadingBackgroundColor:
               (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           onPressed: () {

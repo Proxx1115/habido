@@ -13,7 +13,7 @@ class UserHabit extends BaseResponse {
   // HabitGoalSettings
   String? planTerm; // PlanTerm: Daily, Weekly, Monthly
   String? goalValue; // Min max
-  String? currentValue; // todo test us uuhad hadgalah
+  String? currentValue; // Local param - todo test us uuhad hadgalah
 
   // Habit settings
   int? habitId;
@@ -73,6 +73,8 @@ class UserHabit extends BaseResponse {
     map['planTerm'] = planTerm;
     map['goalValue'] = goalValue;
     map['userNote'] = userNote;
+    map['habit'] = habit;
+    map['isDynamicHabit'] = isDynamicHabit;
     if (userHabitReminders != null) {
       map['userHabitReminders'] = userHabitReminders?.map((v) => v.toJson()).toList();
     }
