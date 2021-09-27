@@ -84,14 +84,8 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   // Goal
   List<HabitGoalSettings>? _goalSettingsList;
   HabitGoalSettings? _goalSettings;
-
-  // Goal measure
+  bool _visibleGoal = false;
   bool _visibleGoalMeasure = false;
-
-  // List<ComboItem>? _goalMeasureList;
-  // ComboItem? _goalMeasure;
-
-  // Goal slider
   SliderBloc? _goalSliderBloc;
 
   // Start, end date
