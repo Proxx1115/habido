@@ -428,91 +428,120 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   }
 
   Widget _goalWidget() {
-    if (!(_goalSettings?.goalRequired ?? false)) return Container();
-
     switch (_screenMode) {
       case ScreenMode.CustomNew:
       case ScreenMode.CustomEdit:
+        return StadiumContainer(
+          margin: EdgeInsets.only(top: 15.0),
+          child: Column(
+            children: [
+              /// Зорилго
+              Container(
+                margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(Assets.trophy, color: HabitHelper.getPrimaryColor(_primaryColorCode)),
+                    SizedBox(width: 15.0),
+                    Expanded(
+                      child: CustomText(LocaleKeys.goal),
+                    ),
+                  ],
+                ),
+              ),
 
+              _visibleGoalMeasure
+                  ? Row(
+                      children: [
+                        /// Icon
+                        // (_goalSettings == null)
+                        //     ? SvgPicture.asset(Assets.icon_picker)
+                        //     : CachedNetworkImage(imageUrl: _goalMeasure.val as HabitGoalSettings),
+
+                        /// Measure combo
+                        Expanded(
+                          child: CustomCombobox(
+                            primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
+                            backgroundColor: customColors.whiteBackground,
+                            initialText: HabitHelper.getGoalSettingsComboItem(_goalSettings) != null
+                                ? Func.toStr(_goalSettings!.goalName)
+                                : LocaleKeys.selectMeasure,
+                            selectedItem: HabitHelper.getGoalSettingsComboItem(_goalSettings),
+                            list: HabitHelper.getGoalSettingsComboList(_goalSettingsList),
+                            onItemSelected: (ComboItem item) {
+                              setState(() {
+                                _goalSettings = item.val;
+                              });
+
+                              print('test');
+
+                              _goalSliderBloc?.add(SliderResetEvent(
+                                Func.toDouble(_goalSettings!.goalMin),
+                                Func.toDouble(_goalSettings!.goalMax),
+                                Func.toDouble(_goalSettings!.goalMax) / 2,
+                                Func.toDouble(_goalSettings!.goalStep),
+                              ));
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(),
+
+              HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
+
+              /// Slider
+
+              if (_goalSliderBloc != null && (_goalSettings?.goalRequired ?? false))
+                CustomSlider(
+                  sliderBloc: _goalSliderBloc!,
+                  margin: EdgeInsets.symmetric(horizontal: 15.0),
+                  primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
+                  title: _goalSettings!.toolMeasure,
+                  quantityText: _goalSettings!.toolUnit,
+                  visibleButtons: true,
+                ),
+            ],
+          ),
+        );
       case ScreenMode.New:
       case ScreenMode.Edit:
       default:
-    }
+        if (!(_goalSettings?.goalRequired ?? false)) return Container();
 
-    /// Default
-    return StadiumContainer(
-      margin: EdgeInsets.only(top: 15.0),
-      child: Column(
-        children: [
-          /// Зорилго
-          Container(
-            margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-            child: Row(
-              children: [
-                SvgPicture.asset(Assets.trophy, color: HabitHelper.getPrimaryColor(_primaryColorCode)),
-                SizedBox(width: 15.0),
-                Expanded(
-                  child: CustomText(
-                    LocaleKeys.goal,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          _visibleGoalMeasure
-              ? Row(
+        return StadiumContainer(
+          margin: EdgeInsets.only(top: 15.0),
+          child: Column(
+            children: [
+              /// Зорилго
+              Container(
+                margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+                child: Row(
                   children: [
-                    /// Icon
-                    // (_goalSettings == null)
-                    //     ? SvgPicture.asset(Assets.icon_picker)
-                    //     : CachedNetworkImage(imageUrl: _goalMeasure.val as HabitGoalSettings),
-
-                    /// Measure combo
+                    SvgPicture.asset(Assets.trophy, color: HabitHelper.getPrimaryColor(_primaryColorCode)),
+                    SizedBox(width: 15.0),
                     Expanded(
-                      child: CustomCombobox(
-                        primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
-                        backgroundColor: customColors.whiteBackground,
-                        initialText: HabitHelper.getGoalSettingsComboItem(_goalSettings) != null
-                            ? Func.toStr(_goalSettings!.goalName)
-                            : LocaleKeys.selectMeasure,
-                        selectedItem: HabitHelper.getGoalSettingsComboItem(_goalSettings),
-                        list: HabitHelper.getGoalSettingsComboList(_goalSettingsList),
-                        onItemSelected: (ComboItem item) {
-                          setState(() {
-                            _goalSettings = item.val;
-                          });
-
-                          print('test');
-
-                          _goalSliderBloc?.add(SliderResetEvent(
-                            Func.toDouble(_goalSettings!.goalMin),
-                            Func.toDouble(_goalSettings!.goalMax),
-                            Func.toDouble(_goalSettings!.goalMax) / 2,
-                            Func.toDouble(_goalSettings!.goalStep),
-                          ));
-                        },
+                      child: CustomText(
+                        LocaleKeys.goal,
                       ),
                     ),
                   ],
-                )
-              : Container(),
+                ),
+              ),
 
-          HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
-
-          /// Slider
-          if (_goalSliderBloc != null)
-            CustomSlider(
-              sliderBloc: _goalSliderBloc!,
-              margin: EdgeInsets.symmetric(horizontal: 15.0),
-              primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
-              title: _goalSettings!.toolMeasure,
-              quantityText: _goalSettings!.toolUnit,
-              visibleButtons: true,
-            ),
-        ],
-      ),
-    );
+              /// Slider
+              if (_goalSliderBloc != null)
+                CustomSlider(
+                  sliderBloc: _goalSliderBloc!,
+                  margin: EdgeInsets.symmetric(horizontal: 15.0),
+                  primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
+                  title: _goalSettings!.toolMeasure,
+                  quantityText: _goalSettings!.toolUnit,
+                  visibleButtons: true,
+                ),
+            ],
+          ),
+        );
+    }
   }
 
   Widget _startDatePicker() {
