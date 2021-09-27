@@ -71,27 +71,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 childCount: 1,
               ),
             ),
-
-            // const SliverToBoxAdapter(
-            //   child: SizedBox(height: SizeHelper.marginBottom),
-            // ),
-
-            // Stack(
-            //   children: [
-            //     Column(
-            //       children: [
-            //         /// Slider
-            //         CustomCarouselSlider(margin: EdgeInsets.only(top: 30.0)),
-            //
-            //         /// Body
-            //         _userHabitList(),
-            //       ],
-            //     ),
-            //
-            //     /// Calendar, Title, Notification
-            //     DashboardAppBar(),
-            //   ],
-            // ),
           ],
         ),
       ),
@@ -132,7 +111,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             indicatorMargin: EdgeInsets.symmetric(vertical: _indicatorVerticalMargin, horizontal: 2.0),
           ),
 
-          /// Calendar, Title, Notification
+          /// Calendar, Notification
           DashboardAppBar(
             padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
             visibleShowCase: true,
@@ -158,34 +137,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _userHabits() {
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
-      child: Container(
-        child: BlocProvider.value(
-          value: BlocManager.dashboardBloc,
-          child: BlocListener<DashboardBloc, DashboardState>(
-            listener: _blocListener,
-            child: BlocBuilder<DashboardBloc, DashboardState>(
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    /// Today
-                    if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
-                      _expandableHabitList(
-                        LocaleKeys.today,
-                        _todayUserHabits!,
-                        true,
-                      ),
+      child: BlocProvider.value(
+        value: BlocManager.dashboardBloc,
+        child: BlocListener<DashboardBloc, DashboardState>(
+          listener: _blocListener,
+          child: BlocBuilder<DashboardBloc, DashboardState>(
+            builder: (context, state) {
+              return Column(
+                children: [
+                  /// Today
+                  if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
+                    _expandableHabitList(
+                      LocaleKeys.today,
+                      _todayUserHabits!,
+                      true,
+                    ),
 
-                    /// Tomorrow
-                    if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty)
-                      _expandableHabitList(
-                        LocaleKeys.tomorrow,
-                        _tomorrowUserHabits!,
-                        false,
-                      ),
-                  ],
-                );
-              },
-            ),
+                  /// Tomorrow
+                  if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty)
+                    _expandableHabitList(
+                      LocaleKeys.tomorrow,
+                      _tomorrowUserHabits!,
+                      false,
+                    ),
+                ],
+              );
+            },
           ),
         ),
       ),
