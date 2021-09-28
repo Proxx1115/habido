@@ -29,6 +29,9 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
   var _maxDuration = Duration(seconds: 48);
   double _breathingMaxSize = 265.0;
 
+  // Reset
+  bool _callBack = true;
+
   @override
   void initState() {
     _primaryColor = widget.primaryColor ?? customColors.primary;
@@ -41,9 +44,13 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
       value: 1,
     )..addStatusListener((AnimationStatus status) {
         print(status);
-        if (status == AnimationStatus.dismissed) {
-          if (widget.callBack != null) widget.callBack!();
-          _onPressedReset();
+        if (status == AnimationStatus.reverse) {
+          _callBack = true;
+          print('callback: $_callBack');
+        } else if (status == AnimationStatus.dismissed) {
+          if (_callBack && widget.callBack != null) {
+            widget.callBack!();
+          }
         }
       });
   }
@@ -253,6 +260,9 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
 
   _onPressedReset() {
     setState(() {
+      _callBack = false;
+      print('callback: $_callBack');
+
       _animationController.reset();
       _animationController.duration = _maxDuration;
       _animationController.value = 1.0;
