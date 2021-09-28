@@ -213,28 +213,23 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
   }
 
   String _statusString() {
-    Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
-
-    // Easiest way too ez
-    int inMilliseconds = currentDuration.inMilliseconds;
     String res = '';
+    Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
+    int s = currentDuration.inMilliseconds;
 
-    if ((0 <= inMilliseconds && inMilliseconds <= 4000) ||
-        (12000 < inMilliseconds && inMilliseconds <= 16000) ||
-        (24000 < inMilliseconds && inMilliseconds <= 28000) ||
-        (36000 < inMilliseconds && inMilliseconds <= 40000)) {
+    if ((0 <= s && s <= k) || (k * 3 < s && s <= k * 4) || (k * 6 < s && s <= k * 7) || (k * 9 < s && s <= k * 10)) {
       res = LocaleKeys.breatheExhale;
-    } else if ((4000 < inMilliseconds && inMilliseconds <= 8000) ||
-        (16000 < inMilliseconds && inMilliseconds <= 20000) ||
-        (28000 < inMilliseconds && inMilliseconds <= 32000) ||
-        (40000 < inMilliseconds && inMilliseconds <= 44000)) {
+    } else if ((k < s && s <= k * 2) ||
+        (k * 4 < s && s <= k * 5) ||
+        (k * 7 < s && s <= k * 8) ||
+        (k * 10 < s && s <= k * 11)) {
       res = LocaleKeys.breatheHold;
-    } else if ((8000 < inMilliseconds && inMilliseconds <= 12000) ||
-        (20000 < inMilliseconds && inMilliseconds <= 24000) ||
-        (32000 < inMilliseconds && inMilliseconds <= 36000) ||
-        (44000 < inMilliseconds && inMilliseconds < 48000)) {
+    } else if ((k * 2 < s && s <= k * 3) ||
+        (k * 5 < s && s <= k * 6) ||
+        (k * 8 < s && s <= k * 9) ||
+        (k * 11 < s && s < k * 12)) {
       res = LocaleKeys.breatheTake;
-    } else if (inMilliseconds == 48000) {
+    } else if (s == k * 12) {
       res = LocaleKeys.breatheTake;
     }
 
