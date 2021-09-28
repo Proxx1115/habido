@@ -28,6 +28,7 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
   late AnimationController _animationController;
   var _maxDuration = Duration(seconds: 48);
   double _breathingMaxSize = 265.0;
+  final k = 4000;
 
   @override
   void initState() {
