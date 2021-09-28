@@ -261,6 +261,15 @@ class Func {
     return res;
   }
 
+  static double getFraction(double? value) {
+    double res = 0.0;
+    if (value != null) {
+      res = value - value.truncate();
+    }
+
+    return res;
+  }
+
   static String removeLeadingZero(String str) {
     if (Func.isEmpty(str)) return str;
     String res = str;
