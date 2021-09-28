@@ -215,63 +215,25 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
     Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
     int inMilliseconds = currentDuration.inMilliseconds;
 
-    if ((0 <= inMilliseconds && inMilliseconds <= 4000) ||
-        (12000 < inMilliseconds && inMilliseconds <= 16000) ||
-        (24000 < inMilliseconds && inMilliseconds <= 28000) ||
-        (36000 < inMilliseconds && inMilliseconds <= 40000)) {
+    var k = 4000;
+    if ((0 <= inMilliseconds && inMilliseconds <= k * 1) ||
+        (k * 3 < inMilliseconds && inMilliseconds <= k * 4) ||
+        (k * 6 < inMilliseconds && inMilliseconds <= k * 7) ||
+        (k * 9 < inMilliseconds && inMilliseconds <= k * 10)) {
       return LocaleKeys.breatheExhale;
-    } else if ((4000 < inMilliseconds && inMilliseconds <= 8000) ||
-        (16000 < inMilliseconds && inMilliseconds <= 20000) ||
-        (28000 < inMilliseconds && inMilliseconds <= 32000) ||
-        (40000 < inMilliseconds && inMilliseconds <= 44000)) {
+    } else if ((k * 1 < inMilliseconds && inMilliseconds <= k * 2) ||
+        (k * 4 < inMilliseconds && inMilliseconds <= k * 5) ||
+        (k * 7 < inMilliseconds && inMilliseconds <= k * 8) ||
+        (k * 10 < inMilliseconds && inMilliseconds <= k * 11)) {
       return LocaleKeys.breatheHold;
-    } else if ((8000 < inMilliseconds && inMilliseconds <= 12000) ||
-        (20000 < inMilliseconds && inMilliseconds <= 24000) ||
-        (32000 < inMilliseconds && inMilliseconds <= 36000) ||
-        (44000 < inMilliseconds && inMilliseconds < 48000)) {
+    } else if ((k * 2 < inMilliseconds && inMilliseconds <= k * 3) ||
+        (k * 5 < inMilliseconds && inMilliseconds <= k * 6) ||
+        (k * 8 < inMilliseconds && inMilliseconds <= k * 9) ||
+        (k * 11 < inMilliseconds && inMilliseconds < k * 12)) {
       return LocaleKeys.breatheTake;
-    } else if (inMilliseconds == 48000) {
+    } else if (inMilliseconds == k * 12) {
       return LocaleKeys.breatheTake;
     }
-
-    // if (inMilliseconds == 48000) {
-    //   return LocaleKeys.breatheTake;
-    // }
-    //
-    // for (int i = 0; i < 48; i += 4) {
-    //   if (i * 1000 < inMilliseconds && inMilliseconds <= (i + 4) * 1000) {
-    //     // print(inMilliseconds);
-    //     int tmp = (inMilliseconds ~/ 3000) * 3000;
-    //     var tmpMilliseconds = Func.toDouble(inMilliseconds - tmp);
-    //     var value = tmpMilliseconds / 3000;
-    //     if (0 < tmpMilliseconds && tmpMilliseconds <= 1000) {
-    //       return LocaleKeys.breatheExhale;
-    //     } else if (1000 < tmpMilliseconds && tmpMilliseconds <= 2000) {
-    //       return LocaleKeys.breatheHold;
-    //     } else if (2000 < tmpMilliseconds && tmpMilliseconds <= 3000) {
-    //       return LocaleKeys.breatheTake;
-    //     }
-    //
-    //     break;
-    //   }
-
-      // for (int j = 1; j <= 3; j++) {
-      //   if (i * j * 1000 < inMilliseconds && inMilliseconds <= (i + 4) * j * 1000) {
-      // if (j == 1) {
-      //   return LocaleKeys.breatheExhale;
-      // } else if (j == 2) {
-      //   return LocaleKeys.breatheHold;
-      // } else if (j == 3) {
-      //   return LocaleKeys.breatheTake;
-      // }
-      // break;
-      //   }
-      // }
-
-      // for (int j = 0; j < 4; j++) {
-      //   if ()
-      // }
-    // }
 
     return '';
   }
