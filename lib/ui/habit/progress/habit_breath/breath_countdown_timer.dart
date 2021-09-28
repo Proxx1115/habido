@@ -143,47 +143,40 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
 
   Widget _breathingWidget() {
     Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
+    int inMilliseconds = currentDuration.inMilliseconds;
 
     double minValue = 0.8;
     double maxValue = 1;
     late double value;
 
-    // Easiest way too ez
-    // int inMilliseconds = currentDuration.inSeconds;
-    int inMilliseconds = currentDuration.inMilliseconds;
-    if ((0 <= inMilliseconds && inMilliseconds <= 4000) ||
-        (12000 < inMilliseconds && inMilliseconds <= 16000) ||
-        (24000 < inMilliseconds && inMilliseconds <= 28000) ||
-        (36000 < inMilliseconds && inMilliseconds <= 40000)) {
-      /// Exhale a breath
-      int tmp = (inMilliseconds ~/ 4000) * 4000;
+    var k = 4000;
+    if ((0 <= inMilliseconds && inMilliseconds <= k * 1) ||
+        (k * 3 < inMilliseconds && inMilliseconds <= k * 4) ||
+        (k * 6 < inMilliseconds && inMilliseconds <= k * 7) ||
+        (k * 9 < inMilliseconds && inMilliseconds <= k * 10)) {
+      // Exhale a breath
+      int tmp = (inMilliseconds ~/ k) * k;
       var tmpMilliseconds = Func.toDouble(inMilliseconds - tmp);
-      // print(value);
-      value = tmpMilliseconds / 4000;
-
-      // 0.2 - 1
-      // x - 0.5
+      value = tmpMilliseconds / k;
       value = minValue + 0.2 * value;
-    } else if ((4000 < inMilliseconds && inMilliseconds <= 8000) ||
-        (16000 < inMilliseconds && inMilliseconds <= 20000) ||
-        (28000 < inMilliseconds && inMilliseconds <= 32000) ||
-        (40000 < inMilliseconds && inMilliseconds <= 44000)) {
-      /// Hold a breath
+    } else if ((k * 1 < inMilliseconds && inMilliseconds <= k * 2) ||
+        (k * 4 < inMilliseconds && inMilliseconds <= k * 5) ||
+        (k * 7 < inMilliseconds && inMilliseconds <= k * 8) ||
+        (k * 10 < inMilliseconds && inMilliseconds <= k * 11)) {
+      // Hold a breath
       value = maxValue;
-    } else if ((8000 < inMilliseconds && inMilliseconds <= 12000) ||
-        (20000 < inMilliseconds && inMilliseconds <= 24000) ||
-        (32000 < inMilliseconds && inMilliseconds <= 36000) ||
-        (44000 < inMilliseconds && inMilliseconds < 48000)) {
-      /// Take a breath
-      int tmp = (inMilliseconds ~/ 4000) * 4000;
+    } else if ((k * 2 < inMilliseconds && inMilliseconds <= k * 3) ||
+        (k * 5 < inMilliseconds && inMilliseconds <= k * 6) ||
+        (k * 8 < inMilliseconds && inMilliseconds <= k * 9) ||
+        (k * 11 < inMilliseconds && inMilliseconds < k * 12)) {
+      // Take a breath
+      int tmp = (inMilliseconds ~/ k) * k;
       var tmpMilliseconds = Func.toDouble(inMilliseconds - tmp);
-      // print(value);
-      value = tmpMilliseconds / 4000;
+      value = tmpMilliseconds / k;
       value = 1 - value;
 
       value = minValue + 0.2 * value;
-      // print(value);
-    } else if (inMilliseconds == 48000) {
+    } else if (inMilliseconds == k * 12) {
       value = minValue;
     }
 
@@ -234,6 +227,22 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
     } else if (inMilliseconds == k * 12) {
       return LocaleKeys.breatheTake;
     }
+
+    // for (int i = 1; i <= 3; i++) {
+    //   for (int j = 0; j < 4; j++) {
+    //     print(inMilliseconds);
+    //     // print(k * (j + i));
+    //     if (k * (i * j) < inMilliseconds && inMilliseconds <= k * (i * j + 1)) {
+    //       if (j == 1) {
+    //         return LocaleKeys.breatheExhale;
+    //       } else if (j == 2) {
+    //         return LocaleKeys.breatheHold;
+    //       } else if (j == 3) {
+    //         return LocaleKeys.breatheTake;
+    //       }
+    //     }
+    //   }
+    // }
 
     return '';
   }
