@@ -190,26 +190,19 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
 
   String _timeString() {
     Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
-    int inMilliseconds = currentDuration.inMilliseconds;
+    int s = currentDuration.inMilliseconds;
 
-    String res = '';
-    int tmp = (inMilliseconds ~/ k) * k;
-    var value = inMilliseconds - tmp;
-
-    var j = 1000;
+    int tmp = (s ~/ k) * k;
+    var value = s - tmp;
     if (0 == value) {
-      res = '4';
-    } else if (0 <= value && value <= j) {
-      res = '1';
-    } else if (j < value && value <= j * 2) {
-      res = '2';
-    } else if (j * 2 < value && value <= j * 3) {
-      res = '3';
-    } else if (j * 3 < value && value <= j * 4) {
-      res = '4';
+      return '4';
+    } else {
+      for (int i = 0; i < 4; i++) {
+        if (i * 1000 < value && value <= (i + 1) * 1000) return (i + 1).toString();
+      }
     }
 
-    return res;
+    return '';
   }
 
   String _statusString() {
