@@ -40,12 +40,12 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
       duration: _maxDuration,
       value: 1,
     )..addStatusListener((AnimationStatus status) {
-      print(status);
-      if (status == AnimationStatus.dismissed) {
-        if (widget.callBack != null) widget.callBack!();
-        _onPressedReset();
-      }
-    });
+        print(status);
+        if (status == AnimationStatus.dismissed) {
+          if (widget.callBack != null) widget.callBack!();
+          _onPressedReset();
+        }
+      });
   }
 
   @override
@@ -144,10 +144,12 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
     // Easiest way too ez
     // int inMilliseconds = currentDuration.inSeconds;
     int inMilliseconds = currentDuration.inMilliseconds;
-    if ((0 <= inMilliseconds && inMilliseconds <= 4000) ||
-        (12000 < inMilliseconds && inMilliseconds <= 16000) ||
-        (24000 < inMilliseconds && inMilliseconds <= 28000) ||
-        (36000 < inMilliseconds && inMilliseconds <= 40000)) {
+    if (0 == inMilliseconds) {
+      value = minValue;
+    } else if ((0 <= inMilliseconds && inMilliseconds < 4000) ||
+        (12000 <= inMilliseconds && inMilliseconds < 16000) ||
+        (24000 <= inMilliseconds && inMilliseconds < 28000) ||
+        (36000 <= inMilliseconds && inMilliseconds < 40000)) {
       /// Exhale a breath
       int tmp = (inMilliseconds ~/ 4000) * 4000;
       var tmpMilliseconds = Func.toDouble(inMilliseconds - tmp);
@@ -157,16 +159,16 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
       // 0.2 - 1
       // x - 0.5
       value = minValue + 0.2 * value;
-    } else if ((4000 < inMilliseconds && inMilliseconds <= 8000) ||
-        (16000 < inMilliseconds && inMilliseconds <= 20000) ||
-        (28000 < inMilliseconds && inMilliseconds <= 32000) ||
-        (40000 < inMilliseconds && inMilliseconds <= 44000)) {
+    } else if ((4000 <= inMilliseconds && inMilliseconds < 8000) ||
+        (16000 <= inMilliseconds && inMilliseconds < 20000) ||
+        (28000 <= inMilliseconds && inMilliseconds < 32000) ||
+        (40000 <= inMilliseconds && inMilliseconds < 44000)) {
       /// Hold a breath
       value = maxValue;
-    } else if ((8000 < inMilliseconds && inMilliseconds <= 12000) ||
-        (20000 < inMilliseconds && inMilliseconds <= 24000) ||
-        (32000 < inMilliseconds && inMilliseconds <= 36000) ||
-        (44000 < inMilliseconds && inMilliseconds < 48000)) {
+    } else if ((8000 <= inMilliseconds && inMilliseconds < 12000) ||
+        (20000 <= inMilliseconds && inMilliseconds < 24000) ||
+        (32000 <= inMilliseconds && inMilliseconds < 36000) ||
+        (44000 <= inMilliseconds && inMilliseconds < 48000)) {
       /// Take a breath
       int tmp = (inMilliseconds ~/ 4000) * 4000;
       var tmpMilliseconds = Func.toDouble(inMilliseconds - tmp);
@@ -178,6 +180,10 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
       // print(value);
     } else if (inMilliseconds == 48000) {
       value = minValue;
+    }
+
+    if (value == 1) {
+      print('here');
     }
 
     return SvgPicture.asset(
