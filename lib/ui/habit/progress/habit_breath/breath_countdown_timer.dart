@@ -28,6 +28,7 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
   late AnimationController _animationController;
   var _maxDuration = Duration(seconds: 48);
   double _breathingMaxSize = 265.0;
+  final k = 4000;
 
   // Reset
   bool _callBack = true;
@@ -149,7 +150,6 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
     double maxValue = 1;
     late double value;
 
-    var k = 4000;
     if ((0 <= inMilliseconds && inMilliseconds <= k * 1) ||
         (k * 3 < inMilliseconds && inMilliseconds <= k * 4) ||
         (k * 6 < inMilliseconds && inMilliseconds <= k * 7) ||
@@ -208,7 +208,6 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
     Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
     int inMilliseconds = currentDuration.inMilliseconds;
 
-    var k = 4000;
     if ((0 <= inMilliseconds && inMilliseconds <= k * 1) ||
         (k * 3 < inMilliseconds && inMilliseconds <= k * 4) ||
         (k * 6 < inMilliseconds && inMilliseconds <= k * 7) ||
@@ -227,22 +226,6 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
     } else if (inMilliseconds == k * 12) {
       return LocaleKeys.breatheTake;
     }
-
-    // for (int i = 1; i <= 3; i++) {
-    //   for (int j = 0; j < 4; j++) {
-    //     print(inMilliseconds);
-    //     // print(k * (j + i));
-    //     if (k * (i * j) < inMilliseconds && inMilliseconds <= k * (i * j + 1)) {
-    //       if (j == 1) {
-    //         return LocaleKeys.breatheExhale;
-    //       } else if (j == 2) {
-    //         return LocaleKeys.breatheHold;
-    //       } else if (j == 3) {
-    //         return LocaleKeys.breatheTake;
-    //       }
-    //     }
-    //   }
-    // }
 
     return '';
   }
