@@ -190,12 +190,24 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
 
   String _timeString() {
     Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
-    int inSeconds = currentDuration.inSeconds;
+    int inMilliseconds = currentDuration.inMilliseconds;
 
     String res = '';
-    int tmp = (inSeconds ~/ 4) * 4;
-    res = (inSeconds - tmp).toString();
-    res = (res == '0') ? '4' : res;
+    int tmp = (inMilliseconds ~/ 4000) * 4000;
+    var value = inMilliseconds - tmp;
+    // print(value);
+
+    if (0 == value) {
+      res = '4';
+    } else if (0 <= value && value <= 1000) {
+      res = '1';
+    } else if (1000 < value && value <= 2000) {
+      res = '2';
+    } else if (2000 < value && value <= 3000) {
+      res = '3';
+    } else if (3000 < value && value <= 4000) {
+      res = '4';
+    }
 
     return res;
   }
@@ -204,16 +216,25 @@ class _BreathCountdownTimerState extends State<BreathCountdownTimer> with Ticker
     Duration currentDuration = (_animationController.duration ?? _maxDuration) * _animationController.value;
 
     // Easiest way too ez
-    int sec = currentDuration.inSeconds;
+    int inMilliseconds = currentDuration.inMilliseconds;
     String res = '';
-    if ((0 <= sec && sec <= 4) || (12 < sec && sec <= 16) || (24 < sec && sec <= 28) || (36 < sec && sec <= 40)) {
+
+    if ((0 <= inMilliseconds && inMilliseconds <= 4000) ||
+        (12000 < inMilliseconds && inMilliseconds <= 16000) ||
+        (24000 < inMilliseconds && inMilliseconds <= 28000) ||
+        (36000 < inMilliseconds && inMilliseconds <= 40000)) {
       res = LocaleKeys.breatheExhale;
-    } else if ((4 < sec && sec <= 8) || (16 < sec && sec <= 20) || (28 < sec && sec <= 32) || (40 < sec && sec <= 44)) {
+    } else if ((4000 < inMilliseconds && inMilliseconds <= 8000) ||
+        (16000 < inMilliseconds && inMilliseconds <= 20000) ||
+        (28000 < inMilliseconds && inMilliseconds <= 32000) ||
+        (40000 < inMilliseconds && inMilliseconds <= 44000)) {
       res = LocaleKeys.breatheHold;
-    } else if ((8 < sec && sec <= 12) ||
-        (20 < sec && sec <= 24) ||
-        (32 < sec && sec <= 36) ||
-        (44 < sec && sec <= 48)) {
+    } else if ((8000 < inMilliseconds && inMilliseconds <= 12000) ||
+        (20000 < inMilliseconds && inMilliseconds <= 24000) ||
+        (32000 < inMilliseconds && inMilliseconds <= 36000) ||
+        (44000 < inMilliseconds && inMilliseconds < 48000)) {
+      res = LocaleKeys.breatheTake;
+    } else if (inMilliseconds == 48000) {
       res = LocaleKeys.breatheTake;
     }
 
