@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -17,8 +18,6 @@ class CalendarButton extends StatefulWidget {
 }
 
 class _CalendarButtonState extends State<CalendarButton> {
-  int _badgeCount = 0;
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -28,9 +27,9 @@ class _CalendarButtonState extends State<CalendarButton> {
         child: BlocBuilder<DashboardBloc, DashboardState>(
           builder: (context, state) {
             return Badge(
-              badgeContent: CustomText('$_badgeCount', color: customColors.whiteText, fontSize: 13.0),
+              badgeContent: CustomText('${globals.calendarBadgeCount}', color: customColors.whiteText, fontSize: 13.0),
               badgeColor: customColors.primary,
-              showBadge: _badgeCount > 0,
+              showBadge: globals.calendarBadgeCount > 0,
               child: ButtonStadium(
                 asset: Assets.calendar,
                 onPressed: () {
@@ -46,7 +45,7 @@ class _CalendarButtonState extends State<CalendarButton> {
 
   void _blocListener(BuildContext context, DashboardState state) {
     if (state is RefreshDashboardUserHabitsSuccess) {
-      _badgeCount = state.todayUserHabits?.length ?? 0;
+      globals.calendarBadgeCount = state.todayUserHabits?.length ?? 0;
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/notification_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -17,8 +18,6 @@ class NotificationButton extends StatefulWidget {
 }
 
 class _NotificationButtonState extends State<NotificationButton> {
-  int _unreadNotifCount = 0;
-
   @override
   void initState() {
     BlocManager.notifBloc.add(GetUnreadNotifCount(false));
@@ -34,9 +33,9 @@ class _NotificationButtonState extends State<NotificationButton> {
         child: BlocBuilder<NotificationBloc, NotificationState>(
           builder: (context, state) {
             return Badge(
-              badgeContent: CustomText('$_unreadNotifCount', color: customColors.whiteText, fontSize: 13.0),
+              badgeContent: CustomText('${globals.unreadNotifCount}', color: customColors.whiteText, fontSize: 13.0),
               badgeColor: customColors.primary,
-              showBadge: _unreadNotifCount > 0,
+              showBadge: globals.unreadNotifCount > 0,
               child: ButtonStadium(
                 asset: Assets.notification,
                 onPressed: () {
@@ -52,7 +51,7 @@ class _NotificationButtonState extends State<NotificationButton> {
 
   void _blocListener(BuildContext context, NotificationState state) {
     if (state is GetUnreadNotifCountSuccess) {
-      _unreadNotifCount = state.unreadNotifCount;
+      globals.unreadNotifCount = state.unreadNotifCount;
     }
   }
 }
