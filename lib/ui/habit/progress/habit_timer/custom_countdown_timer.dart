@@ -83,19 +83,26 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
 
     // Spent duration
     if (widget.userHabitProgressLog != null) {
-      // Set current animation value
       var spentDuration = Duration(seconds: widget.userHabitProgressLog!.spentTime ?? 0);
-      Duration currentDuration = _duration - spentDuration;
-      _animationController.value = currentDuration.inSeconds / _duration.inSeconds;
+      if (spentDuration < _duration) {
+        /// Not finished
 
-      if (widget.userHabitProgressLog!.status == UserHabitProgressLogStatus.Play) {
-        // Auto play
-        _onPressedPlay();
-        WidgetsBinding.instance?.addPostFrameCallback((_) => () {
-              setState(() {
-                print('hello');
+        // Set current animation value
+        Duration currentDuration = _duration - spentDuration;
+        _animationController.value = currentDuration.inSeconds / _duration.inSeconds;
+
+        // Resume progress
+        if (widget.userHabitProgressLog!.status == UserHabitProgressLogStatus.Play) {
+          _onPressedPlay();
+          WidgetsBinding.instance?.addPostFrameCallback((_) => () {
+                setState(() {
+                  print('refresh screen for pause button');
+                });
               });
-            });
+        }
+      } else {
+        /// Finished
+        _animationController.value = 0.0;
       }
     }
   }

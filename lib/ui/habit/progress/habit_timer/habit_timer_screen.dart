@@ -156,6 +156,18 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
       }
     }
 
+    // Is button finish enabled
+    if (_userHabitProgressLog != null && _duration != null) {
+      var spentDuration = Duration(seconds: _userHabitProgressLog!.spentTime ?? 0);
+      if (spentDuration < _duration!) {
+        // In progress
+        _enabledButton = false;
+      } else {
+        // Finished
+        _enabledButton = true;
+      }
+    }
+
     // Showcase
     if (_duration != null) {
       BlocManager.userHabitBloc.add(UserHabitShowcaseEvent(ShowcaseKeyName.timer));

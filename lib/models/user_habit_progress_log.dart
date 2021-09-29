@@ -44,4 +44,5 @@ class UserHabitProgressLogStatus {
   static const Pause = 'Pause';
   static const Reset = 'Reset';
   static const Add = 'Add';
+  static const Finished = 'Finished';
 }
