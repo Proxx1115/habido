@@ -104,8 +104,6 @@ class PushNotifManager {
         _showLocalNotif(message);
       }
     });
-
-    print('done');
   }
 
   _showLocalNotif(RemoteMessage message) async {
@@ -122,21 +120,7 @@ class PushNotifManager {
                 icon: androidNotif?.smallIcon),
           );
 
-          // message['notification']['title']
-          // message['notification']['body'])
-          // localNotif?.show(notification.hashCode, notification.title, notification.body, notifDetail);
-
-          // const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          //     'your channel id', 'your channel name', 'your channel description',
-          //     importance: Importance.max, priority: Priority.high, showWhen: false);
-          // const IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails();
-          // const NotificationDetails platformChannelSpecifics = NotificationDetails(
-          //   android: androidPlatformChannelSpecifics,
-          //   iOS: iOSPlatformChannelSpecifics,
-          // );
-
           await localNotif?.show(0, notification.title ?? '', notification.body ?? '', notifDetail, payload: 'item x');
-          print('done');
         }
       }
     } catch (e) {

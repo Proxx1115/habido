@@ -71,8 +71,8 @@ class _LoginRouteState extends State<LoginRoute> {
     _biometricAuth = SharedPref.getBiometricAuth();
 
     // todo test
-    _phoneNumberController.text = '88989800';
-    _passwordController.text = '123qwe';
+    // _phoneNumberController.text = '88989800';
+    // _passwordController.text = '123qwe';
     // _phoneNumberController.text = '95688910';
     // _passwordController.text = '123qwe';
   }

@@ -61,8 +61,6 @@ class UserHabit extends BaseResponse {
         planDays?.add(Plan.fromJson(v));
       });
     }
-
-    print('done');
   }
 
   Map<String, dynamic> toJson() {
@@ -76,7 +74,7 @@ class UserHabit extends BaseResponse {
     map['goalValue'] = goalValue;
     map['userNote'] = userNote;
     map['habit'] = habit;
-    map['isDynamicHabit'] = isDynamicHabit;
+    map['isDynamicHabit'] = isDynamicHabit ?? false;
     if (userHabitReminders != null) {
       map['userHabitReminders'] = userHabitReminders?.map((v) => v.toJson()).toList();
     }

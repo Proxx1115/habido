@@ -106,7 +106,6 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
                           visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
                           timerSize: _timerSize,
                           music: widget.userHabit.habit?.goalSettings?.toolContent?.music,
-                          // music: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
                           callBack: () {
                             setState(() {
                               _enabledButton = true;
