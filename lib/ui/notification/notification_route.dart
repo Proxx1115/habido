@@ -119,7 +119,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
 
   Widget _listItem(int index) {
     return MoveInAnimation(
-      delay: Func.toDouble(index * 0.1),
+      delay: Func.toDouble(index * 0.2),
       child: ListItemContainer(
         margin: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
         height: 70.0,
@@ -167,7 +167,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
                   /// Body
                   CustomText(
                     _notifList[index].body,
-                    margin: EdgeInsets.only(bottom: 20.0),
+                    margin: EdgeInsets.only(bottom: 30.0),
                     maxLines: 10,
                     color: customColors.secondaryText,
                   ),

@@ -104,7 +104,7 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
             expandableListItems: List.generate(
               category.psyTestResults!.length,
               (index) => ExpandableListItem(
-
+                delay: index * 0.2,
                 text: category.psyTestResults![index].testResult?.testName ?? '',
                 leadingImageUrl: category.psyTestResults![index].photo,
                 leadingBackgroundColor: (category.psyTestResults![index].color != null)
