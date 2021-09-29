@@ -61,6 +61,8 @@ class UserHabit extends BaseResponse {
         planDays?.add(Plan.fromJson(v));
       });
     }
+
+    print('done');
   }
 
   Map<String, dynamic> toJson() {

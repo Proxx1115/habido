@@ -1,9 +1,11 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/timer/timer_painter.dart';
-// import 'package:just_audio/just_audio.dart';
+import 'package:flutter/foundation.dart';
 
 class CustomCountdownTimer extends StatefulWidget {
   final Duration duration;
@@ -34,10 +36,11 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
   late AnimationController _animationController;
   late Duration _duration;
 
-  // Reset
+  // Callback
   bool _callBack = true;
 
-  // AudioPlayer? _audioPlayer;
+  // Audio
+  AudioPlayer? _audioPlayer;
 
   @override
   void initState() {
@@ -55,30 +58,23 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
           print('callback: $_callBack');
         } else if (status == AnimationStatus.dismissed) {
           if (_callBack && widget.callBack != null) {
+            // Callback
             widget.callBack!();
+
+            // Audio
+            _audioPlayer?.stop();
+            _printAudioState();
           }
         }
       });
 
-    // Music
-
     // _initAudioPlayer();
   }
-
-  // _initAudioPlayer() async {
-  //   if (Func.isNotEmpty(widget.music)) {
-  //     _audioPlayer = AudioPlayer();
-  //     var duration = await _audioPlayer!.setUrl(widget.music!);
-  //
-  //     Future.delayed(Duration(milliseconds: 500), () {
-  //       _audioPlayer?.play();
-  //     });
-  //   }
-  // }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _audioPlayer?.dispose();
     super.dispose();
   }
 
@@ -231,22 +227,73 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
   _onPressedPlayPause() {
     setState(() {
       if (_animationController.isAnimating) {
+        // Animation
         _animationController.stop();
+
+        // Audio
+        _audioPlayer?.pause();
+        _printAudioState();
       } else {
+        // Animation
         _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
+
+        // Audio
+        if (_audioPlayer?.state == PlayerState.PAUSED) {
+          _audioPlayer?.resume();
+          _printAudioState();
+        } else {
+          _initAudioPlayer();
+          _audioPlayer?.play(widget.music!, isLocal: false);
+          _printAudioState();
+        }
       }
     });
   }
 
   _onPressedReset() {
     setState(() {
+      // Callback
       _callBack = false;
       print('callback: $_callBack');
 
+      // Animation
       _animationController.reset();
       _duration = widget.duration;
       _animationController.duration = _duration;
       _animationController.value = 1.0;
+
+      // Audio
+      _audioPlayer?.stop();
+      _printAudioState();
+    });
+  }
+
+  _initAudioPlayer() async {
+    if (Func.isNotEmpty(widget.music)) {
+      _audioPlayer = AudioPlayer();
+
+      // Log
+      // var startTime = DateTime.now();
+      // print('Initializing audio player: $startTime');
+
+      // var duration = await _audioPlayer!.setUrl(widget.music!);
+
+      // Log
+      // var endTime = DateTime.now();
+      // print('Initialized audio player: $endTime');
+      // print('Diff audio player: ${startTime.millisecond - endTime.millisecond}');
+    }
+  }
+
+  // _startAudio() async {
+  //   // await _initAudioPlayer();
+  //   _audioPlayer?.play(widget.music!, isLocal: false);
+  //   _printAudioState();
+  // }
+
+  _printAudioState() {
+    Future.delayed(Duration(milliseconds: 1000), () {
+      print(_audioPlayer?.state);
     });
   }
 }

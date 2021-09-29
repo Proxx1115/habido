@@ -50,6 +50,8 @@ class HabitGoalSettings {
       var jsonData = jsonDecode(str);
       toolContent = HabitToolContent.fromJson(jsonData);
     }
+
+    print('parsed');
   }
 
   Map<String, dynamic> toJson() {

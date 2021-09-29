@@ -38,6 +38,7 @@ dependencies:
   showcaseview: ^1.1.1
 #  assets_audio_player: ^3.0.3+6
 #  just_audio: ^0.9.12
+  audioplayers: ^0.20.1
 
   #widgets
   smooth_page_indicator: ^0.3.0-nullsafety.0

@@ -65,7 +65,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                   if (_monthlyAchievement != null)
                     _achievementItem(
                       leadingAsset: Assets.calendar2,
-                      percentTitle: LocaleKeys.allTime,
+                      percentTitle: LocaleKeys.monthly,
                       percentage: _monthlyAchievement!.monthlyPercentage,
                       achievement: _monthlyAchievement!.monthlyAchievement,
                       completedHabits: _monthlyAchievement!.monthlyTotalCompletedHabits,
