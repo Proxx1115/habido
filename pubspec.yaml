@@ -10,10 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  #pattern
-  flutter_bloc: ^7.0.1
-  equatable: ^2.0.3
-
   #api
   dio: ^4.0.0
   dio_cookie_manager: ^2.0.0
@@ -21,12 +17,14 @@ dependencies:
   connectivity: ^3.0.6
 
   #utils
+  flutter_bloc: ^7.0.1
+  equatable: ^2.0.3
   shared_preferences: ^2.0.6
   flutter_svg: ^0.22.0
   intl: ^0.17.0
   local_auth: ^1.1.6
   package_info_plus: ^1.0.4
-  device_info: ^2.0.2 #flutter clean after pub get
+  device_info: ^2.0.2
   simple_animations: ^3.1.1
   cached_network_image: ^3.1.0
   url_launcher: ^6.0.9
@@ -36,9 +34,8 @@ dependencies:
   firebase_messaging: ^10.0.4
   flutter_local_notifications: ^8.1.1+1
   showcaseview: ^1.1.1
-#  assets_audio_player: ^3.0.3+6
-#  just_audio: ^0.9.12
   audioplayers: ^0.20.1
+
 
   #widgets
   smooth_page_indicator: ^0.3.0-nullsafety.0
@@ -50,6 +47,7 @@ dependencies:
   badges: ^2.0.1
   fl_chart: ^0.40.0
   flutter_countdown_timer: ^4.1.0
+  pull_to_refresh: ^2.0.0
 #  infinite_scroll_pagination: ^3.1.0
 
 dev_dependencies:
