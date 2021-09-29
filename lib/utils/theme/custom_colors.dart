@@ -44,7 +44,7 @@ class CustomColors {
 
   /// Text
   Color primaryText = ConstantColors.black;
-  Color secondaryText = ConstantColors.grey;
+  Color greyText = ConstantColors.grey;
   Color whiteText = Colors.white;
 
   /// Button

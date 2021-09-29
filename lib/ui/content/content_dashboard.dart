@@ -12,6 +12,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/app_bars/dashboard_sliver_app_bar.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -69,7 +70,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
 
                   /// Tags
                   SliverToBoxAdapter(
-                    child: _tagsList(),
+                    child: _tagListWidget(),
                   ),
 
                   /// Content list
@@ -111,15 +112,40 @@ class _ContentDashboardState extends State<ContentDashboard> {
     return Container();
   }
 
-  Widget _tagsList() {
-    //Chip(
-    //   avatar: CircleAvatar(
-    //     backgroundColor: Colors.grey.shade800,
-    //     child: const Text('AB'),
-    //   ),
-    //   label: const Text('Aaron Burr'),
-    // )
-    return _tagList.isNotEmpty ? Container() : Container();
+  Widget _tagListWidget() {
+    return _tagList.isNotEmpty
+        ? Container(
+            padding: EdgeInsets.fromLTRB(SizeHelper.margin, 0.0, SizeHelper.margin, 0.0),
+            child: Wrap(
+              spacing: 5.0,
+              runSpacing: 0.0,
+              children: [
+                for (int i = 0; i < _tagList.length; i++) _tagItem(i),
+              ],
+            ),
+          )
+        : Container();
+  }
+
+  Widget _tagItem(int i) {
+    return StadiumContainer(
+      margin: EdgeInsets.symmetric(vertical: 2.5),
+      onTap: () {
+        setState(() {
+          _tagList[i].isSelected = !(_tagList[i].isSelected ?? false);
+        });
+      },
+      borderRadius: SizeHelper.borderRadiusOdd,
+      padding: EdgeInsets.fromLTRB(15.0, 12.0, 15.0, 12.0),
+      backgroundColor: (_tagList[i].isSelected ?? false) ? customColors.primary : customColors.whiteBackground,
+      child: Text(
+        _tagList[i].name ?? '',
+        style: TextStyle(
+          color: (_tagList[i].isSelected ?? false) ? customColors.whiteText : customColors.greyText,
+          fontSize: 13.0,
+        ),
+      ),
+    );
   }
 
   Widget _contentRow(int index) {

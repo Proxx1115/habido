@@ -74,7 +74,7 @@ class _ProfileCardState extends State<ProfileCard> {
                                 if (Func.isNotEmpty(globals.userData!.rankName))
                                   CustomText(
                                     (globals.userData!.rankName ?? '') + ' ' + 'member',
-                                    color: customColors.secondaryText,
+                                    color: customColors.greyText,
                                   ),
                               ],
                             ),

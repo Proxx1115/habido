@@ -96,7 +96,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fillColor: _backgroundColor,
           prefixIcon: _prefixIcon(),
           hintText: widget.hintText,
-          hintStyle: TextStyle(fontSize: widget.fontSize, color: customColors.secondaryText),
+          hintStyle: TextStyle(fontSize: widget.fontSize, color: customColors.greyText),
           suffixIcon: _suffixIcon(),
           counterText: '',
           contentPadding: SizeHelper.boxPadding,

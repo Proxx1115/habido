@@ -105,7 +105,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     if (_pickedDate != null) {
       return customColors.primaryText;
     } else {
-      return customColors.secondaryText;
+      return customColors.greyText;
     }
   }
 

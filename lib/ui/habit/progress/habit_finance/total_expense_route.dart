@@ -65,7 +65,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
                               LocaleKeys.expense,
                               alignment: Alignment.center,
                               fontSize: 13.0,
-                              color: customColors.secondaryText,
+                              color: customColors.greyText,
                             ),
                           ],
                         ),
@@ -174,7 +174,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
                     child: CustomText(
                       expenseCategory.expenseCatName,
                       fontSize: 13.0,
-                      color: customColors.secondaryText,
+                      color: customColors.greyText,
                     ),
                   ),
                 ],

@@ -150,7 +150,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
             PlanTerm.planTermText(planTerm),
             alignment: Alignment.center,
             fontWeight: FontWeight.w500,
-            color: _selectedPlanTerm == planTerm ? customColors.whiteText : customColors.secondaryText,
+            color: _selectedPlanTerm == planTerm ? customColors.whiteText : customColors.greyText,
           ),
         ),
       ),
@@ -201,7 +201,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
           child: CustomText(
             PlanTerm.getWeekDayText(_weeklyPlanList[index].day ?? 0),
             alignment: Alignment.center,
-            color: (_weeklyPlanList[index].isSelected ?? false) ? customColors.whiteText : customColors.secondaryText,
+            color: (_weeklyPlanList[index].isSelected ?? false) ? customColors.whiteText : customColors.greyText,
           ),
         ),
       ),
@@ -281,7 +281,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
           child: CustomText(
             Func.toStr(_monthlyPlanList[index].day ?? 0),
             alignment: Alignment.center,
-            color: (_monthlyPlanList[index].isSelected ?? false) ? customColors.whiteText : customColors.secondaryText,
+            color: (_monthlyPlanList[index].isSelected ?? false) ? customColors.whiteText : customColors.greyText,
           ),
         ),
       ),

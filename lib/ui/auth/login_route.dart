@@ -337,7 +337,7 @@ class _LoginRouteState extends State<LoginRoute> {
     return ButtonMultiPartText(
       text1: LocaleKeys.haveYouForgottenYourPassword,
       text2: LocaleKeys.recover,
-      textColor: customColors.secondaryText,
+      textColor: customColors.greyText,
       alignment: Alignment.center,
       onPressed: () {
         Navigator.pushNamed(context, Routes.forgotPass);
@@ -350,7 +350,7 @@ class _LoginRouteState extends State<LoginRoute> {
       text1: LocaleKeys.hasAccount,
       text2: LocaleKeys.signUp,
       backgroundColor: customColors.whiteBackground,
-      textColor: customColors.secondaryText,
+      textColor: customColors.greyText,
       padding: EdgeInsets.symmetric(vertical: 35.0),
       onPressed: () {
         Navigator.pushNamed(context, Routes.signUp1Phone);

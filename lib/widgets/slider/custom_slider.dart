@@ -54,7 +54,7 @@ class _CustomSliderState extends State<CustomSlider> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           /// Title
-                          if (widget.title != null) CustomText(widget.title, color: customColors.secondaryText),
+                          if (widget.title != null) CustomText(widget.title, color: customColors.greyText),
 
                           /// Quantity
                           if (widget.quantityText != null)

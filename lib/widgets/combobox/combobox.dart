@@ -70,7 +70,7 @@ class _CustomComboboxState extends State<CustomCombobox> {
             Expanded(
               child: CustomText(
                 _selectedItem != null ? _selectedItem!.txt : Func.toStr(widget.initialText),
-                color: _selectedItem != null ? widget.primaryColor : customColors.secondaryText,
+                color: _selectedItem != null ? widget.primaryColor : customColors.greyText,
                 fontWeight: _selectedItem != null ? FontWeight.w500 : FontWeight.normal,
               ),
             ),

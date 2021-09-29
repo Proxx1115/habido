@@ -79,7 +79,7 @@ class _ComboListItemState extends State<ComboListItem> {
 
                   /// Body
                   widget.body != null
-                      ? CustomText(widget.body!, fontSize: 13, color: customColors.secondaryText)
+                      ? CustomText(widget.body!, fontSize: 13, color: customColors.greyText)
                       : Container(),
                 ],
               ),

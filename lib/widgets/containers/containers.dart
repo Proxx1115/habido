@@ -374,7 +374,7 @@ class ListItemContainer extends StatelessWidget {
                       CustomText(
                         body,
                         fontSize: 13.0,
-                        color: customColors.secondaryText,
+                        color: customColors.greyText,
                         margin: EdgeInsets.only(top: 5.0),
                       ),
                   ],

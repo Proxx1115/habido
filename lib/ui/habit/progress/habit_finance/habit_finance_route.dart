@@ -244,7 +244,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
                 child: Column(
                   children: [
                     /// Нийт
-                    CustomText(_totalAmountTitle, fontSize: 13.0, color: customColors.secondaryText),
+                    CustomText(_totalAmountTitle, fontSize: 13.0, color: customColors.greyText),
 
                     /// Дүн
                     CustomText(

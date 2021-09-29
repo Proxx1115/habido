@@ -36,7 +36,7 @@ class CustomCodeInput extends StatelessWidget {
             color: customColors.whiteBackground,
             borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
           ),
-          emptyTextStyle: TextStyle(color: customColors.secondaryText, fontWeight: FontWeight.w500),
+          emptyTextStyle: TextStyle(color: customColors.greyText, fontWeight: FontWeight.w500),
           filledTextStyle: TextStyle(color: customColors.primaryText, fontWeight: FontWeight.w500),
         ),
         onChanged: (value) => onChanged(value),

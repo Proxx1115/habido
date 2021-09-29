@@ -101,7 +101,7 @@ class _CupOfWaterState extends State<CupOfWater> {
                             /// Goal value
                             CustomText(
                               ' / $_goalValue',
-                              color: customColors.secondaryText,
+                              color: customColors.greyText,
                               fontWeight: FontWeight.w500,
                             ),
                           ],

@@ -169,7 +169,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
                     _notifList[index].body,
                     margin: EdgeInsets.only(bottom: 30.0),
                     maxLines: 10,
-                    color: customColors.secondaryText,
+                    color: customColors.greyText,
                   ),
                 ],
               ),

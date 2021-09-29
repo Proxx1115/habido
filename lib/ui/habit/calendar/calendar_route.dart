@@ -250,7 +250,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
             ),
             child: Text(
               date.day.toString(),
-              style: TextStyle(color: customColors.secondaryText),
+              style: TextStyle(color: customColors.greyText),
             ),
           ),
           defaultBuilder: (context, date, events) => Container(
@@ -266,7 +266,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
             ),
             child: Text(
               date.day.toString(),
-              style: TextStyle(color: customColors.secondaryText),
+              style: TextStyle(color: customColors.greyText),
             ),
           ),
         ),
