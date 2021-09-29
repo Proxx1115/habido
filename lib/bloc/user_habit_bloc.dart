@@ -9,6 +9,7 @@ import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
+import 'package:habido_app/models/user_habit_response.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
@@ -66,7 +67,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
         // Refresh dashboard
         BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
 
-        yield InsertUserHabitSuccess();
+        yield InsertUserHabitSuccess(res);
       } else {
         yield InsertUserHabitFailed(ApiHelper.getFailedMessage(res.message));
       }
@@ -488,7 +489,17 @@ class PlanTermChangedState extends UserHabitState {
   String toString() => 'PlanTermChangedState { planTerm: $planTerm }';
 }
 
-class InsertUserHabitSuccess extends UserHabitState {}
+class InsertUserHabitSuccess extends UserHabitState {
+  final UserHabitResponse userHabitResponse;
+
+  const InsertUserHabitSuccess(this.userHabitResponse);
+
+  @override
+  List<Object> get props => [userHabitResponse];
+
+  @override
+  String toString() => 'InsertUserHabitSuccess { userHabitResponse: $userHabitResponse }';
+}
 
 class InsertUserHabitFailed extends UserHabitState {
   final String message;

@@ -49,6 +49,7 @@ import 'package:habido_app/models/update_user_data_request.dart';
 import 'package:habido_app/models/user_data.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_list_response.dart';
+import 'package:habido_app/models/user_habit_response.dart';
 import 'package:habido_app/models/user_habits_dates_response.dart';
 import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/models/verify_phone_request.dart';
@@ -304,8 +305,8 @@ class ApiManager {
     );
   }
 
-  static Future<BaseResponse> insertUserHabit(UserHabit userHabit) async {
-    return BaseResponse.fromJson(
+  static Future<UserHabitResponse> insertUserHabit(UserHabit userHabit) async {
+    return UserHabitResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.insertUserHabit,
         objectData: userHabit,

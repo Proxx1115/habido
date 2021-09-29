@@ -153,6 +153,7 @@ class VerticalContentCard extends StatelessWidget {
 class HorizontalContentCard extends StatelessWidget {
   final Content content;
   final EdgeInsets? margin;
+  final VoidCallback? callback;
 
   final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
   final double _height = 133.0;
@@ -161,6 +162,7 @@ class HorizontalContentCard extends StatelessWidget {
     Key? key,
     required this.content,
     this.margin,
+    this.callback,
   }) : super(key: key);
 
   @override
@@ -168,6 +170,8 @@ class HorizontalContentCard extends StatelessWidget {
     return FadeInAnimation(
       child: InkWell(
         onTap: () {
+          if (callback != null) callback!();
+
           Navigator.pushNamed(context, Routes.content, arguments: {
             'content': content,
           });

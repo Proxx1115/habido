@@ -7,6 +7,7 @@ import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
 import 'package:habido_app/models/plan.dart';
+import 'package:habido_app/ui/content/content_card.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/screen_mode.dart';
@@ -345,7 +346,33 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   }
 
   void _blocListener(BuildContext context, UserHabitState state) {
-    if (state is InsertUserHabitSuccess || state is UpdateUserHabitSuccess || state is DeleteUserHabitSuccess) {
+    if (state is InsertUserHabitSuccess) {
+      showCustomDialog(
+        context,
+        isDismissible: false,
+        child: CustomDialogBody(
+          asset: Assets.success,
+          text: Func.isNotEmpty(state.userHabitResponse.message) ? state.userHabitResponse.message : LocaleKeys.success,
+          buttonText: LocaleKeys.ok,
+          child: state.userHabitResponse.content != null
+              ? Column(
+                  children: [
+                    HorizontalContentCard(
+                      margin: EdgeInsets.only(bottom: 30.0),
+                      content: state.userHabitResponse.content!,
+                      callback: () {
+                        Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+                      },
+                    ),
+                  ],
+                )
+              : null,
+          onPressedButton: () {
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+          },
+        ),
+      );
+    } else if (state is UpdateUserHabitSuccess || state is DeleteUserHabitSuccess) {
       showCustomDialog(
         context,
         isDismissible: false,
