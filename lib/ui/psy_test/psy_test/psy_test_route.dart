@@ -230,58 +230,66 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
             }
           }
         });
+
+        // Navigate to next question
+        if (isSelected && _isEnabledButtonNext(questionIndex)) {
+          _navigateToNextQuestion();
+        }
       },
     );
   }
 
   Widget _buttonNext(int questionIndex) {
-    // Check enabled button
-    bool enabledButton = false;
-    for (var el in _questionList![questionIndex].testAnswers!) {
-      if (el.isSelected ?? false) {
-        enabledButton = true;
-        break;
-      }
-    }
-
     return CustomButton(
       style: CustomButtonStyle.Secondary,
       text: LocaleKeys.next,
-      onPressed: enabledButton
+      onPressed: _isEnabledButtonNext(questionIndex)
           ? () {
-              if (_currentIndex != (_questionList!.length - 1)) {
-                // Navigate to next page
-                _pageController.animateToPage(
-                  _currentIndex + 1,
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                );
-              } else {
-                // Prepare answers
-                List<PsyTestQuestionAnswer>? _answerList = [];
-                for (var question in _questionList!) {
-                  for (var answer in question.testAnswers!) {
-                    if (answer.isSelected ?? false) {
-                      var psyTestQuestionAnswer = PsyTestQuestionAnswer()
-                        ..questionId = question.questionId
-                        ..answerId = answer.answerId;
-
-                      _answerList.add(psyTestQuestionAnswer);
-                      break;
-                    }
-                  }
-                }
-
-                // Send request
-                var request = PsyTestAnswersRequest()
-                  ..userTestId = _userTestId
-                  ..testId = _testId
-                  ..dataTestQuestionAns = _answerList;
-
-                _psyTestBloc.add(SendPsyTestAnswersEvent(request));
-              }
+              _navigateToNextQuestion();
             }
           : null,
     );
+  }
+
+  bool _isEnabledButtonNext(int questionIndex) {
+    for (var el in _questionList![questionIndex].testAnswers!) {
+      if (el.isSelected ?? false) return true;
+    }
+
+    return false;
+  }
+
+  _navigateToNextQuestion() {
+    if (_currentIndex != (_questionList!.length - 1)) {
+      // Navigate to next page
+      _pageController.animateToPage(
+        _currentIndex + 1,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      // Prepare answers
+      List<PsyTestQuestionAnswer>? _answerList = [];
+      for (var question in _questionList!) {
+        for (var answer in question.testAnswers!) {
+          if (answer.isSelected ?? false) {
+            var psyTestQuestionAnswer = PsyTestQuestionAnswer()
+              ..questionId = question.questionId
+              ..answerId = answer.answerId;
+
+            _answerList.add(psyTestQuestionAnswer);
+            break;
+          }
+        }
+      }
+
+      // Send request
+      var request = PsyTestAnswersRequest()
+        ..userTestId = _userTestId
+        ..testId = _testId
+        ..dataTestQuestionAns = _answerList;
+
+      _psyTestBloc.add(SendPsyTestAnswersEvent(request));
+    }
   }
 }
