@@ -18,6 +18,7 @@ class ExpandableListItem extends StatelessWidget {
   final String text;
   final VoidCallback? onPressedSkip;
   final VoidCallback? onPressedEdit;
+  final double? delay;
 
   // final double
 
@@ -32,12 +33,14 @@ class ExpandableListItem extends StatelessWidget {
     required this.text,
     this.onPressedSkip,
     this.onPressedEdit,
+    this.delay,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MoveInAnimation(
       duration: 400,
+      delay: delay,
       child: Slidable(
         controller: _controller,
         actionPane: SlidableDrawerActionPane(),

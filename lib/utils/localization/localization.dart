@@ -371,6 +371,10 @@ class LocaleKeys {
 
   static String get validate12 => 'Уучлаарай, 12-оос доош насны хүн бүртгүүлэх боломжгүй.';
 
+  static String get pleaseEnterStartDate => 'Эхлэх огноо сонгоно уу.';
+
+  static String get pleaseEnterEndDate => 'Дуусах огноо сонгоно уу.';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 

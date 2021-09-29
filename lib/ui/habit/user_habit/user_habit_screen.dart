@@ -638,7 +638,35 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     );
   }
 
+  bool _validateForm() {
+    String text = '';
+
+    if (_startDate == null) {
+      text = LocaleKeys.pleaseEnterStartDate;
+    } else if (_endDate == null) {
+      text = LocaleKeys.pleaseEnterEndDate;
+    }
+
+    if (text.isNotEmpty) {
+      showCustomDialog(
+        context,
+        isDismissible: false,
+        child: CustomDialogBody(
+          asset: Assets.warning,
+          text: text,
+          buttonText: LocaleKeys.ok,
+        ),
+      );
+
+      return false;
+    }
+
+    return true;
+  }
+
   _onPressedButtonSave() {
+    if (!_validateForm()) return;
+
     switch (_screenMode) {
       case ScreenMode.New:
 

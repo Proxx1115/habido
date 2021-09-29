@@ -13,7 +13,7 @@ import 'date_picker_bloc.dart';
 class CustomDatePicker extends StatefulWidget {
   final DatePickerBloc bloc;
   final DateTime? initialDate;
-  final Function(DateTime) callback;
+  final Function(DateTime?) callback;
   final String? hintText;
   final EdgeInsets? margin;
   final DateTime? firstDate;
@@ -53,7 +53,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         listener: (context, state) {
           if (state is DatePickedState) {
             _pickedDate = state.pickedDate;
-            if (_pickedDate != null) widget.callback(_pickedDate!);
+            widget.callback(_pickedDate);
           }
         },
         child: BlocBuilder<DatePickerBloc, DatePickerState>(
@@ -121,7 +121,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
     setState(() {
       print(_pickedDate);
-      if (_pickedDate != null) widget.callback(_pickedDate!);
+      widget.callback(_pickedDate);
     });
   }
 }

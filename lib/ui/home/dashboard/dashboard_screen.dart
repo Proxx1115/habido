@@ -189,6 +189,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       expandableListItems: List.generate(
         userHabitList.length,
         (index) => ExpandableListItem(
+          delay: index * 0.2,
           text: userHabitList[index].name ?? '',
           leadingImageUrl: userHabitList[index].habit?.photo,
           leadingImageColor: customColors.iconWhite,
