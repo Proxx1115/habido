@@ -35,6 +35,7 @@ dependencies:
   flutter_local_notifications: ^8.1.1+1
   showcaseview: ^1.1.1
   audioplayers: ^0.20.1
+  circular_reveal_animation: ^2.0.0
 
   #widgets
   smooth_page_indicator: ^0.3.0-nullsafety.0

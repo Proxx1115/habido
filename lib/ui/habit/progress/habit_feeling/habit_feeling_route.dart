@@ -118,6 +118,18 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
         'primaryColor': _primaryColor,
         'callback': widget.callBack,
       });
+
+      // HabitHelper.showRevealDialog(
+      //   context,
+      //   habitProgressResponse: state.habitProgressResponse,
+      //   primaryColor: _primaryColor,
+      //   callback: () {
+      //     // Navigator.pop(context);
+      //     if (widget.callBack != null) {
+      //       widget.callBack!();
+      //     }
+      //   },
+      // );
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
         context,
