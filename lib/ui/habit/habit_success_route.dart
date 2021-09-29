@@ -37,7 +37,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 500),
     );
     animation = CurvedAnimation(
       parent: animationController,
@@ -48,20 +48,23 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
   }
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          color: customColors.whiteBackground,
-        ),
+        /// Background
+        Container(color: customColors.primaryBackground),
+
         CircularRevealAnimation(
           animation: animation,
-          centerOffset: Offset(130, 100),
+          centerOffset: Offset(MediaQuery.of(context).size.width / 2, MediaQuery.of(context).size.height / 2),
           child: Stack(
             children: [
-              /// Background
-              Container(color: customColors.primaryBackground),
-
               /// Image
               SvgPicture.asset(
                 Assets.success_background,

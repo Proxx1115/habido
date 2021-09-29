@@ -482,7 +482,7 @@ class Routes {
 
       case Routes.habitSuccess:
         var args = settings.arguments as Map;
-        route = SlideBottomRouteBuilder(
+        route = NoTransitionRoute(
           HabitSuccessRoute(
             habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),

@@ -11,8 +11,6 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/combobox/combo_helper.dart';
 
-import 'habit_success_screen.dart';
-
 class HabitHelper {
   static String? getProgressRoute(Habit habit) {
     HabitGoalSettings? habitGoalSettings = habit.goalSettings;
@@ -117,52 +115,6 @@ class HabitHelper {
 
   static ComboItem? getGoalSettingsComboItem(HabitGoalSettings? goalSettings) {
     return goalSettings != null ? ComboItem(txt: goalSettings.goalName ?? '', val: goalSettings) : null;
-  }
-
-  /// Welcome dialog
-  static Future<void> showRevealDialog(
-    BuildContext context, {
-    required HabitProgressResponse habitProgressResponse,
-    Color? primaryColor,
-    VoidCallback? callback,
-  }) async {
-    showGeneralDialog(
-      barrierLabel: "Label",
-      barrierDismissible: false,
-      transitionDuration: Duration(milliseconds: 300),
-      context: context,
-      pageBuilder: (context, anim1, anim2) {
-        Future.delayed(Duration(milliseconds: 1000), () {
-          // Navigator.of(context).pop(true);
-          // Navigator.push(this.context, FadeRouteBuilder(route: HomeRoute()));
-          if (callback != null) {
-            callback();
-          }
-        });
-
-        return Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(0),
-              child: HabitSuccessScreen(
-                habitProgressResponse: habitProgressResponse,
-                primaryColor: primaryColor,
-                callback: callback,
-              ),
-            ),
-            margin: EdgeInsets.all(0.0),
-          ),
-        );
-      },
-      transitionBuilder: (context, anim1, anim2, child) {
-        return CircularRevealAnimation(
-          child: child,
-          animation: anim1,
-          centerAlignment: Alignment.bottomCenter,
-        );
-      },
-    );
   }
 }
 
