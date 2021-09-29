@@ -30,10 +30,11 @@ android {
 
     defaultConfig {
         applicationId "mn.app.habido_app"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
