@@ -10,7 +10,8 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/checkbox.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
-import 'package:habido_app/widgets/date_picker.dart';
+import 'package:habido_app/widgets/date_picker/date_picker.dart';
+import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
@@ -32,7 +33,8 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   final _signUp3ProfileKey = GlobalKey<ScaffoldState>();
 
   // Төрсөн огноо
-  DateTime? _selectedBirthDate;
+  DateTime? _birthDate;
+  final _birthDatePickerBloc = DatePickerBloc();
 
   // Нэр
   final _nameController = TextEditingController();
@@ -111,12 +113,13 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
 
   Widget _birthdayPicker() {
     return CustomDatePicker(
+      bloc: _birthDatePickerBloc,
       hintText: LocaleKeys.birthDate,
       margin: EdgeInsets.only(top: 35.0),
       lastDate: DateTime.now(),
-      onSelectedDate: (date) {
+      callback: (date) {
         // print(date);
-        _selectedBirthDate = date;
+        _birthDate = date;
         _validateForm();
       },
     );
@@ -194,9 +197,9 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   _validateForm() {
     setState(() {
       // Term cond
-      if (_selectedBirthDate == null) {
+      if (_birthDate == null) {
         _visibleTermCond = false;
-      } else if (Func.isAdult(_selectedBirthDate!)) {
+      } else if (Func.isAdult(_birthDate!)) {
         _visibleTermCond = false;
       } else {
         _visibleTermCond = true;
@@ -204,18 +207,18 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
 
       // Button next
       _enabledBtnNext =
-          _selectedBirthDate != null && _nameController.text.length > 0 && (_visibleTermCond ? _checkBoxValue : true);
+          _birthDate != null && _nameController.text.length > 0 && (_visibleTermCond ? _checkBoxValue : true);
     });
   }
 
   _validateAge() {
     // Is older than 12 years old
-    if (_selectedBirthDate == null) return false;
+    if (_birthDate == null) return false;
 
     DateTime today = DateTime.now();
-    int yearDiff = today.year - _selectedBirthDate!.year;
-    int monthDiff = today.month - _selectedBirthDate!.month;
-    int dayDiff = today.day - _selectedBirthDate!.day;
+    int yearDiff = today.year - _birthDate!.year;
+    int monthDiff = today.month - _birthDate!.month;
+    int dayDiff = today.day - _birthDate!.day;
 
     return yearDiff > 12 || yearDiff == 12 && monthDiff >= 0 && dayDiff >= 0;
   }
@@ -242,7 +245,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
                     // Next
                     SignUpRegisterRequest verifyCodeRequest = widget.signUpRegisterRequest;
                     verifyCodeRequest
-                      ..birthday = Func.toDateStr(_selectedBirthDate!)
+                      ..birthday = Func.toDateStr(_birthDate!)
                       ..firstName = _nameController.text
                       ..gender = _genderValue ? Gender.Female : Gender.Male;
 

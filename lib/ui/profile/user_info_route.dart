@@ -17,7 +17,8 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
-import 'package:habido_app/widgets/date_picker.dart';
+import 'package:habido_app/widgets/date_picker/date_picker.dart';
+import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -43,6 +44,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
 
   // Төрсөн огноо
   DateTime? _selectedBirthDate;
+  final _birthDatePickerBloc = DatePickerBloc();
 
   // Хүйс
   bool _genderValue = false;
@@ -221,11 +223,12 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
 
   _birthdayPicker() {
     return CustomDatePicker(
+      bloc: _birthDatePickerBloc,
       initialDate: _selectedBirthDate,
       hintText: LocaleKeys.birthDate,
       margin: EdgeInsets.only(top: 15.0),
       lastDate: DateTime.now(),
-      onSelectedDate: (date) {
+      callback: (date) {
         print(date);
 
         _selectedBirthDate = date;

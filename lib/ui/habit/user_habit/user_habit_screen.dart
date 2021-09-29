@@ -28,7 +28,8 @@ import 'package:habido_app/widgets/combobox/combo_helper.dart';
 import 'package:habido_app/widgets/combobox/combobox.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
-import 'package:habido_app/widgets/date_picker.dart';
+import 'package:habido_app/widgets/date_picker/date_picker.dart';
+import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/slider/custom_slider.dart';
@@ -91,7 +92,9 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
 
   // Start, end date
   DateTime? _startDate;
+  final _startDatePickerBloc = DatePickerBloc();
   DateTime? _endDate;
+  final _endDatePickerBloc = DatePickerBloc();
 
   // Reminder
   final _reminderBloc = ReminderBloc();
@@ -546,26 +549,36 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
 
   Widget _startDatePicker() {
     return CustomDatePicker(
+      bloc: _startDatePickerBloc,
       hintText: LocaleKeys.startDate,
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
       initialDate: _startDate,
-      onSelectedDate: (date) {
+      callback: (date) {
         print(date);
         _startDate = date;
+
+        if (_startDate != null && Func.isBeforeDate(_endDate, _startDate)) {
+          _endDatePickerBloc.add(DatePickedEvent(_startDate!));
+        }
       },
     );
   }
 
   Widget _endDatePicker() {
     return CustomDatePicker(
+      bloc: _endDatePickerBloc,
       hintText: LocaleKeys.endDate,
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
       initialDate: _endDate,
-      onSelectedDate: (date) {
+      callback: (date) {
         print(date);
         _endDate = date;
+
+        if (_endDate != null && Func.isBeforeDate(_endDate, _startDate)) {
+          _startDatePickerBloc.add(DatePickedEvent(_endDate!));
+        }
       },
     );
   }

@@ -165,6 +165,16 @@ class Func {
     return false;
   }
 
+  static bool isBeforeDate(DateTime? dateTime1, DateTime? dateTime2) {
+    if (dateTime1 == null || dateTime2 == null) return false;
+    if (DateTime(dateTime1.year, dateTime1.month, dateTime1.day)
+        .isBefore(DateTime(dateTime2.year, dateTime2.month, dateTime2.day))) {
+      return true;
+    }
+
+    return false;
+  }
+
   static String dateTimeToDateStr(DateTime? dt) {
     // Datetime string-ийг форматлаад буцаана '2019.01.01T15:13:00.000' to '2019.01.01'
     if (dt == null) return '';
