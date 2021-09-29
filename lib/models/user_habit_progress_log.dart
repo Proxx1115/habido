@@ -39,7 +39,7 @@ class UserHabitProgressLog extends BaseResponse {
   }
 }
 
-class HabitProgressLogStatus {
+class UserHabitProgressLogStatus {
   static const Play = 'Play';
   static const Pause = 'Pause';
   static const Reset = 'Reset';

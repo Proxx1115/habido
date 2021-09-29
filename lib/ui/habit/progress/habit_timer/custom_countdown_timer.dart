@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
-import 'package:habido_app/models/habit_progress_log.dart';
+import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -82,11 +82,18 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       });
 
     // Spent duration
-
     if (widget.userHabitProgressLog != null) {
+      // Set current animation value
       var spentDuration = Duration(seconds: widget.userHabitProgressLog!.spentTime ?? 0);
       Duration currentDuration = _duration - spentDuration;
       _animationController.value = currentDuration.inSeconds / _duration.inSeconds;
+
+      if (widget.userHabitProgressLog!.status == UserHabitProgressLogStatus.Play) {
+        // Auto play
+        Future.delayed(Duration(seconds: 1), () {
+          _onPressedPlay();
+        });
+      }
     }
   }
 
@@ -263,33 +270,41 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
   _onPressedPlayPause() {
     setState(() {
       if (_animationController.isAnimating) {
-        // Animation
-        _animationController.stop();
-
-        // Audio
-        _audioPlayer?.pause();
-        _printAudioState();
-
-        // Logging
-        _logPause();
+        _onPressedPause();
       } else {
-        // Animation
-        _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
-
-        // Audio
-        if (_audioPlayer?.state == PlayerState.PAUSED) {
-          _audioPlayer?.resume();
-          _printAudioState();
-        } else {
-          _initAudioPlayer();
-          _audioPlayer?.play(widget.music!, isLocal: false);
-          _printAudioState();
-        }
-
-        // Logging
-        _logPlay();
+        _onPressedPlay();
       }
     });
+  }
+
+  _onPressedPlay() {
+    // Animation
+    _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
+
+    // Audio
+    if (_audioPlayer?.state == PlayerState.PAUSED) {
+      _audioPlayer?.resume();
+      _printAudioState();
+    } else {
+      _initAudioPlayer();
+      _audioPlayer?.play(widget.music!, isLocal: false);
+      _printAudioState();
+    }
+
+    // Logging
+    _logPlay();
+  }
+
+  _onPressedPause() {
+    // Animation
+    _animationController.stop();
+
+    // Audio
+    _audioPlayer?.pause();
+    _printAudioState();
+
+    // Logging
+    _logPause();
   }
 
   _onPressedReset() {
@@ -333,7 +348,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       ..userHabitId = widget.userHabit.userHabitId
       ..planLogId = 0
       ..planId = 0
-      ..status = HabitProgressLogStatus.Play
+      ..status = UserHabitProgressLogStatus.Play
       ..addTime = 0
       ..spentTime = spentTime;
 
@@ -348,7 +363,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       ..userHabitId = widget.userHabit.userHabitId
       ..planLogId = 0
       ..planId = 0
-      ..status = HabitProgressLogStatus.Pause
+      ..status = UserHabitProgressLogStatus.Pause
       ..addTime = 0
       ..spentTime = spentTime;
 
@@ -360,7 +375,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       ..userHabitId = widget.userHabit.userHabitId
       ..planLogId = 0
       ..planId = 0
-      ..status = HabitProgressLogStatus.Reset
+      ..status = UserHabitProgressLogStatus.Reset
       ..addTime = 0
       ..spentTime = 0;
 
@@ -372,7 +387,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       ..userHabitId = widget.userHabit.userHabitId
       ..planLogId = 0
       ..planId = 0
-      ..status = HabitProgressLogStatus.Add
+      ..status = UserHabitProgressLogStatus.Add
       ..addTime = _additionalDuration.inSeconds
       ..spentTime = 0;
 

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_with_date.dart';
-import 'package:habido_app/models/habit_progress_log.dart';
+import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
@@ -58,6 +58,8 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapUserHabitShowcaseEventToState(event);
     } else if (event is GetUserHabitProgressLogEvent) {
       yield* _mapGetUserHabitProgressLogEventToState(event);
+    } else if (event is UpdateUserHabitProgressLogEvent) {
+      yield* _mapUpdateUserHabitProgressLogEventToState(event);
     } else if (event is UpdateUserHabitProgressLogEvent) {
       yield* _mapUpdateUserHabitProgressLogEventToState(event);
     }

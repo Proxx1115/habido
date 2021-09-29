@@ -1,6 +1,6 @@
 import 'package:habido_app/models/base_response.dart';
 
-import 'tags.dart';
+import 'content_tag.dart';
 
 class Content extends BaseResponse {
   int? contentId;
@@ -14,7 +14,7 @@ class Content extends BaseResponse {
   String? profilePhotoBase64;
   String? text;
   int? orderNo;
-  List<Tags>? tags;
+  List<ContentTag>? tags;
   int? readTime;
 
   Content({
@@ -48,7 +48,7 @@ class Content extends BaseResponse {
     if (json['tags'] != null) {
       tags = [];
       json['tags'].forEach((v) {
-        tags?.add(Tags.fromJson(v));
+        tags?.add(ContentTag.fromJson(v));
       });
     }
     readTime = json['readTime'];

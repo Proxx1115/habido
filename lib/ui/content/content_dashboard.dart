@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/content.dart';
+import 'package:habido_app/models/content_tag.dart';
 import 'package:habido_app/ui/content/content_bloc.dart';
 import 'package:habido_app/ui/content/content_card.dart';
 import 'package:habido_app/utils/func.dart';
@@ -30,6 +31,9 @@ class _ContentDashboardState extends State<ContentDashboard> {
   // Content
   List<Content>? _contentList;
   double? _contentWidth;
+
+  // Tag
+  List<ContentTag> _tagList = [];
 
   @override
   void initState() {
@@ -94,6 +98,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
   void _blocListener(BuildContext context, ContentState state) {
     if (state is ContentListSuccess) {
       _contentList = state.contentList;
+      _tagList = state.tagList;
     } else if (state is ContentListFailed) {
       showCustomDialog(
         context,
@@ -107,7 +112,14 @@ class _ContentDashboardState extends State<ContentDashboard> {
   }
 
   Widget _tagsList() {
-    return Container();
+    //Chip(
+    //   avatar: CircleAvatar(
+    //     backgroundColor: Colors.grey.shade800,
+    //     child: const Text('AB'),
+    //   ),
+    //   label: const Text('Aaron Burr'),
+    // )
+    return _tagList.isNotEmpty ? Container() : Container();
   }
 
   Widget _contentRow(int index) {

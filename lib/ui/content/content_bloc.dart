@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/content.dart';
+import 'package:habido_app/models/content_tag.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -27,7 +28,24 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
 
       var res = await ApiManager.contentList();
       if (res.code == ResponseCode.Success && res.contentList != null && res.contentList!.length > 0) {
-        yield ContentListSuccess(res.contentList!);
+        // Tag list
+        List<ContentTag> tagList = [];
+        if (res.contentList != null && res.contentList!.isNotEmpty) {
+          for (var content in res.contentList!) {
+            if (content.tags != null && content.tags!.isNotEmpty) {
+              for (var tag in content.tags!) {
+                bool isUnique = false;
+                for (var el in tagList) {
+                  if (el.name == tag.name) isUnique = true;
+                }
+
+                if (!isUnique) tagList.add(tag);
+              }
+            }
+          }
+        }
+
+        yield ContentListSuccess(res.contentList!, tagList);
       } else {
         yield ContentListEmpty();
       }
@@ -98,14 +116,15 @@ class ContentListEmpty extends ContentState {}
 
 class ContentListSuccess extends ContentState {
   final List<Content> contentList;
+  final List<ContentTag> tagList;
 
-  const ContentListSuccess(this.contentList);
+  const ContentListSuccess(this.contentList, this.tagList);
 
   @override
   List<Object> get props => [contentList];
 
   @override
-  String toString() => 'ContentListSuccess { contentList: $contentList }';
+  String toString() => 'ContentListSuccess { contentList: $contentList, tagList: $tagList }';
 }
 
 class ContentListFailed extends ContentState {

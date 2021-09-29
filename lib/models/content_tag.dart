@@ -1,10 +1,13 @@
-class Tags {
+class ContentTag {
   String? name;
+  bool? isSelected; // Local param
 
-  Tags({
-      this.name});
+  ContentTag({
+    this.name,
+    this.isSelected,
+  });
 
-  Tags.fromJson(dynamic json) {
+  ContentTag.fromJson(dynamic json) {
     name = json['name'];
   }
 
@@ -13,5 +16,4 @@ class Tags {
     map['name'] = name;
     return map;
   }
-
 }
