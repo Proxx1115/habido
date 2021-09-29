@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_with_date.dart';
+import 'package:habido_app/models/habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
@@ -55,6 +56,10 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapGetHabitQuestionEventToState(event);
     } else if (event is UserHabitShowcaseEvent) {
       yield* _mapUserHabitShowcaseEventToState(event);
+    } else if (event is GetUserHabitProgressLogEvent) {
+      yield* _mapGetUserHabitProgressLogEventToState(event);
+    } else if (event is UpdateUserHabitProgressLogEvent) {
+      yield* _mapUpdateUserHabitProgressLogEventToState(event);
     }
   }
 
@@ -277,6 +282,37 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       }
     }
   }
+
+  Stream<UserHabitState> _mapGetUserHabitProgressLogEventToState(GetUserHabitProgressLogEvent event) async* {
+    try {
+      yield UserHabitProgressLoading();
+
+      var res = await ApiManager.getHabitProgressLog(event.userHabitId);
+      if (res.code == ResponseCode.Success) {
+        yield GetUserHabitProgressLogSuccess(res);
+      } else {
+        yield GetUserHabitProgressLogFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetUserHabitProgressLogFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapUpdateUserHabitProgressLogEventToState(UpdateUserHabitProgressLogEvent event) async* {
+    try {
+      var res = await ApiManager.updateHabitProgressLog(event.habitProgressLog);
+      if (res.code == ResponseCode.Success) {
+        print('UpdateUserHabitProgressLogSuccess');
+        // yield UpdateUserHabitProgressLogSuccess();
+      } else {
+        print('UpdateUserHabitProgressLogFailed');
+        // yield UpdateUserHabitProgressLogFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      print('UpdateUserHabitProgressLogFailed: Error');
+      // yield UpdateUserHabitProgressLogFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -458,6 +494,30 @@ class UserHabitShowcaseEvent extends UserHabitEvent {
 
   @override
   String toString() => 'UserHabitShowcaseEvent { showcaseKeyName: $showcaseKeyName }';
+}
+
+class GetUserHabitProgressLogEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetUserHabitProgressLogEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetUserHabitProgressLogEvent { userHabitId: $userHabitId }';
+}
+
+class UpdateUserHabitProgressLogEvent extends UserHabitEvent {
+  final UserHabitProgressLog habitProgressLog;
+
+  const UpdateUserHabitProgressLogEvent(this.habitProgressLog);
+
+  @override
+  List<Object> get props => [habitProgressLog];
+
+  @override
+  String toString() => 'UpdateUserHabitProgressLogEvent { habitProgressLog: $habitProgressLog }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -763,4 +823,42 @@ class UserHabitShowcaseState extends UserHabitState {
 
   @override
   String toString() => 'UserHabitShowcaseState { showcaseKeyList: $showcaseKeyList }';
+}
+
+class GetUserHabitProgressLogSuccess extends UserHabitState {
+  final UserHabitProgressLog habitProgressLog;
+
+  const GetUserHabitProgressLogSuccess(this.habitProgressLog);
+
+  @override
+  List<Object> get props => [habitProgressLog];
+
+  @override
+  String toString() => 'GetUserHabitProgressLogSuccess { habitProgressLog: $habitProgressLog }';
+}
+
+class GetUserHabitProgressLogFailed extends UserHabitState {
+  final String message;
+
+  const GetUserHabitProgressLogFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetUserHabitProgressLogFailed { message: $message }';
+}
+
+class UpdateUserHabitProgressLogSuccess extends UserHabitState {}
+
+class UpdateUserHabitProgressLogFailed extends UserHabitState {
+  final String message;
+
+  const UpdateUserHabitProgressLogFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'UpdateUserHabitProgressLogFailed { message: $message }';
 }

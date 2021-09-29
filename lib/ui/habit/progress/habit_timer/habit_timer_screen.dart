@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
+import 'package:habido_app/models/habit_progress_log.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
@@ -39,6 +40,7 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
 
   // Timer
   Duration? _duration;
+  UserHabitProgressLog? _userHabitProgressLog;
 
   // Button
   bool _enabledButton = false;
@@ -50,25 +52,7 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
     _primaryColor = HabitHelper.getPrimaryColor1(widget.userHabit);
     _backgroundColor = HabitHelper.getBackgroundColor1(widget.userHabit);
 
-    // Timer
-    int? goalValue;
-    if (Func.toInt(widget.userHabit.goalValue) > 0) {
-      goalValue = Func.toInt(widget.userHabit.goalValue);
-    } else if ((widget.userHabit.habit?.goalSettings?.goalMax ?? 0) > 0) {
-      goalValue = Func.toInt(widget.userHabit.habit!.goalSettings!.goalMax!);
-    }
-
-    if (goalValue != null) {
-      if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Minute) {
-        _duration = Duration(minutes: goalValue);
-      } else if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Hour) {
-        _duration = Duration(hours: goalValue);
-      }
-    }
-
-    if (_duration != null) {
-      BlocManager.userHabitBloc.add(UserHabitShowcaseEvent(ShowcaseKeyName.timer));
-    }
+    BlocManager.userHabitBloc.add(GetUserHabitProgressLogEvent(widget.userHabit.userHabitId ?? 0));
 
     super.initState();
   }
@@ -101,7 +85,9 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
                         overlayPadding: EdgeInsets.all(30.0),
                         shapeBorder: CircleBorder(),
                         child: CustomCountdownTimer(
+                          userHabit: widget.userHabit,
                           duration: _duration!,
+                          userHabitProgressLog: _userHabitProgressLog,
                           primaryColor: _primaryColor,
                           visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
                           timerSize: _timerSize,
@@ -129,7 +115,15 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
   }
 
   void _blocListener(BuildContext context, UserHabitState state) {
-    if (state is SaveUserHabitProgressSuccess) {
+    if (state is GetUserHabitProgressLogSuccess) {
+      // Spent time
+      if ((state.habitProgressLog.planLogId ?? 0) > 0) {
+        _userHabitProgressLog = state.habitProgressLog;
+      }
+
+      // Init
+      _init();
+    } else if (state is SaveUserHabitProgressSuccess) {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
@@ -142,6 +136,29 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
       );
     } else if (state is UserHabitShowcaseState) {
       ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
+    }
+  }
+
+  _init() {
+    // Timer
+    int? goalValue;
+    if (Func.toInt(widget.userHabit.goalValue) > 0) {
+      goalValue = Func.toInt(widget.userHabit.goalValue);
+    } else if ((widget.userHabit.habit?.goalSettings?.goalMax ?? 0) > 0) {
+      goalValue = Func.toInt(widget.userHabit.habit!.goalSettings!.goalMax!);
+    }
+
+    if (goalValue != null) {
+      if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Minute) {
+        _duration = Duration(minutes: goalValue);
+      } else if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Hour) {
+        _duration = Duration(hours: goalValue);
+      }
+    }
+
+    // Showcase
+    if (_duration != null) {
+      BlocManager.userHabitBloc.add(UserHabitShowcaseEvent(ShowcaseKeyName.timer));
     }
   }
 

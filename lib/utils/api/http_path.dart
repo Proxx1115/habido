@@ -55,4 +55,6 @@ class HttpPath {
   static const String forgotPassword = '/auth/user/forgot-pass';
   static const String forgotPasswordChange = '/auth/user/change-pass';
   static const String dynamicHabitSettings = '/mobile/habit/settings';
+  static const String getHabitProgressLog = '/mobile/user-habit/progress/log';
+  static const String updateHabitProgressLog = '/mobile/user-habit/progress/log';
 }

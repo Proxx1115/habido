@@ -22,6 +22,7 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
+import 'package:habido_app/models/habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/habits_response.dart';
@@ -547,6 +548,24 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.forgotPasswordChange,
         objectData: request,
+      ),
+    );
+  }
+
+  static Future<UserHabitProgressLog> getHabitProgressLog(int userHabitId) async {
+    return UserHabitProgressLog.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.getHabitProgressLog + '/$userHabitId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<BaseResponse> updateHabitProgressLog(UserHabitProgressLog habitProgressLog) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.updateHabitProgressLog,
+        objectData: habitProgressLog,
       ),
     );
   }
