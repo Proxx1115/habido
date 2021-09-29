@@ -360,6 +360,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                     HorizontalContentCard(
                       margin: EdgeInsets.only(bottom: 30.0),
                       content: state.userHabitResponse.content!,
+                      backgroundColor: HabitHelper.getBackgroundColor(_backgroundColorCode),
                       callback: () {
                         Navigator.popUntil(context, ModalRoute.withName(Routes.home));
                       },

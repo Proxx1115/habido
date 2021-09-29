@@ -154,6 +154,7 @@ class HorizontalContentCard extends StatelessWidget {
   final Content content;
   final EdgeInsets? margin;
   final VoidCallback? callback;
+  final Color? backgroundColor;
 
   final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
   final double _height = 133.0;
@@ -163,6 +164,7 @@ class HorizontalContentCard extends StatelessWidget {
     required this.content,
     this.margin,
     this.callback,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -184,7 +186,7 @@ class HorizontalContentCard extends StatelessWidget {
             height: _height,
             decoration: BoxDecoration(
               borderRadius: _borderRadius,
-              color: customColors.whiteBackground,
+              color: backgroundColor ?? customColors.whiteBackground,
             ),
             child: Row(
               children: [
