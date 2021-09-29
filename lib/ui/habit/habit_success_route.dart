@@ -69,6 +69,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
               SvgPicture.asset(
                 Assets.success_background,
                 fit: BoxFit.fitWidth,
+                width: double.infinity,
               ),
 
               /// Body
