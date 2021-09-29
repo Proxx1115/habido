@@ -47,6 +47,8 @@ class LocaleKeys {
 
   static String get search => 'Хайх';
 
+  static String get search2 => 'Хайлт';
+
   static String get continueTxt => 'Үргэлжлүүлэх';
 
   static String get back => 'Буцах';

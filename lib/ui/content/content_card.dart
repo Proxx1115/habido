@@ -17,17 +17,20 @@ class VerticalContentCard extends StatelessWidget {
   final EdgeInsets? margin;
   final double width;
   final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
+  final int duration;
 
   VerticalContentCard({
     Key? key,
     required this.content,
     required this.width,
     this.margin,
+    this.duration = 500,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FadeInAnimation(
+      duration: duration,
       child: Container(
         margin: margin,
         decoration: BoxDecoration(

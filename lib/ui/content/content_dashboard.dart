@@ -16,6 +16,7 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 class ContentDashboard extends StatefulWidget {
   const ContentDashboard({Key? key}) : super(key: key);
@@ -29,15 +30,24 @@ class _ContentDashboardState extends State<ContentDashboard> {
   late ContentBloc _contentBloc;
   double _contentMargin = 15.0;
 
+  // Search bar
+  final _searchController = TextEditingController();
+
+  // Tags
+  List<ContentTag> _tagList = [];
+
   // Content
   List<Content>? _contentList;
-  double? _contentWidth;
+  List<Content>? _filteredContentList;
 
-  // Tag
-  List<ContentTag> _tagList = [];
+  double? _contentWidth;
 
   @override
   void initState() {
+    // Search
+    _searchController.addListener(() => _filter());
+
+    // Data
     _contentBloc = ContentBloc();
     _contentBloc.add(GetContentListEvent());
     super.initState();
@@ -64,9 +74,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
                   DashboardSliverAppBar(title: LocaleKeys.content),
 
                   /// Search
-                  SliverToBoxAdapter(
-                    child: _searchBar(),
-                  ),
+                  _searchBar(),
 
                   /// Tags
                   SliverToBoxAdapter(
@@ -74,13 +82,14 @@ class _ContentDashboardState extends State<ContentDashboard> {
                   ),
 
                   /// Content list
-                  if (_contentList != null && _contentList!.isNotEmpty)
+                  if (_filteredContentList != null && _filteredContentList!.isNotEmpty)
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                           return _contentRow(index);
                         },
-                        childCount: Func.toInt(_contentList!.length / 2) + (_contentList!.length.isEven ? 0 : 1),
+                        childCount: Func.toInt(_filteredContentList!.length / 2) +
+                            (_filteredContentList!.length.isEven ? 0 : 1),
                       ),
                     ),
 
@@ -98,7 +107,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
 
   void _blocListener(BuildContext context, ContentState state) {
     if (state is ContentListSuccess) {
-      _contentList = state.contentList;
+      _contentList = _filteredContentList = state.contentList;
       _tagList = state.tagList;
     } else if (state is ContentListFailed) {
       showCustomDialog(
@@ -109,7 +118,25 @@ class _ContentDashboardState extends State<ContentDashboard> {
   }
 
   Widget _searchBar() {
-    return Container();
+    return SliverAppBar(
+      pinned: true,
+      snap: true,
+      floating: true,
+      expandedHeight: 70.0,
+      collapsedHeight: 70.0,
+      backgroundColor: customColors.primaryBackground,
+      elevation: 0,
+      automaticallyImplyLeading: false,
+      title: Container(
+        margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+        child: CustomTextField(
+          controller: _searchController,
+          hintText: LocaleKeys.search2,
+          visibleSuffix: false,
+          prefixAsset: Assets.search,
+        ),
+      ),
+    );
   }
 
   Widget _tagListWidget() {
@@ -131,9 +158,8 @@ class _ContentDashboardState extends State<ContentDashboard> {
     return StadiumContainer(
       margin: EdgeInsets.symmetric(vertical: 2.5),
       onTap: () {
-        setState(() {
-          _tagList[i].isSelected = !(_tagList[i].isSelected ?? false);
-        });
+        _tagList[i].isSelected = !(_tagList[i].isSelected ?? false);
+        _filter();
       },
       borderRadius: SizeHelper.borderRadiusOdd,
       padding: EdgeInsets.fromLTRB(15.0, 12.0, 15.0, 12.0),
@@ -148,6 +174,51 @@ class _ContentDashboardState extends State<ContentDashboard> {
     );
   }
 
+  _filter() {
+    // Search
+    var searchContentList = <Content>[];
+    if (_searchController.text.isEmpty) {
+      searchContentList.addAll(_contentList ?? []);
+    } else {
+      for (Content el in (_contentList ?? [])) {
+        if (Func.toStr(el.title).toLowerCase().contains(_searchController.text.toLowerCase())) {
+          searchContentList.add(el);
+        }
+      }
+    }
+
+    // Tag
+    var tagContentList = <Content>[];
+    bool selectedTagFound = false;
+    for (var el in _tagList) {
+      if (el.isSelected ?? false) {
+        selectedTagFound = true;
+        break;
+      }
+    }
+
+    if (!selectedTagFound) {
+      tagContentList = searchContentList;
+    } else {
+      for (var tag in _tagList) {
+        if (tag.isSelected ?? false) {
+          for (var content in searchContentList) {
+            for (var innerTag in (content.tags ?? [])) {
+              if (tag.name == innerTag.name && !_tagList.contains(innerTag)) {
+                tagContentList.add(content);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    setState(() {
+      print('filtered');
+      _filteredContentList = tagContentList;
+    });
+  }
+
   Widget _contentRow(int index) {
     _contentWidth = _contentWidth ?? (MediaQuery.of(context).size.width - _contentMargin - SizeHelper.margin * 2) / 2;
 
@@ -157,7 +228,8 @@ class _ContentDashboardState extends State<ContentDashboard> {
         /// Content 1
         Expanded(
           child: VerticalContentCard(
-            content: _contentList![index * 2],
+            duration: 200,
+            content: _filteredContentList![index * 2],
             width: _contentWidth!,
             margin: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, 0.0, 0.0),
           ),
@@ -167,9 +239,10 @@ class _ContentDashboardState extends State<ContentDashboard> {
 
         /// Content 2
         Expanded(
-          child: (index * 2 + 1 < _contentList!.length)
+          child: (index * 2 + 1 < _filteredContentList!.length)
               ? VerticalContentCard(
-                  content: _contentList![index * 2 + 1],
+                  duration: 200,
+                  content: _filteredContentList![index * 2 + 1],
                   width: _contentWidth!,
                   margin: EdgeInsets.fromLTRB(0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
                 )

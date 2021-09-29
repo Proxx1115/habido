@@ -37,6 +37,7 @@ class Assets {
   static const String minus12 = 'assets/images/global/minus12.svg';
   static const String plus12 = 'assets/images/global/plus12.svg';
   static const String drop_down = 'assets/images/global/drop_down.svg';
+  static const String search = 'assets/images/global/search.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';

@@ -31,6 +31,7 @@ class CustomTextField extends StatefulWidget {
   final Widget? suffixWidget;
   final String suffixAsset;
   final Color? suffixColor;
+  final bool visibleSuffix;
   final bool alwaysVisibleSuffix;
   final VoidCallback? onPressedSuffix;
 
@@ -55,6 +56,7 @@ class CustomTextField extends StatefulWidget {
     this.suffixWidget,
     this.suffixAsset = Assets.edit,
     this.suffixColor,
+    this.visibleSuffix = true,
     this.alwaysVisibleSuffix = true,
     this.onPressedSuffix,
   }) : super(key: key);
@@ -133,7 +135,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   FontWeight get _fontWeight => _focusNode.hasFocus ? FontWeight.w500 : FontWeight.normal;
 
   Widget? _suffixIcon() {
-    if (widget.alwaysVisibleSuffix || _focusNode.hasFocus) {
+    if (widget.visibleSuffix && (widget.alwaysVisibleSuffix || _focusNode.hasFocus)) {
       // Show suffix icon
       return NoSplashContainer(
         child: IconButton(
