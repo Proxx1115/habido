@@ -90,9 +90,12 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
 
       if (widget.userHabitProgressLog!.status == UserHabitProgressLogStatus.Play) {
         // Auto play
-        Future.delayed(Duration(seconds: 1), () {
-          _onPressedPlay();
-        });
+        _onPressedPlay();
+        WidgetsBinding.instance?.addPostFrameCallback((_) => () {
+              setState(() {
+                print('hello');
+              });
+            });
       }
     }
   }
@@ -286,9 +289,14 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       _audioPlayer?.resume();
       _printAudioState();
     } else {
-      _initAudioPlayer();
-      _audioPlayer?.play(widget.music!, isLocal: false);
-      _printAudioState();
+      if (Func.isNotEmpty(widget.music)) {
+        // Init audio player
+        _audioPlayer = AudioPlayer();
+
+        // Play
+        _audioPlayer?.play(widget.music!, isLocal: false);
+        _printAudioState();
+      }
     }
 
     // Logging
@@ -326,12 +334,6 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       // Logging
       _logReset();
     });
-  }
-
-  _initAudioPlayer() async {
-    if (Func.isNotEmpty(widget.music)) {
-      _audioPlayer = AudioPlayer();
-    }
   }
 
   _printAudioState() {

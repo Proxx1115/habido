@@ -305,7 +305,7 @@ class Routes {
       case Routes.habitCategories:
         route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.habitCategory)
             ? SlideRightRouteBuilder(HabitCategoriesRoute(), settings)
-            : SlideBottomRouteBuilder(HabitCategoriesRoute(), settings);
+            : FadeRouteBuilder(HabitCategoriesRoute(), settings);
         break;
 
       case Routes.habitList:
@@ -317,7 +317,7 @@ class Routes {
                 ),
                 settings,
               )
-            : SlideBottomRouteBuilder(
+            : FadeRouteBuilder(
                 HabitListRoute(
                   habitCategory: _getValueByKey(args, 'habitCategory'),
                 ),
@@ -338,7 +338,7 @@ class Routes {
                 ),
                 settings,
               )
-            : SlideBottomRouteBuilder(
+            : FadeRouteBuilder(
                 UserHabitRoute(
                   screenMode: _getValueByKey(args, 'screenMode'),
                   title: _getValueByKey(args, 'title'),
@@ -360,7 +360,7 @@ class Routes {
                 ),
                 settings,
               )
-            : SlideBottomRouteBuilder(
+            : FadeRouteBuilder(
                 HabitTimerRoute(
                   userHabit: _getValueByKey(args, 'userHabit'),
                   callBack: _getValueByKey(args, 'callBack'),
