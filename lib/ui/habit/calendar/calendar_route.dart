@@ -343,6 +343,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
 
   Widget _listItem(int i) {
     return MoveInAnimation(
+      delay: i * 0.2,
       child: ListItemContainer(
         title: _dailyUserHabitList![i].name ?? '',
         leadingImageUrl: _dailyUserHabitList![i].habit?.photo,
