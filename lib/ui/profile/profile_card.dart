@@ -97,7 +97,7 @@ class _ProfileCardState extends State<ProfileCard> {
     if (state is UserDataSuccess) {
       print('');
     } else if (state is UpdateProfilePictureSuccess) {
-      BlocManager.userBloc.add(GetUserDataEvent());
+      print('UpdateProfilePictureSuccess');
     } else if (state is UpdateProfilePictureFailed) {
       showCustomDialog(
         context,

@@ -135,9 +135,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   }
 
   void _blocListener(BuildContext context, UserState state) {
-    if (state is UpdateProfilePictureSuccess) {
-      BlocManager.userBloc.add(GetUserDataEvent());
-    } else if (state is UpdateUserDataSuccess) {
+    if (state is UpdateUserDataSuccess) {
       BlocManager.userBloc.add(GetUserDataEvent());
       showCustomDialog(
         context,
@@ -155,6 +153,9 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
+    }
+    if (state is UpdateProfilePictureSuccess) {
+      print('UpdateProfilePictureSuccess');
     } else if (state is UpdateProfilePictureFailed) {
       showCustomDialog(
         context,

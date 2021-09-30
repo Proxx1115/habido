@@ -9,6 +9,8 @@ import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
+import 'bloc_manager.dart';
+
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -71,6 +73,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     try {
       var res = await ApiManager.updateProfilePic(event.request);
       if (res.code == ResponseCode.Success) {
+        BlocManager.userBloc.add(GetUserDataEvent());
         yield UpdateProfilePictureSuccess();
       } else {
         yield UpdateProfilePictureFailed(ApiHelper.getFailedMessage(res.message));
