@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/habit_plan_terms.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -12,7 +13,8 @@ class PlanTermsWidget extends StatefulWidget {
   final Color primaryColor;
 
   // Plan term
-  final String? planTerm;
+  final HabitPlanTerms? habitPlanTerms;
+  final String? initialPlanTerm;
   final Function(String) onPlanTermChanged;
 
   // Plan list
@@ -22,7 +24,8 @@ class PlanTermsWidget extends StatefulWidget {
   const PlanTermsWidget({
     Key? key,
     required this.primaryColor,
-    required this.planTerm,
+    this.habitPlanTerms,
+    required this.initialPlanTerm,
     required this.onPlanTermChanged,
     required this.planList,
     required this.onPlanListChanged,
@@ -47,8 +50,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
   void initState() {
     _planTermsBloc = PlanTermsBloc();
 
-    // Term
-    _selectedPlanTerm = widget.planTerm ?? PlanTerm.Daily;
+    _selectedPlanTerm = widget.initialPlanTerm ?? PlanTerm.Daily;
 
     // Plan list
     for (var el in widget.planList ?? []) {
@@ -115,6 +117,8 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     }
   }
 
+
+
   Widget _tabBar() {
     return Container(
       margin: EdgeInsets.only(top: 15.0),
@@ -138,7 +142,24 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          _planTermsBloc.add(ChangePlanTermEvent(planTerm));
+          bool isEnabled = false;
+          if (widget.habitPlanTerms == null) {
+            isEnabled = true;
+          } else {
+            switch (planTerm) {
+              case PlanTerm.Daily:
+                isEnabled = widget.habitPlanTerms!.daily ?? false;
+                break;
+              case PlanTerm.Weekly:
+                isEnabled = widget.habitPlanTerms!.weekly ?? false;
+                break;
+              case PlanTerm.Monthly:
+                isEnabled = widget.habitPlanTerms!.monthly ?? false;
+                break;
+            }
+          }
+
+          if (isEnabled) _planTermsBloc.add(ChangePlanTermEvent(planTerm));
         },
         borderRadius: SizeHelper.borderRadiusOdd,
         child: Container(

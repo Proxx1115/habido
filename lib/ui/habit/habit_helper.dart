@@ -116,6 +116,8 @@ class HabitHelper {
   static ComboItem? getGoalSettingsComboItem(HabitGoalSettings? goalSettings) {
     return goalSettings != null ? ComboItem(txt: goalSettings.goalName ?? '', val: goalSettings) : null;
   }
+
+
 }
 
 /// Хэмжигдэхүүн

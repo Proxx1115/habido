@@ -1,4 +1,5 @@
 import 'habit_goal_settings.dart';
+import 'habit_plan_terms.dart';
 
 class Habit {
   int? habitId; // 0
@@ -11,7 +12,7 @@ class Habit {
   String? backgroundColor; // ''
   String? photo; // required link
   HabitGoalSettings? goalSettings;
-  // 'planTerms': {'monthly': true, 'weekly': false, 'daily': true}
+  HabitPlanTerms? planTerms;
 
   Habit({
     this.habitId,
@@ -23,6 +24,7 @@ class Habit {
     this.color,
     this.photo,
     this.goalSettings,
+    this.planTerms,
   });
 
   Habit.fromJson(dynamic json) {
@@ -36,6 +38,7 @@ class Habit {
     backgroundColor = json['backgroundColor'];
     photo = json['photo'];
     goalSettings = json['goalSettings'] != null ? HabitGoalSettings.fromJson(json['goalSettings']) : null;
+    planTerms = json['planTerms'] != null ? HabitPlanTerms.fromJson(json['planTerms']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +54,9 @@ class Habit {
     map['photo'] = photo;
     if (goalSettings != null) {
       map['goalSettings'] = goalSettings?.toJson();
+    }
+    if (planTerms != null) {
+      map['planTerms'] = planTerms?.toJson();
     }
     return map;
   }

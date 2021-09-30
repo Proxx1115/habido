@@ -1,3 +1,4 @@
+import 'package:habido_app/models/habit_plan_terms.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
@@ -50,5 +51,20 @@ class PlanTerm {
       default:
         return '';
     }
+  }
+
+  static String getInitialPlanTerm(HabitPlanTerms? habitPlanTerms) {
+    var res = PlanTerm.Daily;
+    if (habitPlanTerms != null) {
+      if (!(habitPlanTerms.daily ?? false) && (habitPlanTerms.weekly ?? false)) {
+        // Only weekly
+        res = PlanTerm.Weekly;
+      } else {
+        // Only monthly
+        res = PlanTerm.Monthly;
+      }
+    }
+
+    return res;
   }
 }

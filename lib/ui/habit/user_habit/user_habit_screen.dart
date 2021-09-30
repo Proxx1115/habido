@@ -156,11 +156,17 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     /// Plan term
     switch (_screenMode) {
       case ScreenMode.Edit:
+        _planTerm = _userHabit!.planTerm ?? PlanTerm.getInitialPlanTerm(_habit.planTerms);
+        _planList = _userHabit!.planDays ?? [];
+        break;
       case ScreenMode.CustomEdit:
         _planTerm = _userHabit!.planTerm ?? PlanTerm.Daily;
         _planList = _userHabit!.planDays ?? [];
         break;
       case ScreenMode.New:
+        _planTerm = PlanTerm.getInitialPlanTerm(_habit.planTerms);
+        _planList = [];
+        break;
       case ScreenMode.CustomNew:
       default:
         _planTerm = PlanTerm.Daily;
@@ -447,7 +453,8 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   Widget _planTermsWidget() {
     return PlanTermsWidget(
       primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
-      planTerm: _planTerm,
+      habitPlanTerms: _habit.planTerms,
+      initialPlanTerm: _planTerm,
       onPlanTermChanged: (term) {
         _planTerm = term;
       },
