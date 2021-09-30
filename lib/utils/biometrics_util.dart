@@ -4,7 +4,9 @@ import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 
-class BiometricHelper {
+final biometricsUtil = BiometricsUtil();
+
+class BiometricsUtil {
   var localAuth = LocalAuthentication();
   bool canCheckBiometrics = false;
   int availableBiometricsCount = 0;
@@ -16,11 +18,7 @@ class BiometricHelper {
     lockOut: 'Please re-enable your Touch ID',
   );
 
-  BiometricHelper() {
-    initBiometrics();
-  }
-
-  initBiometrics() async {
+  init() async {
     try {
       // Тухайн төхөөрөмж biometric-тэй эсэх
       canCheckBiometrics = await localAuth.canCheckBiometrics;
@@ -42,7 +40,7 @@ class BiometricHelper {
     bool isAuthenticated = false;
 
     try {
-      isAuthenticated = await localAuth.authenticateWithBiometrics(
+      isAuthenticated = await localAuth.authenticate(
         localizedReason: 'Biometric auth',
         useErrorDialogs: true,
         // stickyAuth state нь хэзээ ч дуусдаггүй. өмнө нь прогресс ажиллаж байсан бол түүнийг дахиж дуудна. хэрэв давхар дуудвал алдаа гарна.

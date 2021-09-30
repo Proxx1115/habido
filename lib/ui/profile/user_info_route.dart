@@ -7,12 +7,16 @@ import 'package:habido_app/bloc/user_bloc.dart';
 import 'package:habido_app/models/gender.dart';
 import 'package:habido_app/models/update_profile_picture_request.dart';
 import 'package:habido_app/models/update_user_data_request.dart';
+import 'package:habido_app/models/user_device.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/biometrics_util.dart';
+import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/image_utils.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -49,6 +53,9 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   // Хүйс
   bool _genderValue = false;
 
+  // Биометр
+  UserDevice? _userDevice;
+
   // Button save
   bool _enabledBtnSave = false;
 
@@ -61,6 +68,10 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     if (globals.userData?.firstName != null) _firstNameController.text = globals.userData!.firstName!;
     if (globals.userData?.gender != null) _genderValue = globals.userData!.gender == Gender.Female;
     if (globals.userData?.birthDay != null) _selectedBirthDate = Func.toDate(globals.userData!.birthDay!);
+
+    if (Func.isNotEmpty(DeviceHelper.deviceId)) {
+      BlocManager.userBloc.add(GetUserDeviceEvent(DeviceHelper.deviceId!));
+    }
 
     WidgetsBinding.instance?.addPostFrameCallback((_) => _validateForm());
 
@@ -105,6 +116,9 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
 
                       /// Нууц үг солих
                       _changePasswordCard(),
+
+                      /// Биометрээр нэвтрэх
+                      _biometricsSwitch(),
                     ],
                   ),
 
@@ -145,6 +159,14 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
+    } else if (state is GetUserDeviceSuccess) {
+      _userDevice = state.userDevice;
+    } else if (state is GetUserDeviceFailed) {
+      print('GetUserDeviceFailed');
+    } else if (state is UpdateUserDeviceSuccess) {
+      SharedPref.setBiometricAuth(_userDevice!.isBiometric);
+    } else if (state is UpdateUserDeviceFailed) {
+      print('UpdateUserDeviceFailed');
     }
   }
 
@@ -280,6 +302,29 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
         Navigator.pushNamed(context, Routes.changePass);
       },
     );
+  }
+
+  Widget _biometricsSwitch() {
+    return (_userDevice != null && biometricsUtil.canCheckBiometrics && biometricsUtil.availableBiometricsCount > 0)
+        ? StadiumContainer(
+            margin: EdgeInsets.only(top: 15.0),
+            child: CustomSwitch(
+              margin: EdgeInsets.fromLTRB(0.0, 0.0, 5.0, 0.0),
+              activeText: LocaleKeys.biometricAuth,
+              activeColor: customColors.primary,
+              value: _userDevice!.isBiometric ?? false,
+              onChanged: (value) {
+                if (_userDevice != null) {
+                  setState(() {
+                    _userDevice!.isBiometric = value;
+                  });
+
+                  BlocManager.userBloc.add(UpdateUserDeviceEvent(_userDevice!));
+                }
+              },
+            ),
+          )
+        : Container();
   }
 
   _validateForm() {

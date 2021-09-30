@@ -9,7 +9,9 @@ class HttpPath {
   static const String updateProfilePic = '/mobile/change/user-photo';
   static const String updateUserData = '/mobile/change/user-info';
   static const String param = '/auth/param';
-  static const String registerDevice = '/register-device';
+  static const String getDevice = '/mobile/user-device';
+  static const String insertDevice = '/register-device';
+  static const String updateDevice = '/mobile/user-device';
   static const String chatbots = '/mobile/chatbots';
   static const String firstChat = '/mobile/first-chat';
   static const String continueChat = '/mobile/continue-chat';

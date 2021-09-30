@@ -12,25 +12,25 @@ import 'package:habido_app/widgets/text.dart';
 
 class ExpandableListItem extends StatelessWidget {
   final VoidCallback? onPressed;
-  final String? leadingImageUrl;
-  final Color? leadingImageColor;
+  final String? leadingUrl;
+  final Color? leadingColor;
   final Color? leadingBackgroundColor;
   final String text;
+  final Color? suffixColor;
   final VoidCallback? onPressedSkip;
   final VoidCallback? onPressedEdit;
   final double? delay;
-
-  // final double
 
   final SlidableController _controller = SlidableController();
 
   ExpandableListItem({
     Key? key,
     this.onPressed,
-    this.leadingImageUrl,
-    this.leadingImageColor,
+    this.leadingUrl,
+    this.leadingColor,
     this.leadingBackgroundColor,
     required this.text,
+    this.suffixColor,
     this.onPressedSkip,
     this.onPressedEdit,
     this.delay,
@@ -58,7 +58,7 @@ class ExpandableListItem extends StatelessWidget {
             child: Row(
               children: [
                 /// Image
-                if (Func.isNotEmpty(leadingImageUrl))
+                if (Func.isNotEmpty(leadingUrl))
                   Container(
                     margin: EdgeInsets.only(right: 15.0),
                     padding: EdgeInsets.all(10.0),
@@ -69,8 +69,8 @@ class ExpandableListItem extends StatelessWidget {
                       color: leadingBackgroundColor ?? customColors.greyBackground,
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: leadingImageUrl!,
-                      color: leadingImageColor,
+                      imageUrl: leadingUrl!,
+                      color: leadingColor,
                       fit: BoxFit.fitWidth,
                       width: 20.0,
                       height: 20.0,
@@ -85,7 +85,7 @@ class ExpandableListItem extends StatelessWidget {
                 ),
 
                 /// Arrow
-                SvgPicture.asset(Assets.arrow_forward),
+                SvgPicture.asset(Assets.arrow_forward, color: suffixColor ?? customColors.iconGrey),
               ],
             ),
           ),

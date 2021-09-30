@@ -51,7 +51,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>contacts</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Why is my app authenticating using face id?</string>
+	<string>Biometric authentication</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Always and when in use!</string>
 	<key>NSLocationAlwaysUsageDescription</key>

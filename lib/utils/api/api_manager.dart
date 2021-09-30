@@ -37,7 +37,7 @@ import 'package:habido_app/models/psy_test_results_response.dart';
 import 'package:habido_app/models/psy_tests_response.dart';
 import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/models/rank_list_response.dart';
-import 'package:habido_app/models/register_device_request.dart';
+import 'package:habido_app/models/user_device.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/sign_up_phone_request.dart';
 import 'package:habido_app/models/sign_up_phone_response.dart';
@@ -126,15 +126,34 @@ class ApiManager {
     return res;
   }
 
-  static Future<BaseResponse> registerDevice(RegisterDeviceRequest request) async {
+  static Future<BaseResponse> insertDeviceInfo(UserDevice userDevice) async {
     var res = BaseResponse.fromJson(await httpUtils.sendRequest(
-      path: HttpPath.registerDevice,
-      objectData: request,
+      path: HttpPath.insertDevice,
+      objectData: userDevice,
     ));
 
     if (res.code == ResponseCode.Success) {
-      SharedPref.setRegisteredPushNotifToken(true);
+      SharedPref.setPushNotifTokenRegistered(true);
     }
+
+    return res;
+  }
+
+  static Future<BaseResponse> updateUserDevice(UserDevice userDevice) async {
+    var res = BaseResponse.fromJson(await httpUtils.sendRequest(
+      path: HttpPath.updateDevice,
+      objectData: userDevice,
+      httpMethod: HttpMethod.put,
+    ));
+
+    return res;
+  }
+
+  static Future<UserDevice> getUserDevice(String deviceId) async {
+    var res = UserDevice.fromJson(await httpUtils.sendRequest(
+      path: HttpPath.getDevice + '?deviceId=$deviceId',
+      httpMethod: HttpMethod.get,
+    ));
 
     return res;
   }

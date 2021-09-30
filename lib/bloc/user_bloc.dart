@@ -4,6 +4,7 @@ import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/models/update_profile_picture_request.dart';
 import 'package:habido_app/models/update_user_data_request.dart';
 import 'package:habido_app/models/user_data.dart';
+import 'package:habido_app/models/user_device.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -27,6 +28,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapUpdateProfilePictureEventToState(event);
     } else if (event is UpdateUserDataEvent) {
       yield* _mapUpdateUserDataEventToState(event);
+    } else if (event is GetUserDeviceEvent) {
+      yield* _mapGetUserDeviceEventToState(event);
+    } else if (event is UpdateUserDeviceEvent) {
+      yield* _mapUpdateUserDeviceEventToState(event);
     }
   }
 
@@ -89,6 +94,36 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield UpdateUserDataFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<UserState> _mapGetUserDeviceEventToState(GetUserDeviceEvent event) async* {
+    try {
+      yield UserLoading();
+
+      var res = await ApiManager.getUserDevice(event.deviceId);
+      if (res.code == ResponseCode.Success) {
+        yield GetUserDeviceSuccess(res);
+      } else {
+        yield GetUserDeviceFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield GetUserDeviceFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserState> _mapUpdateUserDeviceEventToState(UpdateUserDeviceEvent event) async* {
+    try {
+      yield UserLoading();
+
+      var res = await ApiManager.updateUserDevice(event.userDevice);
+      if (res.code == ResponseCode.Success) {
+        yield UpdateUserDeviceSuccess();
+      } else {
+        yield UpdateUserDeviceFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield UpdateUserDeviceFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -140,6 +175,30 @@ class UpdateUserDataEvent extends UserEvent {
 
   @override
   String toString() => 'UpdateUserDataEvent { request: $request }';
+}
+
+class GetUserDeviceEvent extends UserEvent {
+  final String deviceId;
+
+  const GetUserDeviceEvent(this.deviceId);
+
+  @override
+  List<Object> get props => [deviceId];
+
+  @override
+  String toString() => 'GetUserDeviceEvent { deviceId: $deviceId }';
+}
+
+class UpdateUserDeviceEvent extends UserEvent {
+  final UserDevice userDevice;
+
+  const UpdateUserDeviceEvent(this.userDevice);
+
+  @override
+  List<Object> get props => [userDevice];
+
+  @override
+  String toString() => 'UpdateUserDeviceEvent { userDevice: $userDevice }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -243,4 +302,42 @@ class UpdateUserDataFailed extends UserState {
 
   @override
   String toString() => 'UpdateUserDataFailed { message: $message }';
+}
+
+class GetUserDeviceSuccess extends UserState {
+  final UserDevice userDevice;
+
+  const GetUserDeviceSuccess(this.userDevice);
+
+  @override
+  List<Object> get props => [userDevice];
+
+  @override
+  String toString() => 'GetUserDeviceSuccess { userDevice: $userDevice }';
+}
+
+class GetUserDeviceFailed extends UserState {
+  final String message;
+
+  const GetUserDeviceFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetUserDeviceFailed { message: $message }';
+}
+
+class UpdateUserDeviceSuccess extends UserState {}
+
+class UpdateUserDeviceFailed extends UserState {
+  final String message;
+
+  const UpdateUserDeviceFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'UpdateUserDeviceFailed { message: $message }';
 }

@@ -15,7 +15,7 @@ class SharedPrefKey {
   static const String phoneNumber = 'phoneNumber';
   static const String password = 'password';
   static const String rememberMe = 'rememberMe';
-  static const String biometricAuth = 'useBiometric';
+  static const String biometricAuth = 'biometricAuth';
   static const String sessionToken = 'sessionToken'; // Session token
 
   /// Push notification
@@ -65,11 +65,17 @@ class SharedPref {
   }
 
   static void setBiometricAuth(bool? value) {
-    sharedPref?.setBool(SharedPrefKey.biometricAuth, value ?? false);
+    if (Func.isNotEmpty(globals.userData?.phone)) {
+      sharedPref?.setBool(SharedPrefKey.biometricAuth + '_${globals.userData?.phone}', value ?? false);
+    }
   }
 
-  static bool getBiometricAuth() {
-    return sharedPref?.getBool(SharedPrefKey.biometricAuth) ?? false;
+  static bool getBiometricAuth(String phoneNumber) {
+    if (Func.isEmpty(phoneNumber)) {
+      return false;
+    } else {
+      return sharedPref?.getBool(SharedPrefKey.biometricAuth + '_$phoneNumber') ?? false;
+    }
   }
 
   static void setUseBiometrics(bool? useBiometric) {
@@ -109,7 +115,7 @@ class SharedPref {
     return false;
   }
 
-  static void setRegisteredPushNotifToken(bool value) {
+  static void setPushNotifTokenRegistered(bool value) {
     if (Func.isNotEmpty(globals.userData?.phone)) {
       sharedPref?.setBool(SharedPrefKey.registeredPushNotifToken + '_${globals.userData!.phone!}', value);
     }

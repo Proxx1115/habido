@@ -393,6 +393,10 @@ class LocaleKeys {
   static String get changePassword => 'Нууц үг солих';
 
   static String get pleaseEnterVerifyCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу.';
+
+  static String get biometricAuth => 'Биометрээр нэвтрэх';
+
+  static String get biometricFailed => 'Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу.';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

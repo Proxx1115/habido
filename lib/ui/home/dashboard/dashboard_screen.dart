@@ -191,10 +191,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         (index) => ExpandableListItem(
           delay: index * 0.2,
           text: userHabitList[index].name ?? '',
-          leadingImageUrl: userHabitList[index].habit?.photo,
-          leadingImageColor: customColors.iconWhite,
+          leadingUrl: userHabitList[index].habit?.photo,
+          leadingColor: customColors.iconWhite,
           leadingBackgroundColor:
               (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
+          suffixColor: customColors.primary,
+          // (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           onPressed: () {
             if (enabled && userHabitList[index].habit?.goalSettings != null) {
               String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!);

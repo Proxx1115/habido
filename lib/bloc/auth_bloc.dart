@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/change_password_request.dart';
 import 'package:habido_app/models/change_phone_request.dart';
@@ -16,9 +15,7 @@ import 'package:habido_app/models/verify_phone_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
-import 'package:habido_app/utils/biometric_helper.dart';
 import 'package:habido_app/utils/device_helper.dart';
-import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -34,9 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    if (event is InitBiometricsEvent) {
-      yield* _mapInitBiometricsEvent();
-    } else if (event is LoginEvent) {
+    if (event is LoginEvent) {
       yield* _mapLoginEventToState(event.request);
     } else if (event is LogoutEvent) {
       yield* _mapLogoutEventToState();
@@ -67,24 +62,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapInitBiometricsEvent() async* {
-    try {
-      BiometricHelper biometricHelper = new BiometricHelper();
-      await biometricHelper.initBiometrics();
-
-      yield SetBiometrics(biometricHelper.canCheckBiometrics, biometricHelper.availableBiometricsCount);
-    } on PlatformException catch (e) {
-      print(e);
-      yield SetBiometrics(false, 0);
-    }
-  }
-
   Stream<AuthState> _mapLoginEventToState(LoginRequest request) async* {
     try {
       yield AuthLoading();
-
-      // yield LoginFailed(LocaleKeys.failed);
-      // return;
 
       LoginResponse res = await ApiManager.login(request);
       if (res.code == ResponseCode.Success) {
@@ -114,7 +94,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _mapLogoutEventToState() async* {
     try {
-      var res = await ApiManager.logout();
+      await ApiManager.logout();
       await afterLogout();
       yield LogoutSuccess();
     } catch (e) {
@@ -344,8 +324,6 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class InitBiometricsEvent extends AuthEvent {}
-
 class SignUpPhoneEvent extends AuthEvent {
   final SignUpPhoneRequest request;
 
@@ -508,20 +486,6 @@ abstract class AuthState extends Equatable {
 class AuthInit extends AuthState {}
 
 class AuthLoading extends AuthState {}
-
-class SetBiometrics extends AuthState {
-  final bool canCheckBiometrics;
-  final int availableBiometricsCount;
-
-  const SetBiometrics(this.canCheckBiometrics, this.availableBiometricsCount);
-
-  @override
-  List<Object> get props => [canCheckBiometrics, availableBiometricsCount];
-
-  @override
-  String toString() =>
-      'SetBiometrics { canCheckBiometrics: $canCheckBiometrics, availableBiometricsCount: $availableBiometricsCount }';
-}
 
 class SignUpPhoneSuccess extends AuthState {
   final SignUpPhoneResponse response;

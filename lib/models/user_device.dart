@@ -1,6 +1,6 @@
-import 'package:habido_app/models/base_request.dart';
+import 'package:habido_app/models/base_response.dart';
 
-class RegisterDeviceRequest extends BaseRequest {
+class UserDevice extends BaseResponse {
   String? deviceId;
   String? deviceName;
   String? appName;
@@ -10,7 +10,7 @@ class RegisterDeviceRequest extends BaseRequest {
   String? otherData;
   bool? isBiometric;
 
-  RegisterDeviceRequest(
+  UserDevice(
       {this.deviceId,
       this.deviceName,
       this.appName,
@@ -20,7 +20,8 @@ class RegisterDeviceRequest extends BaseRequest {
       this.otherData,
       this.isBiometric});
 
-  RegisterDeviceRequest.fromJson(dynamic json) {
+  UserDevice.fromJson(dynamic json) {
+    parseBaseParams(json);
     deviceId = json['deviceId'];
     deviceName = json['deviceName'];
     appName = json['appName'];

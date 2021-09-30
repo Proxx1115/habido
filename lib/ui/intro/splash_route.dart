@@ -4,6 +4,7 @@ import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/http_utils.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
+import 'package:habido_app/utils/biometrics_util.dart';
 import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -35,6 +36,9 @@ class _SplashRouteState extends State<SplashRoute> {
   }
 
   void _init() async {
+    // Init biometrics
+    await biometricsUtil.init();
+
     // Check update
     if (await _needUpdate()) return;
 

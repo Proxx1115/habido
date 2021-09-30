@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:device_info/device_info.dart';
-import 'package:habido_app/models/register_device_request.dart';
+import 'package:habido_app/models/user_device.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -51,7 +51,7 @@ class DeviceHelper {
     }
 
     // Register device
-    var request = RegisterDeviceRequest()
+    var request = UserDevice()
       ..deviceId = DeviceHelper.deviceId
       ..deviceName = DeviceHelper.deviceName
       ..appName = LocaleKeys.appName
@@ -61,7 +61,7 @@ class DeviceHelper {
       // ..otherData = ''
       ..isBiometric = false;
 
-    ApiManager.registerDevice(request);
+    ApiManager.insertDeviceInfo(request);
   }
 
 //   else {

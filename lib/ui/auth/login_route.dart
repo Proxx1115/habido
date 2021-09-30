@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/utils/assets.dart';
-import 'package:habido_app/utils/biometric_helper.dart';
+import 'package:habido_app/utils/biometrics_util.dart';
+import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -39,36 +39,23 @@ class _LoginRouteState extends State<LoginRoute> {
   // Нууц үг
   TextEditingController _passwordController = TextEditingController();
   FocusNode _passwordFocusNode = FocusNode();
-  bool _obscure = true;
 
   // Button login
-  bool _isEnabledBtnLogin = false;
+  bool _enabledButtonLogin = false;
 
   // Biometrics
-  bool isEnabledBtnBiometrics = false;
-  bool _biometricAuth = false;
-  bool _canCheckBiometrics = false;
-  int _availableBiometrics = 0;
-
-  // bool _loginByBiometric = false;
+  bool _visibleButtonBiometrics = false;
 
   @override
   void initState() {
     super.initState();
 
-    // Biometric
-    BlocManager.authBloc.add(InitBiometricsEvent());
-
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _init());
-  }
-
-  _init() {
     _phoneNumberController.addListener(() => _validateForm());
     _passwordController.addListener(() => _validateForm());
 
     // Phone number, pass
     _phoneNumberController.text = SharedPref.getPhoneNumber();
-    _biometricAuth = SharedPref.getBiometricAuth();
+    _visibleButtonBiometrics = SharedPref.getBiometricAuth(_phoneNumberController.text);
 
     // todo test
     // _phoneNumberController.text = '88989800';
@@ -96,10 +83,7 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   void _blocListener(BuildContext context, AuthState state) {
-    if (state is SetBiometrics) {
-      _canCheckBiometrics = state.canCheckBiometrics;
-      _availableBiometrics = state.availableBiometricsCount;
-    } else if (state is LoginSuccess) {
+    if (state is LoginSuccess) {
       // Clear controllers
       _passwordController.clear();
       SharedPref.setPhoneNumber(_phoneNumberController.text);
@@ -149,8 +133,8 @@ class _LoginRouteState extends State<LoginRoute> {
               children: [
                 Expanded(child: Container(), flex: 25),
 
-                /// Logo
-                _logo(),
+                /// HabiDo logo
+                HeroHelper.getAppLogoWithName(),
 
                 Expanded(child: Container(), flex: 25),
 
@@ -167,8 +151,6 @@ class _LoginRouteState extends State<LoginRoute> {
 
                       /// Нууц үг
                       _txtboxPassword(),
-
-                      // _chkboxBiometric(),
 
                       SizedBox(height: 30.0),
 
@@ -207,10 +189,6 @@ class _LoginRouteState extends State<LoginRoute> {
     );
   }
 
-  Widget _logo() {
-    return HeroHelper.getAppLogoWithName();
-  }
-
   Widget _txtboxPhoneNumber() {
     return CustomTextField(
       style: CustomTextFieldStyle.secondary,
@@ -243,34 +221,17 @@ class _LoginRouteState extends State<LoginRoute> {
 
   _validateForm() {
     setState(() {
-      _isEnabledBtnLogin = (Func.isValidPhoneNumber(_phoneNumberController.text) &&
+      _enabledButtonLogin = (Func.isValidPhoneNumber(_phoneNumberController.text) &&
           _passwordController.text.isNotEmpty &&
           _passwordController.text.length > 0);
     });
   }
 
-  // Widget _chkboxBiometric() {
-  //   return (_canCheckBiometrics && _availableBiometrics > 0)
-  //       ? Chkbox(
-  //           text: CustomText.useLocalAuth,
-  //           isChecked: _biometricAuth,
-  //           margin: EdgeInsets.only(top: 25.0),
-  //           onChanged: (value) {
-  //             setState(() {
-  //               _biometricAuth = value;
-  //             });
-  //
-  //             SharedPref.saveBiometricAuth(value);
-  //           },
-  //         )
-  //       : Container();
-  // }
-
   Widget _btnLogin() {
     return CustomButton(
       text: LocaleKeys.login,
       onPressed: () {
-        if (!_isEnabledBtnLogin) return;
+        if (!_enabledButtonLogin) return;
 
         LoginRequest request = LoginRequest();
         request.username = _phoneNumberController.text;
@@ -284,53 +245,41 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _btnBiometrics() {
-    return _canCheckBiometrics && _availableBiometrics > 0
+    return (_visibleButtonBiometrics &&
+            biometricsUtil.canCheckBiometrics &&
+            biometricsUtil.availableBiometricsCount > 0)
         ? ButtonStadium(
             asset: Assets.biometric,
             margin: EdgeInsets.only(left: 15.0),
             size: 50.0,
             visibleBorder: true,
             iconColor: customColors.primary,
-            onPressed: () {
-              // FocusScope.of(context).requestFocus(new FocusNode()); //hide keyboard
-              // if (SharedPref.getBiometricAuth()) {
-              //   if (await _checkBiometrics()) {
-              //     var loginRequest = LoginRequest(username: SharedPref.getPhoneNumber(), password: SharedPref.getPassword());
-              //     _loginByBiometric = true;
-              //     BlocProvider.of<AuthBloc>(context).add(Login(loginRequest));
-              //   } else {
-              //     print('failed');
-              //   }
-              // } else {
-              //   showCustomDialog(
-              //     context,
-              //     dialogType: DialogType.error,
-              //     bodyText: CustomText.useBiometricNotSaved,
-              //     btnPositiveText: CustomText.ok,
-              //   );
-              // }
+            onPressed: () async {
+              Func.hideKeyboard(context);
+
+              if (await biometricsUtil.checkBiometrics()) {
+                /// Biometrics authentication
+                var request = LoginRequest();
+                request.username = _phoneNumberController.text;
+                request.password = _passwordController.text;
+                request.isBiometric = true;
+                request.deviceId = DeviceHelper.deviceId;
+
+                BlocManager.authBloc.add(LoginEvent(request));
+              } else {
+                /// Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу.
+                showCustomDialog(
+                  context,
+                  child: CustomDialogBody(
+                    asset: Assets.error,
+                    text: LocaleKeys.biometricFailed,
+                    buttonText: LocaleKeys.ok,
+                  ),
+                );
+              }
             },
           )
         : Container();
-  }
-
-  Future<bool> _checkBiometrics() async {
-    bool didAuthenticate = false;
-    try {
-      /// Biometric
-      BiometricHelper biometricHelper = new BiometricHelper();
-      await biometricHelper.initBiometrics();
-      if (await biometricHelper.checkBiometrics()) {
-        didAuthenticate = true;
-      } else {
-        didAuthenticate = false;
-      }
-    } on PlatformException catch (e) {
-      print(e);
-      didAuthenticate = false;
-    }
-
-    return didAuthenticate;
   }
 
   Widget _btnForgotPass() {
