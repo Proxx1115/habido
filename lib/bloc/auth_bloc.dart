@@ -11,6 +11,7 @@ import 'package:habido_app/models/sign_up_phone_request.dart';
 import 'package:habido_app/models/sign_up_phone_response.dart';
 import 'package:habido_app/models/sign_up_verify_code_request.dart';
 import 'package:habido_app/models/sign_up_register_request.dart';
+import 'package:habido_app/models/user_device.dart';
 import 'package:habido_app/models/verify_phone_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -35,6 +36,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapLoginEventToState(event.request);
     } else if (event is LogoutEvent) {
       yield* _mapLogoutEventToState();
+    } else if (event is BiometricsChangedEvent) {
+      yield* _mapBiometricsChangedEventToState(event);
     } else if (event is SignUpPhoneEvent) {
       yield* _mapSignUpPhoneEventToState(event.request);
     } else if (event is SignUpPhoneResendEvent) {
@@ -100,6 +103,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       yield LogoutFailed(LocaleKeys.errorOccurred);
     }
+  }
+
+  Stream<AuthState> _mapBiometricsChangedEventToState(BiometricsChangedEvent event) async* {
+    yield BiometricsChangedState(event.biometricsAuth);
+    yield AuthDefault();
   }
 
   Stream<AuthState> _mapSessionTimeoutEventToState() async* {
@@ -386,6 +394,18 @@ class LoginEvent extends AuthEvent {
 
 class LogoutEvent extends AuthEvent {}
 
+class BiometricsChangedEvent extends AuthEvent {
+  final bool biometricsAuth;
+
+  const BiometricsChangedEvent(this.biometricsAuth);
+
+  @override
+  List<Object> get props => [biometricsAuth];
+
+  @override
+  String toString() => 'BiometricsChangedEvent { biometricsAuth: $biometricsAuth }';
+}
+
 class SessionTimeoutEvent extends AuthEvent {}
 
 class ChangePasswordEvent extends AuthEvent {
@@ -484,6 +504,8 @@ abstract class AuthState extends Equatable {
 }
 
 class AuthInit extends AuthState {}
+
+class AuthDefault extends AuthState {}
 
 class AuthLoading extends AuthState {}
 
@@ -602,6 +624,18 @@ class LogoutFailed extends AuthState {
 }
 
 class SessionTimeoutState extends AuthState {}
+
+class BiometricsChangedState extends AuthState {
+  final bool biometricsAuth;
+
+  const BiometricsChangedState(this.biometricsAuth);
+
+  @override
+  List<Object> get props => [biometricsAuth];
+
+  @override
+  String toString() => 'BiometricsChangedState { biometricsAuth: $biometricsAuth }';
+}
 
 class ChangePasswordSuccess extends AuthState {}
 

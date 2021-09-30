@@ -112,6 +112,8 @@ class _LoginRouteState extends State<LoginRoute> {
           onPressedButton: () {},
         ),
       );
+    } else if (state is BiometricsChangedState) {
+      _visibleButtonBiometrics = state.biometricsAuth;
     }
   }
 
