@@ -4,6 +4,7 @@ import 'package:habido_app/models/psy_test_result.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -33,31 +34,49 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             /// Result
-            Expanded(
-              child: ListView(
-                physics: BouncingScrollPhysics(),
-                children: [
-                  Stack(
-                    children: [
-                      /// Info container
-                      InfoContainer(
-                        margin: EdgeInsets.only(top: 28.0),
-                        padding: EdgeInsets.fromLTRB(18.0, 50.0, 18.0, 16.0),
-                        title: widget.psyTestResult.testName ?? '',
-                        titleAlignment: Alignment.center,
-                        body: widget.psyTestResult.text ?? '',
-                        footer: widget.psyTestResult.pointRange ?? '',
-                      ),
+            RoundedCornerListView(
+              // padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
+              children: [
+                Stack(
+                  children: [
+                    /// Info container
+                    InfoContainer(
+                      margin: EdgeInsets.only(top: 28.0),
+                      padding: EdgeInsets.fromLTRB(18.0, 50.0, 18.0, 16.0),
+                      title: widget.psyTestResult.testName ?? '',
+                      titleAlignment: Alignment.center,
+                      body: widget.psyTestResult.text ?? '',
+                      footer: widget.psyTestResult.pointRange ?? '',
+                    ),
 
-                      /// Icon
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: _icon(),
-                      ),
-                    ],
+                    /// Icon
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: _icon(),
+                    ),
+                  ],
+                ),
+
+                /// Suggest habit
+                if (widget.psyTestResult.habit != null)
+                  ListItemContainer(
+                    margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                    height: 70.0,
+                    leadingImageUrl: widget.psyTestResult.habit!.photo,
+                    leadingBackgroundColor: customColors.primary,
+                    title: widget.psyTestResult.habit!.name ?? '',
+                    suffixAsset: Assets.arrow_forward,
+                    onPressed: () {
+                      Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+
+                      Navigator.pushNamed(context, Routes.userHabit, arguments: {
+                        'screenMode': ScreenMode.New,
+                        'habit': widget.psyTestResult.habit,
+                        'title': LocaleKeys.createHabit,
+                      });
+                    },
                   ),
-                ],
-              ),
+              ],
             ),
 
             /// Button

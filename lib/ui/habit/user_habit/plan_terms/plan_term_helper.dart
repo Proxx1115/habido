@@ -56,11 +56,11 @@ class PlanTerm {
   static String getInitialPlanTerm(HabitPlanTerms? habitPlanTerms) {
     var res = PlanTerm.Daily;
     if (habitPlanTerms != null) {
-      if (!(habitPlanTerms.daily ?? false) && (habitPlanTerms.weekly ?? false)) {
-        // Only weekly
+      if (habitPlanTerms.daily ?? false) {
+        res = PlanTerm.Daily;
+      } else if (habitPlanTerms.weekly ?? false) {
         res = PlanTerm.Weekly;
-      } else {
-        // Only monthly
+      } else if (habitPlanTerms.monthly ?? false) {
         res = PlanTerm.Monthly;
       }
     }
