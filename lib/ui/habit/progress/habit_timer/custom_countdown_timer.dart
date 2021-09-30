@@ -82,10 +82,13 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       });
 
     // Spent duration
-    if (widget.userHabitProgressLog != null) {
-      var spentDuration = Duration(seconds: widget.userHabitProgressLog!.spentTime ?? 0);
-      if (spentDuration < _duration) {
+    if (widget.userHabitProgressLog != null && Func.isNotEmpty(widget.userHabitProgressLog!.status)) {
+      if (widget.userHabitProgressLog!.status! == UserHabitProgressLogStatus.Finished) {
+        /// Finished
+        _animationController.value = 0.0;
+      } else {
         /// Not finished
+        var spentDuration = Duration(seconds: widget.userHabitProgressLog!.spentTime ?? 0);
 
         // Set current animation value
         Duration currentDuration = _duration - spentDuration;
@@ -100,9 +103,6 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
                 });
               });
         }
-      } else {
-        /// Finished
-        _animationController.value = 0.0;
       }
     }
   }
