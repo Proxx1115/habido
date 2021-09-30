@@ -11,7 +11,7 @@ class PlanTerm {
       case PlanTerm.Daily:
         return LocaleKeys.daily;
       case PlanTerm.Weekly:
-        return LocaleKeys.week;
+        return LocaleKeys.weekly;
       case PlanTerm.Monthly:
         return LocaleKeys.monthly;
       default:

@@ -56,9 +56,11 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
           ),
         ],
       ),
-      floatingActionButton: ButtonStadium(
-        style: ButtonStadiumStyle.Secondary,
-        asset: Assets.add,
+      floatingActionButton: CustomButton(
+        style: CustomButtonStyle.Secondary,
+        width: 130.0,
+        text: LocaleKeys.doTest2,
+        alignment: Alignment.bottomRight,
         onPressed: () {
           Navigator.pushNamed(context, Routes.psyCategories);
         },

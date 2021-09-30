@@ -20,7 +20,7 @@ void showCustomDialog(BuildContext context, {required Widget child, bool isDismi
 }
 
 class CustomDialogBody extends StatelessWidget {
-  final Color? color;
+  final Color? primaryColor;
   final String? asset;
   final String? text;
   final Widget? child;
@@ -31,7 +31,7 @@ class CustomDialogBody extends StatelessWidget {
 
   const CustomDialogBody({
     Key? key,
-    this.color,
+    this.primaryColor,
     this.asset,
     this.text,
     this.buttonText,
@@ -83,7 +83,7 @@ class CustomDialogBody extends StatelessWidget {
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        color: color ?? customColors.primary,
+        color: primaryColor ?? customColors.primary,
       ),
       child: SvgPicture.asset(asset!),
     );
@@ -111,7 +111,7 @@ class CustomDialogBody extends StatelessWidget {
               Navigator.pop(context);
               if (onPressedButton != null) onPressedButton!();
             },
-            backgroundColor: color,
+            backgroundColor: primaryColor,
           ),
 
         // Margin

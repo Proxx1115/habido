@@ -65,7 +65,7 @@ class _ProfileCardState extends State<ProfileCard> {
                               children: [
                                 /// Name
                                 CustomText(
-                                  (globals.userData!.firstName ?? '') + ' ' + (globals.userData!.lastName ?? ''),
+                                  (globals.userData!.firstName ?? ''),
                                   fontSize: 19.0,
                                   fontWeight: FontWeight.w500,
                                 ),

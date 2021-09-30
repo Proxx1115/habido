@@ -76,7 +76,8 @@ class _IntroRouteState extends State<IntroRoute> {
           /// Indicator
           Container(
             alignment: Alignment.topCenter,
-            margin: EdgeInsets.fromLTRB(SizeHelper.margin, _marginTopText + 120.0, SizeHelper.margin, SizeHelper.margin),
+            margin:
+                EdgeInsets.fromLTRB(SizeHelper.margin, _marginTopText + 120.0, SizeHelper.margin, SizeHelper.margin),
             child: SmoothPageIndicator(
               controller: _pageController,
               count: assetList.length,
@@ -124,9 +125,9 @@ class _IntroRouteState extends State<IntroRoute> {
           textAlign: TextAlign.center,
           color: customColors.whiteText,
           fontWeight: FontWeight.bold,
-          fontSize: 35.0,
+          fontSize: 30.0,
           maxLines: 2,
-          margin: EdgeInsets.fromLTRB(50.0, _marginTopText, 50.0, 0.0),
+          margin: EdgeInsets.fromLTRB(40.0, _marginTopText, 40.0, 0.0),
         ),
       ],
     );

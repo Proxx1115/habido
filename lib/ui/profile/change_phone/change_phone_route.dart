@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/change_phone_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -30,6 +31,9 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
   @override
   void initState() {
     super.initState();
+    _phoneNumberController.text = globals.userData?.phone ?? '';
+    _enabledBtnSave = Func.isValidPhoneNumber(_phoneNumberController.text);
+
     _phoneNumberController.addListener(() => _validateForm());
   }
 
@@ -42,7 +46,7 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             return CustomScaffold(
-              appBarTitle: LocaleKeys.phoneNumber,
+              appBarTitle: LocaleKeys.changePhoneNumber,
               loading: state is AuthLoading,
               child: Container(
                 padding: SizeHelper.paddingScreen,

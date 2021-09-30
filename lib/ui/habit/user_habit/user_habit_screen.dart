@@ -221,8 +221,6 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       case ScreenMode.New:
       case ScreenMode.CustomNew:
       default:
-        _startDate = DateTime.now();
-        _endDate = DateTime.now();
         break;
     }
 
@@ -305,7 +303,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                                 /// Дуусах огноо
                                 _endDatePicker(),
 
-                                /// Сануулах
+                                /// Дадал сануулах
                                 _reminder(),
 
                                 // SizedBox(height: 300.0),
@@ -354,6 +352,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
           asset: Assets.success,
           text: Func.isNotEmpty(state.userHabitResponse.message) ? state.userHabitResponse.message : LocaleKeys.success,
           buttonText: LocaleKeys.ok,
+          primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
           child: state.userHabitResponse.content != null
               ? Column(
                   children: [
@@ -623,7 +622,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     return (Func.isNotEmpty(_tip))
         ? InfoContainer(
             margin: EdgeInsets.only(top: 15.0),
-            title: LocaleKeys.tip,
+            title: LocaleKeys.whyNeed,
             body: _tip!,
           )
         : Container();
@@ -734,6 +733,8 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
           for (var el in _reminderBloc.timeOfDayList) {
             userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
           }
+        } else {
+          userHabit.userHabitReminders = null;
         }
 
         // Note
@@ -775,6 +776,8 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
           for (var el in _reminderBloc.timeOfDayList) {
             userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
           }
+        } else {
+          userHabit.userHabitReminders = null;
         }
 
         // Note
@@ -832,6 +835,8 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
           for (var el in _reminderBloc.timeOfDayList) {
             userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
           }
+        } else {
+          userHabit.userHabitReminders = null;
         }
 
         // Note
@@ -872,6 +877,8 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
           for (var el in _reminderBloc.timeOfDayList) {
             userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
           }
+        } else {
+          userHabit.userHabitReminders = null;
         }
 
         // Note

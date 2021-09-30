@@ -158,7 +158,7 @@ class InfoContainer extends StatelessWidget {
           HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
           /// Body
-          CustomText(body, maxLines: 100),
+          CustomText(body, maxLines: 200, textAlign: TextAlign.justify),
 
           /// Divider
           if (footer != null) HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),

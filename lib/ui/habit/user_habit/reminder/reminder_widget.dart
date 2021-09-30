@@ -59,15 +59,20 @@ class _ReminderWidgetState extends State<ReminderWidget> {
   void _blocListener(BuildContext context, ReminderState state) {
     if (state is AddReminderSuccessState) {
       print('AddReminderSuccessState');
+    } else if (state is ReminderSwitchChangedState) {
+      if (state.value && widget.reminderBloc.timeOfDayList.isEmpty) {
+        _onPressedButtonAdd();
+      }
     }
   }
 
   Widget _headerSwitch() {
     return CustomSwitch(
       margin: EdgeInsets.fromLTRB(15.0, 0.0, 5.0, 0.0),
+      value: widget.reminderBloc.timeOfDayList.isNotEmpty,
       leadingAsset: Assets.bell,
       leadingAssetColor: widget.primaryColor,
-      activeText: LocaleKeys.remind,
+      activeText: LocaleKeys.remindHabit,
       activeColor: widget.primaryColor,
       onChanged: (value) {
         widget.reminderBloc.add(ReminderSwitchChangedEvent(value));
@@ -116,12 +121,14 @@ class _ReminderWidgetState extends State<ReminderWidget> {
       text: LocaleKeys.addTime,
       margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
       backgroundColor: widget.primaryColor,
-      onPressed: () async {
-        TimeOfDay? selectedTimeOfDay = await showCustomTimePicker(context);
-        if (selectedTimeOfDay != null) {
-          widget.reminderBloc.add(AddReminderEvent(selectedTimeOfDay));
-        }
-      },
+      onPressed: _onPressedButtonAdd,
     );
+  }
+
+  void _onPressedButtonAdd() async {
+    TimeOfDay? selectedTimeOfDay = await showCustomTimePicker(context);
+    if (selectedTimeOfDay != null) {
+      widget.reminderBloc.add(AddReminderEvent(selectedTimeOfDay));
+    }
   }
 }

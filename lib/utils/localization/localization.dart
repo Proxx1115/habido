@@ -17,7 +17,7 @@ class LocaleKeys {
 
   static const String placeHolder = '[placeHolder]';
 
-  static String get appName => 'Habido';
+  static String get appName => 'HabiDo';
 
   static String get noData => 'Мэдээлэл олдсонгүй.';
 
@@ -116,11 +116,11 @@ class LocaleKeys {
   ///
   /// Intro
   ///
-  static String get intro1 => 'Дадлаа тууштай бүртгэ';
+  static String get intro1 => 'Habit - Дадлаа тууштай бүртгэж  ';
 
-  static String get intro2 => 'Сэтгэл зүйгээ удирд';
+  static String get intro2 => 'Happy - Сэтгэл зүйгээ удирдаж   ';
 
-  static String get intro3 => 'Надтай хамт тасралтгүй хөгж';
+  static String get intro3 => 'Do - Надтай хамт тасралтгүй хөгж';
 
   ///
   /// Login
@@ -210,7 +210,7 @@ class LocaleKeys {
 
   static String get test => 'Тест';
 
-  static String get assistant => 'Туслах';
+  static String get habiDo => 'HabiDo';
 
   static String get content => 'Контент';
 
@@ -249,7 +249,7 @@ class LocaleKeys {
   static String get chatBotIdNotFound => 'Habido туслахын мэдээлэл олдсонгүй';
 
   /// Content
-  static String get readMin => 'min read';
+  static String get readMin => 'минут унших';
 
   static String get suggestedForYou => 'Танд санал болгох';
 
@@ -268,6 +268,8 @@ class LocaleKeys {
 
   static String get thanksHabido => 'Баярлалаа, Habido';
 
+  static String get doTest2 => 'Тест бөглөх';
+
   /// Habit
   static String get habit => 'Дадал';
 
@@ -277,11 +279,11 @@ class LocaleKeys {
 
   static String get ediHabit => 'Дадал засварлах';
 
-  static String get sureToSkipHabit => 'Та дадлаа алгасах уу?';
+  static String get sureToSkipHabit => 'Энэ удаад алгасах уу?';
 
   static String get daily => 'Өдөр бүр';
 
-  static String get week => '7 хоног';
+  static String get weekly => '7 хоног бүр';
 
   static String get monthly => 'Сар бүр';
 
@@ -305,7 +307,11 @@ class LocaleKeys {
 
   static String get remind => 'Сануулах';
 
+  static String get remindHabit => 'Дадал сануулах';
+
   static String get tip => 'Зөвлөмж';
+
+  static String get whyNeed => 'Яагаад хэрэгтэй вэ?';
 
   static String get monthlyCalendar => 'Сарын төлөвлөгөө';
 
@@ -324,8 +330,6 @@ class LocaleKeys {
   static String get note => 'Тэмдэглэл';
 
   static String get writeConclusion => 'Дүгнэлт бичих';
-
-  static String get youDidIt => 'Та чадлаа';
 
   static String get totalSavings => 'Нийт хуримтлал';
 
@@ -397,6 +401,8 @@ class LocaleKeys {
   static String get biometricAuth => 'Биометрээр нэвтрэх';
 
   static String get biometricFailed => 'Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу.';
+
+  static String get changePhoneNumber => 'Утасны дугаар солих';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {
