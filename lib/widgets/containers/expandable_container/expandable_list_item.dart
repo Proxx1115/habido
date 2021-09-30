@@ -81,7 +81,7 @@ class ExpandableListItem extends StatelessWidget {
 
                 /// Text
                 Expanded(
-                  child: CustomText(text, fontWeight: FontWeight.w500),
+                  child: CustomText(text, fontWeight: FontWeight.w500, maxLines: 2),
                 ),
 
                 /// Arrow
