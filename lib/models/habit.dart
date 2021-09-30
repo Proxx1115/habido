@@ -10,7 +10,8 @@ class Habit {
   String? color; // required
   String? backgroundColor; // ''
   String? photo; // required link
-  HabitGoalSettings? goalSettings; //
+  HabitGoalSettings? goalSettings;
+  // 'planTerms': {'monthly': true, 'weekly': false, 'daily': true}
 
   Habit({
     this.habitId,

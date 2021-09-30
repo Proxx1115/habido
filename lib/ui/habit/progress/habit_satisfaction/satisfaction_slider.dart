@@ -85,9 +85,9 @@ class _SatisfactionSliderState extends State<SatisfactionSlider> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  /// Үнэлгээ
+                  /// Тааламжгүй
                   Expanded(
-                    child: CustomText(LocaleKeys.evaluation, color: customColors.greyText),
+                    child: CustomText(LocaleKeys.notPleasing, color: customColors.greyText),
                   ),
 
                   /// Тааламжтай

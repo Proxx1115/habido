@@ -246,7 +246,7 @@ class LocaleKeys {
   /// Chat
   static String get habidoAssistant => 'Habido туслах';
 
-  static String get chatBotIdNotFound => 'Habido туслахын мэдээлэл олдсонгүй';
+  static String get chatBotIdNotFound => 'HabiDo туслахын мэдээлэл олдсонгүй';
 
   /// Content
   static String get readMin => 'минут унших';
@@ -260,7 +260,7 @@ class LocaleKeys {
 
   static String get psyStatus => 'Сэтгэл зүйн байдал';
 
-  static String get doTest => 'Сорил хийх';
+  static String get doPsyTest => 'Сэтгэл зүйн тест бөглөх';
 
   static String get beginTest => 'Сорил эхлэх';
 
@@ -363,11 +363,13 @@ class LocaleKeys {
 
   static String get breatheExhale => 'Амаараа амьсгал гаргах';
 
-  static String get evaluation => 'Үнэлгээ';
+  // static String get evaluation => 'Үнэлгээ';
 
   static String get howAreYouFeeling => 'Та хэр сэтгэл ханамжтай байсан бэ?';
 
   static String get pleasing => 'Тааламжтай';
+
+  static String get notPleasing => 'Тааламжгүй';
 
   static String get addNew => 'Шинээр нэмэх';
 

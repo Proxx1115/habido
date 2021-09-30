@@ -32,7 +32,7 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       scaffoldKey: _psyIntroKey,
-      appBarTitle: LocaleKeys.doTest,
+      appBarTitle: LocaleKeys.doPsyTest,
       child: LayoutBuilder(builder: (context, constraints) {
         if (_height < constraints.maxHeight) _height = constraints.maxHeight;
         if (_height < _minHeight) _height = _minHeight;
