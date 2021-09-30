@@ -90,6 +90,12 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
         /// Not finished
         var spentDuration = Duration(seconds: widget.userHabitProgressLog!.spentTime ?? 0);
 
+        // Check add time
+        if (widget.userHabitProgressLog!.addTime != null) {
+          _duration += Duration(seconds: widget.userHabitProgressLog!.addTime!);
+          _animationController.duration = _duration;
+        }
+
         // Set current animation value
         Duration currentDuration = _duration - spentDuration;
         _animationController.value = currentDuration.inSeconds / _duration.inSeconds;
