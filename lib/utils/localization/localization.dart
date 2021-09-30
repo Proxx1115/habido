@@ -383,6 +383,8 @@ class LocaleKeys {
 
   static String get pleaseEnterEndDate => 'Дуусах огноо сонгоно уу.';
 
+  static String get pleaseSelectGoal => 'Зорилго сонгоно уу.';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 

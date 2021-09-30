@@ -679,6 +679,10 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       text = LocaleKeys.pleaseEnterStartDate;
     } else if (_endDate == null) {
       text = LocaleKeys.pleaseEnterEndDate;
+    } else if ((_habit.goalSettings?.goalRequired ?? false) &&
+        _goalSliderBloc != null &&
+        _goalSliderBloc!.value <= 0.0) {
+      text = LocaleKeys.pleaseSelectGoal;
     }
 
     if (text.isNotEmpty) {
