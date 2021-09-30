@@ -52,14 +52,14 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                   SectionTitleText(text: LocaleKeys.myAchievements),
 
                   /// Бүх цаг үеийн амжилт
-                  if (_allTimeAchievement != null)
-                    _achievementItem(
-                      leadingAsset: Assets.clock2,
-                      percentTitle: LocaleKeys.allTime,
-                      percentage: _allTimeAchievement!.allTimePercentage,
-                      achievement: _allTimeAchievement!.allTimeAchievement,
-                      completedHabits: _allTimeAchievement!.allTimeTotalCompletedHabits,
-                    ),
+                  // if (_allTimeAchievement != null)
+                  //   _achievementItem(
+                  //     leadingAsset: Assets.clock2,
+                  //     percentTitle: LocaleKeys.allTime,
+                  //     percentage: _allTimeAchievement!.allTimePercentage,
+                  //     achievement: _allTimeAchievement!.allTimeAchievement,
+                  //     completedHabits: _allTimeAchievement!.allTimeTotalCompletedHabits,
+                  //   ),
 
                   /// Сарын амжилт
                   if (_monthlyAchievement != null)

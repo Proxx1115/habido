@@ -168,65 +168,74 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
       SharedPref.setBiometricAuth(_userDevice!.isBiometric);
 
       BlocManager.authBloc.add(BiometricsChangedEvent(_userDevice!.isBiometric ?? false));
-
     } else if (state is UpdateUserDeviceFailed) {
       print('UpdateUserDeviceFailed');
     }
   }
 
   Widget _profilePicture() {
-    return Container(
-      width: _profilePictureSize,
-      height: _profilePictureSize,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          /// Image
-          if (Func.isNotEmpty(globals.userData!.photo))
-            Align(
-              alignment: Alignment.topCenter,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
-                child: CachedNetworkImage(
-                  imageUrl: globals.userData!.photo!,
-                  fit: BoxFit.fill,
-                  width: _profilePictureSize,
-                  height: _profilePictureSize,
-                  placeholder: (context, url) => CustomLoader(size: _profilePictureSize),
-                  // placeholder: (context, url, error) => Container(),
-                  errorWidget: (context, url, error) => Container(),
-                ),
-              ),
-            ),
-
-          /// Overlay
-          Align(
-            alignment: Alignment.topCenter,
-            child: InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
-              onTap: () async {
-                String base64Image = await ImageUtils.getBase64Image(context);
-                if (base64Image.isNotEmpty) {
-                  var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
-                  BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
-                }
-              },
-              child: Opacity(
-                opacity: 0.75,
+    return InkWell(
+      onTap: () async {
+        String base64Image = await ImageUtils.getBase64Image(context);
+        if (base64Image.isNotEmpty) {
+          var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
+          BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
+        }
+      },
+      child: Container(
+        width: _profilePictureSize,
+        height: _profilePictureSize,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            /// Image
+            if (Func.isNotEmpty(globals.userData!.photo))
+              Align(
+                alignment: Alignment.topCenter,
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
-                  child: Container(
-                    padding: EdgeInsets.all(41.0),
-                    height: _profilePictureSize,
+                  child: CachedNetworkImage(
+                    imageUrl: globals.userData!.photo!,
+                    fit: BoxFit.fill,
                     width: _profilePictureSize,
-                    decoration: BoxDecoration(color: customColors.primary),
-                    child: SvgPicture.asset(Assets.camera, color: customColors.iconWhite),
+                    height: _profilePictureSize,
+                    placeholder: (context, url) => CustomLoader(size: _profilePictureSize),
+                    // placeholder: (context, url, error) => Container(),
+                    errorWidget: (context, url, error) => Container(),
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+
+            /// Overlay
+            if (Func.isEmpty(globals.userData!.photo))
+              Align(
+                alignment: Alignment.topCenter,
+                child: InkWell(
+                  borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
+                  onTap: () async {
+                    String base64Image = await ImageUtils.getBase64Image(context);
+                    if (base64Image.isNotEmpty) {
+                      var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
+                      BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
+                    }
+                  },
+                  child: Opacity(
+                    opacity: 0.75,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
+                      child: Container(
+                        padding: EdgeInsets.all(41.0),
+                        height: _profilePictureSize,
+                        width: _profilePictureSize,
+                        decoration: BoxDecoration(color: customColors.primary),
+                        child: SvgPicture.asset(Assets.camera, color: customColors.iconWhite),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
