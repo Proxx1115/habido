@@ -117,8 +117,6 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     }
   }
 
-
-
   Widget _tabBar() {
     return Container(
       margin: EdgeInsets.only(top: 15.0),
@@ -239,40 +237,35 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              for (int i = 0; i < 7; i++) _monthDayItem(i),
+              for (int i = 0; i < 6; i++) Expanded(child: _monthDayItem(i)),
             ],
           ),
           SizedBox(height: 7.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              for (int i = 7; i < 14; i++) _monthDayItem(i),
+              for (int i = 6; i < 12; i++) Expanded(child: _monthDayItem(i)),
             ],
           ),
           SizedBox(height: 7.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              for (int i = 14; i < 21; i++) _monthDayItem(i),
+              for (int i = 12; i < 18; i++) Expanded(child: _monthDayItem(i)),
             ],
           ),
           SizedBox(height: 7.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              for (int i = 21; i < 28; i++) _monthDayItem(i),
+              for (int i = 18; i < 24; i++) Expanded(child: _monthDayItem(i)),
             ],
           ),
           SizedBox(height: 7.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              for (int i = 28; i < 30; i++) _monthDayItem(i),
-              Expanded(child: Container()),
-              Expanded(child: Container()),
-              Expanded(child: Container()),
-              Expanded(child: Container()),
-              Expanded(child: Container()),
+              for (int i = 24; i < 30; i++) Expanded(child: _monthDayItem(i)),
             ],
           ),
         ],
@@ -281,29 +274,27 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
   }
 
   Widget _monthDayItem(int index) {
-    return Expanded(
-      child: InkWell(
-        onTap: () {
-          _planTermsBloc.add(
-            ChangeMonthDaySelectionEvent(index, !(_monthlyPlanList[index].isSelected ?? false)),
-          );
-        },
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        child: Container(
-          height: 50.0,
-          margin: EdgeInsets.only(right: 7.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            border: (_monthlyPlanList[index].isSelected ?? false)
-                ? null
-                : Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
-            color: (_monthlyPlanList[index].isSelected ?? false) ? widget.primaryColor : customColors.whiteBackground,
-          ),
-          child: CustomText(
-            Func.toStr(_monthlyPlanList[index].day ?? 0),
-            alignment: Alignment.center,
-            color: (_monthlyPlanList[index].isSelected ?? false) ? customColors.whiteText : customColors.greyText,
-          ),
+    return InkWell(
+      onTap: () {
+        _planTermsBloc.add(
+          ChangeMonthDaySelectionEvent(index, !(_monthlyPlanList[index].isSelected ?? false)),
+        );
+      },
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      child: Container(
+        height: 50.0,
+        margin: EdgeInsets.only(right: 7.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          border: (_monthlyPlanList[index].isSelected ?? false)
+              ? null
+              : Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
+          color: (_monthlyPlanList[index].isSelected ?? false) ? widget.primaryColor : customColors.whiteBackground,
+        ),
+        child: CustomText(
+          Func.toStr(_monthlyPlanList[index].day ?? 0),
+          alignment: Alignment.center,
+          color: (_monthlyPlanList[index].isSelected ?? false) ? customColors.whiteText : customColors.greyText,
         ),
       ),
     );

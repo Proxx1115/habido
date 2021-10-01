@@ -386,6 +386,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
           asset: Assets.success,
           text: LocaleKeys.success,
           buttonText: LocaleKeys.ok,
+          primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
           onPressedButton: () {
             Navigator.popUntil(context, ModalRoute.withName(Routes.home));
           },
@@ -394,7 +395,12 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
     } else if (state is InsertUserHabitFailed || state is UpdateUserHabitFailed || state is DeleteUserHabitFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: LocaleKeys.failed,
+          buttonText: LocaleKeys.ok,
+          primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
+        ),
       );
     } else if (state is UserHabitShowcaseState) {
       ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
