@@ -166,18 +166,30 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
   }
 
   Widget _indicator() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
-      ),
-      child: LinearPercentIndicator(
-        padding: EdgeInsets.symmetric(horizontal: 7),
-        lineHeight: 5,
-        progressColor: customColors.primary,
-        backgroundColor: Colors.white,
-        percent: 1 / _questionList!.length * (_currentIndex + 1),
-      ),
+    return Column(
+      children: [
+        /// Indicator
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: LinearPercentIndicator(
+            padding: EdgeInsets.symmetric(horizontal: 7),
+            lineHeight: 5,
+            progressColor: customColors.primary,
+            backgroundColor: Colors.white,
+            percent: 1 / _questionList!.length * (_currentIndex + 1),
+          ),
+        ),
+
+        /// Count
+        CustomText(
+          '${_currentIndex + 1}/${_questionList!.length}',
+          margin: EdgeInsets.only(top: 10.0),
+          alignment: Alignment.centerRight,
+        ),
+      ],
     );
   }
 
@@ -191,6 +203,8 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
           psyTestQuestion.text,
           alignment: Alignment.center,
           maxLines: 10,
+          fontSize: 20.0,
+          fontWeight: FontWeight.w500,
           margin: EdgeInsets.symmetric(vertical: 50.0),
         ),
 
