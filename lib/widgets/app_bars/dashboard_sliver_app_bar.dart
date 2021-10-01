@@ -58,15 +58,9 @@ class DashboardSliverAppBar extends StatelessWidget {
                 ButtonStadium(
                     asset: Assets.logout,
                     child: Container(
-                      margin: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: customColors.primaryButtonDisabledContent,
-                      ),
-                      padding: EdgeInsets.all(7.0),
-                      child: SvgPicture.asset(Assets.logout),
+                      padding: EdgeInsets.all(12.0),
+                      child: SvgPicture.asset(Assets.logout, color: customColors.iconGrey),
                     ),
-                    iconColor: customColors.iconGrey,
                     onPressed: () {
                       if (onPressedLogout != null) {
                         onPressedLogout!();
