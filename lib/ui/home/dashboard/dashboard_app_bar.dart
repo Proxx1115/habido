@@ -35,7 +35,12 @@ class DashboardAppBar extends StatelessWidget {
               ? CustomShowcase(
                   description: LocaleKeys.showcaseCalendar,
                   showcaseKey: ShowcaseKey.calendar,
+                  // overlayPadding: EdgeInsets.all(10.0),
+                  overlayPadding: EdgeInsets.all(-5.0),
                   shapeBorder: CircleBorder(),
+                  // shapeBorder: ContinuousRectangleBorder(
+                  //   borderRadius: BorderRadius.circular(28.0),
+                  // ),
                   child: CalendarButton(),
                 )
               : CalendarButton(),
@@ -51,6 +56,12 @@ class DashboardAppBar extends StatelessWidget {
               ? CustomShowcase(
                   description: LocaleKeys.showcaseNotification,
                   showcaseKey: ShowcaseKey.notification,
+                  // overlayPadding: EdgeInsets.all(10.0),
+                  // overlayPadding: EdgeInsets.all(-5.0),
+                  // shapeBorder: CircleBorder(),
+                  // shapeBorder: RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  // ),
                   overlayPadding: EdgeInsets.all(-5.0),
                   shapeBorder: CircleBorder(),
                   child: NotificationButton(),

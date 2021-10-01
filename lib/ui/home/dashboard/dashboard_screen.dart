@@ -77,6 +77,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       floatingActionButton: CustomShowcase(
         showcaseKey: ShowcaseKey.addHabit,
         description: LocaleKeys.showcaseAddHabit,
+        shapeBorder: CircleBorder(),
+        overlayPadding: EdgeInsets.all(10.0),
         child: ButtonStadium(
           style: ButtonStadiumStyle.Secondary,
           asset: Assets.add,

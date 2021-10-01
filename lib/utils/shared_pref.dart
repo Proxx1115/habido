@@ -83,7 +83,7 @@ class SharedPref {
   }
 
   static bool getShowcaseHasShown(String showcaseName) {
-    // return false;
+    return false;
     return sharedPref?.getBool(SharedPrefKey.showcase + '_$showcaseName') ?? false;
   }
 

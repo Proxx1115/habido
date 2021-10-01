@@ -18,7 +18,7 @@ class CustomShowcase extends StatelessWidget {
     required this.description,
     this.shapeBorder,
     this.overlayPadding = EdgeInsets.zero,
-    this.overlayOpacity = 0.95,
+    this.overlayOpacity = 0.75,
     this.overlayColor,
   }) : super(key: key);
 
@@ -29,7 +29,7 @@ class CustomShowcase extends StatelessWidget {
       description: description,
       showcaseBackgroundColor: customColors.primary,
       textColor: customColors.whiteText,
-      overlayColor: overlayColor ?? customColors.whiteBackground,
+      overlayColor: overlayColor ?? Colors.black,
       overlayOpacity: overlayOpacity,
       shapeBorder: shapeBorder,
       contentPadding: EdgeInsets.all(10.0),
