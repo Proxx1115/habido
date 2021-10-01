@@ -177,6 +177,21 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   Widget _profilePicture() {
     return InkWell(
       onTap: () async {
+        showCustomDialog(
+          context,
+          child: CustomDialogBody(
+            asset: Assets.camera,
+            child: Container(),
+            buttonText: LocaleKeys.habit,
+            onPressedButton: () {
+              //
+            },
+            onPressedButton2: () {
+              //
+            },
+          ),
+        );
+
         String base64Image = await ImageUtils.getBase64Image(context);
         if (base64Image.isNotEmpty) {
           var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;

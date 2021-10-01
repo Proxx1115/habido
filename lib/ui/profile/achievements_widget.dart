@@ -29,6 +29,10 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
   AllTimeAchievement? _allTimeAchievement;
   MonthlyAchievement? _monthlyAchievement;
   List<HabitCategoriesAchievement>? _habitCategoryAchievements;
+  List<HabitCategoriesAchievement>? _touchedHabitCategoryAchievements;
+
+  // Pie chart
+  int _pieChartTouchedIndex = -1;
 
   @override
   void initState() {
@@ -237,40 +241,76 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
         child: PieChart(
           PieChartData(
             sections: [
-              for (var el in _habitCategoryAchievements!) _pieChartData(el),
+              for (int i = 0; i < _habitCategoryAchievements!.length; i++) _pieChartData(i),
             ],
+            pieTouchData: PieTouchData(
+              touchCallback: (FlTouchEvent event, PieTouchResponse? pieTouchResponse) {
+                setState(() {
+                  if (pieTouchResponse?.touchedSection is FlLongPressEnd ||
+                      pieTouchResponse?.touchedSection is FlPanEndEvent) {
+                    _pieChartTouchedIndex = -1;
+                  } else {
+                    _pieChartTouchedIndex = pieTouchResponse?.touchedSection?.touchedSectionIndex ?? -1;
+                    if (_pieChartTouchedIndex >= 0) {
+                      if (_touchedHabitCategoryAchievements == null) {
+                        _touchedHabitCategoryAchievements = [_habitCategoryAchievements![_pieChartTouchedIndex]];
+                      } else {
+                        bool alreadyAdded = false;
+                        for (var el in _touchedHabitCategoryAchievements!) {
+                          if (el.habitCatName == _habitCategoryAchievements![_pieChartTouchedIndex].habitCatName) {
+                            alreadyAdded = true;
+                            break;
+                          }
+                        }
+
+                        if (!alreadyAdded) {
+                          _touchedHabitCategoryAchievements!.add(_habitCategoryAchievements![_pieChartTouchedIndex]);
+                        }
+                      }
+                    }
+                  }
+                });
+              },
+            ),
           ),
         ),
       ),
     );
   }
 
-  PieChartSectionData _pieChartData(HabitCategoriesAchievement habitCategoriesAchievement) {
+  PieChartSectionData _pieChartData(int index) {
     return PieChartSectionData(
-      color: HexColor.fromHex(habitCategoriesAchievement.categoryColor ?? '#A9B0BB'),
-      value: Func.toDouble(habitCategoriesAchievement.habitCatPercentage),
-      title: '${Func.toInt(habitCategoriesAchievement.habitCatPercentage)}%',
+      color: HexColor.fromHex(_habitCategoryAchievements![index].categoryColor ?? '#A9B0BB'),
+      value: Func.toDouble(_habitCategoryAchievements![index].habitCatPercentage),
+      title: '${Func.toInt(_habitCategoryAchievements![index].habitCatPercentage)}%',
+      radius: index == _pieChartTouchedIndex ? 50.0 : 40.0,
       titleStyle: TextStyle(
         fontSize: 10.0,
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
+      titlePositionPercentageOffset: 0.5,
+      badgePositionPercentageOffset: 0.5,
     );
   }
 
   Widget _categoryChartLabels() {
-    return Container(
-      margin: EdgeInsets.only(top: 15.0),
-      child: Column(
-        children: [
-          for (int i = 0; i < _habitCategoryAchievements!.length; i += 2)
-            _categoryChartLabelRow(
-              _habitCategoryAchievements![i],
-              (i + 1 < _habitCategoryAchievements!.length) ? _habitCategoryAchievements![i + 1] : null,
+    return (_touchedHabitCategoryAchievements != null && _touchedHabitCategoryAchievements!.isNotEmpty)
+        ? Container(
+            margin: EdgeInsets.only(top: 15.0),
+            child: Column(
+              children: [
+                for (int i = 0; i < _touchedHabitCategoryAchievements!.length; i += 2)
+                  _categoryChartLabelRow(
+                    _touchedHabitCategoryAchievements![i],
+                    (i + 1 < _touchedHabitCategoryAchievements!.length)
+                        ? _touchedHabitCategoryAchievements![i + 1]
+                        : null,
+                  ),
+              ],
             ),
-        ],
-      ),
-    );
+          )
+        : Container();
   }
 
   Widget _categoryChartLabelRow(

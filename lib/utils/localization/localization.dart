@@ -424,6 +424,10 @@ class LocaleKeys {
   static String get biometricFailed => 'Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу.';
 
   static String get changePhoneNumber => 'Утасны дугаар солих';
+
+  static String get camera => 'Camera';
+
+  static String get gallery => 'Gallery';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {
