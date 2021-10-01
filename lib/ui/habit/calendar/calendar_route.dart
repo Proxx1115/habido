@@ -350,8 +350,12 @@ class _CalendarRouteState extends State<CalendarRoute> {
             : null,
         margin: EdgeInsets.fromLTRB(15.0, i == 0 ? 25.0 : 10.0, 15.0, 0.0),
         height: 70.0,
-        suffixAsset: Assets.arrow_forward,
+        suffixAsset: (_dailyUserHabitList![i].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
+        suffixColor: (_dailyUserHabitList![i].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
         onPressed: () {
+          // Is finished
+          if (_dailyUserHabitList![i].isDone ?? false) return;
+
           // Validation
           if (!isSameDay(_selectedDay, DateTime.now()) || !(_dailyUserHabitList![i].habit?.goalSettings != null)) {
             print('not validated');

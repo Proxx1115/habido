@@ -317,6 +317,7 @@ class ListItemContainer extends StatelessWidget {
   final String title;
   final String? body;
   final String? suffixAsset;
+  final Color? suffixColor;
 
   const ListItemContainer({
     Key? key,
@@ -331,6 +332,7 @@ class ListItemContainer extends StatelessWidget {
     required this.title,
     this.body,
     this.suffixAsset,
+    this.suffixColor,
   }) : super(key: key);
 
   @override
@@ -383,7 +385,11 @@ class ListItemContainer extends StatelessWidget {
               ),
 
               /// Arrow
-              if (suffixAsset != null) SvgPicture.asset(suffixAsset!),
+              if (suffixAsset != null)
+                SvgPicture.asset(
+                  suffixAsset!,
+                  color: suffixColor ?? customColors.iconGrey,
+                ),
             ],
           ),
         ),
