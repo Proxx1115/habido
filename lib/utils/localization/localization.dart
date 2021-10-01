@@ -278,6 +278,15 @@ class LocaleKeys {
 
   static String get doTest2 => 'Тест бөглөх';
 
+  static String get psyTestHint1 => 'Та өөрийгөө ямар онцлогтойгоо мэддэг ч бүрэн итгэлгүй байгаа юм биш биз?';
+
+  static String get psyTestHint2 =>
+      'Та өөрийгөө бүрэн хүлээн зөвшөөрч, илүү таньж, алдаа дутагдалтайгаа нүүр тулж, засаж сайжруулж чадна';
+
+  static String get psyTestHint3 => 'Тиймээс сэтгэлзүйн тестийг бөглөөд үзээрэй';
+
+  static String get psyTestHint4 => 'Доорх товчыг дарж сэтгэлзүйн тестээ бөглөөрэй';
+
   /// Habit
   static String get habit => 'Дадал';
 
