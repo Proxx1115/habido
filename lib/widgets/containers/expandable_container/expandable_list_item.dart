@@ -16,6 +16,7 @@ class ExpandableListItem extends StatelessWidget {
   final Color? leadingColor;
   final Color? leadingBackgroundColor;
   final String text;
+  final String? suffixAsset;
   final Color? suffixColor;
   final VoidCallback? onPressedSkip;
   final VoidCallback? onPressedEdit;
@@ -30,6 +31,7 @@ class ExpandableListItem extends StatelessWidget {
     this.leadingColor,
     this.leadingBackgroundColor,
     required this.text,
+    this.suffixAsset,
     this.suffixColor,
     this.onPressedSkip,
     this.onPressedEdit,
@@ -85,7 +87,7 @@ class ExpandableListItem extends StatelessWidget {
                 ),
 
                 /// Arrow
-                SvgPicture.asset(Assets.arrow_forward, color: suffixColor ?? customColors.iconGrey),
+                SvgPicture.asset(suffixAsset ?? Assets.arrow_forward, color: suffixColor ?? customColors.iconGrey),
               ],
             ),
           ),

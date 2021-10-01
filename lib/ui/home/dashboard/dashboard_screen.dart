@@ -66,7 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return _userHabits();
+                  return _userHabitListWidget();
                 },
                 childCount: 1,
               ),
@@ -136,7 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _userHabits() {
+  Widget _userHabitListWidget() {
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
       child: BlocProvider.value(
@@ -197,9 +197,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
           leadingColor: customColors.iconWhite,
           leadingBackgroundColor:
               (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
-          suffixColor: customColors.primary,
-          // (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
+          suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
+          suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
           onPressed: () {
+            // Is finished
+            if (userHabitList[index].isDone ?? false) return;
+
+            // Navigate
             if (enabled && userHabitList[index].habit?.goalSettings != null) {
               String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!);
               if (route != null) {
@@ -213,36 +217,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
               }
             }
           },
-          onPressedSkip: () {
-            showCustomDialog(
-              context,
-              isDismissible: true,
-              child: CustomDialogBody(
-                text: LocaleKeys.sureToSkipHabit,
-                // height: 300.0,
-                buttonText: LocaleKeys.skip,
-                button2Text: LocaleKeys.no,
-                onPressedButton: () {
-                  var skipUserHabitRequest = SkipUserHabitRequest()
-                    ..userHabitId = userHabitList[index].userHabitId
-                    ..skipDay = Func.toDateStr(DateTime.now());
-                  BlocManager.dashboardBloc.add(SkipUserHabitEvent(skipUserHabitRequest));
+          onPressedSkip: (userHabitList[index].isDone ?? false)
+              ? null
+              : () {
+                  showCustomDialog(
+                    context,
+                    isDismissible: true,
+                    child: CustomDialogBody(
+                      text: LocaleKeys.sureToSkipHabit,
+                      // height: 300.0,
+                      buttonText: LocaleKeys.skip,
+                      button2Text: LocaleKeys.no,
+                      onPressedButton: () {
+                        var skipUserHabitRequest = SkipUserHabitRequest()
+                          ..userHabitId = userHabitList[index].userHabitId
+                          ..skipDay = Func.toDateStr(DateTime.now());
+                        BlocManager.dashboardBloc.add(SkipUserHabitEvent(skipUserHabitRequest));
+                      },
+                    ),
+                  );
                 },
-              ),
-            );
-          },
-          onPressedEdit: () {
-            Navigator.pushNamed(
-              context,
-              Routes.userHabit,
-              arguments: {
-                'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
-                'habit': userHabitList[index].habit,
-                'userHabit': userHabitList[index],
-                'title': LocaleKeys.ediHabit,
-              },
-            );
-          },
+          onPressedEdit: (userHabitList[index].isDone ?? false)
+              ? null
+              : () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.userHabit,
+                    arguments: {
+                      'screenMode':
+                          (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
+                      'habit': userHabitList[index].habit,
+                      'userHabit': userHabitList[index],
+                      'title': LocaleKeys.ediHabit,
+                    },
+                  );
+                },
         ),
       ),
     );

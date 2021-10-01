@@ -184,7 +184,10 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
         isAxisHorizontal: false,
         child: Container(
           padding: EdgeInsets.only(top: 10.0),
-          child: SvgPicture.asset(Assets.tree3),
+          child: Image.asset(
+            Assets.tree3_png,
+            width: 95.0,
+          ),
         ),
       );
     }

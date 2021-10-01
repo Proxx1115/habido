@@ -45,7 +45,16 @@ class _CalendarButtonState extends State<CalendarButton> {
 
   void _blocListener(BuildContext context, DashboardState state) {
     if (state is RefreshDashboardUserHabitsSuccess) {
-      globals.calendarBadgeCount = state.todayUserHabits?.length ?? 0;
+      var calendarBadgeCount = 0;
+      if (state.todayUserHabits != null && state.todayUserHabits!.isNotEmpty) {
+        for (var el in state.todayUserHabits!) {
+          if (!(el.isDone ?? false)) {
+            calendarBadgeCount++;
+          }
+        }
+      }
+
+      globals.calendarBadgeCount = calendarBadgeCount;
     }
   }
 }

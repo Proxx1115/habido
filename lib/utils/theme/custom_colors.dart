@@ -22,6 +22,7 @@ class ConstantColors {
   static const blue = const Color(0xFF73B0F4);
   static const vikingGreen = const Color(0xFF61DDBC);
   static const yellowGreen = const Color(0xFFB4DF80);
+  static const seaGreen = const Color(0xFF30A74C);
   static const froly = const Color(0xFFF76C82);
 }
 
@@ -70,6 +71,7 @@ class CustomColors {
   Color iconBlue = ConstantColors.blue;
   Color iconVikingGreen = ConstantColors.vikingGreen;
   Color iconYellowGreen = ConstantColors.yellowGreen;
+  Color iconSeaGreen = ConstantColors.seaGreen;
 
   CustomColors.constructor();
 

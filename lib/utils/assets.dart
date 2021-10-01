@@ -5,6 +5,7 @@ class Assets {
   static const String error = 'assets/images/global/error.svg';
   static const String warning = 'assets/images/global/warning.svg';
   static const String check = 'assets/images/global/check.svg';
+
   static const String success = 'assets/images/global/success24.svg';
   static const String clear_circle = 'assets/images/global/clear_circle.svg';
   static const String clear = 'assets/images/global/clear.svg';
@@ -98,11 +99,13 @@ class Assets {
   static const String tree1 = 'assets/images/habit/tree1.svg';
   static const String tree2 = 'assets/images/habit/tree2.svg';
   static const String tree3 = 'assets/images/habit/tree3.svg';
+  static const String tree3_png = 'assets/images/habit/tree3.png';
   static const String soil = 'assets/images/habit/soil.svg';
   static const String brush = 'assets/images/habit/brush.svg';
   static const String color_picker_png = 'assets/images/habit/color_picker.png';
   static const String color_picker = 'assets/images/habit/color_picker.svg';
   static const String icon_picker = 'assets/images/habit/icon_picker.svg';
+  static const String check2 = 'assets/images/habit/check2.svg';
 }
 
 class FontAsset {
