@@ -14,6 +14,7 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
+import 'package:habido_app/widgets/text_field/text_input_formatter.dart';
 
 class ExpenseDialogBody extends StatefulWidget {
   final UserHabit userHabit;
@@ -83,6 +84,7 @@ class _ExpenseDialogBodyState extends State<ExpenseDialogBody> {
               hintText: LocaleKeys.enterAmount,
               maxLength: 15,
               textColor: widget.primaryColor,
+              inputFormatter: MoneyMaskTextInputFormatter(precision: 0, maxLength: 15),
             ),
 
             /// Combo
@@ -128,25 +130,28 @@ class _ExpenseDialogBodyState extends State<ExpenseDialogBody> {
                 }
 
                 if (widget.controller.text.isNotEmpty) {
-                  if (widget.habitProgress != null) {
-                    // Edit
-                    var hp = widget.habitProgress!;
-                    hp.progressCatId = Func.toInt(_selectedHabitExpenseCategory?.categoryId);
-                    hp.value = widget.controller.text;
+                  var amount = Func.toInt(widget.controller.text);
+                  if (amount > 0) {
+                    if (widget.habitProgress != null) {
+                      // Edit
+                      var hp = widget.habitProgress!;
+                      hp.progressCatId = Func.toInt(_selectedHabitExpenseCategory?.categoryId);
+                      hp.value = amount.toString();
 
-                    BlocManager.userHabitBloc.add(UpdateHabitProgressEvent(hp));
-                  } else {
-                    // Add
-                    var hp = HabitProgress()
-                      ..progressId = 0
-                      ..planId = 0
-                      ..progressCatId = Func.toInt(_selectedHabitExpenseCategory?.categoryId)
-                      ..answerId = 0
-                      ..userHabitId = widget.userHabit.userHabitId;
+                      BlocManager.userHabitBloc.add(UpdateHabitProgressEvent(hp));
+                    } else {
+                      // Add
+                      var hp = HabitProgress()
+                        ..progressId = 0
+                        ..planId = 0
+                        ..progressCatId = Func.toInt(_selectedHabitExpenseCategory?.categoryId)
+                        ..answerId = 0
+                        ..userHabitId = widget.userHabit.userHabitId;
 
-                    hp.value = widget.controller.text;
+                      hp.value = amount.toString();
 
-                    BlocManager.userHabitBloc.add(AddHabitProgressEvent(hp));
+                      BlocManager.userHabitBloc.add(AddHabitProgressEvent(hp));
+                    }
                   }
                 }
 

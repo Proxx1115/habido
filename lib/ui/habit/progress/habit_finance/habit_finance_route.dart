@@ -248,7 +248,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
 
                     /// Дүн
                     CustomText(
-                      Func.toMoneyStr(_totalAmount),
+                      Func.toMoneyStr(_totalAmount) + '₮',
                       padding: EdgeInsets.only(top: 5.0),
                       color: _primaryColor,
                       fontSize: 30.0,

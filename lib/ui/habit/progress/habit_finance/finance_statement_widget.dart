@@ -110,7 +110,7 @@ class FinanceStatementWidget extends StatelessWidget {
                                 ),
 
                               CustomText(
-                                Func.toMoneyStr(el.value ?? ''),
+                                Func.toMoneyStr(el.value ?? '') + (el.value != null ? '₮' : ''),
                                 color: primaryColor ?? customColors.primary,
                                 fontWeight: FontWeight.w500,
                               ),

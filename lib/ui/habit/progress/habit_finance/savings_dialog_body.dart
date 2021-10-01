@@ -52,7 +52,7 @@ class SavingsDialogBody extends StatelessWidget {
               backgroundColor: backgroundColor,
               hintText: LocaleKeys.enterAmount,
               maxLength: 15,
-              inputFormatter: MoneyMaskTextInputFormatter(precision: 0, maxLength: 14),
+              inputFormatter: MoneyMaskTextInputFormatter(precision: 0, maxLength: 15),
             ),
 
             /// Button add, edit

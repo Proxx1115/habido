@@ -24,22 +24,17 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
 
   MoneyMaskTextInputFormatter(
       {this.maxLength = 14,
-        this.initialValue = 0.0,
-        this.decimalSeparator = '.',
-        this.thousandSeparator = ',',
-        this.rightSymbol = '',
-        this.leftSymbol = '',
-        int precision = 2,
-        this.min = 0,
-        this.max = 999999999999})
+      this.initialValue = 0.0,
+      this.decimalSeparator = '.',
+      this.thousandSeparator = ',',
+      this.rightSymbol = '',
+      this.leftSymbol = '',
+      int precision = 2,
+      this.min = 0,
+      this.max = 999999999999})
       : assert(maxLength == -1 || maxLength > 0),
         super(precision: precision) {
     _validateConfig();
-//    _formatUpdate(
-//        TextEditingValue(),
-//        TextEditingValue(
-//            text: initialValue?.toString() ?? "0",
-//            selection: TextSelection(baseOffset: -1, extentOffset: -1)));
   }
 
   _validateConfig() {
@@ -79,22 +74,23 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
       v = value.toString();
     }
 
-    String t = _formatUpdate(TextEditingValue(), TextEditingValue(text: v, selection: TextSelection(baseOffset: -1, extentOffset: -1)),
-        checkMinMax: checkMinMax)
+    String t = _formatUpdate(
+            TextEditingValue(), TextEditingValue(text: v, selection: TextSelection(baseOffset: -1, extentOffset: -1)),
+            checkMinMax: checkMinMax)
         .text;
     return t;
   }
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    print('++++++++++++++++++++++');
-    print('');
-    print('lastResValue >>> $lastResValue');
-    print('oldValue     >>> $oldValue');
-    print('');
-    print('newValue     >>> $newValue');
-    print('lastNewValue >>> $lastNewValue');
-    print('');
+    // print('++++++++++++++++++++++');
+    // print('');
+    // print('lastResValue >>> $lastResValue');
+    // print('oldValue     >>> $oldValue');
+    // print('');
+    // print('newValue     >>> $newValue');
+    // print('lastNewValue >>> $lastNewValue');
+    // print('');
 
     if (lastResValue == oldValue && newValue == lastNewValue) {
       return lastResValue;
@@ -126,13 +122,13 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
     /// check min max
     ///
     if (checkMinMax) {
-      if (min != null && min >= 0 && numberAfter < min) {
+      if (min >= 0 && numberAfter < min) {
         print('step-5 tessssssst min');
         textAfter = _numberStrValue(min.toString());
         print('step-6 set min $textAfter');
       }
 
-      if (max != null && max >= 0 && numberAfter > max) {
+      if (max >= 0 && numberAfter > max) {
         print('step-7 tessssssst max');
         textAfter = _numberStrValue(max.toString());
         print('step-8 set max $textAfter');
@@ -140,7 +136,8 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
     }
 
     final startBefore = selectionBefore.start == -1 ? 0 : selectionBefore.start;
-    final countBefore = selectionBefore.start == -1 || selectionBefore.end == -1 ? 0 : selectionBefore.end - selectionBefore.start;
+    final countBefore =
+        selectionBefore.start == -1 || selectionBefore.end == -1 ? 0 : selectionBefore.end - selectionBefore.start;
 
     final after = textAfter.length - (textBefore.length - countBefore);
     final removed = after < 0 ? after.abs() : 0;
@@ -185,18 +182,19 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
     int finalCursorPosition = cursorPos == -1
         ? masked.length
         : cursorPos > masked.length
-        ? masked.length
-        : cursorPos;
+            ? masked.length
+            : cursorPos;
 
     print('step-15  finalCursorPosition->$finalCursorPosition cursorPos->$cursorPos masked.length->${masked.length}');
 
-    if (maxLength != null && maxLength > 0 && masked.length > maxLength) {
+    if (maxLength > 0 && masked.length > maxLength) {
       return lastResValue;
     }
 
     print('step-16 finalCursorPosition->$finalCursorPosition');
 
-    return TextEditingValue(text: masked, selection: TextSelection(baseOffset: finalCursorPosition, extentOffset: finalCursorPosition));
+    return TextEditingValue(
+        text: masked, selection: TextSelection(baseOffset: finalCursorPosition, extentOffset: finalCursorPosition));
   }
 
   /// min max utgiig ehleed zov formatruu oruulah ued ashiglav
@@ -204,7 +202,7 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
   /// 1.0 -> 1.00
   /// 1.001 -> 1.00
   /// 1.00 -> 1.00
-  String _numberStrValue(String text) {
+  String _numberStrValue(String? text) {
     print('stringValueFormatted -> $text');
     text = (text == null || text.isEmpty) ? '0' : text;
 
@@ -227,7 +225,7 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
     return text;
   }
 
-  double numberValue(String text) {
+  double numberValue(String? text) {
     print('numberValue -> $text');
     text = (text == null || text.isEmpty) ? '0' : text;
 
@@ -265,63 +263,14 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
     return d;
   }
 
-  double BACKUP_numberValue(String text) {
-    print('numberValue -> $text');
-    text = (text == null || text.isEmpty) ? '0' : text;
-
-    bool b = text.contains(decimalSeparator);
-    if (b && precision == 0) {
-      text = text.split(decimalSeparator)[0];
-      text = text.isEmpty ? '0' : text;
-    }
-
-    List<String> parts = _getOnlyNumbers(text).split('').toList(growable: true);
-
-    if (precision > 0) {
-      if (parts.length - precision > 0) {
-        parts.insert(parts.length - precision, decimalSeparator);
-      } else {
-        parts.insert(parts.length, decimalSeparator);
-      }
-    }
-
-//    if (precision > 0) {
-//      //if (b) {
-//        parts.insert(parts.length - precision, decimalSeparator);
-////      } else {
-////        parts.insert(parts.length, decimalSeparator);
-////      }
-//    }
-
-    print('numberValue --> ${parts.join()}');
-
-    double d = double.parse(parts.join());
-
-    print('numberValue => $d');
-    return d;
-  }
-
   ///
-  /// prefix surfix iig arilgaad zovhon double amount iig avah
+  /// prefix suffix iig arilgaad zovhon double amount iig avah
   ///
   ///
   @override
   double numberRealValue(String text) {
-//
-//    print('numberRealValue -> $text');
-//    text = (text == null || text.isEmpty) ? '0' : text;
-//
-//    text = text
-//        .replaceAll(thousandSeparator, '')
-//        .replaceAll(rightSymbol, '')
-//        .replaceAll(leftSymbol, '');
-//
-//    double d = double.parse(text);
-//
-//    print('numberRealValue => $d');
-//    return d;
-
-    return Func.moneyToDouble(text, thousandSeparator: thousandSeparator, rightSymbol: rightSymbol, leftSymbol: leftSymbol);
+    return Func.moneyToDouble(text,
+        thousandSeparator: thousandSeparator, rightSymbol: rightSymbol, leftSymbol: leftSymbol);
   }
 
   String _getOnlyNumbers(String text) {
