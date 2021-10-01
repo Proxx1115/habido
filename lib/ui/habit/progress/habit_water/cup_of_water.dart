@@ -54,7 +54,7 @@ class _CupOfWaterState extends State<CupOfWater> {
     return _goalValue != null
         ? Container(
             height: 265.0,
-            width: 265.0,
+            width: 315.0,
             padding: EdgeInsets.fromLTRB(18.0, 25.0, 18.0, 25.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
@@ -132,9 +132,9 @@ class _CupOfWaterState extends State<CupOfWater> {
 
   Widget _button({required String asset, required VoidCallback onPressed}) {
     return Container(
-      padding: EdgeInsets.all(9.0),
-      height: 28.0,
-      width: 28.0,
+      padding: EdgeInsets.all(17.0),
+      height: 50.0,
+      width: 50.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(28.0)),
         color: customColors.greyBackground,

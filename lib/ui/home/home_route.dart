@@ -9,7 +9,9 @@ import 'package:habido_app/ui/content/content_dashboard.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
+import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -190,29 +192,58 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       child: Container(
         height: 55.0,
         width: _navBarItemWidth,
+        // decoration: BoxDecoration(
+        //   border: Border(top: BorderSide(width: SizeHelper.borderWidth, color: customColors.primaryBorder)),
+        // ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            /// Icon
-            SizedBox(
-              width: 24.0,
-              height: 24.0,
-              child: SvgPicture.asset(
-                asset,
-                color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: HorizontalLine(color: customColors.primaryBorder),
+                ),
+                Container(
+                  width: 20.0,
+                  height: SizeHelper.borderWidth,
+                  color:
+                      BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.primaryBorder,
+                ),
+                Expanded(
+                  child: HorizontalLine(color: customColors.primaryBorder),
+                ),
+              ],
             ),
 
-            /// Text
-            CustomText(
-              text,
-              padding: EdgeInsets.only(top: 5.0),
-              alignment: Alignment.center,
-              color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
-              fontSize: 11.0,
-              fontWeight: FontWeight.bold,
+            SizedBox(height: 13.0),
+
+            /// Icon
+            Center(
+              child: SizedBox(
+                width: 24.0,
+                height: 24.0,
+                child: SvgPicture.asset(
+                  asset,
+                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                ),
+              ),
             ),
+            // Column(
+            //   mainAxisSize: MainAxisSize.min,
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //
+            //
+            //     /// Text
+            //     // CustomText(
+            //     //   text,
+            //     //   padding: EdgeInsets.only(top: 5.0),
+            //     //   alignment: Alignment.center,
+            //     //   color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+            //     //   fontSize: 11.0,
+            //     //   fontWeight: FontWeight.bold,
+            //     // ),
+            //   ],
+            // ),
           ],
         ),
       ),

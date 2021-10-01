@@ -33,15 +33,16 @@ class MarginHorizontal extends StatelessWidget {
 
 class HorizontalLine extends StatelessWidget {
   final EdgeInsets? margin;
+  final Color? color;
 
-  const HorizontalLine({Key? key, this.margin}) : super(key: key);
+  const HorizontalLine({Key? key, this.margin, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: margin,
       height: SizeHelper.borderWidth,
-      color: customColors.primaryBorder,
+      color: color ?? customColors.primaryBorder,
     );
   }
 }

@@ -31,8 +31,9 @@ class FinanceStatementWidget extends StatelessWidget {
   final Function(bool)? onExpansionChanged;
   final bool enabledActionButtons;
   final bool visibleDetailButton;
+  final bool visibleRightArrow;
 
-  final SlidableController _controller = SlidableController();
+  final SlidableController _slideableController = SlidableController();
   final TextEditingController _amountController = TextEditingController();
 
   FinanceStatementWidget({
@@ -47,6 +48,7 @@ class FinanceStatementWidget extends StatelessWidget {
     this.onExpansionChanged,
     this.enabledActionButtons = true,
     this.visibleDetailButton = true,
+    this.visibleRightArrow = true,
   }) : super(key: key);
 
   @override
@@ -94,36 +96,64 @@ class FinanceStatementWidget extends StatelessWidget {
                       Container(padding: SizeHelper.boxPaddingHorizontal, child: HorizontalLine()),
 
                       /// Slidable item
-                      Slidable(
-                        controller: _controller,
+                      Slidable.builder(
+                        controller: _slideableController,
                         actionPane: SlidableDrawerActionPane(),
                         actionExtentRatio: 0.15,
-                        child: Container(
-                          padding: SizeHelper.boxPaddingHorizontal,
-                          height: SizeHelper.listItemHeight - 2,
-                          child: Row(
-                            children: [
-                              /// Category name
-                              if (Func.isNotEmpty(el.progressCatName))
+                        child: Builder(builder: (context) {
+                          return Container(
+                            padding: SizeHelper.boxPaddingHorizontal,
+                            height: SizeHelper.listItemHeight - 2,
+                            child: Row(
+                              children: [
+                                /// Category name
+                                if (Func.isNotEmpty(el.progressCatName))
+                                  Expanded(
+                                    child: CustomText(el.progressCatName),
+                                  ),
+
                                 Expanded(
-                                  child: CustomText(el.progressCatName),
+                                  child: CustomText(
+                                    Func.toMoneyStr(el.value ?? '') + (el.value != null ? '₮' : ''),
+                                    color: primaryColor ?? customColors.primary,
+                                    fontWeight: FontWeight.w500,
+                                    alignment: Func.isNotEmpty(el.progressCatName)
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                  ),
                                 ),
 
-                              CustomText(
-                                Func.toMoneyStr(el.value ?? '') + (el.value != null ? '₮' : ''),
-                                color: primaryColor ?? customColors.primary,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ],
-                          ),
-                        ),
-                        secondaryActions: <Widget>[
-                          /// Button edit
-                          if (enabledActionButtons) _buttonEdit(context, el),
-
-                          /// Button delete
-                          if (enabledActionButtons) _buttonDelete(context, el),
-                        ],
+                                if (visibleRightArrow)
+                                  InkWell(
+                                    onTap: () {
+                                      // _slideableController.activeState?.open();
+                                      Slidable.of(context)?.open(
+                                        actionType: SlideActionType.secondary,
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 9.0),
+                                      child: SvgPicture.asset(
+                                        Assets.arrow_back,
+                                        alignment: Alignment.centerRight,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          );
+                        }),
+                        secondaryActionDelegate: enabledActionButtons
+                            ? SlideActionBuilderDelegate(
+                                actionCount: 2,
+                                builder: (context, index, animation, renderingMode) {
+                                  if (index == 0) {
+                                    return _buttonEdit(context, el);
+                                  } else {
+                                    return _buttonDelete(context, el);
+                                  }
+                                })
+                            : null,
                       ),
                     ],
                   ),

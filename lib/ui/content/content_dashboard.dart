@@ -71,7 +71,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
               return CustomScrollView(
                 slivers: [
                   /// App bar
-                  DashboardSliverAppBar(title: LocaleKeys.content),
+                  DashboardSliverAppBar(title: LocaleKeys.advice),
 
                   /// Search
                   _searchBar(),

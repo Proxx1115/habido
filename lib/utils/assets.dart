@@ -38,6 +38,7 @@ class Assets {
   static const String plus12 = 'assets/images/global/plus12.svg';
   static const String drop_down = 'assets/images/global/drop_down.svg';
   static const String search = 'assets/images/global/search.svg';
+  static const String arrow_back = 'assets/images/global/arrow_back.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';

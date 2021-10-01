@@ -220,6 +220,8 @@ class LocaleKeys {
 
   static String get content => 'Контент';
 
+  static String get advice => 'Зөвлөмж';
+
   static String get profile => 'Профайл';
 
   static String get myCorner => 'Миний булан';

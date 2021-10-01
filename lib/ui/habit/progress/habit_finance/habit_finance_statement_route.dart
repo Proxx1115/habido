@@ -82,6 +82,7 @@ class _HabitFinanceStatementRouteState extends State<HabitFinanceStatementRoute>
                           enabledActionButtons: false,
                           expenseCategoryComboList: [],
                           visibleDetailButton: false,
+                          visibleRightArrow: false,
                           onExpansionChanged: (value) {
                             setState(() {
                               _habitProgressListWithDate![i].isExpanded = value;
