@@ -7,11 +7,11 @@ import 'file_utils.dart';
 import 'permission_utils.dart';
 
 class ImageUtils {
-  static Future<String> getBase64Image(BuildContext context) async {
+  static Future<String> getBase64Image(BuildContext context, ImageSource imageSource) async {
     String res = '';
 
     // Ask permission
-    var status = await Permission.camera.status;
+    if (imageSource == ImageSource.camera) var status = await Permission.camera.status;
     if (status.isDenied) {
       await PermissionUtils.requestPermission(Permission.camera);
     }
@@ -22,7 +22,7 @@ class ImageUtils {
         // Зураг авах
         ImagePicker imagePicker = new ImagePicker();
         var pickedFile = await imagePicker.pickImage(
-          source: ImageSource.camera,
+          source: imageSource,
           maxHeight: 500.0,
           maxWidth: 500.0,
           imageQuality: 100,

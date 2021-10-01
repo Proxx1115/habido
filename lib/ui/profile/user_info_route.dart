@@ -29,6 +29,7 @@ import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserInfoRoute extends StatefulWidget {
   const UserInfoRoute({Key? key}) : super(key: key);
@@ -179,24 +180,28 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
       onTap: () async {
         showCustomDialog(
           context,
+          isDismissible: true,
           child: CustomDialogBody(
             asset: Assets.camera,
-            child: Container(),
-            buttonText: LocaleKeys.habit,
-            onPressedButton: () {
-              //
+            text: LocaleKeys.pleaseSelectPicture,
+            buttonText: LocaleKeys.camera,
+            button2Text: LocaleKeys.gallery,
+            onPressedButton: () async {
+              String base64Image = await ImageUtils.getBase64Image(context, ImageSource.camera);
+              if (base64Image.isNotEmpty) {
+                var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
+                BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
+              }
             },
-            onPressedButton2: () {
-              //
+            onPressedButton2: () async {
+              String base64Image = await ImageUtils.getBase64Image(context, ImageSource.gallery);
+              if (base64Image.isNotEmpty) {
+                var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
+                BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
+              }
             },
           ),
         );
-
-        String base64Image = await ImageUtils.getBase64Image(context);
-        if (base64Image.isNotEmpty) {
-          var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
-          BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
-        }
       },
       child: Container(
         width: _profilePictureSize,

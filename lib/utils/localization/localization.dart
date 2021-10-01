@@ -425,6 +425,8 @@ class LocaleKeys {
 
   static String get changePhoneNumber => 'Утасны дугаар солих';
 
+  static String get pleaseSelectPicture => 'Зургаа сонгоно уу.';
+
   static String get camera => 'Camera';
 
   static String get gallery => 'Gallery';

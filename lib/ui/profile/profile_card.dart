@@ -17,6 +17,7 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileCard extends StatefulWidget {
   final EdgeInsets? margin;
@@ -114,7 +115,7 @@ class _ProfileCardState extends State<ProfileCard> {
   Widget _profilePicture() {
     return InkWell(
       onTap: () async {
-        String base64Image = await ImageUtils.getBase64Image(context);
+        String base64Image = await ImageUtils.getBase64Image(context, ImageSource.camera);
         if (base64Image.isNotEmpty) {
           var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
           BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
