@@ -9,7 +9,7 @@ abstract class TextInputControlFormatter extends TextInputFormatter {
 
   String formatUpdate(dynamic value, {bool checkMinMax = false});
 
-  TextInputControlFormatter({this.precision = 2});
+  TextInputControlFormatter({this.precision = 0});
 }
 
 class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
@@ -24,14 +24,14 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
 
   MoneyMaskTextInputFormatter(
       {this.maxLength = 14,
-      this.initialValue = 0.0,
-      this.decimalSeparator = '.',
-      this.thousandSeparator = ',',
-      this.rightSymbol = '',
-      this.leftSymbol = '',
-      int precision = 2,
-      this.min = 0,
-      this.max = 999999999999})
+        this.initialValue = 0.0,
+        this.decimalSeparator = '.',
+        this.thousandSeparator = ',',
+        this.rightSymbol = '',
+        this.leftSymbol = '',
+        int precision = 2,
+        this.min = 0,
+        this.max = 999999999999})
       : assert(maxLength == -1 || maxLength > 0),
         super(precision: precision) {
     _validateConfig();
@@ -61,7 +61,7 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
     var v;
     double db = 0.0;
 
-    if (value == null || value.toString() == "") {
+    if (value == null || value.toString() == '') {
       value = db;
     }
     if (value is double) {
@@ -80,7 +80,7 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
     }
 
     String t = _formatUpdate(TextEditingValue(), TextEditingValue(text: v, selection: TextSelection(baseOffset: -1, extentOffset: -1)),
-            checkMinMax: checkMinMax)
+        checkMinMax: checkMinMax)
         .text;
     return t;
   }
@@ -185,8 +185,8 @@ class MoneyMaskTextInputFormatter extends TextInputControlFormatter {
     int finalCursorPosition = cursorPos == -1
         ? masked.length
         : cursorPos > masked.length
-            ? masked.length
-            : cursorPos;
+        ? masked.length
+        : cursorPos;
 
     print('step-15  finalCursorPosition->$finalCursorPosition cursorPos->$cursorPos masked.length->${masked.length}');
 

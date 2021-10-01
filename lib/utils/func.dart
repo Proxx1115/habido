@@ -257,7 +257,7 @@ class Func {
       } else if (obj is double) {
         res = obj.toInt();
       } else if (obj is String) {
-        obj.replaceAll(',', '');
+        obj = obj.replaceAll(',', '');
         if (obj.contains('.')) {
           res = double.parse(obj).toInt();
         } else {

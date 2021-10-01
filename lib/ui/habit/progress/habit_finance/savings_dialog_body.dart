@@ -9,6 +9,7 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
+import 'package:habido_app/widgets/text_field/text_input_formatter.dart';
 
 class SavingsDialogBody extends StatelessWidget {
   final UserHabit userHabit;
@@ -51,6 +52,7 @@ class SavingsDialogBody extends StatelessWidget {
               backgroundColor: backgroundColor,
               hintText: LocaleKeys.enterAmount,
               maxLength: 15,
+              inputFormatter: MoneyMaskTextInputFormatter(precision: 0, maxLength: 14),
             ),
 
             /// Button add, edit
@@ -64,24 +66,28 @@ class SavingsDialogBody extends StatelessWidget {
                 Func.hideKeyboard(context);
 
                 if (controller.text.isNotEmpty) {
-                  if (habitProgress != null) {
-                    // Edit
-                    var hp = habitProgress!;
-                    hp.value = controller.text;
+                  // Validation
+                  var amount = Func.toInt(controller.text);
+                  if (amount > 0) {
+                    if (habitProgress != null) {
+                      // Edit
+                      var hp = habitProgress!;
+                      hp.value = amount.toString();
 
-                    BlocManager.userHabitBloc.add(UpdateHabitProgressEvent(hp));
-                  } else {
-                    // Add
-                    var hp = HabitProgress()
-                      ..progressId = 0
-                      ..planId = 0
-                      ..progressCatId = 0
-                      ..answerId = 0
-                      ..userHabitId = userHabit.userHabitId;
+                      BlocManager.userHabitBloc.add(UpdateHabitProgressEvent(hp));
+                    } else {
+                      // Add
+                      var hp = HabitProgress()
+                        ..progressId = 0
+                        ..planId = 0
+                        ..progressCatId = 0
+                        ..answerId = 0
+                        ..userHabitId = userHabit.userHabitId;
 
-                    hp.value = controller.text;
+                      hp.value = amount.toString();
 
-                    BlocManager.userHabitBloc.add(AddHabitProgressEvent(hp));
+                      BlocManager.userHabitBloc.add(AddHabitProgressEvent(hp));
+                    }
                   }
                 }
 
