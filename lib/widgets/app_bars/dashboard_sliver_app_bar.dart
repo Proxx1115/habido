@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_button.dart';
 import 'package:habido_app/ui/notification/notification_button.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -56,6 +57,15 @@ class DashboardSliverAppBar extends StatelessWidget {
                 /// Logout
                 ButtonStadium(
                     asset: Assets.logout,
+                    child: Container(
+                      margin: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: customColors.primaryButtonDisabledContent,
+                      ),
+                      padding: EdgeInsets.all(7.0),
+                      child: SvgPicture.asset(Assets.logout),
+                    ),
                     iconColor: customColors.iconGrey,
                     onPressed: () {
                       if (onPressedLogout != null) {

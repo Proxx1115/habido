@@ -49,17 +49,12 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
               child: Column(
                 children: [
                   /// Миний амжилт
-                  SectionTitleText(text: LocaleKeys.myAchievements),
-
-                  /// Бүх цаг үеийн амжилт
-                  // if (_allTimeAchievement != null)
-                  //   _achievementItem(
-                  //     leadingAsset: Assets.clock2,
-                  //     percentTitle: LocaleKeys.allTime,
-                  //     percentage: _allTimeAchievement!.allTimePercentage,
-                  //     achievement: _allTimeAchievement!.allTimeAchievement,
-                  //     completedHabits: _allTimeAchievement!.allTimeTotalCompletedHabits,
-                  //   ),
+                  CustomText(
+                    LocaleKeys.myAchievements,
+                    alignment: Alignment.center,
+                    fontSize: 19.0,
+                    fontWeight: FontWeight.w500,
+                  ),
 
                   /// Сарын амжилт
                   if (_monthlyAchievement != null)
@@ -69,6 +64,17 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                       percentage: _monthlyAchievement!.monthlyPercentage,
                       achievement: _monthlyAchievement!.monthlyAchievement,
                       completedHabits: _monthlyAchievement!.monthlyTotalCompletedHabits,
+                    ),
+
+                  /// Бүх цаг үеийн амжилт
+                  if (_allTimeAchievement != null)
+                    _achievementItem(
+                      leadingAsset: Assets.clock2,
+                      percentTitle: LocaleKeys.allTime,
+                      percentage: _allTimeAchievement!.allTimePercentage,
+                      achievement: _allTimeAchievement!.allTimeAchievement,
+                      completedHabits: _allTimeAchievement!.allTimeTotalCompletedHabits,
+                      margin: EdgeInsets.only(top: 15.0),
                     ),
 
                   /// Category achievements
@@ -104,9 +110,10 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
     int? percentage,
     String? achievement,
     int? completedHabits,
+    EdgeInsets? margin,
   }) {
     return Container(
-      margin: EdgeInsets.only(top: 15.0),
+      margin: margin ?? EdgeInsets.only(top: 20.0),
       padding: EdgeInsets.all(15.0),
       height: 70.0,
       decoration: BoxDecoration(
@@ -117,42 +124,61 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           /// Image
-          Container(
-            padding: EdgeInsets.all(10.0),
-            height: 40.0,
-            width: 40.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-              color: customColors.primaryBackground,
-            ),
-            child: SvgPicture.asset(leadingAsset!),
-          ),
+          // Container(
+          //   padding: EdgeInsets.all(10.0),
+          //   height: 40.0,
+          //   width: 40.0,
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+          //     color: customColors.primaryBackground,
+          //   ),
+          //   child: SvgPicture.asset(leadingAsset!),
+          // ),
 
           /// Term
-          _achievementRowItem(title: percentTitle, body: percentage != null ? '$percentage%' : ''),
+          _achievementRowItem(
+            title: percentTitle,
+            body: percentage != null ? '$percentage%' : '',
+          ),
 
           /// Гүйцэтгэл
-          _achievementRowItem(title: LocaleKeys.progress, body: achievement),
+          Expanded(
+            child: _achievementRowItem(
+              title: LocaleKeys.progress,
+              body: achievement,
+            ),
+          ),
 
           /// Хэвшсэн дадал
-          _achievementRowItem(title: LocaleKeys.completedHabit, body: Func.toStr(completedHabits)),
+          _achievementRowItem(
+            title: LocaleKeys.completedHabit,
+            body: Func.toStr(completedHabits),
+          ),
         ],
       ),
     );
   }
 
   Widget _achievementRowItem({required String title, String? body}) {
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.only(left: 12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomText(title, fontSize: 13.0, color: customColors.greyText),
-            if (body != null) CustomText(body, fontWeight: FontWeight.w500),
-          ],
-        ),
+    return Container(
+      margin: EdgeInsets.only(left: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomText(
+            title,
+            fontSize: 13.0,
+            color: customColors.greyText,
+            alignment: Alignment.center,
+          ),
+          if (body != null)
+            CustomText(
+              body,
+              fontWeight: FontWeight.w500,
+              alignment: Alignment.center,
+            ),
+        ],
       ),
     );
   }

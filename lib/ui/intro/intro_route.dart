@@ -24,6 +24,7 @@ class _IntroRouteState extends State<IntroRoute> {
   // PageView
   PageController _pageController = PageController();
   int _currentIndex = 0;
+  List<String> titleList = [LocaleKeys.introTitle1, LocaleKeys.introTitle2, LocaleKeys.introTitle3];
   List<String> textList = [LocaleKeys.intro1, LocaleKeys.intro2, LocaleKeys.intro3];
   List<String> assetList = [Assets.intro1, Assets.intro2, Assets.intro3];
 
@@ -118,16 +119,30 @@ class _IntroRouteState extends State<IntroRoute> {
                 ),
         ),
 
-        /// Text
-        CustomText(
-          textList[index],
-          alignment: Alignment.topCenter,
-          textAlign: TextAlign.center,
-          color: customColors.whiteText,
-          fontWeight: FontWeight.bold,
-          fontSize: 30.0,
-          maxLines: 2,
-          margin: EdgeInsets.fromLTRB(40.0, _marginTopText, 40.0, 0.0),
+        Column(
+          children: [
+            /// Title
+            CustomText(
+              titleList[index],
+              alignment: Alignment.topCenter,
+              textAlign: TextAlign.center,
+              color: customColors.whiteText,
+              fontWeight: FontWeight.w800,
+              fontSize: 35.0,
+              margin: EdgeInsets.fromLTRB(40.0, _marginTopText, 40.0, 0.0),
+            ),
+
+            /// Text
+            CustomText(
+              textList[index],
+              alignment: Alignment.topCenter,
+              textAlign: TextAlign.center,
+              color: customColors.whiteText,
+              fontWeight: FontWeight.w600,
+              fontSize: 20.0,
+              margin: EdgeInsets.fromLTRB(40.0, 8.0, 40.0, 0.0),
+            ),
+          ],
         ),
       ],
     );

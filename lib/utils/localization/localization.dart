@@ -116,11 +116,17 @@ class LocaleKeys {
   ///
   /// Intro
   ///
-  static String get intro1 => 'Habit - Дадлаа тууштай бүртгэж  ';
+  static String get introTitle1 => 'Happy';
 
-  static String get intro2 => 'Happy - Сэтгэл зүйгээ удирдаж   ';
+  static String get introTitle2 => 'Habit';
 
-  static String get intro3 => 'Do - Надтай хамт тасралтгүй хөгж';
+  static String get introTitle3 => 'Do';
+
+  static String get intro1 => 'Дадлаа тууштай бүртгэж     ';
+
+  static String get intro2 => 'Сэтгэл зүйгээ удирдаж      ';
+
+  static String get intro3 => 'Надтай хамт тасралтгүй хөгж';
 
   ///
   /// Login

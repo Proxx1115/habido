@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           /// Rank
           SliverToBoxAdapter(
             child: RankWidget(
-              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 25.0, SizeHelper.margin, 0.0),
+              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
             ),
           ),
 

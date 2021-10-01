@@ -163,6 +163,7 @@ enum ButtonStadiumStyle {
 class ButtonStadium extends StatelessWidget {
   final ButtonStadiumStyle style;
   final String asset;
+  final Widget? child;
   final VoidCallback? onPressed;
   final bool enabled;
   final EdgeInsets margin;
@@ -176,6 +177,7 @@ class ButtonStadium extends StatelessWidget {
     Key? key,
     this.style = ButtonStadiumStyle.Primary,
     required this.asset,
+    this.child,
     this.onPressed,
     this.enabled = true,
     this.margin = EdgeInsets.zero,
@@ -211,7 +213,7 @@ class ButtonStadium extends StatelessWidget {
         border: visibleBorder ? Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder) : null,
         color: backgroundColor ?? _getBackgroundColor(),
       ),
-      child: SvgPicture.asset(asset, fit: BoxFit.scaleDown, color: iconColor ?? _getContentColor()),
+      child: child ?? SvgPicture.asset(asset, fit: BoxFit.scaleDown, color: iconColor ?? _getContentColor()),
     );
   }
 

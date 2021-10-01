@@ -42,48 +42,53 @@ class _ProfileCardState extends State<ProfileCard> {
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
             return (globals.userData != null && globals.userData!.rankId != null)
-                ? StadiumContainer(
+                ? Container(
                     margin: widget.margin,
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.userInfo);
-                    },
                     height: 80.0,
                     padding: EdgeInsets.all(15.0),
-                    borderRadius: SizeHelper.borderRadiusOdd,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        /// Profile picture
-                        _profilePicture(),
+                    // decoration: BoxDecoration,
+                    // borderRadius: SizeHelper.borderRadiusOdd,
+                    child: NoSplashContainer(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.userInfo);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            /// Profile picture
+                            _profilePicture(),
 
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(15.0, 4.0, 15.0, 4.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                /// Name
-                                CustomText(
-                                  (globals.userData!.firstName ?? ''),
-                                  fontSize: 19.0,
-                                  fontWeight: FontWeight.w500,
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(15.0, 4.0, 15.0, 4.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    /// Name
+                                    CustomText(
+                                      (globals.userData!.firstName ?? ''),
+                                      fontSize: 19.0,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+
+                                    /// Rank
+                                    if (Func.isNotEmpty(globals.userData!.rankName))
+                                      CustomText(
+                                        (globals.userData!.rankName ?? '') + ' ' + 'member',
+                                        color: customColors.greyText,
+                                      ),
+                                  ],
                                 ),
-
-                                /// Rank
-                                if (Func.isNotEmpty(globals.userData!.rankName))
-                                  CustomText(
-                                    (globals.userData!.rankName ?? '') + ' ' + 'member',
-                                    color: customColors.greyText,
-                                  ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
 
-                        /// Button edit
-                        SvgPicture.asset(Assets.edit),
-                      ],
+                            /// Button edit
+                            SvgPicture.asset(Assets.edit),
+                          ],
+                        ),
+                      ),
                     ),
                   )
                 : Container();
