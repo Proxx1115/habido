@@ -72,6 +72,16 @@ class _ChatScreenState extends State<ChatScreen> {
                 // reverse: true, // todo test
                 padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, SizeHelper.marginBottom),
                 children: [
+                  /// Time
+                  if (_chatList.isNotEmpty && Func.isNotEmpty(_chatList.first.dateTime))
+                    CustomText(
+                      Func.toDateStr(Func.toDate(_chatList.first.dateTime!)).replaceAll('-', '.'),
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(bottom: 15.0),
+                      fontWeight: FontWeight.w500,
+                      color: customColors.greyText,
+                    ),
+
                   /// Chats
                   for (int i = 0; i < _chatList.length; i++) _chatItem(i),
 
@@ -189,7 +199,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     : Assets.habido_assistant_empty,
                 suffixTime:
                     _chatList[chatIndex].visibleProfilePicture ? Func.toTimeStr(_chatList[chatIndex].dateTime) : '',
-                child: CustomText(_chatList[chatIndex].msg! + ' $chatIndex', maxLines: 10),
+                child: CustomText(_chatList[chatIndex].msg!, maxLines: 10),
               ),
 
         /// Selected option
