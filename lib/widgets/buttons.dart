@@ -213,7 +213,12 @@ class ButtonStadium extends StatelessWidget {
         border: visibleBorder ? Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder) : null,
         color: backgroundColor ?? _getBackgroundColor(),
       ),
-      child: child ?? SvgPicture.asset(asset, fit: BoxFit.scaleDown, color: iconColor ?? _getContentColor()),
+      child: child ??
+          SvgPicture.asset(
+            asset,
+            fit: BoxFit.scaleDown,
+            color: iconColor ?? _getContentColor(),
+          ),
     );
   }
 

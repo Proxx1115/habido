@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
@@ -108,6 +109,27 @@ class ExpandableListItem extends StatelessWidget {
       color: Colors.transparent,
       iconWidget: ButtonStadium(
         asset: Assets.skip,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /// Icon
+            SvgPicture.asset(
+              Assets.skip,
+              fit: BoxFit.scaleDown,
+              color: customColors.iconWhite,
+            ),
+
+            /// Text
+            CustomText(
+              LocaleKeys.skip,
+              fontSize: 9.0,
+              alignment: Alignment.center,
+              color: customColors.whiteText,
+              fontWeight: FontWeight.w500,
+              margin: EdgeInsets.only(top: 5.0),
+             ),
+          ],
+        ),
         size: SizeHelper.listItemHeight70,
         margin: EdgeInsets.zero,
         backgroundColor: customColors.blueBackground,
@@ -125,6 +147,27 @@ class ExpandableListItem extends StatelessWidget {
       color: Colors.transparent,
       iconWidget: ButtonStadium(
         asset: Assets.edit24,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /// Icon
+            SvgPicture.asset(
+              Assets.edit24,
+              fit: BoxFit.scaleDown,
+              color: customColors.iconWhite,
+            ),
+
+            /// Text
+            CustomText(
+              LocaleKeys.edit,
+              fontSize: 9.0,
+              alignment: Alignment.center,
+              color: customColors.whiteText,
+              fontWeight: FontWeight.w500,
+              margin: EdgeInsets.only(top: 5.0),
+            ),
+          ],
+        ),
         size: SizeHelper.listItemHeight70,
         backgroundColor: customColors.yellowBackground,
         iconColor: customColors.iconWhite,
