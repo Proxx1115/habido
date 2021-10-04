@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/audio_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -44,7 +45,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
       curve: Curves.easeIn,
     );
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) => showRevealDialog());
+    WidgetsBinding.instance?.addPostFrameCallback((_) => _init());
   }
 
   @override
@@ -67,12 +68,53 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
             children: [
               /// Image
               Image.asset(
-                Assets.success_background4,
+                Assets.changes1,
                 fit: BoxFit.fitWidth,
                 // height: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.5,
+                // height: MediaQuery.of(context).size.height * 0.5,
                 width: double.infinity,
               ),
+
+              Align(
+                alignment: Alignment.topRight,
+                child: Image.asset(
+                  Assets.changes1,
+                  fit: BoxFit.fitWidth,
+                  // height: double.infinity,
+                  // height: MediaQuery.of(context).size.height * 0.5,
+                  width: double.infinity,
+                ),
+              ),
+
+              Container(
+                margin: EdgeInsets.only(top: 200),
+                child: Image.asset(
+                  Assets.changes1,
+                  fit: BoxFit.fitWidth,
+                  width: double.infinity,
+                ),
+              ),
+
+              Container(
+                margin: EdgeInsets.only(top: 500),
+                child: Image.asset(
+                  Assets.changes1,
+                  fit: BoxFit.fitWidth,
+                  width: double.infinity,
+                ),
+              ),
+
+              // Container(
+              //   margin: EdgeInsets.only(top: 300),
+              //   alignment: Alignment.topRight,
+              //   child: Image.asset(
+              //     Assets.success_background13,
+              //     // fit: BoxFit.fitWidth,
+              //     // height: double.infinity,
+              //     // height: MediaQuery.of(context).size.height * 0.5,
+              //     // width: double.infinity,
+              //   ),
+              // ),
 
               /// Body
               CustomScaffold(
@@ -208,7 +250,8 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
     }
   }
 
-  Future<void> showRevealDialog() async {
+  Future<void> _init() async {
+    // Show reveal dialog
     if (animationController.status == AnimationStatus.forward ||
         animationController.status == AnimationStatus.completed) {
       animationController.reverse();
@@ -216,35 +259,13 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
       animationController.forward();
     }
 
-    // showGeneralDialog(
-    //   barrierLabel: "Label",
-    //   barrierDismissible: true,
-    //   barrierColor: Colors.black.withOpacity(0.5),
-    //   transitionDuration: Duration(milliseconds: 700),
-    //   context: context,
-    //   pageBuilder: (context, anim1, anim2) {
-    //     return Align(
-    //       alignment: Alignment.bottomCenter,
-    //       child: Container(
-    //         child: Padding(
-    //           padding: const EdgeInsets.all(12.0),
-    //           child: Icon(Icons.search),
-    //         ),
-    //         margin: EdgeInsets.only(top: 50, left: 12, right: 12, bottom: 0),
-    //         decoration: BoxDecoration(
-    //           color: Colors.white,
-    //           borderRadius: BorderRadius.circular(5),
-    //         ),
-    //       ),
-    //     );
-    //   },
-    //   transitionBuilder: (context, anim1, anim2, child) {
-    //     return CircularRevealAnimation(
-    //       child: child,
-    //       animation: anim1,
-    //       centerAlignment: Alignment.bottomCenter,
-    //     );
-    //   },
-    // );
+    // Audio
+    if (widget.habitProgressResponse.rank != null) {
+      // Rank up
+      AudioManager.playAsset(AudioAsset.fanfare);
+    } else {
+      // Habit finished
+      AudioManager.playAsset(AudioAsset.success);
+    }
   }
 }

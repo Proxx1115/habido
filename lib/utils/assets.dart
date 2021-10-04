@@ -101,6 +101,13 @@ class Assets {
   static const String success_background4 = 'assets/images/habit/success_background4.gif';
   static const String success_background5 = 'assets/images/habit/success_background5.gif';
   static const String success_background6 = 'assets/images/habit/success_background6.gif';
+  static const String success_background7 = 'assets/images/habit/success_background7.gif';
+  static const String success_background8 = 'assets/images/habit/success_background8.gif';
+  static const String success_background9 = 'assets/images/habit/success_background9.gif';
+  static const String success_background10 = 'assets/images/habit/success_background10.gif';
+  static const String success_background11 = 'assets/images/habit/success_background11.gif';
+  static const String success_background13 = 'assets/images/habit/success_background13.gif';
+  static const String changes1 = 'assets/images/habit/1.gif';
   static const String cup_of_water = 'assets/images/habit/cup_of_water.svg';
   static const String breath = 'assets/images/habit/breath.svg';
   static const String tree1 = 'assets/images/habit/tree1.svg';
@@ -122,4 +129,7 @@ class FontAsset {
 
 class AudioAsset {
   static const String well_done = 'audio/well_done.mp3';
+  static const String fanfare = 'audio/fanfare.mp3';
+  static const String success = 'audio/success.mp3';
+  static const String energy_boots = 'audio/energy_boots.mp3';
 }

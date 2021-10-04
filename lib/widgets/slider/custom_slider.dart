@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/audio_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -117,6 +118,7 @@ class _CustomSliderState extends State<CustomSlider> {
       label: widget.sliderBloc.value.round().toString(),
       activeColor: widget.primaryColor ?? customColors.primary,
       onChanged: (double value) {
+        // AudioManager.playAsset(AudioAsset.energy_boots);
         widget.sliderBloc.add(SliderChangedEvent(value));
       },
     );
