@@ -168,9 +168,9 @@ class LocaleKeys {
 
   static String get birthDate => 'Төрсөн огноо';
 
-  static String get startDate => 'Эхлэх огноо';
+  static String get startDate => 'Хэзээ эхлэх';
 
-  static String get endDate => 'Дуусах огноо';
+  static String get endDate => 'Хэзээ дуусах';
 
   static String get gender => 'Хүйс';
 

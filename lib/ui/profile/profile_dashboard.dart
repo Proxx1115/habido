@@ -32,6 +32,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           /// App bar
           DashboardSliverAppBar(
             title: LocaleKeys.myCorner,
+            onPressedHelp: () {
+              //
+            },
             onPressedLogout: () {
               AuthBloc.showLogoutDialog(context);
             },

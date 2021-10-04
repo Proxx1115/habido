@@ -14,12 +14,14 @@ import 'package:showcaseview/showcaseview.dart';
 class DashboardSliverAppBar extends StatelessWidget {
   final String? title;
   final EdgeInsets padding;
+  final VoidCallback? onPressedHelp;
   final VoidCallback? onPressedLogout;
 
   const DashboardSliverAppBar({
     Key? key,
     this.title,
     this.padding = EdgeInsets.zero,
+    this.onPressedHelp,
     this.onPressedLogout,
   }) : super(key: key);
 
@@ -42,8 +44,25 @@ class DashboardSliverAppBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            /// Calendar
-            CalendarButton(),
+            (onPressedHelp != null)
+                ?
+
+                /// Help
+                ButtonStadium(
+                    asset: Assets.question_mark,
+                    child: Container(
+                      padding: EdgeInsets.all(12.0),
+                      child: SvgPicture.asset(Assets.question_mark, color: customColors.iconGrey),
+                    ),
+                    onPressed: () {
+                      if (onPressedHelp != null) {
+                        onPressedHelp!();
+                      }
+                    },
+                  )
+
+                /// Calendar
+                : CalendarButton(),
 
             /// Title
             if (Func.isNotEmpty(title))
