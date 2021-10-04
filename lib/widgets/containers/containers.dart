@@ -180,6 +180,7 @@ class InfoContainer extends StatelessWidget {
 }
 
 class ChatContainer extends StatelessWidget {
+  final String? prefixAsset;
   final Widget child;
   final VoidCallback? onTap;
   final EdgeInsets margin;
@@ -194,6 +195,7 @@ class ChatContainer extends StatelessWidget {
 
   const ChatContainer({
     Key? key,
+    this.prefixAsset,
     required this.child,
     this.onTap,
     this.margin = const EdgeInsets.only(bottom: 10.0),
@@ -218,20 +220,40 @@ class ChatContainer extends StatelessWidget {
         child: NoSplashContainer(
           child: InkWell(
             onTap: onTap,
-            child: Container(
-              margin: margin,
-              padding: padding ?? const EdgeInsets.all(10.0),
-              height: height,
-              width: width ?? MediaQuery.of(context).size.width * 0.6,
-              decoration: BoxDecoration(
-                borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(10.0)),
-                color: customColors.whiteBackground,
-              ),
-              child: child,
-            ),
+            child: Func.isNotEmpty(prefixAsset)
+                ? Row(
+                    children: [
+                      /// Bot profile pic
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          margin: EdgeInsets.only(right: 5.0),
+                          child: Image.asset(Assets.habido_assistant_png, height: 20.0, width: 20.0),
+                        ),
+                      ),
+
+                      /// Body
+                      _body(context),
+                    ],
+                  )
+                : _body(context),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _body(BuildContext context) {
+    return Container(
+      margin: margin,
+      padding: padding ?? const EdgeInsets.all(10.0),
+      height: height,
+      width: width ?? MediaQuery.of(context).size.width * 0.6,
+      decoration: BoxDecoration(
+        borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(10.0)),
+        color: customColors.whiteBackground,
+      ),
+      child: child,
     );
   }
 }

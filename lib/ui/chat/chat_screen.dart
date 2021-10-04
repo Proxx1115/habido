@@ -174,8 +174,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
             /// Bot chat
             ChatContainer(
+                prefixAsset: Assets.habido_assistant_png,
                 child: CustomText(_chatList[chatIndex].msg, maxLines: 10),
               ),
+
+
 
         /// Selected option
         if (_chatList[chatIndex].selectedMsgOption != null)
