@@ -115,13 +115,9 @@ class _ChatScreenState extends State<ChatScreen> {
       );
     } else if (state is GetChatSuccess) {
       ChatResponse chat = state.response;
-      // List<ChatResponse> tempList = [state.response];
-      // tempList.addAll(_chatList);
-      // _chatList = tempList;
+      chat.visibleProfilePicture = true;
 
       _chatList.add(chat);
-
-      _setProfilePictureAndTime();
 
       if (state.chatIndex != null) {
         // print('Хариулт сонгосон');
@@ -165,7 +161,7 @@ class _ChatScreenState extends State<ChatScreen> {
     } else if (state is ChatHistorySuccess) {
       _chatList = state.chatList ?? [];
 
-      _setProfilePictureAndTime();
+      _setProfilePictureAndTimeHistory();
     } else if (state is ChatHistoryFailed) {
       showCustomDialog(
         context,
@@ -215,7 +211,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  _setProfilePictureAndTime() {
+  _setProfilePictureAndTimeHistory() {
     if (_chatList.isNotEmpty) {
       if (_chatList.length == 1) {
         if (_chatList.last.selectedMsgOption == null) {
@@ -234,8 +230,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 // print('human');
               }
             }
-
-            print(_chatList[i].visibleProfilePicture);
           } catch (e) {
             print(e);
           }

@@ -19,11 +19,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Stream<ChatState> mapEventToState(ChatEvent event) async* {
     if (event is GetChatbotsEvent) {
       yield* _mapGetChatbotsEventToState(event);
-    }
-    // else if (event is GetFirstChatEvent) {
-    //   yield* _mapGetFirstChatEventToState(event);
-    // }
-    else if (event is GetNextChatEvent) {
+    } else if (event is GetNextChatEvent) {
       yield* _mapGetNextChatEventToState(event);
     } else if (event is SaveOptionEvent) {
       yield* _mapSaveOptionEventToState(event);
@@ -52,7 +48,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             break;
 
           case ChatType.assistant:
-            if (chatbotsResponse.isAssistantChatDone ?? false) {
+            // if (chatbotsResponse.isAssistantChatDone ?? false) {
+            if (false) {
               /// Get chat history
               var res = await ApiManager.chatHistory(chatbotsResponse.assistantCbId ?? 0);
               if (res.code == ResponseCode.Success) {
