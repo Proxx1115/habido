@@ -114,6 +114,15 @@ class Func {
     return formattedDate; //trim(str.split(" ")[0]);
   }
 
+  static String toTimeStr(String? str) {
+    if (isEmpty(str)) return '';
+
+    DateTime dateTime = DateTime.parse(str!);
+    String formattedDate = DateFormat('HH:mm').format(dateTime);
+
+    return formattedDate;
+  }
+
   // static String toDateStr(String str) {
   //   // Datetime string-ийг форматлаад буцаана '2019.01.01T15:13:00.000' to '2019.01.01'
   //   if (isEmpty(str)) return '';

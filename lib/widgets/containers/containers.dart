@@ -182,6 +182,7 @@ class InfoContainer extends StatelessWidget {
 class ChatContainer extends StatelessWidget {
   final String? prefixAsset;
   final Widget child;
+  final String? suffixTime;
   final VoidCallback? onTap;
   final EdgeInsets margin;
   final EdgeInsets? padding;
@@ -197,6 +198,7 @@ class ChatContainer extends StatelessWidget {
     Key? key,
     this.prefixAsset,
     required this.child,
+    this.suffixTime,
     this.onTap,
     this.margin = const EdgeInsets.only(bottom: 10.0),
     this.padding,
@@ -224,19 +226,33 @@ class ChatContainer extends StatelessWidget {
               margin: margin,
               child: Func.isNotEmpty(prefixAsset)
                   ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      // crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         /// Bot profile pic
                         Align(
                           alignment: Alignment.bottomLeft,
                           child: Container(
                             margin: EdgeInsets.only(right: 5.0),
-                            child: Image.asset(prefixAsset!, height: 20.0, width: 20.0),
+                            child: Image.asset(
+                              prefixAsset!,
+                              height: 20.0,
+                              width: 20.0,
+                              alignment: Alignment.bottomLeft,
+                            ),
                           ),
                         ),
 
                         /// Body
                         _body(context),
+
+                        if (Func.isNotEmpty(suffixTime))
+                          CustomText(
+                            suffixTime,
+                            alignment: Alignment.centerLeft,
+                            margin: EdgeInsets.only(left: 10.0),
+                            fontSize: 13.0,
+                            color: customColors.greyText,
+                          ),
                       ],
                     )
                   : _body(context),

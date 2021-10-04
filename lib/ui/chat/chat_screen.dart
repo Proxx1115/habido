@@ -169,6 +169,10 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _chatItem(int chatIndex) {
+    // if(_chatList[chatIndex].content != null) {
+    //   return _contentItem(_chatList[chatIndex].content!);
+    // }
+
     return Column(
       children: [
         (_chatList[chatIndex].content != null)
@@ -183,7 +187,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 prefixAsset: _chatList[chatIndex].visibleProfilePicture
                     ? Assets.habido_assistant_png
                     : Assets.habido_assistant_empty,
-                child: CustomText(_chatList[chatIndex].msg, maxLines: 10),
+                suffixTime:
+                    _chatList[chatIndex].visibleProfilePicture ? Func.toTimeStr(_chatList[chatIndex].dateTime) : '',
+                child: CustomText(_chatList[chatIndex].msg! + ' $chatIndex', maxLines: 10),
               ),
 
         /// Selected option
@@ -203,46 +209,40 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_chatList.isNotEmpty) {
       if (_chatList.length == 1) {
         if (_chatList.last.selectedMsgOption == null) {
-          // Bot chat
+          // 1 bot chat
           _chatList.last.visibleProfilePicture = true;
         }
       } else {
         for (int i = 1; i < _chatList.length - 1; i++) {
-          if (i + 1 < _chatList.length) {
-            // Has index
-            // 2 bot chats
-            if (_chatList[i].selectedMsgOption == null && _chatList[i + 1].selectedMsgOption == null) {
-              _chatList[i].visibleProfilePicture = false;
-              _chatList[i + 1].visibleProfilePicture = true;
-            } else {
-              print('human');
-            }
-          }
+          try {
+            if (i + 1 < _chatList.length) {
+              // Has index
 
-          print(_chatList[i].visibleProfilePicture);
+              if (i == 7) {
+                print(i);
+              }
+
+              if (_chatList[i].selectedMsgOption == null) {
+                if (i == 6) {
+                  print(i);
+                } else if (i == 8) {
+                  print(i);
+                }
+
+                _chatList[i].visibleProfilePicture = false;
+                _chatList[i + 1].visibleProfilePicture = true;
+              } else {
+                // print('human');
+              }
+            }
+
+            print(_chatList[i].visibleProfilePicture);
+          } catch (e) {
+            print(e);
+          }
         }
       }
     }
-
-    // 4 - 3
-    // 3 - 2
-    // 2 - 1
-    // 1 - 0
-
-    // if (_chatList.isNotEmpty) {
-    //   if (_chatList.last.selectedMsgOption == null) {
-    //     // Bot chat
-    //     if (chat.selectedMsgOption == null) {
-    //       // Bot chat again
-    //       _chatList.last.visibleProfilePicture = false;
-    //       chat.visibleProfilePicture = true;
-    //     }
-    //   } else {
-    //     // User chat
-    //   }
-    // } else {
-
-    // }
   }
 
   Widget _optionItem(int chatIndex, int optionIndex) {
