@@ -143,9 +143,9 @@ class Func {
   }
 
   /// Can return null value
-  static DateTime? toDate(String str) {
+  static DateTime? toDate(String? str) {
     try {
-      return DateTime.parse(str);
+      return Func.isNotEmpty(str) ? DateTime.parse(str!) : null;
     } catch (e) {
       print(e);
     }

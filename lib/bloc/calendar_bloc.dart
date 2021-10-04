@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/habit_calendar_response.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -29,14 +30,15 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
 
       var res = await ApiManager.calendar(event.startDate, event.endDate);
       if (res.code == ResponseCode.Success) {
-        if (res.dateList != null && res.dateList!.isNotEmpty) {
-          var dateList = <DateTime>[];
-          for (var el in res.dateList!) {
-            var tempDate = Func.toDate(el);
-            if (tempDate != null) dateList.add(DateTime(tempDate.year, tempDate.month, tempDate.day));
-          }
+        if (res.calendarEventList != null && res.calendarEventList!.isNotEmpty) {
+          // var habitCalendarEventList = <HabitCalendarEvent>[];
+          // for (var el in res.calendarEventList!) {
+          // if (tempDate != null) dateList.add(DateTime(tempDate.year, tempDate.month, tempDate.day));
+          // var tempDate = Func.toDate(el.date);
+          // habitCalendarEventList.add(HabitCalendarEvent()..date = tempDate..colors = el.colors);
+          // }
 
-          yield CalendarSuccess(dateList);
+          yield CalendarSuccess(res.calendarEventList!);
         }
       } else {
         yield CalendarFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
@@ -117,15 +119,15 @@ class CalendarLoading extends CalendarState {}
 class CalendarDefault extends CalendarState {}
 
 class CalendarSuccess extends CalendarState {
-  final List<DateTime> dateList;
+  final List<HabitCalendarEvent> calendarEventList;
 
-  const CalendarSuccess(this.dateList);
-
-  @override
-  List<Object> get props => [dateList];
+  const CalendarSuccess(this.calendarEventList);
 
   @override
-  String toString() => 'CalendarSuccess { dateList: $dateList }';
+  List<Object> get props => [calendarEventList];
+
+  @override
+  String toString() => 'CalendarSuccess { calendarEventList: $calendarEventList }';
 }
 
 class CalendarFailed extends CalendarState {
