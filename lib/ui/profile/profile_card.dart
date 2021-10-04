@@ -77,7 +77,7 @@ class _ProfileCardState extends State<ProfileCard> {
                                     /// Rank
                                     if (Func.isNotEmpty(globals.userData!.rankName))
                                       CustomText(
-                                        (globals.userData!.rankName ?? '') + ' ' + 'member',
+                                        (globals.userData!.rankName ?? ''),
                                         color: customColors.greyText,
                                       ),
                                   ],
@@ -115,11 +115,30 @@ class _ProfileCardState extends State<ProfileCard> {
   Widget _profilePicture() {
     return InkWell(
       onTap: () async {
-        String base64Image = await ImageUtils.getBase64Image(context, ImageSource.camera);
-        if (base64Image.isNotEmpty) {
-          var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
-          BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
-        }
+        showCustomDialog(
+          context,
+          isDismissible: true,
+          child: CustomDialogBody(
+            asset: Assets.camera,
+            text: LocaleKeys.pleaseSelectPicture,
+            buttonText: LocaleKeys.camera,
+            button2Text: LocaleKeys.gallery,
+            onPressedButton: () async {
+              String base64Image = await ImageUtils.getBase64Image(context, ImageSource.camera);
+              if (base64Image.isNotEmpty) {
+                var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
+                BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
+              }
+            },
+            onPressedButton2: () async {
+              String base64Image = await ImageUtils.getBase64Image(context, ImageSource.gallery);
+              if (base64Image.isNotEmpty) {
+                var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
+                BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
+              }
+            },
+          ),
+        );
       },
       child: Stack(
         children: [

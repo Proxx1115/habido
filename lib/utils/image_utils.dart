@@ -10,14 +10,21 @@ class ImageUtils {
   static Future<String> getBase64Image(BuildContext context, ImageSource imageSource) async {
     String res = '';
 
-    // Ask permission
-    if (imageSource == ImageSource.camera) var status = await Permission.camera.status;
-    if (status.isDenied) {
-      await PermissionUtils.requestPermission(Permission.camera);
+    // Permission
+    PermissionStatus? permissionStatus;
+    if (imageSource == ImageSource.camera) {
+      permissionStatus = await Permission.camera.status;
+      if (permissionStatus.isDenied) {
+        permissionStatus = await PermissionUtils.requestPermission(Permission.camera);
+      }
+    } else if (imageSource == ImageSource.gallery) {
+      permissionStatus = await Permission.camera.status;
+      if (permissionStatus.isDenied) {
+        permissionStatus = await PermissionUtils.requestPermission(Permission.storage);
+      }
     }
 
-    // Check permission
-    if (await Permission.camera.request().isGranted) {
+    if (permissionStatus?.isGranted ?? false) {
       try {
         // Зураг авах
         ImagePicker imagePicker = new ImagePicker();

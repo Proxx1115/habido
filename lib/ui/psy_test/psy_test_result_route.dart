@@ -7,6 +7,7 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -63,12 +64,13 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
                     margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
                     height: 70.0,
                     leadingImageUrl: widget.psyTestResult.habit!.photo,
-                    leadingBackgroundColor: customColors.primary,
                     title: widget.psyTestResult.habit!.name ?? '',
                     suffixAsset: Assets.arrow_forward,
+                    leadingBackgroundColor: (widget.psyTestResult.habit!.color != null)
+                        ? HexColor.fromHex(widget.psyTestResult.habit!.color!)
+                        : null,
                     onPressed: () {
                       Navigator.popUntil(context, ModalRoute.withName(Routes.home));
-
                       Navigator.pushNamed(context, Routes.userHabit, arguments: {
                         'screenMode': ScreenMode.New,
                         'habit': widget.psyTestResult.habit,
@@ -102,7 +104,7 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
         color: customColors.primary,
       ),
-      child: SvgPicture.asset(Assets.trophy, color: customColors.iconWhite),
+      child: SvgPicture.asset(Assets.test, color: customColors.iconWhite),
     );
   }
 }

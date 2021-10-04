@@ -190,7 +190,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         BlocManager.homeBloc.add(NavigateToPageEvent(index));
       },
       child: Container(
-        height: 55.0,
+        height: 60.0,
         width: _navBarItemWidth,
         // decoration: BoxDecoration(
         //   border: Border(top: BorderSide(width: SizeHelper.borderWidth, color: customColors.primaryBorder)),
@@ -213,37 +213,35 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 ),
               ],
             ),
-
-            SizedBox(height: 13.0),
-
-            /// Icon
-            Center(
-              child: SizedBox(
-                width: 24.0,
-                height: 24.0,
-                child: SvgPicture.asset(
-                  asset,
-                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+            SizedBox(height: 7.0),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                /// Icon
+                Center(
+                  child: SizedBox(
+                    width: 24.0,
+                    height: 24.0,
+                    child: SvgPicture.asset(
+                      asset,
+                      color:
+                          BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                    ),
+                  ),
                 ),
-              ),
+
+                /// Text
+                CustomText(
+                  text,
+                  padding: EdgeInsets.only(top: 5.0),
+                  alignment: Alignment.center,
+                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                  fontSize: 11.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ],
             ),
-            // Column(
-            //   mainAxisSize: MainAxisSize.min,
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //
-            //
-            //     /// Text
-            //     // CustomText(
-            //     //   text,
-            //     //   padding: EdgeInsets.only(top: 5.0),
-            //     //   alignment: Alignment.center,
-            //     //   color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
-            //     //   fontSize: 11.0,
-            //     //   fontWeight: FontWeight.bold,
-            //     // ),
-            //   ],
-            // ),
           ],
         ),
       ),

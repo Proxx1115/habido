@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/image_utils.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/dialogs.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SatisfactionPhoto extends StatefulWidget {
   final Color primaryColor;
@@ -28,13 +31,34 @@ class _SatisfactionPhotoState extends State<SatisfactionPhoto> {
       child: InkWell(
         borderRadius: BorderRadius.all(Radius.circular(_size)),
         onTap: () async {
-          String res = await ImageUtils.getBase64Image(context);
-          if (res.isNotEmpty) {
-            setState(() {
-              _base64Image = res;
-              if (widget.onImageCaptured != null) widget.onImageCaptured!(res);
-            });
-          }
+          showCustomDialog(
+            context,
+            isDismissible: true,
+            child: CustomDialogBody(
+              asset: Assets.camera,
+              text: LocaleKeys.pleaseSelectPicture,
+              buttonText: LocaleKeys.camera,
+              button2Text: LocaleKeys.gallery,
+              onPressedButton: () async {
+                String base64Image = await ImageUtils.getBase64Image(context, ImageSource.camera);
+                if (base64Image.isNotEmpty) {
+                  setState(() {
+                    _base64Image = base64Image;
+                    if (widget.onImageCaptured != null) widget.onImageCaptured!(base64Image);
+                  });
+                }
+              },
+              onPressedButton2: () async {
+                String base64Image = await ImageUtils.getBase64Image(context, ImageSource.gallery);
+                if (base64Image.isNotEmpty) {
+                  setState(() {
+                    _base64Image = base64Image;
+                    if (widget.onImageCaptured != null) widget.onImageCaptured!(base64Image);
+                  });
+                }
+              },
+            ),
+          );
         },
         child: Container(
           height: _size,

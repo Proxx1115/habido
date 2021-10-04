@@ -231,26 +231,16 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
             if (Func.isEmpty(globals.userData!.photo))
               Align(
                 alignment: Alignment.topCenter,
-                child: InkWell(
-                  borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
-                  onTap: () async {
-                    String base64Image = await ImageUtils.getBase64Image(context);
-                    if (base64Image.isNotEmpty) {
-                      var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
-                      BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
-                    }
-                  },
-                  child: Opacity(
-                    opacity: 0.75,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
-                      child: Container(
-                        padding: EdgeInsets.all(41.0),
-                        height: _profilePictureSize,
-                        width: _profilePictureSize,
-                        decoration: BoxDecoration(color: customColors.primary),
-                        child: SvgPicture.asset(Assets.camera, color: customColors.iconWhite),
-                      ),
+                child: Opacity(
+                  opacity: 0.75,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
+                    child: Container(
+                      padding: EdgeInsets.all(41.0),
+                      height: _profilePictureSize,
+                      width: _profilePictureSize,
+                      decoration: BoxDecoration(color: customColors.primary),
+                      child: SvgPicture.asset(Assets.camera, color: customColors.iconWhite),
                     ),
                   ),
                 ),
