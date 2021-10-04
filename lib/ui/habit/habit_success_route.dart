@@ -66,10 +66,11 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
           child: Stack(
             children: [
               /// Image
-              SvgPicture.asset(
-                Assets.success_background,
-                fit: BoxFit.fitWidth,
-                width: double.infinity,
+              Image.asset(
+                Assets.success_background3,
+                fit: BoxFit.fitHeight,
+                // height: double.infinity,
+                // width: double.infinity,
               ),
 
               /// Body

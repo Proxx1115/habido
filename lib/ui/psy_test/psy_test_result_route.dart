@@ -11,6 +11,7 @@ import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/scaffold.dart';
+import 'package:habido_app/widgets/text.dart';
 
 class PsyTestResultRoute extends StatefulWidget {
   final PsyTestResult psyTestResult;
@@ -47,7 +48,7 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
                       title: widget.psyTestResult.testName ?? '',
                       titleAlignment: Alignment.center,
                       body: widget.psyTestResult.text ?? '',
-                      footer: widget.psyTestResult.pointRange ?? '',
+                      footer: widget.psyTestResult.resultText ?? '',
                     ),
 
                     /// Icon
@@ -60,23 +61,34 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
 
                 /// Suggest habit
                 if (widget.psyTestResult.habit != null)
-                  ListItemContainer(
-                    margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    height: 70.0,
-                    leadingImageUrl: widget.psyTestResult.habit!.photo,
-                    title: widget.psyTestResult.habit!.name ?? '',
-                    suffixAsset: Assets.arrow_forward,
-                    leadingBackgroundColor: (widget.psyTestResult.habit!.color != null)
-                        ? HexColor.fromHex(widget.psyTestResult.habit!.color!)
-                        : null,
-                    onPressed: () {
-                      Navigator.popUntil(context, ModalRoute.withName(Routes.home));
-                      Navigator.pushNamed(context, Routes.userHabit, arguments: {
-                        'screenMode': ScreenMode.New,
-                        'habit': widget.psyTestResult.habit,
-                        'title': LocaleKeys.createHabit,
-                      });
-                    },
+                  Column(
+                    children: [
+                      /// Title
+                      SectionTitleText(
+                        text: LocaleKeys.recommendedHabit,
+                        margin: EdgeInsets.symmetric(vertical: 30.0),
+                      ),
+
+                      /// Habit item
+                      ListItemContainer(
+                        margin: EdgeInsets.only(bottom: 15.0),
+                        height: 70.0,
+                        leadingImageUrl: widget.psyTestResult.habit!.photo,
+                        title: widget.psyTestResult.habit!.name ?? '',
+                        suffixAsset: Assets.arrow_forward,
+                        leadingBackgroundColor: (widget.psyTestResult.habit!.color != null)
+                            ? HexColor.fromHex(widget.psyTestResult.habit!.color!)
+                            : null,
+                        onPressed: () {
+                          Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+                          Navigator.pushNamed(context, Routes.userHabit, arguments: {
+                            'screenMode': ScreenMode.New,
+                            'habit': widget.psyTestResult.habit,
+                            'title': LocaleKeys.createHabit,
+                          });
+                        },
+                      ),
+                    ],
                   ),
               ],
             ),

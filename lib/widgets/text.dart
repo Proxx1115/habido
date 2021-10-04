@@ -120,23 +120,27 @@ class CustomText extends StatelessWidget {
 
 class SectionTitleText extends StatelessWidget {
   final String? text;
+  final EdgeInsets? margin;
 
-  const SectionTitleText({Key? key, this.text}) : super(key: key);
+  const SectionTitleText({Key? key, this.text, this.margin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SvgPicture.asset(Assets.scratch),
-        Expanded(
-          child: CustomText(
-            text,
-            margin: EdgeInsets.only(left: 15.0),
-            fontWeight: FontWeight.w500,
-            fontSize: 19.0,
+    return Container(
+      margin: margin,
+      child: Row(
+        children: [
+          SvgPicture.asset(Assets.scratch),
+          Expanded(
+            child: CustomText(
+              text,
+              margin: EdgeInsets.only(left: 15.0),
+              fontWeight: FontWeight.w500,
+              fontSize: 19.0,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

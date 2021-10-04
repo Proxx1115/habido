@@ -94,6 +94,12 @@ class Assets {
   static const String emoji5 = 'assets/images/habit/emoji5.svg';
   static const String success_background_png = 'assets/images/habit/success_background.png';
   static const String success_background = 'assets/images/habit/success_background.svg';
+  static const String success_background1 = 'assets/images/habit/success_background1.gif';
+  static const String success_background2 = 'assets/images/habit/success_background2.gif';
+  static const String success_background3 = 'assets/images/habit/success_background3.gif';
+  static const String success_background4 = 'assets/images/habit/success_background4.gif';
+  static const String success_background5 = 'assets/images/habit/success_background5.gif';
+  static const String success_background6 = 'assets/images/habit/success_background6.gif';
   static const String cup_of_water = 'assets/images/habit/cup_of_water.svg';
   static const String breath = 'assets/images/habit/breath.svg';
   static const String tree1 = 'assets/images/habit/tree1.svg';

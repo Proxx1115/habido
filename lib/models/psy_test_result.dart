@@ -8,6 +8,7 @@ class PsyTestResult extends BaseResponse {
   String? testName;
   String? text;
   String? pointRange;
+  String? resultText;
   Habit? habit;
 
   PsyTestResult({
@@ -16,6 +17,7 @@ class PsyTestResult extends BaseResponse {
     this.testName,
     this.text,
     this.pointRange,
+    this.resultText,
     this.habit,
   });
 
@@ -26,6 +28,7 @@ class PsyTestResult extends BaseResponse {
     testName = json['testName'];
     text = json['text'];
     pointRange = json['pointRange'];
+    resultText = json['resultText'];
     habit = json['habit'] != null ? Habit.fromJson(json['habit']) : null;
   }
 
@@ -36,6 +39,7 @@ class PsyTestResult extends BaseResponse {
     map['testName'] = testName;
     map['text'] = text;
     map['pointRange'] = pointRange;
+    map['resultText'] = resultText;
     map['habit'] = habit;
     return map;
   }

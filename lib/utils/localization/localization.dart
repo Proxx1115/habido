@@ -287,6 +287,8 @@ class LocaleKeys {
 
   static String get psyTestHint4 => 'Доорх товчыг дарж сэтгэлзүйн тестээ бөглөөрэй';
 
+  static String get recommendedHabit => 'Танд санал болгож буй дадал';
+
   /// Habit
   static String get habit => 'Дадал';
 

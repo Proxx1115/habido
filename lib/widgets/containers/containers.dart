@@ -171,6 +171,7 @@ class InfoContainer extends StatelessWidget {
               alignment: Alignment.center,
               color: customColors.primary,
               fontWeight: FontWeight.w500,
+              maxLines: 3,
             ),
         ],
       ),
