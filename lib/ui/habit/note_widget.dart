@@ -76,7 +76,7 @@ class NoteWidget extends StatelessWidget {
             children: [
               CustomTextField(
                 controller: _noteController,
-                alwaysVisibleSuffix: false,
+                suffixAsset: Assets.edit,
                 hintText: LocaleKeys.note,
                 maxLines: 5,
                 autofocus: true,

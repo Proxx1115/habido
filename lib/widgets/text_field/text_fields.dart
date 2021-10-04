@@ -30,12 +30,14 @@ class CustomTextField extends StatefulWidget {
   final String? hintText;
   final double fontSize;
   final Color? textColor;
-  final Widget? suffixWidget;
-  final String suffixAsset;
-  final Color? suffixColor;
-  final bool visibleSuffix;
-  final bool alwaysVisibleSuffix;
-  final VoidCallback? onPressedSuffix;
+
+  // final Widget? suffixWidget;
+  final String? suffixAsset;
+
+  // final Color? suffixColor;
+  // final bool visibleSuffix;
+  // final bool alwaysVisibleSuffix;
+  // final VoidCallback? onPressedSuffix;
 
   CustomTextField({
     Key? key,
@@ -56,12 +58,12 @@ class CustomTextField extends StatefulWidget {
     this.textColor,
     this.maxLines,
     this.maxLength,
-    this.suffixWidget,
-    this.suffixAsset = Assets.edit,
-    this.suffixColor,
-    this.visibleSuffix = true,
-    this.alwaysVisibleSuffix = true,
-    this.onPressedSuffix,
+    // this.suffixWidget,
+    this.suffixAsset,
+    // this.suffixColor,
+    // this.visibleSuffix = true,
+    // this.alwaysVisibleSuffix = true,
+    // this.onPressedSuffix,
   }) : super(key: key);
 
   @override
@@ -71,7 +73,6 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   late FocusNode _focusNode;
   late bool _obscureText;
-  late String _suffixAsset;
 
   @override
   void initState() {
@@ -79,7 +80,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
     _focusNode = widget.focusNode ?? FocusNode();
     _obscureText = widget.obscureText;
-    _suffixAsset = _obscureText ? Assets.obscure_hidden : widget.suffixAsset;
+    // _suffixAsset = _obscureText ? Assets.obscure_hidden : widget.suffixAsset;
   }
 
   @override
@@ -120,7 +121,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
   InputBorder get _border => OutlineInputBorder(
         borderRadius: widget.borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
         borderSide: (widget.style == CustomTextFieldStyle.primary)
-            ? BorderSide.none // BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
+            ? BorderSide
+                .none // BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
             : BorderSide.none,
       );
 
@@ -131,55 +133,80 @@ class _CustomTextFieldState extends State<CustomTextField> {
           : customColors.secondaryTextFieldBackground);
 
   Widget? _prefixIcon() {
-    return (widget.prefixAsset != null) ? SvgPicture.asset(widget.prefixAsset!, fit: BoxFit.scaleDown) : null;
+    return (widget.prefixAsset != null)
+        ? SvgPicture.asset(
+            widget.prefixAsset!,
+            fit: BoxFit.scaleDown,
+            color: _focusNode.hasFocus ? customColors.primary : customColors.iconGrey,
+          )
+        : null;
   }
 
-  Color get _textColor => widget.textColor ?? (_focusNode.hasFocus ? customColors.primary : customColors.primaryText);
+  Color get _textColor =>
+      widget.textColor ?? (_focusNode.hasFocus ? customColors.primary : customColors.primaryText);
 
   FontWeight get _fontWeight => _focusNode.hasFocus ? FontWeight.w500 : FontWeight.normal;
 
   Widget? _suffixIcon() {
-    if (widget.visibleSuffix && (widget.alwaysVisibleSuffix || _focusNode.hasFocus)) {
-      // Show suffix icon
-      return NoSplashContainer(
-        child: IconButton(
-          icon: widget.suffixWidget ??
-              SvgPicture.asset(
-                _suffixAsset,
-                fit: BoxFit.scaleDown,
-                color: widget.suffixColor ?? customColors.iconGrey,
-              ),
-          onPressed: () {
-            if (widget.onPressedSuffix != null) {
-              widget.onPressedSuffix!();
-            } else if (widget.obscureText) {
-              setState(() {
-                _obscureText = !_obscureText;
-                _suffixAsset = _obscureText ? Assets.obscure_hidden : Assets.obscure;
-              });
-            }
-          },
-        ),
+    if (_focusNode.hasFocus && (widget.maxLines ?? 1) == 1) {
+      // Focused
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (widget.obscureText) _obscureButton(),
+          _clearButton(),
+        ],
+      );
+    } else if (widget.suffixAsset != null) {
+      // Unfocused
+      return SvgPicture.asset(
+        widget.suffixAsset!,
+        fit: BoxFit.scaleDown,
+        color: customColors.iconGrey,
       );
     } else {
       return null;
     }
   }
-}
 
-class ClearIcon extends StatelessWidget {
-  const ClearIcon({Key? key}) : super(key: key);
+  Widget _obscureButton() {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _obscureText = !_obscureText;
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: 10.0),
+        height: 20.0,
+        width: 20.0,
+        child: SvgPicture.asset(
+          _obscureText ? Assets.obscure_hidden : Assets.obscure,
+          fit: BoxFit.scaleDown,
+          color: customColors.primary,
+          height: 20.0,
+          width: 20.0,
+        ),
+      ),
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 20.0,
-      width: 20.0,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: customColors.iconGrey),
-      child: SvgPicture.asset(
-        Assets.clear,
-        fit: BoxFit.scaleDown,
-        color: customColors.secondaryTextFieldBackground,
+  Widget _clearButton() {
+    return InkWell(
+      onTap: () {
+        widget.controller.clear();
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: 12.0),
+        height: 20.0,
+        width: 20.0,
+        decoration: BoxDecoration(shape: BoxShape.circle, color: customColors.primary),
+        child: SvgPicture.asset(
+          Assets.clear,
+          fit: BoxFit.scaleDown,
+          color: customColors.secondaryTextFieldBackground,
+        ),
       ),
     );
   }

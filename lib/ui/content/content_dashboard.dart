@@ -132,7 +132,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
         child: CustomTextField(
           controller: _searchController,
           hintText: LocaleKeys.search2,
-          visibleSuffix: false,
+          // suffixAsset: Assets.edit,
           prefixAsset: Assets.search,
         ),
       ),

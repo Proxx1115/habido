@@ -412,6 +412,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       controller: _nameController,
       hintText: LocaleKeys.habitName,
       maxLength: 30,
+      suffixAsset: Assets.edit,
     );
   }
 

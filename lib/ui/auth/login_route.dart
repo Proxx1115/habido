@@ -98,7 +98,8 @@ class _LoginRouteState extends State<LoginRoute> {
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child:
+            CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is SessionTimeoutState) {
       Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
@@ -149,10 +150,10 @@ class _LoginRouteState extends State<LoginRoute> {
                   child: Column(
                     children: [
                       /// Утасны дугаар
-                      _txtboxPhoneNumber(),
+                      _phoneNumberTextField(),
 
                       /// Нууц үг
-                      _txtboxPassword(),
+                      _passwordTextField(),
 
                       SizedBox(height: 30.0),
 
@@ -191,7 +192,7 @@ class _LoginRouteState extends State<LoginRoute> {
     );
   }
 
-  Widget _txtboxPhoneNumber() {
+  Widget _phoneNumberTextField() {
     return CustomTextField(
       style: CustomTextFieldStyle.secondary,
       controller: _phoneNumberController,
@@ -200,15 +201,10 @@ class _LoginRouteState extends State<LoginRoute> {
       keyboardType: TextInputType.number,
       prefixAsset: Assets.username,
       hintText: LocaleKeys.phoneNumber,
-      suffixWidget: ClearIcon(),
-      alwaysVisibleSuffix: false,
-      onPressedSuffix: () {
-        _phoneNumberController.clear();
-      },
     );
   }
 
-  Widget _txtboxPassword() {
+  Widget _passwordTextField() {
     return CustomTextField(
       style: CustomTextFieldStyle.secondary,
       controller: _passwordController,
@@ -217,7 +213,6 @@ class _LoginRouteState extends State<LoginRoute> {
       obscureText: true,
       prefixAsset: Assets.password,
       hintText: LocaleKeys.password,
-      alwaysVisibleSuffix: false,
     );
   }
 

@@ -106,6 +106,7 @@ class _SignUp4PasswordRouteState extends State<SignUp4PasswordRoute> {
       hintText: LocaleKeys.password,
       obscureText: true,
       margin: EdgeInsets.only(top: 35.0),
+      suffixAsset: Assets.edit,
     );
   }
 
@@ -116,6 +117,7 @@ class _SignUp4PasswordRouteState extends State<SignUp4PasswordRoute> {
       hintText: LocaleKeys.passwordRepeat,
       obscureText: true,
       margin: EdgeInsets.only(top: 15.0),
+      suffixAsset: Assets.edit,
     );
   }
 

@@ -131,6 +131,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
       focusNode: _nameFocus,
       hintText: LocaleKeys.yourName,
       margin: EdgeInsets.only(top: 15.0),
+      suffixAsset: Assets.edit,
     );
   }
 

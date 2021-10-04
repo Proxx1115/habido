@@ -80,7 +80,7 @@ class _ExpenseDialogBodyState extends State<ExpenseDialogBody> {
               controller: widget.controller,
               keyboardType: TextInputType.number,
               backgroundColor: widget.backgroundColor,
-              suffixColor: widget.primaryColor,
+              suffixAsset: Assets.edit,
               hintText: LocaleKeys.enterAmount,
               maxLength: 15,
               textColor: widget.primaryColor,

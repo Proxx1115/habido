@@ -212,7 +212,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                         topLeft: Radius.circular(SizeHelper.borderRadius),
                         topRight: Radius.circular(SizeHelper.borderRadius),
                       ),
-                      alwaysVisibleSuffix: true,
+                      suffixAsset: Assets.edit,
                       hintText: LocaleKeys.writeConclusion,
                       maxLines: 5,
                       autofocus: true,

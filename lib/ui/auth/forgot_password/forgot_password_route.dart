@@ -87,6 +87,7 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
       margin: EdgeInsets.only(top: 15.0),
       maxLength: 8,
       keyboardType: TextInputType.number,
+      suffixAsset: Assets.edit,
     );
   }
 

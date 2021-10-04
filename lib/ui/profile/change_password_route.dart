@@ -105,6 +105,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
       controller: _oldPsController,
       hintText: LocaleKeys.oldPassword,
       margin: EdgeInsets.only(top: 15.0),
+      suffixAsset: Assets.edit,
       obscureText: true,
     );
   }
@@ -114,6 +115,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
       controller: _psController,
       hintText: LocaleKeys.password,
       margin: EdgeInsets.only(top: 15.0),
+      suffixAsset: Assets.edit,
       obscureText: true,
     );
   }
@@ -123,6 +125,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
       controller: _psRepeatController,
       hintText: LocaleKeys.passwordRepeat,
       margin: EdgeInsets.only(top: 15.0),
+      suffixAsset: Assets.edit,
       obscureText: true,
     );
   }

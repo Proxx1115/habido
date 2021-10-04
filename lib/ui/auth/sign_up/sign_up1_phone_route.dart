@@ -105,6 +105,7 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
       margin: EdgeInsets.only(top: 35.0),
       maxLength: 8,
       keyboardType: TextInputType.number,
+      suffixAsset: Assets.edit,
     );
   }
 

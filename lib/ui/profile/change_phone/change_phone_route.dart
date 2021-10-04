@@ -88,6 +88,7 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
       hintText: LocaleKeys.phoneNumber,
       margin: EdgeInsets.only(top: 15.0),
       maxLength: 8,
+      suffixAsset: Assets.edit,
       keyboardType: TextInputType.number,
     );
   }

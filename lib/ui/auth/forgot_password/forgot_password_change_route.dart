@@ -108,6 +108,7 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
       controller: _pController,
       hintText: LocaleKeys.password,
       margin: EdgeInsets.only(top: 15.0),
+      suffixAsset: Assets.edit,
       obscureText: true,
     );
   }
@@ -117,6 +118,7 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
       controller: _pRepeatController,
       hintText: LocaleKeys.passwordRepeat,
       margin: EdgeInsets.only(top: 15.0),
+      suffixAsset: Assets.edit,
       obscureText: true,
     );
   }

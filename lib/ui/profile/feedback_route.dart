@@ -10,7 +10,6 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 class FeedbackRoute extends StatefulWidget {
@@ -46,7 +45,8 @@ class _FeedbackRouteState extends State<FeedbackRoute> {
       child: Column(
         children: [
           RoundedCornerListView(
-            padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
+            padding: EdgeInsets.fromLTRB(
+                SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
             children: [
               /// HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй
               CustomTextField(
@@ -55,7 +55,7 @@ class _FeedbackRouteState extends State<FeedbackRoute> {
                   topLeft: Radius.circular(SizeHelper.borderRadius),
                   topRight: Radius.circular(SizeHelper.borderRadius),
                 ),
-                alwaysVisibleSuffix: true,
+                suffixAsset: Assets.edit,
                 hintText: LocaleKeys.feedbackHint,
                 maxLines: 10,
                 autofocus: true,

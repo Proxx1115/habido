@@ -255,6 +255,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     return CustomTextField(
       controller: _lastNameController,
       hintText: LocaleKeys.lastName,
+      suffixAsset: Assets.edit,
       margin: EdgeInsets.only(top: 15.0),
     );
   }
@@ -263,6 +264,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     return CustomTextField(
       controller: _firstNameController,
       hintText: LocaleKeys.yourName,
+      suffixAsset: Assets.edit,
       margin: EdgeInsets.only(top: 15.0),
     );
   }
