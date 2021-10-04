@@ -214,9 +214,10 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
 
                           /// Дадал
                           CustomText(
-                            LocaleKeys.habit,
+                            LocaleKeys.completedHabit,
                             alignment: Alignment.center,
                             fontSize: 13.0,
+                            maxLines: 2,
                             color: customColors.greyText,
                           ),
                         ],
