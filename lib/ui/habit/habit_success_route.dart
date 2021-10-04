@@ -68,7 +68,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
             children: [
               /// Image
               Image.asset(
-                Assets.success_background7,
+                Assets.success_background_png,
                 fit: BoxFit.fitWidth,
                 width: double.infinity,
               ),
