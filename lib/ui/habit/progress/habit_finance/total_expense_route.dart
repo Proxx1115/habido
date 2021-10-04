@@ -34,7 +34,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
       appBarLeadingColor: widget.primaryColor,
       backgroundColor: widget.backgroundColor,
       child: SingleChildScrollView(
-        padding: SizeHelper.paddingScreen,
+        padding: SizeHelper.screenPadding,
         child: Column(
           children: [
             StadiumContainer(

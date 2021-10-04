@@ -361,7 +361,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   _buttonSave() {
     return !Func.visibleKeyboard(context)
         ? CustomButton(
-            style: CustomButtonStyle.Secondary,
+            style: CustomButtonStyle.secondary,
             text: LocaleKeys.save,
             margin: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
             onPressed: _enabledBtnSave

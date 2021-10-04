@@ -64,7 +64,7 @@ class _HabitWaterRouteState extends State<HabitWaterRoute> {
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
               child: Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     Expanded(child: Container()),
@@ -113,7 +113,7 @@ class _HabitWaterRouteState extends State<HabitWaterRoute> {
     return CustomButton(
       margin: EdgeInsets.only(top: 15.0),
       alignment: Alignment.bottomRight,
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
       onPressed: _enabledButtonFinish

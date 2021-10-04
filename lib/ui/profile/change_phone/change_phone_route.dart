@@ -49,7 +49,7 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
               appBarTitle: LocaleKeys.changePhoneNumber,
               loading: state is AuthLoading,
               child: Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     /// Утасны дугаар
@@ -100,7 +100,7 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
 
   _buttonSave() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       text: LocaleKeys.save,
       onPressed: _enabledBtnSave
           ? () {

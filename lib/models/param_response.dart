@@ -4,11 +4,13 @@ class ParamResponse extends BaseResponse {
   List<TermsOfService>? termsOfService;
   String? iosVersion;
   String? androidVersion;
+  String? faqLink;
 
   ParamResponse({
     this.termsOfService,
     this.iosVersion,
     this.androidVersion,
+    this.faqLink,
   });
 
   ParamResponse.fromJson(dynamic json) {
@@ -22,6 +24,7 @@ class ParamResponse extends BaseResponse {
     }
     iosVersion = json['iosVersion'];
     androidVersion = json['androidVersion'];
+    faqLink = json['faqLink'];
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +34,7 @@ class ParamResponse extends BaseResponse {
     }
     map['iosVersion'] = iosVersion;
     map['androidVersion'] = androidVersion;
+    map['faqLink'] = faqLink;
     return map;
   }
 }

@@ -32,9 +32,9 @@ class _ContentRouteState extends State<ContentRoute> {
     _imageWidth = _imageWidth ?? MediaQuery.of(context).size.width - _margin * 2;
 
     return CustomScaffold(
-      appBarTitle: LocaleKeys.content,
+      appBarTitle: LocaleKeys.advice,
       child: SingleChildScrollView(
-        padding: SizeHelper.paddingScreen,
+        padding: SizeHelper.screenPadding,
         child: Column(
           children: [
             /// Cover image

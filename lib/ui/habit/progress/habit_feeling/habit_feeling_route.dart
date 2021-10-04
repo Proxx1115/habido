@@ -68,7 +68,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
               child: Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     Expanded(
@@ -139,7 +139,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
     return CustomButton(
       margin: EdgeInsets.only(top: 15.0),
       alignment: Alignment.bottomRight,
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
       onPressed: _selectedEmoji != null

@@ -196,7 +196,7 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
     return CustomButton(
       alignment: Alignment.center,
       margin: EdgeInsets.only(top: 25.0),
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
       text: LocaleKeys.resendVerifyCode,
       onPressed: _enabledBtnResend
@@ -219,7 +219,7 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
 
   _buttonNext() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       asset: Assets.long_arrow_next,
       margin: EdgeInsets.only(right: SizeHelper.margin, bottom: SizeHelper.marginBottom),
       onPressed: _enabledBtnNext

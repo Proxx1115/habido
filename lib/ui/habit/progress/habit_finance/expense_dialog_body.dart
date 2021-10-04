@@ -108,7 +108,7 @@ class _ExpenseDialogBodyState extends State<ExpenseDialogBody> {
 
             /// Button add, edit
             CustomButton(
-              style: CustomButtonStyle.Secondary,
+              style: CustomButtonStyle.secondary,
               margin: EdgeInsets.only(top: 20.0),
               text: widget.buttonText,
               backgroundColor: widget.primaryColor,

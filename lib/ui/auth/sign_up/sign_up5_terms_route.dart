@@ -118,7 +118,7 @@ class _SignUp5TermsRouteState extends State<SignUp5TermsRoute> {
 
   _buttonNext() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       asset: Assets.long_arrow_next,
       onPressed: _enabledBtnNext
           ? () {

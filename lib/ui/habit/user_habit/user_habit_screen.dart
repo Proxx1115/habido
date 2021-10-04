@@ -670,7 +670,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
 
   Widget _buttonSave() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       text: LocaleKeys.save,
       margin: EdgeInsets.only(top: 15.0),
       backgroundColor: HabitHelper.getPrimaryColor(_primaryColorCode),

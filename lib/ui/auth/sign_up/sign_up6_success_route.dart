@@ -89,7 +89,7 @@ class _SignUp6SuccessRouteState extends State<SignUp6SuccessRoute> {
             /// Button next
             CustomButton(
               alignment: Alignment.bottomRight,
-              style: CustomButtonStyle.Secondary,
+              style: CustomButtonStyle.secondary,
               asset: Assets.long_arrow_next,
               backgroundColor: customColors.whiteBackground,
               contentColor: customColors.primaryButtonDisabledContent,

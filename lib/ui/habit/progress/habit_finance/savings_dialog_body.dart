@@ -57,7 +57,7 @@ class SavingsDialogBody extends StatelessWidget {
 
             /// Button add, edit
             CustomButton(
-              style: CustomButtonStyle.Secondary,
+              style: CustomButtonStyle.secondary,
               margin: EdgeInsets.only(top: 20.0),
               text: buttonText,
               backgroundColor: primaryColor,

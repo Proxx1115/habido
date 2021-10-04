@@ -164,7 +164,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.content,
               description: LocaleKeys.showcaseContent,
-              child: _bottomNavigationBarItem(3, Assets.content, LocaleKeys.content),
+              child: _bottomNavigationBarItem(3, Assets.content, LocaleKeys.advice),
             ),
           ),
 

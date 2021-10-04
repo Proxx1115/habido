@@ -57,7 +57,7 @@ class _PsyTestsRouteState extends State<PsyTestsRoute> {
           child: BlocBuilder<PsyTestBloc, PsyTestState>(
             builder: (context, state) {
               return SingleChildScrollView(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: <Widget>[
                     /// Content

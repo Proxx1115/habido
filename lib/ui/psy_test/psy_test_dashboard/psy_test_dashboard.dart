@@ -64,7 +64,7 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
         ],
       ),
       floatingActionButton: CustomButton(
-        style: CustomButtonStyle.Secondary,
+        style: CustomButtonStyle.secondary,
         width: 130.0,
         text: LocaleKeys.doTest2,
         alignment: Alignment.bottomRight,

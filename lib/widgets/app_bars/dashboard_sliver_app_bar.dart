@@ -8,6 +8,7 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -48,18 +49,20 @@ class DashboardSliverAppBar extends StatelessWidget {
                 ?
 
                 /// Help
-                ButtonStadium(
-                    asset: Assets.question_mark,
-                    child: Container(
-                      padding: EdgeInsets.all(12.0),
-                      child: SvgPicture.asset(Assets.question_mark, color: customColors.iconGrey),
+                NoSplashContainer(
+                  child: ButtonStadium(
+                      asset: Assets.question_mark,
+                      child: Container(
+                        padding: EdgeInsets.all(12.0),
+                        child: SvgPicture.asset(Assets.question_mark, color: customColors.iconGrey),
+                      ),
+                      onPressed: () {
+                        if (onPressedHelp != null) {
+                          onPressedHelp!();
+                        }
+                      },
                     ),
-                    onPressed: () {
-                      if (onPressedHelp != null) {
-                        onPressedHelp!();
-                      }
-                    },
-                  )
+                )
 
                 /// Calendar
                 : CalendarButton(),
@@ -74,18 +77,20 @@ class DashboardSliverAppBar extends StatelessWidget {
                 ?
 
                 /// Logout
-                ButtonStadium(
-                    asset: Assets.logout,
-                    child: Container(
-                      padding: EdgeInsets.all(12.0),
-                      child: SvgPicture.asset(Assets.logout, color: customColors.iconGrey),
+                NoSplashContainer(
+                  child: ButtonStadium(
+                      asset: Assets.logout,
+                      child: Container(
+                        padding: EdgeInsets.all(12.0),
+                        child: SvgPicture.asset(Assets.logout, color: customColors.iconGrey),
+                      ),
+                      onPressed: () {
+                        if (onPressedLogout != null) {
+                          onPressedLogout!();
+                        }
+                      },
                     ),
-                    onPressed: () {
-                      if (onPressedLogout != null) {
-                        onPressedLogout!();
-                      }
-                    },
-                  )
+                )
 
                 /// Notification
                 : NotificationButton(),

@@ -6,9 +6,9 @@ import 'package:habido_app/widgets/text.dart';
 import 'containers/containers.dart';
 
 enum CustomButtonStyle {
-  Primary,
-  Secondary, // Зүүн дээд өнцөг нь шовх
-  Mini, // Үндсэн button-с арай жижиг хэмжээтэй
+  primary,
+  secondary, // Зүүн дээд өнцөг нь шовх
+  mini, // Үндсэн button-с арай жижиг хэмжээтэй
 }
 
 class CustomButton extends StatelessWidget {
@@ -31,7 +31,7 @@ class CustomButton extends StatelessWidget {
 
   const CustomButton({
     Key? key,
-    this.style = CustomButtonStyle.Primary,
+    this.style = CustomButtonStyle.primary,
     this.onPressed,
     this.visible = true,
     this.borderRadius,
@@ -78,11 +78,11 @@ class CustomButton extends StatelessWidget {
 
   double get _width {
     switch (style) {
-      case CustomButtonStyle.Secondary:
+      case CustomButtonStyle.secondary:
         return width ?? 155.0;
-      case CustomButtonStyle.Mini:
+      case CustomButtonStyle.mini:
         return width ?? 135.0;
-      case CustomButtonStyle.Primary:
+      case CustomButtonStyle.primary:
       default:
         return width ?? double.infinity;
     }
@@ -90,11 +90,11 @@ class CustomButton extends StatelessWidget {
 
   double get _height {
     switch (style) {
-      case CustomButtonStyle.Secondary:
+      case CustomButtonStyle.secondary:
         return height ?? SizeHelper.boxHeight;
-      case CustomButtonStyle.Mini:
+      case CustomButtonStyle.mini:
         return height ?? SizeHelper.heightBtnSmall;
-      case CustomButtonStyle.Primary:
+      case CustomButtonStyle.primary:
       default:
         return height ?? SizeHelper.boxHeight;
     }
@@ -102,11 +102,11 @@ class CustomButton extends StatelessWidget {
 
   Alignment get _alignment {
     switch (style) {
-      case CustomButtonStyle.Secondary:
+      case CustomButtonStyle.secondary:
         return alignment ?? Alignment.centerRight;
-      case CustomButtonStyle.Mini:
+      case CustomButtonStyle.mini:
         return alignment ?? Alignment.center;
-      case CustomButtonStyle.Primary:
+      case CustomButtonStyle.primary:
       default:
         return alignment ?? Alignment.center;
     }
@@ -114,10 +114,10 @@ class CustomButton extends StatelessWidget {
 
   BorderRadius get _borderRadius {
     switch (style) {
-      case CustomButtonStyle.Secondary:
+      case CustomButtonStyle.secondary:
         return borderRadius ?? SizeHelper.borderRadiusOdd;
-      case CustomButtonStyle.Mini:
-      case CustomButtonStyle.Primary:
+      case CustomButtonStyle.mini:
+      case CustomButtonStyle.primary:
       default:
         return borderRadius ?? BorderRadius.circular(10.0);
     }

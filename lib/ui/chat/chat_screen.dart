@@ -429,7 +429,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return CustomButton(
       text: LocaleKeys.thanks,
       visible: _visibleButtonThanks,
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       margin: EdgeInsets.only(top: 25.0),
       onPressed: () {
         Navigator.pushReplacementNamed(context, Routes.home);

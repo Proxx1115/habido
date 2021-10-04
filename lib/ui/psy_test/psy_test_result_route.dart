@@ -31,7 +31,7 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
         Navigator.popUntil(context, ModalRoute.withName(Routes.home));
       },
       child: Container(
-        padding: SizeHelper.paddingScreen,
+        padding: SizeHelper.screenPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

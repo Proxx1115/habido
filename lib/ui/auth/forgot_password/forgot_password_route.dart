@@ -46,7 +46,7 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
               appBarTitle: LocaleKeys.resetPassword,
               loading: state is AuthLoading,
               child: Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     /// Утасны дугаар
@@ -98,7 +98,7 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
 
   _buttonSave() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       asset: Assets.long_arrow_next,
       onPressed: _enabledBtnSave
           ? () {

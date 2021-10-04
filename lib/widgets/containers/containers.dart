@@ -314,6 +314,7 @@ class ListItemContainer extends StatelessWidget {
   final double? height;
   final String? leadingImageUrl;
   final String? leadingAsset;
+  final Color? leadingColor;
   final Color? leadingBackgroundColor;
   final String title;
   final String? body;
@@ -329,6 +330,7 @@ class ListItemContainer extends StatelessWidget {
     this.height,
     this.leadingImageUrl,
     this.leadingAsset,
+    this.leadingColor,
     this.leadingBackgroundColor,
     required this.title,
     this.body,
@@ -409,7 +411,7 @@ class ListItemContainer extends StatelessWidget {
         errorWidget: (context, url, error) => Container(),
       );
     } else if (leadingAsset != null) {
-      return SvgPicture.asset(leadingAsset!);
+      return SvgPicture.asset(leadingAsset!, color: leadingColor);
     } else {
       return Container();
     }

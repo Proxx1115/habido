@@ -73,7 +73,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
           child: BlocBuilder<PsyTestBloc, PsyTestState>(
             builder: (context, state) {
               return Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: (_questionList != null && _questionList!.isNotEmpty)
                     ? Column(
                         children: [
@@ -255,7 +255,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
 
   Widget _buttonNext(int questionIndex) {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       text: LocaleKeys.next,
       onPressed: _isEnabledButtonNext(questionIndex)
           ? () {

@@ -68,7 +68,7 @@ class _HabitListScreenState extends State<HabitListScreen> {
           child: BlocBuilder<HabitListBloc, HabitListState>(
             builder: (context, state) {
               return SingleChildScrollView(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: <Widget>[
                     /// HabitList

@@ -22,6 +22,7 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
+import 'package:habido_app/models/send_feedback_request.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
@@ -585,6 +586,15 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.updateHabitProgressLog,
         objectData: habitProgressLog,
+      ),
+    );
+  }
+
+  static Future<BaseResponse> sendFeedback(SendFeedbackRequest request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.sendFeedback,
+        objectData: request,
       ),
     );
   }

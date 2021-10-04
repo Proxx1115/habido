@@ -164,7 +164,7 @@ class FinanceStatementWidget extends StatelessWidget {
                 CustomButton(
                   text: LocaleKeys.detail,
                   margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, SizeHelper.margin),
-                  style: CustomButtonStyle.Mini,
+                  style: CustomButtonStyle.mini,
                   alignment: Alignment.center,
                   backgroundColor: primaryColor,
                   onPressed: () {

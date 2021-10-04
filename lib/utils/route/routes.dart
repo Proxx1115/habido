@@ -34,6 +34,9 @@ import 'package:habido_app/ui/notification/notification_route.dart';
 import 'package:habido_app/ui/profile/change_password_route.dart';
 import 'package:habido_app/ui/profile/change_phone/change_phone_route.dart';
 import 'package:habido_app/ui/profile/change_phone/verify_phone_route.dart';
+import 'package:habido_app/ui/profile/faq_route.dart';
+import 'package:habido_app/ui/profile/feedback_route.dart';
+import 'package:habido_app/ui/profile/help_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
@@ -95,6 +98,9 @@ class Routes {
   static const userInfo = 'userInfo';
   static const yourRank = 'yourRank';
   static const habitSuccess = 'habitSuccess';
+  static const help = 'help';
+  static const feedback = 'feedback';
+  static const faq = 'faq';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -490,7 +496,18 @@ class Routes {
           ),
           settings,
         );
+        break;
 
+      case Routes.help:
+        route = SlideRightRouteBuilder(HelpRoute(), settings);
+        break;
+
+      case Routes.feedback:
+        route = SlideRightRouteBuilder(FeedbackRoute(), settings);
+        break;
+
+      case Routes.faq:
+        route = SlideRightRouteBuilder(FaqRoute(), settings);
         break;
 
       case Routes.comingSoon:

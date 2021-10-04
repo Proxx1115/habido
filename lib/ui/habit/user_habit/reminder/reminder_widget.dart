@@ -117,7 +117,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
 
   Widget _buttonAdd() {
     return CustomButton(
-      style: CustomButtonStyle.Mini,
+      style: CustomButtonStyle.mini,
       text: LocaleKeys.addTime,
       margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
       backgroundColor: widget.primaryColor,

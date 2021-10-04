@@ -69,7 +69,7 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
               child: Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     Expanded(child: Container()),
@@ -117,7 +117,7 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
     return CustomButton(
       margin: EdgeInsets.only(top: 15.0),
       alignment: Alignment.bottomRight,
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
       onPressed: _enabledButton

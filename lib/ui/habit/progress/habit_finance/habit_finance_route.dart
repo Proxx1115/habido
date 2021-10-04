@@ -119,7 +119,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
               child: Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     Expanded(
@@ -316,7 +316,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
     return CustomButton(
       margin: EdgeInsets.only(top: 15.0),
       alignment: Alignment.bottomRight,
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: _buttonAddText,
       onPressed: () {

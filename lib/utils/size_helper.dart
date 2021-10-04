@@ -23,7 +23,7 @@ class SizeHelper {
   );
 
   /// Screen
-  static const paddingScreen = EdgeInsets.fromLTRB(
+  static const screenPadding = EdgeInsets.fromLTRB(
     SizeHelper.margin,
     SizeHelper.marginTop,
     SizeHelper.margin,

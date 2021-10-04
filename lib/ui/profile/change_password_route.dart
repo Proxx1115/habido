@@ -53,7 +53,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
               appBarTitle: LocaleKeys.changePassword,
               loading: state is AuthLoading,
               child: Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     /// Хуучин нууц үг
@@ -136,7 +136,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
 
   _buttonSave() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       text: LocaleKeys.save,
       onPressed: _enabledBtnSave
           ? () {

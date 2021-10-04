@@ -227,7 +227,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     return !Func.visibleKeyboard(context)
         ? CustomButton(
             margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, SizeHelper.marginBottom),
-            style: CustomButtonStyle.Secondary,
+            style: CustomButtonStyle.secondary,
             asset: Assets.long_arrow_next,
             onPressed: _enabledBtnNext
                 ? () {

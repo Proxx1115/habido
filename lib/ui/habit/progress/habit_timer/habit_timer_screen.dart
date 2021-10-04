@@ -71,7 +71,7 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
               child: Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     Expanded(child: Container()),
@@ -177,7 +177,7 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
   Widget _buttonFinish() {
     return CustomButton(
       alignment: Alignment.bottomRight,
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
       onPressed: _enabledButton

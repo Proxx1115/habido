@@ -40,7 +40,7 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
         return SingleChildScrollView(
           child: Container(
             height: _height,
-            padding: SizeHelper.paddingScreen,
+            padding: SizeHelper.screenPadding,
             child: Column(
               children: [
                 if (Func.isNotEmpty(widget.psyTest.description))
@@ -83,7 +83,7 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
 
   _buttonNext() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       text: LocaleKeys.beginTest,
       margin: EdgeInsets.only(top: 20.0),
       onPressed: () {

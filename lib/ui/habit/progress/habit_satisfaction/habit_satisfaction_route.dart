@@ -74,7 +74,7 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
               child: Container(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     Expanded(
@@ -144,7 +144,7 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
     return CustomButton(
       margin: EdgeInsets.only(top: 15.0),
       alignment: Alignment.bottomRight,
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
       onPressed: (_base64Image != null && _sliderValue != null)

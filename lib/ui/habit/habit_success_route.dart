@@ -76,7 +76,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
 
               /// Body
               CustomScaffold(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 backgroundColor: Colors.transparent,
                 onWillPop: () {
                   print('nothing');
@@ -170,7 +170,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
                     /// Button finish
                     CustomButton(
                       text: LocaleKeys.finish,
-                      style: CustomButtonStyle.Secondary,
+                      style: CustomButtonStyle.secondary,
                       onPressed: () {
                         Navigator.pop(context);
                         if (widget.callback != null) widget.callback!();

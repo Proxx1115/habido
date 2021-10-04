@@ -33,6 +33,8 @@ class LocaleKeys {
 
   static String get ok => 'Ok';
 
+  static String get send => 'Илгээх';
+
   static String get help => 'Тусламж';
 
   static String get skip => 'Алгасах';
@@ -218,7 +220,7 @@ class LocaleKeys {
 
   static String get habiDo => 'HabiDo';
 
-  static String get content => 'Контент';
+  // static String get content => 'Контент';
 
   static String get advice => 'Зөвлөмж';
 
@@ -432,6 +434,12 @@ class LocaleKeys {
   static String get camera => 'Camera';
 
   static String get gallery => 'Gallery';
+
+  static String get feedback => 'Санал хүсэлт';
+
+  static String get feedbackHint => 'HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй';
+
+  static String get faq => 'Түгээмэл асуулт хариулт';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

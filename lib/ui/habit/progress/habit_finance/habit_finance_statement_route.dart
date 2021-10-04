@@ -66,7 +66,7 @@ class _HabitFinanceStatementRouteState extends State<HabitFinanceStatementRoute>
               backgroundColor: _backgroundColor,
               loading: state is HabitFinanceStatementLoading,
               child: SingleChildScrollView(
-                padding: SizeHelper.paddingScreen,
+                padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
                     /// Progress list

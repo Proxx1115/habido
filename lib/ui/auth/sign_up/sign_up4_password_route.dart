@@ -127,7 +127,7 @@ class _SignUp4PasswordRouteState extends State<SignUp4PasswordRoute> {
 
   _buttonNext() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       asset: Assets.long_arrow_next,
       margin: EdgeInsets.only(top: 35.0),
       onPressed: _enabledBtnNext

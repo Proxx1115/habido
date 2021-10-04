@@ -286,7 +286,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
         ? CustomButton(
             margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, SizeHelper.marginBottom),
             alignment: Alignment.bottomRight,
-            style: CustomButtonStyle.Secondary,
+            style: CustomButtonStyle.secondary,
             backgroundColor: _primaryColor,
             text: LocaleKeys.finish,
             onPressed: _enabledButton

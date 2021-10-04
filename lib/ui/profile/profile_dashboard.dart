@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/achievements_bloc.dart';
 import 'package:habido_app/ui/profile/achievements_widget.dart';
 import 'package:habido_app/ui/profile/rank_widget.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/app_bars/dashboard_sliver_app_bar.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -33,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           DashboardSliverAppBar(
             title: LocaleKeys.myCorner,
             onPressedHelp: () {
-              //
+              Navigator.pushNamed(context, Routes.help);
             },
             onPressedLogout: () {
               AuthBloc.showLogoutDialog(context);

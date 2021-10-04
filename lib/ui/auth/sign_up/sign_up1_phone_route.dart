@@ -116,7 +116,7 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
 
   _buttonNext() {
     return CustomButton(
-      style: CustomButtonStyle.Secondary,
+      style: CustomButtonStyle.secondary,
       asset: Assets.long_arrow_next,
       onPressed: _enabledBtnNext
           ? () {
