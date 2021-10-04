@@ -68,53 +68,10 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
             children: [
               /// Image
               Image.asset(
-                Assets.changes1,
+                Assets.success_background7,
                 fit: BoxFit.fitWidth,
-                // height: double.infinity,
-                // height: MediaQuery.of(context).size.height * 0.5,
                 width: double.infinity,
               ),
-
-              // Align(
-              //   alignment: Alignment.topRight,
-              //   child: Image.asset(
-              //     Assets.changes1,
-              //     fit: BoxFit.fitWidth,
-              //     // height: double.infinity,
-              //     // height: MediaQuery.of(context).size.height * 0.5,
-              //     width: double.infinity,
-              //   ),
-              // ),
-              //
-              // Container(
-              //   margin: EdgeInsets.only(top: 200),
-              //   child: Image.asset(
-              //     Assets.changes1,
-              //     fit: BoxFit.fitWidth,
-              //     width: double.infinity,
-              //   ),
-              // ),
-              //
-              // Container(
-              //   margin: EdgeInsets.only(top: 500),
-              //   child: Image.asset(
-              //     Assets.changes1,
-              //     fit: BoxFit.fitWidth,
-              //     width: double.infinity,
-              //   ),
-              // ),
-
-              // Container(
-              //   margin: EdgeInsets.only(top: 300),
-              //   alignment: Alignment.topRight,
-              //   child: Image.asset(
-              //     Assets.success_background13,
-              //     // fit: BoxFit.fitWidth,
-              //     // height: double.infinity,
-              //     // height: MediaQuery.of(context).size.height * 0.5,
-              //     // width: double.infinity,
-              //   ),
-              // ),
 
               /// Body
               CustomScaffold(
