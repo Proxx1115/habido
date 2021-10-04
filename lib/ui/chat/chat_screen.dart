@@ -124,23 +124,23 @@ class _ChatScreenState extends State<ChatScreen> {
       _setProfilePictureAndTime();
 
       if (state.chatIndex != null) {
-        print('Хариулт сонгосон');
+        // print('Хариулт сонгосон');
         _chatList[state.chatIndex!].isOptionSelected = true;
       }
 
       if (chat.isEnd ?? false) {
-        print('Чат дууссан');
+        // print('Чат дууссан');
         if (widget.chatType == ChatType.onboarding) {
           _visibleButtonThanks = true;
         }
       } else if (chat.msgOptions != null && chat.msgOptions!.length > 0) {
-        print('Хариулт сонгох');
+        // print('Хариулт сонгох');
       } else {
         if (chat.msgId != null) {
-          print('Дараагийн чатыг авах');
+          // print('Дараагийн чатыг авах');
           BlocManager.chatBloc.add(GetNextChatEvent(chat.continueMsgId!, _chatList.length - 1));
         } else {
-          print('Дараагийн msgId олдоогүй');
+          // print('Дараагийн msgId олдоогүй');
           showCustomDialog(
             context,
             child: CustomDialogBody(
@@ -227,18 +227,7 @@ class _ChatScreenState extends State<ChatScreen> {
           try {
             if (i + 1 < _chatList.length) {
               // Has index
-
-              if (i == 7) {
-                print(i);
-              }
-
               if (_chatList[i].selectedMsgOption == null) {
-                if (i == 6) {
-                  print(i);
-                } else if (i == 8) {
-                  print(i);
-                }
-
                 _chatList[i].visibleProfilePicture = false;
                 _chatList[i + 1].visibleProfilePicture = true;
               } else {
@@ -324,7 +313,7 @@ class _ChatScreenState extends State<ChatScreen> {
           }
 
           setState(() {
-            print('Selected option: $optionIndex');
+            // print('Selected option: $optionIndex');
           });
 
           // Save option
