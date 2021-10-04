@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/ui/habit/progress/habit_timer_helper.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/audio_manager.dart';
 import 'package:habido_app/utils/func.dart';
@@ -130,9 +131,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       value: BlocManager.userHabitBloc,
       child: BlocListener<UserHabitBloc, UserHabitState>(
         listener: (context, state) {
-          // else if (state is UserHabitShowcaseState) {
-          // ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
-          // }
+          //
         },
         child: BlocBuilder<UserHabitBloc, UserHabitState>(
           builder: (context, state) {
@@ -283,7 +282,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       }
 
       // Logging
-      _logAdd();
+      HabitTimerHelper.logAdd(widget.userHabit.userHabitId, _additionalDuration.inSeconds);
     });
   }
 
@@ -317,7 +316,9 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
     }
 
     // Logging
-    _logPlay();
+    Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
+    int spentTime = (_duration - currentDuration).inSeconds;
+    HabitTimerHelper.logPlay(widget.userHabit.userHabitId, spentTime);
   }
 
   _onPressedPause() {
@@ -329,7 +330,9 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
     _printAudioState();
 
     // Logging
-    _logPause();
+    Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
+    int spentTime = (_duration - currentDuration).inSeconds;
+    HabitTimerHelper.logPause(widget.userHabit.userHabitId, spentTime);
   }
 
   _onPressedReset() {
@@ -349,7 +352,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
       _printAudioState();
 
       // Logging
-      _logReset();
+      HabitTimerHelper.logReset(widget.userHabit.userHabitId);
     });
   }
 
@@ -357,59 +360,5 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
     Future.delayed(Duration(milliseconds: 1000), () {
       print(_audioPlayer?.state);
     });
-  }
-
-  _logPlay() {
-    Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
-    int spentTime = (_duration - currentDuration).inSeconds;
-
-    var progressLog = UserHabitProgressLog()
-      ..userHabitId = widget.userHabit.userHabitId
-      ..planLogId = 0
-      ..planId = 0
-      ..status = UserHabitProgressLogStatus.Play
-      ..addTime = 0
-      ..spentTime = spentTime;
-
-    BlocManager.userHabitBloc.add(UpdateUserHabitProgressLogEvent(progressLog));
-  }
-
-  _logPause() {
-    Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
-    int spentTime = (_duration - currentDuration).inSeconds;
-
-    var progressLog = UserHabitProgressLog()
-      ..userHabitId = widget.userHabit.userHabitId
-      ..planLogId = 0
-      ..planId = 0
-      ..status = UserHabitProgressLogStatus.Pause
-      ..addTime = 0
-      ..spentTime = spentTime;
-
-    BlocManager.userHabitBloc.add(UpdateUserHabitProgressLogEvent(progressLog));
-  }
-
-  _logReset() {
-    var progressLog = UserHabitProgressLog()
-      ..userHabitId = widget.userHabit.userHabitId
-      ..planLogId = 0
-      ..planId = 0
-      ..status = UserHabitProgressLogStatus.Reset
-      ..addTime = 0
-      ..spentTime = 0;
-
-    BlocManager.userHabitBloc.add(UpdateUserHabitProgressLogEvent(progressLog));
-  }
-
-  _logAdd() {
-    var progressLog = UserHabitProgressLog()
-      ..userHabitId = widget.userHabit.userHabitId
-      ..planLogId = 0
-      ..planId = 0
-      ..status = UserHabitProgressLogStatus.Add
-      ..addTime = _additionalDuration.inSeconds
-      ..spentTime = 0;
-
-    BlocManager.userHabitBloc.add(UpdateUserHabitProgressLogEvent(progressLog));
   }
 }

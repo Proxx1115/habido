@@ -4,6 +4,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -36,6 +37,7 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
 
   // Timer
   Duration? _duration;
+  UserHabitProgressLog? _userHabitProgressLog;
 
   // Button
   bool _enabledButton = false;
@@ -46,21 +48,7 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
     _primaryColor = HabitHelper.getPrimaryColor1(widget.userHabit);
     _backgroundColor = HabitHelper.getBackgroundColor1(widget.userHabit);
 
-    // Timer
-    int? goalValue;
-    if (Func.toInt(widget.userHabit.goalValue) > 0) {
-      goalValue = Func.toInt(widget.userHabit.goalValue);
-    } else if ((widget.userHabit.habit?.goalSettings?.goalMax ?? 0) > 0) {
-      goalValue = Func.toInt(widget.userHabit.habit!.goalSettings!.goalMax!);
-    }
-
-    if (goalValue != null) {
-      if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Minute) {
-        _duration = Duration(minutes: goalValue);
-      } else if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Hour) {
-        _duration = Duration(hours: goalValue);
-      }
-    }
+    BlocManager.userHabitBloc.add(GetUserHabitProgressLogEvent(widget.userHabit.userHabitId ?? 0));
 
     super.initState();
   }
@@ -87,9 +75,12 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
                     /// Timer
                     if (_duration != null)
                       TreeCountdownTimer(
+                        userHabit: widget.userHabit,
+                        userHabitProgressLog: _userHabitProgressLog,
                         duration: _duration!,
                         primaryColor: _primaryColor,
                         visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
+                        music: widget.userHabit.habit?.goalSettings?.toolContent?.music,
                         callBack: () {
                           setState(() {
                             _enabledButton = true;
@@ -112,7 +103,15 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
   }
 
   void _blocListener(BuildContext context, UserHabitState state) {
-    if (state is SaveUserHabitProgressSuccess) {
+    if (state is GetUserHabitProgressLogSuccess) {
+      // Spent time
+      if ((state.habitProgressLog.planLogId ?? 0) > 0) {
+        _userHabitProgressLog = state.habitProgressLog;
+      }
+
+      // Init
+      _init();
+    } else if (state is SaveUserHabitProgressSuccess) {
       Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
         'habitProgressResponse': state.habitProgressResponse,
         'primaryColor': _primaryColor,
@@ -123,6 +122,36 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
+    }
+  }
+
+  _init() {
+    // Timer
+    int? goalValue;
+    if (Func.toInt(widget.userHabit.goalValue) > 0) {
+      goalValue = Func.toInt(widget.userHabit.goalValue);
+    } else if ((widget.userHabit.habit?.goalSettings?.goalMax ?? 0) > 0) {
+      goalValue = Func.toInt(widget.userHabit.habit!.goalSettings!.goalMax!);
+    }
+
+    if (goalValue != null) {
+      if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Minute) {
+        _duration = Duration(minutes: goalValue);
+      } else if (widget.userHabit.habit?.goalSettings?.toolType == ToolType.Hour) {
+        _duration = Duration(hours: goalValue);
+      }
+    }
+
+    // Is button finish enabled
+    if (_userHabitProgressLog != null && _duration != null) {
+      var spentDuration = Duration(seconds: _userHabitProgressLog!.spentTime ?? 0);
+      if (spentDuration < _duration!) {
+        // In progress
+        _enabledButton = false;
+      } else {
+        // Finished
+        _enabledButton = true;
+      }
     }
   }
 

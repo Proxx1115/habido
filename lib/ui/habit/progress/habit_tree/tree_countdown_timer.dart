@@ -1,24 +1,36 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/models/user_habit_progress_log.dart';
+import 'package:habido_app/ui/habit/progress/habit_timer_helper.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/audio_manager.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/buttons.dart';
 
 class TreeCountdownTimer extends StatefulWidget {
+  final UserHabit userHabit;
   final Duration duration;
   final Duration additionalDuration;
+  final UserHabitProgressLog? userHabitProgressLog;
   final Color? primaryColor;
   final bool visibleAddButton;
   final VoidCallback? callBack;
+  final String? music;
 
   const TreeCountdownTimer({
     Key? key,
+    required this.userHabit,
     required this.duration,
     this.additionalDuration = const Duration(minutes: 5),
+    this.userHabitProgressLog,
     this.primaryColor,
     this.visibleAddButton = false,
     this.callBack,
+    this.music,
   }) : super(key: key);
 
   @override
@@ -26,22 +38,29 @@ class TreeCountdownTimer extends StatefulWidget {
 }
 
 class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProviderStateMixin {
+  late Color _primaryColor;
+
   // Animation
   late AnimationController _animationController;
   late Duration _duration;
-  late Color _primaryColor;
+  late Duration _additionalDuration;
 
   // Reset
   bool _callBack = true;
 
+  // Audio
+  AudioPlayer? _audioPlayer;
+
   @override
   void initState() {
     super.initState();
-    // UI
     _primaryColor = widget.primaryColor ?? customColors.primary;
 
-    // Animation
+    // Duration
     _duration = widget.duration;
+    _additionalDuration = widget.additionalDuration;
+
+    // Animation
     _animationController = AnimationController(
       vsync: this,
       duration: _duration,
@@ -53,30 +72,55 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
           print('callback: $_callBack');
         } else if (status == AnimationStatus.dismissed) {
           if (_callBack && widget.callBack != null) {
+            // Callback
             widget.callBack!();
+
+            // Alarm
+            AudioManager.playAsset(AudioAsset.well_done);
+
+            // Audio
+            _audioPlayer?.stop();
+            _printAudioState();
           }
         }
-
-        //start
-        //flutter: AnimationStatus.completed
-        //flutter: AnimationStatus.reverse
-
-        //after reset start
-        //flutter: AnimationStatus.reverse
-
-        //reset
-        //flutter: AnimationStatus.dismissed
-        //flutter: AnimationStatus.completed
-
-        //time finished
-        //flutter: AnimationStatus.dismissed
-        //flutter: AnimationStatus.completed
       });
+
+    // Spent duration
+    if (widget.userHabitProgressLog != null && Func.isNotEmpty(widget.userHabitProgressLog!.status)) {
+      if (widget.userHabitProgressLog!.status! == UserHabitProgressLogStatus.Finished) {
+        /// Finished
+        _animationController.value = 0.0;
+      } else {
+        /// Not finished
+        var spentDuration = Duration(seconds: widget.userHabitProgressLog!.spentTime ?? 0);
+
+        // Check add time
+        if (widget.userHabitProgressLog!.addTime != null) {
+          _duration += Duration(seconds: widget.userHabitProgressLog!.addTime!);
+          _animationController.duration = _duration;
+        }
+
+        // Set current animation value
+        Duration currentDuration = _duration - spentDuration;
+        _animationController.value = currentDuration.inSeconds / _duration.inSeconds;
+
+        // Resume progress
+        if (widget.userHabitProgressLog!.status == UserHabitProgressLogStatus.Play) {
+          _onPressedPlay();
+          WidgetsBinding.instance?.addPostFrameCallback((_) => () {
+                setState(() {
+                  print('refresh screen for pause button');
+                });
+              });
+        }
+      }
+    }
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _audioPlayer?.dispose();
     super.dispose();
   }
 
@@ -223,14 +267,14 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
       Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
 
       // New duration
-      Duration newDuration = currentDuration + widget.additionalDuration;
+      Duration newDuration = currentDuration + _additionalDuration;
       if (newDuration > _duration) {
         // Calculation
         // 1	                  20 + 1
         // k = 20.5 / 21        19.5 + 1
 
         // Replace current duration
-        _duration += widget.additionalDuration;
+        _duration += _additionalDuration;
         _animationController.duration = _duration;
       } else {
         // Calculation
@@ -247,28 +291,107 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
           from: _animationController.value == 0.0 ? 1.0 : _animationController.value,
         );
       }
+
+      // Logging
+      HabitTimerHelper.logAdd(widget.userHabit.userHabitId, _additionalDuration.inSeconds);
     });
   }
+
+  // _onPressedPlayPause() {
+  //   setState(() {
+  //     if (_animationController.isAnimating) {
+  //       _animationController.stop();
+  //     } else {
+  //       _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
+  //     }
+  //   });
+  // }
 
   _onPressedPlayPause() {
     setState(() {
       if (_animationController.isAnimating) {
-        _animationController.stop();
+        _onPressedPause();
       } else {
-        _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
+        _onPressedPlay();
       }
     });
   }
 
+  _onPressedPlay() {
+    // Animation
+    _animationController.reverse(from: _animationController.value == 0.0 ? 1.0 : _animationController.value);
+
+    // Audio
+    if (_audioPlayer?.state == PlayerState.PAUSED) {
+      _audioPlayer?.resume();
+      _printAudioState();
+    } else {
+      if (Func.isNotEmpty(widget.music)) {
+        // Init audio player
+        _audioPlayer = AudioPlayer();
+
+        // Play
+        _audioPlayer?.play(widget.music!, isLocal: false);
+        _printAudioState();
+      }
+    }
+
+    // Logging
+    Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
+    int spentTime = (_duration - currentDuration).inSeconds;
+    HabitTimerHelper.logPlay(widget.userHabit.userHabitId, spentTime);
+  }
+
+  _onPressedPause() {
+    // Animation
+    _animationController.stop();
+
+    // Audio
+    _audioPlayer?.pause();
+    _printAudioState();
+
+    // Logging
+    Duration currentDuration = (_animationController.duration ?? _duration) * _animationController.value;
+    int spentTime = (_duration - currentDuration).inSeconds;
+    HabitTimerHelper.logPause(widget.userHabit.userHabitId, spentTime);
+  }
+
   _onPressedReset() {
     setState(() {
+      // Callback
       _callBack = false;
       print('callback: $_callBack');
 
+      // Animation
       _animationController.reset();
       _duration = widget.duration;
       _animationController.duration = _duration;
       _animationController.value = 1.0;
+
+      // Audio
+      _audioPlayer?.stop();
+      _printAudioState();
+
+      // Logging
+      HabitTimerHelper.logReset(widget.userHabit.userHabitId);
+    });
+  }
+
+  // _onPressedReset() {
+  //   setState(() {
+  //     _callBack = false;
+  //     print('callback: $_callBack');
+  //
+  //     _animationController.reset();
+  //     _duration = widget.duration;
+  //     _animationController.duration = _duration;
+  //     _animationController.value = 1.0;
+  //   });
+  // }
+
+  _printAudioState() {
+    Future.delayed(Duration(milliseconds: 1000), () {
+      print(_audioPlayer?.state);
     });
   }
 }
