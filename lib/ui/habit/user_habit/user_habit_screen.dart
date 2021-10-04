@@ -357,7 +357,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
         child: CustomDialogBody(
           asset: Assets.success,
           text: Func.isNotEmpty(state.userHabitResponse.message) ? state.userHabitResponse.message : LocaleKeys.success,
-          buttonText: LocaleKeys.ok,
+          buttonText: LocaleKeys.thanksHabido,
           primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
           child: state.userHabitResponse.content != null
               ? Column(
@@ -365,7 +365,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                     HorizontalContentCard(
                       margin: EdgeInsets.only(bottom: 30.0),
                       content: state.userHabitResponse.content!,
-                      backgroundColor: HabitHelper.getBackgroundColor(_backgroundColorCode),
+                      backgroundColor: customColors.greyBackground,
                       callback: () {
                         Navigator.popUntil(context, ModalRoute.withName(Routes.home));
                       },

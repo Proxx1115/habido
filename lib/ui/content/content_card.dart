@@ -160,7 +160,7 @@ class HorizontalContentCard extends StatelessWidget {
   final Color? backgroundColor;
 
   final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
-  final double _height = 133.0;
+  final double _height = 140.0;
 
   HorizontalContentCard({
     Key? key,
