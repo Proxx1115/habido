@@ -75,34 +75,34 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
                 width: double.infinity,
               ),
 
-              Align(
-                alignment: Alignment.topRight,
-                child: Image.asset(
-                  Assets.changes1,
-                  fit: BoxFit.fitWidth,
-                  // height: double.infinity,
-                  // height: MediaQuery.of(context).size.height * 0.5,
-                  width: double.infinity,
-                ),
-              ),
-
-              Container(
-                margin: EdgeInsets.only(top: 200),
-                child: Image.asset(
-                  Assets.changes1,
-                  fit: BoxFit.fitWidth,
-                  width: double.infinity,
-                ),
-              ),
-
-              Container(
-                margin: EdgeInsets.only(top: 500),
-                child: Image.asset(
-                  Assets.changes1,
-                  fit: BoxFit.fitWidth,
-                  width: double.infinity,
-                ),
-              ),
+              // Align(
+              //   alignment: Alignment.topRight,
+              //   child: Image.asset(
+              //     Assets.changes1,
+              //     fit: BoxFit.fitWidth,
+              //     // height: double.infinity,
+              //     // height: MediaQuery.of(context).size.height * 0.5,
+              //     width: double.infinity,
+              //   ),
+              // ),
+              //
+              // Container(
+              //   margin: EdgeInsets.only(top: 200),
+              //   child: Image.asset(
+              //     Assets.changes1,
+              //     fit: BoxFit.fitWidth,
+              //     width: double.infinity,
+              //   ),
+              // ),
+              //
+              // Container(
+              //   margin: EdgeInsets.only(top: 500),
+              //   child: Image.asset(
+              //     Assets.changes1,
+              //     fit: BoxFit.fitWidth,
+              //     width: double.infinity,
+              //   ),
+              // ),
 
               // Container(
               //   margin: EdgeInsets.only(top: 300),
@@ -130,7 +130,10 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
                     Column(
                       children: [
                         (widget.habitProgressResponse.rank != null)
-                            ? Column(
+                            ?
+
+                            /// Rank up
+                            Column(
                                 children: [
                                   /// Rank image
                                   if (Func.isNotEmpty(widget.habitProgressResponse.rank?.photo))
@@ -185,12 +188,21 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
                                   ),
 
                                   /// Icon
-                                  Center(
-                                    child: SvgPicture.asset(
-                                      Assets.trophy28,
-                                      color: customColors.iconWhite,
-                                    ),
-                                  ),
+                                  Func.isNotEmpty(widget.habitProgressResponse.iconLink)
+                                      ? CachedNetworkImage(
+                                          imageUrl: widget.habitProgressResponse.iconLink!,
+                                          placeholder: (context, url) => Container(),
+                                          errorWidget: (context, url, error) => Container(),
+                                          height: 28.0,
+                                          width: 28.0,
+                                          fit: BoxFit.fitWidth,
+                                        )
+                                      : Center(
+                                          child: SvgPicture.asset(
+                                            Assets.trophy28,
+                                            color: customColors.iconWhite,
+                                          ),
+                                        ),
                                 ],
                               ),
 

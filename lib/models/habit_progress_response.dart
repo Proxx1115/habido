@@ -7,14 +7,21 @@ class HabitProgressResponse extends BaseResponse {
   String? title;
   String? body;
   Rank? rank;
+  String? iconLink;
 
-  HabitProgressResponse({this.rank, this.title, this.body});
+  HabitProgressResponse({
+    this.rank,
+    this.title,
+    this.body,
+    this.iconLink,
+  });
 
   HabitProgressResponse.fromJson(dynamic json) {
     parseBaseParams(json);
     title = json['title'];
     body = json['body'];
     rank = json['rank'] != null ? Rank.fromJson(json['rank']) : null;
+    iconLink = json['iconLink'];
 
     // test
     // rank = Rank()
@@ -27,6 +34,7 @@ class HabitProgressResponse extends BaseResponse {
     map['title'] = title;
     map['body'] = body;
     map['rank'] = rank;
+    map['iconLink'] = iconLink;
     return map;
   }
 }

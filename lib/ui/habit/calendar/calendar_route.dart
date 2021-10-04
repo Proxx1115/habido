@@ -46,14 +46,14 @@ class _CalendarRouteState extends State<CalendarRoute> {
   List<UserHabit>? _dailyUserHabitList;
 
   // Events
-  // Map<DateTime, List<Event>> _selectedEvents = {};
+  Map<DateTime, List<Event>> _events = {};
 
-  // List<Event> _getEventsFromDay(DateTime date) {
-  //   var res = _selectedEvents[DateTime(date.year, date.month, date.day)];
-  //   print(date);
-  //   print(res);
-  //   return res ?? [];
-  // }
+  List<Event> _getEventsFromDay(DateTime date) {
+    var res = _events[DateTime(date.year, date.month, date.day)];
+    print(date);
+    print(res);
+    return res ?? [];
+  }
 
   @override
   void initState() {
@@ -69,15 +69,15 @@ class _CalendarRouteState extends State<CalendarRoute> {
     );
 
     // Events
-    // _selectedEvents[DateTime(2021, 9, 3)] = [
-    //   Event(title: 'test1'),
-    //   Event(title: 'test2'),
-    // ];
-    //
-    // _selectedEvents[DateTime(2021, 9, 4)] = [
-    //   Event(title: 'test3'),
-    //   Event(title: 'test4'),
-    // ];
+    _events[DateTime(2021, 10, 4)] = [
+      Event(title: 'test1'),
+      Event(title: 'test2'),
+    ];
+
+    _events[DateTime(2021, 10, 5)] = [
+      Event(title: 'test3'),
+      Event(title: 'test4'),
+    ];
 
     var now = DateTime.now();
     BlocManager.calendarBloc.add(
@@ -137,6 +137,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
       setState(() {
         print('hello there');
       });
+
       // Future.delayed(Duration(milliseconds: 2000), () {
       //   setState(() {
       //     print('hello there');
@@ -161,115 +162,25 @@ class _CalendarRouteState extends State<CalendarRoute> {
     return Container(
       margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
       child: TableCalendar(
-        // General
+        /// General
         locale: LocaleCode.mn_MN,
         startingDayOfWeek: StartingDayOfWeek.monday,
         firstDay: _startDate,
         lastDay: _endDate,
 
-        // Style
-        calendarStyle: CalendarStyle(
-          isTodayHighlighted: true,
-          // selectedDecoration: BoxDecoration(
-          // color: customColors.primary,
-          // shape: BoxShape.rectangle,
-          // borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          // ),
-          // selectedTextStyle: TextStyle(color: customColors.whiteText),
-
-          canMarkersOverflow: true,
-
-          // canEventMarkersOverflow: true,
-          // todayColor: Colors.orange,
-          // selectedColor: Theme.of(context).primaryColor,
-          // todayStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
-        ),
-        headerStyle: HeaderStyle(
-          formatButtonVisible: false,
-          titleCentered: true,
-          decoration: BoxDecoration(
-            color: customColors.primaryBackground,
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-          ),
-          headerPadding: EdgeInsets.all(4.0),
-          headerMargin: EdgeInsets.only(top: 15.0, bottom: 20.0),
-          titleTextStyle: TextStyle(color: customColors.primary, fontWeight: FontWeight.w500),
-          // titleTextFormatter: (DateTime date, dynamic locale) {
-          //   return Func.toDateStr(date);
-          // },
-          leftChevronIcon: Container(
-            height: 20.0,
-            width: 20.0,
-            padding: EdgeInsets.all(5.0),
-            decoration: BoxDecoration(
-              color: customColors.whiteBackground,
-              borderRadius: BorderRadius.all(Radius.circular(7.0)),
-            ),
-            child: SvgPicture.asset(Assets.back10),
-          ),
-          rightChevronIcon: Container(
-            height: 20.0,
-            width: 20.0,
-            padding: EdgeInsets.all(5.0),
-            decoration: BoxDecoration(
-              color: customColors.whiteBackground,
-              borderRadius: BorderRadius.all(Radius.circular(7.0)),
-            ),
-            child: SvgPicture.asset(Assets.forward10),
-          ),
-        ),
-
+        /// Style
+        calendarStyle: _calendarStyle(),
+        headerStyle: _headerStyle(),
         // weekendDays: [5, 6, 7],
 
-        // Builder
+        /// Builders
         calendarBuilders: CalendarBuilders(
-          selectedBuilder: (context, date, events) => Container(
-            margin: const EdgeInsets.all(4.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: customColors.primary,
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Text(
-              date.day.toString(),
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          todayBuilder: (context, date, events) => Container(
-            margin: const EdgeInsets.all(4.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: customColors.primaryBackground,
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(
-                width: SizeHelper.borderWidth,
-                color: _getBorderColor(date),
-              ),
-            ),
-            child: Text(
-              date.day.toString(),
-              style: TextStyle(color: customColors.greyText),
-            ),
-          ),
-          defaultBuilder: (context, date, events) => Container(
-            margin: const EdgeInsets.all(4.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: _getColor(date),
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(
-                width: SizeHelper.borderWidth,
-                color: _getBorderColor(date),
-              ),
-            ),
-            child: Text(
-              date.day.toString(),
-              style: TextStyle(color: customColors.greyText),
-            ),
-          ),
+          selectedBuilder: _selectedBuilder,
+          todayBuilder: _todayBuilder,
+          defaultBuilder: _defaultBuilder,
         ),
 
-        // Format
+        /// Format
         calendarFormat: _calendarFormat,
         availableCalendarFormats: {CalendarFormat.month: 'Month'},
         onFormatChanged: (format) {
@@ -278,16 +189,17 @@ class _CalendarRouteState extends State<CalendarRoute> {
           });
         },
 
-        // Focused day
+        /// Focused day
         focusedDay: _focusedDay,
         onPageChanged: (focusedDay) {
           _focusedDay = focusedDay;
         },
 
-        // Selected day
+        /// Selected day
         selectedDayPredicate: (day) {
           return isSameDay(_selectedDay, day);
         },
+
         onDaySelected: (selectedDay, focusedDay) {
           setState(() {
             _dailyUserHabitList = [];
@@ -303,11 +215,113 @@ class _CalendarRouteState extends State<CalendarRoute> {
           });
         },
 
-        // Event
-        // eventLoader: _getEventsFromDay,
+        // Events
+        eventLoader: _getEventsFromDay,
+        // final List<T> Function(DateTime day)? eventLoader;
       ),
     );
   }
+
+  CalendarStyle _calendarStyle() {
+    return CalendarStyle(
+      isTodayHighlighted: true,
+      // selectedDecoration: BoxDecoration(
+      // color: customColors.primary,
+      // shape: BoxShape.rectangle,
+      // borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      // ),
+      // selectedTextStyle: TextStyle(color: customColors.whiteText),
+      canMarkersOverflow: true,
+      // canEventMarkersOverflow: true,
+      // todayColor: Colors.orange,
+      // selectedColor: Theme.of(context).primaryColor,
+      // todayStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
+    );
+  }
+
+  HeaderStyle _headerStyle() {
+    return HeaderStyle(
+      formatButtonVisible: false,
+      titleCentered: true,
+      decoration: BoxDecoration(
+        color: customColors.primaryBackground,
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
+      headerPadding: EdgeInsets.all(4.0),
+      headerMargin: EdgeInsets.only(top: 15.0, bottom: 20.0),
+      titleTextStyle: TextStyle(color: customColors.primary, fontWeight: FontWeight.w500),
+      // titleTextFormatter: (DateTime date, dynamic locale) {
+      //   return Func.toDateStr(date);
+      // },
+      leftChevronIcon: Container(
+        height: 20.0,
+        width: 20.0,
+        padding: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          color: customColors.whiteBackground,
+          borderRadius: BorderRadius.all(Radius.circular(7.0)),
+        ),
+        child: SvgPicture.asset(Assets.back10),
+      ),
+      rightChevronIcon: Container(
+        height: 20.0,
+        width: 20.0,
+        padding: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          color: customColors.whiteBackground,
+          borderRadius: BorderRadius.all(Radius.circular(7.0)),
+        ),
+        child: SvgPicture.asset(Assets.forward10),
+      ),
+    );
+  }
+
+  Widget? _todayBuilder(BuildContext context, DateTime day, DateTime focusedDay) => Container(
+        margin: const EdgeInsets.all(4.0),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: customColors.primaryBackground,
+          borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(
+            width: SizeHelper.borderWidth,
+            color: _getBorderColor(day),
+          ),
+        ),
+        child: Text(
+          day.day.toString(),
+          style: TextStyle(color: customColors.greyText),
+        ),
+      );
+
+  Widget? _defaultBuilder(BuildContext context, DateTime day, DateTime focusedDay) => Container(
+        margin: const EdgeInsets.all(4.0),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: _getColor(day),
+          borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(
+            width: SizeHelper.borderWidth,
+            color: _getBorderColor(day),
+          ),
+        ),
+        child: Text(
+          day.day.toString(),
+          style: TextStyle(color: customColors.greyText),
+        ),
+      );
+
+  Widget? _selectedBuilder(BuildContext context, DateTime day, DateTime focusedDay) => Container(
+        margin: const EdgeInsets.all(4.0),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: customColors.primary,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Text(
+          day.day.toString(),
+          style: TextStyle(color: Colors.white),
+        ),
+      );
 
   Color _getColor(DateTime date) {
     DateTime tempDate = convertDate(date);
