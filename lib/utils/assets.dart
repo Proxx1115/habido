@@ -119,3 +119,7 @@ class FontAsset {
   static const String FiraSansCondensed = 'Fira Sans Condensed';
   static const String SFProDisplay = 'SF Pro Display';
 }
+
+class AudioAsset {
+  static const String well_done = 'audio/well_done.mp3';
+}

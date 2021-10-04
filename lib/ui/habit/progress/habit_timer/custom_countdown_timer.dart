@@ -6,6 +6,7 @@ import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/audio_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -73,6 +74,9 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
           if (_callBack && widget.callBack != null) {
             // Callback
             widget.callBack!();
+
+            // Alarm
+            AudioManager.playAsset(AudioAsset.well_done);
 
             // Audio
             _audioPlayer?.stop();

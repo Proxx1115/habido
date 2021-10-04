@@ -60,6 +60,9 @@
     <!-- Permissions options for the `bluetooth` group -->
     <!--    <uses-permission android:name="android.permission.BLUETOOTH" />-->
 
+    <!-- Alarm -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!-- Хурууны хээ ашиглах -->
     <uses-feature
         android:name="android.hardware.fingerprint"
