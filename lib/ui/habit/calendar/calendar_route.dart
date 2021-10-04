@@ -46,10 +46,10 @@ class _CalendarRouteState extends State<CalendarRoute> {
   List<UserHabit>? _dailyUserHabitList;
 
   // Events
-  Map<DateTime, List<Event>> _events = {};
+  Map<DateTime, List<Event>> _selectedEvents = {};
 
   List<Event> _getEventsFromDay(DateTime date) {
-    var res = _events[DateTime(date.year, date.month, date.day)];
+    var res = _selectedEvents[DateTime(date.year, date.month, date.day)];
     print(date);
     print(res);
     return res ?? [];
@@ -69,12 +69,12 @@ class _CalendarRouteState extends State<CalendarRoute> {
     );
 
     // Events
-    _events[DateTime(2021, 10, 4)] = [
+    _selectedEvents[DateTime(2021, 10, 4)] = [
       Event(title: 'test1'),
       Event(title: 'test2'),
     ];
 
-    _events[DateTime(2021, 10, 5)] = [
+    _selectedEvents[DateTime(2021, 10, 4)] = [
       Event(title: 'test3'),
       Event(title: 'test4'),
     ];
@@ -137,7 +137,6 @@ class _CalendarRouteState extends State<CalendarRoute> {
       setState(() {
         print('hello there');
       });
-
       // Future.delayed(Duration(milliseconds: 2000), () {
       //   setState(() {
       //     print('hello there');
@@ -217,7 +216,6 @@ class _CalendarRouteState extends State<CalendarRoute> {
 
         // Events
         eventLoader: _getEventsFromDay,
-        // final List<T> Function(DateTime day)? eventLoader;
       ),
     );
   }
