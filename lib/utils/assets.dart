@@ -79,6 +79,7 @@ class Assets {
   static const String typing = 'assets/images/chat/typing.gif';
   static const String habido_assistant = 'assets/images/chat/habido_assistant.svg';
   static const String habido_assistant_png = 'assets/images/chat/habido_assistant.png';
+  static const String habido_assistant_empty = 'assets/images/chat/habido_assistant_empty.png';
 
   /// Habit
   static const String trophy = 'assets/images/habit/trophy.svg';

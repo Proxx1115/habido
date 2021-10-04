@@ -17,6 +17,7 @@ class ChatResponse extends BaseResponse {
   MsgOption? selectedMsgOption;
   String? dateTime;
   bool isOptionSelected = false; // Local param
+  bool visibleProfilePicture = false; // Local param
 
   ChatResponse({
     this.msgId,

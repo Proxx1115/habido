@@ -27,7 +27,6 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
             title: LocaleKeys.habidoAssistant,
           ),
 
-
           /// Chat
           Expanded(
             child: ChatScreen(chatType: ChatType.assistant),

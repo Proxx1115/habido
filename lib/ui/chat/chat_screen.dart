@@ -42,7 +42,8 @@ class _ChatScreenState extends State<ChatScreen> {
   // Button thanks
   bool _visibleButtonThanks = false;
 
-  //
+  // Last chat
+  bool _isLastChatBot = false;
 
   @override
   void initState() {
@@ -103,28 +104,31 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       );
     } else if (state is GetChatSuccess) {
+      ChatResponse chat = state.response;
       // List<ChatResponse> tempList = [state.response];
       // tempList.addAll(_chatList);
       // _chatList = tempList;
 
-      _chatList.add(state.response);
+      _chatList.add(chat);
+
+      _setProfilePictureAndTime();
 
       if (state.chatIndex != null) {
         print('Хариулт сонгосон');
         _chatList[state.chatIndex!].isOptionSelected = true;
       }
 
-      if (state.response.isEnd ?? false) {
+      if (chat.isEnd ?? false) {
         print('Чат дууссан');
         if (widget.chatType == ChatType.onboarding) {
           _visibleButtonThanks = true;
         }
-      } else if (state.response.msgOptions != null && state.response.msgOptions!.length > 0) {
+      } else if (chat.msgOptions != null && chat.msgOptions!.length > 0) {
         print('Хариулт сонгох');
       } else {
-        if (state.response.msgId != null) {
+        if (chat.msgId != null) {
           print('Дараагийн чатыг авах');
-          BlocManager.chatBloc.add(GetNextChatEvent(state.response.continueMsgId!, _chatList.length - 1));
+          BlocManager.chatBloc.add(GetNextChatEvent(chat.continueMsgId!, _chatList.length - 1));
         } else {
           print('Дараагийн msgId олдоогүй');
           showCustomDialog(
@@ -150,6 +154,8 @@ class _ChatScreenState extends State<ChatScreen> {
       );
     } else if (state is ChatHistorySuccess) {
       _chatList = state.chatList ?? [];
+
+      _setProfilePictureAndTime();
     } else if (state is ChatHistoryFailed) {
       showCustomDialog(
         context,
@@ -174,11 +180,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
             /// Bot chat
             ChatContainer(
-                prefixAsset: Assets.habido_assistant_png,
+                prefixAsset: _chatList[chatIndex].visibleProfilePicture
+                    ? Assets.habido_assistant_png
+                    : Assets.habido_assistant_empty,
                 child: CustomText(_chatList[chatIndex].msg, maxLines: 10),
               ),
-
-
 
         /// Selected option
         if (_chatList[chatIndex].selectedMsgOption != null)
@@ -191,6 +197,52 @@ class _ChatScreenState extends State<ChatScreen> {
           for (int j = 0; j < _chatList[chatIndex].msgOptions!.length; j++) _optionItem(chatIndex, j),
       ],
     );
+  }
+
+  _setProfilePictureAndTime() {
+    if (_chatList.isNotEmpty) {
+      if (_chatList.length == 1) {
+        if (_chatList.last.selectedMsgOption == null) {
+          // Bot chat
+          _chatList.last.visibleProfilePicture = true;
+        }
+      } else {
+        for (int i = 1; i < _chatList.length - 1; i++) {
+          if (i + 1 < _chatList.length) {
+            // Has index
+            // 2 bot chats
+            if (_chatList[i].selectedMsgOption == null && _chatList[i + 1].selectedMsgOption == null) {
+              _chatList[i].visibleProfilePicture = false;
+              _chatList[i + 1].visibleProfilePicture = true;
+            } else {
+              print('human');
+            }
+          }
+
+          print(_chatList[i].visibleProfilePicture);
+        }
+      }
+    }
+
+    // 4 - 3
+    // 3 - 2
+    // 2 - 1
+    // 1 - 0
+
+    // if (_chatList.isNotEmpty) {
+    //   if (_chatList.last.selectedMsgOption == null) {
+    //     // Bot chat
+    //     if (chat.selectedMsgOption == null) {
+    //       // Bot chat again
+    //       _chatList.last.visibleProfilePicture = false;
+    //       chat.visibleProfilePicture = true;
+    //     }
+    //   } else {
+    //     // User chat
+    //   }
+    // } else {
+
+    // }
   }
 
   Widget _optionItem(int chatIndex, int optionIndex) {

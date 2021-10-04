@@ -231,7 +231,7 @@ class ChatContainer extends StatelessWidget {
                           alignment: Alignment.bottomLeft,
                           child: Container(
                             margin: EdgeInsets.only(right: 5.0),
-                            child: Image.asset(Assets.habido_assistant_png, height: 20.0, width: 20.0),
+                            child: Image.asset(prefixAsset!, height: 20.0, width: 20.0),
                           ),
                         ),
 
