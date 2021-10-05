@@ -64,7 +64,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                   if (_monthlyAchievement != null)
                     _achievementItem(
                       leadingAsset: Assets.calendar2,
-                      percentTitle: LocaleKeys.monthly,
+                      percentTitle: LocaleKeys.thisMonth,
                       percentage: _monthlyAchievement!.monthlyPercentage,
                       achievement: _monthlyAchievement!.monthlyAchievement,
                       completedHabits: _monthlyAchievement!.monthlyTotalCompletedHabits,
@@ -155,7 +155,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
 
           /// Хэвшсэн дадал
           _achievementRowItem(
-            title: LocaleKeys.completedHabit,
+            title: LocaleKeys.completedHabit2,
             body: Func.toStr(completedHabits),
           ),
         ],

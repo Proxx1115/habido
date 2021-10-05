@@ -308,6 +308,8 @@ class LocaleKeys {
 
   static String get monthly => 'Сар бүр';
 
+  static String get thisMonth => 'Энэ сар';
+
   static String get mo => 'Да';
 
   static String get tu => 'Мя';
@@ -412,6 +414,8 @@ class LocaleKeys {
   static String get progress => 'Гүйцэтгэл';
 
   static String get completedHabit => 'Хэвшсэн дадал';
+
+  static String get completedHabit2 => 'Хэвшиж буй дадал';
 
   static String get myAchievements => 'Миний амжилт';
 
