@@ -126,7 +126,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
   }
 
   void _onPressedButtonAdd() async {
-    TimeOfDay? selectedTimeOfDay = await showCustomTimePicker(context);
+    TimeOfDay? selectedTimeOfDay = await showCustomTimePicker(context, widget.primaryColor);
     if (selectedTimeOfDay != null) {
       widget.reminderBloc.add(AddReminderEvent(selectedTimeOfDay));
     }
