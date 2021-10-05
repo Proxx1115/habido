@@ -277,8 +277,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
       margin: EdgeInsets.only(top: 15.0),
       lastDate: DateTime.now(),
       callback: (date) {
-        print(date);
-
+        // print(date);
         _selectedBirthDate = date;
         _validateForm();
       },

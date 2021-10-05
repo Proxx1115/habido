@@ -7,7 +7,6 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
-
 import 'date_picker_bloc.dart';
 
 class CustomDatePicker extends StatefulWidget {
@@ -18,6 +17,7 @@ class CustomDatePicker extends StatefulWidget {
   final EdgeInsets? margin;
   final DateTime? firstDate;
   final DateTime? lastDate;
+  final Color? primaryColor;
 
   const CustomDatePicker({
     Key? key,
@@ -28,6 +28,7 @@ class CustomDatePicker extends StatefulWidget {
     this.margin = EdgeInsets.zero,
     this.firstDate,
     this.lastDate,
+    this.primaryColor,
   }) : super(key: key);
 
   @override
@@ -117,6 +118,14 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       initialDate: DateTime.now(),
       firstDate: widget.firstDate ?? DateTime(1900),
       lastDate: widget.lastDate ?? DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(primary: widget.primaryColor ?? customColors.primary),
+          ),
+          child: child ?? Container(),
+        );
+      },
     );
 
     setState(() {

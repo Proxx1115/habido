@@ -595,6 +595,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
       initialDate: _startDate,
+      primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
       callback: (date) {
         print(date);
         _startDate = date;
@@ -613,6 +614,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
       initialDate: _endDate,
+      primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
       callback: (date) {
         print(date);
         _endDate = date;
