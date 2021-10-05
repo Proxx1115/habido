@@ -124,9 +124,9 @@ class LocaleKeys {
 
   static String get introTitle3 => 'Do';
 
-  static String get intro1 => 'Дадлаа тууштай бүртгэж     ';
+  static String get intro1 => 'Сэтгэл зүйгээ удирдаж     ';
 
-  static String get intro2 => 'Сэтгэл зүйгээ удирдаж      ';
+  static String get intro2 => 'Дадлаа тууштай бүртгэж    ';
 
   static String get intro3 => 'Надтай хамт тасралтгүй хөгж';
 

@@ -42,8 +42,8 @@ class Assets {
   static const String arrow_back = 'assets/images/global/arrow_back.svg';
 
   /// Intro
-  static const String intro1 = 'assets/images/intro/intro1.svg';
-  static const String intro2 = 'assets/images/intro/intro2.svg';
+  static const String intro1 = 'assets/images/intro/intro2.svg';
+  static const String intro2 = 'assets/images/intro/intro1.svg';
   static const String intro3 = 'assets/images/intro/intro3.png';
 
   /// Authentication
