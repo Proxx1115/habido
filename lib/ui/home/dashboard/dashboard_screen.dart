@@ -58,6 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Container(
         color: customColors.primaryBackground,
         child: CustomScrollView(
+          physics: BouncingScrollPhysics(),
           slivers: [
             /// Header
             _header(),
@@ -99,11 +100,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       floating: true,
       expandedHeight: _sliderHeight! + _indicatorHeight + _indicatorVerticalMargin * 2 + _scrollHeaderHeight,
       collapsedHeight: _sliderHeight! + _indicatorHeight + _indicatorVerticalMargin * 2 + _scrollHeaderHeight,
-      backgroundColor: customColors.primary,
+      backgroundColor: customColors.primaryBackground,
       elevation: 0,
       automaticallyImplyLeading: false,
       flexibleSpace: Stack(
         children: [
+          // Removed orange line
+          Container(color: customColors.primary, margin: EdgeInsets.only(bottom: 1.0)),
+
           /// Banner
           CustomCarouselSlider(
             aspectRatio: _sliderAspectRatio,
