@@ -443,7 +443,7 @@ class LocaleKeys {
 
   static String get feedbackHint => 'HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй';
 
-  static String get faq => 'Түгээмэл асуулт хариулт';
+  static String get faq => 'Түгээмэл асуулт, хариулт';
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {
