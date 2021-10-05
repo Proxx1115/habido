@@ -254,7 +254,7 @@ class LocaleKeys {
   static String get showcaseSlidable => 'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой.';
 
   /// Chat
-  static String get habidoAssistant => 'Habido туслах';
+  static String get habidoAssistant => 'HabiDo туслах';
 
   static String get chatBotIdNotFound => 'HabiDo туслахын мэдээлэл олдсонгүй';
 
@@ -276,7 +276,7 @@ class LocaleKeys {
 
   static String get seeResult => 'Үр дүн харах';
 
-  static String get thanksHabido => 'Баярлалаа, Habido';
+  static String get thanksHabido => 'Баярлалаа, HabiDo';
 
   static String get doTest2 => 'Тест бөглөх';
 
