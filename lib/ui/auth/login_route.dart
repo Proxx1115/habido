@@ -98,8 +98,7 @@ class _LoginRouteState extends State<LoginRoute> {
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
-        child:
-            CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is SessionTimeoutState) {
       Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);

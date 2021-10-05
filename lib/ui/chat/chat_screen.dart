@@ -69,7 +69,6 @@ class _ChatScreenState extends State<ChatScreen> {
               absorbing: state is ChatLoading,
               child: ListView(
                 controller: _scrollController,
-                // reverse: true, // todo test
                 padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, SizeHelper.marginBottom),
                 children: [
                   /// Time

@@ -20,8 +20,6 @@ class _SplashRouteState extends State<SplashRoute> {
   void initState() {
     super.initState();
 
-    // sharedPref?.clear(); // todo test
-
     WidgetsBinding.instance?.addPostFrameCallback((_) => _init());
   }
 
