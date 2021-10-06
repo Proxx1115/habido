@@ -61,10 +61,16 @@ class _SplashRouteState extends State<SplashRoute> {
   }
 
   _checkSession() {
-    ApiManager.getUserData().then((response) {
-      if (response.code == ResponseCode.Success) {
-        AuthBloc.afterLogin().then(
-            (value) => {Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false)});
+    ApiManager.getUserData().then((userData) async {
+      if (userData.code == ResponseCode.Success) {
+        await AuthBloc.afterLogin();
+        if (userData.isOnboardingDone ?? false) {
+          /// Go to home
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false);
+        } else {
+          /// Go to chat
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.habidoAssistant, (Route<dynamic> route) => false);
+        }
       } else {
         Future.delayed(Duration(seconds: 1), () {
           _navigateToFirstRoute();
