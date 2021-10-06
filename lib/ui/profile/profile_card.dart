@@ -47,8 +47,6 @@ class _ProfileCardState extends State<ProfileCard> {
                     margin: widget.margin,
                     height: 80.0,
                     padding: EdgeInsets.all(15.0),
-                    // decoration: BoxDecoration,
-                    // borderRadius: SizeHelper.borderRadiusOdd,
                     child: NoSplashContainer(
                       child: InkWell(
                         onTap: () {
@@ -145,12 +143,17 @@ class _ProfileCardState extends State<ProfileCard> {
           /// Background
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(25.0)),
-            child: Container(
-              padding: EdgeInsets.all(15.0),
-              height: SizeHelper.boxHeight,
-              width: SizeHelper.boxHeight,
-              decoration: BoxDecoration(color: customColors.primaryBackground),
-              child: SvgPicture.asset(Assets.camera, color: customColors.iconGrey),
+            child: Opacity(
+              opacity: 0.75,
+              child: Container(
+                padding: EdgeInsets.all(15.0),
+                height: SizeHelper.boxHeight,
+                width: SizeHelper.boxHeight,
+                decoration: BoxDecoration(
+                  color: customColors.primary,
+                ),
+                child: SvgPicture.asset(Assets.camera, color: customColors.iconWhite),
+              ),
             ),
           ),
 

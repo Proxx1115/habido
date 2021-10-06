@@ -54,7 +54,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
                 enablePullUp: true,
                 header: ClassicHeader(
                   refreshStyle: RefreshStyle.Follow,
-                  idleText: 'asdf',
+                  idleText: '',
                   idleIcon: Icon(Icons.expand_more, color: Colors.grey),
                   releaseText: "",
                   refreshingText: "",
