@@ -53,12 +53,13 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
               child: Column(
                 children: [
                   /// Миний амжилт
-                  CustomText(
-                    LocaleKeys.myAchievements,
-                    alignment: Alignment.center,
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  if (_allTimeAchievement != null)
+                    CustomText(
+                      LocaleKeys.myAchievements,
+                      alignment: Alignment.center,
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.w500,
+                    ),
 
                   /// Сарын амжилт
                   if (_monthlyAchievement != null)
