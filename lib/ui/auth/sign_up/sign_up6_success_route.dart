@@ -6,6 +6,7 @@ import 'package:habido_app/models/login_request.dart';
 import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/device_helper.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -44,7 +45,13 @@ class _SignUp6SuccessRouteState extends State<SignUp6SuccessRoute> {
 
   void _blocListener(BuildContext context, AuthState state) {
     if (state is LoginSuccess) {
-      Navigator.pushNamed(context, Routes.home);
+      if (globals.userData?.isOnboardingDone ?? false) {
+        /// Go to home
+        Navigator.pushNamed(context, Routes.home);
+      } else {
+        /// Go to chat
+        Navigator.pushNamed(context, Routes.habidoAssistant);
+      }
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
