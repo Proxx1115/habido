@@ -1,7 +1,7 @@
 class AllTimeAchievement {
   int? allTimePercentage;
   String? allTimeAchievement;
-  int? allTimeTotalCompletedHabits;
+  String? allTimeTotalCompletedHabits;
 
   AllTimeAchievement({
       this.allTimePercentage, 

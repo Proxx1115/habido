@@ -131,16 +131,16 @@ class _CupOfWaterState extends State<CupOfWater> {
   }
 
   Widget _button({required String asset, required VoidCallback onPressed}) {
-    return Container(
-      padding: EdgeInsets.all(17.0),
-      height: 50.0,
-      width: 50.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(28.0)),
-        color: customColors.greyBackground,
-      ),
-      child: InkWell(
-        onTap: onPressed,
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        padding: EdgeInsets.all(17.0),
+        height: 50.0,
+        width: 50.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(28.0)),
+          color: customColors.greyBackground,
+        ),
         child: SvgPicture.asset(asset),
       ),
     );

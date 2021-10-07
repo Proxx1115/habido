@@ -1,7 +1,7 @@
 class MonthlyAchievement {
   int? monthlyPercentage;
   String? monthlyAchievement;
-  int? monthlyTotalCompletedHabits;
+  String? monthlyTotalCompletedHabits;
 
   MonthlyAchievement({
       this.monthlyPercentage, 

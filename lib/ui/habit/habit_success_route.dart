@@ -172,6 +172,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
                             widget.habitProgressResponse.body!,
                             alignment: Alignment.center,
                             margin: EdgeInsets.only(top: 25.0),
+                            maxLines: 3,
                           ),
                       ],
                     ),
@@ -203,6 +204,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
         widget.habitProgressResponse.title,
         alignment: Alignment.center,
         margin: EdgeInsets.only(top: 7.0),
+        maxLines: 3,
         fontSize: 17.0,
       );
     } else if (widget.habitProgressResponse.title != null) {
@@ -211,6 +213,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
         alignment: Alignment.center,
         margin: EdgeInsets.only(top: 25.0),
         fontSize: 19.0,
+        maxLines: 3,
         fontWeight: FontWeight.w500,
         color: widget.primaryColor ?? customColors.primary,
       );

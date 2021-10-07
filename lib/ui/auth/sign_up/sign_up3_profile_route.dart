@@ -183,7 +183,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   _checkboxAgree() {
     return _visibleTermCond
         ? CustomCheckbox(
-            text: LocaleKeys.iAgree,
+            text: LocaleKeys.understand,
             margin: EdgeInsets.only(top: 30.0, bottom: 30.0),
             alignment: MainAxisAlignment.center,
             onChanged: (value) {

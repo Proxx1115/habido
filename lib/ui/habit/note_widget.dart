@@ -34,14 +34,16 @@ class NoteWidget extends StatelessWidget {
               children: [
                 /// Title
                 Expanded(
-                  child: CustomText(LocaleKeys.note, fontWeight: FontWeight.w500),
+                  child: CustomText(LocaleKeys.writeNote, fontWeight: FontWeight.w500),
                 ),
 
                 /// Edit button
                 SvgPicture.asset(Assets.edit),
               ],
             ),
-            onTap: () {},
+            onTap: () {
+              _onTap(context);
+            },
           ),
 
           /// Divider

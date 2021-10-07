@@ -55,7 +55,7 @@ class _FeedbackRouteState extends State<FeedbackRoute> {
                   topLeft: Radius.circular(SizeHelper.borderRadius),
                   topRight: Radius.circular(SizeHelper.borderRadius),
                 ),
-                suffixAsset: Assets.edit,
+                // suffixAsset: Assets.edit,
                 hintText: LocaleKeys.feedbackHint,
                 maxLines: 10,
                 autofocus: true,

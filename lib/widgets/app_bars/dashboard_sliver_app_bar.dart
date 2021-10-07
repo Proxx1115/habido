@@ -53,7 +53,7 @@ class DashboardSliverAppBar extends StatelessWidget {
                   child: ButtonStadium(
                       asset: Assets.question_mark,
                       child: Container(
-                        padding: EdgeInsets.all(12.0),
+                        padding: EdgeInsets.all(14.0),
                         child: SvgPicture.asset(Assets.question_mark, color: customColors.iconGrey),
                       ),
                       onPressed: () {
@@ -81,7 +81,7 @@ class DashboardSliverAppBar extends StatelessWidget {
                   child: ButtonStadium(
                       asset: Assets.logout,
                       child: Container(
-                        padding: EdgeInsets.all(12.0),
+                        padding: EdgeInsets.all(14.0),
                         child: SvgPicture.asset(Assets.logout, color: customColors.iconGrey),
                       ),
                       onPressed: () {

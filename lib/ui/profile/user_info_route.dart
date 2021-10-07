@@ -144,6 +144,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
           asset: Assets.success,
           text: LocaleKeys.success,
           buttonText: LocaleKeys.ok,
+          primaryColor: customColors.feijoBackground,
           onPressedButton: () {
             Navigator.pop(context);
           },
@@ -309,7 +310,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     return ListItemContainer(
       margin: EdgeInsets.only(top: 15.0),
       borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-      title: LocaleKeys.phoneNumber,
+      title: Func.isNotEmpty(globals.userData?.phone) ? globals.userData!.phone! : LocaleKeys.phoneNumber,
       suffixAsset: Assets.arrow_forward,
       onPressed: () {
         Navigator.pushNamed(context, Routes.changePhone);

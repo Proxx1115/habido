@@ -9,6 +9,7 @@ import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -90,6 +91,7 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
           asset: Assets.success,
           text: LocaleKeys.success,
           buttonText: LocaleKeys.ok,
+          primaryColor: customColors.feijoBackground,
           onPressedButton: () {
             Navigator.of(context).popUntil((route) => route.isFirst);
           },

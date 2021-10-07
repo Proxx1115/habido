@@ -86,21 +86,28 @@ class _SatisfactionSliderState extends State<SatisfactionSlider> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   /// Тааламжгүй
+                  CustomText(LocaleKeys.notPleasing),
+
+                  /// Slider value
                   Expanded(
-                    child: CustomText(LocaleKeys.notPleasing, color: customColors.greyText),
+                    child: CustomText(
+                      _value != null ? _value!.toString() : '',
+                      alignment: Alignment.center,
+                      color: _primaryColor,
+                    ),
                   ),
 
                   /// Тааламжтай
-                  CustomText(LocaleKeys.pleasing, fontWeight: FontWeight.w500),
+                  CustomText(LocaleKeys.pleasing),
                 ],
               ),
               Row(
                 children: [
                   /// Decrease
                   CircleButton(
-                    asset: Assets.negative,
+                    asset: Assets.decrease_emoji,
                     contentColor: _primaryColor,
-                    backgroundColor: customColors.greyBackground,
+                    backgroundColor: customColors.whiteBackground,
                     onPressed: () {
                       setState(() {
                         _value = ((_value! - 1) >= _minValue!) ? (_value! - 1) : _value!;
@@ -127,9 +134,9 @@ class _SatisfactionSliderState extends State<SatisfactionSlider> {
 
                   /// Increase
                   CircleButton(
-                    asset: Assets.positive,
+                    asset: Assets.increase_emoji,
                     contentColor: _primaryColor,
-                    backgroundColor: customColors.greyBackground,
+                    backgroundColor: customColors.whiteBackground,
                     onPressed: () {
                       setState(() {
                         _value = ((_value! + 1) <= _maxValue!) ? (_value! + 1) : _value!;

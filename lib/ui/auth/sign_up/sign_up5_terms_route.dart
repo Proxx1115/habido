@@ -70,7 +70,7 @@ class _SignUp5TermsRouteState extends State<SignUp5TermsRoute> {
           children: [
             /// Та үйлчилгээний нөхцөлтэй танилцана уу.
             CustomText(
-              LocaleKeys.readTerms,
+              LocaleKeys.termsOfService,
               maxLines: 2,
               alignment: Alignment.center,
               margin: EdgeInsets.only(bottom: 35.0),
