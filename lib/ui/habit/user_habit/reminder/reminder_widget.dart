@@ -96,7 +96,7 @@ class _ReminderWidgetState extends State<ReminderWidget> {
           /// Time
           Expanded(
             child: CustomText(
-              '${timeOfDay.hour.toString().padLeft(2, '0')}:${timeOfDay.minute}',
+              '${timeOfDay.hour.toString().padLeft(2, '0')}:${timeOfDay.minute.toString().padLeft(2, '0')}',
               margin: EdgeInsets.symmetric(horizontal: 15.0),
               fontWeight: FontWeight.w500,
             ),

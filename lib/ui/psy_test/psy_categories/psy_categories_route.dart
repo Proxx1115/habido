@@ -57,7 +57,7 @@ class _PsyCategoriesRouteState extends State<PsyCategoriesRoute> {
                       crossAxisSpacing: 15.0,
                       mainAxisSpacing: 15.0,
                       crossAxisCount: 2,
-                      childAspectRatio: 1.2,
+                      childAspectRatio: 1.11,
                       children: List.generate(
                         _psyCategoryList!.length,
                         (index) => _testCategoryItem(_psyCategoryList![index]),

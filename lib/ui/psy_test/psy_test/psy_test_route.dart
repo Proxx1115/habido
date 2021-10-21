@@ -18,6 +18,7 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class PsyTestRoute extends StatefulWidget {
@@ -204,7 +205,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
           psyTestQuestion.text,
           alignment: Alignment.center,
           maxLines: 10,
-          fontSize: 20.0,
+          fontSize: 18.0,
           fontWeight: FontWeight.w500,
           margin: EdgeInsets.symmetric(vertical: 50.0),
         ),
@@ -220,7 +221,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
         ),
 
         /// Button next
-        _buttonNext(questionIndex),
+        // _buttonNext(questionIndex),
       ],
     );
   }

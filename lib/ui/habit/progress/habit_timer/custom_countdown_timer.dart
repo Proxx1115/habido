@@ -194,8 +194,8 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
               return CustomPaint(
                 painter: TimerPainter(
                   animation: _animationController,
-                  borderColor: customColors.whiteBackground,
-                  cursorColor: widget.primaryColor ?? customColors.primary,
+                  borderColor: widget.primaryColor ?? customColors.primary,
+                  cursorColor: customColors.whiteBackground,
                 ),
               );
             },

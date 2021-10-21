@@ -18,10 +18,10 @@ class TimerPainter extends CustomPainter {
     Paint paint = Paint()
       ..color = borderColor
       ..strokeWidth = 15.0
-      ..strokeCap = StrokeCap.round
+      ..strokeCap = StrokeCap.butt
       ..style = PaintingStyle.stroke;
 
-    canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
+    canvas.drawCircle(size.center(Offset.zero), (size.width + 0.3) / 2.0, paint);
     paint.color = cursorColor;
     double progress = (1.0 - animation.value) * 2 * _pi;
     canvas.drawArc(Offset.zero & size, _pi * 1.5, -progress, false, paint);

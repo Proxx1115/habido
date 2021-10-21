@@ -182,6 +182,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
             title: CustomText(
               _answerList![index].answerText,
               fontWeight: FontWeight.w500,
+              maxLines: 3,
             ),
 
             /// Icon

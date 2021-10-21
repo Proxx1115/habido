@@ -165,7 +165,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
       padding: EdgeInsets.fromLTRB(15.0, 12.0, 15.0, 12.0),
       backgroundColor: (_tagList[i].isSelected ?? false) ? customColors.primary : customColors.whiteBackground,
       child: Text(
-        _tagList[i].name ?? '',
+        '#' + _tagList[i].name.toString(),
         style: TextStyle(
           color: (_tagList[i].isSelected ?? false) ? customColors.whiteText : customColors.greyText,
           fontSize: 13.0,

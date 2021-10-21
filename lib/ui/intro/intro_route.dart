@@ -60,20 +60,6 @@ class _IntroRouteState extends State<IntroRoute> {
             ],
           ),
 
-          /// Button - Close
-          Align(
-            alignment: Alignment.topRight,
-            child: ButtonStadium(
-              asset: Assets.close,
-              margin: EdgeInsets.fromLTRB(0.0, _btnCloseMargin, 35.0, 0.0),
-              size: _btnCloseHeight,
-              iconColor: customColors.primary,
-              onPressed: () {
-                _navigateToLogin();
-              },
-            ),
-          ),
-
           /// Indicator
           Container(
             alignment: Alignment.topCenter,
@@ -121,6 +107,21 @@ class _IntroRouteState extends State<IntroRoute> {
 
         Column(
           children: [
+
+            /// Button - Close
+            Align(
+              alignment: Alignment.topRight,
+              child: index == 2 ? ButtonStadium(
+                asset: Assets.arrow_next,
+                margin: EdgeInsets.fromLTRB(0.0, _btnCloseMargin, 35.0, 0.0),
+                size: _btnCloseHeight,
+                iconColor: customColors.primary,
+                onPressed: () {
+                  _navigateToLogin();
+                },
+              ) : Container(),
+            ),
+
             /// Title
             CustomText(
               titleList[index],
@@ -129,7 +130,7 @@ class _IntroRouteState extends State<IntroRoute> {
               color: customColors.whiteText,
               fontWeight: FontWeight.w800,
               fontSize: 35.0,
-              margin: EdgeInsets.fromLTRB(40.0, _marginTopText, 40.0, 0.0),
+              margin: EdgeInsets.fromLTRB(40.0, index == 2 ? _marginTopText - 60.0 : _marginTopText, 40.0, 0.0),
             ),
 
             /// Text
@@ -141,6 +142,7 @@ class _IntroRouteState extends State<IntroRoute> {
               fontWeight: FontWeight.w600,
               fontSize: 20.0,
               margin: EdgeInsets.fromLTRB(40.0, 8.0, 40.0, 0.0),
+              maxLines: 2,
             ),
           ],
         ),
