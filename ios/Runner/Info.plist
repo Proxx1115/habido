@@ -20,8 +20,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
-    <key>FirebaseAppDelegateProxyEnabled</key>
-    <false/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -31,45 +31,45 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsLocalNetworking</key>
-        <true/>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-        <key>NSAllowsArbitraryLoadsInWebContent</key>
-        <true/>
-        <key>NSAllowsArbitraryLoadsForMedia</key>
-        <true/>
-    </dict>
-    <key>NSAppleMusicUsageDescription</key>
-	<string>Music!</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsForMedia</key>
+		<true/>
+	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Таны файлд хандах зөвшөөрөл хүсч байна</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Calendars</string>
+	<string>Таны хаунлид хандах зөвшөөрөл хүсч байна</string>
 	<key>NSCameraUsageDescription</key>
-	<string>camera</string>
+	<string>Камер ашиглах зөвшөөрөл хүсч байна</string>
 	<key>NSContactsUsageDescription</key>
-	<string>contacts</string>
+	<string>Таны холбоо барих мэдээлэл ашиглах зөвшөөрөл хүсч байна</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Biometric authentication</string>
+	<string>Хуруу болон царайгаар нэвтрэх зөвшөөрөл хүсч байна</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Always and when in use!</string>
+	<string>Апп ашиглах үед байршлын зөвшөөрөл өгөх.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Can I have location always?</string>
+	<string>Байршлын зөвшөөрөл байнга өгөх.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Older devices need location.</string>
+	<string>Байршлын зөвшөөрөл өгөх.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Need location when in use</string>
+	<string>Байршлын зөвшөөрөл өгөх.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>microphone</string>
+	<string>Микрофон ашиглах зөвшөөрөл хүсч байна</string>
 	<key>NSMotionUsageDescription</key>
-	<string>motion</string>
+	<string>Хөдөлгөөн мэдрэгчинд хандах зөвшөөрөл хүсч байна</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>photos</string>
+	<string>Таны файлд хандах зөвшөөрөл хүсч байна</string>
 	<key>NSRemindersUsageDescription</key>
-	<string>reminders</string>
+	<string>Таны тэмдэглэлд хандахыг хүсч байна</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>speech</string>
+	<string>Яриа таних зөвшөөрөл хүсч байна</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
