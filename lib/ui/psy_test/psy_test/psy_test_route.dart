@@ -135,6 +135,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
           asset: Assets.success,
           text: LocaleKeys.psyTestSuccess,
           buttonText: LocaleKeys.seeResult,
+          primaryColor: customColors.feijoBackground,
           onPressedButton: () {
             Navigator.pushReplacementNamed(context, Routes.psyTestResult, arguments: {
               'psyTestResult': state.psyTestResult,

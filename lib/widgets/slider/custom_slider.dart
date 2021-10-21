@@ -61,7 +61,7 @@ class _CustomSliderState extends State<CustomSlider> {
                           if (widget.quantityText != null)
                             Expanded(
                               child: CustomText(
-                                '${Func.toInt(widget.sliderBloc.value)} ${widget.quantityText!.toLowerCase()}',
+                                '${Func.toMoneyStr(widget.sliderBloc.value)} ${widget.quantityText!.toLowerCase()}',
                                 fontWeight: FontWeight.w500,
                                 alignment: Alignment.centerRight,
                               ),

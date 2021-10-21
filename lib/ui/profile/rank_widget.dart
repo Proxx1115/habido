@@ -39,6 +39,9 @@ class _RankWidgetState extends State<RankWidget> {
           builder: (context, state) {
             return (globals.userData != null && globals.userData!.rankId != null)
                 ? StadiumContainer(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.yourRank);
+                    },
                     margin: widget.margin,
                     padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
                     borderRadius: SizeHelper.borderRadiusOdd,
@@ -67,7 +70,7 @@ class _RankWidgetState extends State<RankWidget> {
                                   imageUrl: globals.userData!.rankPhoto!,
                                   fit: BoxFit.fitWidth,
                                   width: 115.0,
-                                  height: 125.0,
+                                  height: 133.0,
                                   placeholder: (context, url) => Container(),
                                   errorWidget: (context, url, error) => Container(),
                                 ),

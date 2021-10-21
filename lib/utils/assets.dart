@@ -121,6 +121,8 @@ class Assets {
   static const String color_picker = 'assets/images/habit/color_picker.svg';
   static const String icon_picker = 'assets/images/habit/icon_picker.svg';
   static const String check2 = 'assets/images/habit/check2.svg';
+  static const String decrease_emoji = 'assets/images/habit/decrease_emoji.svg';
+  static const String increase_emoji = 'assets/images/habit/increase_emoji.svg';
 }
 
 class FontAsset {

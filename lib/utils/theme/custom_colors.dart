@@ -23,6 +23,7 @@ class ConstantColors {
   static const vikingGreen = const Color(0xFF61DDBC);
   static const yellowGreen = const Color(0xFFB4DF80);
   static const seaGreen = const Color(0xFF30A74C);
+  static const feijoGreen = const Color(0xFF9ED26A);
   static const froly = const Color(0xFFF76C82);
 }
 
@@ -37,6 +38,7 @@ class CustomColors {
   Color yellowBackground = ConstantColors.yellow;
   Color blueBackground = ConstantColors.blue;
   Color pinkBackground = ConstantColors.froly;
+  Color feijoBackground = ConstantColors.feijoGreen;
 
   /// Border
   Color primaryBorder = ConstantColors.athensGrey;

@@ -178,6 +178,8 @@ class LocaleKeys {
 
   static String get iAgree => 'Би зөвшөөрч байна';
 
+  static String get understand => 'Ойлголоо';
+
   static String get termsOfService => 'Үйлчилгээний нөхцөл';
 
   static String get readTerms => 'Та үйлчилгээний нөхцөлтэй танилцана уу';
@@ -197,12 +199,12 @@ class LocaleKeys {
   static String get firstName => 'Нэр';
 
   static String get agreeTermCond1 =>
-      'Хэрэглэгч нь 18 нас хүрээгүй тохиолдолд түүний эцэг, эх, асран хамгаалагч, харгалзан дэмжигчээс ';
+      'Хэрэглэгч нь 18 нас хүрээгүй тохиолдолд түүний эцэг, эх, асран хамгаалагч, харгалзан дэмжигч нь ';
 
   static String get agreeTermCond2 => '"Үйлчилгээний нөхцөл"';
 
   static String get agreeTermCond3 =>
-      '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу.';
+      '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу';
 
 // static String get agreeTerms => 'Зөвшөөрөх';
 //
@@ -352,6 +354,8 @@ class LocaleKeys {
 
   static String get note => 'Тэмдэглэл';
 
+  static String get writeNote => 'Тэмдэглэл хөтлөх';
+
   static String get writeConclusion => 'Дүгнэлт бичих';
 
   static String get totalSavings => 'Нийт хуримтлал';
@@ -415,7 +419,9 @@ class LocaleKeys {
 
   static String get completedHabit => 'Хэвшсэн дадал';
 
-  static String get completedHabit2 => 'Хэвшиж буй дадал';
+  static String get completedHabit2 => 'Хэвшүүлэх дадал';
+
+  static String get completedHabit3 => 'Хэвшүүлсэн дадал';
 
   static String get myAchievements => 'Миний амжилт';
 
@@ -435,9 +441,9 @@ class LocaleKeys {
 
   static String get pleaseSelectPicture => 'Зургаа сонгоно уу';
 
-  static String get camera => 'Camera';
+  static String get camera => 'Камер';
 
-  static String get gallery => 'Gallery';
+  static String get gallery => 'Зургийн сан';
 
   static String get feedback => 'Санал хүсэлт';
 

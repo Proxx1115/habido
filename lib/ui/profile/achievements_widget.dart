@@ -53,12 +53,13 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
               child: Column(
                 children: [
                   /// Миний амжилт
-                  CustomText(
-                    LocaleKeys.myAchievements,
-                    alignment: Alignment.center,
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  if (_allTimeAchievement != null)
+                    CustomText(
+                      LocaleKeys.myAchievements,
+                      alignment: Alignment.center,
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.w500,
+                    ),
 
                   /// Сарын амжилт
                   if (_monthlyAchievement != null)
@@ -67,6 +68,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                       percentTitle: LocaleKeys.thisMonth,
                       percentage: _monthlyAchievement!.monthlyPercentage,
                       achievement: _monthlyAchievement!.monthlyAchievement,
+                      completedHabitTitle: LocaleKeys.completedHabit2,
                       completedHabits: _monthlyAchievement!.monthlyTotalCompletedHabits,
                     ),
 
@@ -77,6 +79,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                       percentTitle: LocaleKeys.allTime,
                       percentage: _allTimeAchievement!.allTimePercentage,
                       achievement: _allTimeAchievement!.allTimeAchievement,
+                      completedHabitTitle: LocaleKeys.completedHabit3,
                       completedHabits: _allTimeAchievement!.allTimeTotalCompletedHabits,
                       margin: EdgeInsets.only(top: 15.0),
                     ),
@@ -113,7 +116,8 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
     required String percentTitle,
     int? percentage,
     String? achievement,
-    int? completedHabits,
+    required String completedHabitTitle,
+    String? completedHabits,
     EdgeInsets? margin,
   }) {
     return Container(
@@ -127,18 +131,6 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          /// Image
-          // Container(
-          //   padding: EdgeInsets.all(10.0),
-          //   height: 40.0,
-          //   width: 40.0,
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-          //     color: customColors.primaryBackground,
-          //   ),
-          //   child: SvgPicture.asset(leadingAsset!),
-          // ),
-
           /// Term
           _achievementRowItem(
             title: percentTitle,
@@ -155,8 +147,8 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
 
           /// Хэвшсэн дадал
           _achievementRowItem(
-            title: LocaleKeys.completedHabit2,
-            body: Func.toStr(completedHabits),
+            title: completedHabitTitle, //LocaleKeys.completedHabit2,
+            body: completedHabits ?? '',
           ),
         ],
       ),
