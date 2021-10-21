@@ -19,9 +19,9 @@ class LocaleKeys {
 
   static String get appName => 'HabiDo';
 
-  static String get noData => 'Мэдээлэл олдсонгүй.';
+  static String get noData => 'Мэдээлэл олдсонгүй';
 
-  static String get errorOccurred => 'Алдаа гарлаа.';
+  static String get errorOccurred => 'Алдаа гарлаа';
 
   static String get success => 'Амжилттай';
 
@@ -160,11 +160,11 @@ class LocaleKeys {
   ///
   static String get yourRegistration => 'Таны бүртгэл';
 
-  static String get enterPhoneNumber => 'Та өөрийн утасны дугаараа оруулна уу.';
+  static String get enterPhoneNumber => 'Та өөрийн утасны дугаараа оруулна уу';
 
-  static String get enterCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу.';
+  static String get enterCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу';
 
-  static String get enterProfile => 'Хувийн мэдээллээ оруулна уу.';
+  static String get enterProfile => 'Хувийн мэдээллээ оруулна уу';
 
   static String get yourName => 'Таны нэр';
 
@@ -182,7 +182,7 @@ class LocaleKeys {
 
   static String get termsOfService => 'Үйлчилгээний нөхцөл';
 
-  // static String get readTerms => 'Та үйлчилгээний нөхцөлтэй танилцана уу.';
+  static String get readTerms => 'Та үйлчилгээний нөхцөлтэй танилцана уу';
 
   static String get beginTogether => 'Хамтдаа аяллаа эхлүүлцгээе';
 
@@ -203,7 +203,8 @@ class LocaleKeys {
 
   static String get agreeTermCond2 => '"Үйлчилгээний нөхцөл"';
 
-  static String get agreeTermCond3 => '-ийг зөвшөөрсөн тохиолдолд "Habido"-г ашиглах эрхтэй болохыг анхаарна уу.';
+  static String get agreeTermCond3 =>
+      '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу';
 
 // static String get agreeTerms => 'Зөвшөөрөх';
 //
@@ -250,7 +251,7 @@ class LocaleKeys {
 
   static String get showcaseUserHabit => 'Сонгосон дадлынхаа төлөвлөгөөг гарган хадгална';
 
-  static String get showcaseTimer => 'Тухайн дадлыг хэвшүүлэхдээ бүртгэл хийнэ.';
+  static String get showcaseTimer => 'Тухайн дадлыг хэвшүүлэхдээ бүртгэл хийнэ';
 
   static String get showcaseSlidable => 'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой';
 
@@ -377,7 +378,7 @@ class LocaleKeys {
 
   static String get congratulations => 'Танд баяр хүргэе';
 
-  static String get pleaseSelectCategory => 'Ангилал сонгоно уу.';
+  static String get pleaseSelectCategory => 'Ангилал сонгоно уу';
 
   static String get selectCategory => 'Ангилал сонгох';
 
@@ -403,13 +404,13 @@ class LocaleKeys {
 
   static String get pickShape => 'Дүрс сонгох';
 
-  static String get validate12 => 'Уучлаарай, 12-оос доош насны хүн бүртгүүлэх боломжгүй.';
+  static String get validate12 => 'Уучлаарай, 12-оос доош насны хүн бүртгүүлэх боломжгүй';
 
-  static String get pleaseEnterStartDate => 'Эхлэх огноо сонгоно уу.';
+  static String get pleaseEnterStartDate => 'Эхлэх огноо сонгоно уу';
 
-  static String get pleaseEnterEndDate => 'Дуусах огноо сонгоно уу.';
+  static String get pleaseEnterEndDate => 'Дуусах огноо сонгоно уу';
 
-  static String get pleaseSelectGoal => 'Зорилго сонгоно уу.';
+  static String get pleaseSelectGoal => 'Зорилго сонгоно уу';
 
   /// Profile
   static String get allTime => 'Бүх цаг үе';
@@ -430,15 +431,15 @@ class LocaleKeys {
 
   static String get changePassword => 'Нууц үг солих';
 
-  static String get pleaseEnterVerifyCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу.';
+  static String get pleaseEnterVerifyCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу';
 
   static String get biometricAuth => 'Биометрээр нэвтрэх';
 
-  static String get biometricFailed => 'Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу.';
+  static String get biometricFailed => 'Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу';
 
   static String get changePhoneNumber => 'Утасны дугаар солих';
 
-  static String get pleaseSelectPicture => 'Зургаа сонгоно уу.';
+  static String get pleaseSelectPicture => 'Зургаа сонгоно уу';
 
   static String get camera => 'Камер';
 
