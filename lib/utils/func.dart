@@ -117,7 +117,7 @@ class Func {
   static String toTimeStr(String? str) {
     if (isEmpty(str)) return '';
 
-    DateTime dateTime = DateTime.parse(str!);
+    DateTime dateTime = DateTime.parse(str!).toLocal();
     String formattedDate = DateFormat('HH:mm').format(dateTime);
 
     return formattedDate;
