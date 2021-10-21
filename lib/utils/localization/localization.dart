@@ -230,7 +230,7 @@ class LocaleKeys {
   static String get myCorner => 'Миний булан';
 
   /// Showcase
-  static String get showcaseAddHabit => 'Шинэ дадал үүсгэхдээ энд дарна';
+  static String get showcaseAddHabit => 'Шинэ дадал үүсгэх';
 
   static String get showcasePsyTest => 'Сэтгэл зүйн тест бөглөх';
 
@@ -246,9 +246,9 @@ class LocaleKeys {
 
   static String get showcaseHabitCategory => 'Өөртөө хэвшүүлэхийг хүсэж буй дадлын төрлийг сонгоно.';
 
-  static String get showcaseHabit => 'Сонгосон төрөл доторх дадлуудаас өөрийн хэрэгжүүлэхээр дадлыг сонгоно.';
+  static String get showcaseHabit => 'Сонгосон төрлөөс өөрийн хэвшүүлэх дадлыг сонгоно.';
 
-  static String get showcaseUserHabit => 'Сонгосон дадлынхаа төлөвлөгөөг гарган бүртгэл үүсгэн хадгална.';
+  static String get showcaseUserHabit => 'Сонгосон дадлынхаа төлөвлөгөөг гарган хадгална.';
 
   static String get showcaseTimer => 'Тухайн дадлыг хэвшүүлэхдээ бүртгэл хийнэ.';
 
@@ -288,7 +288,7 @@ class LocaleKeys {
 
   static String get psyTestHint3 => 'Тиймээс сэтгэлзүйн тестийг бөглөөд үзээрэй';
 
-  static String get psyTestHint4 => 'Доорх товчыг дарж сэтгэлзүйн тестээ бөглөөрэй';
+  static String get psyTestHint4 => 'Доорх товчийг дарж сэтгэлзүйн тестээ бөглөөрэй';
 
   static String get recommendedHabit => 'Танд санал болгож буй дадал';
 

@@ -125,10 +125,6 @@ class VerticalContentCard extends StatelessWidget {
                         width: 24.0,
                         padding: EdgeInsets.all(5.0),
                         alignment: Alignment.bottomLeft,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(7.0)),
-                          color: customColors.greyBackground,
-                        ),
                         child: SvgPicture.asset(Assets.clock),
                       ),
 
@@ -238,10 +234,6 @@ class HorizontalContentCard extends StatelessWidget {
                                 width: 24.0,
                                 padding: EdgeInsets.all(5.0),
                                 alignment: Alignment.bottomLeft,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(7.0)),
-                                  color: customColors.greyBackground,
-                                ),
                                 child: SvgPicture.asset(Assets.clock),
                               ),
 
