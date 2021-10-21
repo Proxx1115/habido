@@ -244,15 +244,15 @@ class LocaleKeys {
 
   static String get showcaseNotification => 'Сануулга харах';
 
-  static String get showcaseHabitCategory => 'Өөртөө хэвшүүлэхийг хүсэж буй дадлын төрлийг сонгоно.';
+  static String get showcaseHabitCategory => 'Өөртөө хэвшүүлэхийг хүсэж буй дадлын төрлийг сонгоно';
 
-  static String get showcaseHabit => 'Сонгосон төрлөөс өөрийн хэвшүүлэх дадлыг сонгоно.';
+  static String get showcaseHabit => 'Сонгосон төрлөөс өөрийн хэвшүүлэх дадлыг сонгоно';
 
-  static String get showcaseUserHabit => 'Сонгосон дадлынхаа төлөвлөгөөг гарган хадгална.';
+  static String get showcaseUserHabit => 'Сонгосон дадлынхаа төлөвлөгөөг гарган хадгална';
 
   static String get showcaseTimer => 'Тухайн дадлыг хэвшүүлэхдээ бүртгэл хийнэ.';
 
-  static String get showcaseSlidable => 'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой.';
+  static String get showcaseSlidable => 'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой';
 
   /// Chat
   static String get habidoAssistant => 'HabiDo туслах';
