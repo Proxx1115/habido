@@ -54,12 +54,10 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                 children: [
                   /// Миний амжилт
                   if (_allTimeAchievement != null)
-                    CustomText(
-                      LocaleKeys.myAchievements,
-                      alignment: Alignment.center,
-                      fontSize: 19.0,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  SectionTitleText(
+                    text: LocaleKeys.myAchievements,
+                    margin: EdgeInsets.symmetric(vertical: 0.0),
+                  ),
 
                   /// Сарын амжилт
                   if (_monthlyAchievement != null)
@@ -122,8 +120,8 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
   }) {
     return Container(
       margin: margin ?? EdgeInsets.only(top: 20.0),
-      padding: EdgeInsets.all(15.0),
-      height: 70.0,
+      padding: EdgeInsets.all(12.0),
+      height: 76.0,
       decoration: BoxDecoration(
         borderRadius: SizeHelper.borderRadiusOdd,
         color: customColors.whiteBackground,
@@ -173,6 +171,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
               body,
               fontWeight: FontWeight.w500,
               alignment: Alignment.center,
+              padding: EdgeInsets.only(top: 6.0),
             ),
         ],
       ),

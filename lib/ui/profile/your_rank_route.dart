@@ -86,38 +86,8 @@ class _YourRankRouteState extends State<YourRankRoute> {
                               ],
                             ),
 
-                            /// Medal slider
-                            // Expanded(
-                            //   flex: 2,
-                            //   child: CarouselSlider(
-                            //     items: [
-                            //       for (var el in _rankList!) _pageViewItem(el),
-                            //     ],
-                            //     carouselController: _carouselController,
-                            //     options: CarouselOptions(
-                            //       aspectRatio: 2.0,
-                            //       enlargeCenterPage: true,
-                            //       enlargeStrategy: CenterPageEnlargeStrategy.height,
-                            //       viewportFraction: 0.5,
-                            //       // height: 125,
-                            //       // autoPlay: false,
-                            //       // enlargeCenterPage: true,
-                            //       // viewportFraction: 0.8,
-                            //       // aspectRatio: 2.0,
-                            //       // // enlargeCenterPage: true,
-                            //       // // aspectRatio: 1,
-                            //       // initialPage: 0,
-                            //       onPageChanged: (index, reason) {
-                            //         setState(() {
-                            //           _currentIndex = index;
-                            //         });
-                            //       },
-                            //     ),
-                            //   ),
-                            // ),
-
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: Column(
                                 children: [
                                   /// Rank

@@ -56,7 +56,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                       crossAxisSpacing: 15.0,
                       mainAxisSpacing: _mainAxisSpacing,
                       crossAxisCount: 2,
-                      childAspectRatio: 1.2,
+                      childAspectRatio: 1.11,
                       children: List.generate(
                         _habitCategoryList!.length,
                         (index) => (index == 0)
