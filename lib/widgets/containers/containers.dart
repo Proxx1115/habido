@@ -446,6 +446,7 @@ class ListItemContainer extends StatelessWidget {
       return CachedNetworkImage(
         imageUrl: leadingImageUrl!,
         fit: BoxFit.fitWidth,
+        color: customColors.whiteBackground,
         width: 20.0,
         height: 20.0,
         placeholder: (context, url) => Container(),
