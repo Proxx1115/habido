@@ -38,6 +38,7 @@ class UserHabit extends BaseResponse {
     this.habit,
     this.userHabitReminders,
     this.planDays,
+    this.isDynamicHabit,
   });
 
   UserHabit.fromJson(dynamic json) {
@@ -51,6 +52,7 @@ class UserHabit extends BaseResponse {
     planTerm = json['planTerm'];
     goalValue = json['goalValue'];
     habitId = json['habitId'];
+    isDynamicHabit = json['isDynamicHabit'];
     habit = json['habit'] != null ? Habit.fromJson(json['habit']) : null;
     if (json['userHabitReminders'] != null) {
       userHabitReminders = [];

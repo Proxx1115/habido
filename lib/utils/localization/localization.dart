@@ -151,6 +151,8 @@ class LocaleKeys {
 
   static String get logout => 'Гарах';
 
+  static String get logoutFromApp => 'Аппликэйшнээс гарах';
+
   static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
 
   static String get sessionExpired => 'Холболт салсан байна. Дахин нэвтэрнэ үү.';
@@ -415,7 +417,7 @@ class LocaleKeys {
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 
-  static String get progress => 'Гүйцэтгэл';
+  static String get progress => 'Үйлдэл';
 
   static String get completedHabit => 'Хэвшсэн дадал';
 
@@ -450,6 +452,7 @@ class LocaleKeys {
   static String get feedbackHint => 'HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй';
 
   static String get faq => 'Түгээмэл асуулт, хариулт';
+
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

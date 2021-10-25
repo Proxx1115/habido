@@ -43,9 +43,10 @@ class _ProfileCardState extends State<ProfileCard> {
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
             return (globals.userData != null && globals.userData!.rankId != null)
-                ? Container(
+                ? StadiumContainer(
                     margin: widget.margin,
                     height: 80.0,
+                    borderRadius: SizeHelper.borderRadiusOdd,
                     padding: EdgeInsets.all(15.0),
                     child: NoSplashContainer(
                       child: InkWell(

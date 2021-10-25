@@ -27,6 +27,7 @@ class _CupOfWaterState extends State<CupOfWater> {
   // Goal
   int? _goalValue;
   int _currentValue = 0;
+  bool _isDynamic = false;
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _CupOfWaterState extends State<CupOfWater> {
 
     if (widget.userHabit.userHabitId != null) {
       _currentValue = Func.toInt(SharedPref.getHabitProgressValue(widget.userHabit.userHabitId!));
+      _isDynamic = widget.userHabit.isDynamicHabit ?? false;
 
       if (_currentValue == _goalValue && widget.onChanged != null) {
         WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -81,9 +83,35 @@ class _CupOfWaterState extends State<CupOfWater> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+
                       /// Cup of water
-                      Expanded(
+                      _isDynamic == false ? Expanded(
                         child: SvgPicture.asset(Assets.cup_of_water, alignment: Alignment.topCenter),
+                      )
+
+                      : Container(
+                        margin: EdgeInsets.only(top: 30.0),
+                        // padding: EdgeInsets.all(20.0),
+                        height: 140.0,
+                        width: 140.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(80.0)),
+                          color: customColors.greyBackground,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+
+                            CustomText(
+                            '$_currentValue',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 50.0,
+                            color: widget.primaryColor,
+                            textAlign: TextAlign.center,
+                          ),
+
+                          ]
+                        ),
                       ),
 
                       Container(
@@ -141,7 +169,7 @@ class _CupOfWaterState extends State<CupOfWater> {
           borderRadius: BorderRadius.all(Radius.circular(28.0)),
           color: customColors.greyBackground,
         ),
-        child: SvgPicture.asset(asset),
+        child: SvgPicture.asset(asset, color: widget.primaryColor),
       ),
     );
   }
