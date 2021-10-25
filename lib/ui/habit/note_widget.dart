@@ -72,7 +72,7 @@ class NoteWidget extends StatelessWidget {
           onPressedButton: () {
             var userHabit = this.userHabit;
             userHabit.userNote = _noteController.text;
-            BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
+            // BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
           },
           child: Column(
             children: [

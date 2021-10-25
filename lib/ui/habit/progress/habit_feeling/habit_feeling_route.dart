@@ -147,6 +147,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = _userHabit.userHabitId;
               request.value = Func.toStr(_selectedEmoji!);
+              request.note = _userHabit.userNote;
               BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
             }
           : null,
