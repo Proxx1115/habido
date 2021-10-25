@@ -49,28 +49,31 @@ class CustomDialogBody extends StatelessWidget {
         color: customColors.whiteBackground,
         borderRadius: new BorderRadius.only(topLeft: Radius.circular(35.0), topRight: Radius.circular(35.0)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: EdgeInsets.all(45.0),
-            child: Column(
-              children: [
-                /// Icon
-                if (asset != null) _icon(),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(45.0),
+              child: Column(
+                children: [
+                  /// Icon
+                  if (asset != null) _icon(),
 
-                /// Text
-                if (text != null) _text(),
+                  /// Text
+                  if (text != null) _text(),
 
-                /// Custom child
-                if (child != null) child!,
+                  /// Custom child
+                  if (child != null) child!,
 
-                /// Buttons
-                _buttons(context),
-              ],
+                  /// Buttons
+                  _buttons(context),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
