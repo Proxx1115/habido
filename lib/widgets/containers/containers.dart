@@ -495,7 +495,7 @@ class SelectableListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             /// Text
-            Expanded(child: CustomText(text)),
+            Expanded(child: CustomText(text, maxLines: 3,)),
 
             /// Icon
             SvgPicture.asset(
