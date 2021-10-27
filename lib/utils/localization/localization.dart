@@ -354,6 +354,46 @@ class LocaleKeys {
 
   static String get emoji5 => 'Маш их баяртай байна';
 
+  static String get happyEmoji => 'Баяр хөөртэй';
+
+  static String get frustratedEmoji => 'Бухимдсан';
+
+  static String get surprisedEmoji => 'Гайхширсан';
+
+  static String get lonelyEmoji => 'Ганцаардсан';
+
+  static String get sadEmoji => 'Гунигтай';
+
+  static String get underPressureEmoji => 'Дарамттай';
+
+  static String get unknownEmoji => 'Мэдэхгүй';
+
+  static String get optimisticEmoji => 'Өөдрөг';
+
+  static String get confidentEmoji => 'Өөртөө итгэлтэй';
+
+  static String get worriedEmoji => 'Санаа зовсон';
+
+  static String get panickedEmoji => 'Сандарсан';
+
+  static String get satisfiedEmoji => 'Сэтгэл ханамжтай';
+
+  static String get emotionlessEmoji => 'Сэтгэл хөдлөлгүй';
+
+  static String get calmEmoji => 'Тайван';
+
+  static String get thankfulEmoji => 'Талархсан';
+
+  static String get anxiousEmoji => 'Түгшүүртэй';
+
+  static String get angryEmoji => 'Ууртай';
+
+  static String get lovedEmoji => 'Хайрлагдсан';
+
+  static String get energeticEmoji => 'Эрч хүчтэй';
+
+  static String get tiredEmoji => 'Ядарсан';
+
   static String get note => 'Тэмдэглэл';
 
   static String get writeNote => 'Тэмдэглэл хөтлөх';

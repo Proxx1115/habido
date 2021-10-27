@@ -17,6 +17,7 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'emoji_widget.dart';
+import 'emoji_widget_for_feeling_note.dart';
 
 class HabitFeelingRoute extends StatefulWidget {
   final UserHabit userHabit;
@@ -75,7 +76,14 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
                       child: ListView(
                         children: [
                           /// Emoji
+                          _userHabit.habit?.goalSettings?.toolContent?.isFeeling == null ?
                           EmojiWidget(
+                            onSelectedEmoji: (value) {
+                              setState(() {
+                                _selectedEmoji = value;
+                              });
+                            },
+                          ) : EmojiWidgetForFeelingNote(
                             onSelectedEmoji: (value) {
                               setState(() {
                                 _selectedEmoji = value;
