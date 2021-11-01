@@ -194,6 +194,8 @@ class LocaleKeys {
 
   static String get passwordsDoesNotMatch => 'Нууц үгээ зөв давтан оруулна уу!';
 
+  static String get passwordsLengthNotValid => 'Нууц үг доод тал нь 8 тэмдэгт байх ёстой!';
+
   static String get oldPassword => 'Хуучин нууц үг';
 
   static String get lastName => 'Овог';
@@ -289,9 +291,9 @@ class LocaleKeys {
   static String get psyTestHint2 =>
       'Та өөрийгөө бүрэн хүлээн зөвшөөрч, илүү таньж, алдаа дутагдалтайгаа нүүр тулж, засаж сайжруулж чадна';
 
-  static String get psyTestHint3 => 'Тиймээс сэтгэлзүйн тестийг бөглөөд үзээрэй';
+  static String get psyTestHint3 => 'Тиймээс сэтгэл зүйн тестийг бөглөөд үзээрэй';
 
-  static String get psyTestHint4 => 'Доорх товчийг дарж сэтгэлзүйн тестээ бөглөөрэй';
+  static String get psyTestHint4 => 'Доорх товчийг дарж сэтгэл зүйн тестээ бөглөөрэй';
 
   static String get recommendedHabit => 'Танд санал болгож буй дадал';
 

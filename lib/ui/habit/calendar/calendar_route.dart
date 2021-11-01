@@ -56,8 +56,8 @@ class _CalendarRouteState extends State<CalendarRoute> {
     var now = DateTime.now();
     BlocManager.calendarBloc.add(
       GetCalendarEvent(
-        Func.toDateStr(DateTime(now.year, now.month - 1, 23)),
-        Func.toDateStr(DateTime(now.year, now.month + 1, 7)),
+        Func.toDateStr(DateTime(now.year, now.month - 2, 1)),
+        Func.toDateStr(DateTime(now.year + 1, now.month, 28)),
       ),
     );
     super.initState();

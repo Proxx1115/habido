@@ -65,7 +65,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
               onChanged: (isChecked) => _onChanged(isChecked),
             ),
           ),
-          MarginHorizontal(width: 15.0),
+          MarginHorizontal(width: 6.0),
           ButtonText(
             text: widget.text,
             color: widget.textColor ?? customColors.greyText,

@@ -8,6 +8,8 @@ import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 
+import 'custom_expansion_tile.dart';
+
 class EmojiWidgetForFeelingNote extends StatefulWidget {
   final Function(int) onSelectedEmoji;
   final BorderRadius? borderRadius;
@@ -25,68 +27,79 @@ class EmojiWidgetForFeelingNote extends StatefulWidget {
 }
 
 class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
+
+  UniqueKey? keyTitle;
   int? _selectedIndex;
+  bool isExpanded = true;
+
+  // void _collape(){
+  //   isExpanded = false;
+  //   keyTitle = UniqueKey();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return StadiumContainer(
+    return ExpandableCard(
       borderRadius: widget.borderRadius,
       padding: SizeHelper.boxPadding,
-      child: Column(
-        children: [
-          /// Text
-          if (widget.visibleHeader)
-            CustomText(
-              _getText(),
-              fontWeight: FontWeight.w500,
-              alignment: Alignment.center,
-              color: _getColor(_selectedIndex ?? -1),
+      child: Theme(
+        data: ThemeData().copyWith(dividerColor: Colors.transparent),
+        child: CustomExpansionTile(
+          key: keyTitle,
+          title: Text(
+                    _getText(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(height: 0, fontWeight: FontWeight.w500, fontSize: 15, color: _getColor((_selectedIndex ?? -1))),
+                  ),
+          tilePadding: EdgeInsets.zero,
+          isSelected: _selectedIndex != null ? true : false,
+          initiallyExpanded: isExpanded,
+          children: [
+            /// Divider
+            if (widget.visibleHeader) HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+
+            /// Emojis
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    for (int i = 1; i <= 4; i++) _emojiItem(i),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    for (int i = 5; i <= 8; i++) _emojiItem(i),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    for (int i = 9; i <= 12; i++) _emojiItem(i),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    for (int i = 13; i <= 16; i++) _emojiItem(i),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    for (int i = 17; i <= 20; i++) _emojiItem(i),
+                  ],
+                ),
+              ],
             ),
-
-          /// Divider
-          if (widget.visibleHeader) HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
-
-          /// Emojis
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  for (int i = 1; i <= 4; i++) _emojiItem(i),
-                ],
-              ),
-              SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  for (int i = 5; i <= 8; i++) _emojiItem(i),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  for (int i = 9; i <= 12; i++) _emojiItem(i),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  for (int i = 13; i <= 16; i++) _emojiItem(i),
-                ],
-              ),
-              SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  for (int i = 17; i <= 20; i++) _emojiItem(i),
-                ],
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -144,6 +157,7 @@ class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
       onTap: () {
         setState(() {
           widget.onSelectedEmoji(index);
+          // _collape();
           _selectedIndex = index;
         });
       },

@@ -143,6 +143,14 @@ class _SignUp4PasswordRouteState extends State<SignUp4PasswordRoute> {
                 );
 
                 return;
+              } else if(_pssController.text.length < 8 && _pssRepeatController.text.length < 8){
+                showCustomDialog(
+                  context,
+                  child: CustomDialogBody(
+                      asset: Assets.error, text: LocaleKeys.passwordsLengthNotValid, buttonText: LocaleKeys.ok),
+                );
+
+                return;
               }
 
               SignUpRegisterRequest verifyCodeRequest = widget.signUpRegisterRequest;

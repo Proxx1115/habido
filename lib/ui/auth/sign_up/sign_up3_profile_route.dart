@@ -184,7 +184,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     return _visibleTermCond
         ? CustomCheckbox(
             text: LocaleKeys.understand,
-            margin: EdgeInsets.only(top: 30.0, bottom: 30.0),
+            margin: EdgeInsets.only(top: 30.0, bottom: 30.0,),
             alignment: MainAxisAlignment.center,
             onChanged: (value) {
               _checkBoxValue = value;
