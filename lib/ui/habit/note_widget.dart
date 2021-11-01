@@ -34,7 +34,7 @@ class NoteWidget extends StatelessWidget {
               children: [
                 /// Title
                 Expanded(
-                  child: CustomText(LocaleKeys.writeNote, fontWeight: FontWeight.w500),
+                  child: CustomText(userHabit.habit!.noteTitle ?? LocaleKeys.writeNote, fontWeight: FontWeight.w500, maxLines: 3,),
                 ),
 
                 /// Edit button

@@ -1,14 +1,15 @@
+import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/models/user_psy_test_result.dart';
 
 class PsyTestCategoryResults {
-  String? categoryName;
+  PsyTest? latestTest;
   List<UserPsyTestResult>? psyTestResults;
   bool? isExpanded; // Local param
 
-  PsyTestCategoryResults({this.categoryName, this.psyTestResults});
+  PsyTestCategoryResults({this.latestTest, this.psyTestResults});
 
   PsyTestCategoryResults.fromJson(dynamic json) {
-    categoryName = json['categoryName'];
+    latestTest = json['latestTest'];
     if (json['userTests'] != null) {
       psyTestResults = [];
       json['userTests'].forEach((v) {
@@ -21,7 +22,7 @@ class PsyTestCategoryResults {
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map['categoryName'] = categoryName;
+    map['latestTest'] = latestTest;
 
     if (psyTestResults != null) {
       map['userTests'] = psyTestResults?.map((v) => v.toJson()).toList();

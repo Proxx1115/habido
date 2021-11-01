@@ -3,7 +3,7 @@ import 'psy_test_category_results.dart';
 import 'base_response.dart';
 
 class PsyTestResultsResponse extends BaseResponse {
-  List<PsyTestCategoryResults>? psyTestCategoryResults;
+  PsyTestCategoryResults? psyTestCategoryResults;
 
   PsyTestResultsResponse({this.psyTestCategoryResults});
 

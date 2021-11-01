@@ -8,6 +8,7 @@ class Habit {
   int? contentId; // 0
   int? questionId; // 0
   String? tip; // '' Зөвлөмж
+  String? noteTitle; // '' Тэмдэглэл хөтлөхийн гарчиг текст
   String? color; // required
   String? backgroundColor; // ''
   String? photo; // required link
@@ -21,6 +22,7 @@ class Habit {
     this.contentId,
     this.questionId,
     this.tip,
+    this.noteTitle,
     this.color,
     this.photo,
     this.goalSettings,
@@ -34,6 +36,7 @@ class Habit {
     contentId = json['contentId'];
     questionId = json['questionId'];
     tip = json['tip'];
+    noteTitle = json['noteTitle'];
     color = json['color'];
     backgroundColor = json['backgroundColor'];
     photo = json['photo'];
@@ -49,6 +52,7 @@ class Habit {
     map['contentId'] = contentId;
     map['questionId'] = questionId;
     map['tip'] = tip;
+    map['noteTitle'] = noteTitle;
     map['color'] = color;
     map['backgroundColor'] = backgroundColor;
     map['photo'] = photo;

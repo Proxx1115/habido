@@ -44,6 +44,12 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
   // Data
   late UserHabit _userHabit;
 
+  // Conclusion
+  final _conclusionController = TextEditingController();
+  String? _conclusion = '';
+
+  // Button
+  bool _enabledButton = false;
 
   @override
   void initState() {
@@ -52,6 +58,10 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
     // UI
     _primaryColor = HabitHelper.getPrimaryColor1(_userHabit);
     _backgroundColor = HabitHelper.getBackgroundColor1(_userHabit);
+
+    _conclusionController.addListener(() {
+      _conclusion = _conclusionController.text;
+    });
 
     super.initState();
   }
@@ -144,6 +154,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
     }
   }
 
+
   Widget _buttonFinish() {
     return CustomButton(
       margin: EdgeInsets.only(top: 15.0),
@@ -151,7 +162,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: _selectedEmoji != null
+      onPressed: (_selectedEmoji != null && Func.isNotEmpty(_userHabit.userNote) )
           ? () {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = _userHabit.userHabitId;
