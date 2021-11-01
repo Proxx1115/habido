@@ -162,7 +162,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: (_selectedEmoji != null && Func.isNotEmpty(_userHabit.userNote) )
+      onPressed: (_selectedEmoji != null && Func.isNotEmpty(_userHabit.userNote))
           ? () {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = _userHabit.userHabitId;

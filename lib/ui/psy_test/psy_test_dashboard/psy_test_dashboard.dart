@@ -31,6 +31,7 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
 
   // Data
   List<PsyTestCategoryResults>? _categoryList;
+  // PsyTestCategoryResults? _userTests;
 
   //
   bool _visibleHint = false;

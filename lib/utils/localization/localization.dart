@@ -272,6 +272,8 @@ class LocaleKeys {
   /// Psychology test
   static String get psyTest => 'Сэтгэл зүйн тест';
 
+  static String get myPsyTestResult => 'Миний үр дүн';
+
   static String get psyTestSuccess => 'Сэтгэл зүйн тест амжилттай';
 
   static String get psyStatus => 'Сэтгэл зүйн байдал';
