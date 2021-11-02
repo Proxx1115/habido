@@ -29,6 +29,13 @@
             {
               "client_id": "843003625940-evl9qfokmcidrbilf7crv2k51tviiibs.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "843003625940-kcavo4qgalkb6pge0klb96de49ob6234.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "mn.app.habidoApp"
+              }
             }
           ]
         }
