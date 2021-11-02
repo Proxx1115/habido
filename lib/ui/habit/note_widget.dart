@@ -34,7 +34,7 @@ class NoteWidget extends StatelessWidget {
               children: [
                 /// Title
                 Expanded(
-                  child: CustomText(LocaleKeys.writeNote, fontWeight: FontWeight.w500),
+                  child: CustomText(userHabit.habit!.noteTitle ?? LocaleKeys.writeNote, fontWeight: FontWeight.w500, maxLines: 3,),
                 ),
 
                 /// Edit button
@@ -58,7 +58,7 @@ class NoteWidget extends StatelessWidget {
 
   void _onTap(BuildContext context) {
     final _noteController = TextEditingController();
-    _noteController.text = userHabit.userNote ?? '';
+    // _noteController.text = userHabit.userNote ?? '';
 
     showCustomDialog(
       context,
@@ -72,7 +72,7 @@ class NoteWidget extends StatelessWidget {
           onPressedButton: () {
             var userHabit = this.userHabit;
             userHabit.userNote = _noteController.text;
-            // BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
+            BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
           },
           child: Column(
             children: [

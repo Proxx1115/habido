@@ -244,13 +244,13 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
               _answerList![index].isSelected = expanded;
               if (expanded) {
                 // Clear text
-                // _conclusionController.text = '';
+                _conclusionController.text = '';
 
                 for (int i = 0; i < _answerList!.length; i++) {
                   if (index != i) {
                     _answerList![i].isSelected = false;
                   }
-                  // print('$i  ${_answers![i].isSelected}');
+                  // print('$i  ${_answerList![i].isSelected}');
                 }
               }
 
@@ -294,7 +294,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                 ? () {
                     HabitAnswer? answer = _getSelectedAnswer();
 
-                    if (answer != null) {
+                    if (answer != null && Func.isNotEmpty(_conclusion)) {
                       var request = SaveUserHabitProgressRequest();
                       request.userHabitId = _userHabit.userHabitId;
                       request.value = Func.toStr(answer.selectedEmoji ?? '');

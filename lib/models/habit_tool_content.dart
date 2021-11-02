@@ -4,8 +4,9 @@ class HabitToolContent {
   String? music;
   String? animation;
   bool? question;
+  bool? isFeeling;
 
-  HabitToolContent({this.emoji, this.camera, this.music, this.animation, this.question});
+  HabitToolContent({this.emoji, this.camera, this.music, this.animation, this.question, this.isFeeling});
 
   HabitToolContent.fromJson(dynamic json) {
     emoji = json['emoji'];
@@ -13,6 +14,7 @@ class HabitToolContent {
     music = json['music'];
     animation = json['animation'];
     question = json['question'];
+    isFeeling = json['isFeeling'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +24,7 @@ class HabitToolContent {
     map['music'] = music;
     map['animation'] = animation;
     map['question'] = question;
+    map['isFeeling'] = isFeeling;
     return map;
   }
 }

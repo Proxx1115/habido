@@ -105,7 +105,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Container(
                     padding: EdgeInsets.all(12.0),
                     child: SvgPicture.asset(Assets.logout, color: customColors.whiteBackground),
-                  )
+                  ),
+                  onPressed: () {
+                    AuthBloc.showLogoutDialog(context);
+                  }
                 ),
 
                 /// Text

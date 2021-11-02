@@ -94,6 +94,28 @@ class Assets {
   static const String emoji3 = 'assets/images/habit/emoji3.svg';
   static const String emoji4 = 'assets/images/habit/emoji4.svg';
   static const String emoji5 = 'assets/images/habit/emoji5.svg';
+
+  static const String happyEmoji = 'assets/images/habit/_Баяр_хөөртэй.png';
+  static const String frustratedEmoji = 'assets/images/habit/_Бухимдсан.png';
+  static const String surprisedEmoji = 'assets/images/habit/_Гайхширсан.png';
+  static const String lonelyEmoji = 'assets/images/habit/_Ганцаардсан.png';
+  static const String sadEmoji = 'assets/images/habit/_Гунигтай.png';
+  static const String underPressureEmoji = 'assets/images/habit/_Дарамттай.png';
+  static const String unknownEmoji = 'assets/images/habit/_Мэдэхгүй.png';
+  static const String optimisticEmoji = 'assets/images/habit/_Өөдрөг.png';
+  static const String confidentEmoji = 'assets/images/habit/_Өөртөө_итгэлтэй.png';
+  static const String worriedEmoji = 'assets/images/habit/_Санаа_зовсон.png';
+  static const String panickedEmoji = 'assets/images/habit/_Сандарсан.png';
+  static const String satisfiedEmoji = 'assets/images/habit/_Сэтгэл_ханамжтай.png';
+  static const String emotionlessEmoji = 'assets/images/habit/_Сэтгэл_хөдлөлгүй.png';
+  static const String calmEmoji = 'assets/images/habit/_Тайван.png';
+  static const String thankfulEmoji = 'assets/images/habit/_Талархсан.png';
+  static const String anxiousEmoji = 'assets/images/habit/_Түгшүүртэй.png';
+  static const String angryEmoji = 'assets/images/habit/_Ууртай.png';
+  static const String lovedEmoji = 'assets/images/habit/_Хайрлагдсан.png';
+  static const String energeticEmoji = 'assets/images/habit/_Эрч_хүчтэй.png';
+  static const String tiredEmoji = 'assets/images/habit/_Ядарсан.png';
+
   static const String success_background_png = 'assets/images/habit/success_background.png';
   static const String success_background = 'assets/images/habit/success_background.svg';
   static const String success_background1 = 'assets/images/habit/success_background1.gif';

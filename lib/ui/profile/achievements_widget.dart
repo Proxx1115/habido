@@ -199,7 +199,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                           CustomText(
                             Func.toStr(_allTimeAchievement!.allTimeTotalCompletedHabits),
                             alignment: Alignment.center,
-                            fontSize: 35.0,
+                            fontSize: 28.0,
                             fontWeight: FontWeight.w500,
                           ),
 

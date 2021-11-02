@@ -97,7 +97,7 @@ class CustomDialogBody extends StatelessWidget {
       text,
       margin: EdgeInsets.only(bottom: 35.0),
       alignment: Alignment.center,
-      maxLines: 2,
+      maxLines: 3,
       fontWeight: FontWeight.w500,
     );
   }

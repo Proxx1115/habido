@@ -194,6 +194,8 @@ class LocaleKeys {
 
   static String get passwordsDoesNotMatch => 'Нууц үгээ зөв давтан оруулна уу!';
 
+  static String get passwordsLengthNotValid => 'Нууц үг доод тал нь 8 тэмдэгт байх ёстой!';
+
   static String get oldPassword => 'Хуучин нууц үг';
 
   static String get lastName => 'Овог';
@@ -270,6 +272,8 @@ class LocaleKeys {
   /// Psychology test
   static String get psyTest => 'Сэтгэл зүйн тест';
 
+  static String get myPsyTestResult => 'Миний үр дүн';
+
   static String get psyTestSuccess => 'Сэтгэл зүйн тест амжилттай';
 
   static String get psyStatus => 'Сэтгэл зүйн байдал';
@@ -289,9 +293,9 @@ class LocaleKeys {
   static String get psyTestHint2 =>
       'Та өөрийгөө бүрэн хүлээн зөвшөөрч, илүү таньж, алдаа дутагдалтайгаа нүүр тулж, засаж сайжруулж чадна';
 
-  static String get psyTestHint3 => 'Тиймээс сэтгэлзүйн тестийг бөглөөд үзээрэй';
+  static String get psyTestHint3 => 'Тиймээс сэтгэл зүйн тестийг бөглөөд үзээрэй';
 
-  static String get psyTestHint4 => 'Доорх товчийг дарж сэтгэлзүйн тестээ бөглөөрэй';
+  static String get psyTestHint4 => 'Доорх товчийг дарж сэтгэл зүйн тестээ бөглөөрэй';
 
   static String get recommendedHabit => 'Танд санал болгож буй дадал';
 
@@ -353,6 +357,46 @@ class LocaleKeys {
   static String get emoji4 => 'Тайван сайхан байна';
 
   static String get emoji5 => 'Маш их баяртай байна';
+
+  static String get happyEmoji => 'Баяр хөөртэй';
+
+  static String get frustratedEmoji => 'Бухимдсан';
+
+  static String get surprisedEmoji => 'Гайхширсан';
+
+  static String get lonelyEmoji => 'Ганцаардсан';
+
+  static String get sadEmoji => 'Гунигтай';
+
+  static String get underPressureEmoji => 'Дарамттай';
+
+  static String get unknownEmoji => 'Мэдэхгүй';
+
+  static String get optimisticEmoji => 'Өөдрөг';
+
+  static String get confidentEmoji => 'Өөртөө итгэлтэй';
+
+  static String get worriedEmoji => 'Санаа зовсон';
+
+  static String get panickedEmoji => 'Сандарсан';
+
+  static String get satisfiedEmoji => 'Сэтгэл ханамжтай';
+
+  static String get emotionlessEmoji => 'Сэтгэл хөдлөлгүй';
+
+  static String get calmEmoji => 'Тайван';
+
+  static String get thankfulEmoji => 'Талархсан';
+
+  static String get anxiousEmoji => 'Түгшүүртэй';
+
+  static String get angryEmoji => 'Ууртай';
+
+  static String get lovedEmoji => 'Хайрлагдсан';
+
+  static String get energeticEmoji => 'Эрч хүчтэй';
+
+  static String get tiredEmoji => 'Ядарсан';
 
   static String get note => 'Тэмдэглэл';
 

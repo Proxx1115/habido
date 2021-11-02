@@ -104,6 +104,46 @@ class StadiumContainer extends StatelessWidget {
   }
 }
 
+class ExpandableCard extends StatelessWidget {
+  final EdgeInsets? margin;
+  final EdgeInsets? padding;
+  final double? height;
+  final VoidCallback? onTap;
+  final Color? backgroundColor;
+  final BorderRadius? borderRadius;
+  final Widget child;
+
+  const ExpandableCard({
+    Key? key,
+    this.margin = EdgeInsets.zero,
+    this.padding = EdgeInsets.zero,
+    this.height,
+    this.onTap,
+    this.backgroundColor,
+    this.borderRadius,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return NoSplashContainer(
+      child: InkWell(
+        child: Container(
+          height: height,
+          padding: padding,
+          margin: margin,
+          decoration: BoxDecoration(
+            color: backgroundColor ?? customColors.whiteBackground,
+            borderRadius: borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
+          ),
+          child: child,
+        ),
+        onTap: onTap,
+      ),
+    );
+  }
+}
+
 class CustomDivider extends StatelessWidget {
   final EdgeInsets? margin;
   final double height;

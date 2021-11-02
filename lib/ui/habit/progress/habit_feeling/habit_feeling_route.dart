@@ -17,6 +17,7 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'emoji_widget.dart';
+import 'emoji_widget_for_feeling_note.dart';
 
 class HabitFeelingRoute extends StatefulWidget {
   final UserHabit userHabit;
@@ -43,6 +44,13 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
   // Data
   late UserHabit _userHabit;
 
+  // Conclusion
+  final _conclusionController = TextEditingController();
+  String? _conclusion = '';
+
+  // Button
+  bool _enabledButton = false;
+
   @override
   void initState() {
     _userHabit = widget.userHabit;
@@ -50,6 +58,10 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
     // UI
     _primaryColor = HabitHelper.getPrimaryColor1(_userHabit);
     _backgroundColor = HabitHelper.getBackgroundColor1(_userHabit);
+
+    _conclusionController.addListener(() {
+      _conclusion = _conclusionController.text;
+    });
 
     super.initState();
   }
@@ -75,7 +87,14 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
                       child: ListView(
                         children: [
                           /// Emoji
+                          _userHabit.habit?.goalSettings?.toolContent?.isFeeling == null ?
                           EmojiWidget(
+                            onSelectedEmoji: (value) {
+                              setState(() {
+                                _selectedEmoji = value;
+                              });
+                            },
+                          ) : EmojiWidgetForFeelingNote(
                             onSelectedEmoji: (value) {
                               setState(() {
                                 _selectedEmoji = value;
@@ -135,6 +154,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
     }
   }
 
+
   Widget _buttonFinish() {
     return CustomButton(
       margin: EdgeInsets.only(top: 15.0),
@@ -142,7 +162,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: _selectedEmoji != null
+      onPressed: (_selectedEmoji != null && Func.isNotEmpty(_userHabit.userNote))
           ? () {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = _userHabit.userHabitId;
