@@ -4,10 +4,13 @@ import 'package:habido_app/models/content.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:habido_app/widgets/text.dart';
 
 class ContentRoute extends StatefulWidget {
   final Content content;
@@ -57,10 +60,32 @@ class _ContentRouteState extends State<ContentRoute> {
             /// Text
             FadeInAnimation(
               delay: 1.5,
-              child: InfoContainer(
+              child: Container(
                 margin: EdgeInsets.only(top: 15.0),
-                title: widget.content.title ?? '',
-                body: widget.content.text ?? '',
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                  color: customColors.whiteBackground,
+                ),
+                padding: SizeHelper.boxPadding,
+                child: Column(
+                  children: [
+                    /// Title
+                    CustomText(
+                      widget.content.title ?? '',
+                      fontWeight: FontWeight.w600,
+                      maxLines: 3,
+                      alignment: Alignment.center,
+                    ),
+                    /// Body
+                    Container(
+                      margin: EdgeInsets.only(top: 15.0),
+                      child: Html(
+                        shrinkWrap: true,
+                        data: widget.content.text ?? '',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
