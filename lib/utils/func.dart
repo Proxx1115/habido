@@ -301,7 +301,8 @@ class Func {
   }
 
   static bool isValidPhoneNumber(String? phoneNumber) =>
-      phoneNumber != null && phoneNumber.length == 8 && (phoneNumber.startsWith("9") || phoneNumber.startsWith("8"));
+      // phoneNumber != null && phoneNumber.length == 8 && (phoneNumber.startsWith("9") || phoneNumber.startsWith("8"));
+      true;
 
   /// 2 datetime утгын хоногийн ялгааг олох
   /// Can return null value

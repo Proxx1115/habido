@@ -110,7 +110,7 @@ class VerticalContentCard extends StatelessWidget {
                       ),
 
                       /// Body
-                      CustomText(content.text, margin: EdgeInsets.only(top: 15.0), maxLines: 2),
+                      CustomText(content.intro, margin: EdgeInsets.only(top: 15.0), maxLines: 2),
                     ],
                   ),
                 ),

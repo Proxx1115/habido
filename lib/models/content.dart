@@ -12,6 +12,7 @@ class Content extends BaseResponse {
   // String? coverPhotoBase64;
   String? profilePhoto;
   String? profilePhotoBase64;
+  String? intro;
   String? text;
   int? orderNo;
   List<ContentTag>? tags;
@@ -26,6 +27,7 @@ class Content extends BaseResponse {
     // this.coverPhotoBase64,
     this.profilePhoto,
     this.profilePhotoBase64,
+    this.intro,
     this.text,
     this.orderNo,
     this.tags,
@@ -43,6 +45,7 @@ class Content extends BaseResponse {
     // coverPhotoBase64 = json['coverPhotoBase64'];
     profilePhoto = json['profilePhoto'];
     profilePhotoBase64 = json['profilePhotoBase64'];
+    intro = json['intro'];
     text = json['text'];
     orderNo = json['orderNo'];
     if (json['tags'] != null) {
@@ -64,6 +67,7 @@ class Content extends BaseResponse {
     // map['coverPhotoBase64'] = coverPhotoBase64;
     map['profilePhoto'] = profilePhoto;
     map['profilePhotoBase64'] = profilePhotoBase64;
+    map['intro'] = intro;
     map['text'] = text;
     map['orderNo'] = orderNo;
     if (tags != null) {

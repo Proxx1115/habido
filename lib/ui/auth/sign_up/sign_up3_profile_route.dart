@@ -92,6 +92,9 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
                     /// Хүйс
                     _genderSwitch(),
 
+                    /// Тайлбар
+                    _genderInfo(),
+
                     /// TermCond
                     _termCond(),
 
@@ -154,6 +157,21 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
         },
       ),
     );
+  }
+
+  Widget _genderInfo() {
+    return _visibleTermCond
+        ? StadiumContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      padding: SizeHelper.boxPadding,
+      child: RichText(
+        text: TextSpan(
+          text: LocaleKeys.genderInfotext,
+          style: TextStyle(color: customColors.primaryText),
+        ),
+      ),
+    )
+        : Container();
   }
 
   Widget _termCond() {

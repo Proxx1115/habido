@@ -139,7 +139,11 @@ class LocaleKeys {
 
   static String get signUp => 'Бүртгүүлэх';
 
-  static String get phoneNumber => 'Утасны дугаар';
+  static String get phoneNumber => 'Утасны дугаар эсвэл и-мэйл';
+
+  static String get phone => 'Утас';
+
+  static String get email => 'И-мэйл';
 
   static String get password => 'Нууц үг';
 
@@ -210,6 +214,8 @@ class LocaleKeys {
   static String get agreeTermCond3 =>
       '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу';
 
+  static String get genderInfotext => 'HabiDo нь өөрийгөө эрэгтэй, эмэгтэй аль нэг хүйсэнд хамаатуулдаггүй, мөн хоёр ба түүнээс дээш жендерээр мэдэрдэг хүмүүсийг хүндэлдэг бөгөөд хоёр туйлт сонголт тулгаж байгаад уучлал хүсэж байна. Цаашид сайжруулах болохоо мэдэгдье.';
+
 // static String get agreeTerms => 'Зөвшөөрөх';
 //
 // static String get termCondNotFound => 'Вэб холбоос олдсонгүй';
@@ -260,7 +266,7 @@ class LocaleKeys {
   static String get showcaseSlidable => 'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой';
 
   /// Chat
-  static String get habidoAssistant => 'HabiDo туслах';
+  static String get habidoAssistant => 'HabiDo чатбот';
 
   static String get chatBotIdNotFound => 'HabiDo туслахын мэдээлэл олдсонгүй';
 
@@ -484,6 +490,8 @@ class LocaleKeys {
   static String get biometricFailed => 'Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу';
 
   static String get changePhoneNumber => 'Утасны дугаар солих';
+
+  static String get changeEmailNumber => 'И-мэйл хаяг солих';
 
   static String get pleaseSelectPicture => 'Зургаа сонгоно уу';
 

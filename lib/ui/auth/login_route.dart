@@ -196,8 +196,8 @@ class _LoginRouteState extends State<LoginRoute> {
       style: CustomTextFieldStyle.secondary,
       controller: _phoneNumberController,
       focusNode: _phoneNumberFocusNode,
-      maxLength: 8,
-      keyboardType: TextInputType.number,
+      // maxLength: 8,
+      keyboardType: TextInputType.text,
       prefixAsset: Assets.username,
       hintText: LocaleKeys.phoneNumber,
     );

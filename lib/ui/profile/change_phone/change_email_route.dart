@@ -14,16 +14,16 @@ import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
-class ChangePhoneRoute extends StatefulWidget {
-  const ChangePhoneRoute({Key? key}) : super(key: key);
+class ChangeEmailRoute extends StatefulWidget {
+  const ChangeEmailRoute({Key? key}) : super(key: key);
 
   @override
-  _ChangePhoneRouteState createState() => _ChangePhoneRouteState();
+  _ChangeEmailRouteState createState() => _ChangeEmailRouteState();
 }
 
-class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
+class _ChangeEmailRouteState extends State<ChangeEmailRoute> {
   // Утасны дугаар
-  TextEditingController _phoneNumberController = TextEditingController();
+  TextEditingController _emailNumberController = TextEditingController();
 
   // Button save
   bool _enabledBtnSave = false;
@@ -31,10 +31,10 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
   @override
   void initState() {
     super.initState();
-    _phoneNumberController.text = globals.userData?.phone ?? '';
-    _enabledBtnSave = Func.isValidPhoneNumber(_phoneNumberController.text);
+    _emailNumberController.text = globals.userData?.email ?? '';
+    _enabledBtnSave = Func.isValidPhoneNumber(_emailNumberController.text);
 
-    _phoneNumberController.addListener(() => _validateForm());
+    _emailNumberController.addListener(() => _validateForm());
   }
 
   @override
@@ -46,19 +46,19 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             return CustomScaffold(
-              appBarTitle: LocaleKeys.changePhoneNumber,
+              appBarTitle: LocaleKeys.changeEmailNumber,
               loading: state is AuthLoading,
               child: Container(
                 padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
-                    /// Утасны дугаар
-                    _txtboxPhoneNumber(),
+                    /// И-мэйл хаяг
+                    _txtboxEmailNumber(),
 
                     Expanded(child: Container()),
 
                     /// Button save
-                    _buttonSave(),
+                    // _buttonSave(),
                   ],
                 ),
               ),
@@ -82,20 +82,20 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
     }
   }
 
-  Widget _txtboxPhoneNumber() {
+  Widget _txtboxEmailNumber() {
     return CustomTextField(
-      controller: _phoneNumberController,
-      hintText: LocaleKeys.phone,
+      controller: _emailNumberController,
+      hintText: LocaleKeys.email,
       margin: EdgeInsets.only(top: 15.0),
-      maxLength: 8,
+      // maxLength: 8,
       suffixAsset: Assets.edit,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.text,
     );
   }
 
   _validateForm() {
     setState(() {
-      _enabledBtnSave = Func.isValidPhoneNumber(_phoneNumberController.text);
+      _enabledBtnSave = Func.isValidPhoneNumber(_emailNumberController.text);
     });
   }
 
@@ -106,7 +106,7 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
       onPressed: _enabledBtnSave
           ? () {
               Func.hideKeyboard(context);
-              var request = ChangePhoneRequest()..phone = _phoneNumberController.text;
+              var request = ChangePhoneRequest()..phone = _emailNumberController.text;
               BlocManager.authBloc.add(ChangePhoneEvent(request));
             }
           : null,

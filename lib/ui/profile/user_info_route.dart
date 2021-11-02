@@ -116,6 +116,9 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                       /// Утасны дугаар солих
                       _changePhoneCard(),
 
+                      /// И-мэйл хаяг солих
+                      _changeEmailCard(),
+
                       /// Нууц үг солих
                       _changePasswordCard(),
 
@@ -310,10 +313,22 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     return ListItemContainer(
       margin: EdgeInsets.only(top: 15.0),
       borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-      title: Func.isNotEmpty(globals.userData?.phone) ? globals.userData!.phone! : LocaleKeys.phoneNumber,
+      title: Func.isNotEmpty(globals.userData?.phone) ? globals.userData!.phone! : LocaleKeys.phone,
       suffixAsset: Assets.arrow_forward,
       onPressed: () {
         Navigator.pushNamed(context, Routes.changePhone);
+      },
+    );
+  }
+
+  Widget _changeEmailCard() {
+    return ListItemContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+      title: Func.isNotEmpty(globals.userData?.email) ? globals.userData!.email! : LocaleKeys.email,
+      suffixAsset: Assets.arrow_forward,
+      onPressed: () {
+        Navigator.pushNamed(context, Routes.changeEmail);
       },
     );
   }

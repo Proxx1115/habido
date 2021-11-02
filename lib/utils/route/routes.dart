@@ -33,6 +33,7 @@ import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/notification/notification_route.dart';
 import 'package:habido_app/ui/profile/change_password_route.dart';
 import 'package:habido_app/ui/profile/change_phone/change_phone_route.dart';
+import 'package:habido_app/ui/profile/change_phone/change_email_route.dart';
 import 'package:habido_app/ui/profile/change_phone/verify_phone_route.dart';
 import 'package:habido_app/ui/profile/faq_route.dart';
 import 'package:habido_app/ui/profile/feedback_route.dart';
@@ -75,6 +76,7 @@ class Routes {
   static const content = 'content';
   static const habidoAssistant = 'habidoAssistant';
   static const changePhone = 'changePhone';
+  static const changeEmail = 'changeEmail';
   static const verifyPhone = 'verifyPhone';
   static const psyCategories = 'psyCategories';
   static const psyTests = 'psyTests';
@@ -231,6 +233,10 @@ class Routes {
 
       case Routes.changePhone:
         route = SlideRightRouteBuilder(ChangePhoneRoute(), settings);
+        break;
+
+      case Routes.changeEmail:
+        route = SlideRightRouteBuilder(ChangeEmailRoute(), settings);
         break;
 
       case Routes.verifyPhone:

@@ -103,8 +103,8 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
       focusNode: _focusNode,
       hintText: LocaleKeys.phoneNumber,
       margin: EdgeInsets.only(top: 35.0),
-      maxLength: 8,
-      keyboardType: TextInputType.number,
+      // maxLength: 8,
+      keyboardType: TextInputType.text,
       suffixAsset: Assets.edit,
     );
   }

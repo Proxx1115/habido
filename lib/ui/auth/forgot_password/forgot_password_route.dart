@@ -85,8 +85,8 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
       controller: _phoneNumberController,
       hintText: LocaleKeys.phoneNumber,
       margin: EdgeInsets.only(top: 15.0),
-      maxLength: 8,
-      keyboardType: TextInputType.number,
+      // maxLength: 8,
+      keyboardType: TextInputType.text,
       suffixAsset: Assets.edit,
     );
   }
