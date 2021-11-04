@@ -219,7 +219,7 @@ class HorizontalContentCard extends StatelessWidget {
 
                         /// Body
                         Expanded(
-                          child: CustomText(content.text, margin: EdgeInsets.only(top: 15.0), maxLines: 2),
+                          child: CustomText(content.intro, margin: EdgeInsets.only(top: 15.0), maxLines: 2),
                         ),
 
                         /// Time

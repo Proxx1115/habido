@@ -78,7 +78,7 @@ class _ContentRouteState extends State<ContentRoute> {
                     ),
                     /// Body
                     Container(
-                      margin: EdgeInsets.only(top: 15.0),
+                      margin: EdgeInsets.only(top: 5.0),
                       child: Html(
                         shrinkWrap: true,
                         data: widget.content.text ?? '',

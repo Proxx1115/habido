@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
@@ -6,8 +8,10 @@ import 'package:habido_app/utils/api/http_utils.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/biometrics_util.dart';
 import 'package:habido_app/utils/device_helper.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/hero.dart';
 
 class SplashRoute extends StatefulWidget {
@@ -38,27 +42,29 @@ class _SplashRouteState extends State<SplashRoute> {
     await biometricsUtil.init();
 
     // Check update
-    if (await _needUpdate()) return;
-
-    _checkSession();
-  }
-
-  Future<bool> _needUpdate() async {
-    bool res = false;
-
     try {
-      var res = await ApiManager.param();
-      if (res.code == ResponseCode.Success) {
-        print('Success');
-      } else {
-        print('Failed');
+      var param = await ApiManager.param();
+      var currentAppVersion = await DeviceHelper.getBuildNumber();
+      if (Func.isNotEmpty(currentAppVersion) && param != null) {
+        if (Platform.isAndroid && Func.isNotEmpty(param.androidVersion)) {
+          if (Func.toInt(currentAppVersion) < Func.toInt(param.androidVersion)) {
+            _showDialogUpdate('https://play.google.com/store/apps/details?id=mn.fr099y.optimal');
+            return;
+          }
+        } else if (Platform.isIOS && Func.isNotEmpty(param.iosVersion)) {
+          if (Func.toInt(currentAppVersion) < Func.toInt(param.iosVersion)) {
+            _showDialogUpdate('https://apps.apple.com/mn/app/zeely-by-optimal/id1419637942');
+            return;
+          }
+        }
       }
     } catch (e) {
       print(e);
     }
 
-    return res;
+    _checkSession();
   }
+
 
   _checkSession() {
     ApiManager.getUserData().then((userData) async {
@@ -77,6 +83,20 @@ class _SplashRouteState extends State<SplashRoute> {
         });
       }
     });
+  }
+
+  _showDialogUpdate(String deepLink) {
+    // showCustomDialog(
+    //   context,
+    //   dismissible: false,
+    //   bodyText: AppText.pleaseUpdateApp,
+    //   dialogType: DialogType.warning,
+    //   btnPositiveText: AppText.ok,
+    //   onPressedBtnPositive: () {
+    //     _navigateToFirstRoute();
+    //     _openDeeplink(deepLink);
+    //   },
+    // );
   }
 
   _navigateToFirstRoute() {
