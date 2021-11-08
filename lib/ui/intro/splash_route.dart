@@ -9,10 +9,12 @@ import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/biometrics_util.dart';
 import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/hero.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SplashRoute extends StatefulWidget {
   @override
@@ -48,12 +50,12 @@ class _SplashRouteState extends State<SplashRoute> {
       if (Func.isNotEmpty(currentAppVersion) && param != null) {
         if (Platform.isAndroid && Func.isNotEmpty(param.androidVersion)) {
           if (Func.toInt(currentAppVersion) < Func.toInt(param.androidVersion)) {
-            _showDialogUpdate('https://play.google.com/store/apps/details?id=mn.fr099y.optimal');
+            _showDialogUpdate('https://play.google.com/store/apps/details?id=mn.app.habido_app');
             return;
           }
         } else if (Platform.isIOS && Func.isNotEmpty(param.iosVersion)) {
           if (Func.toInt(currentAppVersion) < Func.toInt(param.iosVersion)) {
-            _showDialogUpdate('https://apps.apple.com/mn/app/zeely-by-optimal/id1419637942');
+            _showDialogUpdate('https://apps.apple.com/mn/app/habido/id1579996644');
             return;
           }
         }
@@ -89,7 +91,7 @@ class _SplashRouteState extends State<SplashRoute> {
     // showCustomDialog(
     //   context,
     //   dismissible: false,
-    //   bodyText: AppText.pleaseUpdateApp,
+    //   bodyText: LocaleKeys.pleaseUpdateApp,
     //   dialogType: DialogType.warning,
     //   btnPositiveText: AppText.ok,
     //   onPressedBtnPositive: () {
@@ -105,4 +107,18 @@ class _SplashRouteState extends State<SplashRoute> {
       (Route<dynamic> route) => false,
     );
   }
+  // _openDeeplink(String url) async {
+  //   try {
+  //     // url = 'khanbank://q?qPay_QRcode=7729010259415096644150863802398062&object_type=&object_id='; // test
+  //
+  //     if (await canLaunch(url)) {
+  //       await launch(url);
+  //     } else {
+  //       showCustomDialog(context, dialogType: DialogType.error, bodyText: AppText.failed, btnPositiveText: AppText.ok);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     showCustomDialog(context, dialogType: DialogType.error, bodyText: AppText.failed, btnPositiveText: AppText.ok);
+  //   }
+  // }
 }

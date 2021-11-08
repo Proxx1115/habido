@@ -133,7 +133,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
   _validateForm() {
     setState(() {
       _enabledBtnSave =
-          _oldPsController.text.length > 0 && _psController.text.length > 0 && _psRepeatController.text.length > 0;
+          _oldPsController.text.length > 0 && _psController.text.length > 7 && _psRepeatController.text.length > 7;
     });
   }
 
@@ -153,7 +153,6 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
 
                 return;
               }
-
               var request = ChangePasswordRequest()
                 ..oldPassword = _oldPsController.text
                 ..newPassword = _psController.text;

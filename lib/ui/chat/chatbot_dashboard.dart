@@ -77,7 +77,7 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
                   ),
                   HorizontalLine(),
                   CustomText(
-                    'Удахгүй уулацгаая...',
+                    'Удахгүй уулзацгаая...',
                     margin: EdgeInsets.only(top: SizeHelper.margin),
                     maxLines: 5,
                     alignment: Alignment.center,

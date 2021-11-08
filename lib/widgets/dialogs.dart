@@ -186,11 +186,12 @@ class CustomDialogBody extends StatelessWidget {
 //   );
 // }
 // }
+enum DialogType { normal, success, error, warning }
 
-// void showCustomDialog(
+// void showUpdateDialog(
 //   BuildContext context, {
 //   Widget? child,
-//   DialogType dialogType = DialogType.info,
+//   DialogType dialogType = DialogType.normal,
 //   String? titleText,
 //   String? bodyText,
 //   String? btnPositiveText,

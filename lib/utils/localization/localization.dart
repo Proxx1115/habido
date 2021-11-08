@@ -159,6 +159,8 @@ class LocaleKeys {
 
   static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
 
+  static String get pleaseUpdateApp => 'Аппликэйшний шинэ хувилбар гарсан тул та update татна уу.';
+
   static String get sessionExpired => 'Холболт салсан байна. Дахин нэвтэрнэ үү.';
 
   ///
