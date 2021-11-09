@@ -44,25 +44,25 @@ class _SplashRouteState extends State<SplashRoute> {
     await biometricsUtil.init();
 
     // Check update
-    try {
-      var param = await ApiManager.param();
-      var currentAppVersion = await DeviceHelper.getBuildNumber();
-      if (Func.isNotEmpty(currentAppVersion) && param != null) {
-        if (Platform.isAndroid && Func.isNotEmpty(param.androidVersion)) {
-          if (Func.toInt(currentAppVersion) < Func.toInt(param.androidVersion)) {
-            _showDialogUpdate('https://play.google.com/store/apps/details?id=mn.app.habido_app');
-            return;
-          }
-        } else if (Platform.isIOS && Func.isNotEmpty(param.iosVersion)) {
-          if (Func.toInt(currentAppVersion) < Func.toInt(param.iosVersion)) {
-            _showDialogUpdate('https://apps.apple.com/mn/app/habido/id1579996644');
-            return;
-          }
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
+    // try {
+    //   var param = await ApiManager.param();
+    //   var currentAppVersion = await DeviceHelper.getBuildNumber();
+    //   if (Func.isNotEmpty(currentAppVersion) && param != null) {
+    //     if (Platform.isAndroid && Func.isNotEmpty(param.androidVersion)) {
+    //       if (Func.toInt(currentAppVersion) < Func.toInt(param.androidVersion)) {
+    //         _showDialogUpdate('https://play.google.com/store/apps/details?id=mn.app.habido_app');
+    //         return;
+    //       }
+    //     } else if (Platform.isIOS && Func.isNotEmpty(param.iosVersion)) {
+    //       if (Func.toInt(currentAppVersion) < Func.toInt(param.iosVersion)) {
+    //         _showDialogUpdate('https://apps.apple.com/mn/app/habido/id1579996644');
+    //         return;
+    //       }
+    //     }
+    //   }
+    // } catch (e) {
+    //   print(e);
+    // }
 
     _checkSession();
   }
