@@ -247,13 +247,13 @@ class LocaleKeys {
 
   static String get showcasePsyTest => 'Сэтгэл зүйн тест бөглөх';
 
-  static String get showcaseAssistant => 'Туслахтай харилцаж, чиглүүлэг авах';
+  static String get showcaseAssistant => 'HabiDo чатботтой ярилцаарай';
 
   static String get showcaseContent => 'Сонирхолтой нийтлэл унших';
 
   static String get showcaseProfile => 'Өөрийн гүйцэтгэлийг харах';
 
-  static String get showcaseCalendar => 'Тухайн сард хийх дадлын төлөвлөгөөг харах';
+  static String get showcaseCalendar => 'Сар бүрийн төлөвлөгөө ба амжилтаа хараарай';
 
   static String get showcaseNotification => 'Сануулга харах';
 
@@ -460,6 +460,8 @@ class LocaleKeys {
 
   static String get validate12 => 'Уучлаарай, 12-оос доош насны хүн бүртгүүлэх боломжгүй';
 
+  static String get validate12UserProfile => 'Уучлаарай, 12-оос доош насруу өөрчлөх боломжгүй!';
+
   static String get pleaseEnterStartDate => 'Эхлэх огноо сонгоно уу';
 
   static String get pleaseEnterEndDate => 'Дуусах огноо сонгоно уу';
@@ -473,7 +475,7 @@ class LocaleKeys {
 
   static String get completedHabit => 'Хэвшсэн дадал';
 
-  static String get completedHabit2 => 'Хэвшүүлэх дадал';
+  static String get completedHabit2 => 'Хэвшүүлж буй дадал';
 
   static String get completedHabit3 => 'Хэвшүүлсэн дадал';
 

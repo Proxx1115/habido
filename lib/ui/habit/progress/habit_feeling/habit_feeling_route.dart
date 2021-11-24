@@ -60,7 +60,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
     _backgroundColor = HabitHelper.getBackgroundColor1(_userHabit);
 
     _conclusionController.addListener(() {
-      _conclusion = _conclusionController.text;
+      _enabledButton = _conclusionController.text.isNotEmpty;
     });
 
     super.initState();

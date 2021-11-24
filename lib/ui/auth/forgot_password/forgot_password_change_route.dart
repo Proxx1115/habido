@@ -127,7 +127,7 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
 
   _validateForm() {
     setState(() {
-      _enabledBtnSave = _pController.text.length > 0 && _pRepeatController.text.length > 0;
+      _enabledBtnSave = _pController.text.length > 7 && _pRepeatController.text.length > 7;
     });
   }
 

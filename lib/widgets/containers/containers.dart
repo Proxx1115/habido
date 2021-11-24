@@ -454,7 +454,7 @@ class ListItemContainer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     /// Title
-                    CustomText(title, fontWeight: FontWeight.w500),
+                    CustomText(title, fontWeight: FontWeight.w500, maxLines: 3,),
 
                     /// Body
                     if (Func.isNotEmpty(body))
@@ -486,7 +486,7 @@ class ListItemContainer extends StatelessWidget {
       return CachedNetworkImage(
         imageUrl: leadingImageUrl!,
         fit: BoxFit.fitWidth,
-        color: customColors.whiteBackground,
+        color: leadingColor,
         width: 20.0,
         height: 20.0,
         placeholder: (context, url) => Container(),
