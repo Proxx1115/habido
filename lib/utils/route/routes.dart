@@ -38,6 +38,7 @@ import 'package:habido_app/ui/profile/change_phone/verify_phone_route.dart';
 import 'package:habido_app/ui/profile/faq_route.dart';
 import 'package:habido_app/ui/profile/feedback_route.dart';
 import 'package:habido_app/ui/profile/help_route.dart';
+import 'package:habido_app/ui/profile/terms_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
@@ -103,6 +104,7 @@ class Routes {
   static const help = 'help';
   static const feedback = 'feedback';
   static const faq = 'faq';
+  static const terms = 'terms';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -514,6 +516,10 @@ class Routes {
 
       case Routes.faq:
         route = SlideRightRouteBuilder(FaqRoute(), settings);
+        break;
+
+      case Routes.terms:
+        route = SlideRightRouteBuilder(TermsRoute(), settings);
         break;
 
       case Routes.comingSoon:

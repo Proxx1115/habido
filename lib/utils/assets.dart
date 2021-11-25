@@ -74,6 +74,7 @@ class Assets {
   static const String rank_background2_svg = 'assets/images/profile/rank_background2.svg';
   static const String rank_background2 = 'assets/images/profile/rank_background2.png';
   static const String question_mark = 'assets/images/profile/question_mark.svg';
+  static const String terms = 'assets/images/profile/terms.svg';
 
   /// Chat
   static const String typing = 'assets/images/chat/typing.gif';

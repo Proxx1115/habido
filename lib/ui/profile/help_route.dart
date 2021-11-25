@@ -46,6 +46,19 @@ class _HelpRouteState extends State<HelpRoute> {
               Navigator.pushNamed(context, Routes.faq);
             },
           ),
+
+          /// Үйлчилгээний нөхцөл
+          ListItemContainer(
+            margin: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
+            height: 70.0,
+            leadingAsset: Assets.terms,
+            leadingColor: customColors.primary,
+            leadingBackgroundColor: customColors.primaryBackground,
+            title: LocaleKeys.termsOfService,
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.terms);
+            },
+          ),
         ],
       ),
     );
