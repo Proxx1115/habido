@@ -468,6 +468,8 @@ class LocaleKeys {
 
   static String get pleaseSelectGoal => 'Зорилго сонгоно уу';
 
+  static String get answerOneOfThoseQuestion => 'Дараах асуултуудаас нэгийг нь сонгон хариулаарай';
+
   /// Profile
   static String get allTime => 'Бүх цаг үе';
 
