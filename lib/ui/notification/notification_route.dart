@@ -124,7 +124,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
         margin: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
         height: 70.0,
         leadingImageUrl: _notifList[index].photo,
-        leadingColor: HexColor.fromHex(_notifList[index].color ?? '#F4F6F8'),
+        leadingColor: HexColor.fromHex(ColorCodes.primary),
         leadingBackgroundColor: HexColor.fromHex(_notifList[index].color ?? '#F4F6F8'),
         title: _notifList[index].title ?? '',
         body: _notifList[index].body,

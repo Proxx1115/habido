@@ -124,6 +124,7 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
           ? () {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = widget.userHabit.userHabitId;
+              request.answerId = 0;
               BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
             }
           : null,
