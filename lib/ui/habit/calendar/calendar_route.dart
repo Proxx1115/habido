@@ -451,6 +451,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
       child: ListItemContainer(
         title: _dailyUserHabitList![i].name ?? '',
         leadingImageUrl: _dailyUserHabitList![i].habit?.photo,
+        leadingColor: customColors.iconWhite,
         leadingBackgroundColor: (_dailyUserHabitList![i].habit?.color != null)
             ? HexColor.fromHex(_dailyUserHabitList![i].habit!.color!)
             : null,

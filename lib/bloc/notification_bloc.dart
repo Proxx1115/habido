@@ -24,6 +24,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       yield* _mapGetNextNotifsToState(event);
     } else if (event is ReadAllNotifEvent) {
       yield* _mapReadAllNotifEventToState();
+    } else if (event is DeleteNotifEvent){
+      yield* _mapDeleteNotifEventToState(event);
     }
   }
 
@@ -107,6 +109,21 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       yield ReadAllNotifFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<NotificationState> _mapDeleteNotifEventToState(DeleteNotifEvent event) async* {
+    try {
+      yield NotificationLoading();
+
+      var res = await ApiManager.DeleteNotif(event.notifId);
+      if (res.code == ResponseCode.Success) {
+        yield ReadAllNotifSuccess();
+      } else {
+        yield ReadAllNotifFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield ReadAllNotifFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -146,6 +163,17 @@ class GetNextNotifsEvent extends NotificationEvent {
 
   @override
   String toString() => 'GetNextNotifsEvent { notifId: $notifId }';
+}
+class DeleteNotifEvent extends NotificationEvent {
+  final int notifId;
+
+  const DeleteNotifEvent(this.notifId);
+
+  @override
+  List<Object> get props => [notifId];
+
+  @override
+  String toString() => 'DeleteNotifEvent { notifId: $notifId }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -247,4 +275,18 @@ class ReadAllNotifFailed extends NotificationState {
 
   @override
   String toString() => 'ReadAllNotifFailed { message: $message }';
+}
+
+class DeleteNotifSuccess extends NotificationState {}
+
+class DeleteNotifFailed extends NotificationState {
+  final String message;
+
+  const DeleteNotifFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'DeleteNotifFailed { message: $message }';
 }

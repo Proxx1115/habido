@@ -517,6 +517,15 @@ class ApiManager {
     );
   }
 
+  static Future<BaseResponse> DeleteNotif(int notifId) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.deleteNotif + '/$notifId',
+        httpMethod: HttpMethod.delete,
+      ),
+    );
+  }
+
   static Future<AchievementsResponse> achievements() async {
     return AchievementsResponse.fromJson(
       await httpUtils.sendRequest(
