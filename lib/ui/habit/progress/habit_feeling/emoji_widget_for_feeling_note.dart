@@ -164,7 +164,7 @@ class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
       child: Container(
         padding: EdgeInsets.all(5.0),
         height: 79.0,
-        width: 79.0,
+        width: 70.0,
         decoration: BoxDecoration(
           border: Border.all(
             width: 1.0,
