@@ -177,6 +177,8 @@ class _ChatScreenState extends State<ChatScreen> {
       );
     }
 
+    // hamgiin door ochih scroll
+
     Timer(Duration(seconds: 1), () {
       _scrollController.animateTo(_scrollController.position.maxScrollExtent,
           duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
