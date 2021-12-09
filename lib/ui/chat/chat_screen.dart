@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +8,6 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/chat_bloc.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/chat_type.dart';
-import 'package:habido_app/models/chatbots_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/msg_options.dart';
 import 'package:habido_app/models/option_type.dart';
@@ -69,12 +70,15 @@ class _ChatScreenState extends State<ChatScreen> {
               absorbing: state is ChatLoading,
               child: ListView(
                 controller: _scrollController,
-                padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, SizeHelper.marginBottom),
+                padding: EdgeInsets.fromLTRB(
+                    25.0, 25.0, 25.0, SizeHelper.marginBottom),
                 children: [
                   /// Time
-                  if (_chatList.isNotEmpty && Func.isNotEmpty(_chatList.first.dateTime))
+                  if (_chatList.isNotEmpty &&
+                      Func.isNotEmpty(_chatList.first.dateTime))
                     CustomText(
-                      Func.toDateStr(Func.toDate(_chatList.first.dateTime!)).replaceAll('-', '.'),
+                      Func.toDateStr(Func.toDate(_chatList.first.dateTime!))
+                          .replaceAll('-', '.'),
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(bottom: 15.0),
                       fontWeight: FontWeight.w500,
@@ -117,7 +121,6 @@ class _ChatScreenState extends State<ChatScreen> {
       chat.visibleProfilePicture = true;
 
       _chatList.add(chat);
-
       if (state.chatIndex != null) {
         // print('Хариулт сонгосон');
         _chatList[state.chatIndex!].isOptionSelected = true;
@@ -133,7 +136,9 @@ class _ChatScreenState extends State<ChatScreen> {
       } else {
         if (chat.msgId != null) {
           // print('Дараагийн чатыг авах');
-          BlocManager.chatBloc.add(GetNextChatEvent(chat.continueMsgId!, _chatList.length - 1));
+
+          BlocManager.chatBloc
+              .add(GetNextChatEvent(chat.continueMsgId!, _chatList.length - 1));
         } else {
           // print('Дараагийн msgId олдоогүй');
           showCustomDialog(
@@ -171,6 +176,13 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       );
     }
+
+    // hamgiin door ochih scroll
+
+    Timer(Duration(seconds: 1), () {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+    });
   }
 
   Widget _chatItem(int chatIndex) {
@@ -192,20 +204,23 @@ class _ChatScreenState extends State<ChatScreen> {
                 prefixAsset: _chatList[chatIndex].visibleProfilePicture
                     ? Assets.habido_assistant_png
                     : Assets.habido_assistant_empty,
-                suffixTime:
-                    _chatList[chatIndex].visibleProfilePicture ? Func.toTimeStr(_chatList[chatIndex].dateTime) : '',
+                suffixTime: _chatList[chatIndex].visibleProfilePicture
+                    ? Func.toTimeStr(_chatList[chatIndex].dateTime)
+                    : '',
                 child: CustomText(_chatList[chatIndex].msg!, maxLines: 10),
               ),
 
         /// Selected option
         if (_chatList[chatIndex].selectedMsgOption != null)
-          _selectedOptionItem(chatIndex, _chatList[chatIndex].selectedMsgOption!),
+          _selectedOptionItem(
+              chatIndex, _chatList[chatIndex].selectedMsgOption!),
 
         /// Option
         if (_chatList[chatIndex].selectedMsgOption == null &&
             _chatList[chatIndex].msgOptions != null &&
             _chatList[chatIndex].msgOptions!.length > 0)
-          for (int j = 0; j < _chatList[chatIndex].msgOptions!.length; j++) _optionItem(chatIndex, j),
+          for (int j = 0; j < _chatList[chatIndex].msgOptions!.length; j++)
+            _optionItem(chatIndex, j),
       ],
     );
   }
@@ -310,8 +325,11 @@ class _ChatScreenState extends State<ChatScreen> {
           });
 
           // Save option
-          if (!(chat.isEnd ?? false) && chat.continueMsgId != null && option.optionId != null) {
-            BlocManager.chatBloc.add(SaveOptionEvent(chat.msgId!, option.optionId!, chatIndex));
+          if (!(chat.isEnd ?? false) &&
+              chat.continueMsgId != null &&
+              option.optionId != null) {
+            BlocManager.chatBloc
+                .add(SaveOptionEvent(chat.msgId!, option.optionId!, chatIndex));
           }
         },
       );
@@ -378,7 +396,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   EdgeInsets? _optionPadding(String? optionType) {
-    return (optionType == OptionType.Habit) ? EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0) : null;
+    return (optionType == OptionType.Habit)
+        ? EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0)
+        : null;
   }
 
   BorderRadius? _optionBorderRadius(String? imageLink) {
@@ -425,7 +445,9 @@ class _ChatScreenState extends State<ChatScreen> {
           /// Image
           if (Func.isNotEmpty(content.contentPhoto))
             ClipRRect(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0)),
               child: CachedNetworkImage(
                 imageUrl: content.contentPhoto!,
                 fit: BoxFit.fill,
@@ -447,7 +469,8 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
 
           /// Body
-          CustomText(content.text, margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0), maxLines: 2),
+          CustomText(content.text,
+              margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0), maxLines: 2),
 
           if (content.readTime != null)
             Container(
@@ -460,7 +483,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   /// Read time
                   Expanded(
-                    child: CustomText('${content.readTime} ${LocaleKeys.readMin}', margin: EdgeInsets.only(left: 7.0)),
+                    child: CustomText(
+                        '${content.readTime} ${LocaleKeys.readMin}',
+                        margin: EdgeInsets.only(left: 7.0)),
                   ),
                 ],
               ),
