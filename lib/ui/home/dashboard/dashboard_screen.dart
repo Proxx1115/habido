@@ -149,6 +149,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           listener: _blocListener,
           child: BlocBuilder<DashboardBloc, DashboardState>(
             builder: (context, state) {
+              String todayDone = '';
+              List<UserHabit>? todayUserHabits = _todayUserHabits;
+              if(todayUserHabits != null){
+                todayDone = todayUserHabits.where((element) => element.isDone!).toList().length.toString() + '/' + _todayUserHabits!.length.toString();
+              }
               return Column(
                 children: [
                   /// Today
@@ -157,6 +162,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       LocaleKeys.today,
                       _todayUserHabits!,
                       true,
+                      true,
+                      todayDone
                     ),
 
                   /// Tomorrow
@@ -165,6 +172,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       LocaleKeys.tomorrow,
                       _tomorrowUserHabits!,
                       false,
+                      false,
+                      ''
                     ),
                 ],
               );
@@ -189,8 +198,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  Widget _expandableHabitList(String title, List<UserHabit> userHabitList, bool enabled) {
+  Widget _expandableHabitList(String title, List<UserHabit> userHabitList, bool enabled, bool isToday, String? todayText) {
     return ExpandableContainer(
+      isToday: isToday,
+      todayText: todayText,
       title: title,
       expandableListItems: List.generate(
         userHabitList.length,
