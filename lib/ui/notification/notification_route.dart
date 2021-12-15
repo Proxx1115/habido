@@ -145,10 +145,11 @@ class _NotificationRouteState extends State<NotificationRoute> {
           leadingColor: HexColor.fromHex(ColorCodes.primary),
           leadingBackgroundColor:
               HexColor.fromHex(_notifList[index].color ?? '#F4F6F8'),
-          suffixAsset: Assets.arrow_forward,
-          suffixColor: customColors.primary,
+          // suffixAsset: Assets.arrow_forward,
+          // suffixColor: customColors.primary,
           title: _notifList[index].title ?? '',
           body: _notifList[index].body,
+          date: _notifList[index].createdAt,
           onPressed: () {
             showCustomDialog(
               context,

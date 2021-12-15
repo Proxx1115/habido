@@ -22,6 +22,7 @@ import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
 import 'package:habido_app/widgets/dialogs.dart';
+import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -80,33 +81,83 @@ class _DashboardScreenState extends State<DashboardScreen> {
         description: LocaleKeys.showcaseAddHabit,
         shapeBorder: CircleBorder(),
         overlayPadding: EdgeInsets.all(10.0),
-        child: ButtonStadium(
-          style: ButtonStadiumStyle.Secondary,
-          asset: Assets.add,
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.habitCategories);
-          },
-        ),
+        child: (_isUserHabitsEmpty())
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(25.0),
+                    bottomRight: Radius.circular(25.0),
+                    bottomLeft: Radius.circular(25.0),
+                  ),
+                  color: customColors.whiteBackground,
+                ),
+                width: 217.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    /// Text
+                    Container(
+                      // width: 162.0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Text(
+                          LocaleKeys.createNewHabit,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15.0,
+                              color: HexColor.fromHex('#424852')),
+                        ),
+                      ),
+                    ),
+
+                    /// Button
+                    ButtonStadium(
+                      style: ButtonStadiumStyle.Secondary,
+                      asset: Assets.add,
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.habitCategories);
+                      },
+                    ),
+                  ],
+                ),
+              )
+            : ButtonStadium(
+                style: ButtonStadiumStyle.Secondary,
+                asset: Assets.add,
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.habitCategories);
+                },
+              ),
       ),
     );
   }
 
   _header() {
-    _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width) / _sliderAspectRatio;
+    _sliderHeight = _sliderHeight ??
+        (MediaQuery.of(context).size.width) / _sliderAspectRatio;
 
     return SliverAppBar(
       pinned: false,
       snap: true,
       floating: true,
-      expandedHeight: _sliderHeight! + _indicatorHeight + _indicatorVerticalMargin * 2 + _scrollHeaderHeight,
-      collapsedHeight: _sliderHeight! + _indicatorHeight + _indicatorVerticalMargin * 2 + _scrollHeaderHeight,
+      expandedHeight: _sliderHeight! +
+          _indicatorHeight +
+          _indicatorVerticalMargin * 2 +
+          _scrollHeaderHeight,
+      collapsedHeight: _sliderHeight! +
+          _indicatorHeight +
+          _indicatorVerticalMargin * 2 +
+          _scrollHeaderHeight,
       backgroundColor: customColors.primaryBackground,
       elevation: 0,
       automaticallyImplyLeading: false,
       flexibleSpace: Stack(
         children: [
           // Removed orange line
-          Container(color: customColors.primary, margin: EdgeInsets.only(bottom: 1.0)),
+          Container(
+              color: customColors.primary,
+              margin: EdgeInsets.only(bottom: 1.0)),
 
           /// Banner
           CustomCarouselSlider(
@@ -114,7 +165,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             sliderHeight: _sliderHeight!,
             sliderMargin: EdgeInsets.only(top: _sliderTopMargin),
             indicatorHeight: _indicatorHeight,
-            indicatorMargin: EdgeInsets.symmetric(vertical: _indicatorVerticalMargin, horizontal: 2.0),
+            indicatorMargin: EdgeInsets.symmetric(
+                vertical: _indicatorVerticalMargin, horizontal: 2.0),
           ),
 
           /// Calendar, Notification
@@ -127,7 +179,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Positioned(
             bottom: 0.0,
             child: ClipRRect(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(35.0), topRight: Radius.circular(35.0)),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(35.0),
+                  topRight: Radius.circular(35.0)),
               child: Container(
                 height: _scrollHeaderHeight,
                 width: MediaQuery.of(context).size.width,
@@ -142,7 +196,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _userHabitListWidget() {
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
+      padding: EdgeInsets.fromLTRB(
+          SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
       child: BlocProvider.value(
         value: BlocManager.dashboardBloc,
         child: BlocListener<DashboardBloc, DashboardState>(
@@ -151,30 +206,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
             builder: (context, state) {
               String todayDone = '';
               List<UserHabit>? todayUserHabits = _todayUserHabits;
-              if(todayUserHabits != null){
-                todayDone = todayUserHabits.where((element) => element.isDone!).toList().length.toString() + '/' + _todayUserHabits!.length.toString();
+              if (todayUserHabits != null) {
+                todayDone = todayUserHabits
+                        .where((element) => element.isDone!)
+                        .toList()
+                        .length
+                        .toString() +
+                    '/' +
+                    _todayUserHabits!.length.toString();
               }
               return Column(
                 children: [
                   /// Today
                   if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
-                    _expandableHabitList(
-                      LocaleKeys.today,
-                      _todayUserHabits!,
-                      true,
-                      true,
-                      todayDone
-                    ),
+                    _expandableHabitList(LocaleKeys.today, _todayUserHabits!,
+                        true, true, todayDone),
 
                   /// Tomorrow
-                  if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty)
-                    _expandableHabitList(
-                      LocaleKeys.tomorrow,
-                      _tomorrowUserHabits!,
-                      false,
-                      false,
-                      ''
-                    ),
+                  if (_tomorrowUserHabits != null &&
+                      _tomorrowUserHabits!.isNotEmpty)
+                    _expandableHabitList(LocaleKeys.tomorrow,
+                        _tomorrowUserHabits!, false, false, ''),
                 ],
               );
             },
@@ -193,12 +245,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
     } else if (state is SkipUserHabitFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
 
-  Widget _expandableHabitList(String title, List<UserHabit> userHabitList, bool enabled, bool isToday, String? todayText) {
+  bool _isUserHabitsEmpty(){
+    return false;
+  }
+
+  String _getSuffixAsset(UserHabit userHabit) {
+    var suffixAsset;
+    if (userHabit.habitState == UserHabitPlanState.Done) {
+      suffixAsset = Assets.check3;
+    } else if (userHabit.habitState == UserHabitPlanState.New) {
+      suffixAsset = Assets.arrow_forward;
+    } else {
+      suffixAsset = Assets.refresh;
+    }
+    return suffixAsset;
+  }
+
+  Color _getSuffixColor(UserHabit userHabit) {
+    var suffixColor;
+    if (userHabit.habitState == UserHabitPlanState.Done) {
+      suffixColor = customColors.iconSeaGreen;
+    } else if (userHabit.habitState == UserHabitPlanState.New) {
+      suffixColor = customColors.primary;
+    } else {
+      suffixColor = customColors.iconSeaGreen;
+    }
+    return suffixColor;
+  }
+
+  Widget _expandableHabitList(String title, List<UserHabit> userHabitList,
+      bool enabled, bool isToday, String? todayText) {
     return ExpandableContainer(
       isToday: isToday,
       todayText: todayText,
@@ -210,17 +294,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
           text: userHabitList[index].name ?? '',
           leadingUrl: userHabitList[index].habit?.photo,
           leadingColor: customColors.iconWhite,
-          leadingBackgroundColor:
-              (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
-          suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
-          suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
+          leadingBackgroundColor: (userHabitList[index].habit?.color != null)
+              ? HexColor.fromHex(userHabitList[index].habit!.color!)
+              : null,
+          suffixAsset: _getSuffixAsset(userHabitList[index]),
+          suffixColor: _getSuffixColor(userHabitList[index]),
+          // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
+          // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
           onPressed: () {
             // Is finished
             if (userHabitList[index].isDone ?? false) return;
 
             // Navigate
             if (enabled && userHabitList[index].habit?.goalSettings != null) {
-              String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!);
+              String? route =
+                  HabitHelper.getProgressRoute(userHabitList[index].habit!);
               if (route != null) {
                 Navigator.pushNamed(
                   context,
@@ -247,7 +335,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         var skipUserHabitRequest = SkipUserHabitRequest()
                           ..userHabitId = userHabitList[index].userHabitId
                           ..skipDay = Func.toDateStr(DateTime.now());
-                        BlocManager.dashboardBloc.add(SkipUserHabitEvent(skipUserHabitRequest));
+                        BlocManager.dashboardBloc
+                            .add(SkipUserHabitEvent(skipUserHabitRequest));
                       },
                     ),
                   );
@@ -260,7 +349,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Routes.userHabit,
                     arguments: {
                       'screenMode':
-                          (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
+                          (userHabitList[index].isDynamicHabit ?? false)
+                              ? ScreenMode.CustomEdit
+                              : ScreenMode.Edit,
                       'habit': userHabitList[index].habit,
                       'userHabit': userHabitList[index],
                       'title': LocaleKeys.ediHabit,

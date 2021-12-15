@@ -409,6 +409,7 @@ class ListItemContainer extends StatelessWidget {
   final Color? leadingBackgroundColor;
   final String title;
   final String? body;
+  final String? date;
   final String? suffixAsset;
   final Color? suffixColor;
 
@@ -425,6 +426,7 @@ class ListItemContainer extends StatelessWidget {
     this.leadingBackgroundColor,
     required this.title,
     this.body,
+    this.date,
     this.suffixAsset,
     this.suffixColor,
   }) : super(key: key);
@@ -489,6 +491,17 @@ class ListItemContainer extends StatelessWidget {
                 SvgPicture.asset(
                   suffixAsset!,
                   color: suffixColor ?? customColors.iconGrey,
+                ),
+              /// Date
+              if(suffixAsset == null && date != null)
+                CustomText(
+                  Func.toDateStr(Func.toDate(date!))
+                      .replaceAll('-', '.'),
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(bottom: 15.0),
+                  fontWeight: FontWeight.w500,
+                  color: customColors.greyText,
+                  fontSize: 13,
                 ),
             ],
           ),

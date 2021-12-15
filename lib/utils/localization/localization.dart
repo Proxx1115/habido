@@ -314,6 +314,8 @@ class LocaleKeys {
 
   static String get createHabit => 'Дадал үүсгэх';
 
+  static String get createNewHabit => 'Шинэ дадал үүсгэх';
+
   static String get ediHabit => 'Дадал засварлах';
 
   static String get sureToSkipHabit => 'Энэ удаад алгасах уу?';

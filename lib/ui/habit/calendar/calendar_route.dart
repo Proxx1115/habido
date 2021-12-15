@@ -43,13 +43,20 @@ class _CalendarRouteState extends State<CalendarRoute> {
   @override
   void initState() {
     // Calendar
-    _selectedDay = _focusedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    _selectedDay = _focusedDay = DateTime(DateTime
+        .now()
+        .year, DateTime
+        .now()
+        .month, DateTime
+        .now()
+        .day);
     _startDate = _focusedDay.add(Duration(days: -60));
     _endDate = _focusedDay.add(Duration(days: 365));
 
     BlocManager.calendarBloc.add(
       GetCalendarDateEvent(
-        Func.toDateStr(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
+        Func.toDateStr(
+            DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
       ),
     );
 
@@ -77,6 +84,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
             builder: (context, state) {
               return Column(
                 children: [
+
                   /// Календар
                   _calendar(),
 
@@ -85,13 +93,15 @@ class _CalendarRouteState extends State<CalendarRoute> {
                     child: Container(
                       color: customColors.primaryBackground,
                       margin: EdgeInsets.only(top: 10.0),
-                      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, SizeHelper.marginBottom),
+                      padding: EdgeInsets.fromLTRB(
+                          0.0, 0.0, 0.0, SizeHelper.marginBottom),
                       child: (_dailyUserHabitList != null)
                           ? ListView(
-                              children: [
-                                for (int i = 0; i < _dailyUserHabitList!.length; i++) _listItem(i),
-                              ],
-                            )
+                        children: [
+                          for (int i = 0; i <
+                              _dailyUserHabitList!.length; i++) _listItem(i),
+                        ],
+                      )
                           : Container(),
                     ),
                   ),
@@ -120,14 +130,18 @@ class _CalendarRouteState extends State<CalendarRoute> {
     } else if (state is CalendarFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is CalendarDateSuccess) {
       _dailyUserHabitList = state.userHabitList;
     } else if (state is CalendarDateFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -136,6 +150,7 @@ class _CalendarRouteState extends State<CalendarRoute> {
     return Container(
       margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
       child: TableCalendar(
+
         /// General
         locale: LocaleCode.mn_MN,
         startingDayOfWeek: StartingDayOfWeek.monday,
@@ -180,12 +195,15 @@ class _CalendarRouteState extends State<CalendarRoute> {
           setState(() {
             _dailyUserHabitList = [];
 
-            _selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
-            _focusedDay = DateTime(focusedDay.year, focusedDay.month, focusedDay.day);
+            _selectedDay =
+                DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+            _focusedDay =
+                DateTime(focusedDay.year, focusedDay.month, focusedDay.day);
 
             BlocManager.calendarBloc.add(
               GetCalendarDateEvent(
-                Func.toDateStr(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
+                Func.toDateStr(DateTime(
+                    _selectedDay.year, _selectedDay.month, _selectedDay.day)),
               ),
             );
           });
@@ -203,13 +221,15 @@ class _CalendarRouteState extends State<CalendarRoute> {
       for (var el in _calendarEventList!) {
         try {
           DateTime? tempDate = convertDate(Func.toDate(el.date));
-          if (tempDate != null && Func.isSameDay(tempDate, date) && el.colors != null && el.colors!.isNotEmpty) {
+          if (tempDate != null && Func.isSameDay(tempDate, date) &&
+              el.colors != null && el.colors!.isNotEmpty) {
             for (var c in el.colors!) {
               late Color color;
               if (isSameDay(_selectedDay, date)) {
                 color = customColors.iconWhite;
               } else {
-                color = Func.isNotEmpty(c) ? HexColor.fromHex(c) : customColors.primary;
+                color =
+                Func.isNotEmpty(c) ? HexColor.fromHex(c) : customColors.primary;
               }
 
               colorList.add(color);
@@ -223,7 +243,8 @@ class _CalendarRouteState extends State<CalendarRoute> {
 
     List<Color> res = [];
     if (colorList.length > 3) {
-      for (int i = 0; i < 3; i++) res.add(colorList[i]);
+      for (int i = 0; i < 3; i++)
+        res.add(colorList[i]);
     } else {
       res = colorList;
     }
@@ -258,7 +279,8 @@ class _CalendarRouteState extends State<CalendarRoute> {
       ),
       headerPadding: EdgeInsets.all(4.0),
       headerMargin: EdgeInsets.only(top: 15.0, bottom: 20.0),
-      titleTextStyle: TextStyle(color: customColors.primary, fontWeight: FontWeight.w500),
+      titleTextStyle: TextStyle(
+          color: customColors.primary, fontWeight: FontWeight.w500),
       // titleTextFormatter: (DateTime date, dynamic locale) {
       //   return Func.toDateStr(date);
       // },
@@ -285,7 +307,9 @@ class _CalendarRouteState extends State<CalendarRoute> {
     );
   }
 
-  Widget? _todayBuilder(BuildContext context, DateTime day, DateTime focusedDay) => Container(
+  Widget? _todayBuilder(BuildContext context, DateTime day,
+      DateTime focusedDay) =>
+      Container(
         margin: const EdgeInsets.all(4.0),
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -302,7 +326,9 @@ class _CalendarRouteState extends State<CalendarRoute> {
         ),
       );
 
-  Widget? _defaultBuilder(BuildContext context, DateTime day, DateTime focusedDay) => Container(
+  Widget? _defaultBuilder(BuildContext context, DateTime day,
+      DateTime focusedDay) =>
+      Container(
         margin: const EdgeInsets.all(4.0),
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -366,7 +392,9 @@ class _CalendarRouteState extends State<CalendarRoute> {
   // return children;
   // },
 
-  Widget? _selectedBuilder(BuildContext context, DateTime day, DateTime focusedDay) => Container(
+  Widget? _selectedBuilder(BuildContext context, DateTime day,
+      DateTime focusedDay) =>
+      Container(
         margin: const EdgeInsets.all(4.0),
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -442,54 +470,73 @@ class _CalendarRouteState extends State<CalendarRoute> {
   }
 
   DateTime? convertDate(DateTime? dateTime) {
-    return dateTime != null ? DateTime(dateTime.year, dateTime.month, dateTime.day) : null;
+    return dateTime != null ? DateTime(
+        dateTime.year, dateTime.month, dateTime.day) : null;
   }
 
   Widget _listItem(int i) {
+    var suffixAsset;
+    var suffixColor;
+    if (_dailyUserHabitList![i].habitState == UserHabitPlanState.Done) {
+      suffixAsset = Assets.check3;
+      suffixColor = customColors.iconSeaGreen;
+    }
+    else if (_dailyUserHabitList![i].habitState == UserHabitPlanState.New) {
+      suffixAsset = Assets.arrow_forward;
+      suffixColor = customColors.primary;
+    }
+    else{
+      suffixAsset = Assets.refresh;
+      suffixColor = customColors.iconSeaGreen;
+    }
+
     return MoveInAnimation(
-      delay: i * 0.2,
-      child: ListItemContainer(
-        title: _dailyUserHabitList![i].name ?? '',
-        leadingImageUrl: _dailyUserHabitList![i].habit?.photo,
-        leadingColor: customColors.iconWhite,
-        leadingBackgroundColor: (_dailyUserHabitList![i].habit?.color != null)
-            ? HexColor.fromHex(_dailyUserHabitList![i].habit!.color!)
-            : null,
-        margin: EdgeInsets.fromLTRB(15.0, i == 0 ? 25.0 : 10.0, 15.0, 0.0),
-        height: 70.0,
-        suffixAsset: (_dailyUserHabitList![i].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
-        suffixColor: (_dailyUserHabitList![i].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
-        onPressed: () {
-          // Is finished
-          if (_dailyUserHabitList![i].isDone ?? false) return;
+    delay: i * 0.2,
+    child: ListItemContainer(
+    title: _dailyUserHabitList![i].name ?? '',
+    leadingImageUrl: _dailyUserHabitList![i].habit?.photo,
+    leadingColor: customColors.iconWhite,
+    leadingBackgroundColor: (_dailyUserHabitList![i].habit?.color != null)
+    ? HexColor.fromHex(_dailyUserHabitList![i].habit!.color!)
+        : null,
+    margin: EdgeInsets.fromLTRB(15.0, i == 0 ? 25.0 : 10.0, 15.0, 0.0),
+    height: 70.0,
+    suffixAsset: suffixAsset,
+    suffixColor: suffixColor,
+    // suffixAsset: (_dailyUserHabitList![i].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
+    // suffixColor: (_dailyUserHabitList![i].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
+    onPressed: () {
+    // Is finished
+    if (_dailyUserHabitList![i].isDone ?? false) return;
 
-          // Validation
-          if (!isSameDay(_selectedDay, DateTime.now()) || !(_dailyUserHabitList![i].habit?.goalSettings != null)) {
-            print('not validated');
-            return;
-          }
+    // Validation
+    if (!isSameDay(_selectedDay, DateTime.now()) || !(_dailyUserHabitList![i].habit?.goalSettings != null)) {
+    print('not validated');
+    return;
+    }
 
-          // Navigate
-          String? route = HabitHelper.getProgressRoute(_dailyUserHabitList![i].habit!);
-          if (route != null) {
-            Navigator.pushNamed(
-              context,
-              route,
-              arguments: {
-                'userHabit': _dailyUserHabitList![i],
-                'callBack': () {
-                  // Refresh calendar
-                  BlocManager.calendarBloc.add(
-                    GetCalendarDateEvent(
-                      Func.toDateStr(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
-                    ),
-                  );
-                }
-              },
-            );
-          }
-        },
-      ),
+    // Navigate
+    String? route = HabitHelper.getProgressRoute(_dailyUserHabitList![i].habit!);
+    if (route != null) {
+    Navigator.pushNamed(
+    context,
+    route,
+    arguments: {
+    'userHabit': _dailyUserHabitList![i],
+    'callBack': () {
+    // Refresh calendar
+    BlocManager.calendarBloc.add(
+    GetCalendarDateEvent(
+    Func.toDateStr(DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day)),
+    ),
+    );
+    }
+    },
+    );
+    }
+    },
+    )
+    ,
     );
   }
 }
