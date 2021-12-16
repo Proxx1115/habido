@@ -11,6 +11,7 @@ import 'package:habido_app/models/chatbots_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
 import 'package:habido_app/models/custom_habit_settings_response.dart';
+import 'package:habido_app/models/feedback_category_list_response.dart';
 import 'package:habido_app/models/forgot_password_change_request.dart';
 import 'package:habido_app/models/forgot_password_request.dart';
 import 'package:habido_app/models/forgot_password_response.dart';
@@ -517,6 +518,15 @@ class ApiManager {
     );
   }
 
+  static Future<BaseResponse> DeleteNotif(int notifId) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.deleteNotif + '/$notifId',
+        httpMethod: HttpMethod.delete,
+      ),
+    );
+  }
+
   static Future<AchievementsResponse> achievements() async {
     return AchievementsResponse.fromJson(
       await httpUtils.sendRequest(
@@ -595,6 +605,14 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.sendFeedback,
         objectData: request,
+      ),
+    );
+  }
+  static Future<FeedBackCategoryListResponse> feedBackCategories() async {
+    return FeedBackCategoryListResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.feedBackCatList,
+        httpMethod: HttpMethod.get,
       ),
     );
   }

@@ -48,6 +48,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
 
   // Answers
   List<HabitAnswer>? _answerList;
+  int? _selectedAnswer;
 
   // TextField
   final _conclusionController = TextEditingController();
@@ -55,6 +56,10 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
 
   // Button
   bool _enabledButton = false;
+
+  // Emoji
+  int? _selectedEmoji;
+
 
   @override
   void initState() {
@@ -94,18 +99,44 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                   Expanded(
                     child: (_question != null && _answerList != null && _answerList!.isNotEmpty)
                         ? Container(
-                            padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+                            padding: SizeHelper.screenPadding,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                              // borderRadius: BorderRadius.all(Radius.circular(15.0)),
                               child: ListView(
                                 shrinkWrap: true,
                                 children: [
+                                  StadiumContainer(
+                                    padding: EdgeInsets.all(10),
+                                    child: Column(
+                                      children: [
+                                        CustomText(_question!.questionText, fontWeight: FontWeight.w500, maxLines: 5, textAlign: TextAlign.center,),
+
+                                        HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+
+                                        EmojiWidget(
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(SizeHelper.borderRadius),
+                                            bottomRight: Radius.circular(SizeHelper.borderRadius),
+                                          ),
+                                          visibleHeader: false,
+                                          onSelectedEmoji: (value) {
+                                            Func.hideKeyboard(context);
+                                            _selectedEmoji = value;
+                                            _validateForm();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 5.0,),
+
                                   StadiumContainer(
                                     padding: SizeHelper.boxPadding,
                                     child: Column(
                                       children: [
                                         /// Question
-                                        CustomText(_question!.questionText, fontWeight: FontWeight.w500, maxLines: 5),
+                                        CustomText(LocaleKeys.answerOneOfThoseQuestion, fontWeight: FontWeight.w500, maxLines: 5),
 
                                         HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
@@ -220,18 +251,18 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                     ),
 
                     /// Emoji
-                    EmojiWidget(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(SizeHelper.borderRadius),
-                        bottomRight: Radius.circular(SizeHelper.borderRadius),
-                      ),
-                      visibleHeader: false,
-                      onSelectedEmoji: (value) {
-                        Func.hideKeyboard(context);
-                        _answerList![index].selectedEmoji = value;
-                        _validateForm();
-                      },
-                    ),
+                    // EmojiWidget(
+                    //   borderRadius: BorderRadius.only(
+                    //     bottomLeft: Radius.circular(SizeHelper.borderRadius),
+                    //     bottomRight: Radius.circular(SizeHelper.borderRadius),
+                    //   ),
+                    //   visibleHeader: false,
+                    //   onSelectedEmoji: (value) {
+                    //     Func.hideKeyboard(context);
+                    //     _answerList![index].selectedEmoji = value;
+                    //     _validateForm();
+                    //   },
+                    // ),
                   ],
                 ),
               ),
@@ -273,7 +304,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
 
     if (_answerList != null && _answerList!.isNotEmpty && _question != null) {
       for (var el in _answerList!) {
-        if (el.isSelected && Func.isNotEmpty(_conclusion) && el.selectedEmoji != null) {
+        if (el.isSelected && Func.isNotEmpty(_conclusion) && _selectedEmoji != null) {
           answer = el;
         }
       }
@@ -297,8 +328,9 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                     if (answer != null && Func.isNotEmpty(_conclusion)) {
                       var request = SaveUserHabitProgressRequest();
                       request.userHabitId = _userHabit.userHabitId;
-                      request.value = Func.toStr(answer.selectedEmoji ?? '');
+                      request.value = Func.toStr(_selectedEmoji!);
                       request.note = Func.toStr(_conclusion);
+                      request.answerId = answer.habitQuestionAnsId;
 
                       BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
                     }

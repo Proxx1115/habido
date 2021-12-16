@@ -38,7 +38,7 @@ class NoteWidget extends StatelessWidget {
                 ),
 
                 /// Edit button
-                SvgPicture.asset(Assets.edit),
+                // SvgPicture.asset(Assets.edit),
               ],
             ),
             onTap: () {

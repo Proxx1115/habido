@@ -50,6 +50,7 @@ class HttpPath {
   static const String readAllNotif = '/mobile/notifs/read-all';
   static const String firstNotifs = '/mobile/notifs/first';
   static const String nextNotifs = '/mobile/notifs/then';
+  static const String deleteNotif = 'mobile/notifs/delete';
   static const String achievements = '/mobile/user/accomplishments';
   static const String rankList = '/mobile/rank/list';
   static const String changePhone = '/mobile/change/phone';
@@ -60,4 +61,5 @@ class HttpPath {
   static const String getHabitProgressLog = '/mobile/user-habit/progress/log';
   static const String updateHabitProgressLog = '/mobile/user-habit/progress/log';
   static const String sendFeedback = '/mobile/feed-back';
+  static const String feedBackCatList = '/mobile/feed-back/categories';
 }

@@ -314,6 +314,8 @@ class LocaleKeys {
 
   static String get createHabit => 'Дадал үүсгэх';
 
+  static String get createNewHabit => 'Шинэ дадал үүсгэх';
+
   static String get ediHabit => 'Дадал засварлах';
 
   static String get sureToSkipHabit => 'Энэ удаад алгасах уу?';
@@ -467,6 +469,8 @@ class LocaleKeys {
   static String get pleaseEnterEndDate => 'Дуусах огноо сонгоно уу';
 
   static String get pleaseSelectGoal => 'Зорилго сонгоно уу';
+
+  static String get answerOneOfThoseQuestion => 'Дараах асуултуудаас нэгийг нь сонгон хариулаарай';
 
   /// Profile
   static String get allTime => 'Бүх цаг үе';

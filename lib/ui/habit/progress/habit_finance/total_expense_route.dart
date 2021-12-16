@@ -173,6 +173,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
                   Expanded(
                     child: CustomText(
                       expenseCategory.expenseCatName,
+                      maxLines: 3,
                       fontSize: 13.0,
                       color: customColors.greyText,
                     ),

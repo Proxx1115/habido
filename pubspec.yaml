@@ -50,6 +50,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   webview_flutter: ^2.0.12
   flutter_html: ^2.1.5
+  audio_service: ^0.18.1
 
 dev_dependencies:
   flutter_test:

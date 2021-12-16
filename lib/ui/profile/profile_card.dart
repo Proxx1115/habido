@@ -164,7 +164,7 @@ class _ProfileCardState extends State<ProfileCard> {
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
               child: CachedNetworkImage(
                 imageUrl: globals.userData!.photo!,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 width: SizeHelper.boxHeight,
                 height: SizeHelper.boxHeight,
                 placeholder: (context, url) => CustomLoader(size: SizeHelper.boxHeight),

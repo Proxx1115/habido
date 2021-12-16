@@ -616,7 +616,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
       hintText: LocaleKeys.endDate,
       margin: EdgeInsets.only(top: 15.0),
       firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 10, 12, 31),
+      lastDate: DateTime(DateTime.now().year + 2, 12, 31),
       initialDate: _endDate,
       primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
       callback: (date) {

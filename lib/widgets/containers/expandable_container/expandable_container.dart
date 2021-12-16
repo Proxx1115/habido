@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
@@ -11,13 +12,17 @@ class ExpandableContainer extends StatefulWidget {
   final String title;
   final List<ExpandableListItem> expandableListItems;
   final EdgeInsets? margin;
+  final bool isToday;
+  final String? todayText;
 
-  const ExpandableContainer({
-    Key? key,
-    required this.title,
-    required this.expandableListItems,
-    this.margin,
-  }) : super(key: key);
+  const ExpandableContainer(
+      {Key? key,
+      required this.title,
+      required this.expandableListItems,
+      this.margin,
+      required this.isToday,
+      this.todayText})
+      : super(key: key);
 
   @override
   _ExpandableContainerState createState() => _ExpandableContainerState();
@@ -40,7 +45,8 @@ class _ExpandableContainerState extends State<ExpandableContainer> {
 
   @override
   Widget build(BuildContext context) {
-    _expandedHeight = widget.expandableListItems.length * (_listItemHeight + _liteItemMarginBottom);
+    _expandedHeight = widget.expandableListItems.length *
+        (_listItemHeight + _liteItemMarginBottom);
 
     return Container(
       margin: widget.margin,
@@ -57,6 +63,7 @@ class _ExpandableContainerState extends State<ExpandableContainer> {
   }
 
   Widget _header() {
+    List<String> parts = widget.todayText?.split('/') ?? ['one', 'two'];
     return NoSplashContainer(
       child: InkWell(
         onTap: () {
@@ -81,14 +88,34 @@ class _ExpandableContainerState extends State<ExpandableContainer> {
                 ),
 
                 /// Title
-                Expanded(
-                  child: CustomText(
-                    widget.title,
-                    margin: EdgeInsets.only(left: 12.0),
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.w500,
-                  ),
+                CustomText(
+                  widget.title,
+                  margin: EdgeInsets.only(left: 12.0),
+                  fontSize: 19.0,
+                  fontWeight: FontWeight.w500,
                 ),
+
+                /// ListItem done/total
+                if (widget.isToday && widget.todayText != null)
+                  Container(
+                    margin: EdgeInsets.only(left: 10.0),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          parts[0],
+                          fontSize: 19.0,
+                          fontWeight: FontWeight.w500,
+                          color: customColors.iconSeaGreen,
+                        ),
+                        CustomText(
+                          '/' + parts[1],
+                          fontSize: 19.0,
+                          fontWeight: FontWeight.w500,
+                          color: customColors.greyText
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
           ),

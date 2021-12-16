@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/models/feedback_category_list_response.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_change_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
@@ -36,6 +37,7 @@ import 'package:habido_app/ui/profile/change_phone/change_phone_route.dart';
 import 'package:habido_app/ui/profile/change_phone/change_email_route.dart';
 import 'package:habido_app/ui/profile/change_phone/verify_phone_route.dart';
 import 'package:habido_app/ui/profile/faq_route.dart';
+import 'package:habido_app/ui/profile/feedback_cat_list.dart';
 import 'package:habido_app/ui/profile/feedback_route.dart';
 import 'package:habido_app/ui/profile/help_route.dart';
 import 'package:habido_app/ui/profile/terms_route.dart';
@@ -103,6 +105,7 @@ class Routes {
   static const habitSuccess = 'habitSuccess';
   static const help = 'help';
   static const feedback = 'feedback';
+  static const feedbackCatList = 'feedbackCatList';
   static const faq = 'faq';
   static const terms = 'terms';
 
@@ -512,6 +515,10 @@ class Routes {
 
       case Routes.feedback:
         route = SlideRightRouteBuilder(FeedbackRoute(), settings);
+        break;
+
+      case Routes.feedbackCatList:
+        route = SlideRightRouteBuilder(FeedBackCategoryListRoute(), settings);
         break;
 
       case Routes.faq:

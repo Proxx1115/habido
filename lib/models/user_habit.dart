@@ -10,6 +10,7 @@ class UserHabit extends BaseResponse {
   String? endDate;
   String? userNote; // Өөрийн тэмдэглэл
   bool? isDone;
+  String? habitState;
 
   // HabitGoalSettings
   String? planTerm; // PlanTerm: Daily, Weekly, Monthly
@@ -49,6 +50,7 @@ class UserHabit extends BaseResponse {
     endDate = json['endDate'];
     userNote = json['userNote'];
     isDone = json['isDone'];
+    habitState = json['habitState'];
     planTerm = json['planTerm'];
     goalValue = json['goalValue'];
     habitId = json['habitId'];
@@ -79,6 +81,7 @@ class UserHabit extends BaseResponse {
     map['goalValue'] = goalValue;
     map['userNote'] = userNote;
     map['isDone'] = isDone ?? false;
+    map['habitState'] = habitState;
     map['habit'] = habit;
     map['isDynamicHabit'] = isDynamicHabit ?? false;
     if (userHabitReminders != null) {
@@ -89,4 +92,10 @@ class UserHabit extends BaseResponse {
     }
     return map;
   }
+}
+
+class UserHabitPlanState {
+  static const New = 'New';
+  static const Started = 'Started';
+  static const Done = 'Done';
 }
