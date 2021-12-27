@@ -109,7 +109,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                                     padding: EdgeInsets.all(10),
                                     child: Column(
                                       children: [
-                                        CustomText(_question!.questionText, fontWeight: FontWeight.w500, maxLines: 5, textAlign: TextAlign.center,),
+                                        CustomText(LocaleKeys.feelingAtTheTime, fontWeight: FontWeight.w500, maxLines: 5, textAlign: TextAlign.center,),
 
                                         HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
@@ -244,7 +244,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                         topLeft: Radius.circular(SizeHelper.borderRadius),
                         topRight: Radius.circular(SizeHelper.borderRadius),
                       ),
-                      suffixAsset: Assets.edit,
+                      // suffixAsset: Assets.edit,
                       hintText: LocaleKeys.writeConclusion,
                       maxLines: 5,
                       autofocus: true,

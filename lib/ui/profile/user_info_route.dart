@@ -238,7 +238,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                       BorderRadius.all(Radius.circular(_profilePictureSize)),
                   child: CachedNetworkImage(
                     imageUrl: globals.userData!.photo!,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                     width: _profilePictureSize,
                     height: _profilePictureSize,
                     placeholder: (context, url) =>

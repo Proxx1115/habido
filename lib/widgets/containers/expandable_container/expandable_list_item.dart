@@ -74,7 +74,7 @@ class ExpandableListItem extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: leadingUrl!,
                       color: leadingColor,
-                      fit: BoxFit.fitWidth,
+                      fit: BoxFit.fitHeight,
                       width: 20.0,
                       height: 20.0,
                       placeholder: (context, url) => Container(),

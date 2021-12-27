@@ -450,6 +450,8 @@ class LocaleKeys {
 
   static String get howAreYouFeeling => 'Та хэр сэтгэл ханамжтай байсан бэ?';
 
+  static String get feelingAtTheTime => 'Яг одоо ямар сэтгэл хөдлөлтэй байна вэ?';
+
   static String get pleasing => 'Тааламжтай';
 
   static String get notPleasing => 'Тааламжгүй';
