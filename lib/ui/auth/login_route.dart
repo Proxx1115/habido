@@ -55,7 +55,8 @@ class _LoginRouteState extends State<LoginRoute> {
 
     // Phone number, pass
     _phoneNumberController.text = SharedPref.getPhoneNumber();
-    _visibleButtonBiometrics = SharedPref.getBiometricAuth(_phoneNumberController.text);
+    _visibleButtonBiometrics =
+        SharedPref.getBiometricAuth(_phoneNumberController.text);
 
     // todo test
     // _phoneNumberController.text = '88989800';
@@ -88,20 +89,32 @@ class _LoginRouteState extends State<LoginRoute> {
       _passwordController.clear();
       SharedPref.setPhoneNumber(_phoneNumberController.text);
 
-      if (globals.userData?.isOnboardingDone ?? false) {
-        /// Go to home
+      if (globals.userData?.isOnboardingDone2 ?? false) {
+        // Go to home
         Navigator.pushNamed(context, Routes.home);
       } else {
-        /// Go to chat
+        // Go to chat
         Navigator.pushNamed(context, Routes.habidoAssistant);
       }
+
+      // if (globals.userData?.isOnboardingDone ?? false) {
+      //   /// Go to home
+      //   Navigator.pushNamed(context, Routes.home);
+      // } else {
+      //   /// Go to chat
+      //   Navigator.pushNamed(context, Routes.habidoAssistant);
+      // }
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is SessionTimeoutState) {
-      Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.login, (Route<dynamic> route) => false);
 
       showCustomDialog(
         context,
@@ -124,7 +137,8 @@ class _LoginRouteState extends State<LoginRoute> {
       backgroundColor: customColors.primaryBackground,
       child: LayoutBuilder(builder: (context, constraints) {
         if (_height < constraints.maxHeight) _height = constraints.maxHeight;
-        if (_height < SizeHelper.minHeightScreen) _height = SizeHelper.minHeightScreen;
+        if (_height < SizeHelper.minHeightScreen)
+          _height = SizeHelper.minHeightScreen;
 
         return SingleChildScrollView(
           // physics: NeverScrollableScrollPhysics(),
@@ -144,7 +158,8 @@ class _LoginRouteState extends State<LoginRoute> {
                   padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
                   decoration: BoxDecoration(
                     color: customColors.whiteBackground,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(25)),
                   ),
                   child: Column(
                     children: [
@@ -217,9 +232,10 @@ class _LoginRouteState extends State<LoginRoute> {
 
   _validateForm() {
     setState(() {
-      _enabledButtonLogin = (Func.isValidPhoneNumber(_phoneNumberController.text) &&
-          _passwordController.text.isNotEmpty &&
-          _passwordController.text.length > 0);
+      _enabledButtonLogin =
+          (Func.isValidPhoneNumber(_phoneNumberController.text) &&
+              _passwordController.text.isNotEmpty &&
+              _passwordController.text.length > 0);
     });
   }
 

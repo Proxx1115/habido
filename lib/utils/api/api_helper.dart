@@ -5,8 +5,8 @@ import '../shared_pref.dart';
 class ApiHelper {
   /// URI = scheme:[//authority]path[?query][#fragment]
   // static const String baseUrl = 'http://192.168.2.21:8041/'; // Test
-  // static const String baseUrl = 'http://habido.tanasoft.mn/'; // Test outside
-  static const String baseUrl = 'http://app.habido.mn/'; // Production
+  static const String baseUrl = 'http://habido.tanasoft.mn/'; // Test outside
+  // static const String baseUrl = 'http://app.habido.mn/'; // Production
 
   static Map<String, String> getHttpHeaders({bool hasAuthorization = true}) {
     var headers = Map<String, String>();
@@ -18,7 +18,8 @@ class ApiHelper {
     });
 
     if (hasAuthorization && Func.isNotEmpty(SharedPref.getSessionToken())) {
-      headers.addAll({"authorization": "Bearer " + SharedPref.getSessionToken()});
+      headers
+          .addAll({"authorization": "Bearer " + SharedPref.getSessionToken()});
     }
 
     return headers;
@@ -75,13 +76,16 @@ class ResponseCode {
   static const NoData = 40;
   static const BadRequest = 400; // No internet
   static const Unauthorized = 401; // We could not recognize you.
-  static const Forbidden = 403; // Access to the requested resource or action is forbidden.
+  static const Forbidden =
+      403; // Access to the requested resource or action is forbidden.
   static const NotFound = 404; // The requested resource could not be found.
   static const RequestTimeout = 408;
 
   // 5xx Server error
-  static const InternalServerError = 500; // We had a problem with our server. Try again later.
-  static const ServiceUnavailable = 503; // We're temporarily offline for maintenance. Please try again later.
+  static const InternalServerError =
+      500; // We had a problem with our server. Try again later.
+  static const ServiceUnavailable =
+      503; // We're temporarily offline for maintenance. Please try again later.
 
   /// Business response codes
   static const Success = 200;

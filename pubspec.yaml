@@ -36,6 +36,7 @@ dependencies:
   showcaseview: ^1.1.1
   audioplayers: ^0.20.1
   circular_reveal_animation: ^2.0.0
+  rxdart: ^0.27.3
 
   #widgets
   smooth_page_indicator: ^0.3.0-nullsafety.0
