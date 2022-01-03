@@ -11,7 +11,7 @@ class CBChatHistoryResponse extends BaseResponse {
     if (json['data'] != null) {
       chatList = [];
       json['data'].forEach((v) {
-        chatList?.add(CBChatResponse.fromJson(v));
+        if (v != null) chatList?.add(CBChatResponse.fromJson(v));
       });
     }
   }

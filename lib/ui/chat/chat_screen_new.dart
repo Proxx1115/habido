@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,12 +27,18 @@ class ChatScreenNew extends StatefulWidget {
 }
 
 class _ChatScreenNewState extends State<ChatScreenNew> {
+  StreamSubscription? bottomListener;
+
+  final _scrollController = ScrollController();
   var bloc = ChatScreenNewBloc();
   @override
   void initState() {
-    // bloc.getChatbots();
-    bloc.cbFirstChat();
-    // bloc.cbChatHistory(13, 10);
+    bloc.cbChatHistory();
+    // bloc.cbChatbots();
+
+    bottomListener = bloc.bottomSubject.listen((value) {
+      gotoBottom();
+    });
     super.initState();
   }
 
@@ -41,61 +49,71 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
       stream: bloc.reloadSubject.stream,
       builder: (context, snapshot) {
         if (bloc.chatList.length == 0) return Container();
-        return Container(
-          padding: EdgeInsets.only(left: 10, right: 10),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    /// Time
-                    if (bloc.chatList.isNotEmpty &&
-                        Func.isNotEmpty(bloc.chatList.first.msgSentTime))
-                      CustomText(
-                        Func.toDateStr(
-                                Func.toDate(bloc.chatList.first.msgSentTime!))
-                            .replaceAll('-', '.'),
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(bottom: 15.0),
-                        fontWeight: FontWeight.w500,
-                        color: customColors.greyText,
-                      ),
-
-                    /// Chats
-                    for (int i = 0; i < bloc.chatList.length; i++)
-                      _chatItem(bloc.chatList[i]),
-
-                    /// Typing
-                    // if (state is ChatLoading) ChatLoader(),
-
-                    /// Button thanks
-                    if (bloc.chatList[bloc.chatList.length - 1].isEnd! &&
-                        widget.type == ChatScreenNewType.onboard)
-                      _buttonThanks(),
-                  ],
-                ),
-              ),
-              if (bloc.chatList.last.cbMsgOptions != null &&
-                  bloc.chatList.last.cbMsgOptions!.length > 1)
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
+        return RefreshIndicator(
+          onRefresh: () async {
+            bloc.cbChatHistory();
+          },
+          child: Container(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: Column(
+              children: [
+                Expanded(
                   child: ListView(
+                    controller: _scrollController,
                     children: [
-                      for (int i = 0;
-                          i < bloc.chatList.last.cbMsgOptions!.length;
-                          i++)
-                        _optionItem(bloc.chatList.last.cbMsgOptions![i], false)
+                      /// Time
+                      if (bloc.chatList.isNotEmpty &&
+                          Func.isNotEmpty(bloc.chatList.first.msgSentTime))
+                        CustomText(
+                          Func.toDateStr(
+                                  Func.toDate(bloc.chatList.first.msgSentTime!))
+                              .replaceAll('-', '.'),
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(bottom: 15.0),
+                          fontWeight: FontWeight.w500,
+                          color: customColors.greyText,
+                        ),
+
+                      /// Chats
+                      for (int i = 0; i < bloc.chatList.length; i++)
+                        _chatItem(
+                            bloc.chatList[i], i == bloc.chatList.length - 1),
+
+                      /// Typing
+                      // if (state is ChatLoading) ChatLoader(),
+
+                      /// Button thanks
+                      if (bloc.chatList[bloc.chatList.length - 1].isEnd! &&
+                          widget.type == ChatScreenNewType.onboard)
+                        _buttonThanks(),
                     ],
                   ),
                 ),
-            ],
+                if (bloc.chatList.last.cbMsgOptions != null)
+                  Container(
+                    height: bloc.chatList.last.cbMsgOptions!.length > 4
+                        ? MediaQuery.of(context).size.height * 0.3
+                        : bloc.chatList.last.cbMsgOptions!.length * 60,
+                    padding: EdgeInsets.only(top: 10),
+                    child: ListView(
+                      children: [
+                        for (int i = 0;
+                            i < bloc.chatList.last.cbMsgOptions!.length;
+                            i++)
+                          _optionItem(
+                              bloc.chatList.last.cbMsgOptions![i], false)
+                      ],
+                    ),
+                  ),
+              ],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _chatItem(CBChatResponse cbChatResponse) {
+  Widget _chatItem(CBChatResponse cbChatResponse, bool isLast) {
     // if(_chatList[chatIndex].content != null) {
     //   return _contentItem(_chatList[chatIndex].content!);
     // }
@@ -110,7 +128,8 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
           child: CustomText(cbChatResponse.msg!, maxLines: 10),
         ),
         if (cbChatResponse.cbMsgOptions != null &&
-            cbChatResponse.cbMsgOptions!.length == 1)
+            cbChatResponse.cbMsgOptions!.length == 1 &&
+            !isLast)
           _selectedOptionItem(cbChatResponse.cbMsgOptions!.first, true)
       ],
     );
@@ -167,8 +186,16 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
       onTap: () {
         if (isSelected) return;
         bloc.cbMsgOption(option);
+        gotoBottom();
       },
     );
+  }
+
+  gotoBottom() {
+    Timer(Duration(seconds: 1), () {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+    });
   }
 
   Widget _selectedOptionItem(CBMsgOption option, bool isSelected) {

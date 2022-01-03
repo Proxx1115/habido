@@ -60,7 +60,7 @@ class CBChatResponse extends BaseResponse {
     if (json['cbMsgOptions'] != null) {
       cbMsgOptions = [];
       json['cbMsgOptions'].forEach((v) {
-        cbMsgOptions?.add(CBMsgOption.fromJson(v));
+        if (v != null) cbMsgOptions?.add(CBMsgOption.fromJson(v));
       });
     }
 

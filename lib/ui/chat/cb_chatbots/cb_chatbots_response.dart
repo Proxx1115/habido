@@ -13,7 +13,7 @@ class CBChatBotsResponse extends BaseResponse {
     if (json['data'] != null) {
       chatbots = [];
       json['data'].forEach((v) {
-        chatbots?.add(CBChatBotsModel.fromJson(v));
+        if (v != null) chatbots?.add(CBChatBotsModel.fromJson(v));
       });
     }
   }

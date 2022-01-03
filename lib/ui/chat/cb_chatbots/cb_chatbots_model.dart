@@ -1,5 +1,7 @@
-class CBChatBotsModel {
-  String? cbId;
+import 'package:habido_app/models/base_response.dart';
+
+class CBChatBotsModel extends BaseResponse {
+  int? cbId;
   String? name;
   String? cbType;
 
@@ -9,8 +11,10 @@ class CBChatBotsModel {
     this.cbType,
   });
 
-  CBChatBotsModel.fromJson(Map<dynamic, dynamic> json) {
-    print("erdene erdene " + json["cbId"]);
+  CBChatBotsModel.fromJson(dynamic json) {
+    cbId = json['cbId'];
+    name = json['name'];
+    cbType = json['cbType'];
   }
 
   Map<String, dynamic> toJson() {
