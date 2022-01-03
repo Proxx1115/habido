@@ -19,7 +19,7 @@ class ChatbotDashboard extends StatefulWidget {
 }
 
 class _ChatbotDashboardState extends State<ChatbotDashboard> {
-  bool _soon = true;
+  bool _soon = false;
 
   @override
   Widget build(BuildContext context) {
