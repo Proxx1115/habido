@@ -13,6 +13,7 @@ class ChatScreenNewBloc {
   final loadingSubject = BehaviorSubject<bool>();
   final bottomSubject = BehaviorSubject<bool>();
   final chatBotsSubject = BehaviorSubject<List<CBChatBotsModel>>();
+  final isShowSubject = BehaviorSubject<bool>();
 
   List<CBChatResponse> chatList = [];
   ChatScreenNewType type = ChatScreenNewType.onboard;
@@ -26,6 +27,7 @@ class ChatScreenNewBloc {
     loadingSubject.close();
     bottomSubject.close();
     chatBotsSubject.close();
+    isShowSubject.close();
   }
 
   cbChatbots() async {
