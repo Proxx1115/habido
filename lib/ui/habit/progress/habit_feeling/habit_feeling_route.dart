@@ -54,6 +54,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
   @override
   void initState() {
     _userHabit = widget.userHabit;
+    _conclusion = _userHabit.userNote;
 
     // UI
     _primaryColor = HabitHelper.getPrimaryColor1(_userHabit);
@@ -104,6 +105,11 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
 
                           /// Note
                           NoteWidget(
+                            onWrittenNote: (value){
+                              setState(() {
+                                _conclusion = value;
+                              });
+                            },
                             userHabit: _userHabit,
                             margin: EdgeInsets.only(top: 15.0),
                           ),

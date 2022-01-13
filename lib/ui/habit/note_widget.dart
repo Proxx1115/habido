@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
@@ -13,19 +14,26 @@ import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
-class NoteWidget extends StatelessWidget {
+class NoteWidget extends StatefulWidget {
+  final Function(String) onWrittenNote;
   final UserHabit userHabit;
   final EdgeInsets? margin;
 
-  const NoteWidget({Key? key, required this.userHabit, this.margin}) : super(key: key);
+  const NoteWidget({Key? key,required this.onWrittenNote, required this.userHabit, this.margin}) : super(key: key);
 
+  @override
+  State<NoteWidget> createState() => _NoteWidgetState();
+}
+
+class _NoteWidgetState extends State<NoteWidget> {
   @override
   Widget build(BuildContext context) {
     return StadiumContainer(
       onTap: () {
         _onTap(context);
+
       },
-      margin: margin,
+      margin: widget.margin,
       padding: SizeHelper.boxPadding,
       child: Column(
         children: [
@@ -34,7 +42,7 @@ class NoteWidget extends StatelessWidget {
               children: [
                 /// Title
                 Expanded(
-                  child: CustomText(userHabit.habit!.noteTitle ?? LocaleKeys.writeNote, fontWeight: FontWeight.w500, maxLines: 3,),
+                  child: CustomText(widget.userHabit.habit!.noteTitle ?? LocaleKeys.writeNote, fontWeight: FontWeight.w500, maxLines: 3,),
                 ),
 
                 /// Edit button
@@ -50,7 +58,7 @@ class NoteWidget extends StatelessWidget {
           HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
           /// Body
-          CustomText(userHabit.userNote, maxLines: 10),
+          CustomText(widget.userHabit.userNote, maxLines: 10),
         ],
       ),
     );
@@ -58,7 +66,7 @@ class NoteWidget extends StatelessWidget {
 
   void _onTap(BuildContext context) {
     final _noteController = TextEditingController();
-    // _noteController.text = userHabit.userNote ?? '';
+    _noteController.text = widget.userHabit.userNote ?? '';
 
     showCustomDialog(
       context,
@@ -66,13 +74,17 @@ class NoteWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Func.hideKeyboard(context);
+
         },
         child: CustomDialogBody(
           buttonText: LocaleKeys.save,
           onPressedButton: () {
-            var userHabit = this.userHabit;
+            var userHabit = this.widget.userHabit;
             userHabit.userNote = _noteController.text;
-            BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
+            setState(() {
+              widget.onWrittenNote(userHabit.userNote ?? '');
+            });
+            // BlocManager.userHabitBloc.add(UpdateUserHabitEvent(userHabit));
           },
           child: Column(
             children: [

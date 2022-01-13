@@ -33,6 +33,7 @@ import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/notification/notification_route.dart';
 import 'package:habido_app/ui/profile/change_password_route.dart';
+import 'package:habido_app/ui/profile/change_phone/bonus_point.dart';
 import 'package:habido_app/ui/profile/change_phone/change_phone_route.dart';
 import 'package:habido_app/ui/profile/change_phone/change_email_route.dart';
 import 'package:habido_app/ui/profile/change_phone/verify_phone_route.dart';
@@ -108,6 +109,7 @@ class Routes {
   static const feedbackCatList = 'feedbackCatList';
   static const faq = 'faq';
   static const terms = 'terms';
+  static const bonusPoint = 'bonusPoint';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -528,7 +530,9 @@ class Routes {
       case Routes.terms:
         route = SlideRightRouteBuilder(TermsRoute(), settings);
         break;
-
+      case Routes.bonusPoint:
+        route = SlideRightRouteBuilder(BonusPointRoute(), settings);
+        break;
       case Routes.comingSoon:
       default:
         route = NoTransitionRoute(ComingSoonRoute(), settings);

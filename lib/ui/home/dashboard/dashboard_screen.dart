@@ -99,15 +99,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     /// Text
                     Container(
                       // width: 162.0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 18.0),
-                        child: Text(
-                          LocaleKeys.createNewHabit,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15.0,
-                              color: HexColor.fromHex('#424852')),
-                        ),
+                      child: Text(
+                        LocaleKeys.createNewHabit,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15.0,
+                            color: HexColor.fromHex('#424852')),
                       ),
                     ),
 
@@ -254,7 +251,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   bool _isUserHabitsEmpty(){
-    return false;
+    return true;
   }
 
   String _getSuffixAsset(UserHabit userHabit) {
