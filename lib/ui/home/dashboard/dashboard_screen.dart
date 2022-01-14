@@ -40,6 +40,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   double _indicatorVerticalMargin = 20.0;
   double _scrollHeaderHeight = 35.0;
 
+  bool _isUserHabitEmpty = false;
+
   // User habits
   List<UserHabit>? _todayUserHabits;
 
@@ -48,8 +50,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
     super.initState();
+
+    BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
   }
 
   @override
@@ -61,13 +64,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: [
+
             /// Header
             _header(),
 
             /// Today
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
+                    (BuildContext context, int index) {
                   return _userHabitListWidget();
                 },
                 childCount: 1,
@@ -81,58 +85,75 @@ class _DashboardScreenState extends State<DashboardScreen> {
         description: LocaleKeys.showcaseAddHabit,
         shapeBorder: CircleBorder(),
         overlayPadding: EdgeInsets.all(10.0),
-        child: (_isUserHabitsEmpty())
-            ? Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(25.0),
-                    bottomRight: Radius.circular(25.0),
-                    bottomLeft: Radius.circular(25.0),
-                  ),
-                  color: customColors.whiteBackground,
-                ),
-                width: 217.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    /// Text
-                    Container(
-                      // width: 162.0,
-                      child: Text(
-                        LocaleKeys.createNewHabit,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15.0,
-                            color: HexColor.fromHex('#424852')),
+        child: BlocProvider.value(
+          value: BlocManager.dashboardBloc,
+          child: BlocListener<DashboardBloc, DashboardState>(
+            listener: _blocListener,
+            child: BlocBuilder<DashboardBloc, DashboardState>(
+                builder: (context, state) {
+                  return _isUserHabitEmpty
+                      ? Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(25.0),
+                        bottomRight: Radius.circular(25.0),
+                        bottomLeft: Radius.circular(25.0),
                       ),
+                      color: customColors.whiteBackground,
                     ),
+                    width: 217.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
 
-                    /// Button
-                    ButtonStadium(
-                      style: ButtonStadiumStyle.Secondary,
-                      asset: Assets.add,
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.habitCategories);
-                      },
+                        /// Text
+                        Container(
+                          margin: EdgeInsets.only(right: 15),
+                          // width: 162.0,
+                          child: Text(
+                            LocaleKeys.createNewHabit,
+                            style: TextStyle(
+                                fontFamily: FontAsset.FiraSansCondensed,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15.0,
+                                color: HexColor.fromHex('#424852')),
+                          ),
+                        ),
+
+                        /// Button
+                        ButtonStadium(
+                          style: ButtonStadiumStyle.Secondary,
+                          asset: Assets.add,
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, Routes.habitCategories);
+                          },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            : ButtonStadium(
-                style: ButtonStadiumStyle.Secondary,
-                asset: Assets.add,
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.habitCategories);
-                },
-              ),
+                  )
+                      : ButtonStadium(
+                    style: ButtonStadiumStyle.Secondary,
+                    asset: Assets.add,
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.habitCategories);
+                    },
+                  );
+                }
+            ),
+          ),
+        ),
       ),
     );
   }
 
   _header() {
     _sliderHeight = _sliderHeight ??
-        (MediaQuery.of(context).size.width) / _sliderAspectRatio;
+        (MediaQuery
+            .of(context)
+            .size
+            .width) / _sliderAspectRatio;
 
     return SliverAppBar(
       pinned: false,
@@ -181,7 +202,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   topRight: Radius.circular(35.0)),
               child: Container(
                 height: _scrollHeaderHeight,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 color: customColors.primaryBackground,
               ),
             ),
@@ -190,6 +214,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+
 
   Widget _userHabitListWidget() {
     return SingleChildScrollView(
@@ -205,15 +230,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               List<UserHabit>? todayUserHabits = _todayUserHabits;
               if (todayUserHabits != null) {
                 todayDone = todayUserHabits
-                        .where((element) => element.isDone!)
-                        .toList()
-                        .length
-                        .toString() +
+                    .where((element) => element.isDone!)
+                    .toList()
+                    .length
+                    .toString() +
                     '/' +
                     _todayUserHabits!.length.toString();
               }
               return Column(
                 children: [
+
                   /// Today
                   if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
                     _expandableHabitList(LocaleKeys.today, _todayUserHabits!,
@@ -237,6 +263,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (state is RefreshDashboardUserHabitsSuccess) {
       _todayUserHabits = state.todayUserHabits;
       _tomorrowUserHabits = state.tomorrowUserHabits;
+      if ((_todayUserHabits == null &&
+          _tomorrowUserHabits == null) || ((_todayUserHabits?.length == 0) &&
+          (_tomorrowUserHabits?.length == 0)))
+        _isUserHabitEmpty = true;
+      else
+        _isUserHabitEmpty = false;
     } else if (state is SkipUserHabitSuccess) {
       print('SkipUserHabitSuccess');
     } else if (state is SkipUserHabitFailed) {
@@ -248,10 +280,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             buttonText: LocaleKeys.ok),
       );
     }
-  }
-
-  bool _isUserHabitsEmpty(){
-    return true;
   }
 
   String _getSuffixAsset(UserHabit userHabit) {
@@ -286,76 +314,79 @@ class _DashboardScreenState extends State<DashboardScreen> {
       title: title,
       expandableListItems: List.generate(
         userHabitList.length,
-        (index) => ExpandableListItem(
-          delay: index * 0.2,
-          text: userHabitList[index].name ?? '',
-          leadingUrl: userHabitList[index].habit?.photo,
-          leadingColor: customColors.iconWhite,
-          leadingBackgroundColor: (userHabitList[index].habit?.color != null)
-              ? HexColor.fromHex(userHabitList[index].habit!.color!)
-              : null,
-          suffixAsset: _getSuffixAsset(userHabitList[index]),
-          suffixColor: _getSuffixColor(userHabitList[index]),
-          // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
-          // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
-          onPressed: () {
-            // Is finished
-            if (userHabitList[index].isDone ?? false) return;
+            (index) =>
+            ExpandableListItem(
+              delay: index * 0.2,
+              text: userHabitList[index].name ?? '',
+              leadingUrl: userHabitList[index].habit?.photo,
+              leadingColor: customColors.iconWhite,
+              leadingBackgroundColor: (userHabitList[index].habit?.color !=
+                  null)
+                  ? HexColor.fromHex(userHabitList[index].habit!.color!)
+                  : null,
+              suffixAsset: _getSuffixAsset(userHabitList[index]),
+              suffixColor: _getSuffixColor(userHabitList[index]),
+              // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
+              // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
+              onPressed: () {
+                // Is finished
+                if (userHabitList[index].isDone ?? false) return;
 
-            // Navigate
-            if (enabled && userHabitList[index].habit?.goalSettings != null) {
-              String? route =
+                // Navigate
+                if (enabled &&
+                    userHabitList[index].habit?.goalSettings != null) {
+                  String? route =
                   HabitHelper.getProgressRoute(userHabitList[index].habit!);
-              if (route != null) {
+                  if (route != null) {
+                    Navigator.pushNamed(
+                      context,
+                      route,
+                      arguments: {
+                        'userHabit': userHabitList[index],
+                      },
+                    );
+                  }
+                }
+              },
+              onPressedSkip: (userHabitList[index].isDone ?? false)
+                  ? null
+                  : () {
+                showCustomDialog(
+                  context,
+                  isDismissible: true,
+                  child: CustomDialogBody(
+                    text: LocaleKeys.sureToSkipHabit,
+                    // height: 300.0,
+                    buttonText: LocaleKeys.skip,
+                    button2Text: LocaleKeys.no,
+                    onPressedButton: () {
+                      var skipUserHabitRequest = SkipUserHabitRequest()
+                        ..userHabitId = userHabitList[index].userHabitId
+                        ..skipDay = Func.toDateStr(DateTime.now());
+                      BlocManager.dashboardBloc
+                          .add(SkipUserHabitEvent(skipUserHabitRequest));
+                    },
+                  ),
+                );
+              },
+              onPressedEdit: (userHabitList[index].isDone ?? false)
+                  ? null
+                  : () {
                 Navigator.pushNamed(
                   context,
-                  route,
+                  Routes.userHabit,
                   arguments: {
+                    'screenMode':
+                    (userHabitList[index].isDynamicHabit ?? false)
+                        ? ScreenMode.CustomEdit
+                        : ScreenMode.Edit,
+                    'habit': userHabitList[index].habit,
                     'userHabit': userHabitList[index],
+                    'title': LocaleKeys.ediHabit,
                   },
                 );
-              }
-            }
-          },
-          onPressedSkip: (userHabitList[index].isDone ?? false)
-              ? null
-              : () {
-                  showCustomDialog(
-                    context,
-                    isDismissible: true,
-                    child: CustomDialogBody(
-                      text: LocaleKeys.sureToSkipHabit,
-                      // height: 300.0,
-                      buttonText: LocaleKeys.skip,
-                      button2Text: LocaleKeys.no,
-                      onPressedButton: () {
-                        var skipUserHabitRequest = SkipUserHabitRequest()
-                          ..userHabitId = userHabitList[index].userHabitId
-                          ..skipDay = Func.toDateStr(DateTime.now());
-                        BlocManager.dashboardBloc
-                            .add(SkipUserHabitEvent(skipUserHabitRequest));
-                      },
-                    ),
-                  );
-                },
-          onPressedEdit: (userHabitList[index].isDone ?? false)
-              ? null
-              : () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.userHabit,
-                    arguments: {
-                      'screenMode':
-                          (userHabitList[index].isDynamicHabit ?? false)
-                              ? ScreenMode.CustomEdit
-                              : ScreenMode.Edit,
-                      'habit': userHabitList[index].habit,
-                      'userHabit': userHabitList[index],
-                      'title': LocaleKeys.ediHabit,
-                    },
-                  );
-                },
-        ),
+              },
+            ),
       ),
     );
   }
