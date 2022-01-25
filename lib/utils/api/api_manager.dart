@@ -309,6 +309,12 @@ class ApiManager {
     );
   }
 
+  static Future<PsyTestResultsResponse> psyTestUserResults() async {
+    return PsyTestResultsResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.psyTestUserResults, httpMethod: HttpMethod.get),
+    );
+  }
+
   static Future<HabitCategoriesResponse> habitCategories() async {
     return HabitCategoriesResponse.fromJson(
       await httpUtils.sendRequest(path: HttpPath.habitCategories, httpMethod: HttpMethod.get),

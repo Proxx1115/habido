@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/psy_test_dashboard_bloc.dart';
 import 'package:habido_app/models/psy_test_category_results.dart';
 import 'package:habido_app/bloc/psy_test_main_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -78,14 +79,14 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
 
   void _getData() {
     Future.delayed(Duration(milliseconds: 500), () {
-      BlocManager.psyTestMainBloc.add(GetPsyTestResultsEvent());
+      BlocManager.psyTestDashboardBloc.add(GetPsyUserTestResultsEvent());
     });
   }
 
   Widget _psyTestResultsWidget() {
     return BlocProvider.value(
       value: BlocManager.psyTestMainBloc,
-      child: BlocListener<PsyTestMainBloc, PsyTestMainState>(
+      child: BlocListener<PsyTestDashBoardBloc, PsyTestDashboardState>(
         listener: (context, state) {
           if (state is PsyTestResultsSuccess) {
             _categoryList = state.response.psyTestCategoryResults;
