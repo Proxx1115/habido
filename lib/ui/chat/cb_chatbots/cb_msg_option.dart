@@ -11,6 +11,7 @@ class CBMsgOption {
   int? nextMsgId;
   int? orderNo;
   String? meaning;
+  bool? isSelected;
   CBPsyTest? psyTest;
 
   CBMsgOption({
@@ -24,6 +25,7 @@ class CBMsgOption {
     this.nextMsgId,
     this.orderNo,
     this.meaning,
+    this.isSelected,
     this.psyTest,
   });
 
@@ -38,6 +40,7 @@ class CBMsgOption {
     nextMsgId = json['nextMsgId'];
     orderNo = json['orderNo'];
     meaning = json['meaning'];
+    isSelected = json['isSelected'];
     psyTest = json['psyTest'];
   }
 
@@ -53,6 +56,7 @@ class CBMsgOption {
     map['nextMsgId'] = nextMsgId;
     map['orderNo'] = orderNo;
     map['meaning'] = meaning;
+    map['isSelected'] = isSelected;
     map['psyTest'] = psyTest;
     return map;
   }

@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/models/option_type.dart';
 import 'package:habido_app/ui/chat/cb_chat_container.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_chat_response.dart';
+import 'package:habido_app/ui/chat/cb_chatbots/cb_chatbots_model.dart';
+import 'package:habido_app/ui/chat/cb_chatbots/cb_content.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option.dart';
 import 'package:habido_app/ui/chat/chat_screen_new_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -16,6 +18,7 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class ChatScreenNew extends StatefulWidget {
@@ -31,11 +34,12 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   final _scrollController = ScrollController();
   var bloc = ChatScreenNewBloc();
+  var isFirst = true;
+
   @override
   void initState() {
+    bloc.type = widget.type!;
     bloc.cbChatHistory();
-    // bloc.cbChatbots();
-
     bottomListener = bloc.bottomSubject.listen((value) {
       gotoBottom();
     });
@@ -44,107 +48,169 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      initialData: false,
-      stream: bloc.reloadSubject.stream,
-      builder: (context, snapshot) {
-        if (bloc.chatList.length == 0) return Container();
-        return RefreshIndicator(
-          onRefresh: () async {
-            bloc.cbChatHistory();
-          },
-          child: Container(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    controller: _scrollController,
-                    children: [
-                      /// Time
-                      if (bloc.chatList.isNotEmpty &&
-                          Func.isNotEmpty(bloc.chatList.first.msgSentTime))
-                        CustomText(
-                          Func.toDateStr(
-                                  Func.toDate(bloc.chatList.first.msgSentTime!))
-                              .replaceAll('-', '.'),
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(bottom: 15.0),
-                          fontWeight: FontWeight.w500,
-                          color: customColors.greyText,
-                        ),
+    return Stack(
+      children: [
+        StreamBuilder<bool>(
+          initialData: false,
+          stream: bloc.reloadSubject.stream,
+          builder: (context, snapshot) {
+            return RefreshIndicator(
+              onRefresh: () async {
+                bloc.cbChatHistory();
+              },
+              child: Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        controller: _scrollController,
+                        children: [
+                          /// Time
+                          if (bloc.chatList.isNotEmpty &&
+                              Func.isNotEmpty(bloc.chatList.first.msgSentTime))
+                            CustomText(
+                              Func.toDateStr(Func.toDate(
+                                      bloc.chatList.first.msgSentTime!))
+                                  .replaceAll('-', '.'),
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(bottom: 15.0),
+                              fontWeight: FontWeight.w500,
+                              color: customColors.greyText,
+                            ),
 
-                      /// Chats
-                      for (int i = 0; i < bloc.chatList.length; i++)
-                        _chatItem(
-                            bloc.chatList[i], i == bloc.chatList.length - 1),
+                          /// Chats
+                          if (bloc.chatList.isNotEmpty)
+                            for (int i = 0; i < bloc.chatList.length; i++)
+                              _chatItem(bloc.chatList[i]),
 
-                      /// Typing
-                      // if (state is ChatLoading) ChatLoader(),
+                          /// Typing
+                          // if (state is ChatLoading) ChatLoader(),
 
-                      /// Button thanks
-                      if (bloc.chatList[bloc.chatList.length - 1].isEnd! &&
-                          widget.type == ChatScreenNewType.onboard)
-                        _buttonThanks(),
-                    ],
-                  ),
-                ),
-                if (bloc.chatList.last.cbMsgOptions != null)
-                  Container(
-                    height: bloc.chatList.last.cbMsgOptions!.length > 4
-                        ? MediaQuery.of(context).size.height * 0.3
-                        : bloc.chatList.last.cbMsgOptions!.length * 60,
-                    padding: EdgeInsets.only(top: 10),
-                    child: ListView(
-                      children: [
-                        for (int i = 0;
-                            i < bloc.chatList.last.cbMsgOptions!.length;
-                            i++)
-                          _optionItem(
-                              bloc.chatList.last.cbMsgOptions![i], false)
-                      ],
+                          if (widget.type == ChatScreenNewType.main)
+                            StreamBuilder<List<CBChatBotsModel>>(
+                                initialData: [],
+                                stream: bloc.chatBotsSubject.stream,
+                                builder: (context, chatBotSnapshot) {
+                                  return Row(
+                                    children: [
+                                      for (int i = 0;
+                                          i < chatBotSnapshot.data!.length;
+                                          i++)
+                                        InkWell(
+                                          onTap: () {
+                                            bloc.chatbotId =
+                                                chatBotSnapshot.data![i].cbId!;
+                                            bloc.chatBotsSubject.add([]);
+                                            bloc.cbFirstChat();
+                                          },
+                                          child: Container(
+                                            width: 100,
+                                            height: 50,
+                                            padding: EdgeInsets.all(10),
+                                            margin: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.amber,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Text(chatBotSnapshot
+                                                    .data![i].cbId
+                                                    .toString() +
+                                                ' ' +
+                                                chatBotSnapshot.data![i].name
+                                                    .toString()),
+                                          ),
+                                        )
+                                    ],
+                                  );
+                                }),
+
+                          /// Button thanks
+                          if (bloc.chatList.isNotEmpty &&
+                              bloc.chatList[bloc.chatList.length - 1].isEnd! &&
+                              widget.type == ChatScreenNewType.onboard)
+                            _buttonThanks(),
+                        ],
+                      ),
                     ),
-                  ),
-              ],
-            ),
-          ),
-        );
-      },
+                    if (bloc.chatList.isNotEmpty &&
+                        bloc.chatList.last.cbMsgOptions != null)
+                      Container(
+                        height: bloc.chatList.last.cbMsgOptions!.length > 4
+                            ? MediaQuery.of(context).size.height * 0.3
+                            : bloc.chatList.last.cbMsgOptions!.length * 60,
+                        padding: EdgeInsets.only(top: 10),
+                        child: ListView(
+                          children: [
+                            for (int i = 0;
+                                i < bloc.chatList.last.cbMsgOptions!.length;
+                                i++)
+                              _optionItem(bloc.chatList.last.cbMsgOptions![i])
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+        StreamBuilder<bool>(
+            initialData: false,
+            stream: bloc.isShowSubject.stream,
+            builder: (context, showSnapshot) {
+              return Visibility(
+                visible: !showSnapshot.data!,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: customColors.primaryBackground,
+                  child: CustomLoader(),
+                ),
+              );
+            })
+      ],
     );
   }
 
-  Widget _chatItem(CBChatResponse cbChatResponse, bool isLast) {
+  Widget _chatItem(CBChatResponse cbChatResponse) {
     // if(_chatList[chatIndex].content != null) {
     //   return _contentItem(_chatList[chatIndex].content!);
     // }
 
     return Column(
       children: [
-        CBChatContainer(
-          prefixAsset: true
-              ? Assets.habido_assistant_png
-              : Assets.habido_assistant_empty,
-          suffixTime: true ? Func.toTimeStr(cbChatResponse.msgSentTime) : '',
-          child: CustomText(cbChatResponse.msg!, maxLines: 10),
-        ),
+        (cbChatResponse.ownerType!.toLowerCase() == 'content')
+            ? _contentItem(cbChatResponse.content)
+            :
+            // cbChatResponse.cbMsgOptions
+            CBChatContainer(
+                prefixAsset: cbChatResponse.msgId == bloc.chatList.last.msgId
+                    ? Assets.habido_assistant_png
+                    : Assets.habido_assistant_empty,
+                suffixTime: cbChatResponse.msgId == bloc.chatList.last.msgId
+                    ? Func.toTimeStr(cbChatResponse.msgSentTime)
+                    : '',
+                child: CustomText(cbChatResponse.msg!, maxLines: 10),
+              ),
         if (cbChatResponse.cbMsgOptions != null &&
             cbChatResponse.cbMsgOptions!.length == 1 &&
-            !isLast)
-          _selectedOptionItem(cbChatResponse.cbMsgOptions!.first, true)
+            cbChatResponse.cbMsgOptions!.first.isSelected == true)
+          _selectedOptionItem(cbChatResponse.cbMsgOptions!.first)
       ],
     );
   }
 
-  Widget _optionItem(CBMsgOption option, bool isSelected) {
+  Widget _optionItem(CBMsgOption option) {
     return CBChatContainer(
       width: MediaQuery.of(context).size.width * 0.8,
       alignment: Alignment.center,
       height: _optionHeight(option.optionType),
       padding: _optionPadding(option.optionType),
       borderRadius: _optionBorderRadius(option.photoLink),
-      tweenStart: isSelected ? 0.0 : 30.0,
+      tweenStart: option.isSelected! ? 0.0 : 30.0,
       tweenEnd: 0.0,
-      delay: isSelected ? 0 : null,
+      delay: option.isSelected! ? 0 : null,
       child: Row(
         children: [
           /// Icon
@@ -179,13 +245,14 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
           /// IconS
           SvgPicture.asset(
             Assets.circle_check,
-            color: _getOptionColor(option, isSelected),
+            color: _getOptionColor(option, option.isSelected!),
           ),
         ],
       ),
       onTap: () {
-        if (isSelected) return;
+        if (option.isSelected!) return;
         bloc.cbMsgOption(option);
+
         gotoBottom();
       },
     );
@@ -193,12 +260,19 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   gotoBottom() {
     Timer(Duration(seconds: 1), () {
-      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-          duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+      _scrollController
+          .animateTo(_scrollController.position.maxScrollExtent,
+              duration: Duration(milliseconds: 10), curve: Curves.easeInOut)
+          .then((value) {
+        if (isFirst == true) {
+          bloc.isShowSubject.add(true);
+          isFirst = false;
+        }
+      });
     });
   }
 
-  Widget _selectedOptionItem(CBMsgOption option, bool isSelected) {
+  Widget _selectedOptionItem(CBMsgOption option) {
     return CBChatContainer(
       alignment: Alignment.centerRight,
       height: _optionHeight(option.optionType),
@@ -240,7 +314,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
           /// Icon
           SvgPicture.asset(
             Assets.circle_check,
-            color: _getOptionColor(option, isSelected),
+            color: _getOptionColor(option, option.isSelected!),
           ),
         ],
       ),
@@ -294,6 +368,76 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
     } else {
       return customColors.iconGrey;
     }
+  }
+
+  Widget _contentItem(CBContent? content) {
+    if (content == null) return Container();
+
+    double width = MediaQuery.of(context).size.width * 0.6;
+    return CBChatContainer(
+      padding: EdgeInsets.zero,
+      width: width,
+      onTap: () {
+        Navigator.pushNamed(context, Routes.content, arguments: {
+          'content': content,
+          'routeBuilder': 'SlideRightRouteBuilder',
+        });
+      },
+      child: Column(
+        children: [
+          /// Image
+          if (Func.isNotEmpty(content.contentPhoto))
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0)),
+              child: CachedNetworkImage(
+                imageUrl: content.contentPhoto!,
+                fit: BoxFit.fill,
+                width: width,
+                placeholder: (context, url) => Container(
+                  height: width * 0.66,
+                  child: CustomLoader(),
+                ),
+                errorWidget: (context, url, error) => Container(),
+              ),
+            ),
+
+          /// Title
+          CustomText(
+            content.title,
+            margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
+            fontWeight: FontWeight.w500,
+            maxLines: 2,
+          ),
+
+          /// Body
+          CustomText(content.text,
+              margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0), maxLines: 2),
+
+          if (content.readTime != null)
+            Container(
+              margin: EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 0.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  /// Clock icon
+                  SvgPicture.asset(Assets.clock),
+
+                  /// Read time
+                  Expanded(
+                    child: CustomText(
+                        '${content.readTime} ${LocaleKeys.readMin}',
+                        margin: EdgeInsets.only(left: 7.0)),
+                  ),
+                ],
+              ),
+            ),
+
+          SizedBox(height: 15.0),
+        ],
+      ),
+    );
   }
 }
 

@@ -1,7 +1,9 @@
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_chat_response.dart';
+import 'package:habido_app/ui/chat/cb_chatbots/cb_chatbots_model.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option_request.dart';
+import 'package:habido_app/ui/chat/chat_screen_new.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:rxdart/subjects.dart';
@@ -10,24 +12,32 @@ class ChatScreenNewBloc {
   final reloadSubject = BehaviorSubject<bool>();
   final loadingSubject = BehaviorSubject<bool>();
   final bottomSubject = BehaviorSubject<bool>();
+  final chatBotsSubject = BehaviorSubject<List<CBChatBotsModel>>();
+  final isShowSubject = BehaviorSubject<bool>();
 
   List<CBChatResponse> chatList = [];
-
+  ChatScreenNewType type = ChatScreenNewType.onboard;
   int pid = 1;
-  int psize = 5;
+  int psize = 10;
 
-  int chatbotId = 15;
+  int chatbotId = 0;
 
   dismiss() {
     reloadSubject.close();
     loadingSubject.close();
     bottomSubject.close();
+    chatBotsSubject.close();
+    isShowSubject.close();
   }
 
   cbChatbots() async {
     var res = await ApiManager.cbChatbots();
     if (res.code == ResponseCode.Success) {
-      print('success');
+      if (type == ChatScreenNewType.onboard) {
+        chatbotId = res.chatbots!.first.cbId!;
+        cbFirstChat();
+      }
+      chatBotsSubject.add(res.chatbots!);
     } else {
       print('cbChatbots failed');
     }
@@ -39,8 +49,8 @@ class ChatScreenNewBloc {
     if (res.code == ResponseCode.Success) {
       chatList.add(res);
       if (res.isEnd == false &&
-          res.hasOption == false &&
-          res.continueMsgId != null) {
+          res.continueMsgId != null &&
+          res.hasOption == false) {
         cbContinueChat(res.continueMsgId!);
       } else
         reloadSubject.add(true);
@@ -54,11 +64,12 @@ class ChatScreenNewBloc {
     if (res.code == ResponseCode.Success) {
       chatList.add(res);
       if (res.isEnd == false &&
-          res.hasOption == false &&
-          res.continueMsgId != null) {
+          res.continueMsgId != null &&
+          res.hasOption == false) {
         cbContinueChat(res.continueMsgId!);
-      } else
+      } else {
         reloadSubject.add(true);
+      }
     } else {
       print('cbContinueChat failed');
     }
@@ -80,6 +91,10 @@ class ChatScreenNewBloc {
       ..input = '';
     var res = await ApiManager.cbMsgOption(request);
     if (res.code == ResponseCode.Success) {
+      if (chatList.last.isEnd == true) {
+        cbChatbots();
+      }
+
       if (option.nextMsgId != null && option.nextMsgId != 0) {
         cbContinueChat(option.nextMsgId!);
       }
@@ -91,12 +106,11 @@ class ChatScreenNewBloc {
 
   cbChatHistory() async {
     if (chatList.isNotEmpty && chatList.first.isFirst == true) return;
-    // if (chatList.isNotEmpty && chatList.last.isEnd == true) return;
 
     var res = await ApiManager.cbChatHistory(pid, psize);
     if (res.code == ResponseCode.Success) {
       if (res.chatList!.isEmpty) {
-        cbFirstChat();
+        cbChatbots();
       } else {
         res.chatList!.sort((a, b) => a.msgId! - b.msgId!);
         chatList.insertAll(0, res.chatList!);
