@@ -23,6 +23,7 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
+import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
@@ -309,8 +310,8 @@ class ApiManager {
     );
   }
 
-  static Future<PsyTestResultsResponse> psyTestUserResults() async {
-    return PsyTestResultsResponse.fromJson(
+  static Future<PsyUserTestResultsResponse> psyTestUserResults() async {
+    return PsyUserTestResultsResponse.fromJson(
       await httpUtils.sendRequest(path: HttpPath.psyTestUserResults, httpMethod: HttpMethod.get),
     );
   }

@@ -6,6 +6,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_bloc.dart';
 import 'package:habido_app/ui/chat/chatbot_dashboard.dart';
 import 'package:habido_app/ui/content/content_dashboard.dart';
+import 'package:habido_app/ui/psy_test/psy_test_dashboard/psy_user_test_dashboard.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
@@ -89,7 +90,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
             DashboardScreen(),
 
             /// Тест
-            PsyTestDashboard(),
+            PsyUserTestDashboard(),
 
             /// Туслах
             ChatbotDashboard(),

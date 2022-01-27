@@ -79,14 +79,14 @@ class _PsyTestDashboardState extends State<PsyTestDashboard> {
 
   void _getData() {
     Future.delayed(Duration(milliseconds: 500), () {
-      BlocManager.psyTestDashboardBloc.add(GetPsyUserTestResultsEvent());
+      BlocManager.psyTestMainBloc.add(GetPsyTestResultsEvent());
     });
   }
 
   Widget _psyTestResultsWidget() {
     return BlocProvider.value(
       value: BlocManager.psyTestMainBloc,
-      child: BlocListener<PsyTestDashBoardBloc, PsyTestDashboardState>(
+      child: BlocListener<PsyTestMainBloc, PsyTestMainState>(
         listener: (context, state) {
           if (state is PsyTestResultsSuccess) {
             _categoryList = state.response.psyTestCategoryResults;

@@ -1,7 +1,8 @@
+import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/models/user_psy_test_result.dart';
 
-class PsyTestResults {
+class PsyTestResults extends BaseResponse {
   PsyTest? LatestTest;
   List<UserPsyTestResult>? psyTestResults;
   bool? isExpanded; // Local param

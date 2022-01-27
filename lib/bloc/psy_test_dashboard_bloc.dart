@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/psy_test_results_response.dart';
+import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -14,12 +15,12 @@ class PsyTestDashBoardBloc extends Bloc<PsyTestDashboardEvent, PsyTestDashboardS
 
   @override
   Stream<PsyTestDashboardState> mapEventToState(PsyTestDashboardEvent event) async* {
-    if (event is GetPsyTestResultsEvent) {
-      yield* _mapGetPsyTestResultsEventToState();
+    if (event is GetPsyUserTestResultsEvent) {
+      yield* _mapGetPsyUserTestResultsEventToState();
     }
   }
 
-  Stream<PsyTestDashboardState> _mapGetPsyTestResultsEventToState() async* {
+  Stream<PsyTestDashboardState> _mapGetPsyUserTestResultsEventToState() async* {
     try {
       yield PsyTestDashboardLoading();
 
@@ -64,7 +65,7 @@ class PsyTestDashboardInit extends PsyTestDashboardState {}
 class PsyTestDashboardLoading extends PsyTestDashboardState {}
 
 class PsyUserTestResultsSuccess extends PsyTestDashboardState {
-  final PsyTestResultsResponse response;
+  final PsyUserTestResultsResponse response;
 
   const PsyUserTestResultsSuccess(this.response);
 
@@ -72,7 +73,7 @@ class PsyUserTestResultsSuccess extends PsyTestDashboardState {
   List<Object> get props => [response];
 
   @override
-  String toString() => 'PsyTestResultsSuccess { response: $response }';
+  String toString() => 'PsyUserTestResultsSuccess { response: $response }';
 }
 
 class PsyUserTestResultsFailed extends PsyTestDashboardState {

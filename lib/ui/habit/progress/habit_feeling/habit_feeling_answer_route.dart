@@ -109,7 +109,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                                     padding: EdgeInsets.all(10),
                                     child: Column(
                                       children: [
-                                        CustomText(LocaleKeys.feelingAtTheTime, fontWeight: FontWeight.w500, maxLines: 5, textAlign: TextAlign.center,),
+                                        CustomText(_getText(), fontWeight: FontWeight.w500, maxLines: 5, textAlign: TextAlign.center, alignment: Alignment.center,),
 
                                         HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
@@ -291,6 +291,23 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
         ),
       ),
     );
+  }
+
+  String _getText() {
+    switch (_selectedEmoji) {
+      case 1:
+        return LocaleKeys.emoji1;
+      case 2:
+        return LocaleKeys.emoji2;
+      case 3:
+        return LocaleKeys.emoji3;
+      case 4:
+        return LocaleKeys.emoji4;
+      case 5:
+        return LocaleKeys.emoji5;
+      default:
+        return LocaleKeys.feelingAtTheTime;
+    }
   }
 
   void _validateForm() {

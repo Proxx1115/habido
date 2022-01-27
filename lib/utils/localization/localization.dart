@@ -458,6 +458,8 @@ class LocaleKeys {
 
   static String get addNew => 'Шинээр нэмэх';
 
+  static String get newPsyTest => 'Шинэ';
+
   static String get pickColor => 'Өнгө сонгох';
 
   static String get pickShape => 'Дүрс сонгох';
