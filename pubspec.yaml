@@ -36,6 +36,7 @@ dependencies:
   showcaseview: ^1.1.1
   audioplayers: ^0.20.1
   circular_reveal_animation: ^2.0.0
+  wakelock: ^0.5.2
   rxdart: ^0.27.3
 
   #widgets

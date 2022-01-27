@@ -20,6 +20,7 @@ import 'package:habido_app/widgets/text.dart';
 
 class ChatScreenNew extends StatefulWidget {
   final ChatScreenNewType? type;
+
   const ChatScreenNew({Key? key, this.type}) : super(key: key);
 
   @override
@@ -31,6 +32,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   final _scrollController = ScrollController();
   var bloc = ChatScreenNewBloc();
+
   @override
   void initState() {
     bloc.cbChatHistory();
@@ -91,6 +93,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                 ),
                 if (bloc.chatList.last.cbMsgOptions != null)
                   Container(
+                    color: Colors.white,
                     height: bloc.chatList.last.cbMsgOptions!.length > 4
                         ? MediaQuery.of(context).size.height * 0.3
                         : bloc.chatList.last.cbMsgOptions!.length * 60,
@@ -125,7 +128,8 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
               ? Assets.habido_assistant_png
               : Assets.habido_assistant_empty,
           suffixTime: true ? Func.toTimeStr(cbChatResponse.msgSentTime) : '',
-          child: CustomText(cbChatResponse.msg!, maxLines: 10),
+          child: CustomText(cbChatResponse.msg!,
+              maxLines: 10, fontFamily: FontAsset.FiraSansCondensed),
         ),
         if (cbChatResponse.cbMsgOptions != null &&
             cbChatResponse.cbMsgOptions!.length == 1 &&
@@ -137,6 +141,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   Widget _optionItem(CBMsgOption option, bool isSelected) {
     return CBChatContainer(
+      color: 1,
       width: MediaQuery.of(context).size.width * 0.8,
       alignment: Alignment.center,
       height: _optionHeight(option.optionType),
@@ -173,7 +178,11 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
           /// Text
           Expanded(
-            child: CustomText(option.text, maxLines: 10),
+            child: CustomText(
+              option.text,
+              maxLines: 10,
+              fontFamily: FontAsset.FiraSansCondensed,
+            ),
           ),
 
           /// IconS
@@ -200,6 +209,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   Widget _selectedOptionItem(CBMsgOption option, bool isSelected) {
     return CBChatContainer(
+      color: 2,
       alignment: Alignment.centerRight,
       height: _optionHeight(option.optionType),
       padding: _optionPadding(option.optionType),
@@ -234,7 +244,12 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
           /// Text
           Expanded(
-            child: CustomText(option.text, maxLines: 10),
+            child: CustomText(
+              option.text,
+              maxLines: 10,
+              color: Colors.white,
+              fontFamily: FontAsset.FiraSansCondensed,
+            ),
           ),
 
           /// Icon

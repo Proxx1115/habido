@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -19,6 +20,7 @@ class CBChatContainer extends StatelessWidget {
   final double? tweenStart;
   final double? tweenEnd;
   final double? delay;
+  final int? color;
 
   const CBChatContainer({
     Key? key,
@@ -35,6 +37,7 @@ class CBChatContainer extends StatelessWidget {
     this.tweenStart,
     this.tweenEnd,
     this.delay,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -97,9 +100,20 @@ class CBChatContainer extends StatelessWidget {
       width: width ?? MediaQuery.of(context).size.width * 0.6,
       decoration: BoxDecoration(
         borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(10.0)),
-        color: customColors.whiteBackground,
+        color: _getColor(),
       ),
       child: child,
     );
+  }
+
+  _getColor() {
+    switch (color) {
+      case 1:
+        return HexColor.fromHex('#F4F6F8');
+      case 2:
+        return HexColor.fromHex('#FA6C51');
+      default:
+        return Colors.white;
+    }
   }
 }
