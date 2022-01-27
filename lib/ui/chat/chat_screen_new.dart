@@ -76,7 +76,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                           color: customColors.greyText,
                         ),
 
-                      /// Chats
+                      /// ChatsF
                       for (int i = 0; i < bloc.chatList.length; i++)
                         _chatItem(
                             bloc.chatList[i], i == bloc.chatList.length - 1),
