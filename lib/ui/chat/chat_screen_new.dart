@@ -136,6 +136,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                     if (bloc.chatList.isNotEmpty &&
                         bloc.chatList.last.cbMsgOptions != null)
                       Container(
+                        color: Colors.white,
                         height: bloc.chatList.last.cbMsgOptions!.length > 4
                             ? MediaQuery.of(context).size.height * 0.3
                             : bloc.chatList.last.cbMsgOptions!.length * 60,
@@ -191,7 +192,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                 suffixTime: cbChatResponse.msgId == bloc.chatList.last.msgId
                     ? Func.toTimeStr(cbChatResponse.msgSentTime)
                     : '',
-                child: CustomText(cbChatResponse.msg!, maxLines: 10),
+                child: CustomText(cbChatResponse.msg!, maxLines: 10, fontFamily: FontAsset.FiraSansCondensed),
               ),
         if (cbChatResponse.cbMsgOptions != null &&
             cbChatResponse.cbMsgOptions!.length == 1 &&
@@ -204,6 +205,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
   Widget _optionItem(CBMsgOption option) {
     return CBChatContainer(
       width: MediaQuery.of(context).size.width * 0.8,
+      color: 1,
       alignment: Alignment.center,
       height: _optionHeight(option.optionType),
       padding: _optionPadding(option.optionType),
@@ -239,7 +241,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
           /// Text
           Expanded(
-            child: CustomText(option.text, maxLines: 10),
+            child: CustomText(option.text, maxLines: 10, fontFamily: FontAsset.FiraSansCondensed),
           ),
 
           /// IconS
@@ -274,6 +276,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   Widget _selectedOptionItem(CBMsgOption option) {
     return CBChatContainer(
+      color: 2,
       alignment: Alignment.centerRight,
       height: _optionHeight(option.optionType),
       padding: _optionPadding(option.optionType),
@@ -308,7 +311,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
           /// Text
           Expanded(
-            child: CustomText(option.text, maxLines: 10),
+            child: CustomText(option.text, maxLines: 10, color: Colors.white, fontFamily: FontAsset.FiraSansCondensed,),
           ),
 
           /// Icon
