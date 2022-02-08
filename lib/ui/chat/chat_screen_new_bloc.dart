@@ -33,7 +33,7 @@ class ChatScreenNewBloc {
   cbChatbots() async {
     var res = await ApiManager.cbChatbots();
     if (res.code == ResponseCode.Success) {
-      if (type == ChatScreenNewType.onboard) {
+      if (type == ChatScreenNewType.main) {
         chatbotId = res.chatbots!.first.cbId!;
         cbFirstChat();
       }

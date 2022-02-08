@@ -1,5 +1,5 @@
 import 'package:habido_app/models/base_response.dart';
-import 'package:habido_app/ui/chat/cb_chatbots/cb_content.dart';
+import 'package:habido_app/models/content.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_poster.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_test.dart';
@@ -20,7 +20,7 @@ class CBChatResponse extends BaseResponse {
 
   List<CBMsgOption>? cbMsgOptions;
   CBTest? test;
-  CBContent? content;
+  Content? content;
   CBTestResult? cbTestResult;
   List<CBPoster>? posters;
 
@@ -66,9 +66,9 @@ class CBChatResponse extends BaseResponse {
 
     test = json['test'] != null ? CBTest.fromJson(json['test']) : null;
     content =
-        json['content'] != null ? CBContent.fromJson(json['content']) : null;
+        json['content'] != null ? Content.fromJson(json['content']) : null;
     cbTestResult = json['cbTestResult'] != null
-        ? CBTestResult.fromJson(json['content'])
+        ? CBTestResult.fromJson(json['cbTestResult'])
         : null;
 
     if (json['posters'] != null) {
