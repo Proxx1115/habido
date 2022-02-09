@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/custom_banner.dart';
 import 'package:habido_app/utils/deeplink_utils.dart';
@@ -23,7 +24,8 @@ class CustomCarouselSlider extends StatefulWidget {
     required this.sliderHeight,
     this.sliderMargin = const EdgeInsets.only(top: 25.0),
     this.indicatorHeight = 15.0,
-    this.indicatorMargin = const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
+    this.indicatorMargin =
+        const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
   }) : super(key: key);
 
   @override
@@ -55,12 +57,15 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _carouselSliderBloc,
-      child: BlocListener<CarSliderBloc, CarSliderState>(
-        listener: _blocListener,
-        child: BlocBuilder<CarSliderBloc, CarSliderState>(
-          builder: _blocBuilder,
+    return Container(
+      color: customColors.primary,
+      child: BlocProvider.value(
+        value: _carouselSliderBloc,
+        child: BlocListener<CarSliderBloc, CarSliderState>(
+          listener: _blocListener,
+          child: BlocBuilder<CarSliderBloc, CarSliderState>(
+            builder: _blocBuilder,
+          ),
         ),
       ),
     );
@@ -75,7 +80,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
   }
 
   Widget _blocBuilder(BuildContext context, CarSliderState state) {
-    return Column(
+    return Stack(
       children: [
         /// Slider
         CarouselSlider(
@@ -87,11 +92,13 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
           carouselController: _carouselController,
           options: CarouselOptions(
             height: widget.sliderHeight,
-            autoPlay: false,
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 7),
             enlargeCenterPage: true,
             viewportFraction: 1,
             aspectRatio: widget.aspectRatio,
             initialPage: 0,
+            pauseAutoPlayOnTouch: true,
             onPageChanged: (index, reason) {
               setState(() {
                 _currentIndex = index;
@@ -102,12 +109,21 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
 
         /// Indicator
         (_bannerList != null && _bannerList!.length > 0)
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _bannerList!.map((url) {
-                  int index = _bannerList!.indexOf(url);
-                  return _indicatorItem(index: index);
-                }).toList(),
+            ? Container(
+                margin: EdgeInsets.only(bottom: 40),
+                child: Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: _bannerList!.map((url) {
+                        int index = _bannerList!.indexOf(url);
+                        return _indicatorItem(index: index);
+                      }).toList(),
+                    ),
+                  ),
+                ),
               )
             : _indicatorItem(), // Indicator holder
       ],
@@ -116,7 +132,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
 
   Widget _sliderItem(CustomBanner el) {
     return Container(
-      margin: widget.sliderMargin,
+      // margin: widget.sliderMargin,
       child: NoSplashContainer(
         child: InkWell(
           onTap: () {
@@ -125,7 +141,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
             }
           },
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
+            // borderRadius: BorderRadius.circular(8.0),
             child: CachedNetworkImage(
               imageUrl: el.link!,
               placeholder: (context, url) => Container(), //CustomLoader(),
@@ -147,7 +163,9 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
           ? null
           : BoxDecoration(
               // shape: BoxShape.circle,
-              color: _currentIndex == index ? customColors.whiteBackground : Colors.transparent,
+              color: _currentIndex == index
+                  ? customColors.whiteBackground
+                  : Colors.transparent,
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
               border: Border.all(width: 2, color: customColors.secondaryBorder),
             ),
