@@ -18,12 +18,14 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 class ChatScreenNew extends StatefulWidget {
   final ChatScreenNewType? type;
+
   const ChatScreenNew({Key? key, this.type}) : super(key: key);
 
   @override
@@ -157,25 +159,44 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                               ],
                             ),
                           ),
+                          HorizontalLine(),
                           Container(
+                            height: 62,
                             color: Colors.white,
                             child: Row(
                               children: [
-                                Container(
-                                  height: 50,
-                                  padding: const EdgeInsets.all(10.0),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.6,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10.0)),
-                                  ),
-                                  child: TextField(
-                                    controller: _chatInputController,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 0.0, top: 10.0, bottom: 10.0),
+                                  child: Container(
+                                    height: 50,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    decoration: BoxDecoration(
+                                      color: customColors.greyBackground,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                    ),
+                                    child: TextField(
+                                      autofocus: true,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 30),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                      ),
+                                      controller: _chatInputController,
+                                    ),
                                   ),
                                 ),
-                                SvgPicture.asset(
-                                  Assets.chat_input_send,
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  child: IconButton(
+                                    onPressed: () {},
+                                    icon: SvgPicture.asset(
+                                      Assets.chat_input_send,
+                                    ),
+                                  ),
                                 )
                               ],
                             ),
