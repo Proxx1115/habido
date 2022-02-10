@@ -146,7 +146,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   _header() {
-    _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.height) / 2.7;
+    _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width) / 1.6;
 
     return SliverAppBar(
       pinned: false,
