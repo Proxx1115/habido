@@ -33,11 +33,12 @@ class ChatScreenNewBloc {
   cbChatbots() async {
     var res = await ApiManager.cbChatbots();
     if (res.code == ResponseCode.Success) {
-      if (type == ChatScreenNewType.main) {
+      if (type == ChatScreenNewType.main && res.chatbots!.length == 1) {
         chatbotId = res.chatbots!.first.cbId!;
         cbFirstChat();
+      } else {
+        chatBotsSubject.add(res.chatbots!);
       }
-      chatBotsSubject.add(res.chatbots!);
     } else {
       print('cbChatbots failed');
     }
@@ -75,10 +76,11 @@ class ChatScreenNewBloc {
     }
   }
 
-  cbMsgOption(CBMsgOption option) async {
+  cbMsgOption(CBMsgOption option, {String input = ''}) async {
     for (int i = 0; i < chatList.last.cbMsgOptions!.length; i++) {
       if (chatList.last.cbMsgOptions![i].optionId == option.optionId) {
         CBMsgOption temp = chatList.last.cbMsgOptions![i];
+        temp.isSelected = true;
         chatList.last.cbMsgOptions = [];
         chatList.last.cbMsgOptions!.add(temp);
         break;
@@ -88,7 +90,7 @@ class ChatScreenNewBloc {
     var request = CBMsgOptionRequest()
       ..msgId = option.msgId
       ..optionId = option.optionId
-      ..input = '';
+      ..input = input;
     var res = await ApiManager.cbMsgOption(request);
     if (res.code == ResponseCode.Success) {
       if (chatList.last.isEnd == true) {

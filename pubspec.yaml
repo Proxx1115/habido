@@ -33,7 +33,7 @@ dependencies:
   firebase_core: ^1.4.0
   firebase_messaging: ^10.0.4
   flutter_local_notifications: ^8.1.1+1
-  showcaseview: ^1.1.1
+  showcaseview: ^1.1.4
   audioplayers: ^0.20.1
   circular_reveal_animation: ^2.0.0
   wakelock: ^0.5.2

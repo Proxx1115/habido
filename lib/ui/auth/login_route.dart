@@ -89,21 +89,21 @@ class _LoginRouteState extends State<LoginRoute> {
       _passwordController.clear();
       SharedPref.setPhoneNumber(_phoneNumberController.text);
 
-      if (globals.userData?.isOnboardingDone2 ?? false) {
-        // Go to home
-        Navigator.pushNamed(context, Routes.home);
-      } else {
-        // Go to chat
-        Navigator.pushNamed(context, Routes.habidoAssistant);
-      }
-
-      // if (globals.userData?.isOnboardingDone ?? false) {
-      //   /// Go to home
+      // if (globals.userData?.isOnboardingDone2 ?? false) {
+      //   // Go to home
       //   Navigator.pushNamed(context, Routes.home);
       // } else {
-      //   /// Go to chat
+      //   // Go to chat
       //   Navigator.pushNamed(context, Routes.habidoAssistant);
       // }
+
+      if (globals.userData?.isOnboardingDone ?? false) {
+        /// Go to home
+        Navigator.pushNamed(context, Routes.home);
+      } else {
+        /// Go to chat
+        Navigator.pushNamed(context, Routes.habidoAssistant);
+      }
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
