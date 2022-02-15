@@ -49,9 +49,7 @@ class ChatScreenNewBloc {
     var res = await ApiManager.cbFirstChat(request);
     if (res.code == ResponseCode.Success) {
       chatList.add(res);
-      if (res.isEnd == false &&
-          res.continueMsgId != null &&
-          res.hasOption == false) {
+      if (res.isEnd == false && res.continueMsgId != null && res.hasOption == false) {
         cbContinueChat(res.continueMsgId!);
       } else
         reloadSubject.add(true);
@@ -64,9 +62,7 @@ class ChatScreenNewBloc {
     var res = await ApiManager.cbContinueChat(msgId);
     if (res.code == ResponseCode.Success) {
       chatList.add(res);
-      if (res.isEnd == false &&
-          res.continueMsgId != null &&
-          res.hasOption == false) {
+      if (res.isEnd == false && res.continueMsgId != null && res.hasOption == false) {
         cbContinueChat(res.continueMsgId!);
       } else {
         reloadSubject.add(true);

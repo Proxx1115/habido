@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/option_type.dart';
+import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/ui/chat/cb_chat_container.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_chat_response.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_chatbots_model.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option.dart';
+import 'package:habido_app/ui/chat/cb_chatbots/cb_poster.dart';
 import 'package:habido_app/ui/chat/chat_screen_new_bloc.dart';
+import 'package:habido_app/ui/psy_test/psy_test_card.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -24,6 +27,9 @@ import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
+import 'cb_chatbots/cb_test.dart';
+import 'cb_chatbots/cb_test_result.dart';
+
 class ChatScreenNew extends StatefulWidget {
   final ChatScreenNewType? type;
 
@@ -34,23 +40,22 @@ class ChatScreenNew extends StatefulWidget {
 }
 
 class _ChatScreenNewState extends State<ChatScreenNew> {
-  List<CBChatResponse> _chatList = [];
-
   StreamSubscription? bottomListener;
+  late PageController _pageController, _pageControllerInst;
 
   TextEditingController _chatInputController = TextEditingController();
 
   final _scrollController = ScrollController();
   var bloc = ChatScreenNewBloc();
   var isFirst = true;
-  late List<CBMsgOption> _optionsExcludedInput = [];
 
   @override
   void initState() {
+    _pageController = PageController(viewportFraction: 0.9);
+    _pageControllerInst = PageController(viewportFraction: 0.45);
     bloc.type = widget.type!;
     bloc.cbChatHistory();
     bottomListener = bloc.bottomSubject.listen((value) {
-      _optionsExcludedInput = bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList();
       gotoBottom();
     });
     super.initState();
@@ -119,37 +124,41 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                     ],
                                   );
                                 }),
-
-                          /// Button thanks
-                          // if (bloc.chatList.isNotEmpty &&
-                          //     bloc.chatList[bloc.chatList.length - 1].isEnd! &&
-                          //     widget.type == ChatScreenNewType.onboard)
-                          //   _buttonThanks(),
                         ],
                       ),
                     ),
-                    if (bloc.chatList.isNotEmpty && bloc.chatList.last.cbMsgOptions != null && bloc.chatList.last.isEnd != true)
+                    if (_isOptionDrawable())
                       Column(
                         children: [
                           MoveInAnimation(
                             delay: 2,
                             child: Container(
-                              color: Colors.white,
-                              height: bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length > 4
-                                  ? MediaQuery.of(context).size.height * 0.3
-                                  : bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length * 60,
-                              padding: EdgeInsets.only(top: 10),
-                              child: ListView(
-                                children: [
-                                  for (int i = 0; i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length; i++)
-                                    _optionItem(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
-                                ],
-                              ),
-                            ),
+                                color: Colors.white,
+                                height: bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length > 4
+                                    ? MediaQuery.of(context).size.height * 0.3
+                                    : bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length * 60,
+                                padding: EdgeInsets.only(top: 10),
+                                child: (_isEmojiOption())
+                                    ? ListView(
+                                        children: [
+                                          for (int i = 0; i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length; i++)
+                                            _optionItem(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
+                                        ],
+                                      )
+                                    : GridView.count(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 15,
+                                        crossAxisSpacing: 15,
+                                        padding: EdgeInsets.all(20),
+                                        children: [
+                                          for (int i = 0; i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length; i++)
+                                            _emojiOption(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
+                                        ],
+                                      )),
                           ),
                           _hasInput(bloc.chatList.last.cbMsgOptions!) ? _input(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() == 'input').first) : Container()
                         ],
-                      ),
+                      )
                   ],
                 ),
               ),
@@ -172,6 +181,23 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
         //     })
       ],
     );
+  }
+
+  bool _isEmojiOption() {
+    if (bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'emoji').isNotEmpty) return true;
+    return false;
+  }
+
+  bool _isOptionDrawable() {
+    if (bloc.chatList.isNotEmpty && bloc.chatList.last.cbMsgOptions != null) {
+      var selectedOptionCount = bloc.chatList.last.cbMsgOptions!.where((element) => element.isSelected == true).length;
+      if (bloc.chatList.last.isEnd != true) {
+        return true;
+      } else if (selectedOptionCount == 0 && bloc.chatList.last.isEnd == true) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Widget _input(CBMsgOption inputOption) {
@@ -230,16 +256,26 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
   Widget _chatItem(CBChatResponse cbChatResponse) {
     return Column(
       children: [
-        (cbChatResponse.ownerType!.toLowerCase() == 'content')
-            ? _contentItem(cbChatResponse.content)
-            :
-            // cbChatResponse.cbMsgOptions
-            CBChatContainer(
-                prefixAsset: cbChatResponse.msgId == bloc.chatList.last.msgId ? Assets.habido_assistant_png : Assets.habido_assistant_empty,
-                suffixTime: cbChatResponse.msgId == bloc.chatList.last.msgId ? Func.toTimeStr(cbChatResponse.msgSentTime) : '',
-                child: CustomText(cbChatResponse.msg!, maxLines: 10, fontFamily: FontAsset.FiraSansCondensed),
-              ),
-        if (cbChatResponse.cbMsgOptions != null && cbChatResponse.cbMsgOptions!.length == 1 && cbChatResponse.cbMsgOptions!.first.isSelected == true) _selectedOptionItem(cbChatResponse.cbMsgOptions!.first)
+        if (cbChatResponse.ownerType!.toLowerCase() == 'content')
+          _contentItem(cbChatResponse.content)
+        else if (cbChatResponse.ownerType!.toLowerCase() == 'testanswer')
+          _cbTestResult(cbChatResponse)
+        else if (cbChatResponse.ownerType!.toLowerCase() == 'poster')
+          _cbPoster(cbChatResponse.posters)
+        else if (cbChatResponse.ownerType!.toLowerCase() == 'psytest')
+          CBChatContainer(
+              prefixAsset: cbChatResponse.msgId == bloc.chatList.last.msgId ? Assets.habido_assistant_png : Assets.habido_assistant_empty,
+              suffixTime: cbChatResponse.msgId == bloc.chatList.last.msgId ? Func.toTimeStr(cbChatResponse.msgSentTime) : '',
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: HorizontalPsyTestCard(test: cbChatResponse.test))
+        else
+          CBChatContainer(
+            prefixAsset: cbChatResponse.msgId == bloc.chatList.last.msgId ? Assets.habido_assistant_png : Assets.habido_assistant_empty,
+            suffixTime: cbChatResponse.msgId == bloc.chatList.last.msgId ? Func.toTimeStr(cbChatResponse.msgSentTime) : '',
+            child: CustomText(cbChatResponse.msg!, maxLines: 10, fontFamily: FontAsset.FiraSansCondensed),
+          ),
+        if (cbChatResponse.cbMsgOptions != null && cbChatResponse.cbMsgOptions!.length == 1 && cbChatResponse.cbMsgOptions!.first.isSelected == true)
+          (cbChatResponse.ownerType!.toLowerCase() != 'posters') ? _selectedOptionItem(cbChatResponse.cbMsgOptions!.first) : _cbPoster(cbChatResponse.posters)
       ],
     );
   }
@@ -284,7 +320,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
           /// Text
           Expanded(
             child: CustomText(option.text, maxLines: 10, fontFamily: FontAsset.FiraSansCondensed),
-          ),
+          )
         ],
       ),
       onTap: () {
@@ -292,6 +328,62 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
         bloc.cbMsgOption(option);
         gotoBottom();
       },
+    );
+  }
+
+  Widget _emojiOption(CBMsgOption option) {
+    return InkWell(
+      onTap: () {
+        if (option.isSelected!) return;
+        bloc.cbMsgOption(option);
+        gotoBottom();
+      },
+      child: Row(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width / 4,
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1.0,
+                color: customColors.primaryBorder,
+              ),
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(15),
+              ),
+              color: customColors.whiteBackground,
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: CachedNetworkImage(
+                    height: 36,
+                    width: 36,
+                    imageUrl: option.photoLink!,
+                    // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+                    placeholder: (context, url) => Container(),
+                    errorWidget: (context, url, error) => Container(),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  option.text ?? '',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontFamily: FontAsset.FiraSansCondensed,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -319,28 +411,18 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
       color: 2,
       alignment: Alignment.centerRight,
       height: _optionHeight(option.optionType),
-      padding: _optionPadding(option.optionType),
-      borderRadius: _optionBorderRadius(option.photoLink),
+      padding: option.optionType == 'Emoji' ? EdgeInsets.all(0) : _optionPadding(option.optionType),
       tweenStart: 30.0,
       tweenEnd: 0.0,
       child: Row(
         children: [
           /// Icon
           if (Func.isNotEmpty(option.photoLink))
-            Container(
-              margin: EdgeInsets.only(right: 15.0),
-              padding: EdgeInsets.all(15.0),
-              height: _optionHeight(option.optionType),
-              decoration: BoxDecoration(
-                color: _getOptionImageBackgroundColor(option),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5.0),
-                  topRight: Radius.circular(0.0),
-                  bottomRight: Radius.circular(0.0),
-                  bottomLeft: Radius.circular(15.0),
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
               child: CachedNetworkImage(
+                width: 38,
+                height: 38,
                 imageUrl: option.photoLink!,
                 // placeholder: (context, url) => CustomLoader(context, size: 20.0),
                 placeholder: (context, url) => Container(),
@@ -358,26 +440,8 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
               fontFamily: FontAsset.FiraSansCondensed,
             ),
           ),
-
-          /// Icon
-          SvgPicture.asset(
-            Assets.circle_check,
-            color: _getOptionColor(option, option.isSelected!),
-          ),
         ],
       ),
-    );
-  }
-
-  Widget _buttonThanks() {
-    return CustomButton(
-      text: LocaleKeys.thanks,
-      visible: true,
-      style: CustomButtonStyle.secondary,
-      margin: EdgeInsets.only(top: 25.0, bottom: 10),
-      onPressed: () {
-        Navigator.pushReplacementNamed(context, Routes.home);
-      },
     );
   }
 
@@ -400,20 +464,58 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
         : null;
   }
 
-  Color _getOptionColor(CBMsgOption option, bool isSelected) {
-    if (isSelected && Func.isNotEmpty(option.optionColor)) {
-      return HexColor.fromHex(option.optionColor ?? ColorCodes.ghostGrey);
-    } else {
-      return customColors.iconGrey;
-    }
-  }
-
   Color _getOptionImageBackgroundColor(CBMsgOption option) {
     if (Func.isNotEmpty(option.optionColor)) {
       return HexColor.fromHex(option.optionColor ?? ColorCodes.ghostGrey);
     } else {
       return customColors.iconGrey;
     }
+  }
+
+  Widget _cbPoster(List<CBPoster>? posters) {
+    return CBChatContainer(
+      child: Container(
+        height: MediaQuery.of(context).size.width / 3,
+        width: double.infinity,
+        child: PageView.builder(
+            itemCount: posters!.length,
+            pageSnapping: true,
+            controller: _pageController,
+            padEnds: false,
+            itemBuilder: (context, pagePosition) {
+              return Container(
+                margin: EdgeInsets.only(right: 9),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: CachedNetworkImage(
+                    imageUrl: posters[pagePosition].link!,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => Container(),
+                  ),
+                ),
+              );
+            }),
+      ),
+    );
+  }
+
+  Widget _cbTestResult(CBChatResponse cbChatResponse) {
+    if (cbChatResponse.cbTestResult == null) return Container();
+    return CBChatContainer(
+      prefixAsset: cbChatResponse.msgId == bloc.chatList.last.msgId ? Assets.habido_assistant_png : Assets.habido_assistant_empty,
+      suffixTime: cbChatResponse.msgId == bloc.chatList.last.msgId ? Func.toTimeStr(cbChatResponse.msgSentTime) : '',
+      child: Column(
+        children: [
+          CustomText(
+            cbChatResponse.cbTestResult!.resultText,
+            maxLines: 10,
+            fontFamily: FontAsset.FiraSansCondensed,
+            fontWeight: FontWeight.w600,
+          ),
+          CustomText(cbChatResponse.cbTestResult!.description, maxLines: 20, fontFamily: FontAsset.FiraSansCondensed),
+        ],
+      ),
+    );
   }
 
   Widget _contentItem(Content? content) {

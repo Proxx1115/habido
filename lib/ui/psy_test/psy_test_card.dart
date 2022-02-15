@@ -41,7 +41,7 @@ class VerticalPsyTestCard extends StatelessWidget {
         child: InkWell(
           onTap: () {
             Navigator.pushNamed(context, Routes.psyTest, arguments: {
-              'content': test,
+              'test': test,
             });
           },
           borderRadius: _borderRadius,
@@ -57,8 +57,7 @@ class VerticalPsyTestCard extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.only(bottom: 15.0),
                       child: ClipRRect(
-                        borderRadius:
-                        BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
                         child: CachedNetworkImage(
                           imageUrl: test.coverPhoto ?? '',
                           fit: BoxFit.fitWidth,
@@ -70,7 +69,6 @@ class VerticalPsyTestCard extends StatelessWidget {
                         ),
                       ),
                     ),
-
                   ],
                 ),
                 Container(
@@ -103,7 +101,6 @@ class VerticalPsyTestCard extends StatelessWidget {
                         alignment: Alignment.bottomLeft,
                         child: SvgPicture.asset(Assets.clock),
                       ),
-
                     ],
                   ),
                 ),
@@ -140,8 +137,8 @@ class HorizontalPsyTestCard extends StatelessWidget {
         onTap: () {
           if (callback != null) callback!();
 
-          Navigator.pushNamed(context, Routes.psyTest, arguments: {
-            'test': test,
+          Navigator.pushNamed(context, Routes.psyIntro, arguments: {
+            'psyTest': test,
           });
         },
         borderRadius: _borderRadius,
@@ -181,7 +178,7 @@ class HorizontalPsyTestCard extends StatelessWidget {
                         CustomText(
                           test!.name,
                           fontWeight: FontWeight.w500,
-                          maxLines: 1,
+                          maxLines: 3,
                         ),
 
                         /// Body

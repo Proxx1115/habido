@@ -1,5 +1,6 @@
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/content.dart';
+import 'package:habido_app/models/psy_test.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_poster.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_test.dart';
@@ -19,7 +20,7 @@ class CBChatResponse extends BaseResponse {
   String? optionSelectedTime;
 
   List<CBMsgOption>? cbMsgOptions;
-  CBTest? test;
+  PsyTest? test;
   Content? content;
   CBTestResult? cbTestResult;
   List<CBPoster>? posters;
@@ -64,12 +65,9 @@ class CBChatResponse extends BaseResponse {
       });
     }
 
-    test = json['test'] != null ? CBTest.fromJson(json['test']) : null;
-    content =
-        json['content'] != null ? Content.fromJson(json['content']) : null;
-    cbTestResult = json['cbTestResult'] != null
-        ? CBTestResult.fromJson(json['cbTestResult'])
-        : null;
+    test = json['test'] != null ? PsyTest.fromJson(json['test']) : null;
+    content = json['content'] != null ? Content.fromJson(json['content']) : null;
+    cbTestResult = json['cbTestResult'] != null ? CBTestResult.fromJson(json['cbTestResult']) : null;
 
     if (json['posters'] != null) {
       posters = [];
@@ -93,13 +91,11 @@ class CBChatResponse extends BaseResponse {
     map['msgSentTime'] = msgSentTime;
     map['optionSelectedTime'] = optionSelectedTime;
 
-    if (cbMsgOptions != null)
-      map['cbMsgOptions'] = cbMsgOptions?.map((v) => v.toJson()).toList();
+    if (cbMsgOptions != null) map['cbMsgOptions'] = cbMsgOptions?.map((v) => v.toJson()).toList();
     if (test != null) map['test'] = test?.toJson();
     if (content != null) map['content'] = content?.toJson();
     if (cbTestResult != null) map['cbTestResult'] = cbTestResult?.toJson();
-    if (posters != null)
-      map['posters'] = posters?.map((v) => v.toJson()).toList();
+    if (posters != null) map['posters'] = posters?.map((v) => v.toJson()).toList();
 
     return map;
   }
