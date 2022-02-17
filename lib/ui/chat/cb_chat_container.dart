@@ -21,24 +21,26 @@ class CBChatContainer extends StatelessWidget {
   final double? tweenEnd;
   final double? delay;
   final int? color;
+  final bool? isOption;
 
-  const CBChatContainer({
-    Key? key,
-    this.prefixAsset,
-    required this.child,
-    this.suffixTime,
-    this.onTap,
-    this.margin = const EdgeInsets.only(bottom: 10.0),
-    this.padding,
-    this.width,
-    this.height,
-    this.borderRadius,
-    this.alignment = Alignment.centerLeft,
-    this.tweenStart,
-    this.tweenEnd,
-    this.delay,
-    this.color,
-  }) : super(key: key);
+  CBChatContainer(
+      {Key? key,
+      this.prefixAsset,
+      required this.child,
+      this.suffixTime,
+      this.onTap,
+      this.margin = const EdgeInsets.only(bottom: 10.0),
+      this.padding,
+      this.width,
+      this.height,
+      this.borderRadius,
+      this.alignment = Alignment.centerLeft,
+      this.tweenStart,
+      this.tweenEnd,
+      this.delay,
+      this.color,
+      this.isOption = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,44 +51,42 @@ class CBChatContainer extends StatelessWidget {
       delay: delay,
       child: Align(
         alignment: alignment,
-        child: NoSplashContainer(
-          child: InkWell(
-            onTap: onTap,
-            child: Container(
-              margin: margin,
-              child: Func.isNotEmpty(prefixAsset)
-                  ? Row(
-                      // crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        /// Bot profile pic
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                            margin: EdgeInsets.only(right: 5.0),
-                            child: Image.asset(
-                              prefixAsset!,
-                              height: 20.0,
-                              width: 20.0,
-                              alignment: Alignment.bottomLeft,
-                            ),
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            margin: margin,
+            child: Func.isNotEmpty(prefixAsset)
+                ? Row(
+                    // crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      /// Bot profile pic
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          margin: EdgeInsets.only(right: 5.0),
+                          child: Image.asset(
+                            prefixAsset!,
+                            height: 20.0,
+                            width: 20.0,
+                            alignment: Alignment.bottomLeft,
                           ),
                         ),
+                      ),
 
-                        /// Body
-                        _body(context),
+                      /// Body
+                      _body(context),
 
-                        if (Func.isNotEmpty(suffixTime))
-                          CustomText(
-                            suffixTime,
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.only(left: 10.0),
-                            fontSize: 13.0,
-                            color: customColors.greyText,
-                          ),
-                      ],
-                    )
-                  : _body(context),
-            ),
+                      if (Func.isNotEmpty(suffixTime))
+                        CustomText(
+                          suffixTime,
+                          alignment: Alignment.centerLeft,
+                          margin: EdgeInsets.only(left: 10.0),
+                          fontSize: 13.0,
+                          color: customColors.greyText,
+                        ),
+                    ],
+                  )
+                : _body(context),
           ),
         ),
       ),
@@ -98,6 +98,9 @@ class CBChatContainer extends StatelessWidget {
       height: height,
       padding: padding ?? const EdgeInsets.all(10.0),
       width: width ?? MediaQuery.of(context).size.width * 0.6,
+      constraints: const BoxConstraints(
+        minWidth: 120,
+      ),
       decoration: BoxDecoration(
         borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(10.0)),
         color: _getColor(),

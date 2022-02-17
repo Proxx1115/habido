@@ -145,11 +145,14 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                     : bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length * 60,
                                 padding: EdgeInsets.only(top: 10),
                                 child: (_isEmojiOption())
-                                    ? ListView(
-                                        children: [
-                                          for (int i = 0; i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length; i++)
-                                            _optionItem(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
-                                        ],
+                                    ? SingleChildScrollView(
+                                        child: Wrap(
+                                          direction: Axis.horizontal,
+                                          children: [
+                                            for (int i = 0; i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length; i++)
+                                              _optionItem(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
+                                          ],
+                                        ),
                                       )
                                     : GridView.count(
                                         crossAxisCount: 3,
@@ -291,46 +294,18 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   Widget _optionItem(CBMsgOption option) {
     return CBChatContainer(
-      width: MediaQuery.of(context).size.width * 0.8,
       color: 1,
-      alignment: Alignment.center,
-      height: _optionHeight(option.optionType),
-      padding: _optionPadding(option.optionType),
+      width: MediaQuery.of(context).size.width * 0.3,
+      // alignment: Alignment.center,
       borderRadius: _optionBorderRadius(option.photoLink),
       tweenStart: option.isSelected! ? 0.0 : 30.0,
       tweenEnd: 0.0,
       delay: option.isSelected! ? 0 : null,
-      child: Row(
-        children: [
-          /// Icon
-          if (Func.isNotEmpty(option.photoLink))
-            Container(
-              margin: EdgeInsets.only(right: 15.0),
-              padding: EdgeInsets.all(15.0),
-              height: _optionHeight(option.optionType),
-              decoration: BoxDecoration(
-                color: _getOptionImageBackgroundColor(option),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5.0),
-                  topRight: Radius.circular(0.0),
-                  bottomRight: Radius.circular(0.0),
-                  bottomLeft: Radius.circular(15.0),
-                ),
-              ),
-              child: CachedNetworkImage(
-                imageUrl: option.photoLink!,
-                // placeholder: (context, url) => CustomLoader(context, size: 20.0),
-                placeholder: (context, url) => Container(),
-                errorWidget: (context, url, error) => Container(),
-                fit: BoxFit.fill,
-              ),
-            ),
-
-          /// Text
-          Expanded(
-            child: CustomText(option.text, maxLines: 10, fontFamily: FontAsset.FiraSansCondensed),
-          )
-        ],
+      child: CustomText(
+        option.text,
+        maxLines: 10,
+        fontFamily: FontAsset.FiraSansCondensed,
+        fontWeight: FontWeight.w500,
       ),
       onTap: () {
         if (option.isSelected!) return;
