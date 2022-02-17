@@ -110,9 +110,11 @@ class ChatScreenNewBloc {
       if (res.chatList!.isEmpty) {
         cbChatbots();
       } else {
-        res.chatList!.sort((a, b) => a.msgId! - b.msgId!);
+        // res.chatList!.sort((a, b) => a.msgId! - b.msgId!);
         chatList.insertAll(0, res.chatList!);
-
+        if (chatList.last.isEnd == true) {
+          cbChatbots();
+        }
         if (pid == 1) bottomSubject.add(true);
         pid++;
         reloadSubject.add(true);
