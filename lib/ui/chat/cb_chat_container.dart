@@ -45,50 +45,94 @@ class CBChatContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MoveInAnimation(
-      tweenStart: tweenStart,
-      tweenEnd: tweenEnd,
-      isAxisHorizontal: false,
-      delay: delay,
-      child: Align(
-        alignment: alignment,
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            margin: margin,
-            child: Func.isNotEmpty(prefixAsset)
-                ? Row(
-                    // crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      /// Bot profile pic
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          margin: EdgeInsets.only(right: 5.0),
-                          child: Image.asset(
-                            prefixAsset!,
-                            height: 20.0,
-                            width: 20.0,
-                            alignment: Alignment.bottomLeft,
-                          ),
+        tweenStart: tweenStart,
+        tweenEnd: tweenEnd,
+        isAxisHorizontal: false,
+        delay: delay,
+        child: isOption! ? _noAlignment(context) : _hasAlignment(context));
+  }
+
+  Widget _hasAlignment(BuildContext context) {
+    return Align(
+      alignment: alignment,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          margin: margin,
+          child: Func.isNotEmpty(prefixAsset)
+              ? Row(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    /// Bot profile pic
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Container(
+                        margin: EdgeInsets.only(right: 5.0),
+                        child: Image.asset(
+                          prefixAsset!,
+                          height: 20.0,
+                          width: 20.0,
+                          alignment: Alignment.bottomLeft,
                         ),
                       ),
+                    ),
 
-                      /// Body
-                      _body(context),
+                    /// Body
+                    _body(context),
 
-                      if (Func.isNotEmpty(suffixTime))
-                        CustomText(
-                          suffixTime,
-                          alignment: Alignment.centerLeft,
-                          margin: EdgeInsets.only(left: 10.0),
-                          fontSize: 13.0,
-                          color: customColors.greyText,
-                        ),
-                    ],
-                  )
-                : _body(context),
-          ),
+                    if (Func.isNotEmpty(suffixTime))
+                      CustomText(
+                        suffixTime,
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(left: 10.0),
+                        fontSize: 13.0,
+                        color: customColors.greyText,
+                      ),
+                  ],
+                )
+              : _body(context),
         ),
+      ),
+    );
+  }
+
+  Widget _noAlignment(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        margin: margin,
+        child: Func.isNotEmpty(prefixAsset)
+            ? Row(
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  /// Bot profile pic
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      margin: EdgeInsets.only(right: 5.0),
+                      child: Image.asset(
+                        prefixAsset!,
+                        height: 20.0,
+                        width: 20.0,
+                        alignment: Alignment.bottomLeft,
+                      ),
+                    ),
+                  ),
+
+                  /// Body
+                  _body(context),
+
+                  if (Func.isNotEmpty(suffixTime))
+                    CustomText(
+                      suffixTime,
+                      alignment: Alignment.centerLeft,
+                      margin: EdgeInsets.only(left: 10.0),
+                      fontSize: 13.0,
+                      color: customColors.greyText,
+                    ),
+                ],
+              )
+            : _body(context),
       ),
     );
   }
@@ -98,9 +142,6 @@ class CBChatContainer extends StatelessWidget {
       height: height,
       padding: padding ?? const EdgeInsets.all(10.0),
       width: width ?? MediaQuery.of(context).size.width * 0.6,
-      constraints: const BoxConstraints(
-        minWidth: 120,
-      ),
       decoration: BoxDecoration(
         borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(10.0)),
         color: _getColor(),
