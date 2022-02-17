@@ -33,9 +33,20 @@ class _PosterViewState extends State<PosterView> {
             PhotoViewGallery.builder(
                 pageController: widget.pageController,
                 itemCount: widget.posters.length,
+                loadingBuilder: (context, progress) => Center(
+                      child: Container(
+                        width: 20.0,
+                        height: 20.0,
+                        child: CircularProgressIndicator(
+                          value: progress == null ? null : progress.cumulativeBytesLoaded / progress.expectedTotalBytes!.toDouble(),
+                        ),
+                      ),
+                    ),
                 builder: (context, index) {
                   final poster = widget.posters[index];
-                  return PhotoViewGalleryPageOptions(imageProvider: NetworkImage(poster.link!));
+                  return PhotoViewGalleryPageOptions(
+                    imageProvider: NetworkImage(poster.link!),
+                  );
                 }),
             Padding(
               padding: const EdgeInsets.all(20.0),

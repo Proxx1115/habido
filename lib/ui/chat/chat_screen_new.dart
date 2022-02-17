@@ -43,19 +43,18 @@ class ChatScreenNew extends StatefulWidget {
 
 class _ChatScreenNewState extends State<ChatScreenNew> {
   StreamSubscription? bottomListener;
-  late PageController _pageController, _pageControllerInst;
+  late PageController _pageController;
 
   TextEditingController _chatInputController = TextEditingController();
 
   final _scrollController = ScrollController();
   var bloc = ChatScreenNewBloc();
   var isFirst = true;
-  List<CBMsgOption> inputOptionExcluded = [];
+  String _inputHintText = '';
 
   @override
   void initState() {
-    _pageController = PageController(viewportFraction: 0.9);
-    _pageControllerInst = PageController(viewportFraction: 0.45);
+    _pageController = PageController(viewportFraction: 0.4);
     bloc.type = widget.type!;
     bloc.cbChatHistory();
     bottomListener = bloc.bottomSubject.listen((value) {
@@ -123,7 +122,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                             child: Container(
                                               padding: EdgeInsets.all(10),
                                               margin: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(color: customColors.iconGrey, borderRadius: BorderRadius.circular(5)),
+                                              decoration: BoxDecoration(color: customColors.greyBackground, borderRadius: BorderRadius.circular(5)),
                                               child: Text(chatBotSnapshot.data![i].name.toString()),
                                             ),
                                           )
@@ -163,7 +162,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                         ],
                                       )),
                           ),
-                          _hasInput(bloc.chatList.last.cbMsgOptions!) ? _input(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() == 'input').first) : Container()
+                          if (_hasInput(bloc.chatList.last.cbMsgOptions!)) _input(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() == 'input').first) else Container()
                         ],
                       )
                   ],
@@ -197,6 +196,10 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   bool _isOptionDrawable() {
     if (bloc.chatList.isNotEmpty && bloc.chatList.last.cbMsgOptions != null) {
+      if (bloc.chatList.last.cbMsgOptions!.length > 1)
+        _inputHintText = 'Бусад';
+      else
+        _inputHintText = '';
       var selectedOptionCount = bloc.chatList.last.cbMsgOptions!.where((element) => element.isSelected == true).length;
       if (bloc.chatList.last.isEnd != true) {
         return true;
@@ -231,9 +234,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                     child: TextField(
                       autofocus: true,
                       style: TextStyle(fontSize: 15),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                      ),
+                      decoration: InputDecoration(border: InputBorder.none, hintText: _inputHintText, hintStyle: TextStyle(fontWeight: FontWeight.w300), contentPadding: EdgeInsets.only(left: 10)),
                       controller: _chatInputController,
                     ),
                   ),
@@ -465,36 +466,35 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
   }
 
   Widget _cbPoster(List<CBPoster>? posters) {
-    return CBChatContainer(
-      child: Container(
-        height: MediaQuery.of(context).size.width / 3,
-        width: double.infinity,
-        child: PageView.builder(
-            itemCount: posters!.length,
-            pageSnapping: true,
-            controller: _pageController,
-            padEnds: false,
-            itemBuilder: (context, pagePosition) {
-              return Container(
-                margin: EdgeInsets.only(right: 9),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.posterView, arguments: {'posters': posters, 'currentIndex': pagePosition});
-                    },
-                    child: CachedNetworkImage(
-                      imageUrl: posters[pagePosition].link!,
-                      // placeholder: (context, url) => CustomLoader(context, size: 20.0),
-                      placeholder: (context, url) => Container(),
-                      errorWidget: (context, url, error) => Container(),
-                      fit: BoxFit.fill,
-                    ),
+    return Container(
+      padding: EdgeInsets.only(bottom: 10),
+      height: MediaQuery.of(context).size.width / 2.5,
+      width: double.infinity,
+      child: PageView.builder(
+          itemCount: posters!.length,
+          pageSnapping: true,
+          controller: _pageController,
+          padEnds: false,
+          itemBuilder: (context, pagePosition) {
+            return Container(
+              margin: EdgeInsets.only(right: 9),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.posterView, arguments: {'posters': posters, 'currentIndex': pagePosition});
+                  },
+                  child: CachedNetworkImage(
+                    imageUrl: posters[pagePosition].link!,
+                    // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+                    placeholder: (context, url) => Container(),
+                    errorWidget: (context, url, error) => Container(),
+                    fit: BoxFit.fill,
                   ),
                 ),
-              );
-            }),
-      ),
+              ),
+            );
+          }),
     );
   }
 
