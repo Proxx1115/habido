@@ -1,6 +1,9 @@
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/content.dart';
+import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/psy_test.dart';
+import 'package:habido_app/models/psy_test_result.dart';
+import 'package:habido_app/models/user_psy_test_result.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_poster.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_test.dart';
@@ -24,25 +27,28 @@ class CBChatResponse extends BaseResponse {
   Content? content;
   CBTestResult? cbTestResult;
   List<CBPoster>? posters;
+  PsyTestResult? testResult;
+  Habit? habit;
 
-  CBChatResponse({
-    this.msgId,
-    this.cbId,
-    this.ownerType,
-    this.ownerId,
-    this.msg,
-    this.isFirst,
-    this.continueMsgId,
-    this.hasOption,
-    this.isEnd,
-    this.msgSentTime,
-    this.optionSelectedTime,
-    this.cbMsgOptions,
-    this.test,
-    this.content,
-    this.cbTestResult,
-    this.posters,
-  });
+  CBChatResponse(
+      {this.msgId,
+      this.cbId,
+      this.ownerType,
+      this.ownerId,
+      this.msg,
+      this.isFirst,
+      this.continueMsgId,
+      this.hasOption,
+      this.isEnd,
+      this.msgSentTime,
+      this.optionSelectedTime,
+      this.cbMsgOptions,
+      this.test,
+      this.content,
+      this.cbTestResult,
+      this.posters,
+      this.testResult,
+      this.habit});
 
   CBChatResponse.fromJson(dynamic json) {
     parseBaseParams(json);
@@ -68,6 +74,8 @@ class CBChatResponse extends BaseResponse {
     test = json['test'] != null ? PsyTest.fromJson(json['test']) : null;
     content = json['content'] != null ? Content.fromJson(json['content']) : null;
     cbTestResult = json['cbTestResult'] != null ? CBTestResult.fromJson(json['cbTestResult']) : null;
+    testResult = json['testResult'] != null ? PsyTestResult.fromJson(json['testResult']) : null;
+    habit = json['habit'] != null ? Habit.fromJson(json['habit']) : null;
 
     if (json['posters'] != null) {
       posters = [];
@@ -96,6 +104,8 @@ class CBChatResponse extends BaseResponse {
     if (content != null) map['content'] = content?.toJson();
     if (cbTestResult != null) map['cbTestResult'] = cbTestResult?.toJson();
     if (posters != null) map['posters'] = posters?.map((v) => v.toJson()).toList();
+    if (testResult != null) map['testResult'] = testResult?.toJson();
+    if (habit != null) map['habit'] = habit?.toJson();
 
     return map;
   }

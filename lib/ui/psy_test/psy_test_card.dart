@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/psy_test.dart';
+import 'package:habido_app/models/psy_test_result.dart';
+import 'package:habido_app/models/user_psy_test_result.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -115,6 +117,7 @@ class VerticalPsyTestCard extends StatelessWidget {
 
 class HorizontalPsyTestCard extends StatelessWidget {
   final PsyTest? test;
+  final PsyTestResult? testResult;
   final EdgeInsets? margin;
   final VoidCallback? callback;
   final Color? backgroundColor;
@@ -125,6 +128,7 @@ class HorizontalPsyTestCard extends StatelessWidget {
   HorizontalPsyTestCard({
     Key? key,
     required this.test,
+    this.testResult,
     this.margin,
     this.callback,
     this.backgroundColor,
@@ -137,9 +141,13 @@ class HorizontalPsyTestCard extends StatelessWidget {
         onTap: () {
           if (callback != null) callback!();
 
-          Navigator.pushNamed(context, Routes.psyIntro, arguments: {
-            'psyTest': test,
-          });
+          testResult == null
+              ? Navigator.pushNamed(context, Routes.psyIntro, arguments: {
+                  'psyTest': test,
+                })
+              : Navigator.pushNamed(context, Routes.psyTestResult, arguments: {
+                  'psyTestResult': testResult,
+                });
         },
         borderRadius: _borderRadius,
         child: Hero(

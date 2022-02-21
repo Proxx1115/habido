@@ -31,6 +31,7 @@ class _PosterViewState extends State<PosterView> {
           alignment: Alignment.topLeft,
           children: [
             PhotoViewGallery.builder(
+                backgroundDecoration: BoxDecoration(color: Colors.black),
                 pageController: widget.pageController,
                 itemCount: widget.posters.length,
                 loadingBuilder: (context, progress) => Center(
@@ -45,7 +46,7 @@ class _PosterViewState extends State<PosterView> {
                 builder: (context, index) {
                   final poster = widget.posters[index];
                   return PhotoViewGalleryPageOptions(
-                    imageProvider: NetworkImage(poster.link!),
+                    imageProvider: CachedNetworkImageProvider(poster.link!),
                   );
                 }),
             Padding(

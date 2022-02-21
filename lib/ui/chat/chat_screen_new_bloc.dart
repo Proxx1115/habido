@@ -91,6 +91,7 @@ class ChatScreenNewBloc {
     if (res.code == ResponseCode.Success) {
       if (chatList.last.isEnd == true) {
         cbChatbots();
+        pickChatBot();
       }
 
       if (option.nextMsgId != null && option.nextMsgId != 0) {
@@ -100,6 +101,13 @@ class ChatScreenNewBloc {
       print('cbMsgOption failed');
     }
     reloadSubject.add(true);
+  }
+
+  pickChatBot() {
+    if (chatBotsSubject.hasValue && chatBotsSubject.value.length > 1) {
+      CBChatResponse pickCb = new CBChatResponse(isEnd: true, msg: 'sda');
+      chatList.add(pickCb);
+    }
   }
 
   cbChatHistory() async {
@@ -114,6 +122,7 @@ class ChatScreenNewBloc {
         chatList.insertAll(0, res.chatList!);
         if (chatList.last.isEnd == true) {
           cbChatbots();
+          pickChatBot();
         }
         if (pid == 1) bottomSubject.add(true);
         pid++;
