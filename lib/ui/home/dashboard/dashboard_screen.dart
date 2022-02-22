@@ -88,8 +88,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           value: BlocManager.dashboardBloc,
           child: BlocListener<DashboardBloc, DashboardState>(
             listener: _blocListener,
-            child: BlocBuilder<DashboardBloc, DashboardState>(
-                builder: (context, state) {
+            child: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
               return _isUserHabitEmpty
                   ? Container(
                       decoration: BoxDecoration(
@@ -111,11 +110,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             // width: 162.0,
                             child: Text(
                               LocaleKeys.createNewHabit,
-                              style: TextStyle(
-                                  fontFamily: FontAsset.FiraSansCondensed,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15.0,
-                                  color: HexColor.fromHex('#424852')),
+                              style: TextStyle(fontFamily: FontAsset.FiraSansCondensed, fontWeight: FontWeight.w500, fontSize: 15.0, color: HexColor.fromHex('#424852')),
                             ),
                           ),
 
@@ -124,8 +119,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             style: ButtonStadiumStyle.Secondary,
                             asset: Assets.add,
                             onPressed: () {
-                              Navigator.pushNamed(
-                                  context, Routes.habitCategories);
+                              Navigator.pushNamed(context, Routes.habitCategories);
                             },
                           ),
                         ],
@@ -160,9 +154,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       flexibleSpace: Stack(
         children: [
           // Removed orange line
-          Container(
-              color: customColors.primary,
-              margin: EdgeInsets.only(bottom: 1.0)),
+          Container(color: customColors.primary, margin: EdgeInsets.only(bottom: 1.0)),
 
           /// Banner
           CustomCarouselSlider(
@@ -170,8 +162,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             sliderHeight: _sliderHeight!,
             sliderMargin: EdgeInsets.only(top: _sliderTopMargin),
             indicatorHeight: _indicatorHeight,
-            indicatorMargin: EdgeInsets.symmetric(
-                vertical: _indicatorVerticalMargin, horizontal: 2.0),
+            indicatorMargin: EdgeInsets.symmetric(vertical: _indicatorVerticalMargin, horizontal: 2.0),
           ),
 
           /// Calendar, Notification
@@ -188,9 +179,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: customColors.primaryBackground,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(35.0),
-                      topRight: Radius.circular(35.0)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(35.0), topRight: Radius.circular(35.0)),
                   boxShadow: [
                     BoxShadow(
                       color: customColors.primaryBackground,
@@ -209,8 +198,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _userHabitListWidget() {
     return Container(
       child: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0,
-            SizeHelper.padding, SizeHelper.marginBottom),
+        padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
         child: BlocProvider.value(
           value: BlocManager.dashboardBloc,
           child: BlocListener<DashboardBloc, DashboardState>(
@@ -220,27 +208,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 String todayDone = '';
                 List<UserHabit>? todayUserHabits = _todayUserHabits;
                 if (todayUserHabits != null) {
-                  todayDone = todayUserHabits
-                          .where((element) => element.isDone!)
-                          .toList()
-                          .length
-                          .toString() +
-                      '/' +
-                      _todayUserHabits!.length.toString();
+                  todayDone = todayUserHabits.where((element) => element.isDone!).toList().length.toString() + '/' + _todayUserHabits!.length.toString();
                 }
                 return Column(
                   children: [
                     /// Today
-                    if (_todayUserHabits != null &&
-                        _todayUserHabits!.isNotEmpty)
-                      _expandableHabitList(LocaleKeys.today, _todayUserHabits!,
-                          true, true, todayDone),
+                    if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty) _expandableHabitList(LocaleKeys.today, _todayUserHabits!, true, true, todayDone),
 
                     /// Tomorrow
-                    if (_tomorrowUserHabits != null &&
-                        _tomorrowUserHabits!.isNotEmpty)
-                      _expandableHabitList(LocaleKeys.tomorrow,
-                          _tomorrowUserHabits!, false, false, ''),
+                    if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty) _expandableHabitList(LocaleKeys.tomorrow, _tomorrowUserHabits!, false, false, ''),
                   ],
                 );
               },
@@ -255,9 +231,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (state is RefreshDashboardUserHabitsSuccess) {
       _todayUserHabits = state.todayUserHabits;
       _tomorrowUserHabits = state.tomorrowUserHabits;
-      if ((_todayUserHabits == null && _tomorrowUserHabits == null) ||
-          ((_todayUserHabits?.length == 0) &&
-              (_tomorrowUserHabits?.length == 0)))
+      if ((_todayUserHabits == null && _tomorrowUserHabits == null) || ((_todayUserHabits?.length == 0) && (_tomorrowUserHabits?.length == 0)))
         _isUserHabitEmpty = true;
       else
         _isUserHabitEmpty = false;
@@ -266,10 +240,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     } else if (state is SkipUserHabitFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -298,8 +269,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return suffixColor;
   }
 
-  Widget _expandableHabitList(String title, List<UserHabit> userHabitList,
-      bool enabled, bool isToday, String? todayText) {
+  Widget _expandableHabitList(String title, List<UserHabit> userHabitList, bool enabled, bool isToday, String? todayText) {
     return ExpandableContainer(
       isToday: isToday,
       todayText: todayText,
@@ -311,9 +281,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           text: userHabitList[index].name ?? '',
           leadingUrl: userHabitList[index].habit?.photo,
           leadingColor: customColors.iconWhite,
-          leadingBackgroundColor: (userHabitList[index].habit?.color != null)
-              ? HexColor.fromHex(userHabitList[index].habit!.color!)
-              : null,
+          leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           suffixAsset: _getSuffixAsset(userHabitList[index]),
           suffixColor: _getSuffixColor(userHabitList[index]),
           // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
@@ -324,8 +292,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             // Navigate
             if (enabled && userHabitList[index].habit?.goalSettings != null) {
-              String? route =
-                  HabitHelper.getProgressRoute(userHabitList[index].habit!);
+              String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!);
               if (route != null) {
                 Navigator.pushNamed(
                   context,
@@ -352,8 +319,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         var skipUserHabitRequest = SkipUserHabitRequest()
                           ..userHabitId = userHabitList[index].userHabitId
                           ..skipDay = Func.toDateStr(DateTime.now());
-                        BlocManager.dashboardBloc
-                            .add(SkipUserHabitEvent(skipUserHabitRequest));
+                        BlocManager.dashboardBloc.add(SkipUserHabitEvent(skipUserHabitRequest));
                       },
                     ),
                   );
@@ -365,10 +331,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     context,
                     Routes.userHabit,
                     arguments: {
-                      'screenMode':
-                          (userHabitList[index].isDynamicHabit ?? false)
-                              ? ScreenMode.CustomEdit
-                              : ScreenMode.Edit,
+                      'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
                       'habit': userHabitList[index].habit,
                       'userHabit': userHabitList[index],
                       'title': LocaleKeys.ediHabit,

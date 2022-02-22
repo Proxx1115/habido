@@ -11,6 +11,7 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -162,17 +163,39 @@ class HorizontalPsyTestCard extends StatelessWidget {
             child: Row(
               children: [
                 /// Cover image
-                ClipRRect(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
-                  child: CachedNetworkImage(
-                    imageUrl: test!.coverPhoto ?? '',
-                    fit: BoxFit.fitHeight,
-                    height: _height,
-                    // width: MediaQuery.of(context).size.width * 0.3,
-                    width: 115.0,
-                    placeholder: (context, url) => CustomLoader(),
-                    errorWidget: (context, url, error) => Container(),
-                  ),
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), bottomLeft: Radius.circular(10.0)),
+                      child: CachedNetworkImage(
+                        imageUrl: test!.coverPhoto ?? '',
+                        fit: BoxFit.fitHeight,
+                        height: _height,
+                        // width: MediaQuery.of(context).size.width * 0.3,
+                        width: 115.0,
+                        placeholder: (context, url) => CustomLoader(),
+                        errorWidget: (context, url, error) => Container(),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0.0,
+                      left: 0.0,
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
+                            color: HexColor.fromHex('#fa6c51'),
+                          ),
+                          height: 30,
+                          width: 50,
+                          child: CustomText(
+                            LocaleKeys.newPsyTest,
+                            alignment: Alignment.center,
+                            color: Colors.white,
+                            fontFamily: FontAsset.FiraSansCondensed,
+                            fontWeight: FontWeight.w500,
+                          )),
+                    )
+                  ],
                 ),
 
                 // 174

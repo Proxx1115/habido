@@ -165,6 +165,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.content,
               description: LocaleKeys.showcaseContent,
+              overlayOpacity: 0.7,
               child: _bottomNavigationBarItem(3, Assets.content, LocaleKeys.advice),
             ),
           ),
@@ -206,8 +207,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 Container(
                   width: 20.0,
                   height: SizeHelper.borderWidth,
-                  color:
-                      BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.primaryBorder,
+                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.primaryBorder,
                 ),
                 Expanded(
                   child: HorizontalLine(color: customColors.primaryBorder),
@@ -226,8 +226,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     height: 24.0,
                     child: SvgPicture.asset(
                       asset,
-                      color:
-                          BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                      color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
                     ),
                   ),
                 ),

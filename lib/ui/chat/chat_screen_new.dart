@@ -309,10 +309,12 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                   width: 40,
                   child: IconButton(
                     onPressed: () {
-                      bloc.cbMsgOption(inputOption, input: _chatInputController.text);
-                      inputOption.text = _chatInputController.text;
-                      _chatInputController.clear();
-                      gotoBottom();
+                      if (_chatInputController.text.isNotEmpty) {
+                        bloc.cbMsgOption(inputOption, input: _chatInputController.text);
+                        inputOption.text = _chatInputController.text;
+                        _chatInputController.clear();
+                        gotoBottom();
+                      }
                     },
                     icon: SvgPicture.asset(
                       Assets.chat_input_send,
@@ -327,6 +329,11 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
     );
   }
 
+  Content _removeReadTime(Content content) {
+    content.readTime = null;
+    return content;
+  }
+
   Widget _chatItem(CBChatResponse cbChatResponse) {
     return Column(
       children: [
@@ -335,7 +342,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
               prefixAsset: cbChatResponse.msgId == bloc.chatList.last.msgId ? Assets.habido_assistant_png : Assets.habido_assistant_empty,
               suffixTime: Func.toTimeStr(cbChatResponse.msgSentTime),
               width: MediaQuery.of(context).size.width * 0.7,
-              child: HorizontalContentCard(content: cbChatResponse.content!))
+              child: HorizontalContentCard(content: _removeReadTime(cbChatResponse.content!)))
         else if (cbChatResponse.ownerType!.toLowerCase() == 'testanswer')
           _cbTestResult(cbChatResponse)
         else if (cbChatResponse.ownerType!.toLowerCase() == 'poster')

@@ -24,8 +24,7 @@ class CustomCarouselSlider extends StatefulWidget {
     required this.sliderHeight,
     this.sliderMargin = const EdgeInsets.only(top: 25.0),
     this.indicatorHeight = 15.0,
-    this.indicatorMargin =
-        const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
+    this.indicatorMargin = const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
   }) : super(key: key);
 
   @override
@@ -109,19 +108,17 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
 
         /// Indicator
         (_bannerList != null && _bannerList!.length > 0)
-            ? Container(
-                margin: EdgeInsets.only(bottom: 40),
-                child: Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: _bannerList!.map((url) {
-                        int index = _bannerList!.indexOf(url);
-                        return _indicatorItem(index: index);
-                      }).toList(),
-                    ),
+            ? Positioned.fill(
+                bottom: 40,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: _bannerList!.map((url) {
+                      int index = _bannerList!.indexOf(url);
+                      return _indicatorItem(index: index);
+                    }).toList(),
                   ),
                 ),
               )
@@ -163,9 +160,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
           ? null
           : BoxDecoration(
               // shape: BoxShape.circle,
-              color: _currentIndex == index
-                  ? customColors.whiteBackground
-                  : Colors.transparent,
+              color: _currentIndex == index ? customColors.whiteBackground : Colors.transparent,
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
               border: Border.all(width: 2, color: customColors.secondaryBorder),
             ),

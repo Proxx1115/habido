@@ -121,7 +121,7 @@ class ChatScreenNewBloc {
       } else {
         // res.chatList!.sort((a, b) => a.msgId! - b.msgId!);
         chatList.insertAll(0, res.chatList!);
-        if (chatList.last.isEnd == true && chatList.last.cbMsgOptions == null) {
+        if (chatList.last.isEnd == true && chatList.last.cbMsgOptions!.length == 0) {
           cbChatbots();
           pickChatBot();
         }

@@ -222,22 +222,22 @@ class HorizontalContentCard extends StatelessWidget {
                         ),
 
                         /// Time
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
-                          alignment: Alignment.bottomLeft,
-                          child: Row(
-                            children: [
-                              /// Clock icon
-                              Container(
-                                height: 24.0,
-                                width: 24.0,
-                                padding: EdgeInsets.all(5.0),
-                                alignment: Alignment.bottomLeft,
-                                child: SvgPicture.asset(Assets.clock),
-                              ),
+                        if (content.readTime != null)
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                            alignment: Alignment.bottomLeft,
+                            child: Row(
+                              children: [
+                                /// Clock icon
+                                Container(
+                                  height: 24.0,
+                                  width: 24.0,
+                                  padding: EdgeInsets.all(5.0),
+                                  alignment: Alignment.bottomLeft,
+                                  child: SvgPicture.asset(Assets.clock),
+                                ),
 
-                              /// Read time
-                              if (content.readTime != null)
+                                /// Read time
                                 Expanded(
                                   child: CustomText(
                                     '${content.readTime} ${LocaleKeys.readMin}',
@@ -245,9 +245,9 @@ class HorizontalContentCard extends StatelessWidget {
                                     alignment: Alignment.bottomLeft,
                                   ),
                                 ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
