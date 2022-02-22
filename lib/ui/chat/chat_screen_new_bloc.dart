@@ -6,6 +6,7 @@ import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option_request.dart';
 import 'package:habido_app/ui/chat/chat_screen_new.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:rxdart/subjects.dart';
 
 class ChatScreenNewBloc {
@@ -78,11 +79,11 @@ class ChatScreenNewBloc {
         CBMsgOption temp = chatList.last.cbMsgOptions![i];
         temp.isSelected = true;
         chatList.last.cbMsgOptions = [];
+        chatList.last.optionSelectedTime = DateTime.now().toString();
         chatList.last.cbMsgOptions!.add(temp);
         break;
       }
     }
-
     var request = CBMsgOptionRequest()
       ..msgId = option.msgId
       ..optionId = option.optionId
@@ -120,7 +121,7 @@ class ChatScreenNewBloc {
       } else {
         // res.chatList!.sort((a, b) => a.msgId! - b.msgId!);
         chatList.insertAll(0, res.chatList!);
-        if (chatList.last.isEnd == true) {
+        if (chatList.last.isEnd == true && chatList.last.cbMsgOptions == null) {
           cbChatbots();
           pickChatBot();
         }

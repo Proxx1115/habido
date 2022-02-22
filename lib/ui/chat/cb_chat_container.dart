@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
@@ -10,6 +11,7 @@ class CBChatContainer extends StatelessWidget {
   final String? prefixAsset;
   final Widget child;
   final String? suffixTime;
+  final String? prefixTime;
   final VoidCallback? onTap;
   final EdgeInsets margin;
   final EdgeInsets? padding;
@@ -23,33 +25,29 @@ class CBChatContainer extends StatelessWidget {
   final int? color;
   final bool? isOption;
 
-  CBChatContainer(
-      {Key? key,
-      this.prefixAsset,
-      required this.child,
-      this.suffixTime,
-      this.onTap,
-      this.margin = const EdgeInsets.only(bottom: 10.0),
-      this.padding,
-      this.width,
-      this.height,
-      this.borderRadius,
-      this.alignment = Alignment.centerLeft,
-      this.tweenStart,
-      this.tweenEnd,
-      this.delay,
-      this.color,
-      this.isOption = false})
-      : super(key: key);
+  CBChatContainer({
+    Key? key,
+    this.prefixAsset,
+    required this.child,
+    this.suffixTime,
+    this.prefixTime,
+    this.onTap,
+    this.margin = const EdgeInsets.only(bottom: 10.0),
+    this.padding,
+    this.width,
+    this.height,
+    this.borderRadius,
+    this.alignment = Alignment.centerLeft,
+    this.tweenStart,
+    this.tweenEnd,
+    this.delay,
+    this.color,
+    this.isOption = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MoveInAnimation(
-        tweenStart: tweenStart,
-        tweenEnd: tweenEnd,
-        isAxisHorizontal: false,
-        delay: delay,
-        child: isOption! ? _noAlignment(context) : _hasAlignment(context));
+    return MoveInAnimation(tweenStart: tweenStart, tweenEnd: tweenEnd, isAxisHorizontal: false, delay: delay, child: isOption! ? _noAlignment(context) : _hasAlignment(context));
   }
 
   Widget _hasAlignment(BuildContext context) {
@@ -59,23 +57,31 @@ class CBChatContainer extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: margin,
-          child: Func.isNotEmpty(prefixAsset)
+          child: Func.isNotEmpty(prefixAsset) || Func.isNotEmpty(prefixTime)
               ? Row(
-                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: Func.isNotEmpty(prefixAsset) ? MainAxisAlignment.start : MainAxisAlignment.end,
                   children: [
                     /// Bot profile pic
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        margin: EdgeInsets.only(right: 5.0),
-                        child: Image.asset(
-                          prefixAsset!,
-                          height: 20.0,
-                          width: 20.0,
-                          alignment: Alignment.bottomLeft,
-                        ),
-                      ),
-                    ),
+                    Func.isNotEmpty(prefixTime)
+                        ? CustomText(
+                            prefixTime,
+                            // alignment: Alignment.bottomLeft,
+                            margin: EdgeInsets.only(right: 5.0),
+                            fontSize: 13.0,
+                            color: customColors.greyText,
+                          )
+                        : Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Container(
+                              margin: EdgeInsets.only(right: 5.0),
+                              child: Image.asset(
+                                prefixAsset!,
+                                height: 20.0,
+                                width: 20.0,
+                                alignment: Alignment.bottomLeft,
+                              ),
+                            ),
+                          ),
 
                     /// Body
                     _body(context),

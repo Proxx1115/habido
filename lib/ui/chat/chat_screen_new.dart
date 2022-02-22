@@ -180,17 +180,22 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                             spacing: 3,
                                             direction: Axis.horizontal,
                                             children: [
-                                              for (int i = 0; i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length; i++)
+                                              for (int i = 0;
+                                                  i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length;
+                                                  i++)
                                                 _optionItem(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
                                             ],
                                           ),
                                         ),
                                       )),
                                 ),
-                                if (_hasInput(bloc.chatList.last.cbMsgOptions!)) _input(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() == 'input').first) else Container()
+                                if (_hasInput(bloc.chatList.last.cbMsgOptions!))
+                                  _input(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() == 'input').first)
+                                else
+                                  Container()
                               ],
                             )
-                          : _emojiOptionList()
+                          : Expanded(child: _emojiOptionList())
                   ],
                 ),
               ),
@@ -222,14 +227,16 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   bool _isOptionDrawable() {
     if (bloc.chatList.isNotEmpty && bloc.chatList.last.cbMsgOptions != null) {
-      if (bloc.chatList.last.cbMsgOptions!.length > 1)
+      if (bloc.chatList.last.cbMsgOptions!.length > 1) {
         _inputHintText = 'Бусад';
-      else
+        return true;
+      } else
         _inputHintText = '';
       var selectedOptionCount = bloc.chatList.last.cbMsgOptions!.where((element) => element.isSelected == true).length;
+      var unSelectedOptionCount = bloc.chatList.last.cbMsgOptions!.length;
       if (bloc.chatList.last.isEnd != true) {
         return true;
-      } else if (selectedOptionCount == 0 && bloc.chatList.last.isEnd == true) {
+      } else if (selectedOptionCount == 0 && bloc.chatList.last.isEnd == true && unSelectedOptionCount >= 1) {
         return true;
       }
     }
@@ -289,7 +296,10 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                       autofocus: true,
                       style: TextStyle(fontSize: 15),
                       decoration: InputDecoration(
-                          border: InputBorder.none, hintText: _inputHintText, hintStyle: TextStyle(fontWeight: FontWeight.w300, fontFamily: FontAsset.FiraSansCondensed), contentPadding: EdgeInsets.only(left: 10)),
+                          border: InputBorder.none,
+                          hintText: _inputHintText,
+                          hintStyle: TextStyle(fontWeight: FontWeight.w300, fontFamily: FontAsset.FiraSansCondensed),
+                          contentPadding: EdgeInsets.only(left: 10)),
                       controller: _chatInputController,
                     ),
                   ),
@@ -367,8 +377,9 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
             child: CustomText(cbChatResponse.msg!, maxLines: 15, fontFamily: FontAsset.FiraSansCondensed),
           ),
         if (cbChatResponse.cbMsgOptions != null && cbChatResponse.cbMsgOptions!.length == 1 && cbChatResponse.cbMsgOptions!.first.isSelected == true)
-          (cbChatResponse.ownerType!.toLowerCase() != 'posters') ? _selectedOptionItem(cbChatResponse.cbMsgOptions!.first) : _cbPoster(cbChatResponse.posters),
-        if (cbChatResponse.isEnd == true && ((cbChatResponse.hasOption == true && cbChatResponse.cbMsgOptions!.where((element) => element.isSelected == true).length > 0) || cbChatResponse.hasOption == false))
+          _selectedOptionItem(cbChatResponse.cbMsgOptions!.first, prefixTime: cbChatResponse.msgSentTime != null ? Func.toTimeStr(cbChatResponse.optionSelectedTime) : null),
+        if (cbChatResponse.isEnd == true &&
+            ((cbChatResponse.hasOption == true && cbChatResponse.cbMsgOptions!.where((element) => element.isSelected == true).length > 0) || cbChatResponse.hasOption == false))
           Padding(padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5), child: HorizontalLine())
       ],
     );
@@ -382,7 +393,16 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
     } else if (hour >= 12 && hour < 17) {
       arbitron = 'Өдрийн мэнд';
     }
-    return CBChatResponse(ownerType: 'Text', msg: '$arbitron, Юуны талаар ярилцмаар байна?', continueMsgId: 0, isEnd: false, hasOption: false, isFirst: false, cbId: 0, msgId: 0, msgSentTime: DateTime.now().toString());
+    return CBChatResponse(
+      ownerType: 'Text',
+      msg: '$arbitron, Юуны талаар ярилцмаар байна?',
+      continueMsgId: 0,
+      isEnd: false,
+      hasOption: false,
+      isFirst: false,
+      cbId: 0,
+      msgId: 0,
+    );
   }
 
   Widget _optionItem(CBMsgOption option) {
@@ -484,15 +504,27 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
     });
   }
 
-  Widget _selectedOptionItem(CBMsgOption option) {
+  Widget _selectedOptionItem(CBMsgOption option, {String? prefixTime}) {
     return CBChatContainer(
       color: 2,
       alignment: Alignment.centerRight,
       height: _optionHeight(option.optionType),
       tweenStart: 30.0,
       tweenEnd: 0.0,
+      prefixTime: prefixTime,
+      padding: option.optionType!.toLowerCase() == 'emoji' ? EdgeInsets.zero : null,
       child: Row(
         children: [
+          option.optionType!.toLowerCase() == 'emoji'
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: CachedNetworkImage(
+                    imageUrl: option.photoLink!,
+                    height: 38,
+                  ),
+                )
+              : Container(),
+
           /// Text
           Expanded(
             child: CustomText(
