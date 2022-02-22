@@ -63,6 +63,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
     _pageController = PageController(viewportFraction: 0.4);
     bloc.type = widget.type!;
     bloc.cbChatHistory();
+    bloc.isVisibleOptions = true;
     bottomListener = bloc.bottomSubject.listen((value) {
       gotoBottom();
     });
@@ -226,7 +227,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
   }
 
   bool _isOptionDrawable() {
-    if (bloc.chatList.isNotEmpty && bloc.chatList.last.cbMsgOptions != null) {
+    if (bloc.chatList.isNotEmpty && bloc.chatList.last.cbMsgOptions != null && bloc.isVisibleOptions) {
       if (bloc.chatList.last.cbMsgOptions!.length > 1) {
         _inputHintText = 'Бусад';
         return true;
@@ -335,6 +336,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
   }
 
   Widget _chatItem(CBChatResponse cbChatResponse) {
+    gotoBottom();
     return Column(
       children: [
         if (cbChatResponse.ownerType!.toLowerCase() == 'content')
@@ -501,8 +503,8 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
   }
 
   gotoBottom() {
-    Timer(Duration(seconds: 1), () {
-      _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 10), curve: Curves.easeInOut).then((value) {
+    Timer(Duration(milliseconds: 1300), () {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 30), curve: Curves.easeInOut).then((value) {
         if (isFirst == true) {
           bloc.isShowSubject.add(true);
           isFirst = false;

@@ -20,6 +20,7 @@ class ChatScreenNewBloc {
   ChatScreenNewType type = ChatScreenNewType.onboard;
   int pid = 1;
   int psize = 10;
+  bool isVisibleOptions = true;
 
   int chatbotId = 0;
 
@@ -50,8 +51,13 @@ class ChatScreenNewBloc {
     var res = await ApiManager.cbFirstChat(request);
     if (res.code == ResponseCode.Success) {
       chatList.add(res);
+      res.cbMsgOptions!.length > 0 ? isVisibleOptions = true : isVisibleOptions = false;
+      reloadSubject.add(true);
       if (res.isEnd == false && res.continueMsgId != null && res.hasOption == false) {
-        cbContinueChat(res.continueMsgId!);
+        Future.delayed(const Duration(milliseconds: 2700), () {
+          cbContinueChat(res.continueMsgId!);
+          isVisibleOptions = true;
+        });
       } else
         reloadSubject.add(true);
     } else {
@@ -63,8 +69,13 @@ class ChatScreenNewBloc {
     var res = await ApiManager.cbContinueChat(msgId);
     if (res.code == ResponseCode.Success) {
       chatList.add(res);
+      reloadSubject.add(true);
       if (res.isEnd == false && res.continueMsgId != null && res.hasOption == false) {
-        cbContinueChat(res.continueMsgId!);
+        isVisibleOptions = false;
+        Future.delayed(const Duration(milliseconds: 2300), () {
+          cbContinueChat(res.continueMsgId!);
+          isVisibleOptions = true;
+        });
       } else {
         reloadSubject.add(true);
       }
@@ -81,6 +92,7 @@ class ChatScreenNewBloc {
         chatList.last.cbMsgOptions = [];
         chatList.last.optionSelectedTime = DateTime.now().toString();
         chatList.last.cbMsgOptions!.add(temp);
+        isVisibleOptions = false;
         break;
       }
     }
@@ -96,7 +108,10 @@ class ChatScreenNewBloc {
       }
 
       if (option.nextMsgId != null && option.nextMsgId != 0) {
-        cbContinueChat(option.nextMsgId!);
+        Future.delayed(const Duration(milliseconds: 800), () {
+          cbContinueChat(option.nextMsgId!);
+          isVisibleOptions = true;
+        });
       }
     } else {
       print('cbMsgOption failed');
@@ -121,7 +136,8 @@ class ChatScreenNewBloc {
       } else {
         // res.chatList!.sort((a, b) => a.msgId! - b.msgId!);
         chatList.insertAll(0, res.chatList!);
-        if (chatList.last.isEnd == true && chatList.last.cbMsgOptions!.length == 0) {
+        if ((chatList.last.isEnd == true && chatList.last.cbMsgOptions!.length == 0) ||
+            (chatList.last.isEnd == true && chatList.last.cbMsgOptions!.where((element) => element.isSelected == true).length == 1)) {
           cbChatbots();
           pickChatBot();
         }
