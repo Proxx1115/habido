@@ -13,6 +13,7 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/timer/timer_painter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:wakelock/wakelock.dart';
 
 class CustomCountdownTimer extends StatefulWidget {
   final UserHabit userHabit;
@@ -180,6 +181,7 @@ class _CustomCountdownTimerState extends State<CustomCountdownTimer> with Ticker
   }
 
   Widget _stopwatch() {
+    (_duration.inSeconds > 0) ? Wakelock.enable() : Wakelock.disable();
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/models/chat_type.dart';
 import 'package:habido_app/ui/chat/chat_screen.dart';
+import 'package:habido_app/ui/chat/chat_screen_new.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/ui/home/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -19,7 +20,7 @@ class ChatbotDashboard extends StatefulWidget {
 }
 
 class _ChatbotDashboardState extends State<ChatbotDashboard> {
-  bool _soon = true;
+  bool _soon = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +36,13 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
                 ),
 
                 /// Chat
+                // Expanded(
+                //   child: ChatScreen(chatType: ChatType.assistant),
+                // ),
                 Expanded(
-                  child: ChatScreen(chatType: ChatType.assistant),
+                  child: ChatScreenNew(
+                    type: ChatScreenNewType.main,
+                  ),
                 ),
               ],
             ),

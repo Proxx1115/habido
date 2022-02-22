@@ -11,6 +11,7 @@ class UserData extends BaseResponse {
   String? gender;
   String? photo;
   bool? isOnboardingDone;
+  bool? isOnboardingDone2;
   int? rankId; // 1-6
   String? rankPhoto;
   String? rankName;
@@ -27,6 +28,7 @@ class UserData extends BaseResponse {
     this.gender,
     this.photo,
     this.isOnboardingDone,
+    this.isOnboardingDone2,
     this.rankId,
     this.rankPhoto,
     this.rankName,
@@ -46,6 +48,7 @@ class UserData extends BaseResponse {
     gender = json['gender'];
     photo = json['photo'];
     isOnboardingDone = json['isOnboardingDone'];
+    isOnboardingDone2 = json['isOnboardingDone2'];
     rankId = json['rankId'];
     rankPhoto = json['rankPhoto'];
     rankName = json['rankName'];
@@ -62,6 +65,7 @@ class UserData extends BaseResponse {
     map['gender'] = gender;
     map['photo'] = photo;
     map['isOnboardingDone'] = isOnboardingDone;
+    map['isOnboardingDone2'] = isOnboardingDone2;
 
     return map;
   }

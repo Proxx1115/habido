@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/psy_test.dart';
+import 'package:habido_app/models/psy_test_result.dart';
+import 'package:habido_app/models/user_psy_test_result.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
@@ -18,8 +19,7 @@ class VerticalPsyTestCard extends StatelessWidget {
   final PsyTest test;
   final EdgeInsets? margin;
   final double width;
-  final BorderRadius _borderRadius =
-      BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
+  final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
   final int duration;
 
   VerticalPsyTestCard({
@@ -43,7 +43,7 @@ class VerticalPsyTestCard extends StatelessWidget {
         child: InkWell(
           onTap: () {
             Navigator.pushNamed(context, Routes.psyTest, arguments: {
-              'content': test,
+              'test': test,
             });
           },
           borderRadius: _borderRadius,
@@ -59,9 +59,7 @@ class VerticalPsyTestCard extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.only(bottom: 15.0),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0)),
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
                         child: CachedNetworkImage(
                           imageUrl: test.coverPhoto ?? '',
                           fit: BoxFit.fitWidth,
@@ -88,8 +86,7 @@ class VerticalPsyTestCard extends StatelessWidget {
                       ),
 
                       /// Body
-                      CustomText(test.description,
-                          margin: EdgeInsets.only(top: 15.0), maxLines: 2),
+                      CustomText(test.description, margin: EdgeInsets.only(top: 15.0), maxLines: 2),
                     ],
                   ),
                 ),
@@ -119,18 +116,19 @@ class VerticalPsyTestCard extends StatelessWidget {
 }
 
 class HorizontalPsyTestCard extends StatelessWidget {
-  final PsyTest test;
+  final PsyTest? test;
+  final PsyTestResult? testResult;
   final EdgeInsets? margin;
   final VoidCallback? callback;
   final Color? backgroundColor;
 
-  final BorderRadius _borderRadius =
-      BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
+  final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
   final double _height = 140.0;
 
   HorizontalPsyTestCard({
     Key? key,
     required this.test,
+    this.testResult,
     this.margin,
     this.callback,
     this.backgroundColor,
@@ -142,13 +140,18 @@ class HorizontalPsyTestCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (callback != null) callback!();
-          Navigator.pushNamed(context, Routes.psyIntro, arguments: {
-            'psyTest': test,
-          });
+
+          testResult == null
+              ? Navigator.pushNamed(context, Routes.psyIntro, arguments: {
+                  'psyTest': test,
+                })
+              : Navigator.pushNamed(context, Routes.psyTestResult, arguments: {
+                  'psyTestResult': testResult,
+                });
         },
         borderRadius: _borderRadius,
         child: Hero(
-          tag: Func.toStr(test.testId),
+          tag: Func.toStr(test!.testId),
           child: Container(
             margin: margin,
             height: _height,
@@ -159,43 +162,17 @@ class HorizontalPsyTestCard extends StatelessWidget {
             child: Row(
               children: [
                 /// Cover image
-                Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15.0),
-                          bottomLeft: Radius.circular(15.0)),
-                      child: CachedNetworkImage(
-                        imageUrl: test.photo ?? '',
-                        fit: BoxFit.fitHeight,
-                        height: _height,
-                        // width: MediaQuery.of(context).size.width * 0.3,
-                        width: 115.0,
-                        placeholder: (context, url) => CustomLoader(),
-                        errorWidget: (context, url, error) => Container(),
-                      ),
-                    ),
-                    Positioned(
-                      top: 0.0,
-                      left: 0.0,
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                bottomRight: Radius.circular(15)),
-                            color: HexColor.fromHex('#fa6c51'),
-                          ),
-                          height: 30,
-                          width: 50,
-                          child: CustomText(
-                            LocaleKeys.newPsyTest,
-                            alignment: Alignment.center,
-                            color: Colors.white,
-                            fontFamily: FontAsset.FiraSansCondensed,
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ),
-                  ],
+                ClipRRect(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
+                  child: CachedNetworkImage(
+                    imageUrl: test!.coverPhoto ?? '',
+                    fit: BoxFit.fitHeight,
+                    height: _height,
+                    // width: MediaQuery.of(context).size.width * 0.3,
+                    width: 115.0,
+                    placeholder: (context, url) => CustomLoader(),
+                    errorWidget: (context, url, error) => Container(),
+                  ),
                 ),
 
                 // 174
@@ -207,14 +184,14 @@ class HorizontalPsyTestCard extends StatelessWidget {
                       children: [
                         /// Title
                         CustomText(
-                          test.name,
+                          test!.name,
                           fontWeight: FontWeight.w500,
-                          maxLines: 2,
+                          maxLines: 3,
                         ),
 
                         /// Body
                         Expanded(
-                          child: CustomText(test.description, maxLines: 3),
+                          child: CustomText(test!.description, margin: EdgeInsets.only(top: 15.0), maxLines: 2),
                         ),
                       ],
                     ),
