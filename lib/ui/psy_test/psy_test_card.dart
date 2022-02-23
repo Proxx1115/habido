@@ -122,6 +122,7 @@ class HorizontalPsyTestCard extends StatelessWidget {
   final EdgeInsets? margin;
   final VoidCallback? callback;
   final Color? backgroundColor;
+  final bool? isCbMsg;
 
   final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
   final double _height = 140.0;
@@ -133,6 +134,7 @@ class HorizontalPsyTestCard extends StatelessWidget {
     this.margin,
     this.callback,
     this.backgroundColor,
+    this.isCbMsg = false,
   }) : super(key: key);
 
   @override
@@ -177,24 +179,26 @@ class HorizontalPsyTestCard extends StatelessWidget {
                         errorWidget: (context, url, error) => Container(),
                       ),
                     ),
-                    Positioned(
-                      top: 0.0,
-                      left: 0.0,
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
-                            color: HexColor.fromHex('#fa6c51'),
-                          ),
-                          height: 30,
-                          width: 50,
-                          child: CustomText(
-                            LocaleKeys.newPsyTest,
-                            alignment: Alignment.center,
-                            color: Colors.white,
-                            fontFamily: FontAsset.FiraSansCondensed,
-                            fontWeight: FontWeight.w500,
-                          )),
-                    )
+                    isCbMsg == false
+                        ? Positioned(
+                            top: 0.0,
+                            left: 0.0,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                  color: HexColor.fromHex('#fa6c51'),
+                                ),
+                                height: 30,
+                                width: 50,
+                                child: CustomText(
+                                  LocaleKeys.newPsyTest,
+                                  alignment: Alignment.center,
+                                  color: Colors.white,
+                                  fontFamily: FontAsset.FiraSansCondensed,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          )
+                        : Container(),
                   ],
                 ),
 

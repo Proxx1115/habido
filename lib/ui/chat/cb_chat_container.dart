@@ -107,38 +107,13 @@ class CBChatContainer extends StatelessWidget {
       onTap: onTap,
       child: Container(
         margin: margin,
-        child: Func.isNotEmpty(prefixAsset)
-            ? Row(
-                // crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  /// Bot profile pic
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      margin: EdgeInsets.only(right: 5.0),
-                      child: Image.asset(
-                        prefixAsset!,
-                        height: 20.0,
-                        width: 20.0,
-                        alignment: Alignment.bottomLeft,
-                      ),
-                    ),
-                  ),
-
-                  /// Body
-                  _body(context),
-
-                  if (Func.isNotEmpty(suffixTime))
-                    CustomText(
-                      suffixTime,
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only(left: 10.0),
-                      fontSize: 13.0,
-                      color: customColors.greyText,
-                    ),
-                ],
-              )
-            : _body(context),
+        padding: padding ?? const EdgeInsets.all(10.0),
+        constraints: BoxConstraints(minWidth: 100),
+        decoration: BoxDecoration(
+          borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(10.0)),
+          color: _getColor(),
+        ),
+        child: child,
       ),
     );
   }

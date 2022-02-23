@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/option_type.dart';
@@ -118,11 +119,11 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                       chatBotSnapshot.data!.length > 1 ? _chatItem(pickOneOfChatBots()) : Container(),
                                       Container(
                                         color: Colors.white,
-                                        height: chatBotSnapshot.data!.length > 1 ? MediaQuery.of(context).size.height * 0.1 : 0,
+                                        height: chatBotSnapshot.data!.length > 1 ? MediaQuery.of(context).size.height * 0.14 : 0,
                                         width: MediaQuery.of(context).size.width,
                                         padding: EdgeInsets.only(top: 10),
                                         child: Wrap(
-                                          runSpacing: 1,
+                                          runSpacing: 5,
                                           spacing: 5,
                                           direction: Axis.horizontal,
                                           children: [
@@ -135,12 +136,12 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                                   gotoBottom();
                                                 },
                                                 child: Container(
-                                                  width: MediaQuery.of(context).size.width * 0.3,
                                                   padding: EdgeInsets.all(10),
                                                   decoration: BoxDecoration(color: customColors.greyBackground, borderRadius: BorderRadius.circular(5)),
                                                   child: Text(
                                                     chatBotSnapshot.data![i].name.toString(),
-                                                    style: TextStyle(fontFamily: FontAsset.FiraSansCondensed),
+                                                    maxLines: 1,
+                                                    style: TextStyle(fontFamily: FontAsset.FiraSansCondensed, fontWeight: FontWeight.w500),
                                                   ),
                                                 ),
                                               )
@@ -166,7 +167,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                       height: bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length != 0
                                           ? bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length > 4
                                               ? MediaQuery.of(context).size.height * 0.2
-                                              : MediaQuery.of(context).size.height * 0.1
+                                              : MediaQuery.of(context).size.height * 0.14
                                           : 0,
                                       padding: EdgeInsets.only(top: 10, left: 5, right: 5),
                                       child: RawScrollbar(
@@ -176,16 +177,18 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                         radius: Radius.circular(5),
                                         child: SingleChildScrollView(
                                           controller: _scrollBarController,
-                                          child: Wrap(
-                                            runSpacing: 1,
-                                            spacing: 3,
-                                            direction: Axis.horizontal,
-                                            children: [
-                                              for (int i = 0;
-                                                  i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length;
-                                                  i++)
-                                                _optionItem(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
-                                            ],
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            child: Wrap(
+                                              runSpacing: 0,
+                                              spacing: 4,
+                                              children: [
+                                                for (int i = 0;
+                                                    i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length;
+                                                    i++)
+                                                  _optionItem(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       )),
@@ -355,6 +358,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
               suffixTime: Func.toTimeStr(cbChatResponse.msgSentTime),
               width: MediaQuery.of(context).size.width * 0.7,
               child: HorizontalPsyTestCard(
+                isCbMsg: true,
                 test: cbChatResponse.test,
                 testResult: cbChatResponse.testResult ?? null,
               ))
@@ -418,17 +422,19 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
     return CBChatContainer(
       isOption: true,
       color: 1,
-      width: MediaQuery.of(context).size.width * 0.3,
+      // width: MediaQuery.of(context).size.width * 0.3,
       // alignment: Alignment.center,
       borderRadius: _optionBorderRadius(option.photoLink),
       tweenStart: option.isSelected! ? 0.0 : 30.0,
       tweenEnd: 0.0,
       delay: option.isSelected! ? 0 : null,
-      child: CustomText(
-        option.text,
-        maxLines: 10,
-        fontFamily: FontAsset.FiraSansCondensed,
-        fontWeight: FontWeight.w500,
+      child: Text(
+        option.text!,
+        maxLines: 2,
+        style: TextStyle(
+          fontFamily: FontAsset.FiraSansCondensed,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       onTap: () {
         if (option.isSelected!) return;
