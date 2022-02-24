@@ -19,17 +19,21 @@ class SharedPrefKey {
   static const String sessionToken = 'sessionToken'; // Session token
 
   /// Push notification
-  static const String pushNotifToken = 'pushNotifToken'; // Google firebase push notification token
-  static const String registeredPushNotifToken = 'registeredPushNotifToken'; // Өмнө нь server рүү бүртгүүлсэн эсэх
+  static const String pushNotifToken =
+      'pushNotifToken'; // Google firebase push notification token
+  static const String registeredPushNotifToken =
+      'registeredPushNotifToken'; // Өмнө нь server рүү бүртгүүлсэн эсэх
 
   /// Habit
-  static const String habitProgressValue = 'habitProgressValue'; // Ус уусан тоо etc...
+  static const String habitProgressValue =
+      'habitProgressValue'; // Ус уусан тоо etc...
 
   /// Showcase
   static const String showcase = 'showcase'; // Showcase харуулсан эсэх
 
   /// Notif count
-  static const String lastNotifDateTime = 'lastNotifDateTime'; // Хамгийн сүүлд notif count авсан хугацаа
+  static const String lastNotifDateTime =
+      'lastNotifDateTime'; // Хамгийн сүүлд notif count авсан хугацаа
 }
 
 class SharedPref {
@@ -66,7 +70,9 @@ class SharedPref {
 
   static void setBiometricAuth(bool? value) {
     if (Func.isNotEmpty(globals.userData?.phone)) {
-      sharedPref?.setBool(SharedPrefKey.biometricAuth + '_${globals.userData?.phone}', value ?? false);
+      sharedPref?.setBool(
+          SharedPrefKey.biometricAuth + '_${globals.userData?.phone}',
+          value ?? false);
     }
   }
 
@@ -74,7 +80,9 @@ class SharedPref {
     if (Func.isEmpty(phoneNumber)) {
       return false;
     } else {
-      return sharedPref?.getBool(SharedPrefKey.biometricAuth + '_$phoneNumber') ?? false;
+      return sharedPref
+              ?.getBool(SharedPrefKey.biometricAuth + '_$phoneNumber') ??
+          false;
     }
   }
 
@@ -84,7 +92,8 @@ class SharedPref {
 
   static bool getShowcaseHasShown(String showcaseName) {
     // return false;
-    return sharedPref?.getBool(SharedPrefKey.showcase + '_$showcaseName') ?? false;
+    return sharedPref?.getBool(SharedPrefKey.showcase + '_$showcaseName') ??
+        false;
   }
 
   static void setShowcaseHasShown(String showcaseName, bool hasShown) {
@@ -109,7 +118,9 @@ class SharedPref {
 
   static bool getRegisteredPushNotifToken() {
     if (Func.isNotEmpty(globals.userData?.phone)) {
-      return sharedPref?.getBool(SharedPrefKey.registeredPushNotifToken + '_${globals.userData!.phone!}') ?? false;
+      return sharedPref?.getBool(SharedPrefKey.registeredPushNotifToken +
+              '_${globals.userData!.phone!}') ??
+          false;
     }
 
     return false;
@@ -117,19 +128,26 @@ class SharedPref {
 
   static void setPushNotifTokenRegistered(bool value) {
     if (Func.isNotEmpty(globals.userData?.phone)) {
-      sharedPref?.setBool(SharedPrefKey.registeredPushNotifToken + '_${globals.userData!.phone!}', value);
+      sharedPref?.setBool(
+          SharedPrefKey.registeredPushNotifToken +
+              '_${globals.userData!.phone!}',
+          value);
     }
   }
 
   static String getHabitProgressValue(int userHabitId) {
     var today = Func.toDateStr(DateTime.now());
-    return sharedPref?.getString('${Func.toStr(userHabitId)}_${today}_${SharedPrefKey.habitProgressValue}') ?? '';
+    return sharedPref?.getString(
+            '${Func.toStr(userHabitId)}_${today}_${SharedPrefKey.habitProgressValue}') ??
+        '';
   }
 
   static void setHabitProgressValue(int? userHabitId, String? value) {
     if (userHabitId != null && value != null) {
       var today = Func.toDateStr(DateTime.now());
-      sharedPref?.setString('${Func.toStr(userHabitId)}_${today}_${SharedPrefKey.habitProgressValue}', value);
+      sharedPref?.setString(
+          '${Func.toStr(userHabitId)}_${today}_${SharedPrefKey.habitProgressValue}',
+          value);
     }
   }
 

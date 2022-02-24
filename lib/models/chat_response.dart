@@ -44,7 +44,8 @@ class ChatResponse extends BaseResponse {
     continueMsgId = json['continueMsgId'];
     isOption = json['isOption'];
     optionType = json['optionType'];
-    content = json['content'] != null ? Content.fromJson(json['content']) : null;
+    content =
+        json['content'] != null ? Content.fromJson(json['content']) : null;
     isEnd = json['isEnd'];
     if (json['hdChatBotMsgOptions'] != null) {
       msgOptions = [];
@@ -52,7 +53,9 @@ class ChatResponse extends BaseResponse {
         msgOptions?.add(MsgOption.fromJson(v));
       });
     }
-    selectedMsgOption = json['selectedMsgOption'] != null ? MsgOption.fromJson(json['selectedMsgOption']) : null;
+    selectedMsgOption = json['selectedMsgOption'] != null
+        ? MsgOption.fromJson(json['selectedMsgOption'])
+        : null;
     dateTime = json['dateTime'];
   }
 

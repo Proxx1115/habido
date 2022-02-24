@@ -6,6 +6,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_bloc.dart';
 import 'package:habido_app/ui/chat/chatbot_dashboard.dart';
 import 'package:habido_app/ui/content/content_dashboard.dart';
+import 'package:habido_app/ui/psy_test/psy_test_dashboard/psy_user_test_dashboard.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
@@ -89,7 +90,7 @@ class _HomeRouteState extends State<HomeRoute> with SingleTickerProviderStateMix
             DashboardScreen(),
 
             /// Тест
-            PsyTestDashboard(),
+            PsyUserTestDashboard(),
 
             /// Туслах
             ChatbotDashboard(),
@@ -164,6 +165,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.content,
               description: LocaleKeys.showcaseContent,
+              overlayOpacity: 0.7,
               child: _bottomNavigationBarItem(3, Assets.content, LocaleKeys.advice),
             ),
           ),
@@ -205,8 +207,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 Container(
                   width: 20.0,
                   height: SizeHelper.borderWidth,
-                  color:
-                      BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.primaryBorder,
+                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.primaryBorder,
                 ),
                 Expanded(
                   child: HorizontalLine(color: customColors.primaryBorder),
@@ -225,8 +226,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     height: 24.0,
                     child: SvgPicture.asset(
                       asset,
-                      color:
-                          BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                      color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
                     ),
                   ),
                 ),

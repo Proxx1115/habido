@@ -48,7 +48,8 @@ class DashboardAppBar extends StatelessWidget {
           /// Title
           if (Func.isNotEmpty(title))
             Expanded(
-              child: CustomText(title, alignment: Alignment.center, fontWeight: FontWeight.w500),
+              child: CustomText(title,
+                  alignment: Alignment.center, fontWeight: FontWeight.w500),
             ),
 
           /// Notification

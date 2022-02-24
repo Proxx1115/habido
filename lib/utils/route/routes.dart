@@ -11,6 +11,7 @@ import 'package:habido_app/ui/auth/sign_up/sign_up5_terms_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up6_success_route.dart';
 import 'package:habido_app/ui/auth/sign_up/term_detail_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/verify_password_route.dart';
+import 'package:habido_app/ui/chat/cb_chatbots/cb_poster_view.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
@@ -110,6 +111,7 @@ class Routes {
   static const faq = 'faq';
   static const terms = 'terms';
   static const bonusPoint = 'bonusPoint';
+  static const posterView = 'posterView';
 
   /// Routing
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -530,6 +532,17 @@ class Routes {
       case Routes.terms:
         route = SlideRightRouteBuilder(TermsRoute(), settings);
         break;
+
+      case Routes.posterView:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            PosterView(
+              posters: _getValueByKey(args, 'posters'),
+              currentIndex: _getValueByKey(args, 'currentIndex'),
+            ),
+            settings);
+        break;
+
       case Routes.bonusPoint:
         route = SlideRightRouteBuilder(BonusPointRoute(), settings);
         break;

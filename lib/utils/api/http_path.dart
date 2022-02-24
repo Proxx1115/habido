@@ -25,6 +25,7 @@ class HttpPath {
   static const String psyTestQuestions = '/mobile/start/user-test';
   static const String psyTestAnswers = '/mobile/end/user-test';
   static const String psyTestResults = '/mobile/category/user-tests';
+  static const String psyTestUserResults = '/mobile/user-tests';
   static const String habitCategories = '/mobile/habit/categories';
   static const String habits = '/mobile/habit/habits';
   static const String habitDateUserHabits = '/mobile/habit/date/user-habits';
@@ -36,14 +37,21 @@ class HttpPath {
   static const String userHabitsByDates = '/mobile/habit/dates/user-habits';
   static const String skipUserHabit = '/mobile/skip-habit';
   static const String saveUserHabitProgress = '/mobile/habit/save-progress';
-  static const String habitProgressListWithDate = '/mobile/habit/user-habit/progresses';
-  static const String habitProgressListByDate = '/mobile/habit/user-habit/date/progress';
-  static const String habitExpenseCategories = '/mobile/habit/user-habit/expense-categories';
-  static const String habitFinanceTotalAmount = '/mobile/habit/user-habit/total-amount';
+  static const String habitProgressListWithDate =
+      '/mobile/habit/user-habit/progresses';
+  static const String habitProgressListByDate =
+      '/mobile/habit/user-habit/date/progress';
+  static const String habitExpenseCategories =
+      '/mobile/habit/user-habit/expense-categories';
+  static const String habitFinanceTotalAmount =
+      '/mobile/habit/user-habit/total-amount';
   static const String habitQuestion = '/mobile/habit/questions';
-  static const String addHabitProgress = '/mobile/habit/user-habit/plan/progress';
-  static const String updateHabitProgress = '/mobile/habit/user-habit/plan/progress';
-  static const String deleteHabitProgress = '/mobile/habit/user-habit/plan/progress';
+  static const String addHabitProgress =
+      '/mobile/habit/user-habit/plan/progress';
+  static const String updateHabitProgress =
+      '/mobile/habit/user-habit/plan/progress';
+  static const String deleteHabitProgress =
+      '/mobile/habit/user-habit/plan/progress';
   static const String calendar = '/mobile/habit/calendar';
   static const String calendarDate = '/mobile/habit/date/user-habits';
   static const String unreadNotifCount = '/mobile/notifs/not-read';
@@ -59,7 +67,14 @@ class HttpPath {
   static const String forgotPasswordChange = '/auth/user/change-pass';
   static const String dynamicHabitSettings = '/mobile/habit/settings';
   static const String getHabitProgressLog = '/mobile/user-habit/progress/log';
-  static const String updateHabitProgressLog = '/mobile/user-habit/progress/log';
+  static const String updateHabitProgressLog =
+      '/mobile/user-habit/progress/log';
   static const String sendFeedback = '/mobile/feed-back';
   static const String feedBackCatList = '/mobile/feed-back/categories';
+
+  static const String cbChatBots = '/mobile/cb/chat-bots';
+  static const String cbFirstChat = '/mobile/cb/first-chat';
+  static const String cbContinueChat = '/mobile/cb/continue-chat';
+  static const String cbMsgOption = '/mobile/cb/msg-option';
+  static const String cbUserChats = '/mobile/cb/user-chats';
 }

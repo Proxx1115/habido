@@ -18,7 +18,7 @@ class CustomShowcase extends StatelessWidget {
     required this.description,
     this.shapeBorder,
     this.overlayPadding = EdgeInsets.zero,
-    this.overlayOpacity = 0.75,
+    this.overlayOpacity = 0.5,
     this.overlayColor,
   }) : super(key: key);
 

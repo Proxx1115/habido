@@ -471,7 +471,7 @@ class ListItemContainer extends StatelessWidget {
                     CustomText(
                       title,
                       fontWeight: FontWeight.w500,
-                      maxLines: 3,
+                      maxLines: 2,
                     ),
 
                     /// Body

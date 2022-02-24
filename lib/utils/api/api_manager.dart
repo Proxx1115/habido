@@ -23,6 +23,7 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
+import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
@@ -37,7 +38,6 @@ import 'package:habido_app/models/psy_test_questions_response.dart';
 import 'package:habido_app/models/psy_test_result.dart';
 import 'package:habido_app/models/psy_test_results_response.dart';
 import 'package:habido_app/models/psy_tests_response.dart';
-import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/models/rank_list_response.dart';
 import 'package:habido_app/models/user_device.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
@@ -56,6 +56,10 @@ import 'package:habido_app/models/user_habit_response.dart';
 import 'package:habido_app/models/user_habits_dates_response.dart';
 import 'package:habido_app/models/sign_up_register_request.dart';
 import 'package:habido_app/models/verify_phone_request.dart';
+import 'package:habido_app/ui/chat/cb_chatbots/cb_chat_history_response.dart';
+import 'package:habido_app/ui/chat/cb_chatbots/cb_chat_response.dart';
+import 'package:habido_app/ui/chat/cb_chatbots/cb_chatbots_response.dart';
+import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option_request.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -65,7 +69,8 @@ import 'http_path.dart';
 
 class ApiManager {
   /// Authentication
-  static Future<SignUpPhoneResponse> signUpPhone(SignUpPhoneRequest request) async {
+  static Future<SignUpPhoneResponse> signUpPhone(
+      SignUpPhoneRequest request) async {
     return SignUpPhoneResponse.fromJson(await httpUtils.sendRequest(
       path: HttpPath.signUpPhone,
       objectData: request,
@@ -73,7 +78,8 @@ class ApiManager {
     ));
   }
 
-  static Future<BaseResponse> signUpVerifyCode(SignUpVerifyCodeRequest request) async {
+  static Future<BaseResponse> signUpVerifyCode(
+      SignUpVerifyCodeRequest request) async {
     var res = BaseResponse.fromJson(await httpUtils.sendRequest(
       path: HttpPath.signUpVerifyCode,
       objectData: request,
@@ -85,7 +91,8 @@ class ApiManager {
     return res;
   }
 
-  static Future<BaseResponse> signUpRegister(SignUpRegisterRequest request) async {
+  static Future<BaseResponse> signUpRegister(
+      SignUpRegisterRequest request) async {
     return BaseResponse.fromJson(await httpUtils.sendRequest(
       path: HttpPath.signUpRegister,
       objectData: request,
@@ -94,9 +101,13 @@ class ApiManager {
   }
 
   static Future<LoginResponse> login(LoginRequest request) async {
-    Map<String, String> headers = ApiHelper.getHttpHeaders(hasAuthorization: false);
+    Map<String, String> headers =
+        ApiHelper.getHttpHeaders(hasAuthorization: false);
     headers.addAll(
-      {"authorization": 'Basic ' + base64Encode(utf8.encode('${request.username}:${request.password}'))},
+      {
+        "authorization": 'Basic ' +
+            base64Encode(utf8.encode('${request.username}:${request.password}'))
+      },
     );
 
     return LoginResponse.fromJson(await httpUtils.sendRequest(
@@ -160,7 +171,8 @@ class ApiManager {
     return res;
   }
 
-  static Future<BaseResponse> changePassword(ChangePasswordRequest request) async {
+  static Future<BaseResponse> changePassword(
+      ChangePasswordRequest request) async {
     return BaseResponse.fromJson(await httpUtils.sendRequest(
       path: HttpPath.changePassword,
       objectData: request,
@@ -168,7 +180,8 @@ class ApiManager {
   }
 
   /// User
-  static Future<BaseResponse> updateProfilePic(UpdateProfilePictureRequest request) async {
+  static Future<BaseResponse> updateProfilePic(
+      UpdateProfilePictureRequest request) async {
     return BaseResponse.fromJson(await httpUtils.sendRequest(
       path: HttpPath.updateProfilePic,
       objectData: request,
@@ -176,7 +189,8 @@ class ApiManager {
     ));
   }
 
-  static Future<BaseResponse> updateUserData(UpdateUserDataRequest request) async {
+  static Future<BaseResponse> updateUserData(
+      UpdateUserDataRequest request) async {
     return BaseResponse.fromJson(await httpUtils.sendRequest(
       path: HttpPath.updateUserData,
       objectData: request,
@@ -262,39 +276,94 @@ class ApiManager {
     );
   }
 
+  // cb chat bot service
+  // ----------------------------------
+  /// Chat bot
+  static Future<CBChatBotsResponse> cbChatbots() async {
+    return CBChatBotsResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.cbChatBots,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<CBChatResponse> cbFirstChat(ChatRequest request) async {
+    return CBChatResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.cbFirstChat,
+        objectData: request,
+      ),
+    );
+  }
+
+  static Future<CBChatResponse> cbContinueChat(int msgId) async {
+    return CBChatResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.cbContinueChat + '?msgId=$msgId',
+      ),
+    );
+  }
+
+  static Future<CBChatHistoryResponse> cbChatHistory(int pid, int psize) async {
+    return CBChatHistoryResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.cbUserChats + '?pid=$pid&psize=$psize',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<CBChatResponse> cbMsgOption(CBMsgOptionRequest request) async {
+    return CBChatResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.cbMsgOption,
+        objectData: request,
+      ),
+    );
+  }
+  // ----------------------------------
+
   /// Content - Blog
   static Future<ContentListResponse> contentList() async {
     return ContentListResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.contentList, httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.contentList, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<Content> content(int contentId) async {
     return Content.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
     );
   }
 
   /// Psychology test
   static Future<PsyCategoriesResponse> psyCategories() async {
     return PsyCategoriesResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.testCategories, httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.testCategories, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<PsyTestsResponse> psyTests(int testCatId) async {
     return PsyTestsResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.categoryTests + '?testCatId=$testCatId', httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.categoryTests + '?testCatId=$testCatId',
+          httpMethod: HttpMethod.get),
     );
   }
 
   static Future<PsyTestQuestionsResponse> psyTestQuestions(int testId) async {
     return PsyTestQuestionsResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.psyTestQuestions + '?testId=$testId'),
+      await httpUtils.sendRequest(
+          path: HttpPath.psyTestQuestions + '?testId=$testId'),
     );
   }
 
-  static Future<PsyTestResult> psyTestAnswers(PsyTestAnswersRequest request) async {
+  static Future<PsyTestResult> psyTestAnswers(
+      PsyTestAnswersRequest request) async {
     return PsyTestResult.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.psyTestAnswers,
@@ -305,25 +374,35 @@ class ApiManager {
 
   static Future<PsyTestResultsResponse> psyTestResults() async {
     return PsyTestResultsResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.psyTestResults, httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.psyTestResults, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<PsyUserTestResultsResponse> psyTestUserResults() async {
+    return PsyUserTestResultsResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.psyTestUserResults, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<HabitCategoriesResponse> habitCategories() async {
     return HabitCategoriesResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.habitCategories, httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.habitCategories, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<CustomHabitSettingsResponse> dynamicHabitSettings() async {
     return CustomHabitSettingsResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.dynamicHabitSettings, httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.dynamicHabitSettings, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<HabitsResponse> habits(int catId) async {
     return HabitsResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.habits + '?catId=$catId', httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.habits + '?catId=$catId', httpMethod: HttpMethod.get),
     );
   }
 
@@ -355,18 +434,22 @@ class ApiManager {
     );
   }
 
-  static Future<UserHabitsDatesResponse> userHabitsByDates(String startDate, String endDate) async {
+  static Future<UserHabitsDatesResponse> userHabitsByDates(
+      String startDate, String endDate) async {
     return UserHabitsDatesResponse.fromJson(
       await httpUtils.sendRequest(
-        path: HttpPath.userHabitsByDates + '?startDate=$startDate&endDate=$endDate',
+        path: HttpPath.userHabitsByDates +
+            '?startDate=$startDate&endDate=$endDate',
         httpMethod: HttpMethod.get,
       ),
     );
   }
 
-  static Future<BaseResponse> skipUserHabit(SkipUserHabitRequest request) async {
+  static Future<BaseResponse> skipUserHabit(
+      SkipUserHabitRequest request) async {
     return BaseResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.skipUserHabit, objectData: request),
+      await httpUtils.sendRequest(
+          path: HttpPath.skipUserHabit, objectData: request),
     );
   }
 
@@ -379,7 +462,8 @@ class ApiManager {
     );
   }
 
-  static Future<HabitProgressResponse> saveUserHabitProgress(SaveUserHabitProgressRequest request) async {
+  static Future<HabitProgressResponse> saveUserHabitProgress(
+      SaveUserHabitProgressRequest request) async {
     return HabitProgressResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.saveUserHabitProgress,
@@ -388,7 +472,8 @@ class ApiManager {
     );
   }
 
-  static Future<HabitProgressListWithDateResponse> habitProgressListWithDate(int userHabitId) async {
+  static Future<HabitProgressListWithDateResponse> habitProgressListWithDate(
+      int userHabitId) async {
     return HabitProgressListWithDateResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.habitProgressListWithDate + '?userHabitId=$userHabitId',
@@ -397,10 +482,12 @@ class ApiManager {
     );
   }
 
-  static Future<HabitProgressListByDateResponse> habitProgressListByDate(HabitProgressListByDateRequest request) async {
+  static Future<HabitProgressListByDateResponse> habitProgressListByDate(
+      HabitProgressListByDateRequest request) async {
     return HabitProgressListByDateResponse.fromJson(
       await httpUtils.sendRequest(
-        path: HttpPath.habitProgressListByDate + '?userHabitId=${request.userHabitId}&dateTime=${request.dateTime}',
+        path: HttpPath.habitProgressListByDate +
+            '?userHabitId=${request.userHabitId}&dateTime=${request.dateTime}',
         httpMethod: HttpMethod.get,
       ),
     );
@@ -418,7 +505,8 @@ class ApiManager {
     );
   }
 
-  static Future<HabitFinanceTotalAmountResponse> habitFinanceTotalAmount(int userHabitId) async {
+  static Future<HabitFinanceTotalAmountResponse> habitFinanceTotalAmount(
+      int userHabitId) async {
     return HabitFinanceTotalAmountResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.habitFinanceTotalAmount + '?userHabitId=$userHabitId',
@@ -464,7 +552,8 @@ class ApiManager {
     );
   }
 
-  static Future<HabitCalendarResponse> calendar(String startDate, String endDate) async {
+  static Future<HabitCalendarResponse> calendar(
+      String startDate, String endDate) async {
     return HabitCalendarResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.calendar + '?startDate=$startDate&endDate=$endDate',
@@ -564,7 +653,8 @@ class ApiManager {
     );
   }
 
-  static Future<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request) async {
+  static Future<ForgotPasswordResponse> forgotPassword(
+      ForgotPasswordRequest request) async {
     return ForgotPasswordResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.forgotPassword,
@@ -573,7 +663,8 @@ class ApiManager {
     );
   }
 
-  static Future<ForgotPasswordResponse> forgotPasswordChange(ForgotPasswordChangeRequest request) async {
+  static Future<ForgotPasswordResponse> forgotPasswordChange(
+      ForgotPasswordChangeRequest request) async {
     return ForgotPasswordResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.forgotPasswordChange,
@@ -582,7 +673,8 @@ class ApiManager {
     );
   }
 
-  static Future<UserHabitProgressLog> getHabitProgressLog(int userHabitId) async {
+  static Future<UserHabitProgressLog> getHabitProgressLog(
+      int userHabitId) async {
     return UserHabitProgressLog.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.getHabitProgressLog + '/$userHabitId',
@@ -591,7 +683,8 @@ class ApiManager {
     );
   }
 
-  static Future<BaseResponse> updateHabitProgressLog(UserHabitProgressLog habitProgressLog) async {
+  static Future<BaseResponse> updateHabitProgressLog(
+      UserHabitProgressLog habitProgressLog) async {
     return BaseResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.updateHabitProgressLog,
@@ -608,6 +701,7 @@ class ApiManager {
       ),
     );
   }
+
   static Future<FeedBackCategoryListResponse> feedBackCategories() async {
     return FeedBackCategoryListResponse.fromJson(
       await httpUtils.sendRequest(
