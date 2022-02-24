@@ -49,7 +49,7 @@ class HttpUtils {
       _client.options.headers = headers;
       if (!hasAuthorization) _client.options.headers.remove("authorization");
 
-      logger.log(s: 2, m: objectData?.toString(), m2: objectData?.toJson());
+      // logger.log(s: 2, m: objectData?.toString(), m2: objectData?.toJson());
 
       /// Url
       _client.options.baseUrl = url;
@@ -181,7 +181,9 @@ class HttpUtils {
 //      _client.httpClientAdapter
 
     _client = Dio(options);
-    _client.interceptors..add(CookieManager(CookieJar()))..add(LogInterceptor(requestBody: true, responseBody: true));
+    _client.interceptors
+      ..add(CookieManager(CookieJar()))
+      ..add(LogInterceptor(requestBody: true, responseBody: true));
 
     // Дараах алдааг засав
     //I/flutter (29083): DioError [DioErrorType.DEFAULT]: HandshakeException: Handshake error in client (OS Error:

@@ -78,12 +78,12 @@ class _SignUp1PhoneRouteState extends State<SignUp1PhoneRoute> {
     return CustomScaffold(
       scaffoldKey: _signUp1PhoneKey,
       appBarTitle: LocaleKeys.yourRegistration,
-      padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, SizeHelper.marginBottom),
+      padding: EdgeInsets.fromLTRB(25.0, 0.0, 25.0, SizeHelper.marginBottom),
       loading: state is AuthLoading,
       child: Column(
         children: [
           /// Та өөрийн утасны дугаараа оруулна уу.
-          CustomText(LocaleKeys.enterPhoneNumber, alignment: Alignment.center, maxLines: 2),
+          // CustomText(LocaleKeys.enterPhoneNumber, alignment: Alignment.center, maxLines: 2),
 
           /// Утасны дугаар
           _phoneNumberTextField(),

@@ -7,7 +7,7 @@ class SignUpPhoneResponse extends BaseResponse {
 
   SignUpPhoneResponse.fromJson(Map<String, dynamic> json) {
     parseBaseParams(json);
-    userId = json["userId"] ?? '';
+    userId = json["userId"] ?? 0;
   }
 
   Map<String, dynamic> toJson() {

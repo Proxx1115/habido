@@ -156,7 +156,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       yield AuthLoading();
 
-      var res = await ApiManager.signUpPhone(request);
+      SignUpPhoneResponse res = await ApiManager.signUpPhone(request);
       if (res.code == ResponseCode.Success) {
         yield SignUpPhoneSuccess(res);
       } else {
@@ -530,7 +530,7 @@ class SignUpPhoneFailed extends AuthState {
   List<Object> get props => [message];
 
   @override
-  String toString() => 'SignUpPhoneFailed { msg: $message }';
+  String toString() => 'SignUpPhoneFailed { message: $message }';
 }
 
 class SignUpPhoneResendSuccess extends AuthState {
