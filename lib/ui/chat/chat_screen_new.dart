@@ -522,12 +522,13 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
   Widget _selectedOptionItem(CBMsgOption option, {String? prefixTime}) {
     return CBChatContainer(
       color: 2,
+      isSelectedOption: true,
       alignment: Alignment.centerRight,
       height: _optionHeight(option.optionType),
       tweenStart: 30.0,
       tweenEnd: 0.0,
       prefixTime: prefixTime,
-      padding: option.optionType!.toLowerCase() == 'emoji' ? EdgeInsets.zero : null,
+      padding: option.optionType!.toLowerCase() == 'emoji' ? EdgeInsets.only(right: 10) : null,
       child: Row(
         children: [
           option.optionType!.toLowerCase() == 'emoji'
@@ -541,10 +542,10 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
               : Container(),
 
           /// Text
-          Expanded(
-            child: CustomText(
-              option.text,
-              maxLines: 10,
+          Text(
+            option.text ?? '',
+            maxLines: 10,
+            style: TextStyle(
               color: Colors.white,
               fontFamily: FontAsset.FiraSansCondensed,
             ),

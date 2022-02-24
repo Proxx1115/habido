@@ -208,15 +208,14 @@ class LocaleKeys {
 
   static String get firstName => 'Нэр';
 
-  static String get agreeTermCond1 =>
-      'Хэрэглэгч нь 18 нас хүрээгүй тохиолдолд түүний эцэг, эх, асран хамгаалагч, харгалзан дэмжигч нь ';
+  static String get agreeTermCond1 => 'Хэрэглэгч нь 18 нас хүрээгүй тохиолдолд түүний эцэг, эх, асран хамгаалагч, харгалзан дэмжигч нь ';
 
   static String get agreeTermCond2 => '"Үйлчилгээний нөхцөл"';
 
-  static String get agreeTermCond3 =>
-      '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу';
+  static String get agreeTermCond3 => '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу';
 
-  static String get genderInfotext => 'HabiDo нь өөрийгөө эрэгтэй, эмэгтэй аль нэг хүйсэнд хамаатуулдаггүй, мөн хоёр ба түүнээс дээш жендерээр мэдэрдэг хүмүүсийг хүндэлдэг бөгөөд хоёр туйлт сонголт тулгаж байгаад уучлал хүсэж байна. Цаашид сайжруулах болохоо мэдэгдье.';
+  static String get genderInfotext =>
+      'HabiDo нь өөрийгөө эрэгтэй, эмэгтэй аль нэг хүйсэнд хамаатуулдаггүй, мөн хоёр ба түүнээс дээш жендерээр мэдэрдэг хүмүүсийг хүндэлдэг бөгөөд хоёр туйлт сонголт тулгаж байгаад уучлал хүсэж байна. Цаашид сайжруулах болохоо мэдэгдье.';
 
 // static String get agreeTerms => 'Зөвшөөрөх';
 //
@@ -288,7 +287,7 @@ class LocaleKeys {
 
   static String get doPsyTest => 'Сэтгэл зүйн тест бөглөх';
 
-  static String get beginTest => 'Сорил эхлэх';
+  static String get beginTest => 'Тест эхлэх';
 
   static String get seeResult => 'Үр дүн харах';
 
@@ -298,8 +297,7 @@ class LocaleKeys {
 
   static String get psyTestHint1 => 'Та өөрийгөө ямар онцлогтойгоо мэддэг ч бүрэн итгэлгүй байгаа юм биш биз?';
 
-  static String get psyTestHint2 =>
-      'Та өөрийгөө бүрэн хүлээн зөвшөөрч, илүү таньж, алдаа дутагдалтайгаа нүүр тулж, засаж сайжруулж чадна';
+  static String get psyTestHint2 => 'Та өөрийгөө бүрэн хүлээн зөвшөөрч, илүү таньж, алдаа дутагдалтайгаа нүүр тулж, засаж сайжруулж чадна';
 
   static String get psyTestHint3 => 'Тиймээс сэтгэл зүйн тестийг бөглөөд үзээрэй';
 
@@ -516,7 +514,6 @@ class LocaleKeys {
   static String get feedbackHint => 'HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй';
 
   static String get faq => 'Түгээмэл асуулт, хариулт';
-
 }
 
 class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {

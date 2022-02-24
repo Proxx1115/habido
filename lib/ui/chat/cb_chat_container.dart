@@ -24,6 +24,7 @@ class CBChatContainer extends StatelessWidget {
   final double? delay;
   final int? color;
   final bool? isOption;
+  final bool? isSelectedOption;
 
   CBChatContainer({
     Key? key,
@@ -43,6 +44,7 @@ class CBChatContainer extends StatelessWidget {
     this.delay,
     this.color,
     this.isOption = false,
+    this.isSelectedOption = false,
   }) : super(key: key);
 
   @override
@@ -121,8 +123,9 @@ class CBChatContainer extends StatelessWidget {
   Widget _body(BuildContext context) {
     return Container(
       height: height,
+      constraints: BoxConstraints(minWidth: 70),
       padding: padding ?? const EdgeInsets.all(10.0),
-      width: width ?? MediaQuery.of(context).size.width * 0.6,
+      width: isSelectedOption == true ? null : MediaQuery.of(context).size.width * 0.6,
       decoration: BoxDecoration(
         borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(10.0)),
         color: _getColor(),

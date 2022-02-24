@@ -54,10 +54,10 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                 children: [
                   /// Миний амжилт
                   if (_allTimeAchievement != null)
-                  SectionTitleText(
-                    text: LocaleKeys.myAchievements,
-                    margin: EdgeInsets.symmetric(vertical: 0.0),
-                  ),
+                    SectionTitleText(
+                      text: LocaleKeys.myAchievements,
+                      margin: EdgeInsets.symmetric(vertical: 0.0),
+                    ),
 
                   /// Сарын амжилт
                   if (_monthlyAchievement != null)
@@ -205,7 +205,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
 
                           /// Дадал
                           CustomText(
-                            LocaleKeys.completedHabit,
+                            LocaleKeys.completedHabit3,
                             alignment: Alignment.center,
                             fontSize: 13.0,
                             maxLines: 2,
@@ -238,8 +238,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
             pieTouchData: PieTouchData(
               touchCallback: (FlTouchEvent event, PieTouchResponse? pieTouchResponse) {
                 setState(() {
-                  if (pieTouchResponse?.touchedSection is FlLongPressEnd ||
-                      pieTouchResponse?.touchedSection is FlPanEndEvent) {
+                  if (pieTouchResponse?.touchedSection is FlLongPressEnd || pieTouchResponse?.touchedSection is FlPanEndEvent) {
                     _pieChartTouchedIndex = -1;
                   } else {
                     _pieChartTouchedIndex = pieTouchResponse?.touchedSection?.touchedSectionIndex ?? -1;
@@ -295,9 +294,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                 for (int i = 0; i < _touchedHabitCategoryAchievements!.length; i += 2)
                   _categoryChartLabelRow(
                     _touchedHabitCategoryAchievements![i],
-                    (i + 1 < _touchedHabitCategoryAchievements!.length)
-                        ? _touchedHabitCategoryAchievements![i + 1]
-                        : null,
+                    (i + 1 < _touchedHabitCategoryAchievements!.length) ? _touchedHabitCategoryAchievements![i + 1] : null,
                   ),
               ],
             ),
