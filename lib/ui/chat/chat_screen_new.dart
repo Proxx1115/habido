@@ -523,35 +523,40 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
     return CBChatContainer(
       color: 2,
       isSelectedOption: true,
-      alignment: Alignment.centerRight,
       height: _optionHeight(option.optionType),
       tweenStart: 30.0,
       tweenEnd: 0.0,
+      isEmoji: option.optionType!.toLowerCase() == 'emoji' ? true : false,
       prefixTime: prefixTime,
       padding: option.optionType!.toLowerCase() == 'emoji' ? EdgeInsets.only(right: 10) : null,
-      child: Row(
-        children: [
-          option.optionType!.toLowerCase() == 'emoji'
-              ? Padding(
+      child: option.optionType!.toLowerCase() == 'emoji'
+          ? Row(
+              children: [
+                Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: CachedNetworkImage(
                     imageUrl: option.photoLink!,
                     height: 38,
                   ),
+                ),
+                Text(
+                  option.text ?? '',
+                  maxLines: 10,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: FontAsset.FiraSansCondensed,
+                  ),
                 )
-              : Container(),
-
-          /// Text
-          Text(
-            option.text ?? '',
-            maxLines: 10,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: FontAsset.FiraSansCondensed,
+              ],
+            )
+          : Text(
+              option.text ?? '',
+              maxLines: 10,
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: FontAsset.FiraSansCondensed,
+              ),
             ),
-          ),
-        ],
-      ),
     );
   }
 

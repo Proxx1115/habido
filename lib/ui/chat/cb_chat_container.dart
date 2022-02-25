@@ -25,6 +25,7 @@ class CBChatContainer extends StatelessWidget {
   final int? color;
   final bool? isOption;
   final bool? isSelectedOption;
+  final bool? isEmoji;
 
   CBChatContainer({
     Key? key,
@@ -45,6 +46,7 @@ class CBChatContainer extends StatelessWidget {
     this.color,
     this.isOption = false,
     this.isSelectedOption = false,
+    this.isEmoji = false,
   }) : super(key: key);
 
   @override
@@ -123,7 +125,7 @@ class CBChatContainer extends StatelessWidget {
   Widget _body(BuildContext context) {
     return Container(
       height: height,
-      constraints: BoxConstraints(minWidth: 70),
+      constraints: BoxConstraints(minWidth: 70, maxWidth: isEmoji == true ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.6),
       padding: padding ?? const EdgeInsets.all(10.0),
       width: isSelectedOption == true ? null : MediaQuery.of(context).size.width * 0.6,
       decoration: BoxDecoration(
