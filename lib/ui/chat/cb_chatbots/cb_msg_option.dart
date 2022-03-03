@@ -12,6 +12,7 @@ class CBMsgOption {
   int? orderNo;
   String? meaning;
   bool? isSelected;
+  bool? isAbstract;
   CBPsyTest? psyTest;
 
   CBMsgOption({
@@ -26,6 +27,7 @@ class CBMsgOption {
     this.orderNo,
     this.meaning,
     this.isSelected,
+    this.isAbstract = false,
     this.psyTest,
   });
 
@@ -41,6 +43,7 @@ class CBMsgOption {
     orderNo = json['orderNo'];
     meaning = json['meaning'];
     isSelected = json['isSelected'];
+    isAbstract = false;
     psyTest = json['psyTest'];
   }
 

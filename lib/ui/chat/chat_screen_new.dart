@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/option_type.dart';
@@ -445,57 +446,60 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
   }
 
   Widget _emojiOption(CBMsgOption option) {
-    return InkWell(
-      onTap: () {
-        if (option.isSelected!) return;
-        bloc.cbMsgOption(option);
-        gotoBottom();
-      },
-      child: Row(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width / 4.2,
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1.0,
-                color: customColors.primaryBorder,
-              ),
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(15),
-                bottomLeft: Radius.circular(15),
-                topLeft: Radius.circular(5),
-                topRight: Radius.circular(15),
-              ),
-              color: customColors.whiteBackground,
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: CachedNetworkImage(
-                    height: 36,
-                    width: 36,
-                    imageUrl: option.photoLink!,
-                    // placeholder: (context, url) => CustomLoader(context, size: 20.0),
-                    placeholder: (context, url) => Container(),
-                    errorWidget: (context, url, error) => Container(),
-                    fit: BoxFit.fill,
-                  ),
+    return GestureDetector(
+      .
+      child: InkWell(
+        onTap: () {
+          if (option.isSelected!) return;
+          bloc.cbMsgOption(option);
+          gotoBottom();
+        },
+        child: Row(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width / 4.2,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1.0,
+                  color: customColors.primaryBorder,
                 ),
-                SizedBox(height: 5),
-                Text(
-                  option.text ?? '',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontFamily: FontAsset.FiraSansCondensed,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(15),
                 ),
-              ],
+                color: customColors.whiteBackground,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: CachedNetworkImage(
+                      height: 36,
+                      width: 36,
+                      imageUrl: option.photoLink!,
+                      // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+                      placeholder: (context, url) => Container(),
+                      errorWidget: (context, url, error) => Container(),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    option.text ?? '',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontFamily: FontAsset.FiraSansCondensed,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -621,71 +625,6 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
             fontWeight: FontWeight.w600,
           ),
           CustomText(cbChatResponse.cbTestResult!.description, maxLines: 20, fontFamily: FontAsset.FiraSansCondensed),
-        ],
-      ),
-    );
-  }
-
-  Widget _contentItem(Content? content) {
-    if (content == null) return Container();
-
-    double width = MediaQuery.of(context).size.width * 0.6;
-    return CBChatContainer(
-      padding: EdgeInsets.zero,
-      width: width,
-      onTap: () {
-        Navigator.pushNamed(context, Routes.content, arguments: {
-          'content': content,
-          'routeBuilder': 'SlideRightRouteBuilder',
-        });
-      },
-      child: Column(
-        children: [
-          /// Image
-          if (Func.isNotEmpty(content.contentPhoto))
-            ClipRRect(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-              child: CachedNetworkImage(
-                imageUrl: content.contentPhoto!,
-                fit: BoxFit.fill,
-                width: width,
-                placeholder: (context, url) => Container(
-                  height: width * 0.66,
-                  child: CustomLoader(),
-                ),
-                errorWidget: (context, url, error) => Container(),
-              ),
-            ),
-
-          /// Title
-          CustomText(
-            content.title,
-            margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
-            fontWeight: FontWeight.w500,
-            maxLines: 2,
-          ),
-
-          /// Body
-          CustomText(content.intro, margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0), maxLines: 2),
-
-          if (content.readTime != null)
-            Container(
-              margin: EdgeInsets.fromLTRB(15.0, 25.0, 15.0, 0.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  /// Clock icon
-                  SvgPicture.asset(Assets.clock),
-
-                  /// Read time
-                  Expanded(
-                    child: CustomText('${content.readTime} ${LocaleKeys.readMin}', margin: EdgeInsets.only(left: 7.0)),
-                  ),
-                ],
-              ),
-            ),
-
-          SizedBox(height: 15.0),
         ],
       ),
     );

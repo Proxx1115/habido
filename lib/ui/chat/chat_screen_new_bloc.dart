@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_chat_response.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_chatbots_model.dart';
@@ -76,7 +77,11 @@ class ChatScreenNewBloc {
           cbContinueChat(res.continueMsgId!);
           isVisibleOptions = true;
         });
-      } else {
+      } else if (chatList.last.isEnd == true && chatList.last.cbMsgOptions!.isEmpty) {
+        // Future.delayed(const Duration(milliseconds: 1300), () {
+        //   _wannaTalkMore();
+        // });
+        _wannaTalkMore();
         reloadSubject.add(true);
       }
     } else {
@@ -85,38 +90,106 @@ class ChatScreenNewBloc {
   }
 
   cbMsgOption(CBMsgOption option, {String input = ''}) async {
-    for (int i = 0; i < chatList.last.cbMsgOptions!.length; i++) {
-      if (chatList.last.cbMsgOptions![i].optionId == option.optionId) {
-        CBMsgOption temp = chatList.last.cbMsgOptions![i];
-        temp.isSelected = true;
-        chatList.last.cbMsgOptions = [];
-        chatList.last.optionSelectedTime = DateTime.now().toString();
-        chatList.last.cbMsgOptions!.add(temp);
-        isVisibleOptions = false;
-        break;
-      }
-    }
-    var request = CBMsgOptionRequest()
-      ..msgId = option.msgId
-      ..optionId = option.optionId
-      ..input = input;
-    var res = await ApiManager.cbMsgOption(request);
-    if (res.code == ResponseCode.Success) {
-      if (chatList.last.isEnd == true) {
-        cbChatbots();
-        pickChatBot();
-      }
+    option.isSelected = true;
+    chatList.last.cbMsgOptions = [];
+    isVisibleOptions = false;
+    chatList.last.optionSelectedTime = DateTime.now().toString();
+    chatList.last.cbMsgOptions!.add(option);
 
-      if (option.nextMsgId != null && option.nextMsgId != 0) {
-        Future.delayed(const Duration(milliseconds: 800), () {
-          cbContinueChat(option.nextMsgId!);
-          isVisibleOptions = true;
-        });
+    // for (int i = 0; i < chatList.last.cbMsgOptions!.length; i++) {
+    //   if (chatList.last.cbMsgOptions![i].optionId == option.optionId) {
+    //     CBMsgOption temp = chatList.last.cbMsgOptions![i];
+    //     temp.isSelected = true;
+    //     chatList.last.cbMsgOptions = [];
+    //     chatList.last.optionSelectedTime = DateTime.now().toString();
+    //     chatList.last.cbMsgOptions!.add(temp);
+    //     isVisibleOptions = false;
+    //     break;
+    //   }
+    // }
+    if (option.isAbstract == false) {
+      var request = CBMsgOptionRequest()
+        ..msgId = option.msgId
+        ..optionId = option.optionId
+        ..input = input;
+      var res = await ApiManager.cbMsgOption(request);
+      if (res.code == ResponseCode.Success) {
+        if (chatList.last.isEnd == true) {
+          _wannaTalkMore();
+          if (chatList.last.cbMsgOptions!.first.meaning == 'Positive' && chatList.last.cbMsgOptions!.first.isSelected == true) cbChatbots();
+          pickChatBot();
+        }
+
+        if (option.nextMsgId != null && option.nextMsgId != 0) {
+          Future.delayed(const Duration(milliseconds: 1100), () {
+            cbContinueChat(option.nextMsgId!);
+            isVisibleOptions = true;
+          });
+        }
+      } else {
+        print('cbMsgOption failed');
       }
-    } else {
-      print('cbMsgOption failed');
+    } else if (option.isAbstract == true && option.meaning!.toLowerCase() == 'positive') {
+      reloadSubject.add(true);
+      cbChatbots();
+      pickChatBot();
+    } else if (option.isAbstract == true && option.meaning!.toLowerCase() == 'negative') {
+      isVisibleOptions = false;
+      Future.delayed(const Duration(milliseconds: 800), () {
+        _byeChatBot();
+        reloadSubject.add(true);
+      });
     }
     reloadSubject.add(true);
+  }
+
+  _byeChatBot() {
+    CBChatResponse bye = CBChatResponse(
+        ownerType: 'Text',
+        msg: 'Баяртай',
+        continueMsgId: 0,
+        isEnd: false,
+        hasOption: true,
+        isFirst: false,
+        cbId: 0,
+        msgId: 0,
+        msgSentTime: DateTime.now().toString(),
+        optionSelectedTime: DateTime.now().toString());
+    chatList.add(bye);
+  }
+
+  _wannaTalkMore() {
+    CBChatResponse uWannaTalkMore = CBChatResponse(
+        ownerType: 'Text',
+        msg: 'Үргэлжлүүлээд ярилцмаар байна уу?',
+        continueMsgId: 0,
+        isEnd: false,
+        hasOption: true,
+        isFirst: false,
+        cbId: 0,
+        msgId: 0,
+        msgSentTime: DateTime.now().toString(),
+        optionSelectedTime: DateTime.now().toString());
+    List<CBMsgOption> options = [];
+    CBMsgOption firstOption = CBMsgOption(
+      text: 'Тэгье',
+      meaning: 'Positive',
+      optionType: 'Text',
+      isSelected: false,
+      isAbstract: true,
+    );
+    CBMsgOption secondOption = CBMsgOption(
+      text: 'Дараа ярилцацгаая',
+      meaning: 'Negative',
+      optionType: 'Text',
+      isSelected: false,
+      isAbstract: true,
+    );
+    options.add(firstOption);
+    options.add(secondOption);
+    uWannaTalkMore.cbMsgOptions = options;
+    isVisibleOptions = true;
+    chatList.add(uWannaTalkMore);
   }
 
   pickChatBot() {
