@@ -447,7 +447,6 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   Widget _emojiOption(CBMsgOption option) {
     return GestureDetector(
-      .
       child: InkWell(
         onTap: () {
           if (option.isSelected!) return;
