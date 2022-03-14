@@ -6,6 +6,7 @@ import 'package:habido_app/utils/push_notif_manager.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'bloc/bloc_manager.dart';
 import 'ui/intro/splash_route.dart';
 import 'utils/device_helper.dart';
@@ -14,6 +15,7 @@ import 'utils/route/routes.dart';
 void main() async {
   // Binds the framework to flutter engine
   WidgetsFlutterBinding.ensureInitialized();
+  FlutterAppBadger.updateBadgeCount(3);
 
   SharedPreferences.getInstance().then((instance) {
     sharedPref = instance;
