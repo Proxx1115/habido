@@ -74,7 +74,7 @@ class PushNotifManager {
       notifChannel = AndroidNotificationChannel(
         'high_importance_channel', // id
         'High Importance Notifications', // title
-        'This channel is used for important notifications.', // description
+        description:  'This channel is used for important notifications.', // description
         importance: Importance.max,
       );
 
@@ -116,7 +116,7 @@ class PushNotifManager {
       if (notification != null) {
         if (notifChannel != null) {
           var notifDetail = NotificationDetails(
-            android: AndroidNotificationDetails(notifChannel!.id, notifChannel!.name, notifChannel!.description,
+            android: AndroidNotificationDetails(notifChannel!.id, notifChannel!.name, channelDescription:  notifChannel!.description,
                 icon: androidNotif?.smallIcon),
           );
 
