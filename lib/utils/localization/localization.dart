@@ -342,7 +342,7 @@ class LocaleKeys {
 
   static String get addTime => 'Цаг нэмэх';
 
-  static String get goal => 'Зорилго';
+  static String get goal => 'Зорилт';
 
   static String get remind => 'Сануулах';
 
@@ -495,7 +495,7 @@ class LocaleKeys {
 
   static String get pleaseEnterVerifyCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу';
 
-  static String get biometricAuth => 'Биометрээр нэвтрэх';
+  static String get biometricAuth => 'Царай/хурууны хээ ашиглан нэвтрэх';
 
   static String get biometricFailed => 'Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу';
 

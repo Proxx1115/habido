@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
+import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/push_notif_manager.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -61,6 +62,7 @@ class HabidoApp extends StatelessWidget {
       child: BlocBuilder<MainBloc, MainState>(
         builder: (context, state) {
           return MaterialApp(
+            theme: ThemeData(fontFamily: FontAsset.FiraSansCondensed),
             title: LocaleKeys.appName,
             onGenerateTitle: (BuildContext context) => LocaleKeys.appName,
             // theme: theme,
