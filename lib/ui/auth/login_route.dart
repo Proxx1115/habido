@@ -164,7 +164,12 @@ class _LoginRouteState extends State<LoginRoute> {
 
                       SizedBox(height: 15.0),
 
-                      Align(alignment: Alignment.centerLeft, child: _btnForgotPass()),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          _btnForgotPass(),
+                        ],
+                      ),
 
                       SizedBox(height: 15.0),
 
