@@ -1,11 +1,12 @@
 import 'package:habido_app/utils/localization/localization.dart';
+
 import '../func.dart';
 import '../shared_pref.dart';
 
 class ApiHelper {
   /// URI = scheme:[//authority]path[?query][#fragment]
-  // static const String baseUrl = 'http://192.168.1.49:5010/'; // Local
-  static const String baseUrl = 'http://192.168.2.21:8041/'; // Test
+  static const String baseUrl = 'http://192.168.1.49:5010/'; // Local
+  // static const String baseUrl = 'http://192.168.2.21:8041/'; // Test
   // static const String baseUrl = 'http://habido.tanasoft.mn/'; // Test outside
   // static const String baseUrl = 'http://app.habido.mn/'; // Production
 
