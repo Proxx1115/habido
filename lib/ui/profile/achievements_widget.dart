@@ -197,7 +197,7 @@ class _AchievementsWidgetState extends State<AchievementsWidget> {
                         children: [
                           /// Хэвшсэн дадал
                           CustomText(
-                            Func.toStr(_allTimeAchievement!.allTimeTotalCompletedHabits),
+                            Func.toStr(_allTimeAchievement!.allTimeTotalCompletedHabits!.split('/')[0]),
                             alignment: Alignment.center,
                             fontSize: 28.0,
                             fontWeight: FontWeight.w500,

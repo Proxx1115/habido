@@ -138,16 +138,14 @@ class _SignUp4PasswordRouteState extends State<SignUp4PasswordRoute> {
               if (_pssController.text != _pssRepeatController.text) {
                 showCustomDialog(
                   context,
-                  child: CustomDialogBody(
-                      asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, buttonText: LocaleKeys.ok),
+                  child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, buttonText: LocaleKeys.ok),
                 );
 
                 return;
-              } else if(_pssController.text.length < 8 && _pssRepeatController.text.length < 8){
+              } else if (_pssController.text.length < 8 && _pssRepeatController.text.length < 8) {
                 showCustomDialog(
                   context,
-                  child: CustomDialogBody(
-                      asset: Assets.error, text: LocaleKeys.passwordsLengthNotValid, buttonText: LocaleKeys.ok),
+                  child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.passwordsLengthNotValid, buttonText: LocaleKeys.ok),
                 );
 
                 return;
