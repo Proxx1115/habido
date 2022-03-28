@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/push_notif_manager.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -16,7 +17,6 @@ import 'utils/route/routes.dart';
 void main() async {
   // Binds the framework to flutter engine
   WidgetsFlutterBinding.ensureInitialized();
-  FlutterAppBadger.updateBadgeCount(3);
 
   SharedPreferences.getInstance().then((instance) {
     sharedPref = instance;

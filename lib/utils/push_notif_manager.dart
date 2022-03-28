@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'func.dart';
 import 'shared_pref.dart';
 
@@ -74,13 +76,11 @@ class PushNotifManager {
       notifChannel = AndroidNotificationChannel(
         'high_importance_channel', // id
         'High Importance Notifications', // title
-        description:  'This channel is used for important notifications.', // description
+        description: 'This channel is used for important notifications.', // description
         importance: Importance.max,
       );
 
-      await localNotif
-          ?.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-          ?.createNotificationChannel(notifChannel!);
+      await localNotif?.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(notifChannel!);
       print('Local notif initialized');
     }
 
@@ -116,8 +116,7 @@ class PushNotifManager {
       if (notification != null) {
         if (notifChannel != null) {
           var notifDetail = NotificationDetails(
-            android: AndroidNotificationDetails(notifChannel!.id, notifChannel!.name, channelDescription:  notifChannel!.description,
-                icon: androidNotif?.smallIcon),
+            android: AndroidNotificationDetails(notifChannel!.id, notifChannel!.name, channelDescription: notifChannel!.description, icon: androidNotif?.smallIcon),
           );
 
           await localNotif?.show(0, notification.title ?? '', notification.body ?? '', notifDetail, payload: 'item x');
@@ -131,5 +130,6 @@ class PushNotifManager {
 
 // Note: Function заавал тусдаа, class-ын гадна байх ёстой
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  globals.unreadNotifCount > 0 ? FlutterAppBadger.updateBadgeCount(globals.unreadNotifCount + globals.calendarBadgeCount) : FlutterAppBadger.removeBadge();
   print('Handling a background message ${message.messageId}');
 }
