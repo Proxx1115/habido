@@ -446,13 +446,13 @@ class LocaleKeys {
 
   // static String get evaluation => 'Үнэлгээ';
 
-  static String get howAreYouFeeling => 'Та хэр сэтгэл ханамжтай байсан бэ?';
+  static String get howAreYouFeeling => 'Та хэр сэтгэл ханамжтай байна бэ?';
 
   static String get feelingAtTheTime => 'Яг одоо ямар сэтгэл хөдлөлтэй байна вэ?';
 
-  static String get pleasing => 'Тааламжтай';
+  static String get pleasing => 'Ханамжтай';
 
-  static String get notPleasing => 'Тааламжгүй';
+  static String get notPleasing => 'Ханамжгүй';
 
   static String get addNew => 'Шинээр нэмэх';
 
