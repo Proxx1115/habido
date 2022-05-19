@@ -57,6 +57,12 @@ class _SignUp2CodeRouteState extends State<SignUp2CodeRoute> {
   }
 
   @override
+  void dispose() {
+    _countdownTimerController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: BlocManager.authBloc,

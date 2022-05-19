@@ -74,7 +74,7 @@ class _ChangePhoneRouteState extends State<ChangePhoneRoute> {
       Navigator.pushNamed(context, Routes.verifyPhone, arguments: {
         'phoneNumber': state.phoneNumber,
       });
-    } else if (state is ChangePasswordFailed) {
+    } else if (state is ChangePhoneFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),

@@ -83,6 +83,7 @@ class _PsyIntroRouteState extends State<PsyIntroRoute> {
 
   _buttonNext() {
     return CustomButton(
+      visible: true,
       style: CustomButtonStyle.secondary,
       text: LocaleKeys.beginTest,
       margin: EdgeInsets.only(top: 20.0),
