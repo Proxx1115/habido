@@ -118,17 +118,21 @@ class LocaleKeys {
   ///
   /// Intro
   ///
-  static String get introTitle1 => 'Happy';
+  static String get introTitle1 => 'Дадал';
 
-  static String get introTitle2 => 'Habit';
+  static String get introTitle2 => 'Чатбот';
 
-  static String get introTitle3 => 'Do';
+  static String get introTitle3 => 'Зөвлөмж';
 
-  static String get intro1 => 'Сэтгэл зүйгээ удирдаж      ';
+  static String get introTitle4 => 'Сэтгэл зүйн тест';
 
-  static String get intro2 => 'Дадлаа тууштай бүртгэж     ';
+  static List get intro1 => ["Дадлаа хэвшүүлэх, мэдэгдэл авах", "Явцаа хянах", "Өөрийн гаргасан үр дүн, статистикээ харах"];
 
-  static String get intro3 => 'Надтай хамт тасралтгүй хөгж';
+  static List get intro2 => ["Мэдрэмжээ илэрхийлэх", "Асуудлаа хуваалцах", "Өөрт хэрэгтэй мэдээллийг авах"];
+
+  static List get intro3 => ["Суралцах", "Хөгжих", "Шинжлэх ухаанаар баталгаажсан мэдээлэл авах"];
+
+  static List get intro4 => ["Өөрийгөө илүү таньж мэдэх", "Ойлгох", "Зөвлөмж авах"];
 
   ///
   /// Login
@@ -212,7 +216,8 @@ class LocaleKeys {
 
   static String get agreeTermCond2 => '"Үйлчилгээний нөхцөл"';
 
-  static String get agreeTermCond3 => '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу';
+  static String get agreeTermCond3 =>
+      '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу';
 
   static String get genderInfotext =>
       'HabiDo нь өөрийгөө эрэгтэй, эмэгтэй аль нэг хүйсэнд хамаатуулдаггүй, мөн хоёр ба түүнээс дээш жендерээр мэдэрдэг хүмүүсийг хүндэлдэг бөгөөд хоёр туйлт сонголт тулгаж байгаад уучлал хүсэж байна. Цаашид сайжруулах болохоо мэдэгдье.';

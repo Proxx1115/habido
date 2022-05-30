@@ -67,7 +67,6 @@ class _SplashRouteState extends State<SplashRoute> {
     _checkSession();
   }
 
-
   _checkSession() {
     ApiManager.getUserData().then((userData) async {
       if (userData.code == ResponseCode.Success) {
