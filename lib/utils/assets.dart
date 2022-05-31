@@ -10,6 +10,8 @@ class Assets {
   static const String clear_circle = 'assets/images/global/clear_circle.svg';
   static const String clear = 'assets/images/global/clear.svg';
   static const String edit = 'assets/images/global/edit.svg';
+  static const String editV2 = 'assets/images/global/editV2.svg';
+
   static const String edit24 = 'assets/images/global/edit24.svg';
   static const String obscure_hidden =
       'assets/images/global/obscure_hidden.svg';
@@ -66,6 +68,12 @@ class Assets {
   static const String calendar = 'assets/images/home/calendar.svg';
 
   /// Profile
+  static const String process0 = 'assets/images/profile/process0.svg';
+  static const String process1 = 'assets/images/profile/process1.svg';
+  static const String process2 = 'assets/images/profile/process2.svg';
+  static const String process3 = 'assets/images/profile/process3.svg';
+  static const String pointButton = 'assets/images/profile/point_button.svg';
+
   static const String male = 'assets/images/profile/male.png';
   static const String female = 'assets/images/profile/female.png';
   static const String clock2 = 'assets/images/profile/clock2.svg';

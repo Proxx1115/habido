@@ -454,12 +454,12 @@ class ListItemContainer extends StatelessWidget {
                   padding: EdgeInsets.all(10.0),
                   height: 40.0,
                   width: 40.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(SizeHelper.borderRadius)),
-                    color:
-                        leadingBackgroundColor ?? customColors.greyBackground,
-                  ),
+                  // decoration: BoxDecoration(
+                  //   borderRadius: BorderRadius.all(
+                  //       Radius.circular(SizeHelper.borderRadius)),
+                  //   color:
+                  //       leadingBackgroundColor ?? customColors.greyBackground,
+                  // ),
                   child: _leadingImage(),
                 ),
 
@@ -492,11 +492,11 @@ class ListItemContainer extends StatelessWidget {
                   suffixAsset!,
                   color: suffixColor ?? customColors.iconGrey,
                 ),
+
               /// Date
-              if(suffixAsset == null && date != null)
+              if (suffixAsset == null && date != null)
                 CustomText(
-                  Func.toDateStr(Func.toDate(date!))
-                      .replaceAll('-', '.'),
+                  Func.toDateStr(Func.toDate(date!)).replaceAll('-', '.'),
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(bottom: 15.0),
                   fontWeight: FontWeight.w500,
