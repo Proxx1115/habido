@@ -9,6 +9,8 @@ import 'package:habido_app/ui/auth/sign_up/sign_up2_code_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up4_password_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up5_terms_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up6_success_route.dart';
+import 'package:habido_app/ui/auth/sign_up/sign_up_completed.dart';
+import 'package:habido_app/ui/auth/sign_up/sign_up_question_route.dart';
 import 'package:habido_app/ui/auth/sign_up/term_detail_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/verify_password_route.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_poster_view.dart';
@@ -74,6 +76,8 @@ class Routes {
   static const signUp3Profile = 'signUp3Profile';
   static const signUp4Password = 'signUp4Password';
   static const signUp5Terms = 'signUp4Terms';
+  static const signUpQuestion = 'signUpQuestion';
+  static const signUpCompleted = 'signUpCompleted';
   static const signUp6Success = 'signUp5Success';
   static const termDetail = 'termDetail';
   static const home = 'home';
@@ -175,6 +179,14 @@ class Routes {
           ),
           settings,
         );
+        break;
+
+      case Routes.signUpQuestion:
+        route = FadeRouteBuilder(SignUpQuestionRoute(), settings);
+        break;
+
+      case Routes.signUpCompleted:
+        route = FadeRouteBuilder(SignUpCompletedRoute(), settings);
         break;
 
       case Routes.signUp6Success:

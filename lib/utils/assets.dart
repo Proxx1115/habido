@@ -54,6 +54,11 @@ class Assets {
   static const String app_icon_name = 'assets/images/auth/app_icon_name.svg';
   static const String auth_success = 'assets/images/auth/auth_success.png';
   static const String logout = 'assets/images/auth/logout.svg';
+  static const String question1 = 'assets/images/auth/question1.svg';
+  static const String question2 = 'assets/images/auth/question2.svg';
+  static const String question3 = 'assets/images/auth/question3.svg';
+  static const String sign_up_success = 'assets/images/auth/sign_up_success.png';
+  static const String arrow_right = 'assets/images/auth/arrow_right.svg';
 
   /// Home
   static const String home = 'assets/images/home/home.svg';

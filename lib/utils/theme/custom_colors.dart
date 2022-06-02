@@ -14,6 +14,7 @@ class ConstantColors {
   static const athensGrey = const Color(0xFFF4F6F8); // background
   static const black = const Color(0xFF424852); // text
   static const grey = const Color(0xFFA9B0BB); // text
+  static const gray = const Color(0xFFADB2B9); // indicator
   static const cornflowerBlue = const Color(0xFFCAD0D7); // button text
   static const ghostGrey = const Color(0xFFCBD0D7); // icon
   static const red = const Color(0xFFE8553E);
@@ -49,6 +50,9 @@ class CustomColors {
   Color primaryText = ConstantColors.black;
   Color greyText = ConstantColors.grey;
   Color whiteText = Colors.white;
+
+  /// Indicator
+  Color grayIndicator = ConstantColors.gray;
 
   /// Button
   Color get primaryButtonBackground => primary; // enabled

@@ -6,7 +6,6 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/app_bars/app_bars.dart';
-import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class IntroRoute extends StatefulWidget {
@@ -25,16 +24,8 @@ class _IntroRouteState extends State<IntroRoute> {
   List<List> textList = [LocaleKeys.intro1, LocaleKeys.intro2, LocaleKeys.intro3, LocaleKeys.intro4];
   List<String> assetList = [Assets.intro1, Assets.intro2, Assets.intro3, Assets.intro4];
 
-  // Button close
-  double _btnCloseHeight = 40.0;
-  double _btnCloseMargin = 20.0;
-
-  // Text
-  double _marginTopText = 0.0;
-
   @override
   void initState() {
-    _marginTopText = _btnCloseHeight + _btnCloseMargin * 2;
     super.initState();
   }
 
@@ -116,7 +107,6 @@ class _IntroRouteState extends State<IntroRoute> {
             color: customColors.primary,
             fontWeight: FontWeight.w800,
             fontSize: 35.0,
-            // margin: EdgeInsets.fromLTRB(40.0, index == 2 ? 60.0 : _marginTopText, 40.0, 60.0), // todo closeBtn heregtei eseh
           ),
         ),
 

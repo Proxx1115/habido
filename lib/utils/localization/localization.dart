@@ -222,7 +222,37 @@ class LocaleKeys {
   static String get genderInfotext =>
       'HabiDo нь өөрийгөө эрэгтэй, эмэгтэй аль нэг хүйсэнд хамаатуулдаггүй, мөн хоёр ба түүнээс дээш жендерээр мэдэрдэг хүмүүсийг хүндэлдэг бөгөөд хоёр туйлт сонголт тулгаж байгаад уучлал хүсэж байна. Цаашид сайжруулах болохоо мэдэгдье.';
 
-// static String get agreeTerms => 'Зөвшөөрөх';
+  /// Sign Up Question
+  static String get signUpQuest1 => 'Таны хувьд юуг сайжруулмаар  байна вэ?';
+
+  static List<String> get signUpQuest1Answers => [
+        'Хувийн хөгжил',
+        'Эрүүл мэнд',
+        'Гэр бүл',
+        'Дасгал хөдөлгөөн',
+        'Ажлын бүтээмж',
+        'Сэтгэл зүй',
+        'Санхүү',
+      ];
+
+  static String get signUpQuest2 => 'Тууштай байдлаа хамтдаа үнэлээд нэг үзэх үү?';
+
+  static List<String> get signUpQuest2Answers => [
+        'Тууштай байж чаддаггүй',
+        'Тийм ч тууштай биш',
+        'Хааяадаа л',
+        'Ихэнхдээ',
+        'Зорьсондоо заавал хүрдэг',
+      ];
+
+  static String get signUpQuest3 => 'Мэдрэмж бүртгэх дадлаар аяллаа эхлүүлэх үү? ';
+
+  static String get signUpQuest3Answer =>
+      'Хосоороо болзож, хамт өнгөрөөх цаг тогтмол гаргах нь хосын харилцааг илүү ойр дотно болгож, хоорондын ойлголцлыг нэмэгдүүлнэ';
+
+  static String get gonnaTryLater => 'Дараа туршиж үзнэ ээ';
+
+  static String get signUpCompletedText => 'Баяр хүргэе, та HabiDo-тай хамт амьдралын чанараа сайжруулах аяллаа эхлүүллээ';
 //
 // static String get termCondNotFound => 'Вэб холбоос олдсонгүй';
 //

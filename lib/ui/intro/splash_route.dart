@@ -102,7 +102,7 @@ class _SplashRouteState extends State<SplashRoute> {
 
   _navigateToFirstRoute() {
     Navigator.of(context).pushNamedAndRemoveUntil(
-      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
+      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login, // signUpQuestion
       (Route<dynamic> route) => false,
     );
   }
