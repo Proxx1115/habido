@@ -139,7 +139,19 @@ class LocaleKeys {
   ///
   static String get login => 'Нэвтрэх';
 
+  static String get loginWithSocial => 'Сошиал хаягаар нэвтрэх';
+
+  static String get signUpWithSocial => 'Сошиал хаягаар бүртгүүлэх';
+
+  static String get loginWithGoogle => 'Google-ээр нэвтрэх';
+
+  static String get loginWithFb => 'Facebook-ээр нэвтрэх';
+
+  static String get loginWithApple => 'Apple-аар нэвтрэх';
+
   static String get hasAccount => 'Та бүртгэлтэй юу?';
+
+  static String get hasNotAccount => 'Та бүртгэлгүй юу?';
 
   static String get signUp => 'Бүртгүүлэх';
 

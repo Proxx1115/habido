@@ -113,7 +113,7 @@ class CustomText extends StatelessWidget {
   FontWeight _fontWeight() {
     switch (style) {
       default:
-        return FontWeight.normal;
+        return fontWeight ?? FontWeight.normal;
     }
   }
 }

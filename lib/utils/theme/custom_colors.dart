@@ -21,11 +21,13 @@ class ConstantColors {
   static const frolyRed = const Color(0xFFE8553E); // trash icon
   static const yellow = const Color(0xFFFDCD56);
   static const blue = const Color(0xFF73B0F4);
+  static const blueRibbon = const Color(0xFF006CEB);
   static const vikingGreen = const Color(0xFF61DDBC);
   static const yellowGreen = const Color(0xFFB4DF80);
   static const seaGreen = const Color(0xFF30A74C);
   static const feijoGreen = const Color(0xFF9ED26A);
   static const froly = const Color(0xFFF76C82);
+  static const loblolly = const Color(0xFFC2CAD1);
 }
 
 class CustomColors {
@@ -45,6 +47,7 @@ class CustomColors {
   Color primaryBorder = ConstantColors.athensGrey;
   Color secondaryBorder = Colors.white;
   Color roseWhiteBorder = ConstantColors.roseWhite;
+  Color grayBorder = ConstantColors.loblolly;
 
   /// Text
   Color primaryText = ConstantColors.black;
@@ -56,7 +59,11 @@ class CustomColors {
 
   /// Button
   Color get primaryButtonBackground => primary; // enabled
+  Color get whiteButtonBackground => Colors.white; // bordered
+  Color get blackButtonBackground => Colors.black;
+  Color get blueButtonBackground => ConstantColors.blueRibbon;
   Color primaryButtonContent = Colors.white; // enabled
+  Color blackButtonContent = ConstantColors.black; // bordered
 
   Color get primaryButtonDisabledBackground => whiteBackground; // disabled
   Color primaryButtonDisabledContent = ConstantColors.cornflowerBlue; // disabled

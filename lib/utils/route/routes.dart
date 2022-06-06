@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:habido_app/models/feedback_category_list_response.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_change_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_route.dart';
+import 'package:habido_app/ui/auth/login_intro_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
+import 'package:habido_app/ui/auth/login_route_2.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up3_profile_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up1_phone_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up2_code_route.dart';
@@ -11,6 +13,7 @@ import 'package:habido_app/ui/auth/sign_up/sign_up5_terms_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up6_success_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up_completed.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up_question_route.dart';
+import 'package:habido_app/ui/auth/sign_up/sign_up_route.dart';
 import 'package:habido_app/ui/auth/sign_up/term_detail_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/verify_password_route.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_poster_view.dart';
@@ -66,11 +69,14 @@ class Routes {
   static const comingSoon = 'comingSoon';
   static const splash = 'splash';
   static const intro = 'intro';
+  static const loginIntro = '/loginIntro';
   static const login = '/login';
+  static const login2 = '/login2';
   static const forgotPass = 'forgotPass';
   static const verifyPassword = 'verifyPassword';
   static const forgotPassChange = 'forgotPassChange';
   static const changePass = 'changePass';
+  static const signUp = 'signUp';
   static const signUp1Phone = 'signUp1Phone';
   static const signUp2Code = 'signUp2Code';
   static const signUp3Profile = 'signUp3Profile';
@@ -130,11 +136,26 @@ class Routes {
         route = FadeRouteBuilder(IntroRoute(), settings);
         break;
 
+      case Routes.loginIntro:
+        route = PageRouteBuilder(
+          transitionDuration: Duration(milliseconds: 1600),
+          pageBuilder: (_, __, ___) => LoginIntroRoute(),
+        );
+        break;
+
       case Routes.login:
         route = PageRouteBuilder(
           transitionDuration: Duration(milliseconds: 1600),
           pageBuilder: (_, __, ___) => LoginRoute(),
         );
+        break;
+
+      case Routes.login2:
+        route = SlideRightRouteBuilder(LoginRoute2(), settings);
+        break;
+
+      case Routes.signUp:
+        route = SlideRightRouteBuilder(SignUpRoute(), settings);
         break;
 
       case Routes.signUp1Phone:

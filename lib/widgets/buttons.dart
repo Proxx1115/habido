@@ -28,6 +28,7 @@ class CustomButton extends StatelessWidget {
   final String? asset;
   final Color? contentColor;
   final Color? disabledContentColor; // Text, image and so on...
+  final bool isBordered; // Text, image and so on...
 
   const CustomButton({
     Key? key,
@@ -46,6 +47,7 @@ class CustomButton extends StatelessWidget {
     this.asset,
     this.contentColor,
     this.disabledContentColor,
+    this.isBordered = false,
   }) : super(key: key);
 
   @override
@@ -66,7 +68,7 @@ class CustomButton extends StatelessWidget {
               textStyle: TextStyle(fontWeight: FontWeight.w500),
               shape: RoundedRectangleBorder(
                 borderRadius: _borderRadius,
-                side: BorderSide.none,
+                side: isBordered ? BorderSide(color: customColors.primary, width: 1) : BorderSide.none,
               ),
             ),
             child: _child,
@@ -124,7 +126,7 @@ class CustomButton extends StatelessWidget {
   }
 
   Color get _backgroundColor {
-    return backgroundColor ?? customColors.primaryButtonBackground;
+    return backgroundColor ?? (isBordered ? customColors.whiteButtonBackground : customColors.primaryButtonBackground);
   }
 
   Color get _disabledBackgroundColor {
@@ -132,7 +134,7 @@ class CustomButton extends StatelessWidget {
   }
 
   Color get _contentColor {
-    return contentColor ?? customColors.primaryButtonContent;
+    return contentColor ?? (isBordered ? customColors.blackButtonContent : customColors.primaryButtonContent);
   }
 
   Color get _disabledContentColor {

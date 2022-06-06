@@ -6,7 +6,6 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/app_bars/app_bars.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -21,11 +20,10 @@ class SignUpQuestionRoute extends StatefulWidget {
 
 class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
   // Main
-  final _introKey = GlobalKey<ScaffoldState>();
+  final _signUpQuestionKey = GlobalKey<ScaffoldState>();
 
   // PageView
   PageController _pageController = PageController();
-  ScrollController _listScrollController = ScrollController();
   int _currentIndex = 0;
   List<String> assetList = [Assets.question1, Assets.question2, Assets.question3];
   List<String> _selectedAnswers1 = [];
@@ -40,8 +38,6 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
     } else {
       if (_selectedAnswers1.length == 0 || _selectedAnswers1.length == 1 || _selectedAnswers1.length == 2) {
         _selectedAnswers1.add(value);
-      } else {
-        print('nope');
       }
     }
   }
@@ -65,7 +61,7 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       backgroundColor: customColors.primaryBackground,
-      scaffoldKey: _introKey,
+      scaffoldKey: _signUpQuestionKey,
       child: Stack(
         children: [
           /// PageView
@@ -218,6 +214,7 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
           color: _selectedAnswers1.contains(text) ? customColors.primary : customColors.whiteBackground,
         ),
         child: Text(
+          // todo change to CustomText
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -280,13 +277,6 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
               for (var el in LocaleKeys.signUpQuest1Answers) _answerItem1(el),
             ],
           ),
-          // CustomButton(
-          //   text: LocaleKeys.continueTxt,
-          //   onPressed: () {
-          //     nextPage();
-          //   },
-          //   borderRadius: BorderRadius.circular(15.0),
-          // )
         ],
       ),
     );
@@ -357,9 +347,8 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
     );
   }
 
-  _buttonNext({text, onPressed, visible = true}) {
+  _buttonNext({text, onPressed}) {
     return CustomButton(
-      visible: visible,
       text: text,
       onPressed: onPressed,
       borderRadius: BorderRadius.circular(15.0),

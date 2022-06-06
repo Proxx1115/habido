@@ -48,6 +48,12 @@ class Assets {
   static const String intro4 = 'assets/images/intro/intro4.png';
 
   /// Authentication
+  static const String login_intro = 'assets/images/auth/login_intro.svg';
+  static const String sign_up = 'assets/images/auth/sign_up.svg';
+  static const String google = 'assets/images/auth/google.svg';
+  static const String facebook = 'assets/images/auth/facebook.svg';
+  static const String apple = 'assets/images/auth/apple.png'; // todo svg error
+  static const String app_icon_text = 'assets/images/auth/app_icon_text.png';
   static const String username = 'assets/images/auth/username.svg';
   static const String password = 'assets/images/auth/password.svg';
   static const String biometric = 'assets/images/auth/biometric.svg';
