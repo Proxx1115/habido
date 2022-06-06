@@ -13,6 +13,140 @@ class Performance extends StatefulWidget {
 }
 
 class _PerformanceState extends State<Performance> {
+  List _data = [
+    {
+      "month": 7,
+      "days": [
+        {
+          "weekDay": 1,
+          "process": 4,
+        },
+        {
+          "weekDay": 2,
+          "process": 4,
+        },
+        {
+          "weekDay": 3,
+          "process": 2,
+        },
+        {
+          "weekDay": 4,
+          "process": 5,
+        },
+        {
+          "weekDay": 5,
+          "process": 1,
+        },
+        {
+          "weekDay": 6,
+          "process": 2,
+        },
+        {
+          "weekDay": 7,
+          "process": 5,
+        },
+        {
+          "weekDay": 1,
+          "process": 4,
+        },
+        {
+          "weekDay": 2,
+          "process": 4,
+        },
+        {
+          "weekDay": 3,
+          "process": 2,
+        },
+        {
+          "weekDay": 4,
+          "process": 5,
+        },
+        {
+          "weekDay": 5,
+          "process": 1,
+        },
+        {
+          "weekDay": 6,
+          "process": 2,
+        },
+        {
+          "weekDay": 7,
+          "process": 5,
+        },
+        {
+          "weekDay": 1,
+          "process": 4,
+        },
+        {
+          "weekDay": 2,
+          "process": 4,
+        },
+        {
+          "weekDay": 3,
+          "process": 2,
+        },
+        {
+          "weekDay": 4,
+          "process": 5,
+        },
+        {
+          "weekDay": 5,
+          "process": 1,
+        },
+        {
+          "weekDay": 6,
+          "process": 2,
+        },
+        {
+          "weekDay": 7,
+          "process": 5,
+        },
+        {
+          "weekDay": 1,
+          "process": 4,
+        },
+        {
+          "weekDay": 2,
+          "process": 4,
+        },
+        {
+          "weekDay": 3,
+          "process": 2,
+        },
+        {
+          "weekDay": 4,
+          "process": 5,
+        },
+        {
+          "weekDay": 5,
+          "process": 1,
+        },
+        {
+          "weekDay": 6,
+          "process": 2,
+        },
+        {
+          "weekDay": 7,
+          "process": 5,
+        },
+      ]
+    }
+  ];
+
+  List _colors = [
+    Colors.amber,
+    Colors.teal,
+    Colors.lightBlue,
+    Colors.brown,
+    Colors.deepOrange,
+  ];
+  List _colorsOpacity = [
+    Color(0xff73BBB6).withOpacity(0.2),
+    Color(0xff73BBB6).withOpacity(0.4),
+    Color(0xff73BBB6).withOpacity(0.6),
+    Color(0xff73BBB6).withOpacity(0.8),
+    Color(0xff73BBB6),
+  ];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -33,6 +167,25 @@ class _PerformanceState extends State<Performance> {
           ),
           SizedBox(height: 15),
           _myFeeling(),
+          SizedBox(height: 15),
+          _calender(),
+          SizedBox(height: 20),
+          InkWell(
+            onTap: () {},
+            child: Container(
+              alignment: Alignment.bottomRight,
+              child: Text(
+                "Түүх харах",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: customColors.primary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          _feelingLast(),
         ],
       ),
     );
@@ -271,5 +424,136 @@ class _PerformanceState extends State<Performance> {
             )
           ],
         ));
+  }
+
+  Widget _feelingLast() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                children: [
+                  CustomText(
+                    "Гайхалтай",
+                    fontWeight: FontWeight.w500,
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: CustomText(
+                      "Ажил",
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Container(
+            height: 2,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 10),
+          CustomText(
+            "Таны хэвшүүлэхээр бүртгэсэн бүх цаг үеийн дадлуудаас  зөвхөн өнөөдөр болон маргааш хийгдэх дадлуудын",
+            maxLines: 2,
+          ),
+          const SizedBox(height: 10),
+          CustomText(
+            "2022.03.01  15:37",
+            color: Colors.grey,
+            alignment: Alignment.bottomRight,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _calender() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(
+                height: 15,
+                width: 15,
+              ),
+              CustomText(
+                "4 сар",
+                fontWeight: FontWeight.w500,
+              ),
+              SvgPicture.asset(Assets.calendar2)
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              SvgPicture.asset(
+                Assets.arrow_back,
+                height: 10,
+                width: 10,
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Wrap(
+                    spacing: 5.0,
+                    runSpacing: 5.0,
+                    children: [
+                      for (var i = 0; i < _data[0]["days"].length; i++)
+                        _dayItem(
+                            _colorsOpacity[_data[0]["days"][i]["process"] - 1]),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(width: 20),
+              SvgPicture.asset(
+                Assets.arrow_forward,
+                height: 10,
+                width: 10,
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  _dayItem(Color color) {
+    return Container(
+      color: color,
+      width: 30,
+      height: 10,
+    );
   }
 }

@@ -58,7 +58,7 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
 
   Widget _pageItem() {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.7,
+        height: MediaQuery.of(context).size.height * 1,
         width: MediaQuery.of(context).size.width,
         child: PageView(
           controller: _controller,
