@@ -25,6 +25,7 @@ class ConstantColors {
   static const seaGreen = const Color(0xFF30A74C);
   static const feijoGreen = const Color(0xFF9ED26A);
   static const froly = const Color(0xFFF76C82);
+  static const trout = const Color(0xFF484E58);
 }
 
 class CustomColors {
@@ -49,13 +50,15 @@ class CustomColors {
   Color primaryText = ConstantColors.black;
   Color greyText = ConstantColors.grey;
   Color whiteText = Colors.white;
+  Color lightText = ConstantColors.trout;
 
   /// Button
   Color get primaryButtonBackground => primary; // enabled
   Color primaryButtonContent = Colors.white; // enabled
 
   Color get primaryButtonDisabledBackground => whiteBackground; // disabled
-  Color primaryButtonDisabledContent = ConstantColors.cornflowerBlue; // disabled
+  Color primaryButtonDisabledContent =
+      ConstantColors.cornflowerBlue; // disabled
 
   Color get secondaryButtonBackground => greyBackground; // enabled
   Color secondaryButtonContent = ConstantColors.black; // enabled
