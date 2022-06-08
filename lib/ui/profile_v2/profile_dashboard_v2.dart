@@ -10,6 +10,7 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/app_bars/app_bar_with_profile.dart';
 import 'package:habido_app/widgets/scaffold.dart';
+import 'package:habido_app/widgets/text.dart';
 
 class ProfileScreenV2 extends StatefulWidget {
   const ProfileScreenV2({Key? key}) : super(key: key);
@@ -38,8 +39,7 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
               },
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(
-                  SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
+              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
               child: Column(
                 children: [
                   ProfileCardV2(),
@@ -96,26 +96,20 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          setState(() {
-            _controller.animateToPage(index,
-                duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-          });
+          _controller.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+          setState(() {});
         },
         child: Container(
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: _currentIndex == index
-                  ? customColors.primary
-                  : Colors.transparent),
-          child: Text(
+          decoration:
+              BoxDecoration(borderRadius: BorderRadius.circular(20), color: _currentIndex == index ? customColors.primary : Colors.transparent),
+          child: CustomText(
             text,
-            style: TextStyle(
-              color: _currentIndex == index
-                  ? Colors.white
-                  : customColors.primaryText,
-            ),
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: _currentIndex == index ? Colors.white : customColors.primaryText,
+            alignment: Alignment.center,
           ),
         ),
       ),

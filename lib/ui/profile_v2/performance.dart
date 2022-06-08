@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class Performance extends StatefulWidget {
@@ -262,36 +265,11 @@ class _PerformanceState extends State<Performance> {
                 ],
               ),
             ),
-
-            /// Grid builder
-            // Container(
-            //   decoration: BoxDecoration(
-            //     color: Colors.transparent,
-            //     borderRadius: BorderRadius.circular(15),
-            //   ),
-            //   child: GridView.builder(
-            //     itemCount: 4,
-            //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //         crossAxisCount: 2,
-            //         crossAxisSpacing: 8,
-            //         mainAxisSpacing: 8,
-            //         childAspectRatio: 2),
-            //     itemBuilder: (BuildContext context, int index) {
-            //       return Expanded(
-            //           child: _processItem(
-            //         index: index,
-            //         title: "10 дадал",
-            //         text: 'Нийт төлөвлөсөн',
-            //       ));
-            //     },
-            //   ),
-            // ),
           ],
         ));
   }
 
-  Widget _processItem(
-      {required int index, required String title, required String text}) {
+  Widget _processItem({required int index, required String title, required String text}) {
     return Container(
       padding: EdgeInsets.only(left: 20),
       child: Column(
@@ -305,9 +283,13 @@ class _PerformanceState extends State<Performance> {
           SizedBox(height: 10),
           CustomText(
             title,
+            fontSize: 11,
+            fontWeight: FontWeight.w400,
           ),
           CustomText(
             text,
+            fontSize: 11,
+            fontWeight: FontWeight.w400,
           ),
         ],
       ),
@@ -322,6 +304,7 @@ class _PerformanceState extends State<Performance> {
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               flex: 2,
@@ -344,6 +327,8 @@ class _PerformanceState extends State<Performance> {
                             ),
                             child: CustomText(
                               "Эерэг",
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
                               color: Colors.white,
                               alignment: Alignment.center,
                             ),
@@ -356,6 +341,8 @@ class _PerformanceState extends State<Performance> {
                               ),
                               child: CustomText(
                                 "Сөрөг",
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
                                 color: Colors.white,
                                 alignment: Alignment.center,
                               ),
@@ -367,13 +354,14 @@ class _PerformanceState extends State<Performance> {
                     SizedBox(height: 15),
                     CustomText(
                       "20/30",
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontSize: 30,
                       alignment: Alignment.center,
                     ),
                     CustomText(
                       "Нийт бүртгэсэн ",
                       color: customColors.primary,
+                      fontWeight: FontWeight.w500,
                       alignment: Alignment.center,
                     )
                   ],
@@ -385,37 +373,86 @@ class _PerformanceState extends State<Performance> {
               child: Container(
                 margin: EdgeInsets.only(left: 20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomText("Гэр бүл"),
-                        CustomText("10"),
+                        CustomText(
+                          "Гэр бүл",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        CustomText(
+                          "10",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ],
                     ),
                     SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomText("Гэр бүл"),
-                        CustomText("10"),
+                        CustomText(
+                          "Гэр бүл",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        CustomText(
+                          "10",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ],
                     ),
                     SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomText("Гэр бүл"),
-                        CustomText("10"),
+                        CustomText(
+                          "Гэр бүл",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        CustomText(
+                          "10",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ],
                     ),
                     SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomText("Гэр бүл"),
-                        CustomText("10"),
+                        CustomText(
+                          "Гэр бүл",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        CustomText(
+                          "10",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          "Гэр бүл",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        CustomText(
+                          "10",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ],
                     ),
                   ],
@@ -442,8 +479,17 @@ class _PerformanceState extends State<Performance> {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: Colors.amber,
+                  color: customColors.greyBackground,
                   borderRadius: BorderRadius.circular(15),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: "http://assets.stickpng.com/images/61d183263a856e0004c6334a.png",
+                  placeholder: (context, url) => Container(),
+                  //CustomLoader(),
+                  errorWidget: (context, url, error) => Container(),
+                  height: 40.0,
+                  // width: 40.0,
+                  fit: BoxFit.fitHeight,
                 ),
               ),
               const SizedBox(width: 10),
@@ -451,17 +497,20 @@ class _PerformanceState extends State<Performance> {
                 children: [
                   CustomText(
                     "Гайхалтай",
-                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
                   ),
                   const SizedBox(height: 10),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 18, vertical: 3),
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: customColors.primaryButtonDisabledContent,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: CustomText(
                       "Ажил",
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
                       color: Colors.white,
                     ),
                   )
@@ -470,9 +519,15 @@ class _PerformanceState extends State<Performance> {
             ],
           ),
           const SizedBox(height: 10),
-          Container(
-            height: 2,
-            color: Colors.grey,
+          // Container(
+          //   height: 2,
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+          //     color: customColors.primaryButtonDisabledContent,
+          //   ),
+          // ),
+          HorizontalLine(
+            color: customColors.primaryButtonDisabledContent,
           ),
           const SizedBox(height: 10),
           CustomText(
@@ -510,7 +565,7 @@ class _PerformanceState extends State<Performance> {
                 "4 сар",
                 fontWeight: FontWeight.w500,
               ),
-              SvgPicture.asset(Assets.calendar2)
+              SvgPicture.asset(Assets.warning_calendar)
             ],
           ),
           const SizedBox(height: 10),
@@ -529,9 +584,7 @@ class _PerformanceState extends State<Performance> {
                     spacing: 5.0,
                     runSpacing: 5.0,
                     children: [
-                      for (var i = 0; i < _data[0]["days"].length; i++)
-                        _dayItem(
-                            _colorsOpacity[_data[0]["days"][i]["process"] - 1]),
+                      for (var i = 0; i < _data[0]["days"].length; i++) _dayItem(_colorsOpacity[_data[0]["days"][i]["process"] - 1]),
                     ],
                   ),
                 ),
