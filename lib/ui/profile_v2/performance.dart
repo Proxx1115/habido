@@ -5,7 +5,9 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class Performance extends StatefulWidget {
@@ -136,13 +138,6 @@ class _PerformanceState extends State<Performance> {
     }
   ];
 
-  List _colors = [
-    Colors.amber,
-    Colors.teal,
-    Colors.lightBlue,
-    Colors.brown,
-    Colors.deepOrange,
-  ];
   List _colorsOpacity = [
     Color(0xff73BBB6).withOpacity(0.2),
     Color(0xff73BBB6).withOpacity(0.4),
@@ -150,6 +145,20 @@ class _PerformanceState extends State<Performance> {
     Color(0xff73BBB6).withOpacity(0.8),
     Color(0xff73BBB6),
   ];
+
+  Map _calendar1 = {"color": Color(0xff73BBB6), "text": "Гайхамшиг"};
+  Map _calendar2 = {"color": Color(0xff73BBB6).withOpacity(0.8), "text": "Гайхамшиг"};
+  Map _calendar3 = {"color": Color(0xff73BBB6).withOpacity(0.6), "text": "Гайхамшиг"};
+  Map _calendar4 = {"color": Color(0xff73BBB6).withOpacity(0.4), "text": "Гайхамшиг"};
+  Map _calendar5 = {"color": Color(0xff73BBB6).withOpacity(0.2), "text": "Бөглөгүй"};
+  List _calendarDesc = [];
+  @override
+  void initState() {
+    _calendarDesc = [_calendar1, _calendar2, _calendar3, _calendar4, _calendar5];
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -183,6 +192,7 @@ class _PerformanceState extends State<Performance> {
                   decoration: TextDecoration.underline,
                   color: customColors.primary,
                   fontWeight: FontWeight.w500,
+                  fontSize: 11,
                 ),
               ),
             ),
@@ -502,7 +512,7 @@ class _PerformanceState extends State<Performance> {
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 3),
+                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
                     decoration: BoxDecoration(
                       color: customColors.primaryButtonDisabledContent,
                       borderRadius: BorderRadius.circular(15),
@@ -519,13 +529,6 @@ class _PerformanceState extends State<Performance> {
             ],
           ),
           const SizedBox(height: 10),
-          // Container(
-          //   height: 2,
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-          //     color: customColors.primaryButtonDisabledContent,
-          //   ),
-          // ),
           HorizontalLine(
             color: customColors.primaryButtonDisabledContent,
           ),
@@ -533,11 +536,15 @@ class _PerformanceState extends State<Performance> {
           CustomText(
             "Таны хэвшүүлэхээр бүртгэсэн бүх цаг үеийн дадлуудаас  зөвхөн өнөөдөр болон маргааш хийгдэх дадлуудын",
             maxLines: 2,
+            fontSize: 11,
+            fontWeight: FontWeight.w400,
           ),
           const SizedBox(height: 10),
           CustomText(
             "2022.03.01  15:37",
-            color: Colors.grey,
+            color: customColors.cornflowerText,
+            fontWeight: FontWeight.w500,
+            fontSize: 11,
             alignment: Alignment.bottomRight,
           )
         ],
@@ -563,9 +570,67 @@ class _PerformanceState extends State<Performance> {
               ),
               CustomText(
                 "4 сар",
+                fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),
-              SvgPicture.asset(Assets.warning_calendar)
+              InkWell(
+                  onTap: () {
+                    showCustomDialog(
+                      context,
+                      child: CustomDialogBody(
+                        // buttonText: "Цонхыг хаах",
+                        primaryColor: customColors.greyBackground,
+                        child: Column(
+                          children: [
+                            /// Image
+                            // if (Func.isNotEmpty(_notifList[index].photo))
+                            if (true) //todo yela
+
+                              /// Body
+                              CustomText(
+                                "Тухайн өдрийн мэдрэмжийг өнгөөр илтгэн харуулж байгаа юм.",
+                                maxLines: 2,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                // margin: EdgeInsets.only(bottom: 20.0),
+                              ),
+                            CustomText(
+                              "Жишээ нь: Тухайн өдөр “Мэдэхгүй ээ”, “Онцгүй байсан” гэх мэтээр тэмдэглэвэл бүдэг өнгөөр, харин аз “Гайхалтай”, “Дажгүй шүү” гэж бүртгэх тусам өнгө нь тодрох юм. ",
+                              maxLines: 5,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              // margin: EdgeInsets.only(bottom: 20.0),
+                            ),
+                            CustomText(
+                              "Ингэснээр сарын сүүлээр өөрийн тухайн сарын сэтгэл зүйн байдлаа  ажиглах боломжтой юм.",
+                              maxLines: 5,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              // margin: EdgeInsets.only(bottom: 20.0),
+                            ),
+                            SizedBox(height: 20),
+                            // Column(
+                            //   children: [],
+                            // )
+                            for (var i = 0; i < _calendarDesc.length; i++)
+                              _dayItemBottomSheet(color: _calendarDesc[i]['color'], text: _calendarDesc[i]['text']),
+                            const SizedBox(height: 40),
+
+                            CustomButton(
+                              text: "Хаах",
+                              contentColor: customColors.primaryText,
+                              backgroundColor: customColors.greyBackground,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            )
+                          ],
+                        ),
+                        onPressedButton: () {},
+                      ),
+                    );
+                  },
+                  child: SvgPicture.asset(Assets.warning_calendar))
             ],
           ),
           const SizedBox(height: 10),
@@ -573,6 +638,7 @@ class _PerformanceState extends State<Performance> {
             children: [
               SvgPicture.asset(
                 Assets.arrow_back,
+                color: customColors.secondaryButtonContent,
                 height: 10,
                 width: 10,
               ),
@@ -592,6 +658,7 @@ class _PerformanceState extends State<Performance> {
               SizedBox(width: 20),
               SvgPicture.asset(
                 Assets.arrow_forward,
+                color: customColors.secondaryButtonContent,
                 height: 10,
                 width: 10,
               ),
@@ -607,6 +674,26 @@ class _PerformanceState extends State<Performance> {
       color: color,
       width: 30,
       height: 10,
+    );
+  }
+
+  _dayItemBottomSheet({required Color color, required String text}) {
+    return Container(
+      child: Row(
+        children: [
+          Container(
+            color: color,
+            width: 30,
+            height: 10,
+          ),
+          SizedBox(width: 10),
+          CustomText(
+            text,
+            fontSize: 15,
+            fontWeight: FontWeight.w400,
+          )
+        ],
+      ),
     );
   }
 }

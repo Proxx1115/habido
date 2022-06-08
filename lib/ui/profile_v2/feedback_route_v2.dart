@@ -45,8 +45,7 @@ class _FeedbackRouteV2State extends State<FeedbackRouteV2> {
       child: Column(
         children: [
           RoundedCornerListView(
-            padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0,
-                SizeHelper.padding, SizeHelper.padding),
+            padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
             children: [
               /// HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй
               CustomTextField(

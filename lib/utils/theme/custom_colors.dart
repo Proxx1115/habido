@@ -49,6 +49,7 @@ class CustomColors {
   Color primaryText = ConstantColors.black;
   Color greyText = ConstantColors.grey;
   Color whiteText = Colors.white;
+  Color cornflowerText = ConstantColors.cornflowerBlue;
 
   /// Button
   Color get primaryButtonBackground => primary; // enabled
