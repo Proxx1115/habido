@@ -37,6 +37,7 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
       _selectedAnswers1.remove(value);
     } else {
       if (_selectedAnswers1.length == 0 || _selectedAnswers1.length == 1 || _selectedAnswers1.length == 2) {
+        //todo fix
         _selectedAnswers1.add(value);
       }
     }
@@ -202,8 +203,9 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
   Widget _answerItem1(String text) {
     return InkWell(
       onTap: () {
-        _onSelectAnswer1(text);
-        setState(() {});
+        setState(() {
+          _onSelectAnswer1(text);
+        });
       },
       child: Container(
         height: 40.0,
@@ -230,8 +232,9 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
   Widget _answerItem2(String text) {
     return InkWell(
       onTap: () {
-        _onSelectAnswer2(text);
-        setState(() {});
+        setState(() {
+          _onSelectAnswer2(text);
+        });
       },
       child: Container(
         height: 50.0,

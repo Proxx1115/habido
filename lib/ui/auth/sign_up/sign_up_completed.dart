@@ -101,6 +101,7 @@ class SignUpCompletedRoute extends StatelessWidget {
                   SizedBox(width: 5.0),
                   SvgPicture.asset(
                     Assets.arrow_right,
+                    color: customColors.primary,
                   )
                 ],
               ),

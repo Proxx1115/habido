@@ -1,0 +1,232 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/ui/feeling/btn_back_widget.dart';
+import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/scaffold.dart';
+import 'package:habido_app/widgets/text.dart';
+
+class FeelingDetailRoute extends StatefulWidget {
+  final selectedFeelingData;
+  final selectedCauses;
+  const FeelingDetailRoute({
+    Key? key,
+    this.selectedFeelingData,
+    this.selectedCauses,
+  }) : super(key: key);
+
+  @override
+  State<FeelingDetailRoute> createState() => _FeelingDetailRouteState();
+}
+
+class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
+  // UI
+  final _feelingDetailKey = GlobalKey<ScaffoldState>();
+
+  // Мэдрэмжийн дэлгэрэнгүй
+  TextEditingController _textController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScaffold(
+      scaffoldKey: _feelingDetailKey,
+      child: Container(
+        padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [customColors.feelingCauseTop, customColors.feelingCauseBtm],
+          ),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  ButtonBackWidget(onTap: _navigatePop),
+
+                  SizedBox(height: 28.0),
+
+                  /// Question
+                  Container(
+                    child: CustomText(
+                      LocaleKeys.shareFeelingMore,
+                      color: customColors.whiteText,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 27.0,
+                      maxLines: 3,
+                    ),
+                  ),
+
+                  SizedBox(height: 25.0),
+
+                  /// Feeling Item
+                  _feelingItem(),
+
+                  SizedBox(height: 14.0),
+
+                  _feelingDetailTextField(),
+                ],
+              ),
+            ),
+
+            // Finish Button
+            _buttonFinish(),
+
+            SizedBox(height: 30.0)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _causeItem(causeName) {
+    return Container(
+      height: 22.0,
+      padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 4.0),
+      margin: EdgeInsets.only(right: 7.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: customColors.primary,
+      ),
+      child: Text(
+        causeName,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: customColors.whiteText,
+          fontWeight: FontWeight.w500,
+          fontSize: 11.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _feelingItem() {
+    print(widget.selectedCauses);
+    return Container(
+      height: 73.0,
+      padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 14.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: customColors.feelingCauseItem,
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            widget.selectedFeelingData["emoji"],
+            height: 50.0,
+            width: 50.0,
+          ),
+          SizedBox(width: 18.0),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText(
+                  widget.selectedFeelingData["name"],
+                  color: customColors.whiteText,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w700,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      for (var cause in widget.selectedCauses) _causeItem(cause),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _feelingDetailTextField() {
+    return Container(
+      height: 186.0,
+      padding: EdgeInsets.fromLTRB(18.0, 9.0, 18.0, 18.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: customColors.feelingCauseItem,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                Assets.male_habido,
+                height: 20.0,
+                width: 20.0,
+              ),
+              SizedBox(width: 5.0),
+              Expanded(
+                child: CustomText(
+                  LocaleKeys.feelingDetailIntro,
+                  fontSize: 11.0,
+                  color: customColors.whiteText,
+                  maxLines: 2,
+                ),
+              ),
+            ],
+          ),
+
+          /// Divider
+          HorizontalLine(margin: EdgeInsets.only(top: 9.0)),
+
+          Expanded(
+            child: TextField(
+              controller: _textController,
+              maxLines: null,
+              cursorColor: customColors.whiteText,
+              style: TextStyle(color: customColors.whiteText),
+              decoration: InputDecoration(
+                hintText: LocaleKeys.feelingDetailHint,
+                hintStyle: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  color: customColors.whiteText,
+                ),
+                border: InputBorder.none,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _buttonFinish() {
+    return !Func.visibleKeyboard(context)
+        ? CustomButton(
+            text: LocaleKeys.finish,
+            onPressed: _navigateToHomeRoute,
+            borderRadius: BorderRadius.circular(30.0),
+            margin: EdgeInsets.symmetric(horizontal: 45.0),
+          )
+        : Container();
+  }
+
+  _navigateToHomeRoute() {
+    Navigator.pushNamed(context, Routes.home);
+  }
+
+  _navigatePop() {
+    Navigator.popUntil(context, ModalRoute.withName(Routes.feelingCause));
+  }
+}

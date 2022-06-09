@@ -79,6 +79,7 @@ flutter:
     - assets/images/chat/
     - assets/images/test/
     - assets/images/habit/
+    - assets/images/feeling/
     - assets/audio/
 
   fonts:

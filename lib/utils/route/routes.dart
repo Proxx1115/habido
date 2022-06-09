@@ -19,6 +19,10 @@ import 'package:habido_app/ui/auth/forgot_password/verify_password_route.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_poster_view.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
+import 'package:habido_app/ui/feeling/feeling_cause_route.dart';
+import 'package:habido_app/ui/feeling/feeling_detail_route.dart';
+import 'package:habido_app/ui/feeling/feeling_emoji_route.dart';
+import 'package:habido_app/ui/feeling/feeling_main_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/habit/habit_success_route.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_route.dart';
@@ -111,6 +115,10 @@ class Routes {
   static const habitFinance = 'habitFinance';
   static const habitFinanceStmt = 'habitFinanceStmt';
   static const habitTotalExpense = 'habitTotalExpense';
+  static const feelingMain = 'feelingMain';
+  static const feelingEmoji = 'feelingEmoji';
+  static const feelingCause = 'feelingCause';
+  static const feelingDetail = 'feelingDetail';
   static const notif = 'notif';
   static const userInfo = 'userInfo';
   static const yourRank = 'yourRank';
@@ -520,6 +528,48 @@ class Routes {
           ),
           settings,
         );
+        break;
+
+      case Routes.feelingMain:
+        route = SlideRightRouteBuilder(FeelingMainRoute(), settings);
+        break;
+
+      case Routes.feelingEmoji:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            FeelingEmojiRoute(
+              selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
+            ),
+            settings);
+        break;
+
+      case Routes.psyTestResult:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          PsyTestResultRoute(
+            psyTestResult: _getValueByKey(args, 'psyTestResult'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.feelingCause:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            FeelingCauseRoute(
+              selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
+            ),
+            settings);
+        break;
+
+      case Routes.feelingDetail:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            FeelingDetailRoute(
+              selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
+              selectedCauses: _getValueByKey(args, 'selectedCauses'),
+            ),
+            settings);
         break;
 
       case Routes.notif:

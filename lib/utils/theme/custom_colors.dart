@@ -28,6 +28,21 @@ class ConstantColors {
   static const feijoGreen = const Color(0xFF9ED26A);
   static const froly = const Color(0xFFF76C82);
   static const loblolly = const Color(0xFFC2CAD1);
+  // feeling backgrounds
+  static const feeling1Top = const Color(0xFF76BDB8); // Гайхалтай
+  static const feeling1Btm = const Color(0xFFC5F4F1); // Гайхалтай
+  static const feeling2Top = const Color(0xFF77759C); // Дажгүй шүү
+  static const feeling2Btm = const Color(0xFFB2AFDD); // Дажгүй шүү
+  static const feeling3Top = const Color(0xFFF0B99F); // Мэдэхгүй ээ
+  static const feeling3Btm = const Color(0xFFFFF1EB); // Мэдэхгүй ээ
+  static const feeling4Top = const Color(0xFFE47876); // Тааламжгүй ээ
+  static const feeling4Btm = const Color(0xFFFFD5D5); // Тааламжгүй ээ
+  static const feeling5Top = const Color(0xFF5E7F9C); // Онцгүй ээ
+  static const feeling5Btm = const Color(0xFF9DC0DE); // Онцгүй ээ
+  static const feelingCauseTop = const Color(0xFF46A1BC);
+  static const feelingCauseBtm = const Color(0xFF8BCCE2);
+  static const feelingCauseItem = const Color(0xFF3D93AD);
+  static const feelingDetailHint = const Color(0xFFE2E2E2);
 }
 
 class CustomColors {
@@ -85,6 +100,24 @@ class CustomColors {
   Color iconVikingGreen = ConstantColors.vikingGreen;
   Color iconYellowGreen = ConstantColors.yellowGreen;
   Color iconSeaGreen = ConstantColors.seaGreen;
+
+  /// Feeling Backgrounds
+  Color feeling1Top = ConstantColors.feeling1Top;
+  Color feeling1Btm = ConstantColors.feeling1Btm;
+  Color feeling2Top = ConstantColors.feeling2Top;
+  Color feeling2Btm = ConstantColors.feeling2Btm;
+  Color feeling3Top = ConstantColors.feeling3Top;
+  Color feeling3Btm = ConstantColors.feeling3Btm;
+  Color feeling4Top = ConstantColors.feeling4Top;
+  Color feeling4Btm = ConstantColors.feeling4Btm;
+  Color feeling5Top = ConstantColors.feeling5Top;
+  Color feeling5Btm = ConstantColors.feeling5Btm;
+
+  /// Feeling Cause, Detail background
+  Color feelingCauseTop = ConstantColors.feelingCauseTop;
+  Color feelingCauseBtm = ConstantColors.feelingCauseBtm;
+  Color feelingCauseItem = ConstantColors.feelingCauseItem;
+  Color feelingDetailHint = ConstantColors.feelingDetailHint;
 
   CustomColors.constructor();
 

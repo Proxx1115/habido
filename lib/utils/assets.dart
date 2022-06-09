@@ -40,6 +40,8 @@ class Assets {
   static const String drop_down = 'assets/images/global/drop_down.svg';
   static const String search = 'assets/images/global/search.svg';
   static const String arrow_back = 'assets/images/global/arrow_back.svg';
+  static const String arrow_right = 'assets/images/global/arrow_right.svg';
+  static const String male_habido = 'assets/images/global/male_habido.png';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
@@ -64,7 +66,6 @@ class Assets {
   static const String question2 = 'assets/images/auth/question2.svg';
   static const String question3 = 'assets/images/auth/question3.svg';
   static const String sign_up_success = 'assets/images/auth/sign_up_success.png';
-  static const String arrow_right = 'assets/images/auth/arrow_right.svg';
 
   /// Home
   static const String home = 'assets/images/home/home.svg';
@@ -103,11 +104,11 @@ class Assets {
   static const String play = 'assets/images/habit/play.svg';
   static const String pause = 'assets/images/habit/pause.svg';
   static const String reset = 'assets/images/habit/reset.svg';
-  static const String emoji1 = 'assets/images/habit/emoji1.svg';
-  static const String emoji2 = 'assets/images/habit/emoji2.svg';
-  static const String emoji3 = 'assets/images/habit/emoji3.svg';
-  static const String emoji4 = 'assets/images/habit/emoji4.svg';
-  static const String emoji5 = 'assets/images/habit/emoji5.svg';
+  // static const String emoji1 = 'assets/images/habit/emoji1.svg';
+  // static const String emoji2 = 'assets/images/habit/emoji2.svg';
+  // static const String emoji3 = 'assets/images/habit/emoji3.svg';
+  // static const String emoji4 = 'assets/images/habit/emoji4.svg';
+  // static const String emoji5 = 'assets/images/habit/emoji5.svg';
 
   static const String happyEmoji = 'assets/images/habit/_Баяр_хөөртэй.png';
   static const String frustratedEmoji = 'assets/images/habit/_Бухимдсан.png';
@@ -161,6 +162,28 @@ class Assets {
   static const String refresh = 'assets/images/habit/refresh.svg';
   static const String decrease_emoji = 'assets/images/habit/decrease_emoji.svg';
   static const String increase_emoji = 'assets/images/habit/increase_emoji.svg';
+
+  /// Feeling
+  static const String emoji1 = 'assets/images/feeling/emoji1.svg';
+  static const String emoji2 = 'assets/images/feeling/emoji2.svg';
+  static const String emoji3 = 'assets/images/feeling/emoji3.svg';
+  static const String emoji4 = 'assets/images/feeling/emoji4.svg';
+  static const String emoji5 = 'assets/images/feeling/emoji5.svg';
+  static const String exit = 'assets/images/feeling/exit.png';
+
+  /// awesome, cool emojis
+  static const String powerfulEmoji_new = 'assets/images/feeling/_Эрч хүчтэй.svg';
+  static const String thankfulEmoji_new = 'assets/images/feeling/_Талархсан.svg';
+  static const String confidentEmoji_new = 'assets/images/feeling/_Өөртэй_итгэлтэй.svg';
+  static const String satisfiedEmoji_new = 'assets/images/feeling/_Сэтгэл_ханамжтай.svg';
+  static const String happyEmoji_new = 'assets/images/feeling/_Сэтгэл_ханамжтай.svg';
+  static const String lovedEmoji_new = 'assets/images/feeling/_Сэтгэл_ханамжтай.svg';
+  static const String optimisticEmoji_new = 'assets/images/feeling/_Сэтгэл_ханамжтай.svg';
+  static const String calmEmoji_new = 'assets/images/feeling/_Сэтгэл_ханамжтай.svg';
+  static const String encouragingEmoji_new = 'assets/images/feeling/_Урам_зоригтой.svg';
+  static const String relaxedEmoji_new = 'assets/images/feeling/_Амарсан.svg';
+  static const String proudEmoji_new = 'assets/images/feeling/_Бахархсан.svg';
+  static const String unknownEmoji_new = 'assets/images/feeling/_Мэдэхгүй.svg';
 }
 
 class FontAsset {

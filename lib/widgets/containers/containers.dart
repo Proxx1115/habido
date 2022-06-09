@@ -12,8 +12,7 @@ import 'package:habido_app/widgets/text.dart';
 class MarginVertical extends StatelessWidget {
   final double height;
 
-  const MarginVertical({Key? key, this.height = SizeHelper.margin})
-      : super(key: key);
+  const MarginVertical({Key? key, this.height = SizeHelper.margin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +23,7 @@ class MarginVertical extends StatelessWidget {
 class MarginHorizontal extends StatelessWidget {
   final double width;
 
-  const MarginHorizontal({Key? key, this.width = SizeHelper.margin})
-      : super(key: key);
+  const MarginHorizontal({Key? key, this.width = SizeHelper.margin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,10 @@ class HorizontalLine extends StatelessWidget {
     return Container(
       margin: margin,
       height: SizeHelper.borderWidth,
-      color: color ?? customColors.primaryBorder,
+      decoration: BoxDecoration(
+        color: color ?? customColors.primaryBorder,
+        borderRadius: BorderRadius.circular(5.0),
+      ),
     );
   }
 }
@@ -96,8 +97,7 @@ class StadiumContainer extends StatelessWidget {
           margin: margin,
           decoration: BoxDecoration(
             color: backgroundColor ?? customColors.whiteBackground,
-            borderRadius:
-                borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
+            borderRadius: borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
           ),
           child: child,
         ),
@@ -137,8 +137,7 @@ class ExpandableCard extends StatelessWidget {
           margin: margin,
           decoration: BoxDecoration(
             color: backgroundColor ?? customColors.whiteBackground,
-            borderRadius:
-                borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
+            borderRadius: borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
           ),
           child: child,
         ),
@@ -197,10 +196,7 @@ class InfoContainer extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           /// Title
-          CustomText(title,
-              fontWeight: FontWeight.w500,
-              maxLines: 2,
-              alignment: titleAlignment),
+          CustomText(title, fontWeight: FontWeight.w500, maxLines: 2, alignment: titleAlignment),
 
           /// Divider
           HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
@@ -209,8 +205,7 @@ class InfoContainer extends StatelessWidget {
           CustomText(body, maxLines: 200, textAlign: TextAlign.justify),
 
           /// Divider
-          if (footer != null)
-            HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+          if (footer != null) HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
 
           /// Footer
           if (footer != null)
@@ -357,8 +352,7 @@ class GridItemContainer extends StatelessWidget {
                 width: 40.0,
                 decoration: BoxDecoration(
                   color: _getBackgroundColor(),
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(SizeHelper.borderRadius)),
+                  borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
                 ),
                 padding: EdgeInsets.all(10.0),
                 child: CachedNetworkImage(
@@ -455,10 +449,8 @@ class ListItemContainer extends StatelessWidget {
                   height: 40.0,
                   width: 40.0,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(SizeHelper.borderRadius)),
-                    color:
-                        leadingBackgroundColor ?? customColors.greyBackground,
+                    borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                    color: leadingBackgroundColor ?? customColors.greyBackground,
                   ),
                   child: _leadingImage(),
                 ),
@@ -492,11 +484,11 @@ class ListItemContainer extends StatelessWidget {
                   suffixAsset!,
                   color: suffixColor ?? customColors.iconGrey,
                 ),
+
               /// Date
-              if(suffixAsset == null && date != null)
+              if (suffixAsset == null && date != null)
                 CustomText(
-                  Func.toDateStr(Func.toDate(date!))
-                      .replaceAll('-', '.'),
+                  Func.toDateStr(Func.toDate(date!)).replaceAll('-', '.'),
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(bottom: 15.0),
                   fontWeight: FontWeight.w500,
@@ -574,9 +566,7 @@ class SelectableListItem extends StatelessWidget {
             /// Icon
             SvgPicture.asset(
               Assets.circle_check,
-              color: (isSelected ?? false)
-                  ? customColors.primary
-                  : customColors.iconGrey,
+              color: (isSelected ?? false) ? customColors.primary : customColors.iconGrey,
             ),
           ],
         ),
@@ -589,8 +579,7 @@ class RoundedCornerListView extends StatelessWidget {
   final List<Widget> children;
   final EdgeInsets? padding;
 
-  const RoundedCornerListView({Key? key, required this.children, this.padding})
-      : super(key: key);
+  const RoundedCornerListView({Key? key, required this.children, this.padding}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

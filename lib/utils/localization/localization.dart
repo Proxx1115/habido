@@ -403,15 +403,26 @@ class LocaleKeys {
 
   static String get pleaseSelectEmoji => 'Та мэдрэмжээ сонгоно уу?';
 
-  static String get emoji1 => 'Гунигтай байна';
+  /// old emoji
+  // static String get emoji1 => 'Гунигтай байна';
 
-  static String get emoji2 => 'Тааламжгүй байна';
+  // static String get emoji2 => 'Тааламжгүй байна';
 
-  static String get emoji3 => 'Юу мэдэрч байгаагаа мэдэхгүй байна';
+  // static String get emoji3 => 'Юу мэдэрч байгаагаа мэдэхгүй байна';
 
-  static String get emoji4 => 'Тайван сайхан байна';
+  // static String get emoji4 => 'Тайван сайхан байна';
 
-  static String get emoji5 => 'Маш их баяртай байна';
+  // static String get emoji5 => 'Маш их баяртай байна';
+
+  static String get emoji1 => 'Гайхалтай';
+
+  static String get emoji2 => 'Дажгүй шүү';
+
+  static String get emoji3 => 'Мэдэхгүй ээ';
+
+  static String get emoji4 => 'Тааламжгүй ээ';
+
+  static String get emoji5 => 'Онцгүй ээ';
 
   static String get happyEmoji => 'Баяр хөөртэй';
 
@@ -452,6 +463,56 @@ class LocaleKeys {
   static String get energeticEmoji => 'Эрч хүчтэй';
 
   static String get tiredEmoji => 'Ядарсан';
+
+  /// NEW
+
+  static String get happyEmoji_new => 'Баяр хөөртэй';
+
+  static String get frustratedEmoji_new => 'Бухимдсан';
+
+  static String get surprisedEmoji_new => 'Гайхширсан';
+
+  static String get lonelyEmoji_new => 'Ганцаардсан';
+
+  static String get sadEmoji_new => 'Гунигтай';
+
+  static String get underPressureEmoji_new => 'Дарамттай';
+
+  static String get unknownEmoji_new => 'Мэдэхгүй';
+
+  static String get optimisticEmoji_new => 'Өөдрөг';
+
+  static String get confidentEmoji_new => 'Өөртөө итгэлтэй';
+
+  static String get worriedEmoji_new => 'Санаа зовсон';
+
+  static String get panickedEmoji_new => 'Сандарсан';
+
+  static String get satisfiedEmoji_new => 'Сэтгэл ханамжтай';
+
+  static String get emotionlessEmoji_new => 'Сэтгэл хөдлөлгүй';
+
+  static String get calmEmoji_new => 'Тайван';
+
+  static String get thankfulEmoji_new => 'Талархсан';
+
+  static String get anxiousEmoji_new => 'Түгшүүртэй';
+
+  static String get angryEmoji_new => 'Ууртай';
+
+  static String get lovedEmoji_new => 'Хайрлагдсан';
+
+  static String get energeticEmoji_new => 'Эрч хүчтэй';
+
+  static String get tiredEmoji_new => 'Ядарсан';
+
+  /// new
+  static String get powerfulEmoji_new => 'Эрч хүчтэй';
+  static String get encouragingEmoji_new => 'Урам зоригтой';
+  static String get relaxedEmoji_new => 'Амарсан';
+  static String get proudEmoji_new => 'Бахархсан';
+
+  ///
 
   static String get note => 'Тэмдэглэл';
 
@@ -520,6 +581,29 @@ class LocaleKeys {
   static String get pleaseSelectGoal => 'Зорилго сонгоно уу';
 
   static String get answerOneOfThoseQuestion => 'Дараах асуултуудаас нэгийг нь сонгон хариулаарай';
+
+  /// Feeling
+  static String get howsYourDay => 'Өнөөдөр хэрхэн өнгөрч байна даа?';
+
+  static String get whatCausesThisFeeling => 'Энэ мэдрэмж юунаас болоод үүсэж байна вэ?';
+
+  static String get shareFeelingMore => 'Мэдрэмжээ дэлгэрэнгүй хуваалцвал';
+
+  /// Feeling Causes
+  static String get family => 'Гэр бүл';
+  static String get relationship => 'Хосын харилцаа';
+  static String get children => 'Хүүхэд';
+  static String get friends => 'Найз нөхөд';
+  static String get work => 'Ажил';
+  static String get school => 'Сургууль, хичээл';
+  static String get health => 'Эрүүл мэнд';
+  static String get mentalHealth => 'Сэтгэл зүй';
+  static String get sleep => 'Нойр';
+  static String get mySelf => 'Өөрөөсөө болж';
+  static String get finance => 'Санхүү';
+
+  static String get feelingDetailIntro => 'Мэдрэмжээ илэрхийлэн бичих нь өөрийгөө хөндлөнгөөс анзаарахад тустай шүү';
+  static String get feelingDetailHint => 'Би өнөөдөр...';
 
   /// Profile
   static String get allTime => 'Бүх цаг үе';
