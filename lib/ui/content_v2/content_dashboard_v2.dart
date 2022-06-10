@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/models/content.dart';
+import 'package:habido_app/models/content_tag_v2.dart';
+import 'package:habido_app/models/content_v2.dart';
+import 'package:habido_app/ui/content_v2/content_bloc_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/app_bars/dashboard_sliver_app_bar.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
@@ -29,67 +34,142 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
   ];
   String _selectedMenu = "Танд";
 
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        /// App bar
-        // DashboardSliverAppBar(title: LocaleKeys.advice),
+  late ContentBlocV2 _contentBlocV2;
 
-        /// Search
-        _searchBar(),
-        SliverToBoxAdapter(
-          child: _tagList(),
-        ),
-        SliverToBoxAdapter(
-          child: Column(
-            children: [
-              CustomText(
-                "Онцлох",
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: customColors.primaryText,
-              ),
-              SizedBox(height: 10),
-              _contentColumn(),
-              _contentColumn(),
-            ],
-          ),
-        ),
-      ],
-    );
+  // Tags
+  List<ContentTagV2> _tagList = [];
+
+  List<ContentTagV2> _tagList2 = [];
+
+  // Content
+  List<ContentV2>? _contentList;
+  List<Content>? _filteredContentList;
+
+  @override
+  void initState() {
+    // Search
+    // _searchController.addListener(() => _filter());
+
+    // Data
+    _contentBlocV2 = ContentBlocV2();
+    _contentBlocV2.add(GetContentListEventV2());
+    super.initState();
   }
 
-  Widget _tagList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        margin: EdgeInsets.only(left: 15),
-        child: Row(
-          children: [for (var el in _contentTagName) _tagItem(el)],
+  @override
+  void dispose() {
+    _contentBlocV2.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScaffold(
+      child: BlocProvider.value(
+        value: _contentBlocV2,
+        child: BlocListener<ContentBlocV2, ContentStateV2>(
+          listener: _blocListener,
+          child: BlocBuilder<ContentBlocV2, ContentStateV2>(
+            builder: (context, state) {
+              return CustomScrollView(
+                slivers: [
+                  /// App bar
+                  // DashboardSliverAppBar(title: LocaleKeys.advice),
+
+                  /// Search
+                  _searchBar(),
+                  // SliverToBoxAdapter(
+                  //   child: _tagListNew(),
+                  // ),
+                  SliverToBoxAdapter(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 25),
+                          CustomText(
+                            "Онцлох",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: customColors.primaryText,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              // print("yelas:${_tagList2.length}");
+                              // print("yelas22:${_contentList?[0].text}");
+                            },
+                            child: CustomText('okey'),
+                          ),
+                          SizedBox(height: 10),
+                          _contentColumn(),
+                          _contentColumn(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
-  _tagItem(String text) {
-    bool _selected = text == _selectedMenu;
+  void _blocListener(BuildContext context, ContentStateV2 state) {
+    if (state is ContentListSuccessV2) {
+      _contentList = state.contentList;
+      // _contentList = _filteredContentList = state.contentList;
+
+      _tagList = state.tagList;
+    } else if (state is ContentListFailedV2) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is ContentTagsSuccess) {
+      _tagList2 = state.tagList;
+      // showCustomDialog(
+      //   context,
+      //   child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      // );
+    }
+  }
+
+  Widget _tagListNew() {
+    // print("tagName:${_tagList.length}");
+    // print("tagName1:${_tagList[1].name}");
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        margin: EdgeInsets.only(left: 15),
+        child: Row(
+          // children: [for (var el in _tagList) _tagItem(el)], ///text ogdog baisan
+          children: [for (var i = 0; i < _tagList.length; i++) _tagItem(i)],
+        ),
+      ),
+    );
+  }
+
+  _tagItem(int i) {
+    // bool _selected = text == _selectedMenu;
 
     return InkWell(
       onTap: () {
-        _selectedMenu = text;
-        setState(() {});
+        // _selectedMenu = text;
+        // setState(() {});
+        // _tagList[i].isSelected = !(_tagList[i].isSelected ?? false);
       },
       child: Container(
         margin: EdgeInsets.only(right: 10),
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         decoration: BoxDecoration(
-          color: _selected ? customColors.primary : Colors.white,
+          color: (_tagList[i].isSelected ?? false) ? customColors.primary : Colors.white,
           borderRadius: BorderRadius.circular(15),
         ),
         child: CustomText(
-          text,
-          color: _selected ? Colors.white : customColors.primaryText,
+          _tagList[i].name.toString(),
+          color: (_tagList[i].isSelected ?? false) ? Colors.white : customColors.primaryText,
           fontSize: 15,
           fontWeight: FontWeight.w400,
         ),
@@ -103,7 +183,9 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
         // Navigator.pushNamed(context, Routes.contentV2);
       },
       child: Container(
-        margin: EdgeInsets.only(top: 20, left: 15, right: 15),
+        margin: EdgeInsets.only(
+          bottom: 15,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
