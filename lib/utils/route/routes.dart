@@ -40,6 +40,8 @@ import 'package:habido_app/ui/habit/progress/habit_tree/habit_tree_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart';
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
+import 'package:habido_app/ui/home_new/home_route.dart';
+import 'package:habido_app/ui/home_new/instruction_route/instruction_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/notification/notification_route.dart';
 import 'package:habido_app/ui/profile/change_password_route.dart';
@@ -51,6 +53,7 @@ import 'package:habido_app/ui/profile/faq_route.dart';
 import 'package:habido_app/ui/profile/feedback_cat_list.dart';
 import 'package:habido_app/ui/profile/feedback_route.dart';
 import 'package:habido_app/ui/profile/help_route.dart';
+import 'package:habido_app/ui/profile/profile_dashboard.dart';
 import 'package:habido_app/ui/profile/terms_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
@@ -91,6 +94,8 @@ class Routes {
   static const signUp6Success = 'signUp5Success';
   static const termDetail = 'termDetail';
   static const home = 'home';
+  static const home_new = 'home_new';
+  static const instruction = 'instruction';
   static const calendar = 'calendar';
   static const content = 'content';
   static const habidoAssistant = 'habidoAssistant';
@@ -120,6 +125,7 @@ class Routes {
   static const feelingCause = 'feelingCause';
   static const feelingDetail = 'feelingDetail';
   static const notif = 'notif';
+  static const profile = 'profile';
   static const userInfo = 'userInfo';
   static const yourRank = 'yourRank';
   static const habitSuccess = 'habitSuccess';
@@ -271,6 +277,14 @@ class Routes {
 
       case Routes.home:
         route = FadeRouteBuilder(HomeRoute(), settings);
+        break;
+
+      case Routes.home_new:
+        route = FadeRouteBuilder(HomeRouteNew(), settings);
+        break;
+
+      case Routes.instruction:
+        route = SlideRightRouteBuilder(InstructionRoute(), settings);
         break;
 
       case Routes.calendar:
@@ -574,6 +588,10 @@ class Routes {
 
       case Routes.notif:
         route = SlideRightRouteBuilder(NotificationRoute(), settings);
+        break;
+
+      case Routes.profile:
+        route = SlideRightRouteBuilder(ProfileScreen(), settings);
         break;
 
       case Routes.userInfo:

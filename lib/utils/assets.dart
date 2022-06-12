@@ -75,6 +75,8 @@ class Assets {
   static const String profile = 'assets/images/home/profile.svg';
   static const String notification = 'assets/images/home/notification.svg';
   static const String calendar = 'assets/images/home/calendar.svg';
+  static const String habit_tip = 'assets/images/home/habit_tip.svg';
+  static const String instruction_dev = 'assets/images/home/instruction_dev.svg'; // todo delete after connected to backend
 
   /// Profile
   static const String male = 'assets/images/profile/male.png';

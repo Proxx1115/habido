@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class EmojiItemWidget extends StatefulWidget {
@@ -42,6 +43,65 @@ class _EmojiItemWidgetState extends State<EmojiItemWidget> {
               textAlign: TextAlign.center,
               fontWeight: widget.isBold ? FontWeight.w700 : FontWeight.normal,
               fontSize: 11.0,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EmojiItemWithDateWidget extends StatelessWidget {
+  final Map emojiData;
+  final Function onTap;
+
+  const EmojiItemWithDateWidget({
+    Key? key,
+    required this.emojiData,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(10.0),
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        height: 97,
+        width: 78,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+        child: Column(
+          children: [
+            SizedBox(height: 10.0),
+            SvgPicture.asset(
+              emojiData["emoji"],
+              height: 37.8,
+              width: 37.8,
+            ),
+            SizedBox(height: 4.0),
+            CustomText(
+              emojiData["name"],
+              alignment: Alignment.center,
+              textAlign: TextAlign.center,
+              fontWeight: FontWeight.w700,
+              fontSize: 11.0,
+            ),
+            SizedBox(height: 4.0),
+            CustomText(
+              emojiData["date"],
+              alignment: Alignment.center,
+              textAlign: TextAlign.center,
+              fontSize: 9.0,
+              color: customColors.disabledText,
+            ),
+            CustomText(
+              emojiData["time"],
+              alignment: Alignment.center,
+              textAlign: TextAlign.center,
+              fontSize: 9.0,
+              color: customColors.disabledText,
             ),
           ],
         ),

@@ -288,6 +288,20 @@ class LocaleKeys {
 
   static String get myCorner => 'Миний булан';
 
+  static String get hi => 'Сайн уу,';
+
+  static String get shareHowYouFeel => 'Юу мэдэрч байгаагаа хуваалцах уу?';
+
+  static String get wannaShareFeeling => 'Мэдрэмжээ хуваалцах уу?';
+
+  static String get start => 'Эхлэх';
+
+  static String get starting => 'Эхлүүлэх';
+
+  static String get habitTip => 'Дадал хэвшүүлэх зөвлөмж';
+
+  static String get habidoInstruction => 'HabiDo заавар';
+
   /// Showcase
   static String get showcaseAddHabit => 'Шинэ дадал үүсгэх';
 
@@ -314,6 +328,8 @@ class LocaleKeys {
   static String get showcaseSlidable => 'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой';
 
   /// Chat
+  static String get chatbot => 'Чатбот';
+
   static String get habidoAssistant => 'HabiDo чатбот';
 
   static String get chatBotIdNotFound => 'HabiDo туслахын мэдээлэл олдсонгүй';

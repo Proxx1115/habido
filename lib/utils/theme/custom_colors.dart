@@ -28,6 +28,7 @@ class ConstantColors {
   static const feijoGreen = const Color(0xFF9ED26A);
   static const froly = const Color(0xFFF76C82);
   static const loblolly = const Color(0xFFC2CAD1);
+  static const athensGray = const Color(0xFFF2F5F7);
   // feeling backgrounds
   static const feeling1Top = const Color(0xFF76BDB8); // Гайхалтай
   static const feeling1Btm = const Color(0xFFC5F4F1); // Гайхалтай
@@ -63,11 +64,13 @@ class CustomColors {
   Color secondaryBorder = Colors.white;
   Color roseWhiteBorder = ConstantColors.roseWhite;
   Color grayBorder = ConstantColors.loblolly;
+  Color athensGrayBorder = ConstantColors.athensGray;
 
   /// Text
   Color primaryText = ConstantColors.black;
   Color greyText = ConstantColors.grey;
   Color whiteText = Colors.white;
+  Color disabledText = ConstantColors.cornflowerBlue;
 
   /// Indicator
   Color grayIndicator = ConstantColors.gray;

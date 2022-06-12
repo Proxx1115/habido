@@ -38,6 +38,7 @@ class _NotificationButtonState extends State<NotificationButton> {
               badgeColor: customColors.primary,
               showBadge: globals.unreadNotifCount > 0,
               child: ButtonStadium(
+                size: 20,
                 asset: Assets.notification,
                 onPressed: () {
                   Navigator.pushNamed(context, Routes.notif);
