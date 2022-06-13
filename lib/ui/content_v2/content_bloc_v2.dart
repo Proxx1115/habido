@@ -6,53 +6,38 @@ import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 
-class ContentBlocV2 extends Bloc<ContentEventV2, ContentStateV2> {
+class ContentBlocV2 extends Bloc<ContentHighlightedEvent, ContentHighlightedState> {
   ContentBlocV2() : super(ContentInitV2());
 
   @override
-  Stream<ContentStateV2> mapEventToState(ContentEventV2 event) async* {
-    if (event is GetContentListEventV2) {
-      yield* _mapGetContentListEventToStateV2();
+  Stream<ContentHighlightedState> mapEventToState(ContentHighlightedEvent event) async* {
+    if (event is GetHighlightedListEvent) {
+      yield* _mapGetContentHighlightedListEventToState();
     } else if (event is GetContentEventV2) {
-      yield* _mapGetContentEventToStateV2(event);
+      yield* _mapGetContentHighlightedEventToState(event);
     } else if (event is GetContentTags) {
-      yield* _mapGetContentTagEventToState();
+      yield* _mapGetContentTagsEventToState();
+    } else if (event is GetContentFilter) {
+      yield* _mapGetContentFilterEventToState(event);
     }
   }
 
-  Stream<ContentStateV2> _mapGetContentListEventToStateV2() async* {
+  Stream<ContentHighlightedState> _mapGetContentHighlightedListEventToState() async* {
     try {
-      yield ContentListLoadingV2();
+      yield ContentHighlightedListLoading();
 
       var res = await ApiManager.highLightedContentList();
       if (res.code == ResponseCode.Success && res.contentList != null && res.contentList!.length > 0) {
-        // Tag list
-        List<ContentTagV2> tagList = [];
-        if (res.contentList != null && res.contentList!.isNotEmpty) {
-          for (var content in res.contentList!) {
-            if (content.tags != null && content.tags!.isNotEmpty) {
-              for (var tag in content.tags!) {
-                bool isUnique = false;
-                for (var el in tagList) {
-                  if (el.name == tag.name) isUnique = true;
-                }
-
-                if (!isUnique) tagList.add(tag);
-              }
-            }
-          }
-        }
-
-        yield ContentListSuccessV2(res.contentList!, tagList);
+        yield ContentHighlightedListSuccess(res.contentList!);
       } else {
-        yield ContentListEmptyV2();
+        yield ContentHighlightedListEmpty();
       }
     } catch (e) {
-      yield ContentListFailedV2(LocaleKeys.errorOccurred);
+      yield ContentHighlightedListFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<ContentStateV2> _mapGetContentEventToStateV2(GetContentEventV2 event) async* {
+  Stream<ContentHighlightedState> _mapGetContentHighlightedEventToState(GetContentEventV2 event) async* {
     try {
       yield ContentLoadingV2();
 
@@ -67,63 +52,52 @@ class ContentBlocV2 extends Bloc<ContentEventV2, ContentStateV2> {
     }
   }
 
-  Stream<ContentStateV2> _mapGetContentTagEventToState() async* {
-    // try {
-    //   yield ContentTagsLoading();
-    //
-    //   var res = await ApiManager.contentTags();
-    //   if (res.code == ResponseCode.Success) {
-    //     yield ContentTagsSuccess(res);
-    //   } else {
-    //     yield ContentFailedTagV2(LocaleKeys.noData);
-    //   }
-    // } catch (e) {
-    //   yield ContentFailedTagV2(LocaleKeys.errorOccurred);
-    // }
-    var res = await ApiManager.contentTags();
-    // print("TAGSS:$res");
+  Stream<ContentHighlightedState> _mapGetContentTagsEventToState() async* {
     try {
       yield ContentTagsLoading();
 
       var res = await ApiManager.contentTags();
-      // print("TAGSS:$res");
-      // if (res.code == ResponseCode.Success && res.contentList != null && res.contentList!.length > 0) {
-      if (res.code == ResponseCode.Success) {
+      if (res.code == ResponseCode.Success && res.contentTags != null && res.contentTags!.length > 0) {
         // Tag list
         List<ContentTagV2> tagList = [];
-        if (res.data != null && res.data!.isNotEmpty) {
-          for (var tag in res.data!) {
-            // bool isUnique = false;
-            // for (var el in tagList) {
-            //   if (el.name == tag.name) isUnique = true;
-            // }
-
-            // if (!isUnique) tagList.add(tag);
-            tagList.add(tag);
-          }
-        }
+        tagList = res.contentTags!;
 
         yield ContentTagsSuccess(tagList);
       } else {
         yield ContentTagsEmpty();
       }
     } catch (e) {
-      yield ContentTagsFailedV2(LocaleKeys.errorOccurred);
+      yield ContentTagsFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<ContentHighlightedState> _mapGetContentFilterEventToState(GetContentFilter event) async* {
+    try {
+      yield ContentFilterLoading();
+
+      var res = await ApiManager.contentFilter(event.name, event.pid, event.pSize);
+      if (res.code == ResponseCode.Success) {
+        yield ContentFilterSuccess(res.contentList!);
+      } else {
+        yield ContentFilterFailed(LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield ContentFilterFailed(LocaleKeys.errorOccurred);
     }
   }
 }
 
 /// BLOC EVENTS
-abstract class ContentEventV2 extends Equatable {
-  const ContentEventV2();
+abstract class ContentHighlightedEvent extends Equatable {
+  const ContentHighlightedEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetContentListEventV2 extends ContentEventV2 {}
+class GetHighlightedListEvent extends ContentHighlightedEvent {}
 
-class GetContentEventV2 extends ContentEventV2 {
+class GetContentEventV2 extends ContentHighlightedEvent {
   final int contentId;
 
   const GetContentEventV2(this.contentId);
@@ -135,57 +109,56 @@ class GetContentEventV2 extends ContentEventV2 {
   String toString() => 'GetContentEvent { contentId: $contentId }';
 }
 
-class GetContentTags extends ContentEventV2 {}
+class GetContentTags extends ContentHighlightedEvent {}
+
+class GetContentFilter extends ContentHighlightedEvent {
+  final String name;
+  final int pid;
+  final int pSize;
+
+  const GetContentFilter(this.name, this.pid, this.pSize);
+
+  @override
+  List<Object> get props => [name, pid, pSize];
+
+  @override
+  String toString() => 'GetContentEvent { contentId: $name $pid $pSize }';
+}
 
 /// BLOC STATES
-abstract class ContentStateV2 extends Equatable {
-  const ContentStateV2();
+abstract class ContentHighlightedState extends Equatable {
+  const ContentHighlightedState();
 
   @override
   List<Object> get props => [];
 }
 
-class ContentInitV2 extends ContentStateV2 {}
+class ContentInitV2 extends ContentHighlightedState {}
 
-class ContentListLoadingV2 extends ContentStateV2 {}
+/// CONTENT LIST STATES
 
-class ContentTagsLoading extends ContentStateV2 {}
+class ContentHighlightedListLoading extends ContentHighlightedState {}
 
-class ContentLoadingV2 extends ContentStateV2 {}
+class ContentHighlightedListEmpty extends ContentHighlightedState {}
 
-class ContentListEmptyV2 extends ContentStateV2 {}
-
-class ContentTagsEmpty extends ContentStateV2 {}
-
-class ContentListSuccessV2 extends ContentStateV2 {
+class ContentHighlightedListSuccess extends ContentHighlightedState {
   final List<ContentV2> contentList;
-  final List<ContentTagV2> tagList;
 
-  const ContentListSuccessV2(this.contentList, this.tagList);
+  const ContentHighlightedListSuccess(
+    this.contentList,
+  );
 
   @override
   List<Object> get props => [contentList];
 
   @override
-  String toString() => 'ContentListSuccess { contentList: $contentList, tagList: $tagList }';
+  String toString() => 'ContentListSuccess { contentList: $contentList}';
 }
 
-class ContentTagsSuccess extends ContentStateV2 {
-  final List<ContentTagV2> tagList;
-
-  const ContentTagsSuccess(this.tagList);
-
-  @override
-  List<Object> get props => [tagList];
-
-  @override
-  String toString() => 'ContentListSuccess {tagList: $tagList }';
-}
-
-class ContentListFailedV2 extends ContentStateV2 {
+class ContentHighlightedListFailed extends ContentHighlightedState {
   final String message;
 
-  const ContentListFailedV2(this.message);
+  const ContentHighlightedListFailed(this.message);
 
   @override
   List<Object> get props => [message];
@@ -194,7 +167,10 @@ class ContentListFailedV2 extends ContentStateV2 {
   String toString() => 'ContentListFailed { message: $message }';
 }
 
-class ContentSuccessV2 extends ContentStateV2 {
+/// CONTENT STATES
+class ContentLoadingV2 extends ContentHighlightedState {}
+
+class ContentSuccessV2 extends ContentHighlightedState {
   final ContentV2 content;
 
   const ContentSuccessV2(this.content);
@@ -206,7 +182,7 @@ class ContentSuccessV2 extends ContentStateV2 {
   String toString() => 'ContentSuccess { content: $content }';
 }
 
-class ContentFailedV2 extends ContentStateV2 {
+class ContentFailedV2 extends ContentHighlightedState {
   final String message;
 
   const ContentFailedV2(this.message);
@@ -218,26 +194,58 @@ class ContentFailedV2 extends ContentStateV2 {
   String toString() => 'ContentFailed { message: $message }';
 }
 
-class ContentFailedTagV2 extends ContentStateV2 {
-  final String message;
+/// TAGS STATES
+class ContentTagsLoading extends ContentHighlightedState {}
 
-  const ContentFailedTagV2(this.message);
+class ContentTagsSuccess extends ContentHighlightedState {
+  final List<ContentTagV2> tagList;
+
+  const ContentTagsSuccess(this.tagList);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [tagList];
 
   @override
-  String toString() => 'ContentFailed { message: $message }';
+  String toString() => 'ContentTagsSuccess {tagList: $tagList }';
 }
 
-class ContentTagsFailedV2 extends ContentStateV2 {
+class ContentTagsEmpty extends ContentHighlightedState {}
+
+class ContentTagsFailed extends ContentHighlightedState {
   final String message;
 
-  const ContentTagsFailedV2(this.message);
+  const ContentTagsFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
   String toString() => 'ContentTagsFailed { message: $message }';
+}
+
+/// CONTENT STATES
+class ContentFilterLoading extends ContentHighlightedState {}
+
+class ContentFilterSuccess extends ContentHighlightedState {
+  final List<ContentV2> contentList;
+
+  const ContentFilterSuccess(this.contentList);
+
+  @override
+  List<Object> get props => [contentList];
+
+  @override
+  String toString() => 'ContentSuccess { content: $contentList }';
+}
+
+class ContentFilterFailed extends ContentHighlightedState {
+  final String message;
+
+  const ContentFilterFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ContentFailed { message: $message }';
 }

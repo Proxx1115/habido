@@ -1,17 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_tag_v2.dart';
 import 'package:habido_app/models/content_v2.dart';
 import 'package:habido_app/ui/content_v2/content_bloc_v2.dart';
+import 'package:habido_app/ui/content_v2/content_card_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
-import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/app_bars/dashboard_sliver_app_bar.dart';
 import 'package:habido_app/widgets/dialogs.dart';
+import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
@@ -24,36 +26,40 @@ class ContentDashboardV2 extends StatefulWidget {
 }
 
 class _ContentDashboardV2State extends State<ContentDashboardV2> {
+  late ContentBlocV2 _contentBlocV2;
+
   // Search bar
   final _searchController = TextEditingController();
-  List _contentTagName = [
-    "Танд",
-    "Сэтгэл зүй",
-    "Хувийн хөгжил",
-    "Эрүүл мэнд",
-  ];
-  String _selectedMenu = "Танд";
-
-  late ContentBlocV2 _contentBlocV2;
 
   // Tags
   List<ContentTagV2> _tagList = [];
 
-  List<ContentTagV2> _tagList2 = [];
+  String? _selectedTag = "Танд";
+
+  var forYou = new ContentTagV2(name: "Танд", filterValue: "Танд");
 
   // Content
   List<ContentV2>? _contentList;
-  List<Content>? _filteredContentList;
+  List<ContentV2>? _contentFilter;
+  ContentV2? content;
+
+  int pSize = 100;
 
   @override
   void initState() {
     // Search
     // _searchController.addListener(() => _filter());
 
-    // Data
     _contentBlocV2 = ContentBlocV2();
-    _contentBlocV2.add(GetContentListEventV2());
+    _contentBlocV2.add(GetHighlightedListEvent());
+    _tagList.add(forYou);
+    _getData();
+    _contentBlocV2.add(GetContentTags());
     super.initState();
+  }
+
+  _getData() {
+    _contentBlocV2.add(GetContentFilter(_selectedTag ?? "", 1, pSize));
   }
 
   @override
@@ -67,20 +73,21 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     return CustomScaffold(
       child: BlocProvider.value(
         value: _contentBlocV2,
-        child: BlocListener<ContentBlocV2, ContentStateV2>(
+        child: BlocListener<ContentBlocV2, ContentHighlightedState>(
           listener: _blocListener,
-          child: BlocBuilder<ContentBlocV2, ContentStateV2>(
+          child: BlocBuilder<ContentBlocV2, ContentHighlightedState>(
             builder: (context, state) {
               return CustomScrollView(
                 slivers: [
                   /// App bar
-                  // DashboardSliverAppBar(title: LocaleKeys.advice),
+                  DashboardSliverAppBar(title: LocaleKeys.advice),
 
                   /// Search
                   _searchBar(),
-                  // SliverToBoxAdapter(
-                  //   child: _tagListNew(),
-                  // ),
+
+                  SliverToBoxAdapter(
+                    child: _tagListWidget(),
+                  ),
                   SliverToBoxAdapter(
                     child: Container(
                       padding: EdgeInsets.only(left: 15, right: 15),
@@ -93,16 +100,23 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                             fontSize: 16,
                             color: customColors.primaryText,
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              // print("yelas:${_tagList2.length}");
-                              // print("yelas22:${_contentList?[0].text}");
-                            },
-                            child: CustomText('okey'),
-                          ),
                           SizedBox(height: 10),
-                          _contentColumn(),
-                          _contentColumn(),
+                          if (_contentList != null)
+                            //   for (var el in _contentList!) _contentColumn(el),
+                            // for (var i = 0; i < _contentList!.length; i++) _contentColumn(_contentList![i]),
+                            for (var i = 0; i < _contentList!.length; i++) ContentCardV2(content: _contentList![i]),
+                          SizedBox(height: 3),
+                          CustomText(
+                            _selectedTag ?? "Танд",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: customColors.primaryText,
+                          ),
+                          SizedBox(height: 12),
+                          if (_contentFilter != null)
+                            // for (var contentFilter in _contentFilter!) _contentColumn(contentFilter),
+                            // for (var i = 0; i < _contentFilter!.length; i++) _contentColumn(_contentFilter![i])
+                            for (var i = 0; i < _contentFilter!.length; i++) ContentCardV2(content: _contentFilter![i]),
                         ],
                       ),
                     ),
@@ -116,147 +130,67 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     );
   }
 
-  void _blocListener(BuildContext context, ContentStateV2 state) {
-    if (state is ContentListSuccessV2) {
+  void _blocListener(BuildContext context, ContentHighlightedState state) {
+    if (state is ContentHighlightedListSuccess) {
       _contentList = state.contentList;
-      // _contentList = _filteredContentList = state.contentList;
-
-      _tagList = state.tagList;
-    } else if (state is ContentListFailedV2) {
+    } else if (state is ContentHighlightedListFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is ContentTagsSuccess) {
-      _tagList2 = state.tagList;
-      // showCustomDialog(
-      //   context,
-      //   child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
-      // );
+      _tagList.addAll(state.tagList);
+    } else if (state is ContentTagsFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is ContentFilterSuccess) {
+      _contentFilter = state.contentList;
+    } else if (state is ContentFilterFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
     }
   }
 
-  Widget _tagListNew() {
-    // print("tagName:${_tagList.length}");
-    // print("tagName1:${_tagList[1].name}");
+  Widget _tagListWidget() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(
         margin: EdgeInsets.only(left: 15),
         child: Row(
-          // children: [for (var el in _tagList) _tagItem(el)], ///text ogdog baisan
-          children: [for (var i = 0; i < _tagList.length; i++) _tagItem(i)],
+          children: [for (var tag in _tagList) _tagItem(tag)],
         ),
       ),
     );
   }
 
-  _tagItem(int i) {
-    // bool _selected = text == _selectedMenu;
-
+  _tagItem(ContentTagV2 tag) {
+    bool _selected = tag.name == _selectedTag;
+    print('tagsss:${tag.name} ');
     return InkWell(
       onTap: () {
-        // _selectedMenu = text;
-        // setState(() {});
-        // _tagList[i].isSelected = !(_tagList[i].isSelected ?? false);
+        print('tag:${tag.name!} ${tag.filterValue!}');
+        _selectedTag = tag.filterValue!;
+        pSize = 4;
+        _getData();
+
+        setState(() {});
       },
       child: Container(
         margin: EdgeInsets.only(right: 10),
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         decoration: BoxDecoration(
-          color: (_tagList[i].isSelected ?? false) ? customColors.primary : Colors.white,
+          color: _selected ? customColors.primary : Colors.white,
           borderRadius: BorderRadius.circular(15),
         ),
         child: CustomText(
-          _tagList[i].name.toString(),
-          color: (_tagList[i].isSelected ?? false) ? Colors.white : customColors.primaryText,
+          tag.name.toString(),
+          color: _selected ? Colors.white : customColors.primaryText,
           fontSize: 15,
           fontWeight: FontWeight.w400,
-        ),
-      ),
-    );
-  }
-
-  Widget _contentColumn() {
-    return InkWell(
-      onTap: () {
-        // Navigator.pushNamed(context, Routes.contentV2);
-      },
-      child: Container(
-        margin: EdgeInsets.only(
-          bottom: 15,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 80,
-              width: 80,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-              ),
-              child: SvgPicture.asset(
-                Assets.intro1,
-              ),
-            ),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Column(
-                  children: [
-                    CustomText(
-                      "Бидний харилцаа хэр удаан үргэлжлэх үргэлжлэх вэ? ",
-                      maxLines: 2,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: customColors.primaryText,
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            CustomText(
-                              "Сэтгэл зүй ",
-                              color: customColors.primary,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w300,
-                            ),
-                            CustomText(
-                              " | ${"2 мин"} ",
-                              color: customColors.primaryText,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ],
-                        ),
-                        SizedBox(width: 10),
-                        Row(
-                          children: [
-                            SvgPicture.asset(Assets.eyeContent),
-                            SizedBox(width: 3),
-                            CustomText(
-                              "100",
-                              color: customColors.primaryText,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w300,
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );

@@ -14,6 +14,7 @@ import 'package:habido_app/ui/auth/forgot_password/verify_password_route.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_poster_view.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
+import 'package:habido_app/ui/content_v2/content_route_v2.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/habit/habit_success_route.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_route.dart';
@@ -79,6 +80,8 @@ class Routes {
   static const home = 'home';
   static const calendar = 'calendar';
   static const content = 'content';
+  static const contentV2 = 'contentV2';
+
   static const habidoAssistant = 'habidoAssistant';
   static const changePhone = 'changePhone';
   static const changeEmail = 'changeEmail';
@@ -321,6 +324,15 @@ class Routes {
           );
         }
 
+        break;
+
+      case Routes.contentV2:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            ContentRouteV2(
+              contentId: _getValueByKey(args, 'contentId'),
+            ),
+            settings);
         break;
 
       case Routes.habitCategories:

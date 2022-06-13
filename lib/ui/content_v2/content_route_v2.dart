@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:habido_app/models/content_v2.dart';
+import 'package:habido_app/ui/content_v2/content_bloc_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
-import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/loaders.dart';
@@ -13,13 +14,21 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class ContentRouteV2 extends StatefulWidget {
-  const ContentRouteV2({Key? key}) : super(key: key);
+  final int contentId;
+
+  const ContentRouteV2({
+    Key? key,
+    required this.contentId,
+  }) : super(key: key);
 
   @override
   State<ContentRouteV2> createState() => _ContentRouteV2State();
 }
 
 class _ContentRouteV2State extends State<ContentRouteV2> {
+  late ContentBlocV2 _contentBlocV2;
+  ContentV2? _content;
+
   late ScrollController _scrollController;
 
   String title = 'Зөвлөмж';
@@ -27,7 +36,9 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
 
   @override
   void initState() {
+    _contentBlocV2 = ContentBlocV2();
     _scrollController = ScrollController();
+    _contentBlocV2.add(GetContentEventV2(widget.contentId));
     _scrollController.addListener(_scrollListener);
     super.initState();
   }
@@ -35,72 +46,85 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
   _scrollListener() {
     _scrollPosition = _scrollController.position.pixels;
     if (_scrollPosition > 30) {
-      title = "Бие хүний онцлог MBTI";
+      title = _content?.title ?? '';
     } else {
       title = "Зөвлөмж";
     }
     setState(() {});
   }
-  // _scrollListener() {
-  //   if (_controller.offset >= _controller.position.maxScrollExtent &&
-  //       !_controller.position.outOfRange) {
-  //     setState(() {
-  //       message = "reach the bottom";
-  //     });
-  //   }
-  //   if (_controller.offset <= _controller.position.minScrollExtent &&
-  //       !_controller.position.outOfRange) {
-  //     setState(() {
-  //       message = "reach the top";
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-        backgroundColor: Colors.white,
-        child: Column(
-          children: [
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: SvgPicture.asset(
-                      Assets.arrow_back,
-                      fit: BoxFit.scaleDown,
-                      color: customColors.iconGrey,
-                      height: 15,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  CustomText(
-                    title,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return _init();
-                },
-              ),
-            ),
-          ],
-        ));
+      child: BlocProvider.value(
+        value: _contentBlocV2,
+        child: BlocListener<ContentBlocV2, ContentHighlightedState>(
+          listener: _blocListener,
+          child: BlocBuilder<ContentBlocV2, ContentHighlightedState>(
+            builder: (context, state) {
+              return CustomScaffold(
+                  backgroundColor: Colors.white,
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: SvgPicture.asset(
+                                Assets.arrow_back,
+                                fit: BoxFit.scaleDown,
+                                color: customColors.iconGrey,
+                                height: 15,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            CustomText(
+                              title,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                      ),
+                      if (_content != null)
+                        Expanded(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount: 1,
+                            itemBuilder: (context, index) {
+                              return _contentDesc(_content!);
+                            },
+                          ),
+                        ),
+                    ],
+                  ));
+            },
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget _init() {
+  void _blocListener(BuildContext context, ContentHighlightedState state) {
+    if (state is ContentSuccessV2) {
+      // _contentList = state.contentList;
+      _content = state.content;
+      // _contentList = _filteredContentList = state.contentList;
+    } else if (state is ContentFailedV2) {
+      print('aldaa');
+      // showCustomDialog(
+      //   context,
+      //   child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      // );
+    }
+  }
+
+  Widget _contentDesc(ContentV2 content) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -109,7 +133,7 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
 
           /// Title
           CustomText(
-            'Бие хүний онцлог MBTI',
+            content.title ?? '',
             fontWeight: FontWeight.w600,
             maxLines: 2,
             fontSize: 19,
@@ -119,13 +143,11 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
 
           /// Cover image
           Hero(
-            tag: Func.toStr(1),
+            tag: Func.toStr(content.contentId),
             child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  topRight: Radius.circular(10.0)),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
               child: CachedNetworkImage(
-                imageUrl: "https://pbs.twimg.com/media/FSLNXAZX0AA6RlL.jpg",
+                imageUrl: content.contentPhoto! ?? "",
                 fit: BoxFit.fitWidth,
                 width: double.infinity,
                 height: 175,
@@ -193,8 +215,7 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
                             textAlign: TextAlign.justify,
                           ),
                         },
-                        data:
-                            "<pre><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer when an unknown printer when an unknown printer when an unknown printer when an unknown printer when an unknown  when an unknown printer when an unknown printer when an unknown printer when an unknown printer when an unknown printer when an unknown printer when an unknown printer printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</pre>"),
+                        data: content.text ?? ''),
                   ),
                   const SizedBox(height: 10),
                   Row(

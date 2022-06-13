@@ -12,6 +12,7 @@ import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
 import 'package:habido_app/models/content_list_response_v2.dart';
 import 'package:habido_app/models/content_tag_v2.dart';
+import 'package:habido_app/models/content_tags_response.dart';
 import 'package:habido_app/models/content_v2.dart';
 import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/feedback_category_list_response.dart';
@@ -343,9 +344,15 @@ class ApiManager {
     );
   }
 
-  static Future<ContentTagV2> contentTags() async {
-    return ContentTagV2.fromJson(
+  static Future<ContentTagsResponse> contentTags() async {
+    return ContentTagsResponse.fromJson(
       await httpUtils.sendRequest(path: HttpPath.contentTags, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentListResponseV2> contentFilter(String name, int pid, int pSize) async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentFilter + '?Name=$name&Pid=$pid&Psize=$pSize', httpMethod: HttpMethod.get),
     );
   }
 
