@@ -27,7 +27,7 @@ class HomeRouteNew extends StatefulWidget {
 
 class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderStateMixin {
   // UI
-  final _homeKey = GlobalKey<ScaffoldState>();
+  final _homeNewKey = GlobalKey<ScaffoldState>();
 
   // Bottom navigation bar
   late TabController _tabController;
@@ -81,7 +81,7 @@ class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderSt
         return Future.value(false);
       },
       child: Scaffold(
-        key: _homeKey,
+        key: _homeNewKey,
         body: TabBarView(
           controller: _tabController,
           physics: NeverScrollableScrollPhysics(),
@@ -151,7 +151,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.assistant,
               description: LocaleKeys.showcaseAssistant,
-              child: _bottomNavigationBarItem(1, Assets.assistant, LocaleKeys.chatbot), //todo set Icon
+              child: _bottomNavigationBarItem(1, Assets.male_habido, LocaleKeys.chatbot), //todo set Icon
             ),
           ),
 

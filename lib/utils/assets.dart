@@ -41,7 +41,7 @@ class Assets {
   static const String search = 'assets/images/global/search.svg';
   static const String arrow_back = 'assets/images/global/arrow_back.svg';
   static const String arrow_right = 'assets/images/global/arrow_right.svg';
-  static const String male_habido = 'assets/images/global/male_habido.png';
+  static const String male_habido_png = 'assets/images/global/male_habido.png';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
@@ -77,6 +77,7 @@ class Assets {
   static const String calendar = 'assets/images/home/calendar.svg';
   static const String habit_tip = 'assets/images/home/habit_tip.svg';
   static const String instruction_dev = 'assets/images/home/instruction_dev.svg'; // todo delete after connected to backend
+  static const String male_habido = 'assets/images/home/male_habido.svg';
 
   /// Profile
   static const String male = 'assets/images/profile/male.png';

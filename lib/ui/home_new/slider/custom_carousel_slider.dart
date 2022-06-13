@@ -30,10 +30,6 @@ class CustomCarouselSlider extends StatefulWidget {
 }
 
 class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
-  // Size
-  double indicatorHeight = 6.0;
-  double indicatorWidth = 6.0;
-
   // UI
   final _carouselSliderBloc = CarSliderBloc();
 

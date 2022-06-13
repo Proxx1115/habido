@@ -100,7 +100,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
       margin: EdgeInsets.only(right: 7.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
-        color: customColors.primary,
+        color: customColors.feelingCauseItem,
       ),
       child: Text(
         causeName,
@@ -115,13 +115,12 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
   }
 
   Widget _feelingItem() {
-    print(widget.selectedCauses);
     return Container(
       height: 73.0,
       padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 14.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
-        color: customColors.feelingCauseItem,
+        color: customColors.feelingCauseLight,
       ),
       child: Row(
         children: [
@@ -164,14 +163,14 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
       padding: EdgeInsets.fromLTRB(18.0, 9.0, 18.0, 18.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
-        color: customColors.feelingCauseItem,
+        color: customColors.feelingCauseLight,
       ),
       child: Column(
         children: [
           Row(
             children: [
               Image.asset(
-                Assets.male_habido,
+                Assets.male_habido_png,
                 height: 20.0,
                 width: 20.0,
               ),
@@ -223,7 +222,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
   }
 
   _navigateToHomeRoute() {
-    Navigator.pushNamed(context, Routes.home);
+    Navigator.pushNamed(context, Routes.home_new);
   }
 
   _navigatePop() {

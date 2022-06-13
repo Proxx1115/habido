@@ -15,10 +15,10 @@ class SignUpCompletedRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _signUpKey = GlobalKey<ScaffoldState>();
+    final _signUpCompletedKey = GlobalKey<ScaffoldState>();
 
     return CustomScaffold(
-      scaffoldKey: _signUpKey,
+      scaffoldKey: _signUpCompletedKey,
       child: Column(
         children: [
           /// HabiDo logo

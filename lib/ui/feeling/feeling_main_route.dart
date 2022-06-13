@@ -18,7 +18,12 @@ class FeelingMainRoute extends StatefulWidget {
 }
 
 class _FeelingMainRouteState extends State<FeelingMainRoute> {
+  // UI
   final _feelingMainKey = GlobalKey<ScaffoldState>();
+
+  late Map _selectedFeelingData;
+
+  // Testing data
   Map _feeling1 = {
     "name": LocaleKeys.emoji1,
     "colors": [customColors.feeling1Top, customColors.feeling1Btm],
@@ -44,7 +49,6 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
     "colors": [customColors.feeling5Top, customColors.feeling5Btm],
     "emoji": Assets.emoji5
   };
-  late Map _selectedFeelingData;
 
   @override
   void initState() {
@@ -199,7 +203,7 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
       children: [
         InkWell(
           onTap: () {
-            Navigator.popUntil(context, ModalRoute.withName(Routes.home)); // todo check Route
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
           },
           child: Container(
             height: 35.0,

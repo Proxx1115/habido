@@ -20,7 +20,8 @@ class FeelingEmojiRoute extends StatefulWidget {
 }
 
 class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
-  final _feelingMainKey = GlobalKey<ScaffoldState>();
+  // UI
+  final _feelingEmojiKey = GlobalKey<ScaffoldState>();
 
   Map? _selectedFeelingEmoji;
 
@@ -80,7 +81,7 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
     double _mainAxisSpacing = _crossAxisSpacing; // todo change
 
     return CustomScaffold(
-      scaffoldKey: _feelingMainKey,
+      scaffoldKey: _feelingEmojiKey,
       child: Container(
         padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
         decoration: BoxDecoration(

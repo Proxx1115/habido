@@ -43,6 +43,7 @@ class ConstantColors {
   static const feelingCauseTop = const Color(0xFF46A1BC);
   static const feelingCauseBtm = const Color(0xFF8BCCE2);
   static const feelingCauseItem = const Color(0xFF3D93AD);
+  static const feelingCauseLight = const Color(0x663D93AD);
   static const feelingDetailHint = const Color(0xFFE2E2E2);
 }
 
@@ -120,6 +121,7 @@ class CustomColors {
   Color feelingCauseTop = ConstantColors.feelingCauseTop;
   Color feelingCauseBtm = ConstantColors.feelingCauseBtm;
   Color feelingCauseItem = ConstantColors.feelingCauseItem;
+  Color feelingCauseLight = ConstantColors.feelingCauseLight;
   Color feelingDetailHint = ConstantColors.feelingDetailHint;
 
   CustomColors.constructor();

@@ -37,8 +37,11 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  // UI
+  final _dashboardKey = GlobalKey<ScaffoldState>();
+
   // Slider
-  double? _sliderHeight = 168.0;
+  double? _sliderHeight;
   double _sliderAspectRatio = 2.0;
   double _sliderTopMargin = 0.0;
   double _indicatorVerticalMargin = 0;
@@ -75,6 +78,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      scaffoldKey: _dashboardKey,
       backgroundColor: customColors.primaryBackground,
       child: CustomScrollView(
         physics: BouncingScrollPhysics(),
@@ -96,7 +100,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   _header() {
-    // _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width) / 1.6;
+    _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width) / 2;
 
     return SliverAppBar(
       pinned: false,
@@ -172,30 +176,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
 
               /// Last 3 Feeling History
-              Row(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          for (var el in _feelingHistoryData)
-                            Container(
-                              margin: EdgeInsets.only(right: 6.0),
-                              child: EmojiItemWithDateWidget(
-                                emojiData: el,
-                                onTap: () {
-                                  setState(() {});
-                                },
-                              ),
-                            )
-                        ],
-                      ),
-                    ),
-                  ),
-                  _shareFeelingBtn()
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: SingleChildScrollView(
+              //         scrollDirection: Axis.horizontal,
+              //         child: Row(
+              //           children: [
+              //             for (var el in _feelingHistoryData)
+              //               Container(
+              //                 margin: EdgeInsets.only(right: 6.0),
+              //                 child: EmojiItemWithDateWidget(
+              //                   emojiData: el,
+              //                   onTap: () {
+              //                     setState(() {});
+              //                   },
+              //                 ),
+              //               )
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //     _shareFeelingBtn()
+              //   ],
+              // ),
 
               /// Divider
               SizedBox(height: 14.5),
@@ -257,7 +261,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return InkWell(
       borderRadius: BorderRadius.circular(20.0),
       onTap: () {
-        ///
+        _navigateToFeelingMain(context);
       },
       child: DottedBorder(
         dashPattern: [2, 2],
@@ -401,12 +405,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Container(
               height: 75.0,
               width: 75.0,
-              padding: EdgeInsets.all(13.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
                 color: Colors.teal, // todo dynamic
               ),
-              child: SvgPicture.asset(Assets.emoji4), // todo
+              child: Image.asset(Assets.male_habido_png), // todo
             ),
             SizedBox(width: 10.5),
 
@@ -490,6 +493,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   _navigateToFeelingMain(BuildContext context) {
-    // todo
+    Navigator.pushNamed(context, Routes.feelingMain);
   }
 }

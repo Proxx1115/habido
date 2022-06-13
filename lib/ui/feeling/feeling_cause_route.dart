@@ -17,7 +17,9 @@ class FeelingCauseRoute extends StatefulWidget {
 }
 
 class _FeelingCauseRouteState extends State<FeelingCauseRoute> {
+  // UI
   final _feelingCauseKey = GlobalKey<ScaffoldState>();
+
   List _feelingCause = [
     LocaleKeys.family,
     LocaleKeys.relationship,

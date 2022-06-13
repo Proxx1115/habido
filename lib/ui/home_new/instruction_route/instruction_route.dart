@@ -16,7 +16,7 @@ class InstructionRoute extends StatefulWidget {
 
 class _InstructionRouteState extends State<InstructionRoute> {
   // Main
-  final _signUp4PasswordKey = GlobalKey<ScaffoldState>();
+  final _instructionKey = GlobalKey<ScaffoldState>();
 
   // PageView
   PageController _pageController = PageController();
@@ -50,7 +50,7 @@ class _InstructionRouteState extends State<InstructionRoute> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      scaffoldKey: _signUp4PasswordKey,
+      scaffoldKey: _instructionKey,
       appBarTitle: _title,
       backgroundColor: customColors.whiteBackground,
       child: Column(
