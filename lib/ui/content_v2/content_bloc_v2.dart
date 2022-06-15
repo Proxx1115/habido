@@ -2,6 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/content_tag_v2.dart';
 import 'package:habido_app/models/content_v2.dart';
+import 'package:habido_app/models/psy_test_response_v2.dart';
+import 'package:habido_app/models/test.dart';
+import 'package:habido_app/models/test_name_with_tests.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -19,6 +22,8 @@ class ContentBlocV2 extends Bloc<ContentHighlightedEvent, ContentHighlightedStat
       yield* _mapGetContentTagsEventToState();
     } else if (event is GetContentFilter) {
       yield* _mapGetContentFilterEventToState(event);
+    } else if (event is GetTestListEvent) {
+      yield* _mapGetTestEventToState();
     }
   }
 
@@ -85,6 +90,22 @@ class ContentBlocV2 extends Bloc<ContentHighlightedEvent, ContentHighlightedStat
       yield ContentFilterFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<ContentHighlightedState> _mapGetTestEventToState() async* {
+    try {
+      yield TestListLoading();
+
+      var res = await ApiManager.psyTestList();
+      print("yelaData:${res.testNameWithTests}");
+      if (res.code == ResponseCode.Success && res.testNameWithTests != null && res.testNameWithTests!.length > 0) {
+        yield TestListSuccess(res.testNameWithTests!);
+      } else {
+        yield TestListEmpty();
+      }
+    } catch (e) {
+      yield TestListFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// BLOC EVENTS
@@ -124,6 +145,8 @@ class GetContentFilter extends ContentHighlightedEvent {
   @override
   String toString() => 'GetContentEvent { contentId: $name $pid $pSize }';
 }
+
+class GetTestListEvent extends ContentHighlightedEvent {}
 
 /// BLOC STATES
 abstract class ContentHighlightedState extends Equatable {
@@ -248,4 +271,36 @@ class ContentFilterFailed extends ContentHighlightedState {
 
   @override
   String toString() => 'ContentFailed { message: $message }';
+}
+
+/// TEST LIST STATES
+
+class TestListLoading extends ContentHighlightedState {}
+
+class TestListEmpty extends ContentHighlightedState {}
+
+class TestListSuccess extends ContentHighlightedState {
+  final List<TestNameWithTests> testNameWithTests;
+
+  const TestListSuccess(
+    this.testNameWithTests,
+  );
+
+  @override
+  List<Object> get props => [testNameWithTests];
+
+  @override
+  String toString() => 'ContentListSuccess { contentList: $testNameWithTests}';
+}
+
+class TestListFailed extends ContentHighlightedState {
+  final String message;
+
+  const TestListFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ContentListFailed { message: $message }';
 }

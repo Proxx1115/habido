@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/models/content_tag_v2.dart';
 import 'package:habido_app/models/content_v2.dart';
+import 'package:habido_app/models/test_name_with_tests.dart';
 import 'package:habido_app/ui/content_v2/content_bloc_v2.dart';
 import 'package:habido_app/ui/content_v2/content_card_v2.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -34,6 +35,8 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
   // Tags
   List<ContentTagV2> _tagList = [];
 
+  List<TestNameWithTests>? _testNameWithTests;
+
   String? _selectedTag = "Танд";
 
   var forYou = new ContentTagV2(name: "Танд", filterValue: "Танд");
@@ -55,11 +58,16 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     _tagList.add(forYou);
     _getData();
     _contentBlocV2.add(GetContentTags());
+    _getData2();
     super.initState();
   }
 
   _getData() {
     _contentBlocV2.add(GetContentFilter(_selectedTag ?? "", 1, pSize));
+  }
+
+  _getData2() {
+    _contentBlocV2.add(GetTestListEvent());
   }
 
   @override
@@ -100,6 +108,11 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                             fontSize: 16,
                             color: customColors.primaryText,
                           ),
+                          ElevatedButton(
+                              onPressed: () {
+                                print("okeyNice:${_testNameWithTests![0].tests?[0].photo}");
+                              },
+                              child: CustomText("okey")),
                           SizedBox(height: 10),
                           if (_contentList != null)
                             //   for (var el in _contentList!) _contentColumn(el),
@@ -152,6 +165,13 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
+    } else if (state is TestListSuccess) {
+      _testNameWithTests = state.testNameWithTests;
+    } else if (state is TestListFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
     }
   }
 
@@ -169,13 +189,14 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
 
   _tagItem(ContentTagV2 tag) {
     bool _selected = tag.name == _selectedTag;
-    print('tagsss:${tag.name} ');
+    // print('tagsss:${tag.name} ');
     return InkWell(
       onTap: () {
-        print('tag:${tag.name!} ${tag.filterValue!}');
+        // print('tag:${tag.name!} ${tag.filterValue!}');
         _selectedTag = tag.filterValue!;
         pSize = 4;
         _getData();
+        _getData2();
 
         setState(() {});
       },
