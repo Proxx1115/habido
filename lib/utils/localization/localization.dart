@@ -212,7 +212,8 @@ class LocaleKeys {
 
   static String get agreeTermCond2 => '"Үйлчилгээний нөхцөл"';
 
-  static String get agreeTermCond3 => '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу';
+  static String get agreeTermCond3 =>
+      '-ийг зөвшөөрсөн тохиолдолд "HabiDo"-г ашиглах эрх нээгдэнэ. Үйлчилгээний нөхцөлийг зөвшөөрсөн эсэхийг баталгаажуулна уу';
 
   static String get genderInfotext =>
       'HabiDo нь өөрийгөө эрэгтэй, эмэгтэй аль нэг хүйсэнд хамаатуулдаггүй, мөн хоёр ба түүнээс дээш жендерээр мэдэрдэг хүмүүсийг хүндэлдэг бөгөөд хоёр туйлт сонголт тулгаж байгаад уучлал хүсэж байна. Цаашид сайжруулах болохоо мэдэгдье.';
@@ -288,6 +289,7 @@ class LocaleKeys {
   static String get doPsyTest => 'Сэтгэл зүйн тест бөглөх';
 
   static String get beginTest => 'Тест эхлэх';
+  static String get beginTestV2 => 'Тест эхлүүлэх';
 
   static String get seeResult => 'Үр дүн харах';
 

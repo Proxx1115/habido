@@ -25,6 +25,7 @@ class ConstantColors {
   static const seaGreen = const Color(0xFF30A74C);
   static const feijoGreen = const Color(0xFF9ED26A);
   static const froly = const Color(0xFFF76C82);
+  static const shamrock = const Color(0xFF46CEAC);
 }
 
 class CustomColors {
@@ -39,11 +40,13 @@ class CustomColors {
   Color blueBackground = ConstantColors.blue;
   Color pinkBackground = ConstantColors.froly;
   Color feijoBackground = ConstantColors.feijoGreen;
+  Color shamrockBackground = ConstantColors.shamrock;
 
   /// Border
   Color primaryBorder = ConstantColors.athensGrey;
   Color secondaryBorder = Colors.white;
   Color roseWhiteBorder = ConstantColors.roseWhite;
+  Color shamrockBorder = ConstantColors.shamrock;
 
   /// Text
   Color primaryText = ConstantColors.black;
