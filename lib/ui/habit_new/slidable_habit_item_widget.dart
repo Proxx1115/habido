@@ -2,62 +2,75 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:habido_app/ui/habit_new/tag_item_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
-import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
 
-class ExpandableListItem extends StatelessWidget {
+class SlidableHabitItemWidget extends StatelessWidget {
   final VoidCallback? onPressed;
   final String? leadingUrl;
-  final Color? leadingColor;
   final Color? leadingBackgroundColor;
   final String text;
-  final String? suffixAsset;
-  final Color? suffixColor;
+  final String subText;
+  final List<String>? reminders;
+  final int? processPercent;
   final VoidCallback? onPressedSkip;
   final VoidCallback? onPressedDetail;
   final VoidCallback? onPressedEdit;
   final double? delay;
+  final bool isStart;
+  final bool isEnd;
 
   final SlidableController _controller = SlidableController();
 
-  ExpandableListItem({
+  SlidableHabitItemWidget({
     Key? key,
     this.onPressed,
     this.leadingUrl,
-    this.leadingColor,
     this.leadingBackgroundColor,
     required this.text,
-    this.suffixAsset,
-    this.suffixColor,
+    required this.subText,
+    this.reminders,
+    this.processPercent,
     this.onPressedSkip,
     this.onPressedDetail,
     this.onPressedEdit,
     this.delay,
+    required this.isStart,
+    required this.isEnd,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double caltulatedExtentRatio = 55 / (MediaQuery.of(context).size.width - (SizeHelper.margin * 2));
     return MoveInAnimation(
       duration: 400,
       delay: delay,
       child: Slidable(
         controller: _controller,
         actionPane: SlidableDrawerActionPane(),
-        actionExtentRatio: 0.25, // todo calculate ratio
+        actionExtentRatio: caltulatedExtentRatio,
         child: InkWell(
           onTap: onPressed,
-          borderRadius: SizeHelper.borderRadiusOdd,
+          borderRadius: isStart
+              ? SizeHelper.startHabitItemRadius
+              : isEnd
+                  ? SizeHelper.endHabitItemRadius
+                  : null,
           child: Container(
             height: 78.0,
             padding: EdgeInsets.fromLTRB(22.0, 12.0, 22.0, 12.0),
             decoration: BoxDecoration(
-              borderRadius: SizeHelper.borderRadiusOdd,
+              borderRadius: isStart
+                  ? SizeHelper.startHabitItemRadius
+                  : isEnd
+                      ? SizeHelper.endHabitItemRadius
+                      : null,
               color: customColors.whiteBackground,
             ),
             child: Row(
@@ -65,20 +78,13 @@ class ExpandableListItem extends StatelessWidget {
                 /// Image
                 if (Func.isNotEmpty(leadingUrl))
                   Container(
-                    margin: EdgeInsets.only(right: 15.0),
-                    padding: EdgeInsets.all(10.0),
-                    height: 40.0,
-                    width: 40.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-                      color: leadingBackgroundColor ?? customColors.greyBackground,
-                    ),
+                    margin: EdgeInsets.only(right: 20.0),
+                    // padding: EdgeInsets.all(12.0),
                     child: CachedNetworkImage(
                       imageUrl: leadingUrl!,
-                      color: leadingColor,
-                      fit: BoxFit.fitHeight,
-                      width: 20.0,
-                      height: 20.0,
+                      color: leadingBackgroundColor,
+                      height: 30.0,
+                      width: 30.0,
                       placeholder: (context, url) => Container(),
                       errorWidget: (context, url, error) => Container(),
                     ),
@@ -86,11 +92,27 @@ class ExpandableListItem extends StatelessWidget {
 
                 /// Text
                 Expanded(
-                  child: CustomText(text, fontWeight: FontWeight.w500, maxLines: 2),
+                  child: Column(
+                    children: [
+                      CustomText(text, fontSize: 15.0, fontWeight: FontWeight.w500),
+                      CustomText(subText, fontSize: 11.0),
+                      SizedBox(height: 3.5),
+                      if (reminders != null && reminders!.isNotEmpty)
+                        Row(
+                          children: [
+                            for (var el in reminders!)
+                              TagItemWidget(
+                                text: el,
+                                margin: EdgeInsets.only(right: 8.0),
+                              )
+                          ],
+                        )
+                    ],
+                  ),
                 ),
 
-                /// Arrow
-                SvgPicture.asset(suffixAsset ?? Assets.arrow_forward, color: suffixColor ?? customColors.iconGrey),
+                /// Process Percent
+                Text('${processPercent}%')
               ],
             ),
           ),
@@ -110,11 +132,11 @@ class ExpandableListItem extends StatelessWidget {
   }
 
   Widget _buttonSkip(BuildContext context) {
-    return IconSlideAction(
+    return InkWell(
       onTap: () {
         if (onPressedSkip != null) onPressedSkip!();
       },
-      iconWidget: Container(
+      child: Container(
         height: double.infinity,
         width: 55.0,
         color: customColors.disabledBackground,
@@ -139,11 +161,11 @@ class ExpandableListItem extends StatelessWidget {
   }
 
   Widget _buttonDetail(BuildContext context) {
-    return IconSlideAction(
+    return InkWell(
       onTap: () {
         if (onPressedDetail != null) onPressedDetail!();
       },
-      iconWidget: Container(
+      child: Container(
         height: double.infinity,
         width: 55.0,
         color: customColors.blueBackground,
@@ -168,14 +190,27 @@ class ExpandableListItem extends StatelessWidget {
   }
 
   Widget _buttonEdit(BuildContext context) {
-    return IconSlideAction(
+    return InkWell(
       onTap: () {
         if (onPressedEdit != null) onPressedEdit!();
       },
-      iconWidget: Container(
+      borderRadius: isStart
+          ? SizeHelper.startExtentItemRadius
+          : isEnd
+              ? SizeHelper.endExtentItemRadius
+              : null,
+      child: Container(
+        clipBehavior: Clip.hardEdge,
         height: double.infinity,
         width: 55.0,
-        color: customColors.yellowBackground,
+        decoration: BoxDecoration(
+          color: customColors.yellowBackground,
+          borderRadius: isStart
+              ? SizeHelper.startExtentItemRadius
+              : isEnd
+                  ? SizeHelper.endExtentItemRadius
+                  : null,
+        ),
         child: Column(
           children: [
             Container(

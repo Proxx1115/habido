@@ -39,9 +39,11 @@ import 'package:habido_app/ui/habit/progress/habit_timer/habit_timer_route.dart'
 import 'package:habido_app/ui/habit/progress/habit_tree/habit_tree_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart';
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
+import 'package:habido_app/ui/habit_new/all_habits_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
+import 'package:habido_app/ui/home_new/advice_route_screen.dart';
 import 'package:habido_app/ui/home_new/home_route.dart';
-import 'package:habido_app/ui/home_new/instruction_route/instruction_route.dart';
+import 'package:habido_app/ui/home_new/tip_route/tip_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/notification/notification_route.dart';
 import 'package:habido_app/ui/profile/change_password_route.dart';
@@ -95,7 +97,8 @@ class Routes {
   static const termDetail = 'termDetail';
   static const home = 'home';
   static const home_new = 'home_new';
-  static const instruction = 'instruction';
+  static const advice = 'advice';
+  static const tip = 'tip';
   static const calendar = 'calendar';
   static const content = 'content';
   static const habidoAssistant = 'habidoAssistant';
@@ -109,6 +112,7 @@ class Routes {
   static const psyTestResult = 'psyTestResult';
   static const habitCategories = 'habitCategories';
   static const habitList = 'habitList';
+  static const allHabits = 'allHabits';
   static const userHabit = 'userHabit';
   static const habitTimer = 'habitTimer';
   static const habitFeeling = 'habitFeeling';
@@ -283,8 +287,18 @@ class Routes {
         route = FadeRouteBuilder(HomeRouteNew(), settings);
         break;
 
-      case Routes.instruction:
-        route = SlideRightRouteBuilder(InstructionRoute(), settings);
+      case Routes.advice:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          AdviceRoute(
+            adviceVideo: _getValueByKey(args, 'adviceVideo'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.tip:
+        route = SlideRightRouteBuilder(TipRoute(), settings);
         break;
 
       case Routes.calendar:
@@ -399,6 +413,10 @@ class Routes {
                 ),
                 settings,
               );
+        break;
+
+      case Routes.allHabits:
+        route = SlideRightRouteBuilder(AllHabitsRoute(), settings);
         break;
 
       case Routes.userHabit:

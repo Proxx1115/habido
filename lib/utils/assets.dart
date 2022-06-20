@@ -32,6 +32,7 @@ class Assets {
   static const String expanded = 'assets/images/global/expanded.svg';
   static const String collapsed = 'assets/images/global/collapsed.svg';
   static const String skip = 'assets/images/global/skip.svg';
+  static const String detail = 'assets/images/global/detail.svg';
   static const String camera = 'assets/images/global/camera.svg';
   static const String back10 = 'assets/images/global/back10.svg';
   static const String forward10 = 'assets/images/global/forward10.svg';

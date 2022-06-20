@@ -272,7 +272,6 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
           ),
           SizedBox(height: 28.0),
           Wrap(
-            direction: Axis.horizontal,
             alignment: WrapAlignment.center,
             spacing: 25.0,
             runSpacing: 20.0,

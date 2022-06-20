@@ -171,7 +171,7 @@ class _IntroRouteState extends State<IntroRoute> {
     );
   }
 
-  void _navigateToLogin() {
+  _navigateToLogin() {
     // HeroHelper.navigatePushReplacement(context: context, nextRoute: LoginRoute());
 
     Navigator.of(context).pushNamedAndRemoveUntil(Routes.login2, (Route<dynamic> route) => false);

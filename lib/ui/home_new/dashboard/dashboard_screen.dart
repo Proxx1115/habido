@@ -1,6 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/bloc/home_new_bloc.dart';
+import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/ui/feeling/emoji_item_widget.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
@@ -40,6 +42,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // UI
   final _dashboardKey = GlobalKey<ScaffoldState>();
 
+  late AdviceVideoResponse adviceVideoResponse;
+
   // Slider
   double? _sliderHeight;
   double _sliderAspectRatio = 2.0;
@@ -54,6 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // bool _isExpandedTodayUserHabits = false;
   List<UserHabit>? _tomorrowUserHabits;
+
   List _feelingEmojis = [
     Assets.emoji1,
     Assets.emoji2,
@@ -68,11 +73,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     {"emoji": Assets.emoji3, "name": LocaleKeys.emoji3, "date": "өнөөдөр", "time": "15:00"},
   ];
 
+  AdviceVideoResponse? _adviceVideo;
+
   @override
   void initState() {
     super.initState();
     _username = "Ногооноо";
-    BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+    BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
   }
 
   @override
@@ -80,21 +87,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return CustomScaffold(
       scaffoldKey: _dashboardKey,
       backgroundColor: customColors.primaryBackground,
-      child: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: [
-          /// Header
-          _header(),
-
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return _listWidget();
-              },
-              childCount: 1,
-            ),
-          ),
-        ],
+      child: BlocProvider.value(
+        value: BlocManager.homeNewBloc,
+        child: BlocListener<HomeNewBloc, HomeNewState>(
+          listener: _blocListener,
+          child: BlocBuilder<HomeNewBloc, HomeNewState>(builder: (context, state) {
+            return CustomScrollView(
+              physics: BouncingScrollPhysics(),
+              slivers: [
+                /// Header
+                _header(),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return _listWidget();
+                    },
+                    childCount: 1,
+                  ),
+                ),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
@@ -206,9 +220,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               HorizontalLine(),
               SizedBox(height: 14.5),
 
-              /// Habit Tip
+              /// Habit Advice
               CustomText(
-                LocaleKeys.habitTip,
+                LocaleKeys.habitAdvice,
                 fontWeight: FontWeight.w700,
                 fontSize: 16.0,
               ),
@@ -229,9 +243,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
               SizedBox(height: 12.0),
 
-              /// HabiDo Instructions
+              /// HabiDo tips
               CustomText(
-                LocaleKeys.habidoInstruction,
+                LocaleKeys.habidoTip,
                 fontWeight: FontWeight.w700,
                 fontSize: 16.0,
               ),
@@ -242,11 +256,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    // for(var el in _instructions) // todo dynamic
-                    _instructionItem(),
-                    _instructionItem(),
-                    _instructionItem(),
-                    _instructionItem(),
+                    // for(var el in _tips) // todo dynamic
+                    _tipItem(),
+                    _tipItem(),
+                    _tipItem(),
+                    _tipItem(),
                   ],
                 ),
               ),
@@ -346,13 +360,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  "Багаас, энгийнэээр эхэл Start small, start simple",
+                  _adviceVideo != null ? _adviceVideo!.title : "",
                   fontWeight: FontWeight.w500,
                   fontSize: 15.0,
                   maxLines: 2,
                 ),
                 SizedBox(height: 6.3),
-                _startTipBtn()
+                _startAdviceBtn()
               ],
             ),
           ),
@@ -364,7 +378,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             alignment: Alignment.topCenter,
             child: InkWell(
               onTap: () {
-                // todo what's should this do
+                ///
               },
               child: Container(
                 height: 35.0,
@@ -382,7 +396,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _instructionItem() {
+  Widget _tipItem() {
     return Container(
       height: 100.0,
       width: 250.0,
@@ -394,7 +408,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: InkWell(
         borderRadius: BorderRadius.circular(15.0),
         onTap: () {
-          Navigator.of(context).pushNamed(Routes.instruction);
+          Navigator.of(context).pushNamed(Routes.tip);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -455,10 +469,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _startTipBtn() {
+  Widget _startAdviceBtn() {
     return InkWell(
       onTap: () {
-        // todo
+        _navigateToAdviceRoute(context);
       },
       customBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -494,5 +508,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   _navigateToFeelingMain(BuildContext context) {
     Navigator.pushNamed(context, Routes.feelingMain);
+  }
+
+  void _blocListener(BuildContext context, HomeNewState state) {
+    if (state is AdviceVideoSuccess) {
+      _adviceVideo = AdviceVideoResponse(title: state.title, video: state.video);
+    } else if (state is AdviceVideoFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    }
+  }
+
+  _navigateToAdviceRoute(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      Routes.advice,
+      arguments: {
+        'adviceVideo': _adviceVideo,
+      },
+    );
   }
 }

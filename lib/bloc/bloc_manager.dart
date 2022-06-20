@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
 import 'package:habido_app/bloc/notification_bloc.dart';
 import 'package:habido_app/bloc/param_bloc.dart';
@@ -28,6 +29,7 @@ class BlocManager {
   static final notifBloc = NotificationBloc();
   static final achievementBloc = AchievementBloc();
   static final userHabitBloc = UserHabitBloc();
+  static final homeNewBloc = HomeNewBloc();
 
   static void dispose() {
     mainBloc.close();
@@ -43,6 +45,7 @@ class BlocManager {
     notifBloc.close();
     achievementBloc.close();
     userHabitBloc.close();
+    homeNewBloc.close();
   }
 }
 

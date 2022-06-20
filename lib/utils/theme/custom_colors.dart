@@ -16,6 +16,7 @@ class ConstantColors {
   static const grey = const Color(0xFFA9B0BB); // text
   static const gray = const Color(0xFFADB2B9); // indicator
   static const cornflowerBlue = const Color(0xFFCAD0D7); // button text
+  static const osloGray = const Color(0xFF91969B); // text
   static const ghostGrey = const Color(0xFFCBD0D7); // icon
   static const red = const Color(0xFFE8553E);
   static const frolyRed = const Color(0xFFE8553E); // trash icon
@@ -59,6 +60,7 @@ class CustomColors {
   Color blueBackground = ConstantColors.blue;
   Color pinkBackground = ConstantColors.froly;
   Color feijoBackground = ConstantColors.feijoGreen;
+  Color disabledBackground = ConstantColors.cornflowerBlue;
 
   /// Border
   Color primaryBorder = ConstantColors.athensGrey;
@@ -72,6 +74,7 @@ class CustomColors {
   Color greyText = ConstantColors.grey;
   Color whiteText = Colors.white;
   Color disabledText = ConstantColors.cornflowerBlue;
+  Color grayText = ConstantColors.osloGray;
 
   /// Indicator
   Color grayIndicator = ConstantColors.gray;
@@ -104,6 +107,7 @@ class CustomColors {
   Color iconVikingGreen = ConstantColors.vikingGreen;
   Color iconYellowGreen = ConstantColors.yellowGreen;
   Color iconSeaGreen = ConstantColors.seaGreen;
+  Color iconLightGray = ConstantColors.cornflowerBlue;
 
   /// Feeling Backgrounds
   Color feeling1Top = ConstantColors.feeling1Top;

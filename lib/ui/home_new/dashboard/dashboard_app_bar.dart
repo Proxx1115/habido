@@ -6,6 +6,7 @@ import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -25,7 +26,7 @@ class DashboardAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: customColors.whiteBackground,
       height: 60.0,
       padding: padding,
       child: Row(

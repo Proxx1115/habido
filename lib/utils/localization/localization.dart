@@ -73,7 +73,7 @@ class LocaleKeys {
 
   static String get day => 'Хоног';
 
-  static String get term => 'Хугацаа';
+  static String get time => 'Хугацаа';
 
   static String get other => 'бусад';
 
@@ -298,9 +298,28 @@ class LocaleKeys {
 
   static String get starting => 'Эхлүүлэх';
 
-  static String get habitTip => 'Дадал хэвшүүлэх зөвлөмж';
+  static String get habitAdvice => 'Дадал хэвшүүлэх зөвлөмж';
 
-  static String get habidoInstruction => 'HabiDo заавар';
+  static String get habidoTip => 'HabiDo заавар';
+
+  /// Habit new version
+  static String get seeAllHabits => 'Бүх дадал харах';
+
+  static String get allHabit => 'Бүх дадал';
+
+  static String get active => 'Идэвхтэй';
+
+  static String get completed => 'Дууссан';
+
+  static String get history => 'Түүх';
+
+  static String get habitForYou => 'Танд зориулсан дадал';
+
+  static String get readyToStartNewHabit => 'Дадал хэвшүүлэхэд бэлэн үү?';
+
+  static String get planNewHabit => 'Шинэ дадал төлөвлөх';
+
+  static String get todaysHabit => 'Өнөөдрийн дадал';
 
   /// Showcase
   static String get showcaseAddHabit => 'Шинэ дадал үүсгэх';

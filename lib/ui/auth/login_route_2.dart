@@ -148,10 +148,10 @@ class LoginRoute2 extends StatelessWidget {
     return InkWell(
       onTap: () {
         type == "google"
-            ? _onGoogleAuth()
+            ? _onGoogleAuth(context)
             : type == "facebook"
-                ? _onFacebookAuth()
-                : _onAppleAuth();
+                ? _onFacebookAuth(context)
+                : _onAppleAuth(context);
       },
       child: Container(
         height: 50.0,
@@ -192,18 +192,16 @@ class LoginRoute2 extends StatelessWidget {
     Navigator.of(context).pushNamedAndRemoveUntil(Routes.signUp, (Route<dynamic> route) => false);
   }
 
-  _onGoogleAuth() {
-    // todo
-    print("google");
+  _onGoogleAuth(context) {
+    Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
   }
 
-  _onFacebookAuth() {
-    // todo
-    print("fb");
+  _onFacebookAuth(context) {
+    Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
   }
 
-  _onAppleAuth() {
-    // todo
+  _onAppleAuth(context) {
     print("apple");
+    Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
   }
 }

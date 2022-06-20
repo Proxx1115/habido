@@ -33,6 +33,8 @@ class CustomText extends StatelessWidget {
     this.overflow,
     this.fontStyle = FontStyle.normal,
     this.fontFamily,
+    this.underlined = false,
+    this.border,
   });
 
   /// Main
@@ -56,6 +58,8 @@ class CustomText extends StatelessWidget {
   final TextOverflow? overflow;
   final String? fontFamily;
   final FontStyle fontStyle;
+  final bool underlined;
+  final BoxBorder? border;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +69,9 @@ class CustomText extends StatelessWidget {
       margin: margin,
       padding: padding,
       alignment: alignment ?? Alignment.centerLeft,
+      decoration: BoxDecoration(
+        border: border ?? null,
+      ),
       child: Text(
         text ?? '',
         softWrap: softWrap ?? true,
@@ -79,6 +86,9 @@ class CustomText extends StatelessWidget {
           backgroundColor: bgColor,
           fontStyle: fontStyle,
           fontFamily: fontFamily,
+          decoration: underlined ? TextDecoration.underline : null,
+          decorationColor: customColors.primary,
+          decorationThickness: 2,
         ),
       ),
     );

@@ -6,17 +6,18 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/indicatorItem.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'package:habido_app/widgets/video_player/video_player.dart';
 
-class InstructionRoute extends StatefulWidget {
-  const InstructionRoute({Key? key}) : super(key: key);
+class TipRoute extends StatefulWidget {
+  const TipRoute({Key? key}) : super(key: key);
 
   @override
-  State<InstructionRoute> createState() => _InstructionRouteState();
+  State<TipRoute> createState() => _TipRouteState();
 }
 
-class _InstructionRouteState extends State<InstructionRoute> {
+class _TipRouteState extends State<TipRoute> {
   // Main
-  final _instructionKey = GlobalKey<ScaffoldState>();
+  final _tipKey = GlobalKey<ScaffoldState>();
 
   // PageView
   PageController _pageController = PageController();
@@ -24,7 +25,7 @@ class _InstructionRouteState extends State<InstructionRoute> {
 
   // Testing data
   final String _title = "Чатбот хэрхэн ашиглах вэ?";
-  final List _instructionData = [
+  final List _tipData = [
     {
       "subTitle": "Чамтай харилцах болно",
       "text":
@@ -50,7 +51,7 @@ class _InstructionRouteState extends State<InstructionRoute> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      scaffoldKey: _instructionKey,
+      scaffoldKey: _tipKey,
       appBarTitle: _title,
       backgroundColor: customColors.whiteBackground,
       child: Column(
@@ -64,7 +65,7 @@ class _InstructionRouteState extends State<InstructionRoute> {
                 });
               },
               children: [
-                for (var el in _instructionData) _instructionDetail(el),
+                for (var el in _tipData) _tipDetail(el),
               ],
             ),
           ),
@@ -74,7 +75,7 @@ class _InstructionRouteState extends State<InstructionRoute> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              for (var i = 0; i < _instructionData.length; i++)
+              for (var i = 0; i < _tipData.length; i++)
                 IndicatorItem(
                   index: i,
                   currentIndex: _currentIndex,
@@ -87,7 +88,7 @@ class _InstructionRouteState extends State<InstructionRoute> {
     );
   }
 
-  Widget _instructionDetail(data) {
+  Widget _tipDetail(data) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: SizeHelper.padding),
       child: SingleChildScrollView(
