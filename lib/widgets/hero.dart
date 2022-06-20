@@ -17,6 +17,22 @@ class HeroHelper {
       ),
     );
   }
+
+  static Widget getAppLogoWithText() {
+    return Hero(
+      tag: 'appLogoWithText',
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 30.0),
+        child: Image.asset(
+          // todo svg error
+          Assets.app_icon_text,
+          height: 92.0,
+          width: 179.0,
+          fit: BoxFit.scaleDown,
+        ),
+      ),
+    );
+  }
 }
 
 // class IntroHelper {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -65,21 +66,18 @@ AppBar CustomAppBar(
   }
 
   return AppBar(
-    backgroundColor: backgroundColor,
+    backgroundColor: Colors.white,
     elevation: 0, // Remove elevation
+    titleSpacing: 0,
     automaticallyImplyLeading: false, // Remove back button
     title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         leadingWidget,
 
         /// Title
-        Expanded(
-          child: (titleText != null)
-              ? CustomText(titleText,
-                  alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500)
-              : Container(),
-        ),
+        (titleText != null)
+            ? CustomText(titleText, alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500)
+            : Container(),
 
         actionWidget,
       ],

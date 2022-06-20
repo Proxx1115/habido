@@ -43,6 +43,7 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      appBarTitle: LocaleKeys.psyTest,
       child: BlocProvider.value(
         value: BlocManager.psyTestBlocV2,
         child: BlocListener<TestsBlocV2, TestsStateV2>(
@@ -70,12 +71,6 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
     return _testInfoResultResponse != null
         ? Column(
             children: [
-              /// APP BAR
-              DashboardAppBar(
-                title: LocaleKeys.psyTest,
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
-              ),
-
               Container(
                 margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
                 child: _tab(),

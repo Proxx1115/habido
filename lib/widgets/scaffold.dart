@@ -18,6 +18,7 @@ class CustomScaffold extends StatelessWidget {
   final Color? appBarLeadingBackgroundColor;
   final Widget child;
   final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
   final Widget? bottomNavigationBar;
 
   const CustomScaffold({
@@ -32,6 +33,7 @@ class CustomScaffold extends StatelessWidget {
     this.appBarLeadingBackgroundColor,
     required this.child,
     this.floatingActionButton,
+    this.floatingActionButtonLocation,
     this.bottomNavigationBar,
   });
 
@@ -62,6 +64,7 @@ class CustomScaffold extends StatelessWidget {
               child: child,
             ),
             floatingActionButton: floatingActionButton,
+            floatingActionButtonLocation: floatingActionButtonLocation,
             bottomNavigationBar: bottomNavigationBar,
           ),
         ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:habido_app/models/achievements_response.dart';
+import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/change_password_request.dart';
@@ -694,6 +695,16 @@ class ApiManager {
     return FeedBackCategoryListResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.feedBackCatList,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  /// Home
+  static Future<AdviceVideoResponse> getAdviceVideo() async {
+    return AdviceVideoResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.adviceVideo,
         httpMethod: HttpMethod.get,
       ),
     );

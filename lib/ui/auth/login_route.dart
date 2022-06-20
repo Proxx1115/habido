@@ -98,7 +98,7 @@ class _LoginRouteState extends State<LoginRoute> {
 
       if (globals.userData?.isOnboardingDone ?? false) {
         /// Go to home
-        Navigator.pushNamed(context, Routes.home);
+        Navigator.pushNamed(context, Routes.home_new); // todo home
       } else {
         /// Go to chat
         Navigator.pushNamed(context, Routes.habidoAssistant);
@@ -240,7 +240,8 @@ class _LoginRouteState extends State<LoginRoute> {
 
   _validateForm() {
     setState(() {
-      _enabledButtonLogin = (Func.isValidPhoneNumber(_phoneNumberController.text) && _passwordController.text.isNotEmpty && _passwordController.text.length > 0);
+      _enabledButtonLogin =
+          (Func.isValidPhoneNumber(_phoneNumberController.text) && _passwordController.text.isNotEmpty && _passwordController.text.length > 0);
     });
   }
 

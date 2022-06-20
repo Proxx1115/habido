@@ -73,4 +73,6 @@ class HttpPath {
   static const String cbContinueChat = '/mobile/cb/continue-chat';
   static const String cbMsgOption = '/mobile/cb/msg-option';
   static const String cbUserChats = '/mobile/cb/user-chats';
+
+  static const String adviceVideo = '/mobile/advice-video';
 }
