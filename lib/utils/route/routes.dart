@@ -51,6 +51,8 @@ import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test_result_route.dart';
 import 'package:habido_app/ui/psy_test/psy_tests/psy_tests_route.dart';
 import 'package:habido_app/ui/psy_test_v2/psy_intro_result_v2.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_result_route_v2.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_test_dashboard_v2/psy_test_dashboard_v2.dart';
 import 'package:habido_app/ui/psy_test_v2/psy_test_screen_v2/psy_test_route_v2.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
@@ -92,7 +94,11 @@ class Routes {
 
   static const psyIntro = 'psyIntro';
   static const psyTest = 'psyTest';
+  static const psyTestV2 = 'psyTestV2';
+
   static const psyTestResult = 'psyTestResult';
+  static const psyTestResultV2 = 'psyTestResultV2';
+
   static const habitCategories = 'habitCategories';
   static const habitList = 'habitList';
   static const userHabit = 'userHabit';
@@ -108,6 +114,8 @@ class Routes {
   static const habitTotalExpense = 'habitTotalExpense';
   static const notif = 'notif';
   static const userInfo = 'userInfo';
+  static const psyTestList = 'psyTestList';
+
   static const yourRank = 'yourRank';
   static const habitSuccess = 'habitSuccess';
   static const help = 'help';
@@ -310,11 +318,37 @@ class Routes {
         );
         break;
 
+      // case Routes.psyTestV2:
+      //   var args = settings.arguments as Map;
+      //   route = SlideRightRouteBuilder(
+      //     PsyTestRoute(
+      //       testInfo: _getValueByKey(args, 'psyTest'),
+      //     ),
+      //     settings,
+      //   );
+      //   break;
+
       case Routes.psyTestResult:
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           PsyTestResultRoute(
             psyTestResult: _getValueByKey(args, 'psyTestResult'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.psyTestResultV2:
+        var args = settings.arguments as Map;
+
+        route = SlideRightRouteBuilder(
+          // PsyTestResultRoute(
+          //   psyTestResult: _getValueByKey(args, 'psyTestResult'),
+          // ),
+          PsyTestResultRouteV2(
+            isActiveAppBar: true,
+            testId: _getValueByKey(args, 'testId'),
+            testResult: _getValueByKey(args, 'testResult'),
           ),
           settings,
         );
@@ -513,6 +547,10 @@ class Routes {
 
       case Routes.userInfo:
         route = SlideRightRouteBuilder(UserInfoRoute(), settings);
+        break;
+
+      case Routes.psyTestList:
+        route = SlideRightRouteBuilder(PsyTestDashboardV2(), settings);
         break;
 
       case Routes.yourRank:

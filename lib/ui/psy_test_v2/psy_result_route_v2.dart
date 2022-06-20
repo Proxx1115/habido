@@ -15,6 +15,7 @@ import 'package:habido_app/ui/psy_test_v2/psy_test_containers/suggested_habit_co
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
@@ -25,9 +26,10 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class PsyTestResultRouteV2 extends StatefulWidget {
+  final bool isActiveAppBar;
   final int testId;
   final TestResult? testResult;
-  const PsyTestResultRouteV2({Key? key, required this.testResult, required this.testId}) : super(key: key);
+  const PsyTestResultRouteV2({Key? key, required this.testResult, required this.testId, required this.isActiveAppBar}) : super(key: key);
 
   @override
   _PsyTestResultRouteV2State createState() => _PsyTestResultRouteV2State();
@@ -61,78 +63,93 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
   }
 
   Widget _blocBuilder(BuildContext context, TestsStateV2 state) {
-    return Container(
-      padding: SizeHelper.screenPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          /// Result
-          RoundedCornerListView(
-            // padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
-            children: [
-              /// RESULT_INFO
-              _testResult(),
+    return CustomScaffold(
+      appBarTitle: widget.isActiveAppBar == true ? "" : null,
+      onWillPop: () {
+        Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+      },
+      child: Container(
+        padding: SizeHelper.screenPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            /// Result
+            RoundedCornerListView(
+              // padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
+              children: [
+                /// RESULT_INFO
+                _testResult(),
 
-              SizedBox(height: 25),
+                SizedBox(height: 25),
 
-              /// SUGGESTED_HABIT
-              if (widget.testResult!.habit != null)
-                Column(
-                  children: [
-                    /// Title
-                    SizedBox(height: 25),
-                    CustomText(
-                      LocaleKeys.recommendedHabit,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                    ),
-                    SizedBox(height: 25),
+                /// SUGGESTED_HABIT
+                if (widget.testResult!.habit != null)
+                  Column(
+                    children: [
+                      /// Title
+                      SizedBox(height: 25),
+                      CustomText(
+                        LocaleKeys.recommendedHabit,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                      ),
+                      SizedBox(height: 25),
 
-                    SuggestedHabitContainer(
-                      height: 70,
-                      title: widget.testResult!.habit!.name ?? '',
-                      leadingImageUrl: widget.testResult!.habit!.photo ?? "",
-                      // suffixAsset: Assets.arrow_forward,
-                      leadingBackgroundColor: HexColor.fromHex("#F1F8E9"), //todo yela onPressed
-                    ),
+                      SuggestedHabitContainer(
+                        height: 70,
+                        title: widget.testResult!.habit!.name ?? '',
+                        leadingImageUrl: widget.testResult!.habit!.photo ?? "",
+                        // suffixAsset: Assets.arrow_forward,
+                        leadingBackgroundColor: HexColor.fromHex("#F1F8E9"), //todo yela onPressed
+                        onPressed: () {
+                          Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+                          Navigator.pushNamed(context, Routes.userHabit, arguments: {
+                            'screenMode': ScreenMode.New,
+                            'habit': widget.testResult!.habit,
+                            'title': LocaleKeys.createHabit,
+                          });
+                        },
+                      ),
 
-                    /// Habit item
-                    // ListItemContainer(
-                    //   margin: EdgeInsets.only(bottom: 15.0),
-                    //   height: 70.0,
-                    //   leadingImageUrl: widget.testResult!.habit!.photo ?? "",
-                    //   title: widget.testResult!.habit!.name ?? '',
-                    //   suffixAsset: Assets.arrow_forward,
-                    //   leadingBackgroundColor:
-                    //       (widget.psyTestResult.habit!.color != null)
-                    //           ? HexColor.fromHex(
-                    //               widget.psyTestResult.habit!.color!)
-                    //           : null,
-                    //   onPressed: () {
-                    //     Navigator.popUntil(
-                    //         context, ModalRoute.withName(Routes.home));
-                    //     Navigator.pushNamed(context, Routes.userHabit,
-                    //         arguments: {
-                    //           'screenMode': ScreenMode.New,
-                    //           'habit': widget.psyTestResult.habit,
-                    //           'title': LocaleKeys.createHabit,
-                    //         });
-                    //   },
-                    // ),
-                  ],
-                ),
-            ],
-          ),
+                      /// Habit item
+                      // ListItemContainer(
+                      //   margin: EdgeInsets.only(bottom: 15.0),
+                      //   height: 70.0,
+                      //   leadingImageUrl: widget.testResult!.habit!.photo ?? "",
+                      //   title: widget.testResult!.habit!.name ?? '',
+                      //   suffixAsset: Assets.arrow_forward,
+                      //   leadingBackgroundColor:
+                      //       (widget.psyTestResult.habit!.color != null)
+                      //           ? HexColor.fromHex(
+                      //               widget.psyTestResult.habit!.color!)
+                      //           : null,
+                      //   onPressed: () {
+                      //     Navigator.popUntil(
+                      //         context, ModalRoute.withName(Routes.home));
+                      //     Navigator.pushNamed(context, Routes.userHabit,
+                      //         arguments: {
+                      //           'screenMode': ScreenMode.New,
+                      //           'habit': widget.psyTestResult.habit,
+                      //           'title': LocaleKeys.createHabit,
+                      //         });
+                      //   },
+                      // ),
+                    ],
+                  ),
+              ],
+            ),
 
-          /// Button
-          CustomButton(
-            margin: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
-            text: LocaleKeys.thanksHabido,
-            onPressed: () {
-              Navigator.popUntil(context, ModalRoute.withName(Routes.home));
-            },
-          ),
-        ],
+            /// Button
+            CustomButton(
+              margin: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
+              text: LocaleKeys.thanksHabido,
+              onPressed: () {
+                BlocManager.psyTestBlocV2.add(GetTestListEvent());
+                Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

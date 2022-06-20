@@ -91,6 +91,7 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
                     PsyIntroRouteV2(testInfo: _testInfoResultResponse!.testInfo!),
                     _testInfoResultResponse!.testResult != null
                         ? PsyTestResultRouteV2(
+                            isActiveAppBar: false,
                             testResult: _testInfoResultResponse?.testResult,
                             testId: widget.test.testId!,
                           )
