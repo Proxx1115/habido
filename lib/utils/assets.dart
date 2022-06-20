@@ -8,9 +8,9 @@ class Assets {
 
   static const String clock_test = 'assets/images/global/clock_test.svg';
   static const String question_number = 'assets/images/global/question_number.svg';
-  static const String star_yellow = 'assets/images/global/star_yellow.svg';
-
-  static const String star_white = 'assets/images/global/star_white.svg';
+  static const String star_full = 'assets/images/global/star_full.svg';
+  static const String star_empty = 'assets/images/global/star_empty.svg';
+  static const String star_half_test = 'assets/images/global/star_half_test.svg';
 
   static const String success = 'assets/images/global/success24.svg';
   static const String clear_circle = 'assets/images/global/clear_circle.svg';

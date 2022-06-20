@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:habido_app/ui/psy_test_v2/info_container_v2.dart';
+import 'package:habido_app/models/test_info.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_test_containers/info_container_v2.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -11,8 +13,10 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class PsyIntroRouteV2 extends StatefulWidget {
+  final TestInfo testInfo;
   const PsyIntroRouteV2({
     Key? key,
+    required this.testInfo,
   }) : super(key: key);
 
   @override
@@ -43,13 +47,12 @@ class _PsyIntroRouteV2State extends State<PsyIntroRouteV2> {
                   Expanded(
                     child: ListView(
                       children: [
-                        /// Cover image
-                        // if (Func.isNotEmpty(widget.psyTest.coverPhoto)) // todo yela
-                        if (true)
+                        /// COVER IMAGE
+                        if (Func.isNotEmpty(widget.testInfo.coverPhoto))
                           ClipRRect(
                             borderRadius: SizeHelper.borderRadiusOdd,
                             child: CachedNetworkImage(
-                              imageUrl: "https://habido-test.s3-ap-southeast-1.amazonaws.com/test-category/6db179ab-ff7d-4812-a57b-710bc7f41fb3.png",
+                              imageUrl: widget.testInfo.coverPhoto!,
                               fit: BoxFit.fitWidth,
                               width: double.infinity,
                               placeholder: (context, url) => CustomLoader(),
@@ -57,8 +60,8 @@ class _PsyIntroRouteV2State extends State<PsyIntroRouteV2> {
                             ),
                           ),
 
-                        /// Info container
-                        _infoContainer()
+                        /// TEST INFO CONTAINER
+                        _testInfoContainer()
                       ],
                     ),
                   ),
@@ -74,13 +77,11 @@ class _PsyIntroRouteV2State extends State<PsyIntroRouteV2> {
     );
   }
 
-  Widget _infoContainer() {
+  Widget _testInfoContainer() {
     return InfoContainerV2(
       margin: EdgeInsets.only(top: 15.0),
-      title: "Өөрийн үнэлэмжийн сорил" ?? '',
-      body:
-          "Та өөрийгөө хэрхэн үнэлэх үнэмлэмжийн байдлыг илрүүлэх боломжтой. Хэрэв та өөрийн үнэлэх үнэлэмжээ мэдэхийг хүсвэлтестийг  эхлүүлнэ үү." ??
-              '',
+      title: widget.testInfo.name!,
+      body: widget.testInfo.description!,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -93,7 +94,7 @@ class _PsyIntroRouteV2State extends State<PsyIntroRouteV2> {
               ),
               SizedBox(width: 10),
               CustomText(
-                "Зарцуулах хугацаа - 3мин",
+                "Зарцуулах хугацаа - ${widget.testInfo.duration!}мин",
                 fontSize: 15,
                 fontWeight: FontWeight.w300,
               )
@@ -109,7 +110,7 @@ class _PsyIntroRouteV2State extends State<PsyIntroRouteV2> {
               ),
               SizedBox(width: 10),
               CustomText(
-                "Асуултын тоо - 17",
+                "Асуултын тоо - ${widget.testInfo.totalQuestionCnt!}",
                 fontSize: 15,
                 fontWeight: FontWeight.w300,
               )
@@ -124,9 +125,11 @@ class _PsyIntroRouteV2State extends State<PsyIntroRouteV2> {
     return CustomButton(
       margin: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
       text: LocaleKeys.beginTestV2,
-      onPressed: () {
-        Navigator.pop(context);
-      },
+      onPressed: widget.testInfo.canStart!
+          ? () {
+              Navigator.pop(context);
+            }
+          : null,
     );
   }
 // _buttonNext() {

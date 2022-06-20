@@ -2,10 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/test.dart';
 import 'package:habido_app/models/test_name_with_tests.dart';
 import 'package:habido_app/ui/home/dashboard/dashboard_app_bar.dart';
-import 'package:habido_app/ui/psy_test_v2/psy_test_bloc_v2.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_test_bloc_v2/psy_test_bloc_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -24,28 +25,19 @@ class PsyTestDashboardV2 extends StatefulWidget {
 }
 
 class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
-  late TestsBlocV2 _testsBlocV2;
-
   List<TestNameWithTests>? _testNameWithTests;
 
   @override
   void initState() {
-    _testsBlocV2 = TestsBlocV2();
-    _testsBlocV2.add(GetTestListEvent());
+    BlocManager.psyTestBlocV2.add(GetTestListEvent());
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _testsBlocV2.close();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       child: BlocProvider.value(
-        value: _testsBlocV2,
+        value: BlocManager.psyTestBlocV2,
         child: BlocListener<TestsBlocV2, TestsStateV2>(
           listener: _blocListener,
           child: BlocBuilder<TestsBlocV2, TestsStateV2>(
@@ -80,19 +72,6 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
             margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
             child: Column(
               children: [
-                // ElevatedButton(
-                //     onPressed: () {
-                //       print('yelaData2:${_testNameWithTests![0].tests![0].photo}');
-                //     },
-                //     child: CustomText('okey')),
-                // CustomText(
-                //   "Бие хүний онцлог2",
-                //   color: customColors.primaryText,
-                //   fontSize: 16,
-                //   fontWeight: FontWeight.w500,
-                // ),
-                // SizedBox(height: 15),
-                // _psyTest(),
                 if (_testNameWithTests != null)
                   for (var el in _testNameWithTests!)
                     Column(
@@ -115,10 +94,13 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
     );
   }
 
+  /// TEST LIST
   _psyTest(Test test) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.psyTestsIntroResult);
+        Navigator.pushNamed(context, Routes.psyTestsIntroResult, arguments: {
+          'test': test,
+        });
       },
       child: Stack(
         children: [
@@ -128,10 +110,12 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                width: 1,
-                color: customColors.shamrockBorder,
-              ),
+              border: test.hasTaken! == true
+                  ? Border.all(
+                      width: 1,
+                      color: customColors.shamrockBorder,
+                    )
+                  : null,
             ),
             child: Container(
               child: Row(
@@ -146,19 +130,20 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
                       color: customColors.primaryText,
                     ),
                   ),
-                  // SvgPicture.asset(Assets.bell),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: Container(
-                      height: 16,
-                      width: 16,
-                      padding: EdgeInsets.symmetric(horizontal: 4.5, vertical: 5.5),
-                      color: customColors.shamrockBorder,
-                      child: SvgPicture.asset(
-                        Assets.check,
-                      ),
-                    ),
-                  ),
+                  test.hasTaken! == true
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                          child: Container(
+                            height: 16,
+                            width: 16,
+                            padding: EdgeInsets.symmetric(horizontal: 4.5, vertical: 5.5),
+                            color: customColors.shamrockBorder,
+                            child: SvgPicture.asset(
+                              Assets.check,
+                            ),
+                          ),
+                        )
+                      : Container(),
                   SizedBox(width: SizeHelper.margin)
                 ],
               ),

@@ -25,7 +25,9 @@ import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
 import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_results_response2.dart';
+import 'package:habido_app/models/psy_test_review.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
+import 'package:habido_app/models/test_info_result_response.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
@@ -332,6 +334,19 @@ class ApiManager {
   static Future<PsyTestsV2Response> psyTestList() async {
     return PsyTestsV2Response.fromJson(
       await httpUtils.sendRequest(path: HttpPath.psyTests, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<TestInfoResultResponse> psyTest(int testId) async {
+    return TestInfoResultResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.psyTest + '/$testId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  /// PSY TEST REVIEW
+  static Future<BaseResponse> psyTestReview(PsyTestReview request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.psyTestReview, objectData: request),
     );
   }
 
