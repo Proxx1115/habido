@@ -22,8 +22,8 @@ class ContentBlocV2 extends Bloc<ContentHighlightedEvent, ContentHighlightedStat
       yield* _mapGetContentTagsEventToState();
     } else if (event is GetContentFilter) {
       yield* _mapGetContentFilterEventToState(event);
-    } else if (event is GetTestListEvent) {
-      yield* _mapGetTestEventToState();
+    } else if (event is GetContentFirst) {
+      yield* _mapGetContentFirstEventToState(event);
     }
   }
 
@@ -91,19 +91,19 @@ class ContentBlocV2 extends Bloc<ContentHighlightedEvent, ContentHighlightedStat
     }
   }
 
-  Stream<ContentHighlightedState> _mapGetTestEventToState() async* {
+  Stream<ContentHighlightedState> _mapGetContentFirstEventToState(GetContentFirst event) async* {
     try {
-      yield TestListLoading();
+      yield ContentFirstLoading();
 
-      var res = await ApiManager.psyTestList();
-      print("yelaData:${res.testNameWithTests}");
-      if (res.code == ResponseCode.Success && res.testNameWithTests != null && res.testNameWithTests!.length > 0) {
-        yield TestListSuccess(res.testNameWithTests!);
+      var res = await ApiManager.contentFirst(event.name, event.searchText);
+      print("Search Text: ${res.contentList}");
+      if (res.code == ResponseCode.Success) {
+        yield ContentFirstSuccess(res.contentList!);
       } else {
-        yield TestListEmpty();
+        yield ContentFilterFailed(LocaleKeys.noData);
       }
     } catch (e) {
-      yield TestListFailed(LocaleKeys.errorOccurred);
+      yield ContentFilterFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -146,7 +146,17 @@ class GetContentFilter extends ContentHighlightedEvent {
   String toString() => 'GetContentEvent { contentId: $name $pid $pSize }';
 }
 
-class GetTestListEvent extends ContentHighlightedEvent {}
+class GetContentFirst extends ContentHighlightedEvent {
+  final String name;
+  final String searchText;
+  const GetContentFirst(this.name, this.searchText);
+
+  @override
+  List<Object> get props => [name, searchText];
+
+  @override
+  String toString() => 'GetContentFirst { GetContentFirst: $name $searchText }';
+}
 
 /// BLOC STATES
 abstract class ContentHighlightedState extends Equatable {
@@ -273,34 +283,29 @@ class ContentFilterFailed extends ContentHighlightedState {
   String toString() => 'ContentFailed { message: $message }';
 }
 
-/// TEST LIST STATES
+/// CONTENT FIRST STATES
+class ContentFirstLoading extends ContentHighlightedState {}
 
-class TestListLoading extends ContentHighlightedState {}
+class ContentFirstSuccess extends ContentHighlightedState {
+  final List<ContentV2> contentList;
 
-class TestListEmpty extends ContentHighlightedState {}
-
-class TestListSuccess extends ContentHighlightedState {
-  final List<TestNameWithTests> testNameWithTests;
-
-  const TestListSuccess(
-    this.testNameWithTests,
-  );
+  const ContentFirstSuccess(this.contentList);
 
   @override
-  List<Object> get props => [testNameWithTests];
+  List<Object> get props => [contentList];
 
   @override
-  String toString() => 'ContentListSuccess { contentList: $testNameWithTests}';
+  String toString() => 'ContentSuccess { content: $contentList }';
 }
 
-class TestListFailed extends ContentHighlightedState {
+class ContentFirstrFailed extends ContentHighlightedState {
   final String message;
 
-  const TestListFailed(this.message);
+  const ContentFirstrFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'ContentListFailed { message: $message }';
+  String toString() => 'ContentFailed { message: $message }';
 }

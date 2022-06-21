@@ -357,6 +357,12 @@ class ApiManager {
     );
   }
 
+  static Future<ContentListResponseV2> contentFirst(String name, String searchText) async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentFirst + '?name=$name&searchText=$searchText', httpMethod: HttpMethod.get),
+    );
+  }
+
   /// PsyTest test
   static Future<PsyTestsV2Response> psyTestList() async {
     return PsyTestsV2Response.fromJson(

@@ -27,23 +27,28 @@ class ContentDashboardV2 extends StatefulWidget {
 }
 
 class _ContentDashboardV2State extends State<ContentDashboardV2> {
+  /// CONTENT BLOC
   late ContentBlocV2 _contentBlocV2;
 
-  // Search bar
+  /// SEARCH
   final _searchController = TextEditingController();
 
-  // Tags
+  /// TAGS
+  String? _selectedTag = "";
   List<ContentTagV2> _tagList = [];
-
-  List<TestNameWithTests>? _testNameWithTests;
-
-  String? _selectedTag = "Танд";
 
   var forYou = new ContentTagV2(name: "Танд", filterValue: "Танд");
 
-  // Content
+  /// CONTENT
   List<ContentV2>? _contentList;
+
+  /// CONTENT FILTER
   List<ContentV2>? _contentFilter;
+
+  /// CONTENT FIRST
+  List<ContentV2>? _contentFirst;
+
+  /// CONTENT
   ContentV2? content;
 
   int pSize = 100;
@@ -51,13 +56,14 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
   @override
   void initState() {
     // Search
-    // _searchController.addListener(() => _filter());
+    _searchController.addListener(() => _getData2());
 
     _contentBlocV2 = ContentBlocV2();
     _contentBlocV2.add(GetHighlightedListEvent());
     _tagList.add(forYou);
-    _getData();
+
     _contentBlocV2.add(GetContentTags());
+
     _getData2();
     super.initState();
   }
@@ -67,7 +73,7 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
   }
 
   _getData2() {
-    _contentBlocV2.add(GetTestListEvent());
+    _contentBlocV2.add(GetContentFirst(_selectedTag ?? "", _searchController.text ?? ""));
   }
 
   @override
@@ -110,14 +116,15 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                print("okeyNice:${_testNameWithTests![0].tests?[0].photo}");
+                                print("search text:${_searchController.text}");
+                                print("tag:${_selectedTag}");
                               },
                               child: CustomText("okey")),
                           SizedBox(height: 10),
-                          if (_contentList != null)
-                            //   for (var el in _contentList!) _contentColumn(el),
-                            // for (var i = 0; i < _contentList!.length; i++) _contentColumn(_contentList![i]),
-                            for (var i = 0; i < _contentList!.length; i++) ContentCardV2(content: _contentList![i]),
+                          // if (_contentList != null)
+                          //   for (var el in _contentList!) _contentColumn(el),
+                          // for (var i = 0; i < _contentList!.length; i++) _contentColumn(_contentList![i]),
+                          // for (var i = 0; i < _contentList!.length; i++) ContentCardV2(content: _contentList![i]),
                           SizedBox(height: 3),
                           CustomText(
                             _selectedTag ?? "Танд",
@@ -126,10 +133,10 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                             color: customColors.primaryText,
                           ),
                           SizedBox(height: 12),
-                          if (_contentFilter != null)
+                          if (_contentFirst != null)
                             // for (var contentFilter in _contentFilter!) _contentColumn(contentFilter),
                             // for (var i = 0; i < _contentFilter!.length; i++) _contentColumn(_contentFilter![i])
-                            for (var i = 0; i < _contentFilter!.length; i++) ContentCardV2(content: _contentFilter![i]),
+                            for (var i = 0; i < _contentFirst!.length; i++) ContentCardV2(content: _contentFirst![i]),
                         ],
                       ),
                     ),
@@ -165,9 +172,10 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
-    } else if (state is TestListSuccess) {
-      _testNameWithTests = state.testNameWithTests;
-    } else if (state is TestListFailed) {
+    } else if (state is ContentFirstSuccess) {
+      _contentFirst = state.contentList;
+      print('First:${state.contentList[0].title}');
+    } else if (state is ContentFilterFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
@@ -194,8 +202,10 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
       onTap: () {
         // print('tag:${tag.name!} ${tag.filterValue!}');
         _selectedTag = tag.filterValue!;
+        print('tag:${_selectedTag!}');
+
         pSize = 4;
-        _getData();
+        // _getData();
         _getData2();
 
         setState(() {});
