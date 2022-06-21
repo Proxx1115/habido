@@ -7,6 +7,8 @@ import 'package:habido_app/models/psy_test_answer.dart';
 import 'package:habido_app/models/psy_test_answers_request.dart';
 import 'package:habido_app/models/psy_test_question.dart';
 import 'package:habido_app/models/psy_test_question_answer.dart';
+import 'package:habido_app/models/test_info.dart';
+import 'package:habido_app/models/test_result.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -22,7 +24,8 @@ import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class PsyTestRoute extends StatefulWidget {
-  final PsyTest psyTest;
+  // final PsyTest psyTest;
+  final TestInfo psyTest;
 
   const PsyTestRoute({
     Key? key,
@@ -130,6 +133,12 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
       // Refresh dashboard
       BlocManager.psyTestMainBloc.add(GetPsyTestResultsEvent());
 
+      TestResult _testResult = TestResult(
+        habit: state.psyTestResult.habit,
+        reviewScore: state.psyTestResult.reviewScore ?? 0,
+        text: state.psyTestResult.text,
+        resultText: state.psyTestResult.resultText,
+      );
       showCustomDialog(
         context,
         child: CustomDialogBody(
@@ -138,9 +147,8 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
           buttonText: LocaleKeys.seeResult,
           primaryColor: customColors.feijoBackground,
           onPressedButton: () {
-            Navigator.pushReplacementNamed(context, Routes.psyTestResult, arguments: {
-              'psyTestResult': state.psyTestResult,
-            });
+            Navigator.pushReplacementNamed(context, Routes.psyTestResultV2,
+                arguments: {'testId': state.psyTestResult.testId, 'testResult': _testResult});
           },
         ),
       );
@@ -214,8 +222,7 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
         Expanded(
           child: (psyTestQuestion.testAnswers != null && psyTestQuestion.testAnswers!.isNotEmpty)
               ? ListView(
-                  children:
-                      List.generate(psyTestQuestion.testAnswers!.length, (index) => _answerItem(questionIndex, index)),
+                  children: List.generate(psyTestQuestion.testAnswers!.length, (index) => _answerItem(questionIndex, index)),
                 )
               : Container(),
         ),

@@ -374,6 +374,7 @@ class LocaleKeys {
   static String get doPsyTest => 'Сэтгэл зүйн тест бөглөх';
 
   static String get beginTest => 'Тест эхлэх';
+  static String get beginTestV2 => 'Тест эхлүүлэх';
 
   static String get seeResult => 'Үр дүн харах';
 
@@ -604,6 +605,8 @@ class LocaleKeys {
   static String get addNew => 'Шинээр нэмэх';
 
   static String get newPsyTest => 'Шинэ';
+
+  static String get toEvaluate => 'Үнэлгээ өгөх';
 
   static String get pickColor => 'Өнгө сонгох';
 
