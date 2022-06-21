@@ -67,6 +67,7 @@ class Assets {
   static const String question2 = 'assets/images/auth/question2.svg';
   static const String question3 = 'assets/images/auth/question3.svg';
   static const String sign_up_success = 'assets/images/auth/sign_up_success.png';
+  static const String PersonalInfo  = 'assets/images/auth/personalinfo.svg';
 
   /// Home
   static const String home = 'assets/images/home/home.svg';

@@ -115,6 +115,10 @@ class LocaleKeys {
 
   static String get resendVerifyCode => 'Дахин код авах';
 
+  static String get personalInfo => 'Хувийн мэдээлэл';
+
+  
+
   ///
   /// Intro
   ///
