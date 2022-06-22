@@ -8,13 +8,13 @@ import 'package:habido_app/ui/content_v2/content_card_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/app_bars/dashboard_sliver_app_bar.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:flutter/cupertino.dart' as cupertino;
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
 
 class ContentDashboardV2 extends StatefulWidget {
   const ContentDashboardV2({Key? key}) : super(key: key);
@@ -63,7 +63,7 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
   }
 
   _getContent() {
-    BlocManager.contentBlocV2.add(GetContentFirst(_selectedTag!.filterValue ?? "", _searchController.text ?? ""));
+    BlocManager.contentBlocV2.add(GetContentFirst(_selectedTag!.filterValue ?? "", _searchController.text));
   }
 
   @override
@@ -170,7 +170,11 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     return CustomScrollView(
       slivers: [
         /// App bar
-        DashboardSliverAppBar(title: LocaleKeys.advice),
+        SliverToBoxAdapter(
+            child: DashboardAppBar(
+          title: LocaleKeys.advice,
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+        )),
 
         /// Search
         _searchBar(),
@@ -201,8 +205,7 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                   color: customColors.primaryText,
                 ),
                 SizedBox(height: 12),
-                if (_contentList != null)
-                  for (var i = 0; i < _contentList!.length; i++) ContentCardV2(content: _contentList![i]),
+                for (var i = 0; i < _contentList.length; i++) ContentCardV2(content: _contentList[i]),
               ],
             ),
           ),
@@ -291,8 +294,7 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     // _notifList.add((_notifList.length + 1).toString());
 
     if (_contentList.isNotEmpty) {
-      print("selelteg:??${_selectedTag}");
-      BlocManager.contentBlocV2.add(GetContentThenEvent(_selectedTag!.filterValue!, _searchController.text ?? "", _contentList.last.contentId ?? 0));
+      BlocManager.contentBlocV2.add(GetContentThenEvent(_selectedTag!.filterValue!, _searchController.text, _contentList.last.contentId ?? 0));
     }
 
     if (mounted) setState(() {});

@@ -10,7 +10,6 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
@@ -61,6 +60,7 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      appBarTitle: title,
       child: BlocProvider.value(
         value: BlocManager.contentBlocV2,
         child: BlocListener<ContentBlocV2, ContentStateV2>(
@@ -87,32 +87,32 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
   Widget _blocBuilder(BuildContext context, ContentStateV2 state) {
     return Column(
       children: [
-        Container(
-          color: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: SvgPicture.asset(
-                  Assets.arrow_back,
-                  fit: BoxFit.scaleDown,
-                  color: customColors.iconGrey,
-                  height: 15,
-                ),
-              ),
-              const SizedBox(width: 12),
-              CustomText(
-                title,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                maxLines: 3,
-              )
-            ],
-          ),
-        ),
+        // Container(
+        //   color: Colors.white,
+        //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        //   child: Row(
+        //     children: [
+        //       InkWell(
+        //         onTap: () {
+        //           Navigator.pop(context);
+        //         },
+        //         child: SvgPicture.asset(
+        //           Assets.arrow_back,
+        //           fit: BoxFit.scaleDown,
+        //           color: customColors.iconGrey,
+        //           height: 15,
+        //         ),
+        //       ),
+        //       const SizedBox(width: 12),
+        //       CustomText(
+        //         title,
+        //         fontSize: 15,
+        //         fontWeight: FontWeight.w500,
+        //         maxLines: 3,
+        //       )
+        //     ],
+        //   ),
+        // ),
         if (_content != null)
           Expanded(
             child: ListView.builder(
@@ -150,7 +150,7 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
             child: ClipRRect(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
               child: CachedNetworkImage(
-                imageUrl: content.contentPhoto! ?? "",
+                imageUrl: content.contentPhoto!,
                 fit: BoxFit.fitWidth,
                 width: double.infinity,
                 height: 175,

@@ -5,9 +5,8 @@ import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_bloc.dart';
 import 'package:habido_app/ui/chat/chatbot_dashboard.dart';
-import 'package:habido_app/ui/content/content_dashboard.dart';
+import 'package:habido_app/ui/content_v2/content_dashboard_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_dashboard.dart';
-import 'package:habido_app/ui/psy_test/psy_test_dashboard/psy_user_test_dashboard.dart';
 import 'package:habido_app/ui/psy_test_v2/psy_test_dashboard_v2/psy_test_dashboard_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -19,8 +18,6 @@ import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'dashboard/dashboard_screen.dart';
-import '../profile/profile_dashboard.dart';
-import '../psy_test/psy_test_dashboard/psy_test_dashboard.dart';
 
 class HomeRouteNew extends StatefulWidget {
   @override
@@ -101,7 +98,7 @@ class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderSt
             PsyTestDashboardV2(),
 
             /// Зөвлөмж
-            ContentDashboard(),
+            ContentDashboardV2(),
           ],
         ),
 

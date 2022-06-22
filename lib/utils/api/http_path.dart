@@ -29,7 +29,6 @@ class HttpPath {
   static const String psyTest = '/mobile/test';
   static const String psyTestReview = '/mobile/test/review';
 
-
   static const String contentFilter = '/mobile/content/filter';
   static const String contentFirst = '/mobile/content/first';
   static const String contentThen = '/mobile/content/then';

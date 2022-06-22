@@ -2,12 +2,19 @@ class Test {
   int? testId;
   String? name;
   String? photo;
-  Test({this.testId, this.name, this.photo});
+  bool? hasTaken;
+  Test({
+    this.testId,
+    this.name,
+    this.photo,
+    this.hasTaken,
+  });
 
   Test.fromJson(dynamic json) {
     testId = json['testId'];
     name = json['name'];
     photo = json['photo'];
+    hasTaken = json['hasTaken'];
   }
 
   Map<String, dynamic> toJson() {
@@ -15,6 +22,8 @@ class Test {
     map['testId'] = testId;
     map['name'] = name;
     map['photo'] = photo;
+    map['hasTaken'] = hasTaken;
+
     return map;
   }
 }

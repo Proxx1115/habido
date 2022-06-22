@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -75,9 +74,7 @@ AppBar CustomAppBar(
         leadingWidget,
 
         /// Title
-        (titleText != null)
-            ? CustomText(titleText, alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500)
-            : Container(),
+        (titleText != null) ? Expanded(child: CustomText(titleText, textAlign: TextAlign.center, fontWeight: FontWeight.w500)) : Container(),
 
         actionWidget,
       ],
@@ -96,7 +93,6 @@ PreferredSize EmptyAppBar({
     preferredSize: Size.fromHeight(0.0), // here the desired height
     child: AppBar(
       backgroundColor: backgroundColor,
-      brightness: brightness,
       leading: Container(),
       elevation: elevation,
       actions: <Widget>[],

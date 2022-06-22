@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/models/feedback_category_list_response.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_change_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_route.dart';
 import 'package:habido_app/ui/auth/login_intro_route.dart';
@@ -209,8 +208,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp2CodeRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -220,8 +218,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -231,8 +228,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -242,8 +238,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );

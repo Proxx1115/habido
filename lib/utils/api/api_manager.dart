@@ -14,7 +14,6 @@ import 'package:habido_app/models/completed_habit_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
 import 'package:habido_app/models/content_list_response_v2.dart';
-import 'package:habido_app/models/content_tag_v2.dart';
 import 'package:habido_app/models/content_tags_response.dart';
 import 'package:habido_app/models/content_v2.dart';
 import 'package:habido_app/models/custom_habit_settings_response.dart';
@@ -31,7 +30,6 @@ import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
 import 'package:habido_app/models/history_habit_response.dart';
-import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/models/psy_test_review.dart';
@@ -335,31 +333,27 @@ class ApiManager {
 
   static Future<Content> content(int contentId) async {
     return Content.fromJson(
-      await httpUtils.sendRequest(
-          path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
     );
   }
 
   /// Psychology test List
   static Future<PsyTestsV2Response> psyTestList() async {
     return PsyTestsV2Response.fromJson(
-      await httpUtils.sendRequest(
-          path: HttpPath.psyTests, httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(path: HttpPath.psyTests, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<TestInfoResultResponse> psyTest(int testId) async {
     return TestInfoResultResponse.fromJson(
-      await httpUtils.sendRequest(
-          path: HttpPath.psyTest + '/$testId', httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(path: HttpPath.psyTest + '/$testId', httpMethod: HttpMethod.get),
     );
   }
 
   /// PSY TEST REVIEW
   static Future<BaseResponse> psyTestReview(PsyTestReview request) async {
     return BaseResponse.fromJson(
-      await httpUtils.sendRequest(
-          path: HttpPath.psyTestReview, objectData: request),
+      await httpUtils.sendRequest(path: HttpPath.psyTestReview, objectData: request),
     );
   }
 
@@ -406,13 +400,6 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.contentLike + '?contentId=$contentId',
       ),
-    );
-  }
-
-  /// PsyTest test
-  static Future<PsyTestsV2Response> psyTestList() async {
-    return PsyTestsV2Response.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.psyTests, httpMethod: HttpMethod.get),
     );
   }
 
