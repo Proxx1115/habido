@@ -70,5 +70,8 @@ class HttpPath {
   static const String cbMsgOption = '/mobile/cb/msg-option';
   static const String cbUserChats = '/mobile/cb/user-chats';
 
+  static const String moodTrackerList = '/mobile/mood-tracker/list';
+  static const String moodTrackerLast = '/mobile/mood-tracker/latest';
   static const String adviceVideo = '/mobile/advice-video';
+  static const String tips = '/mobile/tips';
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/models/achievements_response.dart';
 import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/banners_response.dart';
@@ -24,8 +25,12 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
+import 'package:habido_app/models/mood_tracker_last.dart';
+import 'package:habido_app/models/mood_tracker_last_list.dart';
+import 'package:habido_app/models/mood_tracker_response.dart';
 import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
+import 'package:habido_app/models/tip_response.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
@@ -678,10 +683,37 @@ class ApiManager {
   }
 
   /// Home
+  static Future<MoodTrackerResponse> getMoodTracker() async {
+    return MoodTrackerResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.moodTrackerList,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<MoodTrackerLastListResponse> getMoodTrackerLast() async {
+    return MoodTrackerLastListResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.moodTrackerLast,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
   static Future<AdviceVideoResponse> getAdviceVideo() async {
     return AdviceVideoResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.adviceVideo,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<TipResponse> getTips() async {
+    return TipResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.tips,
         httpMethod: HttpMethod.get,
       ),
     );

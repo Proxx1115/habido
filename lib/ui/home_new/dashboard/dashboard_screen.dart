@@ -1,9 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/models/advice_video_response.dart';
+import 'package:habido_app/models/mood_tracker.dart';
+import 'package:habido_app/models/mood_tracker_last.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
+import 'package:habido_app/models/tip.dart';
+import 'package:habido_app/models/tip_response.dart';
 import 'package:habido_app/ui/feeling/emoji_item_widget.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/func.dart';
@@ -67,19 +72,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Assets.emoji5,
   ];
 
-  List _feelingHistoryData = [
-    {"emoji": Assets.emoji1, "name": LocaleKeys.emoji1, "date": "2 өдрийн өмнө", "time": "15:00"},
-    {"emoji": Assets.emoji2, "name": LocaleKeys.emoji2, "date": "өчигдөр", "time": "15:00"},
-    {"emoji": Assets.emoji3, "name": LocaleKeys.emoji3, "date": "өнөөдөр", "time": "15:00"},
-  ];
-
   AdviceVideoResponse? _adviceVideo;
+
+  List<Tip>? _tips;
+
+  List<MoodTracker> _moodTrackerList = [];
 
   @override
   void initState() {
     super.initState();
     _username = "Ногооноо";
     BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
+    BlocManager.homeNewBloc.add(GetTipEvent());
+    BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
   }
 
   @override
@@ -133,141 +138,136 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _listWidget() {
     return Container(
       child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              /// Hello
-              Row(
-                children: [
-                  SvgPicture.asset(Assets.emoji1, height: 46.0, width: 46.0),
-                  SizedBox(width: 15.0),
-                  CustomText(
-                    "${LocaleKeys.hi} $_username",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 22.0,
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 23.0),
-
-              /// You wanna share your Feeling?
-              Stack(
-                children: [
-                  Container(
-                    height: 105.0,
-                    padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      children: [
-                        CustomText(
-                          LocaleKeys.shareHowYouFeel,
-                          fontWeight: FontWeight.w500,
-                          alignment: Alignment.center,
-                          fontSize: 15.0,
-                        ),
-                        SizedBox(height: 9.0),
-
-                        /// FeelingItem
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ///
-                            for (var el in _feelingEmojis)
-                              Container(padding: EdgeInsets.symmetric(horizontal: 5.7), child: SvgPicture.asset(el, height: 31.0, width: 31.0))
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  _startBtn()
-                ],
-              ),
-
-              /// Last 3 Feeling History
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       child: SingleChildScrollView(
-              //         scrollDirection: Axis.horizontal,
-              //         child: Row(
-              //           children: [
-              //             for (var el in _feelingHistoryData)
-              //               Container(
-              //                 margin: EdgeInsets.only(right: 6.0),
-              //                 child: EmojiItemWithDateWidget(
-              //                   emojiData: el,
-              //                   onTap: () {
-              //                     setState(() {});
-              //                   },
-              //                 ),
-              //               )
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //     _shareFeelingBtn()
-              //   ],
-              // ),
-
-              /// Divider
-              SizedBox(height: 14.5),
-              HorizontalLine(),
-              SizedBox(height: 14.5),
-
-              /// Habit Advice
-              CustomText(
-                LocaleKeys.habitAdvice,
-                fontWeight: FontWeight.w700,
-                fontSize: 16.0,
-              ),
-
-              SizedBox(height: 11.0),
-
-              _habitTipItem(),
-
-              SizedBox(height: 16.0),
-
-              /// Banner
-              CustomCarouselSlider(
-                aspectRatio: _sliderAspectRatio,
-                sliderHeight: _sliderHeight!,
-                sliderMargin: EdgeInsets.only(top: _sliderTopMargin),
-                indicatorMargin: EdgeInsets.symmetric(vertical: _indicatorVerticalMargin, horizontal: 2.0),
-              ),
-
-              SizedBox(height: 12.0),
-
-              /// HabiDo tips
-              CustomText(
-                LocaleKeys.habidoTip,
-                fontWeight: FontWeight.w700,
-                fontSize: 16.0,
-              ),
-
-              SizedBox(height: 12.5),
-
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    // for(var el in _tips) // todo dynamic
-                    _tipItem(),
-                    _tipItem(),
-                    _tipItem(),
-                    _tipItem(),
-                  ],
+        padding: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            /// Hello
+            Row(
+              children: [
+                SvgPicture.asset(Assets.emoji1, height: 46.0, width: 46.0),
+                SizedBox(width: 15.0),
+                CustomText(
+                  "${LocaleKeys.hi} $_username",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 22.0,
                 ),
-              ),
+              ],
+            ),
 
-              SizedBox(height: SizeHelper.padding),
-            ],
-          )),
+            SizedBox(height: 23.0),
+
+            _moodTrackerList == []
+                ?
+
+                /// You wanna share your Feeling?
+                Stack(
+                    children: [
+                      Container(
+                        height: 105.0,
+                        padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          children: [
+                            CustomText(
+                              LocaleKeys.shareHowYouFeel,
+                              fontWeight: FontWeight.w500,
+                              alignment: Alignment.center,
+                              fontSize: 15.0,
+                            ),
+                            SizedBox(height: 9.0),
+
+                            /// FeelingItem
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ///
+                                for (var el in _feelingEmojis)
+                                  Container(padding: EdgeInsets.symmetric(horizontal: 5.7), child: SvgPicture.asset(el, height: 31.0, width: 31.0))
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      _startBtn()
+                    ],
+                  )
+                :
+
+                /// Mood Tracker List
+                Row(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: List.generate(
+                              _moodTrackerList.length,
+                              (index) => _moodTrackerItem(index: index, onTap: () {}),
+                            ),
+                          ),
+                        ),
+                      ),
+                      _shareFeelingBtn()
+                    ],
+                  ),
+
+            /// Divider
+            SizedBox(height: 14.5),
+            HorizontalLine(),
+            SizedBox(height: 14.5),
+
+            /// Habit Advice
+            CustomText(
+              LocaleKeys.habitAdvice,
+              fontWeight: FontWeight.w700,
+              fontSize: 16.0,
+            ),
+
+            SizedBox(height: 11.0),
+
+            _habitTipItem(),
+
+            SizedBox(height: 16.0),
+
+            /// Banner
+            CustomCarouselSlider(
+              aspectRatio: _sliderAspectRatio,
+              sliderHeight: _sliderHeight!,
+              sliderMargin: EdgeInsets.only(top: _sliderTopMargin),
+              indicatorMargin: EdgeInsets.symmetric(vertical: _indicatorVerticalMargin, horizontal: 2.0),
+            ),
+
+            SizedBox(height: 12.0),
+
+            /// HabiDo tips
+            CustomText(
+              LocaleKeys.habidoTip,
+              fontWeight: FontWeight.w700,
+              fontSize: 16.0,
+            ),
+
+            SizedBox(height: 12.5),
+
+            _tips != null
+                ? SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(
+                        _tips!.length,
+                        (index) => _tipItem(index),
+                      ),
+                    ),
+                  )
+                : Container(),
+
+            SizedBox(height: SizeHelper.padding),
+          ],
+        ),
+      ),
     );
   }
 
@@ -396,7 +396,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _tipItem() {
+  Widget _tipItem(index) {
+    Tip tipData = _tips![index];
     return Container(
       height: 100.0,
       width: 250.0,
@@ -423,20 +424,84 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 borderRadius: BorderRadius.circular(15.0),
                 color: Colors.teal, // todo dynamic
               ),
-              child: Image.asset(Assets.male_habido_png), // todo
+              child: CachedNetworkImage(
+                imageUrl: tipData.link!,
+                // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+                placeholder: (context, url) => Container(),
+                errorWidget: (context, url, error) => Container(),
+                fit: BoxFit.fill,
+              ), // todo
             ),
+
+            ///
+
             SizedBox(width: 10.5),
 
             /// Title
             Expanded(
               child: CustomText(
-                "Чатбот хэрхэн ашиглах вэ?", // todo dynamic
+                tipData.title,
                 fontWeight: FontWeight.w500,
                 fontSize: 15.0,
                 maxLines: 2,
               ),
             ),
             SizedBox(width: 57.5),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _moodTrackerItem({index, onTap}) {
+    MoodTracker _moodTrackerData = _moodTrackerList[index];
+    return InkWell(
+      borderRadius: BorderRadius.circular(10.0),
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        height: 97,
+        width: 78,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            SizedBox(height: 10.0),
+            CachedNetworkImage(
+              imageUrl: _moodTrackerData.imageUrl!,
+              // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+              height: 37.8,
+              width: 37.8,
+              placeholder: (context, url) => Container(),
+              errorWidget: (context, url, error) => Container(),
+              fit: BoxFit.contain,
+            ),
+            SizedBox(height: 4.0),
+            CustomText(
+              _moodTrackerData.mood,
+              alignment: Alignment.center,
+              textAlign: TextAlign.center,
+              fontWeight: FontWeight.w700,
+              fontSize: 11.0,
+            ),
+            SizedBox(height: 4.0),
+            CustomText(
+              Func.dateTimeDifference(_moodTrackerData.dateTime!),
+              alignment: Alignment.center,
+              textAlign: TextAlign.center,
+              fontSize: 9.0,
+              color: customColors.disabledText,
+            ),
+            CustomText(
+              Func.toTimeStr(_moodTrackerData.dateTime),
+              alignment: Alignment.center,
+              textAlign: TextAlign.center,
+              fontSize: 9.0,
+              color: customColors.disabledText,
+            ),
           ],
         ),
       ),
@@ -514,6 +579,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (state is AdviceVideoSuccess) {
       _adviceVideo = AdviceVideoResponse(title: state.title, video: state.video);
     } else if (state is AdviceVideoFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is TipSuccess) {
+      _tips = state.tipList;
+    } else if (state is TipFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is MoodTrackerSuccess) {
+      _moodTrackerList = state.moodTrackerList;
+    } else if (state is MoodTrackerFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),

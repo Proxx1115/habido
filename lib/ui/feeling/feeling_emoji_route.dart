@@ -138,6 +138,7 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
             ButtonNextWidget(
               onTap: _navigateToFeelingEmojiRoute,
               isVisible: _selectedFeelingEmoji != null && _selectedFeelingEmoji!.isNotEmpty,
+              progressValue: 0.50,
             ),
 
             SizedBox(height: 30.0)

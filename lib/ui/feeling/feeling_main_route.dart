@@ -189,7 +189,7 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
               ],
             )),
             SizedBox(height: 30.0),
-            ButtonNextWidget(onTap: _navigateToFeelingEmojiRoute),
+            ButtonNextWidget(onTap: _navigateToFeelingEmojiRoute, progressValue: 0.25),
             SizedBox(height: 30.0)
           ],
         ),

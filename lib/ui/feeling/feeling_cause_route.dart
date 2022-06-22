@@ -91,6 +91,7 @@ class _FeelingCauseRouteState extends State<FeelingCauseRoute> {
             ButtonNextWidget(
               onTap: _navigateToFeelingDetailRoute,
               isVisible: _selectedCauses.length != 0,
+              progressValue: 0.75,
             ),
 
             SizedBox(height: 30.0)
