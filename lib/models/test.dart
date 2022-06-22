@@ -3,7 +3,12 @@ class Test {
   String? name;
   String? photo;
   bool? hasTaken;
-  Test({this.testId, this.name, this.photo, this.hasTaken});
+  Test({
+    this.testId,
+    this.name,
+    this.photo,
+    this.hasTaken,
+  });
 
   Test.fromJson(dynamic json) {
     testId = json['testId'];

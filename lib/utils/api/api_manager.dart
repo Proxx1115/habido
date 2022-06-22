@@ -14,6 +14,9 @@ import 'package:habido_app/models/chatbots_response.dart';
 import 'package:habido_app/models/completed_habit_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
+import 'package:habido_app/models/content_list_response_v2.dart';
+import 'package:habido_app/models/content_tags_response.dart';
+import 'package:habido_app/models/content_v2.dart';
 import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/feedback_category_list_response.dart';
 import 'package:habido_app/models/forgot_password_change_request.dart';
@@ -356,6 +359,52 @@ class ApiManager {
   static Future<BaseResponse> psyTestReview(PsyTestReview request) async {
     return BaseResponse.fromJson(
       await httpUtils.sendRequest(path: HttpPath.psyTestReview, objectData: request),
+    );
+  }
+
+  /// Content - Blog V2
+  static Future<ContentListResponseV2> highLightedContentList() async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.highLightedContentList, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentV2> contentV2(int contentId) async {
+    return ContentV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentTagsResponse> contentTags() async {
+    return ContentTagsResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentTags, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentListResponseV2> contentFilter(String name, int pid, int pSize) async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentFilter + '?Name=$name&Pid=$pid&Psize=$pSize', httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentListResponseV2> contentFirst(String name, String searchText) async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentFirst + '?name=$name&searchText=$searchText', httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentListResponseV2> contentThen(String name, String searchText, int contentId) async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentThen + '?name=$name&searchText=$searchText&contentId=$contentId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  /// Content Like
+  static Future<BaseResponse> contentLike(int contentId) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.contentLike + '?contentId=$contentId',
+      ),
     );
   }
 

@@ -1,5 +1,9 @@
 class Assets {
   /// Global
+  static const String heart = 'assets/images/global/heart.svg';
+  static const String heartRed = 'assets/images/global/heart_red.svg';
+  static const String eyeContent = 'assets/images/global/eye_content.svg';
+
   static const String appIcon = 'assets/images/global/app_icon.svg';
   static const String close = 'assets/images/global/close.svg';
   static const String error = 'assets/images/global/error.svg';
