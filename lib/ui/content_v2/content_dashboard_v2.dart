@@ -1,23 +1,20 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/content_tag_v2.dart';
 import 'package:habido_app/models/content_v2.dart';
-import 'package:habido_app/models/test_name_with_tests.dart';
 import 'package:habido_app/ui/content_v2/content_bloc_v2.dart';
 import 'package:habido_app/ui/content_v2/content_card_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/app_bars/dashboard_sliver_app_bar.dart';
 import 'package:habido_app/widgets/dialogs.dart';
-import 'package:habido_app/widgets/loaders.dart';
+import 'package:flutter/cupertino.dart' as cupertino;
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ContentDashboardV2 extends StatefulWidget {
   const ContentDashboardV2({Key? key}) : super(key: key);
@@ -27,132 +24,66 @@ class ContentDashboardV2 extends StatefulWidget {
 }
 
 class _ContentDashboardV2State extends State<ContentDashboardV2> {
-  /// CONTENT BLOC
-  late ContentBlocV2 _contentBlocV2;
+  /// REFRESH CONTROLLER
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   /// SEARCH
   final _searchController = TextEditingController();
 
   /// TAGS
-  String? _selectedTag = "";
   List<ContentTagV2> _tagList = [];
-
-  var forYou = new ContentTagV2(name: "Танд", filterValue: "Танд");
+  var _forYou = new ContentTagV2(name: "Танд", filterValue: "");
+  ContentTagV2? _selectedTag;
 
   /// CONTENT
-  List<ContentV2>? _contentList;
-
-  /// CONTENT FILTER
-  List<ContentV2>? _contentFilter;
+  List<ContentV2>? _contentHighlightedList;
 
   /// CONTENT FIRST
-  List<ContentV2>? _contentFirst;
-
-  /// CONTENT
-  ContentV2? content;
-
-  int pSize = 100;
+  List<ContentV2> _contentList = [];
 
   @override
   void initState() {
-    // Search
-    _searchController.addListener(() => _getData2());
+    /// SEARCH
+    _searchController.addListener(() => _getContent());
 
-    _contentBlocV2 = ContentBlocV2();
-    _contentBlocV2.add(GetHighlightedListEvent());
-    _tagList.add(forYou);
+    /// TAG
+    _tagList.add(_forYou);
+    _selectedTag = _forYou;
 
-    _contentBlocV2.add(GetContentTags());
+    /// HIGHLIGHTED LIST
+    BlocManager.contentBlocV2.add(GetHighlightedListEvent());
 
-    _getData2();
+    /// TAGS
+    BlocManager.contentBlocV2.add(GetContentTags());
+
+    /// GET CONTENT
+    _getContent();
+
     super.initState();
   }
 
-  _getData() {
-    _contentBlocV2.add(GetContentFilter(_selectedTag ?? "", 1, pSize));
-  }
-
-  _getData2() {
-    _contentBlocV2.add(GetContentFirst(_selectedTag ?? "", _searchController.text ?? ""));
-  }
-
-  @override
-  void dispose() {
-    _contentBlocV2.close();
-    super.dispose();
+  _getContent() {
+    BlocManager.contentBlocV2.add(GetContentFirst(_selectedTag!.filterValue ?? "", _searchController.text ?? ""));
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       child: BlocProvider.value(
-        value: _contentBlocV2,
-        child: BlocListener<ContentBlocV2, ContentHighlightedState>(
+        value: BlocManager.contentBlocV2,
+        child: BlocListener<ContentBlocV2, ContentStateV2>(
           listener: _blocListener,
-          child: BlocBuilder<ContentBlocV2, ContentHighlightedState>(
-            builder: (context, state) {
-              return CustomScrollView(
-                slivers: [
-                  /// App bar
-                  DashboardSliverAppBar(title: LocaleKeys.advice),
-
-                  /// Search
-                  _searchBar(),
-
-                  SliverToBoxAdapter(
-                    child: _tagListWidget(),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 25),
-                          CustomText(
-                            "Онцлох",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: customColors.primaryText,
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                print("search text:${_searchController.text}");
-                                print("tag:${_selectedTag}");
-                              },
-                              child: CustomText("okey")),
-                          SizedBox(height: 10),
-                          // if (_contentList != null)
-                          //   for (var el in _contentList!) _contentColumn(el),
-                          // for (var i = 0; i < _contentList!.length; i++) _contentColumn(_contentList![i]),
-                          // for (var i = 0; i < _contentList!.length; i++) ContentCardV2(content: _contentList![i]),
-                          SizedBox(height: 3),
-                          CustomText(
-                            _selectedTag ?? "Танд",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: customColors.primaryText,
-                          ),
-                          SizedBox(height: 12),
-                          if (_contentFirst != null)
-                            // for (var contentFilter in _contentFilter!) _contentColumn(contentFilter),
-                            // for (var i = 0; i < _contentFilter!.length; i++) _contentColumn(_contentFilter![i])
-                            for (var i = 0; i < _contentFirst!.length; i++) ContentCardV2(content: _contentFirst![i]),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
+          child: BlocBuilder<ContentBlocV2, ContentStateV2>(
+            builder: _blocBuilder,
           ),
         ),
       ),
     );
   }
 
-  void _blocListener(BuildContext context, ContentHighlightedState state) {
+  void _blocListener(BuildContext context, ContentStateV2 state) {
     if (state is ContentHighlightedListSuccess) {
-      _contentList = state.contentList;
+      _contentHighlightedList = state.contentList;
     } else if (state is ContentHighlightedListFailed) {
       showCustomDialog(
         context,
@@ -165,22 +96,119 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
-    } else if (state is ContentFilterSuccess) {
-      _contentFilter = state.contentList;
-    } else if (state is ContentFilterFailed) {
+    } else if (state is ContentFirstSuccess) {
+      _contentList = state.contentList;
+      print('First:${state.contentList[0].title}');
+    } else if (state is ContentFirstFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
-    } else if (state is ContentFirstSuccess) {
-      _contentFirst = state.contentList;
-      print('First:${state.contentList[0].title}');
-    } else if (state is ContentFilterFailed) {
+    } else if (state is ContentThenSuccess) {
+      _contentList.addAll(state.contentList);
+      // print('First:${state.contentList[0].title}');
+    } else if (state is ContentThenFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is ContentLikeSuccess) {
+      print('Content Like success');
+    } else if (state is ContentLikeFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
+  }
+
+  Widget _blocBuilder(BuildContext context, ContentStateV2 state) {
+    return SmartRefresher(
+      enablePullDown: false,
+      enablePullUp: true,
+      header: ClassicHeader(
+        refreshStyle: RefreshStyle.Follow,
+        idleText: '',
+        releaseText: "",
+        refreshingText: "",
+        completeText: "",
+//            completeIcon: null,
+      ),
+      // header: WaterDropHeader(
+      //
+      // ),
+
+      footer: CustomFooter(
+        builder: (BuildContext context, LoadStatus? mode) {
+          Widget body;
+          if (mode == LoadStatus.idle) {
+            body = Container(); // pull up load
+          } else if (mode == LoadStatus.loading) {
+            body = cupertino.CupertinoActivityIndicator();
+          } else if (mode == LoadStatus.failed) {
+            body = Container(); // Load Failed! Click retry!
+          } else if (mode == LoadStatus.canLoading) {
+            body = Container(); // release to load more
+          } else {
+            body = Container(); // No more Data
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child: body),
+          );
+        },
+      ),
+      controller: _refreshController,
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+
+      child: _tips(),
+    );
+  }
+
+  Widget _tips() {
+    return CustomScrollView(
+      slivers: [
+        /// App bar
+        DashboardSliverAppBar(title: LocaleKeys.advice),
+
+        /// Search
+        _searchBar(),
+
+        SliverToBoxAdapter(
+          child: _tagListWidget(),
+        ),
+        SliverToBoxAdapter(
+          child: Container(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: [
+                SizedBox(height: 25),
+                CustomText(
+                  "Онцлох",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: customColors.primaryText,
+                ),
+                SizedBox(height: 10),
+                if (_contentHighlightedList != null)
+                  for (var i = 0; i < _contentHighlightedList!.length; i++) ContentCardV2(content: _contentHighlightedList![i]),
+                SizedBox(height: 3),
+                CustomText(
+                  _selectedTag!.name ?? "Танд",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: customColors.primaryText,
+                ),
+                SizedBox(height: 12),
+                if (_contentList != null)
+                  for (var i = 0; i < _contentList!.length; i++) ContentCardV2(content: _contentList![i]),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _tagListWidget() {
@@ -196,18 +224,13 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
   }
 
   _tagItem(ContentTagV2 tag) {
-    bool _selected = tag.name == _selectedTag;
-    // print('tagsss:${tag.name} ');
+    bool _selected = tag.name == _selectedTag!.name;
+
     return InkWell(
       onTap: () {
-        // print('tag:${tag.name!} ${tag.filterValue!}');
-        _selectedTag = tag.filterValue!;
-        print('tag:${_selectedTag!}');
+        _selectedTag = tag;
 
-        pSize = 4;
-        // _getData();
-        _getData2();
-
+        _getContent();
         setState(() {});
       },
       child: Container(
@@ -247,5 +270,33 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
         ),
       ),
     );
+  }
+
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+
+    // _notifList = [];
+    // BlocManager.notifBloc.add(GetFirstNotifsEvent());
+
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+
+    // _notifList.add((_notifList.length + 1).toString());
+
+    if (_contentList.isNotEmpty) {
+      print("selelteg:??${_selectedTag}");
+      BlocManager.contentBlocV2.add(GetContentThenEvent(_selectedTag!.filterValue!, _searchController.text ?? "", _contentList.last.contentId ?? 0));
+    }
+
+    if (mounted) setState(() {});
+
+    _refreshController.loadComplete();
   }
 }

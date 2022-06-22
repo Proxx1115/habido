@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/content_v2.dart';
 import 'package:habido_app/ui/content_v2/content_bloc_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -26,20 +29,22 @@ class ContentRouteV2 extends StatefulWidget {
 }
 
 class _ContentRouteV2State extends State<ContentRouteV2> {
-  late ContentBlocV2 _contentBlocV2;
+  /// CONTENT
   ContentV2? _content;
 
+  /// ScrollController
   late ScrollController _scrollController;
+  double _scrollPosition = 0;
 
   String title = 'Зөвлөмж';
-  double _scrollPosition = 0;
 
   @override
   void initState() {
-    _contentBlocV2 = ContentBlocV2();
     _scrollController = ScrollController();
-    _contentBlocV2.add(GetContentEventV2(widget.contentId));
     _scrollController.addListener(_scrollListener);
+
+    /// GET_CONTENT_EVENT
+    BlocManager.contentBlocV2.add(GetContentEventV2(widget.contentId));
     super.initState();
   }
 
@@ -57,71 +62,69 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       child: BlocProvider.value(
-        value: _contentBlocV2,
-        child: BlocListener<ContentBlocV2, ContentHighlightedState>(
+        value: BlocManager.contentBlocV2,
+        child: BlocListener<ContentBlocV2, ContentStateV2>(
           listener: _blocListener,
-          child: BlocBuilder<ContentBlocV2, ContentHighlightedState>(
-            builder: (context, state) {
-              return CustomScaffold(
-                  backgroundColor: Colors.white,
-                  child: Column(
-                    children: [
-                      Container(
-                        color: Colors.white,
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: SvgPicture.asset(
-                                Assets.arrow_back,
-                                fit: BoxFit.scaleDown,
-                                color: customColors.iconGrey,
-                                height: 15,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            CustomText(
-                              title,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            )
-                          ],
-                        ),
-                      ),
-                      if (_content != null)
-                        Expanded(
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            itemCount: 1,
-                            itemBuilder: (context, index) {
-                              return _contentDesc(_content!);
-                            },
-                          ),
-                        ),
-                    ],
-                  ));
-            },
+          child: BlocBuilder<ContentBlocV2, ContentStateV2>(
+            builder: _blocBuilder,
           ),
         ),
       ),
     );
   }
 
-  void _blocListener(BuildContext context, ContentHighlightedState state) {
+  void _blocListener(BuildContext context, ContentStateV2 state) {
     if (state is ContentSuccessV2) {
-      // _contentList = state.contentList;
       _content = state.content;
-      // _contentList = _filteredContentList = state.contentList;
     } else if (state is ContentFailedV2) {
-      print('aldaa');
-      // showCustomDialog(
-      //   context,
-      //   child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
-      // );
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
     }
+  }
+
+  Widget _blocBuilder(BuildContext context, ContentStateV2 state) {
+    return Column(
+      children: [
+        Container(
+          color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Row(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: SvgPicture.asset(
+                  Assets.arrow_back,
+                  fit: BoxFit.scaleDown,
+                  color: customColors.iconGrey,
+                  height: 15,
+                ),
+              ),
+              const SizedBox(width: 12),
+              CustomText(
+                title,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                maxLines: 3,
+              )
+            ],
+          ),
+        ),
+        if (_content != null)
+          Expanded(
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: 1,
+              itemBuilder: (context, index) {
+                return _contentDesc(_content!);
+              },
+            ),
+          ),
+      ],
+    );
   }
 
   Widget _contentDesc(ContentV2 content) {
@@ -160,82 +163,85 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
           ),
 
           /// Text
-          FadeInAnimation(
-            delay: 1.5,
-            child: Container(
-              margin: EdgeInsets.only(top: 10.0),
-              // padding: SizeHelper.boxPadding,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                        "Нийтэлсэн: ${'2022.03.01  17:00'}",
-                        fontSize: 11,
-                        fontWeight: FontWeight.w300,
-                        color: customColors.lightText,
-                      ),
-                      Row(
-                        children: [
-                          CustomText(
-                            "Сэтгэл зүй",
-                            maxLines: 2,
-                            fontSize: 11,
-                            color: customColors.primary,
-                            fontWeight: FontWeight.w300,
-                          ),
-                          CustomText(
-                            " |  2 мин",
-                            maxLines: 2,
-                            fontSize: 11,
-                            color: customColors.primaryText,
-                            fontWeight: FontWeight.w300,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    height: 2,
-                    decoration: BoxDecoration(
-                      color: customColors.greyBackground,
-                      borderRadius: BorderRadius.circular(5),
+          Container(
+            margin: EdgeInsets.only(top: 10.0),
+            // padding: SizeHelper.boxPadding,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      "Нийтэлсэн: ${content.createdAt}",
+                      fontSize: 11,
+                      fontWeight: FontWeight.w300,
+                      color: customColors.lightText,
                     ),
+                    Row(
+                      children: [
+                        CustomText(
+                          "Сэтгэл зүй",
+                          maxLines: 2,
+                          fontSize: 11,
+                          color: customColors.primary,
+                          fontWeight: FontWeight.w300,
+                        ),
+                        CustomText(
+                          " |  ${content.readTime} мин",
+                          maxLines: 2,
+                          fontSize: 11,
+                          color: customColors.primaryText,
+                          fontWeight: FontWeight.w300,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  height: 2,
+                  decoration: BoxDecoration(
+                    color: customColors.greyBackground,
+                    borderRadius: BorderRadius.circular(5),
                   ),
+                ),
 
-                  /// Body
-                  Container(
-                    margin: EdgeInsets.only(top: 5.0),
-                    child: Html(
-                        shrinkWrap: true,
-                        style: {
-                          'html': Style(
-                            textAlign: TextAlign.justify,
-                          ),
-                        },
-                        data: content.text ?? ''),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SvgPicture.asset(Assets.heart),
-                      Row(
-                        children: [
-                          CustomText(
-                            "Нийтэлсэн: ${'2022.03.01  17:00'}",
-                            fontSize: 11,
-                            fontWeight: FontWeight.w300,
-                            color: customColors.lightText,
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                /// Body
+                Container(
+                  margin: EdgeInsets.only(top: 5.0),
+                  child: Html(
+                      shrinkWrap: true,
+                      style: {
+                        'html': Style(
+                          textAlign: TextAlign.justify,
+                        ),
+                      },
+                      data: content.text ?? ''),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        BlocManager.contentBlocV2.add(GetContentLikeEvent(content.contentId!));
+                        BlocManager.contentBlocV2.add(GetContentEventV2(widget.contentId));
+                      },
+                      child: content.isLiked! ? SvgPicture.asset(Assets.heartRed) : SvgPicture.asset(Assets.heart),
+                    ),
+                    Row(
+                      children: [
+                        CustomText(
+                          "Нийтэлсэн: ${content.createdAt}",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w300,
+                          color: customColors.lightText,
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
           const SizedBox(height: 34),

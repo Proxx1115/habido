@@ -89,7 +89,7 @@ class ContentCardV2 extends StatelessWidget {
                               SvgPicture.asset(Assets.eyeContent),
                               SizedBox(width: 3),
                               CustomText(
-                                "100",
+                                "${content.view}",
                                 color: customColors.primaryText,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w300,

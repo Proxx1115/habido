@@ -11,8 +11,11 @@ class ContentV2 extends BaseResponse {
   String? profilePhotoBase64;
   String? intro;
   String? text;
+  int? view;
   int? readTime;
   int? orderNo;
+  bool? isLiked;
+  String? createdAt;
 
   List<ContentTagV2>? tags;
 
@@ -28,8 +31,11 @@ class ContentV2 extends BaseResponse {
     this.intro,
     this.text,
     this.orderNo,
+    this.view,
     this.readTime,
     this.tags,
+    this.createdAt,
+    this.isLiked,
   });
 
   ContentV2.fromJson(dynamic json) {
@@ -44,8 +50,11 @@ class ContentV2 extends BaseResponse {
     profilePhotoBase64 = json['profilePhotoBase64'];
     intro = json['intro'];
     text = json['text'];
+    view = json['view'];
     orderNo = json['orderNo'];
     readTime = json['readTime'];
+    createdAt = json['createdAt'];
+    isLiked = json['isLiked'];
 
     if (json['tags'] != null) {
       tags = [];
@@ -65,8 +74,11 @@ class ContentV2 extends BaseResponse {
     map['profilePhotoBase64'] = profilePhotoBase64;
     map['intro'] = intro;
     map['text'] = text;
+    map['view'] = view;
     map['orderNo'] = orderNo;
     map['readTime'] = readTime;
+    map['createdAt'] = createdAt;
+    map['isLiked'] = isLiked;
 
     if (tags != null) {
       map['tags'] = tags?.map((v) => v.toJson()).toList();

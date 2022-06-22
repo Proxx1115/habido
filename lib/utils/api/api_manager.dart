@@ -363,6 +363,21 @@ class ApiManager {
     );
   }
 
+  static Future<ContentListResponseV2> contentThen(String name, String searchText, int contentId) async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentThen + '?name=$name&searchText=$searchText&contentId=$contentId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  /// Content Like
+  static Future<BaseResponse> contentLike(int contentId) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.contentLike + '?contentId=$contentId',
+      ),
+    );
+  }
+
   /// PsyTest test
   static Future<PsyTestsV2Response> psyTestList() async {
     return PsyTestsV2Response.fromJson(
