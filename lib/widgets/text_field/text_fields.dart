@@ -121,16 +121,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
   InputBorder get _border => OutlineInputBorder(
         borderRadius: widget.borderRadius ?? BorderRadius.circular(SizeHelper.borderRadius),
         borderSide: (widget.style == CustomTextFieldStyle.primary)
-            ? BorderSide
-                .none // BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
+            ? BorderSide.none // BorderSide(color: customColors.border, width: SizeHelper.borderWidth)
             : BorderSide.none,
       );
 
   Color get _backgroundColor =>
       widget.backgroundColor ??
-      ((widget.style == CustomTextFieldStyle.primary)
-          ? customColors.primaryTextFieldBackground
-          : customColors.secondaryTextFieldBackground);
+      ((widget.style == CustomTextFieldStyle.primary) ? customColors.primaryTextFieldBackground : customColors.secondaryTextFieldBackground);
 
   Widget? _prefixIcon() {
     return (widget.prefixAsset != null)
@@ -142,8 +139,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         : null;
   }
 
-  Color get _textColor =>
-      widget.textColor ?? (_focusNode.hasFocus ? customColors.primary : customColors.primaryText);
+  Color get _textColor => widget.textColor ?? (_focusNode.hasFocus ? customColors.primary : customColors.primaryText);
 
   FontWeight get _fontWeight => _focusNode.hasFocus ? FontWeight.w500 : FontWeight.normal;
 

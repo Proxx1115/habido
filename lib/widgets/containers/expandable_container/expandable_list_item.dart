@@ -20,6 +20,7 @@ class ExpandableListItem extends StatelessWidget {
   final String? suffixAsset;
   final Color? suffixColor;
   final VoidCallback? onPressedSkip;
+  final VoidCallback? onPressedDetail;
   final VoidCallback? onPressedEdit;
   final double? delay;
 
@@ -35,6 +36,7 @@ class ExpandableListItem extends StatelessWidget {
     this.suffixAsset,
     this.suffixColor,
     this.onPressedSkip,
+    this.onPressedDetail,
     this.onPressedEdit,
     this.delay,
   }) : super(key: key);
@@ -47,13 +49,13 @@ class ExpandableListItem extends StatelessWidget {
       child: Slidable(
         controller: _controller,
         actionPane: SlidableDrawerActionPane(),
-        actionExtentRatio: 0.25,
+        actionExtentRatio: 0.25, // todo calculate ratio
         child: InkWell(
           onTap: onPressed,
           borderRadius: SizeHelper.borderRadiusOdd,
           child: Container(
-            height: SizeHelper.listItemHeight70,
-            padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
+            height: 78.0,
+            padding: EdgeInsets.fromLTRB(22.0, 12.0, 22.0, 12.0),
             decoration: BoxDecoration(
               borderRadius: SizeHelper.borderRadiusOdd,
               color: customColors.whiteBackground,
@@ -97,7 +99,10 @@ class ExpandableListItem extends StatelessWidget {
           /// Button skip
           if (onPressedSkip != null) _buttonSkip(context),
 
-          /// Button edit
+          // / Button detail
+          if (onPressedEdit != null) _buttonDetail(context),
+
+          // / Button edit
           if (onPressedEdit != null) _buttonEdit(context),
         ],
       ),
@@ -106,76 +111,88 @@ class ExpandableListItem extends StatelessWidget {
 
   Widget _buttonSkip(BuildContext context) {
     return IconSlideAction(
-      color: Colors.transparent,
-      iconWidget: ButtonStadium(
-        asset: Assets.skip,
+      onTap: () {
+        if (onPressedSkip != null) onPressedSkip!();
+      },
+      iconWidget: Container(
+        height: double.infinity,
+        width: 55.0,
+        color: customColors.disabledBackground,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            /// Icon
-            SvgPicture.asset(
-              Assets.skip,
-              fit: BoxFit.scaleDown,
-              color: customColors.iconWhite,
+            Container(
+              padding: EdgeInsets.fromLTRB(15.0, 22.0, 15.0, 7.0),
+              child: SvgPicture.asset(Assets.skip),
             ),
 
             /// Text
             CustomText(
               LocaleKeys.skip,
-              fontSize: 9.0,
+              fontSize: 8.0,
               alignment: Alignment.center,
               color: customColors.whiteText,
-              fontWeight: FontWeight.w500,
-              margin: EdgeInsets.only(top: 5.0),
-             ),
+            ),
           ],
         ),
-        size: SizeHelper.listItemHeight70,
-        margin: EdgeInsets.zero,
-        backgroundColor: customColors.blueBackground,
-        iconColor: customColors.iconWhite,
-        enabled: false,
       ),
+    );
+  }
+
+  Widget _buttonDetail(BuildContext context) {
+    return IconSlideAction(
       onTap: () {
-        if (onPressedSkip != null) onPressedSkip!();
+        if (onPressedDetail != null) onPressedDetail!();
       },
+      iconWidget: Container(
+        height: double.infinity,
+        width: 55.0,
+        color: customColors.blueBackground,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(15.0, 22.0, 15.0, 7.0),
+              child: SvgPicture.asset(Assets.detail),
+            ),
+
+            /// Text
+            CustomText(
+              LocaleKeys.detail,
+              fontSize: 8.0,
+              alignment: Alignment.center,
+              color: customColors.whiteText,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buttonEdit(BuildContext context) {
     return IconSlideAction(
-      color: Colors.transparent,
-      iconWidget: ButtonStadium(
-        asset: Assets.edit24,
+      onTap: () {
+        if (onPressedEdit != null) onPressedEdit!();
+      },
+      iconWidget: Container(
+        height: double.infinity,
+        width: 55.0,
+        color: customColors.yellowBackground,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            /// Icon
-            SvgPicture.asset(
-              Assets.edit24,
-              fit: BoxFit.scaleDown,
-              color: customColors.iconWhite,
+            Container(
+              padding: EdgeInsets.fromLTRB(15.0, 22.0, 15.0, 7.0),
+              child: SvgPicture.asset(Assets.edit24),
             ),
 
             /// Text
             CustomText(
               LocaleKeys.edit,
-              fontSize: 9.0,
+              fontSize: 8.0,
               alignment: Alignment.center,
               color: customColors.whiteText,
-              fontWeight: FontWeight.w500,
-              margin: EdgeInsets.only(top: 5.0),
             ),
           ],
         ),
-        size: SizeHelper.listItemHeight70,
-        backgroundColor: customColors.yellowBackground,
-        iconColor: customColors.iconWhite,
-        enabled: false,
       ),
-      onTap: () {
-        if (onPressedEdit != null) onPressedEdit!();
-      },
     );
   }
 }

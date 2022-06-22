@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:habido_app/models/achievements_response.dart';
+import 'package:habido_app/models/active_habit_response.dart';
+import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/change_password_request.dart';
@@ -8,6 +10,7 @@ import 'package:habido_app/models/chat_history_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/chatbots_response.dart';
+import 'package:habido_app/models/completed_habit_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
 import 'package:habido_app/models/content_list_response_v2.dart';
@@ -27,9 +30,13 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
+import 'package:habido_app/models/history_habit_response.dart';
+import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_results_response2.dart';
+import 'package:habido_app/models/psy_test_review.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
+import 'package:habido_app/models/test_info_result_response.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
@@ -328,7 +335,31 @@ class ApiManager {
 
   static Future<Content> content(int contentId) async {
     return Content.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  /// Psychology test List
+  static Future<PsyTestsV2Response> psyTestList() async {
+    return PsyTestsV2Response.fromJson(
+      await httpUtils.sendRequest(
+          path: HttpPath.psyTests, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<TestInfoResultResponse> psyTest(int testId) async {
+    return TestInfoResultResponse.fromJson(
+      await httpUtils.sendRequest(
+          path: HttpPath.psyTest + '/$testId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  /// PSY TEST REVIEW
+  static Future<BaseResponse> psyTestReview(PsyTestReview request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+          path: HttpPath.psyTestReview, objectData: request),
     );
   }
 
@@ -729,6 +760,71 @@ class ApiManager {
     return FeedBackCategoryListResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.feedBackCatList,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  /// Home
+  static Future<AdviceVideoResponse> getAdviceVideo() async {
+    return AdviceVideoResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.adviceVideo,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  /// Habit List
+  static Future<ActiveHabitResponse> getActiveHabit() async {
+    return ActiveHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.activeHabit,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<CompletedHabitResponse> getCompletedHabit() async {
+    return CompletedHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.completedHabit,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<HistoryHabitResponse> getHistoryHabit() async {
+    return HistoryHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.historyHabit,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<ActiveHabitResponse> nextActiveHabits(int notifId) async {
+    return ActiveHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.nextNotifs + '/$notifId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<ActiveHabitResponse> nextCompletedHabits(int notifId) async {
+    return ActiveHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.nextNotifs + '/$notifId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<ActiveHabitResponse> nextHistoryHabits(int notifId) async {
+    return ActiveHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.nextNotifs + '/$notifId',
         httpMethod: HttpMethod.get,
       ),
     );

@@ -67,7 +67,6 @@ class _SplashRouteState extends State<SplashRoute> {
     _checkSession();
   }
 
-
   _checkSession() {
     ApiManager.getUserData().then((userData) async {
       if (userData.code == ResponseCode.Success) {
@@ -103,7 +102,7 @@ class _SplashRouteState extends State<SplashRoute> {
 
   _navigateToFirstRoute() {
     Navigator.of(context).pushNamedAndRemoveUntil(
-      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
+      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login, // signUpQuestion loginIntro
       (Route<dynamic> route) => false,
     );
   }
