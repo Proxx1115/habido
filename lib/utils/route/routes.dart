@@ -5,6 +5,7 @@ import 'package:habido_app/ui/auth/forgot_password/forgot_password_route.dart';
 import 'package:habido_app/ui/auth/login_intro_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/ui/auth/login_route_2.dart';
+import 'package:habido_app/ui/auth/personal_info.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up3_profile_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up1_phone_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up2_code_route.dart';
@@ -64,6 +65,10 @@ import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test_result_route.dart';
 import 'package:habido_app/ui/psy_test/psy_tests/psy_tests_route.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_intro_result_v2.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_result_route_v2.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_test_dashboard_v2/psy_test_dashboard_v2.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_test_screen_v2/psy_test_route_v2.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'route_transitions.dart';
@@ -81,6 +86,7 @@ class Routes {
   static const loginIntro = '/loginIntro';
   static const login = '/login';
   static const login2 = '/login2';
+  static const personalInfo = '/personalInfo';
   static const forgotPass = 'forgotPass';
   static const verifyPassword = 'verifyPassword';
   static const forgotPassChange = 'forgotPassChange';
@@ -105,11 +111,18 @@ class Routes {
   static const changePhone = 'changePhone';
   static const changeEmail = 'changeEmail';
   static const verifyPhone = 'verifyPhone';
+  static const psyTestsIntroResult = 'psyTestsIntroResult';
   static const psyCategories = 'psyCategories';
   static const psyTests = 'psyTests';
+  static const testV2 = 'testV2';
+
   static const psyIntro = 'psyIntro';
   static const psyTest = 'psyTest';
+  static const psyTestV2 = 'psyTestV2';
+
   static const psyTestResult = 'psyTestResult';
+  static const psyTestResultV2 = 'psyTestResultV2';
+
   static const habitCategories = 'habitCategories';
   static const habitList = 'habitList';
   static const allHabits = 'allHabits';
@@ -131,6 +144,8 @@ class Routes {
   static const notif = 'notif';
   static const profile = 'profile';
   static const userInfo = 'userInfo';
+  static const psyTestList = 'psyTestList';
+
   static const yourRank = 'yourRank';
   static const habitSuccess = 'habitSuccess';
   static const help = 'help';
@@ -172,6 +187,13 @@ class Routes {
         route = SlideRightRouteBuilder(LoginRoute2(), settings);
         break;
 
+      case Routes.personalInfo:
+        route = PageRouteBuilder(
+          transitionDuration: Duration(milliseconds: 1600),
+          pageBuilder: (_, __, ___) => PersonalInfo(),
+        );
+        break;
+
       case Routes.signUp:
         route = SlideRightRouteBuilder(SignUpRoute(), settings);
         break;
@@ -184,7 +206,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp2CodeRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -194,7 +217,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -204,7 +228,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -214,7 +239,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -327,6 +353,19 @@ class Routes {
         );
         break;
 
+      case Routes.psyTestsIntroResult:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            PsyIntroResultV2(
+              test: _getValueByKey(args, 'test'),
+            ),
+            settings);
+        break;
+
+      case Routes.testV2:
+        route = SlideRightRouteBuilder(PsyTestRouteV2(), settings);
+        break;
+
       case Routes.psyCategories:
         route = SlideBottomRouteBuilder(PsyCategoriesRoute(), settings);
         break;
@@ -361,11 +400,37 @@ class Routes {
         );
         break;
 
+      // case Routes.psyTestV2:
+      //   var args = settings.arguments as Map;
+      //   route = SlideRightRouteBuilder(
+      //     PsyTestRoute(
+      //       testInfo: _getValueByKey(args, 'psyTest'),
+      //     ),
+      //     settings,
+      //   );
+      //   break;
+
       case Routes.psyTestResult:
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           PsyTestResultRoute(
             psyTestResult: _getValueByKey(args, 'psyTestResult'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.psyTestResultV2:
+        var args = settings.arguments as Map;
+
+        route = SlideRightRouteBuilder(
+          // PsyTestResultRoute(
+          //   psyTestResult: _getValueByKey(args, 'psyTestResult'),
+          // ),
+          PsyTestResultRouteV2(
+            isActiveAppBar: true,
+            testId: _getValueByKey(args, 'testId'),
+            testResult: _getValueByKey(args, 'testResult'),
           ),
           settings,
         );
@@ -428,7 +493,8 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings:
+                      _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               )
@@ -438,7 +504,8 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings:
+                      _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               );
@@ -616,6 +683,10 @@ class Routes {
         route = SlideRightRouteBuilder(UserInfoRoute(), settings);
         break;
 
+      case Routes.psyTestList:
+        route = SlideRightRouteBuilder(PsyTestDashboardV2(), settings);
+        break;
+
       case Routes.yourRank:
         route = SlideRightRouteBuilder(YourRankRoute(), settings);
         break;
@@ -624,7 +695,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = NoTransitionRoute(
           HabitSuccessRoute(
-            habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
+            habitProgressResponse:
+                _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
             callback: _getValueByKey(args, 'callback'),
           ),

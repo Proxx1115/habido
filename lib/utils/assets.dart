@@ -6,6 +6,12 @@ class Assets {
   static const String warning = 'assets/images/global/warning.svg';
   static const String check = 'assets/images/global/check.svg';
 
+  static const String clock_test = 'assets/images/global/clock_test.svg';
+  static const String question_number = 'assets/images/global/question_number.svg';
+  static const String star_full = 'assets/images/global/star_full.svg';
+  static const String star_empty = 'assets/images/global/star_empty.svg';
+  static const String star_half_test = 'assets/images/global/star_half_test.svg';
+
   static const String success = 'assets/images/global/success24.svg';
   static const String clear_circle = 'assets/images/global/clear_circle.svg';
   static const String clear = 'assets/images/global/clear.svg';
@@ -67,6 +73,7 @@ class Assets {
   static const String question2 = 'assets/images/auth/question2.svg';
   static const String question3 = 'assets/images/auth/question3.svg';
   static const String sign_up_success = 'assets/images/auth/sign_up_success.png';
+  static const String PersonalInfo  = 'assets/images/auth/personalinfo.svg';
 
   /// Home
   static const String home = 'assets/images/home/home.svg';

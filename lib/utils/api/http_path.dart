@@ -22,6 +22,10 @@ class HttpPath {
   static const String categoryTests = '/mobile/category-tests';
   static const String contentList = '/mobile/content/list';
   static const String content = '/mobile/content';
+  static const String psyTests = '/mobile/tests';
+  static const String psyTest = '/mobile/test';
+  static const String psyTestReview = '/mobile/test/review';
+
   static const String psyTestQuestions = '/mobile/start/user-test';
   static const String psyTestAnswers = '/mobile/end/user-test';
   static const String psyTestResults = '/mobile/category/user-tests';
@@ -74,4 +78,14 @@ class HttpPath {
   static const String moodTrackerLast = '/mobile/mood-tracker/latest';
   static const String adviceVideo = '/mobile/advice-video';
   static const String tips = '/mobile/tips';
+
+  /// All Habits
+  static const String activeHabitFirst = '/mobile/user-habit/ongoing/first';
+  static const String activeHabitThen = '/mobile/user-habit/ongoing/then';
+
+  static const String completedHabitFirst = '/mobile/user-habit/over/first';
+  static const String completedHabitThen = '/mobile/user-habit/over/then';
+
+  static const String historyHabitFirst = '/mobile/user-habit/over/first';
+  static const String historyHabitThen = '/mobile/user-habit/ongoing/then';
 }
