@@ -77,7 +77,7 @@ class Assets {
   static const String question2 = 'assets/images/auth/question2.svg';
   static const String question3 = 'assets/images/auth/question3.svg';
   static const String sign_up_success = 'assets/images/auth/sign_up_success.png';
-  static const String PersonalInfo  = 'assets/images/auth/personalinfo.svg';
+  static const String PersonalInfo = 'assets/images/auth/personalinfo.svg';
 
   /// Home
   static const String home = 'assets/images/home/home.svg';
@@ -90,6 +90,7 @@ class Assets {
   static const String habit_tip = 'assets/images/home/habit_tip.svg';
   static const String instruction_dev = 'assets/images/home/instruction_dev.svg'; // todo delete after connected to backend
   static const String male_habido = 'assets/images/home/male_habido.svg';
+  static const String no_activity_yet = 'assets/images/home/no_activity_yet.svg';
 
   /// Profile
   static const String male = 'assets/images/profile/male.png';

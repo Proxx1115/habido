@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/models/mood_tracker_answer.dart';
+import 'package:habido_app/models/mood_tracker_question.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_change_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_route.dart';
 import 'package:habido_app/ui/auth/login_intro_route.dart';
@@ -639,9 +641,10 @@ class Routes {
         break;
 
       case Routes.feelingEmoji:
-        var args = settings.arguments as Map;
+        dynamic args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             FeelingEmojiRoute(
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
             ),
             settings);
@@ -662,6 +665,7 @@ class Routes {
         route = SlideRightRouteBuilder(
             FeelingCauseRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -672,6 +676,7 @@ class Routes {
             FeelingDetailRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
               selectedCauses: _getValueByKey(args, 'selectedCauses'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;

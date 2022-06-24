@@ -8,7 +8,6 @@ class TipResponse extends BaseResponse {
 
   TipResponse.fromJson(dynamic json) {
     parseBaseParams(json);
-
     if (json['data'] != null) {
       tipList = [];
       json['data'].forEach((v) {

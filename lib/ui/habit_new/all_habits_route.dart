@@ -42,6 +42,7 @@ class _AllHabitsRouteState extends State<AllHabitsRoute> {
             SizedBox(height: 20.0),
             Expanded(
               child: PageView(
+                physics: NeverScrollableScrollPhysics(),
                 controller: _pageController,
                 onPageChanged: (value) {
                   _currentIndex = value;

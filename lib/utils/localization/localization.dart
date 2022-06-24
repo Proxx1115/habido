@@ -117,8 +117,6 @@ class LocaleKeys {
 
   static String get personalInfo => 'Хувийн мэдээлэл';
 
-  
-
   ///
   /// Intro
   ///
@@ -305,6 +303,8 @@ class LocaleKeys {
   static String get habitAdvice => 'Дадал хэвшүүлэх зөвлөмж';
 
   static String get habidoTip => 'HabiDo заавар';
+
+  static String get noActivityYet => 'No activity yet';
 
   /// Habit new version
   static String get seeAllHabits => 'Бүх дадал харах';

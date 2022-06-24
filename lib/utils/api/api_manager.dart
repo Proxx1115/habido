@@ -30,10 +30,13 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
+import 'package:habido_app/models/mood_tracker_answer.dart';
 import 'package:habido_app/models/mood_tracker_last.dart';
 import 'package:habido_app/models/mood_tracker_last_list.dart';
-import 'package:habido_app/models/mood_tracker_response.dart';
+import 'package:habido_app/models/mood_tracker_list_response.dart';
 import 'package:habido_app/models/history_habit_response.dart';
+import 'package:habido_app/models/mood_tracker_question.dart';
+import 'package:habido_app/models/mood_tracker_save_request.dart';
 import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/models/psy_test_review.dart';
@@ -758,8 +761,8 @@ class ApiManager {
   }
 
   /// Home
-  static Future<MoodTrackerResponse> getMoodTracker() async {
-    return MoodTrackerResponse.fromJson(
+  static Future<MoodTrackerListResponse> getMoodTracker() async {
+    return MoodTrackerListResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.moodTrackerList,
         httpMethod: HttpMethod.get,
@@ -845,4 +848,32 @@ class ApiManager {
       ),
     );
   }
+
+  /// Mood Tracker
+  static Future<MoodTrackerQuestionResponse> getMoodTrackerQuestion() async {
+    return MoodTrackerQuestionResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.moodTrackerQuestions,
+      ),
+    );
+  }
+
+  static Future<MoodTrackerQuestionResponse> saveMoodTracker(MoodTrackerSaveRequest answer) async {
+    return MoodTrackerQuestionResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.moodTrackerSave,
+        objectData: answer,
+      ),
+    );
+  }
+
+  // static Future<BaseResponse> updsateUserDevice(UserDevice userDevice) async {
+  //   var res = BaseResponse.fromJson(await httpUtils.sendRequest(
+  //     path: HttpPath.updateDevice,
+  //     objectData: userDevice,
+  //     httpMethod: HttpMethod.put,
+  //   ));
+
+  //   return res;
+  // }
 }

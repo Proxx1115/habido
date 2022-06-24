@@ -1,12 +1,12 @@
 import 'package:habido_app/models/mood_tracker.dart';
 import 'package:habido_app/models/base_response.dart';
 
-class MoodTrackerResponse extends BaseResponse {
+class MoodTrackerListResponse extends BaseResponse {
   List<MoodTracker>? moodTrackerList;
 
-  MoodTrackerResponse({this.moodTrackerList});
+  MoodTrackerListResponse({this.moodTrackerList});
 
-  MoodTrackerResponse.fromJson(dynamic json) {
+  MoodTrackerListResponse.fromJson(dynamic json) {
     parseBaseParams(json);
 
     if (json['data'] != null) {

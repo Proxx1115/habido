@@ -96,4 +96,8 @@ class HttpPath {
 
   static const String historyHabitFirst = '/mobile/user-habit/over/first';
   static const String historyHabitThen = '/mobile/user-habit/ongoing/then';
+
+  /// Mood Tracker
+  static const String moodTrackerQuestions = '/mobile/mood-tracker/start';
+  static const String moodTrackerSave = '/mobile/mood-tracker/save';
 }

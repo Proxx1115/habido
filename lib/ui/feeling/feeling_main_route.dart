@@ -1,5 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/mood_tracker_bloc.dart';
+import 'package:habido_app/models/mood_tracker_answer.dart';
+import 'package:habido_app/models/mood_tracker_question.dart';
+import 'package:habido_app/models/mood_tracker_save_request.dart';
 import 'package:habido_app/ui/feeling/emoji_item_widget.dart';
 import 'package:habido_app/ui/feeling/btn_next_widget.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -7,6 +13,8 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
@@ -21,178 +29,120 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
   // UI
   final _feelingMainKey = GlobalKey<ScaffoldState>();
 
-  late Map _selectedFeelingData;
+  MoodTrackerAnswer? _selectedFeelingData;
 
-  // Testing data
-  Map _feeling1 = {
-    "name": LocaleKeys.emoji1,
-    "colors": [customColors.feeling1Top, customColors.feeling1Btm],
-    "emoji": Assets.emoji1,
-  };
-  Map _feeling2 = {
-    "name": LocaleKeys.emoji2,
-    "colors": [customColors.feeling2Top, customColors.feeling2Btm],
-    "emoji": Assets.emoji2
-  };
-  Map _feeling3 = {
-    "name": LocaleKeys.emoji3,
-    "colors": [customColors.feeling3Top, customColors.feeling3Btm],
-    "emoji": Assets.emoji3
-  };
-  Map _feeling4 = {
-    "name": LocaleKeys.emoji4,
-    "colors": [customColors.feeling4Top, customColors.feeling4Btm],
-    "emoji": Assets.emoji4
-  };
-  Map _feeling5 = {
-    "name": LocaleKeys.emoji5,
-    "colors": [customColors.feeling5Top, customColors.feeling5Btm],
-    "emoji": Assets.emoji5
-  };
+  MoodTrackerQuestionResponse? _moodTrackerQuestion;
 
   @override
   void initState() {
-    setState(() {
-      _selectedFeelingData = _feeling1;
-    });
     super.initState();
+    BlocManager.moodTrackerBloc.add(GetMoodTrackerQuestEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      scaffoldKey: _feelingMainKey,
-      child: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: _selectedFeelingData["colors"],
-        )),
-        child: Column(
-          children: [
-            Expanded(
-                child: ListView(
-              children: [
-                _closeBtn(),
+    return BlocProvider.value(
+      value: BlocManager.moodTrackerBloc,
+      child: BlocListener<MoodTrackerBloc, MoodTrackerState>(
+        listener: _blocListener,
+        child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
+          return CustomScaffold(
+            scaffoldKey: _feelingMainKey,
+            child: (_moodTrackerQuestion != null && _selectedFeelingData != null)
+                ? Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [HexColor.fromHex(_selectedFeelingData!.topColor!), HexColor.fromHex(_selectedFeelingData!.bottomColor!)],
+                    )),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView(
+                            children: [
+                              _closeBtn(),
 
-                SizedBox(height: 28.0),
+                              SizedBox(height: 28.0),
 
-                /// Question
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 64.0),
-                  child: CustomText(
-                    LocaleKeys.howsYourDay,
-                    color: customColors.whiteText,
-                    alignment: Alignment.center,
-                    textAlign: TextAlign.center,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 27.0,
-                    maxLines: 2,
-                  ),
-                ),
+                              /// Question
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 64.0),
+                                child: CustomText(
+                                  _moodTrackerQuestion!.questionText,
+                                  color: customColors.whiteText,
+                                  alignment: Alignment.center,
+                                  textAlign: TextAlign.center,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 27.0,
+                                  maxLines: 2,
+                                ),
+                              ),
 
-                SizedBox(height: 53.0),
+                              SizedBox(height: 53.0),
 
-                SvgPicture.asset(
-                  _selectedFeelingData["emoji"],
-                  height: 150,
-                  width: 150,
-                ),
+                              CachedNetworkImage(
+                                imageUrl: _selectedFeelingData!.answerImageUrl!,
+                                // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+                                placeholder: (context, url) => Container(),
+                                errorWidget: (context, url, error) => Container(),
+                                height: 150,
+                                width: 150,
+                                fit: BoxFit.contain,
+                              ),
 
-                SizedBox(height: 14.0),
+                              SizedBox(height: 14.0),
 
-                /// Feeling Name
-                CustomText(
-                  _selectedFeelingData["name"],
-                  color: customColors.whiteText,
-                  alignment: Alignment.center,
-                  textAlign: TextAlign.center,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 25.0,
-                ),
+                              /// Feeling Name
+                              CustomText(
+                                _selectedFeelingData!.answerText,
+                                color: customColors.whiteText,
+                                alignment: Alignment.center,
+                                textAlign: TextAlign.center,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 25.0,
+                              ),
 
-                SizedBox(height: 55.0),
+                              SizedBox(height: 55.0),
 
-                /// General Feelings list
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    EmojiItemWidget(
-                      emojiData: _feeling1,
-                      isSelected: _selectedFeelingData == _feeling1,
-                      isBold: true,
-                      onTap: () {
-                        setState(() {
-                          _selectedFeelingData = _feeling1;
-                        });
-                      },
+                              /// Feelings list
+                              Expanded(
+                                child: GridView.count(
+                                  primary: false,
+                                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                  crossAxisSpacing: 15,
+                                  childAspectRatio: 1,
+                                  crossAxisCount: 3,
+                                  mainAxisSpacing: 15.0,
+                                  shrinkWrap: true,
+                                  children: [
+                                    for (var i = 0; i < _moodTrackerQuestion!.answers!.length; i++)
+                                      EmojiItemWidget(
+                                        emojiData: _moodTrackerQuestion!.answers![i],
+                                        isSelected: _selectedFeelingData == _moodTrackerQuestion!.answers![i],
+                                        isBold: true,
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedFeelingData = _moodTrackerQuestion!.answers![i];
+                                          });
+                                        },
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 15.0),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 30.0),
+                        ButtonNextWidget(onTap: _navigateToFeelingEmojiRoute, progressValue: 0.25),
+                        SizedBox(height: 30.0)
+                      ],
                     ),
-
-                    SizedBox(width: 15.0),
-
-                    EmojiItemWidget(
-                      emojiData: _feeling2,
-                      isSelected: _selectedFeelingData == _feeling2,
-                      isBold: true,
-                      onTap: () {
-                        setState(() {
-                          _selectedFeelingData = _feeling2;
-                        });
-                      },
-                    ),
-
-                    SizedBox(width: 15.0),
-
-                    EmojiItemWidget(
-                      emojiData: _feeling3,
-                      isSelected: _selectedFeelingData == _feeling3,
-                      isBold: true,
-                      onTap: () {
-                        setState(() {
-                          _selectedFeelingData = _feeling3;
-                        });
-                      },
-                    ),
-                    // _EmojiItemWidget(_feeling3),
-                  ],
-                ),
-
-                SizedBox(height: 15.0),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    EmojiItemWidget(
-                      emojiData: _feeling4,
-                      isSelected: _selectedFeelingData == _feeling4,
-                      isBold: true,
-                      onTap: () {
-                        setState(() {
-                          _selectedFeelingData = _feeling4;
-                        });
-                      },
-                    ),
-                    SizedBox(width: 15.0),
-                    EmojiItemWidget(
-                      emojiData: _feeling5,
-                      isSelected: _selectedFeelingData == _feeling5,
-                      isBold: true,
-                      onTap: () {
-                        setState(() {
-                          _selectedFeelingData = _feeling5;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            )),
-            SizedBox(height: 30.0),
-            ButtonNextWidget(onTap: _navigateToFeelingEmojiRoute, progressValue: 0.25),
-            SizedBox(height: 30.0)
-          ],
-        ),
+                  )
+                : Container(),
+          );
+        }),
       ),
     );
   }
@@ -223,13 +173,46 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
     );
   }
 
+  void _blocListener(BuildContext context, MoodTrackerState state) {
+    if (state is MoodTrackerQuestSuccess) {
+      _moodTrackerQuestion = state.moodTrackerQuestion;
+      _selectedFeelingData = _moodTrackerQuestion!.answers![0];
+    } else if (state is MoodTrackerQuestFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    }
+    if (state is MoodTrackerSaveSuccess) {
+      print('MoodTrackerSaveSuccess');
+      MoodTrackerQuestionResponse _moodTrackerQuestionResponse = state.moodTrackerQuestion;
+      Navigator.pushNamed(
+        context,
+        Routes.feelingEmoji,
+        arguments: {
+          'moodTrackerQuestionResponse': _moodTrackerQuestionResponse,
+          'selectedFeelingData': _selectedFeelingData,
+        },
+      );
+    } else if (state is MoodTrackerSaveFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    }
+  }
+
   _navigateToFeelingEmojiRoute() {
-    Navigator.pushNamed(
-      context,
-      Routes.feelingEmoji,
-      arguments: {
-        'selectedFeelingData': _selectedFeelingData,
-      },
-    );
+    List<MoodTrackerSaveAnswer> answers = [];
+    var answer = MoodTrackerSaveAnswer(answerId: _selectedFeelingData!.feelinQuestionAnsId, text: _selectedFeelingData!.answerText);
+    answers.add(answer);
+
+    var request = MoodTrackerSaveRequest()
+      ..questionId = _moodTrackerQuestion!.feelingQuestionId
+      ..userFeelingId = _moodTrackerQuestion!.userFeelingId
+      ..answers = answers;
+    print('requestsda ${request}');
+
+    BlocManager.moodTrackerBloc.add(SaveMoodTrackerEvent(request));
   }
 }

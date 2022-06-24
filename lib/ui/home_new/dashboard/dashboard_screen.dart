@@ -83,7 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     _username = "Ногооноо";
     BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
-    BlocManager.homeNewBloc.add(GetTipEvent());
+    // BlocManager.homeNewBloc.add(GetTipEvent());
     BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
   }
 
@@ -100,8 +100,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             return CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: [
-                /// Header
-                _header(),
+                /// Home App Bar
+                _homeAppBar(),
+
+                /// Rest of items
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
@@ -118,9 +120,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  _header() {
-    _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width) / 2;
-
+  _homeAppBar() {
     return SliverAppBar(
       pinned: false,
       snap: true,
@@ -136,6 +136,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _listWidget() {
+    _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width - SizeHelper.margin * 2) / 2;
+
     return Container(
       child: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
@@ -157,7 +159,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             SizedBox(height: 23.0),
 
-            _moodTrackerList == []
+            _moodTrackerList.isEmpty
                 ?
 
                 /// You wanna share your Feeling?
@@ -168,7 +170,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
-                          color: Colors.white,
+                          color: customColors.whiteBackground,
                         ),
                         child: Column(
                           children: [
@@ -201,17 +203,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Row(
                     children: [
                       Expanded(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: List.generate(
-                              _moodTrackerList.length,
-                              (index) => _moodTrackerItem(index: index, onTap: () {}),
-                            ),
-                          ),
+                        flex: 3,
+                        child: Row(
+                          children: [
+                            for (var i = 0; i < _moodTrackerList.length; i++) Expanded(child: _moodTrackerItem(index: i, onTap: () {})),
+                            for (var i = 0; i < 3 - _moodTrackerList.length; i++) Expanded(child: _moodTrackerNoActivity())
+                            // List.generate(
+                            // _moodTrackerList.length,
+                            // (index) => Expanded(child: _moodTrackerItem(index: index, onTap: () {})),
+                            // )
+                          ],
                         ),
                       ),
-                      _shareFeelingBtn()
+                      Expanded(child: _shareFeelingBtn())
                     ],
                   ),
 
@@ -272,62 +276,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _shareFeelingBtn() {
-    return InkWell(
-      borderRadius: BorderRadius.circular(20.0),
-      onTap: () {
-        _navigateToFeelingMain(context);
-      },
-      child: DottedBorder(
-        dashPattern: [2, 2],
-        strokeWidth: 1,
-        strokeCap: StrokeCap.round,
-        borderType: BorderType.RRect,
-        radius: Radius.circular(20.0),
-        color: customColors.primary,
-        child: Container(
-          height: 97,
-          width: 78,
-          child: Stack(
-            children: [
-              Opacity(
-                opacity: 0.20,
-                child: Container(
-                  height: 95,
-                  width: 90,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    color: customColors.primary,
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomText(
-                    LocaleKeys.wannaShareFeeling,
-                    alignment: Alignment.center,
-                    textAlign: TextAlign.center,
-                    color: customColors.whiteText,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 9.0,
-                    maxLines: 2,
-                  ),
-                  SizedBox(height: 8.0),
-                  Container(
-                    height: 18.0,
-                    width: 18.0,
-                    padding: EdgeInsets.all(4.5),
+    return Container(
+      margin: EdgeInsets.only(left: 6.0),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20.0),
+        onTap: () {
+          _navigateToFeelingMain(context);
+        },
+        child: DottedBorder(
+          dashPattern: [2, 2],
+          strokeWidth: 1,
+          strokeCap: StrokeCap.round,
+          borderType: BorderType.RRect,
+          radius: Radius.circular(20.0),
+          padding: EdgeInsets.zero,
+          color: customColors.primary,
+          child: Container(
+            height: 97,
+            child: Stack(
+              children: [
+                Opacity(
+                  opacity: 0.20,
+                  child: Container(
+                    height: 95,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(20.0),
                       color: customColors.primary,
                     ),
-                    child: SvgPicture.asset(
-                      Assets.add,
-                    ),
                   ),
-                ],
-              ),
-            ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomText(
+                      LocaleKeys.wannaShareFeeling,
+                      alignment: Alignment.center,
+                      textAlign: TextAlign.center,
+                      color: customColors.whiteText,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 9.0,
+                      maxLines: 2,
+                      margin: EdgeInsets.symmetric(horizontal: 8.0),
+                    ),
+                    SizedBox(height: 8.0),
+                    Container(
+                      height: 18.0,
+                      width: 18.0,
+                      padding: EdgeInsets.all(4.5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: customColors.primary,
+                      ),
+                      child: SvgPicture.asset(
+                        Assets.add,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -456,15 +463,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _moodTrackerItem({index, onTap}) {
     MoodTracker _moodTrackerData = _moodTrackerList[index];
     return InkWell(
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(20.0),
       onTap: () {
         onTap();
       },
       child: Container(
         height: 97,
-        width: 78,
+        margin: EdgeInsets.only(right: 6.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(20.0),
           color: Colors.white,
         ),
         child: Column(
@@ -504,6 +511,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _moodTrackerNoActivity() {
+    return Container(
+      height: 97,
+      margin: EdgeInsets.only(right: 6.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white,
+      ),
+      child: Column(
+        children: [
+          SizedBox(height: 10.0),
+          SvgPicture.asset(
+            Assets.no_activity_yet,
+            height: 37.8,
+            width: 37.8,
+          ),
+          SizedBox(height: 4.0),
+          CustomText(
+            LocaleKeys.noActivityYet,
+            color: customColors.disabledText,
+            alignment: Alignment.center,
+            textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
+            fontSize: 11.0,
+            maxLines: 2,
+          ),
+        ],
       ),
     );
   }

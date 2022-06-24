@@ -1,5 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/mood_tracker_bloc.dart';
+import 'package:habido_app/models/mood_tracker_answer.dart';
+import 'package:habido_app/models/mood_tracker_question.dart';
+import 'package:habido_app/models/mood_tracker_save_request.dart';
 import 'package:habido_app/ui/feeling/btn_back_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -9,16 +16,19 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class FeelingDetailRoute extends StatefulWidget {
-  final selectedFeelingData;
-  final selectedCauses;
+  final MoodTrackerAnswer? selectedFeelingData;
+  final List<MoodTrackerAnswer>? selectedCauses;
+  final MoodTrackerQuestionResponse? moodTrackerQuestionResponse;
   const FeelingDetailRoute({
     Key? key,
     this.selectedFeelingData,
     this.selectedCauses,
+    this.moodTrackerQuestionResponse,
   }) : super(key: key);
 
   @override
@@ -40,60 +50,68 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      scaffoldKey: _feelingDetailKey,
-      child: Container(
-        padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [customColors.feelingCauseTop, customColors.feelingCauseBtm],
-          ),
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
+    return BlocProvider.value(
+      value: BlocManager.moodTrackerBloc,
+      child: BlocListener<MoodTrackerBloc, MoodTrackerState>(
+        listener: _blocListener,
+        child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
+          return CustomScaffold(
+            scaffoldKey: _feelingDetailKey,
+            child: Container(
+              padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [customColors.feelingCauseTop, customColors.feelingCauseBtm],
+                ),
+              ),
+              child: Column(
                 children: [
-                  ButtonBackWidget(onTap: _navigatePop),
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        // ButtonBackWidget(onTap: _navigatePop),
 
-                  SizedBox(height: 28.0),
+                        SizedBox(height: 28.0),
 
-                  /// Question
-                  Container(
-                    child: CustomText(
-                      LocaleKeys.shareFeelingMore,
-                      color: customColors.whiteText,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 27.0,
-                      maxLines: 3,
+                        /// Question
+                        Container(
+                          child: CustomText(
+                            widget.moodTrackerQuestionResponse!.questionText,
+                            color: customColors.whiteText,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 27.0,
+                            maxLines: 3,
+                          ),
+                        ),
+
+                        SizedBox(height: 25.0),
+
+                        /// Feeling Item
+                        _feelingItem(),
+
+                        SizedBox(height: 14.0),
+
+                        _feelingDetailTextField(),
+                      ],
                     ),
                   ),
 
-                  SizedBox(height: 25.0),
+                  // Finish Button
+                  _buttonFinish(),
 
-                  /// Feeling Item
-                  _feelingItem(),
-
-                  SizedBox(height: 14.0),
-
-                  _feelingDetailTextField(),
+                  SizedBox(height: 30.0)
                 ],
               ),
             ),
-
-            // Finish Button
-            _buttonFinish(),
-
-            SizedBox(height: 30.0)
-          ],
-        ),
+          );
+        }),
       ),
     );
   }
 
-  Widget _causeItem(causeName) {
+  Widget _causeItem(data) {
     return Container(
       height: 22.0,
       padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 4.0),
@@ -103,7 +121,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
         color: customColors.feelingCauseItem,
       ),
       child: Text(
-        causeName,
+        data.answerText,
         textAlign: TextAlign.center,
         style: TextStyle(
           color: customColors.whiteText,
@@ -124,10 +142,14 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
       ),
       child: Row(
         children: [
-          SvgPicture.asset(
-            widget.selectedFeelingData["emoji"],
+          CachedNetworkImage(
+            imageUrl: widget.selectedFeelingData!.answerImageUrl!,
+            // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+            placeholder: (context, url) => Container(),
+            errorWidget: (context, url, error) => Container(),
             height: 50.0,
             width: 50.0,
+            fit: BoxFit.contain,
           ),
           SizedBox(width: 18.0),
           Expanded(
@@ -136,7 +158,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  widget.selectedFeelingData["name"],
+                  widget.selectedFeelingData!.answerText,
                   color: customColors.whiteText,
                   fontSize: 13.0,
                   fontWeight: FontWeight.w700,
@@ -145,7 +167,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for (var cause in widget.selectedCauses) _causeItem(cause),
+                      for (var cause in widget.selectedCauses!) _causeItem(cause),
                     ],
                   ),
                 )
@@ -222,10 +244,37 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
   }
 
   _navigateToHomeRoute() {
-    Navigator.pushNamed(context, Routes.home_new);
+    List<MoodTrackerSaveAnswer> answers = [];
+
+    var answer = MoodTrackerSaveAnswer(answerId: 0, text: _textController.text);
+    answers.add(answer);
+
+    var request = MoodTrackerSaveRequest()
+      ..questionId = widget.moodTrackerQuestionResponse!.feelingQuestionId
+      ..userFeelingId = widget.moodTrackerQuestionResponse!.userFeelingId
+      ..answers = answers;
+
+    BlocManager.moodTrackerBloc.add(SaveMoodTrackerEvent(request));
   }
 
   _navigatePop() {
     Navigator.popUntil(context, ModalRoute.withName(Routes.feelingCause));
+  }
+
+  void _blocListener(BuildContext context, MoodTrackerState state) {
+    if (state is MoodTrackerSaveSuccess) {
+      print('>>Feeling Sucks ess<<<< ${state}');
+      // todo Amjilttai bolloo dialog harulah >> ok btn go home zuva zuva
+      // showCustomDialog(
+      //   context,
+      //   child: CustomDialogBody(asset: Assets.success, text: LocaleKeys.psyTestSuccess, buttonText: LocaleKeys.ok),
+      // );
+      Navigator.pushNamed(context, Routes.home_new);
+    } else if (state is MoodTrackerSaveFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    }
   }
 }
