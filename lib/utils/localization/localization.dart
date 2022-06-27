@@ -264,6 +264,8 @@ class LocaleKeys {
   static String get signUpQuest3Answer =>
       'Хосоороо болзож, хамт өнгөрөөх цаг тогтмол гаргах нь хосын харилцааг илүү ойр дотно болгож, хоорондын ойлголцлыг нэмэгдүүлнэ';
 
+  static String get thanksHabiDo => 'Баярлалаа, HabiDo';
+
   static String get gonnaTryLater => 'Дараа туршиж үзнэ ээ';
 
   static String get signUpCompletedText => 'Баяр хүргэе, та HabiDo-тай хамт амьдралын чанараа сайжруулах аяллаа эхлүүллээ';

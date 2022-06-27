@@ -205,6 +205,7 @@ class Assets {
 class FontAsset {
   static const String FiraSansCondensed = 'Fira Sans Condensed';
   static const String SFProDisplay = 'SF Pro Display';
+  static const String SFProRounded = 'SF Pro Rounded';
 }
 
 class AudioAsset {
