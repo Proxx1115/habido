@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/models/mood_tracker_answer.dart';
-import 'package:habido_app/models/mood_tracker_question.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_change_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_route.dart';
 import 'package:habido_app/ui/auth/login_intro_route.dart';
@@ -62,6 +60,11 @@ import 'package:habido_app/ui/profile/profile_dashboard.dart';
 import 'package:habido_app/ui/profile/terms_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
+import 'package:habido_app/ui/profile_v2/faq_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/feedback_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/help_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/performance/sensitivityNotes.dart';
+import 'package:habido_app/ui/profile_v2/profile_dashboard_v2.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
 import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
@@ -147,15 +150,19 @@ class Routes {
   static const feelingDetail = 'feelingDetail';
   static const notif = 'notif';
   static const profile = 'profile';
-  static const userInfo = 'userInfo';
-  static const psyTestList = 'psyTestList';
 
+  static const userInfo = 'userInfo';
+  static const sensitivityNotes = 'sensitivityNotes';
+  static const psyTestList = 'psyTestList';
   static const yourRank = 'yourRank';
   static const habitSuccess = 'habitSuccess';
   static const help = 'help';
+  static const helpV2 = 'helpV2';
   static const feedback = 'feedback';
+  static const feedbackV2 = 'feedbackV2';
   static const feedbackCatList = 'feedbackCatList';
   static const faq = 'faq';
+  static const faqV2 = 'faqV2';
   static const terms = 'terms';
   static const bonusPoint = 'bonusPoint';
   static const posterView = 'posterView';
@@ -187,9 +194,9 @@ class Routes {
         );
         break;
 
-      case Routes.login2:
-        route = SlideRightRouteBuilder(LoginRoute2(), settings);
-        break;
+      // case Routes.login2:
+      //   route = SlideRightRouteBuilder(LoginRoute2(), settings);
+      //   break;
 
       case Routes.personalInfo:
         route = PageRouteBuilder(
@@ -210,7 +217,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp2CodeRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -220,7 +228,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -230,7 +239,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -240,7 +250,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -502,7 +513,8 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings:
+                      _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               )
@@ -512,7 +524,8 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings:
+                      _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               );
@@ -686,7 +699,7 @@ class Routes {
         break;
 
       case Routes.profile:
-        route = SlideRightRouteBuilder(ProfileScreen(), settings);
+        route = SlideRightRouteBuilder(ProfileScreenV2(), settings);
         break;
 
       case Routes.userInfo:
@@ -705,7 +718,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = NoTransitionRoute(
           HabitSuccessRoute(
-            habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
+            habitProgressResponse:
+                _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
             callback: _getValueByKey(args, 'callback'),
           ),
@@ -717,8 +731,20 @@ class Routes {
         route = SlideRightRouteBuilder(HelpRoute(), settings);
         break;
 
+      case Routes.helpV2:
+        route = SlideRightRouteBuilder(HelpRouteV2(), settings);
+        break;
+
       case Routes.feedback:
         route = SlideRightRouteBuilder(FeedbackRoute(), settings);
+        break;
+
+      case Routes.feedbackV2:
+        route = SlideRightRouteBuilder(FeedbackRouteV2(), settings);
+        break;
+
+      case Routes.sensitivityNotes:
+        route = SlideRightRouteBuilder(SensitivityNotes(), settings);
         break;
 
       case Routes.feedbackCatList:
@@ -727,6 +753,10 @@ class Routes {
 
       case Routes.faq:
         route = SlideRightRouteBuilder(FaqRoute(), settings);
+        break;
+
+      case Routes.faqV2:
+        route = SlideRightRouteBuilder(FaqRouteV2(), settings);
         break;
 
       case Routes.terms:

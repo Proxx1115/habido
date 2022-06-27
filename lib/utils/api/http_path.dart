@@ -8,6 +8,11 @@ class HttpPath {
   static const String changePassword = '/mobile/change/pass';
   static const String updateProfilePic = '/mobile/change/user-photo';
   static const String updateUserData = '/mobile/change/user-info';
+  static const String monthlyReason = '/mobile/mood-tracker/monthly-reason';
+  static const String moodTrackerLatest = '/mobile/mood-tracker/latest';
+  static const String moodTrackerThen = '/mobile/mood-tracker/then';
+  static const String monthlyStat = '/mobile/mood-tracker/monthly-stat';
+
   static const String param = '/auth/param';
   static const String getDevice = '/mobile/user-device';
   static const String insertDevice = '/register-device';

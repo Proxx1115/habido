@@ -5,7 +5,6 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/hero.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -38,10 +37,9 @@ class SignUpCompletedRoute extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     fontSize: 25.0,
                     maxLines: 5,
-                    margin: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.25),
                   ),
                   SizedBox(height: SizeHelper.margin),
-                  _gonnaTryLaterBtn()
+                  _thanksBtn(context)
                 ],
               ),
             ),
@@ -51,7 +49,7 @@ class SignUpCompletedRoute extends StatelessWidget {
             child: Image.asset(
               Assets.sign_up_success,
               width: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit.fitWidth,
             ),
           )
         ],
@@ -66,50 +64,46 @@ class SignUpCompletedRoute extends StatelessWidget {
   //   );
   // }
 
-  Widget _gonnaTryLaterBtn() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Row(children: [
-          InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                Routes.home,
-                (Route<dynamic> route) => false,
-              );
-            },
-            borderRadius: BorderRadius.circular(20.0),
-            child: Container(
-              height: 34.0,
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: customColors.primary,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Row(
-                children: [
-                  CustomText(
-                    LocaleKeys.gonnaTryLater,
-                    color: customColors.primary,
-                    alignment: Alignment.center,
-                    textAlign: TextAlign.center,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 13.0,
-                  ),
-                  SizedBox(width: 5.0),
-                  SvgPicture.asset(
-                    Assets.arrow_right,
-                    color: customColors.primary,
-                  )
-                ],
-              ),
+  Widget _thanksBtn(BuildContext context) {
+    return Row(children: [
+      InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.home_new,
+            (Route<dynamic> route) => false,
+          );
+        },
+        borderRadius: BorderRadius.circular(20.0),
+        child: Container(
+          height: 34.0,
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: customColors.primary,
+              width: 1,
             ),
+            borderRadius: BorderRadius.circular(20.0),
           ),
-          Expanded(child: Container())
-        ]);
-      },
-    );
+          child: Row(
+            children: [
+              CustomText(
+                LocaleKeys.thanksHabiDo,
+                color: customColors.primary,
+                alignment: Alignment.center,
+                textAlign: TextAlign.center,
+                fontWeight: FontWeight.w700,
+                fontSize: 13.0,
+              ),
+              SizedBox(width: 5.0),
+              SvgPicture.asset(
+                Assets.arrow_right,
+                color: customColors.primary,
+              )
+            ],
+          ),
+        ),
+      ),
+      Expanded(child: Container())
+    ]);
   }
 }

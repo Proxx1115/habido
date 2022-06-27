@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/models/achievements_response.dart';
 import 'package:habido_app/models/active_habit_response.dart';
 import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/mood_tracker_monthly_stat_response.dart';
 import 'package:habido_app/models/change_password_request.dart';
 import 'package:habido_app/models/change_phone_request.dart';
 import 'package:habido_app/models/chat_history_response.dart';
@@ -30,8 +30,7 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
-import 'package:habido_app/models/mood_tracker_answer.dart';
-import 'package:habido_app/models/mood_tracker_last.dart';
+import 'package:habido_app/models/mood_tracker_latest_response.dart';
 import 'package:habido_app/models/mood_tracker_last_list.dart';
 import 'package:habido_app/models/mood_tracker_list_response.dart';
 import 'package:habido_app/models/history_habit_response.dart';
@@ -41,6 +40,7 @@ import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/models/psy_test_review.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
+import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
 import 'package:habido_app/models/tip_response.dart';
 import 'package:habido_app/models/test_info_result_response.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
@@ -204,6 +204,31 @@ class ApiManager {
       objectData: request,
       httpMethod: HttpMethod.put,
     ));
+  }
+
+  /// Profile New
+  static Future<MoodTrackerMonthlyReasonResponse> monthlyReason(int year, int month) async {
+    return MoodTrackerMonthlyReasonResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.monthlyReason + '?year=$year&month=$month', httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<MoodTrackerLatestResponse> moodTrackerLatest() async {
+    return MoodTrackerLatestResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.moodTrackerLatest, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<MoodTrackerLatestResponse> moodTrackerThen(int userFeelingId) async {
+    return MoodTrackerLatestResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.moodTrackerThen + '/$userFeelingId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<MoodTrackerMonthlyStatResponse> moodTrackerMonthlyStat(int year, int month) async {
+    return MoodTrackerMonthlyStatResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.monthlyStat + '?year=$year&month=$month', httpMethod: HttpMethod.get),
+    );
   }
 
   /// Param
