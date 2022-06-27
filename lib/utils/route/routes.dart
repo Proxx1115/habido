@@ -41,6 +41,7 @@ import 'package:habido_app/ui/habit/progress/habit_tree/habit_tree_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart';
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/habit_new/all_habits_route.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_count.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/home_new/advice_route_screen.dart';
 import 'package:habido_app/ui/home_new/home_route.dart';
@@ -134,6 +135,7 @@ class Routes {
   static const habitList = 'habitList';
   static const allHabits = 'allHabits';
   static const userHabit = 'userHabit';
+  static const userHabitPlanCount = 'userHabitPlanCount';
   static const habitTimer = 'habitTimer';
   static const habitFeeling = 'habitFeeling';
   static const habitFeelingAnswer = 'habitFeelingAnswer';
@@ -498,6 +500,10 @@ class Routes {
 
       case Routes.allHabits:
         route = SlideRightRouteBuilder(AllHabitsRoute(), settings);
+        break;
+
+      case Routes.userHabitPlanCount:
+        route = SlideRightRouteBuilder(HabitDetailWithCountRoute(), settings);
         break;
 
       case Routes.userHabit:

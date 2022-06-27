@@ -5,16 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/mood_tracker.dart';
-import 'package:habido_app/models/mood_tracker_last.dart';
-import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/models/tip.dart';
-import 'package:habido_app/models/tip_response.dart';
-import 'package:habido_app/ui/feeling/emoji_item_widget.dart';
-import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
-import 'package:habido_app/utils/screen_mode.dart';
-import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/ui/home_new/slider/custom_carousel_slider.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -67,7 +60,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
-    // BlocManager.homeNewBloc.add(GetTipEvent());
+    // BlocManager.homeNewBloc.add(GetTipEvent()); // todo
     BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
   }
 
