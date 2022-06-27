@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,12 +10,14 @@ import 'package:habido_app/ui/content/content_dashboard.dart';
 import 'package:habido_app/ui/habit_new/habit_dashboard.dart';
 import 'package:habido_app/ui/psy_test/psy_test_dashboard/psy_user_test_dashboard.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'dashboard/dashboard_screen.dart';
@@ -26,7 +29,8 @@ class HomeRouteNew extends StatefulWidget {
   _HomeRouteNewState createState() => _HomeRouteNewState();
 }
 
-class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderStateMixin {
+class _HomeRouteNewState extends State<HomeRouteNew>
+    with SingleTickerProviderStateMixin {
   // UI
   final _homeNewKey = GlobalKey<ScaffoldState>();
 
@@ -58,7 +62,8 @@ class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderSt
               if (state is NavigateToPageState) {
                 _tabController.index = state.index;
               } else if (state is HomeShowcaseState) {
-                ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
+                ShowCaseWidget.of(context)
+                    ?.startShowCase(state.showcaseKeyList);
               }
             },
             child: BlocBuilder<HomeBloc, HomeState>(
@@ -115,7 +120,8 @@ class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
-  _CustomBottomNavigationBarState createState() => _CustomBottomNavigationBarState();
+  _CustomBottomNavigationBarState createState() =>
+      _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
@@ -143,7 +149,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.profile,
               description: LocaleKeys.showcaseProfile,
-              child: _bottomNavigationBarItem(0, Assets.assistant, LocaleKeys.habit),
+              child: _bottomNavigationBarItem(
+                  0, Assets.assistant, LocaleKeys.habit),
             ),
           ),
 
@@ -152,7 +159,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.assistant,
               description: LocaleKeys.showcaseAssistant,
-              child: _bottomNavigationBarItem(1, Assets.male_habido, LocaleKeys.chatbot), //todo set Icon
+              child: _bottomNavigationBarItem(
+                  1, Assets.male_habido, LocaleKeys.chatbot), //todo set Icon
             ),
           ),
 
@@ -169,6 +177,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               child: _bottomNavigationBarItem(3, Assets.test, LocaleKeys.test),
             ),
           ),
+          Expanded(
+            child: ElevatedButton(
+              child: Text("okey"),
+              onPressed: () {
+                _authDialog();
+              },
+            ),
+          ),
 
           /// Зөвлөмж
           Expanded(
@@ -176,7 +192,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               showcaseKey: ShowcaseKey.content,
               description: LocaleKeys.showcaseContent,
               overlayOpacity: 0.7,
-              child: _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
+              child: _bottomNavigationBarItem(
+                  4, Assets.content, LocaleKeys.advice),
             ),
           ),
         ],
@@ -185,7 +202,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   Widget _bottomNavigationBarItem(int index, String asset, String text) {
-    _navBarItemWidth = _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
+    _navBarItemWidth =
+        _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
 
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -208,7 +226,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 Container(
                   width: 20.0,
                   height: SizeHelper.borderWidth,
-                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.primaryBorder,
+                  color: BlocManager.homeBloc.currentTabIndex == index
+                      ? customColors.primary
+                      : customColors.primaryBorder,
                 ),
                 Expanded(
                   child: HorizontalLine(color: customColors.primaryBorder),
@@ -227,7 +247,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     height: 24.0,
                     child: SvgPicture.asset(
                       asset,
-                      color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                      color: BlocManager.homeBloc.currentTabIndex == index
+                          ? customColors.primary
+                          : customColors.iconGrey,
                     ),
                   ),
                 ),
@@ -237,7 +259,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   text,
                   padding: EdgeInsets.only(top: 5.0),
                   alignment: Alignment.center,
-                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                  color: BlocManager.homeBloc.currentTabIndex == index
+                      ? customColors.primary
+                      : customColors.iconGrey,
                   fontSize: 11.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -247,5 +271,53 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         ),
       ),
     );
+  }
+
+  _authDialog() {
+    return showCustomDialog(context,
+        child: CustomDialogBody(
+          child: Column(
+            children: [
+              /// Image
+              // if (Func.isNotEmpty(_notifList[index].photo))
+
+              /// Title
+              Center(
+                child: CustomText(
+                  LocaleKeys.oauthWarning,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.symmetric(vertical: 20.0),
+                  fontWeight: FontWeight.w500,
+                  maxLines: 4,
+                ),
+              ),
+              Center(
+                child: Row(
+                  children: [
+                    InkWell(
+                      child: Image.asset(
+                        Assets.google_icon,
+                        width: 40,
+                      ),
+                    ),
+                    InkWell(
+                      child: Image.asset(
+                        Assets.fb_icon,
+                        width: 40,
+                      ),
+                    ),
+                    InkWell(
+                      child: Image.asset(
+                        Assets.apple_icon,
+                        width: 40,
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          // onPressedButton: () {},
+        ));
   }
 }

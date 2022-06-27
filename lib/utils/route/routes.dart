@@ -168,9 +168,9 @@ class Routes {
         );
         break;
 
-      case Routes.login2:
-        route = SlideRightRouteBuilder(LoginRoute2(), settings);
-        break;
+      // case Routes.login2:
+      //   route = SlideRightRouteBuilder(LoginRoute2(), settings);
+      //   break;
 
       case Routes.signUp:
         route = SlideRightRouteBuilder(SignUpRoute(), settings);
@@ -184,7 +184,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp2CodeRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -194,7 +195,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -204,7 +206,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -214,7 +217,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -428,7 +432,8 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings:
+                      _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               )
@@ -438,7 +443,8 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings:
+                      _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               );
@@ -624,7 +630,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = NoTransitionRoute(
           HabitSuccessRoute(
-            habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
+            habitProgressResponse:
+                _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
             callback: _getValueByKey(args, 'callback'),
           ),
