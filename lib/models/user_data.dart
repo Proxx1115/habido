@@ -16,24 +16,27 @@ class UserData extends BaseResponse {
   String? rankPhoto;
   String? rankName;
   String? rankBody;
+  String? address;
+  String? employment;
 
-  UserData({
-    this.userId,
-    this.habitCategoryId,
-    this.phone,
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.birthDay,
-    this.gender,
-    this.photo,
-    this.isOnboardingDone,
-    this.isOnboardingDone2,
-    this.rankId,
-    this.rankPhoto,
-    this.rankName,
-    this.rankBody,
-  });
+  UserData(
+      {this.userId,
+      this.habitCategoryId,
+      this.phone,
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.birthDay,
+      this.gender,
+      this.photo,
+      this.isOnboardingDone,
+      this.isOnboardingDone2,
+      this.rankId,
+      this.rankPhoto,
+      this.rankName,
+      this.rankBody,
+      this.address,
+      this.employment});
 
   UserData.fromJson(dynamic json) {
     parseBaseParams(json);
@@ -53,6 +56,8 @@ class UserData extends BaseResponse {
     rankPhoto = json['rankPhoto'];
     rankName = json['rankName'];
     rankBody = json['rankBody'];
+    address = json['address'];
+    employment = json['employment'];
   }
 
   Map<String, dynamic> toJson() {
@@ -66,6 +71,8 @@ class UserData extends BaseResponse {
     map['photo'] = photo;
     map['isOnboardingDone'] = isOnboardingDone;
     map['isOnboardingDone2'] = isOnboardingDone2;
+    map['address'] = address;
+    map['employment'] = employment;
 
     return map;
   }
