@@ -1,4 +1,5 @@
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/utils/func.dart';
 
 import 'habit.dart';
 
@@ -9,6 +10,7 @@ class PsyTestResult extends BaseResponse {
   String? text;
   String? pointRange;
   String? resultText;
+  double? reviewScore;
   Habit? habit;
 
   PsyTestResult({
@@ -28,6 +30,7 @@ class PsyTestResult extends BaseResponse {
     testName = json['testName'];
     text = json['text'];
     pointRange = json['pointRange'];
+    reviewScore = Func.toDouble(json['reviewScore']);
     resultText = json['resultText'];
     habit = json['habit'] != null ? Habit.fromJson(json['habit']) : null;
   }
@@ -40,6 +43,7 @@ class PsyTestResult extends BaseResponse {
     map['text'] = text;
     map['pointRange'] = pointRange;
     map['resultText'] = resultText;
+    map['reviewScore'] = reviewScore;
     map['habit'] = habit;
     return map;
   }

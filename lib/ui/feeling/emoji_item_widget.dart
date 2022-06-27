@@ -1,10 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/models/mood_tracker_answer.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class EmojiItemWidget extends StatefulWidget {
-  final Map emojiData;
+  final MoodTrackerAnswer emojiData;
   final Function onTap;
   final bool isSelected;
   final bool isBold;
@@ -31,14 +33,18 @@ class _EmojiItemWidgetState extends State<EmojiItemWidget> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              widget.emojiData["emoji"],
+            CachedNetworkImage(
+              imageUrl: widget.emojiData.answerImageUrl!,
+              // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+              placeholder: (context, url) => Container(),
+              errorWidget: (context, url, error) => Container(),
               height: 40,
               width: 40,
+              fit: BoxFit.contain,
             ),
             SizedBox(height: 8.0),
             CustomText(
-              widget.emojiData["name"],
+              widget.emojiData.answerText,
               alignment: Alignment.center,
               textAlign: TextAlign.center,
               fontWeight: widget.isBold ? FontWeight.w700 : FontWeight.normal,

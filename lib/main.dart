@@ -62,7 +62,7 @@ class HabidoApp extends StatelessWidget {
       child: BlocBuilder<MainBloc, MainState>(
         builder: (context, state) {
           return MaterialApp(
-            theme: ThemeData(fontFamily: FontAsset.FiraSansCondensed),
+            theme: ThemeData(fontFamily: FontAsset.SFProRounded),
             title: LocaleKeys.appName,
             onGenerateTitle: (BuildContext context) => LocaleKeys.appName,
             // theme: theme,

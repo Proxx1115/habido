@@ -23,8 +23,9 @@ class _AllHabitsRouteState extends State<AllHabitsRoute> {
   PageController _pageController = PageController();
   int _currentIndex = 0;
 
-  changePage(index) {
-    _pageController.animateToPage(index, duration: Duration(milliseconds: 400), curve: Curves.easeIn);
+  changePage() {
+    print('index ${_currentIndex}');
+    _pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 400), curve: Curves.easeIn);
   }
 
   @override
@@ -41,12 +42,10 @@ class _AllHabitsRouteState extends State<AllHabitsRoute> {
             SizedBox(height: 20.0),
             Expanded(
               child: PageView(
+                physics: NeverScrollableScrollPhysics(),
                 controller: _pageController,
                 onPageChanged: (value) {
-                  setState(() {
-                    _currentIndex = value;
-                    changePage(_currentIndex);
-                  });
+                  _currentIndex = value;
                 },
                 children: [
                   /// Идэвхтэй
@@ -161,9 +160,10 @@ class _AllHabitsRouteState extends State<AllHabitsRoute> {
       opacity: isSelected ? 1 : 0.6,
       child: ButtonText(
         onPressed: () {
-          onPressed();
-          changePage(_currentIndex);
-          setState(() {});
+          setState(() {
+            onPressed();
+            changePage();
+          });
         },
         text: text,
         fontSize: 15.0,

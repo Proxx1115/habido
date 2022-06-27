@@ -73,7 +73,7 @@ class _SplashRouteState extends State<SplashRoute> {
         await AuthBloc.afterLogin();
         if (userData.isOnboardingDone ?? false) {
           /// Go to home
-          Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.home_new, (Route<dynamic> route) => false);
         } else {
           /// Go to chat
           Navigator.of(context).pushNamedAndRemoveUntil(Routes.habidoAssistant, (Route<dynamic> route) => false);

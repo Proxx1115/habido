@@ -28,6 +28,8 @@ class ConstantColors {
   static const seaGreen = const Color(0xFF30A74C);
   static const feijoGreen = const Color(0xFF9ED26A);
   static const froly = const Color(0xFFF76C82);
+  static const trout = const Color(0xFF484E58);
+  static const shamrock = const Color(0xFF46CEAC);
   static const loblolly = const Color(0xFFC2CAD1);
   static const athensGray = const Color(0xFFF2F5F7);
   // feeling backgrounds
@@ -60,12 +62,14 @@ class CustomColors {
   Color blueBackground = ConstantColors.blue;
   Color pinkBackground = ConstantColors.froly;
   Color feijoBackground = ConstantColors.feijoGreen;
+  Color shamrockBackground = ConstantColors.shamrock;
   Color disabledBackground = ConstantColors.cornflowerBlue;
 
   /// Border
   Color primaryBorder = ConstantColors.athensGrey;
   Color secondaryBorder = Colors.white;
   Color roseWhiteBorder = ConstantColors.roseWhite;
+  Color shamrockBorder = ConstantColors.shamrock;
   Color grayBorder = ConstantColors.loblolly;
   Color athensGrayBorder = ConstantColors.athensGray;
 
@@ -73,6 +77,8 @@ class CustomColors {
   Color primaryText = ConstantColors.black;
   Color greyText = ConstantColors.grey;
   Color whiteText = Colors.white;
+  Color cornflowerText = ConstantColors.cornflowerBlue;
+  Color lightText = ConstantColors.trout;
   Color disabledText = ConstantColors.cornflowerBlue;
   Color grayText = ConstantColors.osloGray;
 

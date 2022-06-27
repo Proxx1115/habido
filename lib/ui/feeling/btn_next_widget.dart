@@ -6,7 +6,8 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 class ButtonNextWidget extends StatelessWidget {
   final Function onTap;
   final bool isVisible;
-  const ButtonNextWidget({Key? key, required this.onTap, this.isVisible = true}) : super(key: key);
+  final double progressValue;
+  const ButtonNextWidget({Key? key, required this.onTap, this.isVisible = true, required this.progressValue}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +19,34 @@ class ButtonNextWidget extends StatelessWidget {
           : null,
       child: Opacity(
         opacity: isVisible ? 1 : 0.6,
-        child: Container(
-          height: 67.0,
-          width: 67.0,
-          padding: EdgeInsets.all(47.0 / 2),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(67.0 / 2),
-            color: customColors.primary,
-          ),
-          child: SvgPicture.asset(
-            Assets.arrow_right,
-            fit: BoxFit.contain,
-            color: Colors.white,
-          ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              height: 83.0,
+              width: 83.0,
+              child: CircularProgressIndicator(
+                value: progressValue,
+                valueColor: new AlwaysStoppedAnimation<Color>(customColors.primary),
+                backgroundColor: customColors.whiteBackground,
+                strokeWidth: 2,
+              ),
+            ),
+            Container(
+              height: 67.0,
+              width: 67.0,
+              padding: EdgeInsets.all(47.0 / 2),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(67.0 / 2),
+                color: customColors.primary,
+              ),
+              child: SvgPicture.asset(
+                Assets.arrow_right,
+                fit: BoxFit.contain,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
     );
