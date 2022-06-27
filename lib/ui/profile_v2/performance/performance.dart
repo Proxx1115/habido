@@ -21,6 +21,7 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'package:habido_app/widgets/user_habit_process.dart';
 
 class Performance extends StatefulWidget {
   const Performance({
@@ -32,126 +33,6 @@ class Performance extends StatefulWidget {
 }
 
 class _PerformanceState extends State<Performance> {
-  List _data = [
-    {
-      "month": 7,
-      "days": [
-        {
-          "weekDay": 1,
-          "process": 4,
-        },
-        {
-          "weekDay": 2,
-          "process": 4,
-        },
-        {
-          "weekDay": 3,
-          "process": 2,
-        },
-        {
-          "weekDay": 4,
-          "process": 5,
-        },
-        {
-          "weekDay": 5,
-          "process": 1,
-        },
-        {
-          "weekDay": 6,
-          "process": 2,
-        },
-        {
-          "weekDay": 7,
-          "process": 5,
-        },
-        {
-          "weekDay": 1,
-          "process": 4,
-        },
-        {
-          "weekDay": 2,
-          "process": 4,
-        },
-        {
-          "weekDay": 3,
-          "process": 2,
-        },
-        {
-          "weekDay": 4,
-          "process": 5,
-        },
-        {
-          "weekDay": 5,
-          "process": 1,
-        },
-        {
-          "weekDay": 6,
-          "process": 2,
-        },
-        {
-          "weekDay": 7,
-          "process": 5,
-        },
-        {
-          "weekDay": 1,
-          "process": 4,
-        },
-        {
-          "weekDay": 2,
-          "process": 4,
-        },
-        {
-          "weekDay": 3,
-          "process": 2,
-        },
-        {
-          "weekDay": 4,
-          "process": 5,
-        },
-        {
-          "weekDay": 5,
-          "process": 1,
-        },
-        {
-          "weekDay": 6,
-          "process": 2,
-        },
-        {
-          "weekDay": 7,
-          "process": 5,
-        },
-        {
-          "weekDay": 1,
-          "process": 4,
-        },
-        {
-          "weekDay": 2,
-          "process": 4,
-        },
-        {
-          "weekDay": 3,
-          "process": 2,
-        },
-        {
-          "weekDay": 4,
-          "process": 5,
-        },
-        {
-          "weekDay": 5,
-          "process": 1,
-        },
-        {
-          "weekDay": 6,
-          "process": 2,
-        },
-        {
-          "weekDay": 7,
-          "process": 5,
-        },
-      ]
-    }
-  ];
-
   List _colorsOpacity = [
     Color(0xff73BBB6).withOpacity(0.2),
     Color(0xff73BBB6).withOpacity(0.4),
@@ -182,6 +63,8 @@ class _PerformanceState extends State<Performance> {
   var romboNumber = ["I", "II", "III", "IV", "V"];
 
   var weekName = ["Да", "Мя", "Лх", "Пү", "Ба", "Бя", "Ня"];
+
+  List testArray = [0, 1, 2, 3];
 
   @override
   void initState() {
@@ -246,9 +129,14 @@ class _PerformanceState extends State<Performance> {
             fontSize: 15,
           ),
           SizedBox(height: 15),
-          calendarMonthDaysResponse != null ? _calender() : Container(),
+          // calendarMonthDaysResponse != null ? _calender() : Container(),
           SizedBox(height: 15),
-          _myProcess(),
+          calendarMonthDaysResponse != null ? _calender3() : Container(),
+          SizedBox(height: 15),
+          // _myProcess(),
+          UserHabitProcessWidget(
+            processDataList: testArray,
+          ),
           SizedBox(height: 15),
           CustomText(
             LocaleKeys.myFeeling,
@@ -259,6 +147,7 @@ class _PerformanceState extends State<Performance> {
           _myFeeling(),
           SizedBox(height: 15),
           // _calender(),
+
           SizedBox(height: 20),
           InkWell(
             onTap: () {
@@ -607,33 +496,49 @@ class _PerformanceState extends State<Performance> {
               ],
             ),
             const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                    child: SvgPicture.asset(
-                  Assets.arrow_back,
-                  color: customColors.secondaryButtonContent,
-                  height: 10,
-                  width: 10,
-                )),
-                Expanded(
-                  flex: 9,
-                  child: Container(
-                    width: ResponsiveFlutter.of(context).hp(7.4),
-                    alignment: Alignment.center,
-                    color: Colors.blue,
+            Container(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child: SvgPicture.asset(
+                    Assets.arrow_back,
+                    color: customColors.secondaryButtonContent,
+                    height: 10,
+                    width: 10,
+                  )),
+                  Expanded(
+                    flex: 40,
                     child: Stack(
+                      alignment: Alignment.center,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(left: 10, right: 10, top: 20),
-                          // width: 231,
-                          // width: double.infinity,
-                          height: ResponsiveFlutter.of(context).hp(13),
-                          child: Wrap(
-                            spacing: 3.0,
-                            runSpacing: 3.0,
+                          alignment: Alignment.centerRight,
+                          // height: ResponsiveFlutter.of(context).hp(13),
+                          // width: 200,
+                          // margin: EdgeInsets.only(top: 20),
+                          color: Colors.amber,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              for (var i = 0; i < calendarMonthDaysResponse!.days!.length; i++) _dayItem(Colors.red),
+                              orderOfTheRomboNumber(),
+                              Container(
+                                // margin: EdgeInsets.only(top: 5),
+                                // color: Colors.deepOrange,
+                                width: ResponsiveFlutter.of(context).wp(75),
+                                // width: double.infinity,
+                                height: ResponsiveFlutter.of(context).hp(13),
+                                child: Wrap(
+                                  spacing: 3.0,
+                                  runSpacing: 3.0,
+                                  children: [
+                                    for (var i = 0; i < calendarMonthDaysResponse!.days!.length; i++) _dayItem(Colors.red),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -641,7 +546,7 @@ class _PerformanceState extends State<Performance> {
                         //   child: Container(
                         //     margin: EdgeInsets.only(left: 10, right: 10, top: 20),
                         //     // width: 231,
-                        //     width: double.infinity,
+                        //     // width: double.infinity,
                         //     height: ResponsiveFlutter.of(context).hp(13),
                         //     child: Wrap(
                         //       spacing: 3.0,
@@ -656,24 +561,6 @@ class _PerformanceState extends State<Performance> {
                         //   top: 20,
                         //   left: -5,
                         //   child: orderOfTheRomboNumber(),
-                        // ),
-                        // Row(
-                        //   children: [
-                        //     Container(
-                        //       margin: EdgeInsets.only(left: 10, right: 10, top: 20),
-                        //       // width: 231,
-                        //       width: double.infinity,
-                        //       height: ResponsiveFlutter.of(context).hp(13),
-                        //       child: Wrap(
-                        //         spacing: 3.0,
-                        //         runSpacing: 3.0,
-                        //         children: [
-                        //           for (var i = 0; i < calendarMonthDaysResponse!.days!.length; i++) _dayItem(Colors.red),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //     orderOfTheRomboNumber()
-                        //   ],
                         // ),
                         // Positioned(
                         //   left: 20,
@@ -702,18 +589,354 @@ class _PerformanceState extends State<Performance> {
                       ],
                     ),
                   ),
+                  // SizedBox(width: 20),
+                  Expanded(
+                    child: SvgPicture.asset(
+                      Assets.arrow_forward,
+                      color: customColors.secondaryButtonContent,
+                      height: 10,
+                      width: 10,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _calender2() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: ResponsiveFlutter.of(context).wp(2), vertical: ResponsiveFlutter.of(context).hp(2)),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Container(
+        height: ResponsiveFlutter.of(context).hp(21),
+        // color: Colors.blueGrey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(
+                  height: 15,
+                  width: 15,
                 ),
-                // SizedBox(width: 20),
-                Expanded(
-                  child: SvgPicture.asset(
+                CustomText(
+                  "4 сар",
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+                InkWell(
+                    onTap: () {
+                      showCustomDialog(
+                        context,
+                        child: CustomDialogBody(
+                          // buttonText: "Цонхыг хаах",
+                          primaryColor: customColors.greyBackground,
+                          child: Column(
+                            children: [
+                              /// Image
+                              // if (Func.isNotEmpty(_notifList[index].photo))
+                              if (true) //todo yela
+
+                                /// Body
+                                CustomText(
+                                  "Тухайн өдрийн мэдрэмжийг өнгөөр илтгэн харуулж байгаа юм.",
+                                  maxLines: 2,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  // margin: EdgeInsets.only(bottom: 20.0),
+                                ),
+                              CustomText(
+                                "Жишээ нь: Тухайн өдөр “Мэдэхгүй ээ”, “Онцгүй байсан” гэх мэтээр тэмдэглэвэл бүдэг өнгөөр, харин аз “Гайхалтай”, “Дажгүй шүү” гэж бүртгэх тусам өнгө нь тодрох юм. ",
+                                maxLines: 5,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                // margin: EdgeInsets.only(bottom: 20.0),
+                              ),
+                              CustomText(
+                                "Ингэснээр сарын сүүлээр өөрийн тухайн сарын сэтгэл зүйн байдлаа  ажиглах боломжтой юм.",
+                                maxLines: 5,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                // margin: EdgeInsets.only(bottom: 20.0),
+                              ),
+                              SizedBox(height: 20),
+                              // Column(
+                              //   children: [],
+                              // )
+                              for (var i = 0; i < _calendarDesc.length; i++)
+                                _dayItemBottomSheet(color: _calendarDesc[i]['color'], text: _calendarDesc[i]['text']),
+                              const SizedBox(height: 40),
+
+                              CustomButton(
+                                text: "Хаах",
+                                contentColor: customColors.primaryText,
+                                backgroundColor: customColors.greyBackground,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              )
+                            ],
+                          ),
+                          onPressedButton: () {},
+                        ),
+                      );
+                    },
+                    child: SvgPicture.asset(Assets.warning_calendar))
+              ],
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child: SvgPicture.asset(
+                    Assets.arrow_back,
+                    color: customColors.secondaryButtonContent,
+                    height: 10,
+                    width: 10,
+                  )),
+                  Expanded(
+                    flex: 40,
+                    child: Stack(
+                      // alignment: Alignment.center,
+                      children: [
+                        Positioned(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10, right: 10, top: 20),
+                            // width: 231,
+                            // width: double.infinity,
+                            color: Colors.amber,
+                            height: ResponsiveFlutter.of(context).hp(13),
+                            child: Wrap(
+                              spacing: 3.0,
+                              runSpacing: 3.0,
+                              children: [
+                                for (var i = 0; i < calendarMonthDaysResponse!.days!.length; i++) _dayItem(Colors.red),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 20,
+                          left: -5,
+                          child: orderOfTheRomboNumber(),
+                        ),
+                        Positioned(
+                          left: 20,
+                          child: Row(
+                            children: [
+                              for (var weekName in weekName)
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: ResponsiveFlutter.of(context).wp(7.5),
+                                      height: ResponsiveFlutter.of(context).hp(2),
+                                      // color: Colors.amber,
+                                      child: CustomText(
+                                        weekName,
+                                        alignment: Alignment.center,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 3,
+                                    )
+                                  ],
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // SizedBox(width: 20),
+                  Expanded(
+                    child: SvgPicture.asset(
+                      Assets.arrow_forward,
+                      color: customColors.secondaryButtonContent,
+                      height: 10,
+                      width: 10,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _calender3() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: ResponsiveFlutter.of(context).wp(2), vertical: ResponsiveFlutter.of(context).hp(2)),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Container(
+        height: ResponsiveFlutter.of(context).hp(21),
+        // color: Colors.blueGrey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(
+                  height: 15,
+                  width: 15,
+                ),
+                CustomText(
+                  "4 сар",
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+                InkWell(
+                    onTap: () {
+                      showCustomDialog(
+                        context,
+                        child: CustomDialogBody(
+                          // buttonText: "Цонхыг хаах",
+                          primaryColor: customColors.greyBackground,
+                          child: Column(
+                            children: [
+                              /// Image
+                              // if (Func.isNotEmpty(_notifList[index].photo))
+                              if (true) //todo yela
+
+                                /// Body
+                                CustomText(
+                                  "Тухайн өдрийн мэдрэмжийг өнгөөр илтгэн харуулж байгаа юм.",
+                                  maxLines: 2,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  // margin: EdgeInsets.only(bottom: 20.0),
+                                ),
+                              CustomText(
+                                "Жишээ нь: Тухайн өдөр “Мэдэхгүй ээ”, “Онцгүй байсан” гэх мэтээр тэмдэглэвэл бүдэг өнгөөр, харин аз “Гайхалтай”, “Дажгүй шүү” гэж бүртгэх тусам өнгө нь тодрох юм. ",
+                                maxLines: 5,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                // margin: EdgeInsets.only(bottom: 20.0),
+                              ),
+                              CustomText(
+                                "Ингэснээр сарын сүүлээр өөрийн тухайн сарын сэтгэл зүйн байдлаа  ажиглах боломжтой юм.",
+                                maxLines: 5,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                // margin: EdgeInsets.only(bottom: 20.0),
+                              ),
+                              SizedBox(height: 20),
+                              // Column(
+                              //   children: [],
+                              // )
+                              for (var i = 0; i < _calendarDesc.length; i++)
+                                _dayItemBottomSheet(color: _calendarDesc[i]['color'], text: _calendarDesc[i]['text']),
+                              const SizedBox(height: 40),
+
+                              CustomButton(
+                                text: "Хаах",
+                                contentColor: customColors.primaryText,
+                                backgroundColor: customColors.greyBackground,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              )
+                            ],
+                          ),
+                          onPressedButton: () {},
+                        ),
+                      );
+                    },
+                    child: SvgPicture.asset(Assets.warning_calendar))
+              ],
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    Assets.arrow_back,
+                    color: customColors.secondaryButtonContent,
+                    height: 10,
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Stack(
+                      // alignment: Alignment.center,
+                      children: [
+                        Positioned(
+                          left: 20,
+                          child: Container(
+                            width: double.infinity,
+                            color: Colors.amber,
+                            height: ResponsiveFlutter.of(context).hp(13),
+                            child: Wrap(
+                              spacing: 3.0,
+                              runSpacing: 3.0,
+                              children: [
+                                for (var i = 0; i < calendarMonthDaysResponse!.days!.length; i++) _dayItem(Colors.red),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          child: orderOfTheRomboNumber(),
+                        ),
+                        Positioned(
+                          left: 20,
+                          child: Row(
+                            children: [
+                              for (var weekName in weekName)
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: ResponsiveFlutter.of(context).fontSize(4.55),
+                                      height: ResponsiveFlutter.of(context).fontSize(1.4),
+                                      // color: Colors.amber,
+                                      child: CustomText(
+                                        weekName,
+                                        alignment: Alignment.center,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 3,
+                                    )
+                                  ],
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // SizedBox(width: 20),
+
+                  SvgPicture.asset(
                     Assets.arrow_forward,
                     color: customColors.secondaryButtonContent,
                     height: 10,
                     width: 10,
                   ),
-                ),
-              ],
-            )
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -725,19 +948,23 @@ class _PerformanceState extends State<Performance> {
       // width: ResponsiveFlutter.of(context).wp(4.5),
       // height: ResponsiveFlutter.of(context).hp(7.5),
       // margin: EdgeInsets.only(top: 20),
-      // color: Colors.blue,
+      color: Colors.blue,
+      // margin: EdgeInsets.only(
+      //   right: 6,
+      // ),
+      // color: Colors.green,
       child: Column(
         children: [
           for (var orderWeek in romboNumber)
             Container(
-              width: ResponsiveFlutter.of(context).wp(3),
+              width: ResponsiveFlutter.of(context).wp(3.5),
               height: ResponsiveFlutter.of(context).hp(2),
-              // margin: EdgeInsets.only(bottom: 3),
+              margin: EdgeInsets.only(bottom: 1.8),
               child: CustomText(
                 orderWeek,
                 lineSpace: 1,
                 fontSize: 11,
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.bottomRight, bgColor: Colors.blueGrey,
                 // bgColor: Colors.amber,
               ),
             ),
@@ -750,11 +977,11 @@ class _PerformanceState extends State<Performance> {
     return Container(
       // margin: EdgeInsets.only(),
       margin: EdgeInsets.only(
-        bottom: ResponsiveFlutter.of(context).hp(0.1),
-        left: ResponsiveFlutter.of(context).hp(0.1),
+        bottom: ResponsiveFlutter.of(context).hp(0.3),
+        left: ResponsiveFlutter.of(context).hp(0.3),
       ),
       color: color,
-      width: ResponsiveFlutter.of(context).fontSize(4),
+      width: ResponsiveFlutter.of(context).fontSize(4.55),
       height: ResponsiveFlutter.of(context).fontSize(1.4),
     );
   }
