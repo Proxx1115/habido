@@ -12,6 +12,7 @@ import 'package:habido_app/models/tip_response.dart';
 import 'package:habido_app/ui/feeling/emoji_item_widget.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
@@ -20,21 +21,14 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
-import 'package:habido_app/widgets/custom_showcase.dart';
+import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/dashboard_bloc.dart';
-import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/theme/hex_color.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
-import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -55,15 +49,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   double _sliderTopMargin = 0.0;
   double _indicatorVerticalMargin = 0;
 
-  // User Data
-  String? _username;
-
-  // User habits
-  List<UserHabit>? _todayUserHabits;
-
-  // bool _isExpandedTodayUserHabits = false;
-  List<UserHabit>? _tomorrowUserHabits;
-
   List _feelingEmojis = [
     Assets.emoji1,
     Assets.emoji2,
@@ -81,7 +66,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    _username = "Ногооноо";
     BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
     // BlocManager.homeNewBloc.add(GetTipEvent());
     BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
@@ -147,10 +131,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
             /// Hello
             Row(
               children: [
-                SvgPicture.asset(Assets.emoji1, height: 46.0, width: 46.0),
+                _profilePicture(),
                 SizedBox(width: 15.0),
+
+                /// Name
                 CustomText(
-                  "${LocaleKeys.hi} $_username",
+                  "${LocaleKeys.hi} ${globals.userData!.firstName}",
+                  // (globals.userData!.firstName ?? ''),
                   fontWeight: FontWeight.w700,
                   fontSize: 22.0,
                 ),
@@ -456,6 +443,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
             SizedBox(width: 57.5),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _profilePicture() {
+    return ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+      child: CachedNetworkImage(
+        imageUrl: globals.userData!.photo!,
+        fit: BoxFit.cover,
+        width: 46.0,
+        height: 46.0,
+        placeholder: (context, url) => CustomLoader(size: SizeHelper.boxHeight),
+        // placeholder: (context, url, error) => Container(),
+        errorWidget: (context, url, error) => Container(),
       ),
     );
   }

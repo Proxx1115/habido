@@ -69,7 +69,7 @@ class SignUpCompletedRoute extends StatelessWidget {
       InkWell(
         onTap: () {
           Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.home,
+            Routes.home_new,
             (Route<dynamic> route) => false,
           );
         },
