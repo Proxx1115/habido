@@ -8,6 +8,8 @@ import 'package:habido_app/bloc/psy_test_dashboard_bloc.dart';
 import 'package:habido_app/bloc/psy_test_main_bloc.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
+import 'package:habido_app/ui/profile_v2/performance/performance_bloc.dart';
+import 'package:habido_app/ui/profile_v2/profile_bloc/profile_bloc.dart';
 import 'auth_bloc.dart';
 import 'calendar_bloc.dart';
 import 'chat_bloc.dart';
@@ -28,6 +30,8 @@ class BlocManager {
   static final notifBloc = NotificationBloc();
   static final achievementBloc = AchievementBloc();
   static final userHabitBloc = UserHabitBloc();
+  static final profileBloc = ProfileBloc();
+  static final performanceBloc = PerformanceBloc();
 
   static void dispose() {
     mainBloc.close();
@@ -43,6 +47,8 @@ class BlocManager {
     notifBloc.close();
     achievementBloc.close();
     userHabitBloc.close();
+    profileBloc.close();
+    performanceBloc.close();
   }
 }
 

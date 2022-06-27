@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/ui/profile_v2/ability.dart';
-import 'package:habido_app/ui/profile_v2/performance.dart';
-import 'package:habido_app/ui/profile_v2/badge.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
+import 'package:habido_app/ui/profile_v2/ability/ability.dart';
+import 'package:habido_app/ui/profile_v2/performance/performance.dart';
+import 'package:habido_app/ui/profile_v2/badge/badge.dart';
+import 'package:habido_app/ui/profile_v2/profile_bloc/profile_bloc.dart';
 import 'package:habido_app/ui/profile_v2/profile_card_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -9,6 +13,7 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/app_bars/app_bar_with_profile.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
@@ -25,53 +30,73 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
   int _currentIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            AppBarWithProfile(
-              backIcon: Assets.back,
-              text: LocaleKeys.myCorner,
-              secondIcon: Assets.pointButton,
-              secondFunc: () {
-                Navigator.pushNamed(context, Routes.helpV2);
-              },
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
-              child: Column(
-                children: [
-                  ProfileCardV2(),
-                  SizedBox(height: 20),
-                  _tabItem(),
-                  SizedBox(height: 10),
-                  _pageItem(),
-                ],
-              ),
-            ),
-          ],
+      child: BlocProvider.value(
+        value: BlocManager.profileBloc,
+        child: BlocListener<ProfileBloc, ProfileState>(
+          listener: _blocListener,
+          child: BlocBuilder<ProfileBloc, ProfileState>(
+            builder: _blocBuilder,
+          ),
         ),
+      ),
+    );
+  }
+
+  void _blocListener(BuildContext context, ProfileState state) {}
+
+  Widget _blocBuilder(BuildContext context, ProfileState state) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          AppBarWithProfile(
+            backIcon: Assets.back,
+            text: LocaleKeys.myCorner,
+            secondIcon: Assets.pointButton,
+            secondFunc: () {
+              Navigator.pushNamed(context, Routes.helpV2);
+            },
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
+            child: Column(
+              children: [
+                ProfileCardV2(),
+                SizedBox(height: 20),
+                _tabItem(),
+                SizedBox(height: 10),
+                _pageItem(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _pageItem() {
     return Container(
-        height: MediaQuery.of(context).size.height * 1,
-        width: MediaQuery.of(context).size.width,
-        child: PageView(
-          controller: _controller,
-          children: [
-            Performance(),
-            Badge(),
-            Ability(),
-          ],
-          onPageChanged: (index) {
-            _currentIndex = index;
-            setState(() {});
-          },
-        ));
+      height: MediaQuery.of(context).size.height * 1.2,
+      width: MediaQuery.of(context).size.width,
+      child: PageView(
+        controller: _controller,
+        children: [
+          Performance(),
+          Badge(),
+          Ability(),
+        ],
+        onPageChanged: (index) {
+          _currentIndex = index;
+          setState(() {});
+        },
+      ),
+    );
   }
 
   Widget _tabItem() {
