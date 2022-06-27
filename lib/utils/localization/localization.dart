@@ -73,7 +73,7 @@ class LocaleKeys {
 
   static String get day => 'Хоног';
 
-  static String get term => 'Хугацаа';
+  static String get time => 'Хугацаа';
 
   static String get other => 'бусад';
 
@@ -115,27 +115,45 @@ class LocaleKeys {
 
   static String get resendVerifyCode => 'Дахин код авах';
 
+  static String get personalInfo => 'Хувийн мэдээлэл';
+
   ///
   /// Intro
   ///
-  static String get introTitle1 => 'Happy';
+  static String get introTitle1 => 'Дадал';
 
-  static String get introTitle2 => 'Habit';
+  static String get introTitle2 => 'Чатбот';
 
-  static String get introTitle3 => 'Do';
+  static String get introTitle3 => 'Зөвлөмж';
 
-  static String get intro1 => 'Сэтгэл зүйгээ удирдаж      ';
+  static String get introTitle4 => 'Сэтгэл зүйн тест';
 
-  static String get intro2 => 'Дадлаа тууштай бүртгэж     ';
+  static List get intro1 => ["Дадлаа хэвшүүлэх, мэдэгдэл авах", "Явцаа хянах", "Өөрийн гаргасан үр дүн, статистикээ харах"];
 
-  static String get intro3 => 'Надтай хамт тасралтгүй хөгж';
+  static List get intro2 => ["Мэдрэмжээ илэрхийлэх", "Асуудлаа хуваалцах", "Өөрт хэрэгтэй мэдээллийг авах"];
+
+  static List get intro3 => ["Суралцах", "Хөгжих", "Шинжлэх ухаанаар баталгаажсан мэдээлэл авах"];
+
+  static List get intro4 => ["Өөрийгөө илүү таньж мэдэх", "Ойлгох", "Зөвлөмж авах"];
 
   ///
   /// Login
   ///
   static String get login => 'Нэвтрэх';
 
+  static String get loginWithSocial => 'Сошиал хаягаар нэвтрэх';
+
+  static String get signUpWithSocial => 'Сошиал хаягаар бүртгүүлэх';
+
+  static String get loginWithGoogle => 'Google-ээр нэвтрэх';
+
+  static String get loginWithFb => 'Facebook-ээр нэвтрэх';
+
+  static String get loginWithApple => 'Apple-аар нэвтрэх';
+
   static String get hasAccount => 'Та бүртгэлтэй юу?';
+
+  static String get hasNotAccount => 'Та бүртгэлгүй юу?';
 
   static String get signUp => 'Бүртгүүлэх';
 
@@ -222,7 +240,39 @@ class LocaleKeys {
   static String get genderInfotext =>
       'HabiDo нь өөрийгөө эрэгтэй, эмэгтэй аль нэг хүйсэнд хамаатуулдаггүй, мөн хоёр ба түүнээс дээш жендерээр мэдэрдэг хүмүүсийг хүндэлдэг бөгөөд хоёр туйлт сонголт тулгаж байгаад уучлал хүсэж байна. Цаашид сайжруулах болохоо мэдэгдье.';
 
-// static String get agreeTerms => 'Зөвшөөрөх';
+  /// Sign Up Question
+  static String get signUpQuest1 => 'Таны хувьд юуг сайжруулмаар  байна вэ?';
+
+  static List<String> get signUpQuest1Answers => [
+        'Хувийн хөгжил',
+        'Эрүүл мэнд',
+        'Гэр бүл',
+        'Дасгал хөдөлгөөн',
+        'Ажлын бүтээмж',
+        'Сэтгэл зүй',
+        'Санхүү',
+      ];
+
+  static String get signUpQuest2 => 'Тууштай байдлаа хамтдаа үнэлээд нэг үзэх үү?';
+
+  static List<String> get signUpQuest2Answers => [
+        'Тууштай байж чаддаггүй',
+        'Тийм ч тууштай биш',
+        'Хааяадаа л',
+        'Ихэнхдээ',
+        'Зорьсондоо заавал хүрдэг',
+      ];
+
+  static String get signUpQuest3 => 'Мэдрэмж бүртгэх дадлаар аяллаа эхлүүлэх үү? ';
+
+  static String get signUpQuest3Answer =>
+      'Хосоороо болзож, хамт өнгөрөөх цаг тогтмол гаргах нь хосын харилцааг илүү ойр дотно болгож, хоорондын ойлголцлыг нэмэгдүүлнэ';
+
+  static String get thanksHabiDo => 'Баярлалаа, HabiDo';
+
+  static String get gonnaTryLater => 'Дараа туршиж үзнэ ээ';
+
+  static String get signUpCompletedText => 'Баяр хүргэе, та HabiDo-тай хамт амьдралын чанараа сайжруулах аяллаа эхлүүллээ';
 //
 // static String get termCondNotFound => 'Вэб холбоос олдсонгүй';
 //
@@ -245,6 +295,41 @@ class LocaleKeys {
   static String get profile => 'Профайл';
 
   static String get myCorner => 'Миний булан';
+
+  static String get hi => 'Сайн уу,';
+
+  static String get shareHowYouFeel => 'Юу мэдэрч байгаагаа хуваалцах уу?';
+
+  static String get wannaShareFeeling => 'Мэдрэмжээ хуваалцах уу?';
+
+  static String get start => 'Эхлэх';
+
+  static String get starting => 'Эхлүүлэх';
+
+  static String get habitAdvice => 'Дадал хэвшүүлэх зөвлөмж';
+
+  static String get habidoTip => 'HabiDo заавар';
+
+  static String get noActivityYet => 'No activity yet';
+
+  /// Habit new version
+  static String get seeAllHabits => 'Бүх дадал харах';
+
+  static String get allHabit => 'Бүх дадал';
+
+  static String get active => 'Идэвхтэй';
+
+  static String get completed => 'Дууссан';
+
+  static String get history => 'Түүх';
+
+  static String get habitForYou => 'Танд зориулсан дадал';
+
+  static String get readyToStartNewHabit => 'Дадал хэвшүүлэхэд бэлэн үү?';
+
+  static String get planNewHabit => 'Шинэ дадал төлөвлөх';
+
+  static String get todaysHabit => 'Өнөөдрийн дадал';
 
   /// Showcase
   static String get showcaseAddHabit => 'Шинэ дадал үүсгэх';
@@ -272,6 +357,8 @@ class LocaleKeys {
   static String get showcaseSlidable => 'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой';
 
   /// Chat
+  static String get chatbot => 'Чатбот';
+
   static String get habidoAssistant => 'HabiDo чатбот';
 
   static String get chatBotIdNotFound => 'HabiDo туслахын мэдээлэл олдсонгүй';
@@ -293,6 +380,7 @@ class LocaleKeys {
   static String get doPsyTest => 'Сэтгэл зүйн тест бөглөх';
 
   static String get beginTest => 'Тест эхлэх';
+  static String get beginTestV2 => 'Тест эхлүүлэх';
 
   static String get seeResult => 'Үр дүн харах';
 
@@ -361,15 +449,26 @@ class LocaleKeys {
 
   static String get pleaseSelectEmoji => 'Та мэдрэмжээ сонгоно уу?';
 
-  static String get emoji1 => 'Гунигтай байна';
+  /// old emoji
+  // static String get emoji1 => 'Гунигтай байна';
 
-  static String get emoji2 => 'Тааламжгүй байна';
+  // static String get emoji2 => 'Тааламжгүй байна';
 
-  static String get emoji3 => 'Юу мэдэрч байгаагаа мэдэхгүй байна';
+  // static String get emoji3 => 'Юу мэдэрч байгаагаа мэдэхгүй байна';
 
-  static String get emoji4 => 'Тайван сайхан байна';
+  // static String get emoji4 => 'Тайван сайхан байна';
 
-  static String get emoji5 => 'Маш их баяртай байна';
+  // static String get emoji5 => 'Маш их баяртай байна';
+
+  static String get emoji1 => 'Гайхалтай';
+
+  static String get emoji2 => 'Дажгүй шүү';
+
+  static String get emoji3 => 'Мэдэхгүй ээ';
+
+  static String get emoji4 => 'Тааламжгүй ээ';
+
+  static String get emoji5 => 'Онцгүй ээ';
 
   static String get happyEmoji => 'Баяр хөөртэй';
 
@@ -410,6 +509,56 @@ class LocaleKeys {
   static String get energeticEmoji => 'Эрч хүчтэй';
 
   static String get tiredEmoji => 'Ядарсан';
+
+  /// NEW
+
+  static String get happyEmoji_new => 'Баяр хөөртэй';
+
+  static String get frustratedEmoji_new => 'Бухимдсан';
+
+  static String get surprisedEmoji_new => 'Гайхширсан';
+
+  static String get lonelyEmoji_new => 'Ганцаардсан';
+
+  static String get sadEmoji_new => 'Гунигтай';
+
+  static String get underPressureEmoji_new => 'Дарамттай';
+
+  static String get unknownEmoji_new => 'Мэдэхгүй';
+
+  static String get optimisticEmoji_new => 'Өөдрөг';
+
+  static String get confidentEmoji_new => 'Өөртөө итгэлтэй';
+
+  static String get worriedEmoji_new => 'Санаа зовсон';
+
+  static String get panickedEmoji_new => 'Сандарсан';
+
+  static String get satisfiedEmoji_new => 'Сэтгэл ханамжтай';
+
+  static String get emotionlessEmoji_new => 'Сэтгэл хөдлөлгүй';
+
+  static String get calmEmoji_new => 'Тайван';
+
+  static String get thankfulEmoji_new => 'Талархсан';
+
+  static String get anxiousEmoji_new => 'Түгшүүртэй';
+
+  static String get angryEmoji_new => 'Ууртай';
+
+  static String get lovedEmoji_new => 'Хайрлагдсан';
+
+  static String get energeticEmoji_new => 'Эрч хүчтэй';
+
+  static String get tiredEmoji_new => 'Ядарсан';
+
+  /// new
+  static String get powerfulEmoji_new => 'Эрч хүчтэй';
+  static String get encouragingEmoji_new => 'Урам зоригтой';
+  static String get relaxedEmoji_new => 'Амарсан';
+  static String get proudEmoji_new => 'Бахархсан';
+
+  ///
 
   static String get note => 'Тэмдэглэл';
 
@@ -463,6 +612,8 @@ class LocaleKeys {
 
   static String get newPsyTest => 'Шинэ';
 
+  static String get toEvaluate => 'Үнэлгээ өгөх';
+
   static String get pickColor => 'Өнгө сонгох';
 
   static String get pickShape => 'Дүрс сонгох';
@@ -478,6 +629,29 @@ class LocaleKeys {
   static String get pleaseSelectGoal => 'Зорилго сонгоно уу';
 
   static String get answerOneOfThoseQuestion => 'Дараах асуултуудаас нэгийг нь сонгон хариулаарай';
+
+  /// Feeling
+  static String get howsYourDay => 'Өнөөдөр хэрхэн өнгөрч байна даа?';
+
+  static String get whatCausesThisFeeling => 'Энэ мэдрэмж юунаас болоод үүсэж байна вэ?';
+
+  static String get shareFeelingMore => 'Мэдрэмжээ дэлгэрэнгүй хуваалцвал';
+
+  /// Feeling Causes
+  static String get family => 'Гэр бүл';
+  static String get relationship => 'Хосын харилцаа';
+  static String get children => 'Хүүхэд';
+  static String get friends => 'Найз нөхөд';
+  static String get work => 'Ажил';
+  static String get school => 'Сургууль, хичээл';
+  static String get health => 'Эрүүл мэнд';
+  static String get mentalHealth => 'Сэтгэл зүй';
+  static String get sleep => 'Нойр';
+  static String get mySelf => 'Өөрөөсөө болж';
+  static String get finance => 'Санхүү';
+
+  static String get feelingDetailIntro => 'Мэдрэмжээ илэрхийлэн бичих нь өөрийгөө хөндлөнгөөс анзаарахад тустай шүү';
+  static String get feelingDetailHint => 'Би өнөөдөр...';
 
   /// Profile
 

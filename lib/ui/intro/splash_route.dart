@@ -67,14 +67,13 @@ class _SplashRouteState extends State<SplashRoute> {
     _checkSession();
   }
 
-
   _checkSession() {
     ApiManager.getUserData().then((userData) async {
       if (userData.code == ResponseCode.Success) {
         await AuthBloc.afterLogin();
         if (userData.isOnboardingDone ?? false) {
           /// Go to home
-          Navigator.of(context).pushNamedAndRemoveUntil(Routes.home, (Route<dynamic> route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.home_new, (Route<dynamic> route) => false);
         } else {
           /// Go to chat
           Navigator.of(context).pushNamedAndRemoveUntil(Routes.habidoAssistant, (Route<dynamic> route) => false);
@@ -103,7 +102,7 @@ class _SplashRouteState extends State<SplashRoute> {
 
   _navigateToFirstRoute() {
     Navigator.of(context).pushNamedAndRemoveUntil(
-      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login,
+      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login, // signUpQuestion loginIntro
       (Route<dynamic> route) => false,
     );
   }

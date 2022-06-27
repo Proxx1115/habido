@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/models/feedback_category_list_response.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_change_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/forgot_password_route.dart';
+import 'package:habido_app/ui/auth/login_intro_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
+import 'package:habido_app/ui/auth/login_route_2.dart';
+import 'package:habido_app/ui/auth/personal_info.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up3_profile_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up1_phone_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up2_code_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up4_password_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up5_terms_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up6_success_route.dart';
+import 'package:habido_app/ui/auth/sign_up/sign_up_completed.dart';
+import 'package:habido_app/ui/auth/sign_up/sign_up_question_route.dart';
+import 'package:habido_app/ui/auth/sign_up/sign_up_route.dart';
 import 'package:habido_app/ui/auth/sign_up/term_detail_route.dart';
 import 'package:habido_app/ui/auth/forgot_password/verify_password_route.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_poster_view.dart';
 import 'package:habido_app/ui/chat/habido_assistant_route.dart';
 import 'package:habido_app/ui/content/content_route.dart';
+import 'package:habido_app/ui/content_v2/content_route_v2.dart';
+import 'package:habido_app/ui/feeling/feeling_cause_route.dart';
+import 'package:habido_app/ui/feeling/feeling_detail_route.dart';
+import 'package:habido_app/ui/feeling/feeling_emoji_route.dart';
+import 'package:habido_app/ui/feeling/feeling_main_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/habit/habit_success_route.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_route.dart';
@@ -30,7 +40,11 @@ import 'package:habido_app/ui/habit/progress/habit_timer/habit_timer_route.dart'
 import 'package:habido_app/ui/habit/progress/habit_tree/habit_tree_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart';
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
+import 'package:habido_app/ui/habit_new/all_habits_route.dart';
 import 'package:habido_app/ui/home/home_route.dart';
+import 'package:habido_app/ui/home_new/advice_route_screen.dart';
+import 'package:habido_app/ui/home_new/home_route.dart';
+import 'package:habido_app/ui/home_new/tip_route/tip_route.dart';
 import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/ui/notification/notification_route.dart';
 import 'package:habido_app/ui/profile/change_password_route.dart';
@@ -42,6 +56,7 @@ import 'package:habido_app/ui/profile/faq_route.dart';
 import 'package:habido_app/ui/profile/feedback_cat_list.dart';
 import 'package:habido_app/ui/profile/feedback_route.dart';
 import 'package:habido_app/ui/profile/help_route.dart';
+import 'package:habido_app/ui/profile/profile_dashboard.dart';
 import 'package:habido_app/ui/profile/terms_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
@@ -49,11 +64,16 @@ import 'package:habido_app/ui/profile_v2/faq_route_v2.dart';
 import 'package:habido_app/ui/profile_v2/feedback_route_v2.dart';
 import 'package:habido_app/ui/profile_v2/help_route_v2.dart';
 import 'package:habido_app/ui/profile_v2/performance/sensitivityNotes.dart';
+import 'package:habido_app/ui/profile_v2/profile_dashboard_v2.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
 import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test_result_route.dart';
 import 'package:habido_app/ui/psy_test/psy_tests/psy_tests_route.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_intro_result_v2.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_result_route_v2.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_test_dashboard_v2/psy_test_dashboard_v2.dart';
+import 'package:habido_app/ui/psy_test_v2/psy_test_screen_v2/psy_test_route_v2.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'route_transitions.dart';
@@ -68,32 +88,51 @@ class Routes {
   static const comingSoon = 'comingSoon';
   static const splash = 'splash';
   static const intro = 'intro';
+  static const loginIntro = '/loginIntro';
   static const login = '/login';
+  static const login2 = '/login2';
+  static const personalInfo = '/personalInfo';
   static const forgotPass = 'forgotPass';
   static const verifyPassword = 'verifyPassword';
   static const forgotPassChange = 'forgotPassChange';
   static const changePass = 'changePass';
+  static const signUp = 'signUp';
   static const signUp1Phone = 'signUp1Phone';
   static const signUp2Code = 'signUp2Code';
   static const signUp3Profile = 'signUp3Profile';
   static const signUp4Password = 'signUp4Password';
   static const signUp5Terms = 'signUp4Terms';
+  static const signUpQuestion = 'signUpQuestion';
+  static const signUpCompleted = 'signUpCompleted';
   static const signUp6Success = 'signUp5Success';
   static const termDetail = 'termDetail';
   static const home = 'home';
+  static const home_new = 'home_new';
+  static const advice = 'advice';
+  static const tip = 'tip';
   static const calendar = 'calendar';
   static const content = 'content';
+  static const contentV2 = 'contentV2';
+
   static const habidoAssistant = 'habidoAssistant';
   static const changePhone = 'changePhone';
   static const changeEmail = 'changeEmail';
   static const verifyPhone = 'verifyPhone';
+  static const psyTestsIntroResult = 'psyTestsIntroResult';
   static const psyCategories = 'psyCategories';
   static const psyTests = 'psyTests';
+  static const testV2 = 'testV2';
+
   static const psyIntro = 'psyIntro';
   static const psyTest = 'psyTest';
+  static const psyTestV2 = 'psyTestV2';
+
   static const psyTestResult = 'psyTestResult';
+  static const psyTestResultV2 = 'psyTestResultV2';
+
   static const habitCategories = 'habitCategories';
   static const habitList = 'habitList';
+  static const allHabits = 'allHabits';
   static const userHabit = 'userHabit';
   static const habitTimer = 'habitTimer';
   static const habitFeeling = 'habitFeeling';
@@ -105,10 +144,16 @@ class Routes {
   static const habitFinance = 'habitFinance';
   static const habitFinanceStmt = 'habitFinanceStmt';
   static const habitTotalExpense = 'habitTotalExpense';
+  static const feelingMain = 'feelingMain';
+  static const feelingEmoji = 'feelingEmoji';
+  static const feelingCause = 'feelingCause';
+  static const feelingDetail = 'feelingDetail';
   static const notif = 'notif';
+  static const profile = 'profile';
+
   static const userInfo = 'userInfo';
   static const sensitivityNotes = 'sensitivityNotes';
-
+  static const psyTestList = 'psyTestList';
   static const yourRank = 'yourRank';
   static const habitSuccess = 'habitSuccess';
   static const help = 'help';
@@ -135,11 +180,33 @@ class Routes {
         route = FadeRouteBuilder(IntroRoute(), settings);
         break;
 
+      case Routes.loginIntro:
+        route = PageRouteBuilder(
+          transitionDuration: Duration(milliseconds: 1600),
+          pageBuilder: (_, __, ___) => LoginIntroRoute(),
+        );
+        break;
+
       case Routes.login:
         route = PageRouteBuilder(
           transitionDuration: Duration(milliseconds: 1600),
           pageBuilder: (_, __, ___) => LoginRoute(),
         );
+        break;
+
+      case Routes.login2:
+        route = SlideRightRouteBuilder(LoginRoute2(), settings);
+        break;
+
+      case Routes.personalInfo:
+        route = PageRouteBuilder(
+          transitionDuration: Duration(milliseconds: 1600),
+          pageBuilder: (_, __, ___) => PersonalInfo(),
+        );
+        break;
+
+      case Routes.signUp:
+        route = SlideRightRouteBuilder(SignUpRoute(), settings);
         break;
 
       case Routes.signUp1Phone:
@@ -184,6 +251,14 @@ class Routes {
           ),
           settings,
         );
+        break;
+
+      case Routes.signUpQuestion:
+        route = FadeRouteBuilder(SignUpQuestionRoute(), settings);
+        break;
+
+      case Routes.signUpCompleted:
+        route = FadeRouteBuilder(SignUpCompletedRoute(), settings);
         break;
 
       case Routes.signUp6Success:
@@ -241,6 +316,24 @@ class Routes {
         route = FadeRouteBuilder(HomeRoute(), settings);
         break;
 
+      case Routes.home_new:
+        route = FadeRouteBuilder(HomeRouteNew(), settings);
+        break;
+
+      case Routes.advice:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          AdviceRoute(
+            adviceVideo: _getValueByKey(args, 'adviceVideo'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.tip:
+        route = SlideRightRouteBuilder(TipRoute(), settings);
+        break;
+
       case Routes.calendar:
         route = FadeRouteBuilder(CalendarRoute(), settings);
         break;
@@ -265,6 +358,19 @@ class Routes {
           ),
           settings,
         );
+        break;
+
+      case Routes.psyTestsIntroResult:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            PsyIntroResultV2(
+              test: _getValueByKey(args, 'test'),
+            ),
+            settings);
+        break;
+
+      case Routes.testV2:
+        route = SlideRightRouteBuilder(PsyTestRouteV2(), settings);
         break;
 
       case Routes.psyCategories:
@@ -301,11 +407,37 @@ class Routes {
         );
         break;
 
+      // case Routes.psyTestV2:
+      //   var args = settings.arguments as Map;
+      //   route = SlideRightRouteBuilder(
+      //     PsyTestRoute(
+      //       testInfo: _getValueByKey(args, 'psyTest'),
+      //     ),
+      //     settings,
+      //   );
+      //   break;
+
       case Routes.psyTestResult:
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           PsyTestResultRoute(
             psyTestResult: _getValueByKey(args, 'psyTestResult'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.psyTestResultV2:
+        var args = settings.arguments as Map;
+
+        route = SlideRightRouteBuilder(
+          // PsyTestResultRoute(
+          //   psyTestResult: _getValueByKey(args, 'psyTestResult'),
+          // ),
+          PsyTestResultRouteV2(
+            isActiveAppBar: true,
+            testId: _getValueByKey(args, 'testId'),
+            testResult: _getValueByKey(args, 'testResult'),
           ),
           settings,
         );
@@ -332,6 +464,15 @@ class Routes {
 
         break;
 
+      case Routes.contentV2:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            ContentRouteV2(
+              contentId: _getValueByKey(args, 'contentId'),
+            ),
+            settings);
+        break;
+
       case Routes.habitCategories:
         route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.habitCategory)
             ? SlideRightRouteBuilder(HabitCategoriesRoute(), settings)
@@ -353,6 +494,10 @@ class Routes {
                 ),
                 settings,
               );
+        break;
+
+      case Routes.allHabits:
+        route = SlideRightRouteBuilder(AllHabitsRoute(), settings);
         break;
 
       case Routes.userHabit:
@@ -498,12 +643,65 @@ class Routes {
         );
         break;
 
+      case Routes.feelingMain:
+        route = SlideRightRouteBuilder(FeelingMainRoute(), settings);
+        break;
+
+      case Routes.feelingEmoji:
+        dynamic args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            FeelingEmojiRoute(
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
+            ),
+            settings);
+        break;
+
+      case Routes.psyTestResult:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+          PsyTestResultRoute(
+            psyTestResult: _getValueByKey(args, 'psyTestResult'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.feelingCause:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            FeelingCauseRoute(
+              selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
+            ),
+            settings);
+        break;
+
+      case Routes.feelingDetail:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            FeelingDetailRoute(
+              selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
+              selectedCauses: _getValueByKey(args, 'selectedCauses'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
+            ),
+            settings);
+        break;
+
       case Routes.notif:
         route = SlideRightRouteBuilder(NotificationRoute(), settings);
         break;
 
+      case Routes.profile:
+        route = SlideRightRouteBuilder(ProfileScreenV2(), settings);
+        break;
+
       case Routes.userInfo:
         route = SlideRightRouteBuilder(UserInfoRoute(), settings);
+        break;
+
+      case Routes.psyTestList:
+        route = SlideRightRouteBuilder(PsyTestDashboardV2(), settings);
         break;
 
       case Routes.yourRank:

@@ -21,6 +21,17 @@ class SizeHelper {
     bottomRight: Radius.circular(borderRadius),
     bottomLeft: Radius.circular(borderRadius),
   );
+  static const startHabitItemRadius = BorderRadius.only(
+    topLeft: Radius.circular(15.0),
+    topRight: Radius.circular(20.0),
+  );
+  static const endHabitItemRadius = BorderRadius.only(
+    bottomLeft: Radius.circular(15.0),
+    bottomRight: Radius.circular(20.0),
+  );
+
+  static const startExtentItemRadius = BorderRadius.only(topRight: Radius.circular(SizeHelper.borderRadius));
+  static const endExtentItemRadius = BorderRadius.only(bottomRight: Radius.circular(SizeHelper.borderRadius));
 
   /// Screen
   static const screenPadding = EdgeInsets.fromLTRB(

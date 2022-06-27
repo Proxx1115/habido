@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:habido_app/models/achievements_response.dart';
+import 'package:habido_app/models/active_habit_response.dart';
+import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/mood_tracker_monthly_stat_response.dart';
@@ -9,8 +11,12 @@ import 'package:habido_app/models/chat_history_response.dart';
 import 'package:habido_app/models/chat_request.dart';
 import 'package:habido_app/models/chat_response.dart';
 import 'package:habido_app/models/chatbots_response.dart';
+import 'package:habido_app/models/completed_habit_response.dart';
 import 'package:habido_app/models/content.dart';
 import 'package:habido_app/models/content_list_response.dart';
+import 'package:habido_app/models/content_list_response_v2.dart';
+import 'package:habido_app/models/content_tags_response.dart';
+import 'package:habido_app/models/content_v2.dart';
 import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/feedback_category_list_response.dart';
 import 'package:habido_app/models/forgot_password_change_request.dart';
@@ -25,9 +31,18 @@ import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_response.dart';
 import 'package:habido_app/models/habit_progress_list_with_date_response.dart';
 import 'package:habido_app/models/mood_tracker_latest_response.dart';
+import 'package:habido_app/models/mood_tracker_last_list.dart';
+import 'package:habido_app/models/mood_tracker_list_response.dart';
+import 'package:habido_app/models/history_habit_response.dart';
+import 'package:habido_app/models/mood_tracker_question.dart';
+import 'package:habido_app/models/mood_tracker_save_request.dart';
+import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_results_response2.dart';
+import 'package:habido_app/models/psy_test_review.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
 import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
+import 'package:habido_app/models/tip_response.dart';
+import 'package:habido_app/models/test_info_result_response.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
@@ -352,6 +367,72 @@ class ApiManager {
   static Future<Content> content(int contentId) async {
     return Content.fromJson(
       await httpUtils.sendRequest(path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  /// Psychology test List
+  static Future<PsyTestsV2Response> psyTestList() async {
+    return PsyTestsV2Response.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.psyTests, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<TestInfoResultResponse> psyTest(int testId) async {
+    return TestInfoResultResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.psyTest + '/$testId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  /// PSY TEST REVIEW
+  static Future<BaseResponse> psyTestReview(PsyTestReview request) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.psyTestReview, objectData: request),
+    );
+  }
+
+  /// Content - Blog V2
+  static Future<ContentListResponseV2> highLightedContentList() async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.highLightedContentList, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentV2> contentV2(int contentId) async {
+    return ContentV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.content + '/$contentId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentTagsResponse> contentTags() async {
+    return ContentTagsResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentTags, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentListResponseV2> contentFilter(String name, int pid, int pSize) async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentFilter + '?Name=$name&Pid=$pid&Psize=$pSize', httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentListResponseV2> contentFirst(String name, String searchText) async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentFirst + '?name=$name&searchText=$searchText', httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ContentListResponseV2> contentThen(String name, String searchText, int contentId) async {
+    return ContentListResponseV2.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.contentThen + '?name=$name&searchText=$searchText&contentId=$contentId', httpMethod: HttpMethod.get),
+    );
+  }
+
+  /// Content Like
+  static Future<BaseResponse> contentLike(int contentId) async {
+    return BaseResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.contentLike + '?contentId=$contentId',
+      ),
     );
   }
 
@@ -703,4 +784,121 @@ class ApiManager {
       ),
     );
   }
+
+  /// Home
+  static Future<MoodTrackerListResponse> getMoodTracker() async {
+    return MoodTrackerListResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.moodTrackerList,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<MoodTrackerLastListResponse> getMoodTrackerLast() async {
+    return MoodTrackerLastListResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.moodTrackerLast,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<AdviceVideoResponse> getAdviceVideo() async {
+    return AdviceVideoResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.adviceVideo,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<TipResponse> getTips() async {
+    return TipResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.tips),
+    );
+  }
+
+  /// All Habits
+  static Future<ActiveHabitResponse> getActiveHabitFirst() async {
+    return ActiveHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.activeHabitFirst,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<ActiveHabitResponse> getActiveHabitThen(int userHabitId) async {
+    return ActiveHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.activeHabitThen + '/$userHabitId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<CompletedHabitResponse> getCompletedHabitFirst() async {
+    return CompletedHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.completedHabitFirst,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<ActiveHabitResponse> getCompletedHabitThen(int userHabitId) async {
+    return ActiveHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.completedHabitThen + '/$userHabitId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<HistoryHabitResponse> getHistoryHabitFirst() async {
+    return HistoryHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.historyHabitFirst,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<ActiveHabitResponse> getHistoryHabitThen(int userHabitId) async {
+    return ActiveHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.historyHabitThen + '/$userHabitId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  /// Mood Tracker
+  static Future<MoodTrackerQuestionResponse> getMoodTrackerQuestion() async {
+    return MoodTrackerQuestionResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.moodTrackerQuestions,
+      ),
+    );
+  }
+
+  static Future<MoodTrackerQuestionResponse> saveMoodTracker(MoodTrackerSaveRequest answer) async {
+    return MoodTrackerQuestionResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.moodTrackerSave,
+        objectData: answer,
+      ),
+    );
+  }
+
+  // static Future<BaseResponse> updsateUserDevice(UserDevice userDevice) async {
+  //   var res = BaseResponse.fromJson(await httpUtils.sendRequest(
+  //     path: HttpPath.updateDevice,
+  //     objectData: userDevice,
+  //     httpMethod: HttpMethod.put,
+  //   ));
+
+  //   return res;
+  // }
 }

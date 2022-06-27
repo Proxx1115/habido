@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
+import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/ui/profile_v2/ability/ability.dart';
 import 'package:habido_app/ui/profile_v2/performance/performance.dart';
 import 'package:habido_app/ui/profile_v2/badge/badge.dart';
@@ -37,6 +38,7 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      appBarTitle: LocaleKeys.myCorner,
       child: BlocProvider.value(
         value: BlocManager.profileBloc,
         child: BlocListener<ProfileBloc, ProfileState>(
@@ -55,14 +57,15 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          AppBarWithProfile(
-            backIcon: Assets.back,
-            text: LocaleKeys.myCorner,
-            secondIcon: Assets.pointButton,
-            secondFunc: () {
-              Navigator.pushNamed(context, Routes.helpV2);
-            },
-          ),
+          // AppBarWithProfile(
+          //   backIcon: Assets.back,
+          //   text: LocaleKeys.myCorner,
+          //   secondIcon: Assets.pointButton,
+          //   secondFunc: () {
+          //     Navigator.pushNamed(context, Routes.helpV2);
+          //   },
+          // ),
+
           Container(
             margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
             child: Column(

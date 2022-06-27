@@ -123,6 +123,26 @@ class Func {
     return formattedDate;
   }
 
+  static String dateTimeDifference(String str) {
+    // Өнөөдөр болон Datetime string-н хоорондох өдрийн зөрүүг буцаана '2022.01.01T15:13:00.000' to '2 өдрийн өмнө'
+    String result = '';
+
+    if (isEmpty(str)) return '';
+
+    DateTime today = DateTime.now();
+    DateTime dateTime = DateTime.parse(str);
+    final Duration duration = today.difference(dateTime);
+    if (duration.inDays == 0) {
+      result = "Өнөөдөр";
+    } else if (duration.inDays == 1) {
+      result = "Өчигдөр";
+    } else if (duration.inDays > 1) {
+      result = '${duration.inDays} өдрийн өмнө';
+    }
+
+    return result;
+  }
+
   // static String toDateStr(String str) {
   //   // Datetime string-ийг форматлаад буцаана '2019.01.01T15:13:00.000' to '2019.01.01'
   //   if (isEmpty(str)) return '';
@@ -165,8 +185,7 @@ class Func {
   static bool isSameDay(DateTime? dateTime1, DateTime? dateTime2) {
     try {
       if (dateTime1 == null || dateTime2 == null) return false;
-      if (dateTime1.year == dateTime2.year && dateTime1.month == dateTime2.month && dateTime1.day == dateTime2.day)
-        return true;
+      if (dateTime1.year == dateTime2.year && dateTime1.month == dateTime2.month && dateTime1.day == dateTime2.day) return true;
     } catch (e) {
       print(e);
     }
@@ -176,8 +195,7 @@ class Func {
 
   static bool isBeforeDate(DateTime? dateTime1, DateTime? dateTime2) {
     if (dateTime1 == null || dateTime2 == null) return false;
-    if (DateTime(dateTime1.year, dateTime1.month, dateTime1.day)
-        .isBefore(DateTime(dateTime2.year, dateTime2.month, dateTime2.day))) {
+    if (DateTime(dateTime1.year, dateTime1.month, dateTime1.day).isBefore(DateTime(dateTime2.year, dateTime2.month, dateTime2.day))) {
       return true;
     }
 
@@ -239,8 +257,7 @@ class Func {
     return res;
   }
 
-  static double moneyToDouble(String? strDouble,
-      {String thousandSeparator = ",", String rightSymbol = "", String leftSymbol = ""}) {
+  static double moneyToDouble(String? strDouble, {String thousandSeparator = ",", String rightSymbol = "", String leftSymbol = ""}) {
     double val = 0;
 
     strDouble = (strDouble == null || strDouble.isEmpty) ? '0' : strDouble;

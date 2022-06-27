@@ -25,9 +25,11 @@ class CustomButton extends StatelessWidget {
   final Color? disabledBackgroundColor;
   final String? text;
   final FontWeight? fontWeight;
+  final double? fontSize;
   final String? asset;
   final Color? contentColor;
   final Color? disabledContentColor; // Text, image and so on...
+  final bool isBordered;
 
   const CustomButton({
     Key? key,
@@ -43,9 +45,11 @@ class CustomButton extends StatelessWidget {
     this.disabledBackgroundColor,
     this.text,
     this.fontWeight,
+    this.fontSize,
     this.asset,
     this.contentColor,
     this.disabledContentColor,
+    this.isBordered = false,
   }) : super(key: key);
 
   @override
@@ -66,7 +70,7 @@ class CustomButton extends StatelessWidget {
               textStyle: TextStyle(fontWeight: FontWeight.w500),
               shape: RoundedRectangleBorder(
                 borderRadius: _borderRadius,
-                side: BorderSide.none,
+                side: isBordered ? BorderSide(color: customColors.primary, width: 1) : BorderSide.none,
               ),
             ),
             child: _child,
@@ -124,7 +128,7 @@ class CustomButton extends StatelessWidget {
   }
 
   Color get _backgroundColor {
-    return backgroundColor ?? customColors.primaryButtonBackground;
+    return backgroundColor ?? (isBordered ? customColors.whiteButtonBackground : customColors.primaryButtonBackground);
   }
 
   Color get _disabledBackgroundColor {
@@ -132,7 +136,7 @@ class CustomButton extends StatelessWidget {
   }
 
   Color get _contentColor {
-    return contentColor ?? customColors.primaryButtonContent;
+    return contentColor ?? (isBordered ? customColors.blackButtonContent : customColors.primaryButtonContent);
   }
 
   Color get _disabledContentColor {
@@ -145,6 +149,8 @@ class CustomButton extends StatelessWidget {
         text,
         color: onPressed != null ? _contentColor : _disabledContentColor,
         alignment: Alignment.center,
+        fontSize: fontSize ?? 15.0,
+        fontWeight: fontWeight ?? FontWeight.w500,
       );
     } else if (asset != null) {
       return SvgPicture.asset(asset!, color: onPressed != null ? _contentColor : _disabledContentColor);
@@ -280,6 +286,9 @@ class ButtonText extends StatelessWidget {
     this.fontSize = SizeHelper.fontSizeNormal,
     this.alignment = Alignment.center,
     this.padding = EdgeInsets.zero,
+    this.margin = EdgeInsets.zero,
+    this.underlined = false,
+    this.border,
   }) : super(key: key);
 
   final String text;
@@ -289,6 +298,9 @@ class ButtonText extends StatelessWidget {
   final double fontSize;
   final Alignment alignment;
   final EdgeInsets padding;
+  final EdgeInsets margin;
+  final bool underlined;
+  final BoxBorder? border;
 
   @override
   Widget build(BuildContext context) {
@@ -300,11 +312,14 @@ class ButtonText extends StatelessWidget {
         child: CustomText(
           text,
           padding: padding,
+          margin: margin,
           color: color ?? customColors.primaryText,
           fontWeight: fontWeight,
           fontSize: fontSize,
           alignment: alignment,
           maxLines: 10,
+          underlined: underlined,
+          border: border,
         ),
       ),
     );

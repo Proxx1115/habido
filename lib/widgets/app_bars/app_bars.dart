@@ -65,21 +65,16 @@ AppBar CustomAppBar(
   }
 
   return AppBar(
-    backgroundColor: backgroundColor,
+    backgroundColor: Colors.white,
     elevation: 0, // Remove elevation
+    titleSpacing: 0,
     automaticallyImplyLeading: false, // Remove back button
     title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         leadingWidget,
 
         /// Title
-        Expanded(
-          child: (titleText != null)
-              ? CustomText(titleText,
-                  alignment: Alignment.center, textAlign: TextAlign.center, fontWeight: FontWeight.w500)
-              : Container(),
-        ),
+        (titleText != null) ? Expanded(child: CustomText(titleText, textAlign: TextAlign.center, fontWeight: FontWeight.w800)) : Container(),
 
         actionWidget,
       ],
@@ -98,7 +93,6 @@ PreferredSize EmptyAppBar({
     preferredSize: Size.fromHeight(0.0), // here the desired height
     child: AppBar(
       backgroundColor: backgroundColor,
-      brightness: brightness,
       leading: Container(),
       elevation: elevation,
       actions: <Widget>[],
