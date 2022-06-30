@@ -5,17 +5,23 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
+import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item_v2.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class ExpandableContainer extends StatefulWidget {
   final String title;
-  final List<ExpandableListItem> expandableListItems;
+  final List<ExpandableListItemV2> expandableListItems;
   final EdgeInsets? margin;
   final bool isToday;
   final String? todayText;
 
-  const ExpandableContainer({Key? key, required this.title, required this.expandableListItems, this.margin, required this.isToday, this.todayText})
+  const ExpandableContainer(
+      {Key? key,
+      required this.title,
+      required this.expandableListItems,
+      this.margin,
+      required this.isToday,
+      this.todayText})
       : super(key: key);
 
   @override
@@ -39,7 +45,8 @@ class _ExpandableContainerState extends State<ExpandableContainer> {
 
   @override
   Widget build(BuildContext context) {
-    _expandedHeight = widget.expandableListItems.length * (_listItemHeight + _liteItemMarginBottom);
+    _expandedHeight = widget.expandableListItems.length *
+        (_listItemHeight + _liteItemMarginBottom);
 
     return Container(
       margin: widget.margin,

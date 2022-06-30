@@ -1,3 +1,5 @@
+import 'package:habido_app/models/habit.dart';
+
 class HabitCategory {
   int? categoryId;
   int? userId;
@@ -5,6 +7,7 @@ class HabitCategory {
   String? photo;
   String? color;
   String? backgroundColor;
+  List<Habit>? habits;
 
   HabitCategory({
     this.categoryId,
@@ -22,6 +25,12 @@ class HabitCategory {
     photo = json['photo'];
     color = json['color'];
     backgroundColor = json['backGroundColor'];
+    if (json['hdHabits'] != null) {
+      habits = [];
+      json['hdHabits'].forEach((v) {
+        habits?.add(Habit.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -32,7 +41,9 @@ class HabitCategory {
     map['photo'] = photo;
     map['color'] = color;
     map['backgroundColor'] = backgroundColor;
-
+    if (habits != null) {
+      map['hdHabits'] = habits?.map((v) => v.toJson()).toList();
+    }
     return map;
   }
 }
