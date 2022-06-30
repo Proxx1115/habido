@@ -74,7 +74,7 @@ AppBar CustomAppBar(
         leadingWidget,
 
         /// Title
-        (titleText != null) ? Expanded(child: CustomText(titleText, textAlign: TextAlign.center, fontWeight: FontWeight.w500)) : Container(),
+        (titleText != null) ? Expanded(child: CustomText(titleText, textAlign: TextAlign.center, fontWeight: FontWeight.w800)) : Container(),
 
         actionWidget,
       ],

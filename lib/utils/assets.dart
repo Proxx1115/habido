@@ -8,6 +8,9 @@ class Assets {
   static const String close = 'assets/images/global/close.svg';
   static const String error = 'assets/images/global/error.svg';
   static const String warning = 'assets/images/global/warning.svg';
+  static const String warning_calendar =
+      'assets/images/global/warning_calendar.svg';
+
   static const String check = 'assets/images/global/check.svg';
 
   static const String clock_test = 'assets/images/global/clock_test.svg';
@@ -23,6 +26,8 @@ class Assets {
   static const String clear = 'assets/images/global/clear.svg';
   static const String edit = 'assets/images/global/edit.svg';
   static const String editTextField = 'assets/images/global/editTextfield.svg';
+  static const String editV2 = 'assets/images/global/editV2.svg';
+
   static const String edit24 = 'assets/images/global/edit24.svg';
   static const String obscure_hidden =
       'assets/images/global/obscure_hidden.svg';
@@ -86,6 +91,9 @@ class Assets {
   static const String question3 = 'assets/images/auth/question3.svg';
   static const String sign_up_success =
       'assets/images/auth/sign_up_success.png';
+  static const String apple_icon = 'assets/images/auth/apple_logo.png';
+  static const String fb_icon = 'assets/images/auth/fb_logo.png';
+  static const String google_icon = 'assets/images/auth/google_icon.png';
   static const String PersonalInfo = 'assets/images/auth/personalinfo.svg';
 
   /// Home
@@ -100,8 +108,16 @@ class Assets {
   static const String instruction_dev =
       'assets/images/home/instruction_dev.svg'; // todo delete after connected to backend
   static const String male_habido = 'assets/images/home/male_habido.svg';
+  static const String no_activity_yet =
+      'assets/images/home/no_activity_yet.svg';
 
   /// Profile
+  static const String process0 = 'assets/images/profile/process0.svg';
+  static const String process1 = 'assets/images/profile/process1.svg';
+  static const String process2 = 'assets/images/profile/process2.svg';
+  static const String process3 = 'assets/images/profile/process3.svg';
+  static const String pointButton = 'assets/images/profile/point_button.svg';
+
   static const String male = 'assets/images/profile/male.png';
   static const String female = 'assets/images/profile/female.png';
   static const String clock2 = 'assets/images/profile/clock2.svg';
@@ -117,6 +133,13 @@ class Assets {
       'assets/images/profile/rank_background2.png';
   static const String question_mark = 'assets/images/profile/question_mark.svg';
   static const String terms = 'assets/images/profile/terms.svg';
+  static const String new_badge_background =
+      'assets/images/profile/new_badge_background.svg';
+
+  static const String totalHabits = 'assets/images/profile/process0.svg';
+  static const String completedHabits = 'assets/images/profile/process1.svg';
+  static const String uncompletedHabits = 'assets/images/profile/process2.svg';
+  static const String failedHabits = 'assets/images/profile/process3.svg';
 
   /// Chat
   static const String typing = 'assets/images/chat/typing.gif';
@@ -250,6 +273,7 @@ class Assets {
 class FontAsset {
   static const String FiraSansCondensed = 'Fira Sans Condensed';
   static const String SFProDisplay = 'SF Pro Display';
+  static const String SFProRounded = 'SF Pro Rounded';
 }
 
 class AudioAsset {

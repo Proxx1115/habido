@@ -64,7 +64,6 @@ class HomeNewBloc extends Bloc<HomeNewEvent, HomeNewState> {
 
       var res = await ApiManager.getTips();
       if (res.code == ResponseCode.Success) {
-        print("lalargichi");
         yield TipSuccess(res.tipList!);
       } else {
         yield TipFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);

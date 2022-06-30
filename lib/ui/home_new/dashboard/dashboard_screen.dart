@@ -5,36 +5,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/mood_tracker.dart';
-import 'package:habido_app/models/mood_tracker_last.dart';
-import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/models/tip.dart';
-import 'package:habido_app/models/tip_response.dart';
-import 'package:habido_app/ui/feeling/emoji_item_widget.dart';
-import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/utils/func.dart';
-import 'package:habido_app/utils/screen_mode.dart';
-import 'package:habido_app/utils/showcase_helper.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/ui/home_new/slider/custom_carousel_slider.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
-import 'package:habido_app/widgets/custom_showcase.dart';
+import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/bloc/dashboard_bloc.dart';
-import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/localization/localization.dart';
-import 'package:habido_app/utils/theme/hex_color.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
-import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -55,15 +42,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   double _sliderTopMargin = 0.0;
   double _indicatorVerticalMargin = 0;
 
-  // User Data
-  String? _username;
-
-  // User habits
-  List<UserHabit>? _todayUserHabits;
-
-  // bool _isExpandedTodayUserHabits = false;
-  List<UserHabit>? _tomorrowUserHabits;
-
   List _feelingEmojis = [
     Assets.emoji1,
     Assets.emoji2,
@@ -81,9 +59,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    _username = "Ногооноо";
     BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
-    BlocManager.homeNewBloc.add(GetTipEvent());
+    // BlocManager.homeNewBloc.add(GetTipEvent()); // todo
     BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
   }
 
@@ -100,8 +77,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             return CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: [
-                /// Header
-                _header(),
+                /// Home App Bar
+                _homeAppBar(),
+
+                /// Rest of items
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
@@ -118,9 +97,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  _header() {
-    _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width) / 2;
-
+  _homeAppBar() {
     return SliverAppBar(
       pinned: false,
       snap: true,
@@ -136,6 +113,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _listWidget() {
+    _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width - SizeHelper.margin * 2) / 2;
+
     return Container(
       child: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
@@ -145,10 +124,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
             /// Hello
             Row(
               children: [
-                SvgPicture.asset(Assets.emoji1, height: 46.0, width: 46.0),
+                _profilePicture(),
                 SizedBox(width: 15.0),
+
+                /// Name
                 CustomText(
-                  "${LocaleKeys.hi} $_username",
+                  "${LocaleKeys.hi} ${globals.userData!.firstName}",
+                  // (globals.userData!.firstName ?? ''),
                   fontWeight: FontWeight.w700,
                   fontSize: 22.0,
                 ),
@@ -157,7 +139,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             SizedBox(height: 23.0),
 
-            _moodTrackerList == []
+            _moodTrackerList.isEmpty
                 ?
 
                 /// You wanna share your Feeling?
@@ -168,7 +150,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
-                          color: Colors.white,
+                          color: customColors.whiteBackground,
                         ),
                         child: Column(
                           children: [
@@ -201,17 +183,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Row(
                     children: [
                       Expanded(
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: List.generate(
-                              _moodTrackerList.length,
-                              (index) => _moodTrackerItem(index: index, onTap: () {}),
-                            ),
-                          ),
+                        flex: 3,
+                        child: Row(
+                          children: [
+                            for (var i = 0; i < _moodTrackerList.length; i++) Expanded(child: _moodTrackerItem(index: i, onTap: () {})),
+                            for (var i = 0; i < 3 - _moodTrackerList.length; i++) Expanded(child: _moodTrackerNoActivity())
+                            // List.generate(
+                            // _moodTrackerList.length,
+                            // (index) => Expanded(child: _moodTrackerItem(index: index, onTap: () {})),
+                            // )
+                          ],
                         ),
                       ),
-                      _shareFeelingBtn()
+                      Expanded(child: _shareFeelingBtn())
                     ],
                   ),
 
@@ -272,62 +256,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _shareFeelingBtn() {
-    return InkWell(
-      borderRadius: BorderRadius.circular(20.0),
-      onTap: () {
-        _navigateToFeelingMain(context);
-      },
-      child: DottedBorder(
-        dashPattern: [2, 2],
-        strokeWidth: 1,
-        strokeCap: StrokeCap.round,
-        borderType: BorderType.RRect,
-        radius: Radius.circular(20.0),
-        color: customColors.primary,
-        child: Container(
-          height: 97,
-          width: 78,
-          child: Stack(
-            children: [
-              Opacity(
-                opacity: 0.20,
-                child: Container(
-                  height: 95,
-                  width: 90,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    color: customColors.primary,
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomText(
-                    LocaleKeys.wannaShareFeeling,
-                    alignment: Alignment.center,
-                    textAlign: TextAlign.center,
-                    color: customColors.whiteText,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 9.0,
-                    maxLines: 2,
-                  ),
-                  SizedBox(height: 8.0),
-                  Container(
-                    height: 18.0,
-                    width: 18.0,
-                    padding: EdgeInsets.all(4.5),
+    return Container(
+      margin: EdgeInsets.only(left: 6.0),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20.0),
+        onTap: () {
+          _navigateToFeelingMain(context);
+        },
+        child: DottedBorder(
+          dashPattern: [2, 2],
+          strokeWidth: 1,
+          strokeCap: StrokeCap.round,
+          borderType: BorderType.RRect,
+          radius: Radius.circular(20.0),
+          padding: EdgeInsets.zero,
+          color: customColors.primary,
+          child: Container(
+            height: 97,
+            child: Stack(
+              children: [
+                Opacity(
+                  opacity: 0.20,
+                  child: Container(
+                    height: 95,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(20.0),
                       color: customColors.primary,
                     ),
-                    child: SvgPicture.asset(
-                      Assets.add,
-                    ),
                   ),
-                ],
-              ),
-            ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomText(
+                      LocaleKeys.wannaShareFeeling,
+                      alignment: Alignment.center,
+                      textAlign: TextAlign.center,
+                      color: customColors.whiteText,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 9.0,
+                      maxLines: 2,
+                      margin: EdgeInsets.symmetric(horizontal: 8.0),
+                    ),
+                    SizedBox(height: 8.0),
+                    Container(
+                      height: 18.0,
+                      width: 18.0,
+                      padding: EdgeInsets.all(4.5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: customColors.primary,
+                      ),
+                      child: SvgPicture.asset(
+                        Assets.add,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -453,18 +440,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Widget _profilePicture() {
+    return ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+      child: CachedNetworkImage(
+        imageUrl: globals.userData!.photo!,
+        fit: BoxFit.cover,
+        width: 46.0,
+        height: 46.0,
+        placeholder: (context, url) => CustomLoader(size: SizeHelper.boxHeight),
+        // placeholder: (context, url, error) => Container(),
+        errorWidget: (context, url, error) => Container(),
+      ),
+    );
+  }
+
   Widget _moodTrackerItem({index, onTap}) {
     MoodTracker _moodTrackerData = _moodTrackerList[index];
     return InkWell(
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(20.0),
       onTap: () {
         onTap();
       },
       child: Container(
         height: 97,
-        width: 78,
+        margin: EdgeInsets.only(right: 6.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(20.0),
           color: Colors.white,
         ),
         child: Column(
@@ -504,6 +506,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _moodTrackerNoActivity() {
+    return Container(
+      height: 97,
+      margin: EdgeInsets.only(right: 6.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white,
+      ),
+      child: Column(
+        children: [
+          SizedBox(height: 10.0),
+          SvgPicture.asset(
+            Assets.no_activity_yet,
+            height: 37.8,
+            width: 37.8,
+          ),
+          SizedBox(height: 4.0),
+          CustomText(
+            LocaleKeys.noActivityYet,
+            color: customColors.disabledText,
+            alignment: Alignment.center,
+            textAlign: TextAlign.center,
+            fontWeight: FontWeight.w700,
+            fontSize: 11.0,
+            maxLines: 2,
+          ),
+        ],
       ),
     );
   }

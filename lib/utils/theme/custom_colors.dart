@@ -81,6 +81,7 @@ class CustomColors {
   Color primaryText = ConstantColors.black;
   Color greyText = ConstantColors.grey;
   Color whiteText = Colors.white;
+  Color cornflowerText = ConstantColors.cornflowerBlue;
   Color lightText = ConstantColors.trout;
   Color disabledText = ConstantColors.cornflowerBlue;
   Color grayText = ConstantColors.osloGray;

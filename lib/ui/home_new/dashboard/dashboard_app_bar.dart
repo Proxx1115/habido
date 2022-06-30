@@ -34,7 +34,7 @@ class DashboardAppBar extends StatelessWidget {
         children: [
           /// Title
           Func.isNotEmpty(title)
-              ? CustomText(title, fontWeight: FontWeight.w500)
+              ? CustomText(title, fontWeight: FontWeight.w800)
               :
 
               /// HabiDo icon

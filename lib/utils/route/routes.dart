@@ -42,6 +42,7 @@ import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart'
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/habit_new/all_habits_route.dart';
 import 'package:habido_app/ui/habit_new/user_habit_v2/user_habit_route_v2.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_count.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/home_new/advice_route_screen.dart';
 import 'package:habido_app/ui/home_new/home_route.dart';
@@ -61,6 +62,13 @@ import 'package:habido_app/ui/profile/profile_dashboard.dart';
 import 'package:habido_app/ui/profile/terms_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
+import 'package:habido_app/ui/profile_v2/help_screen/faq_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/help_screen/feedback_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/help_screen/help_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/new_badge/new_badge.dart';
+import 'package:habido_app/ui/profile_v2/performance/sensitivityNotes.dart';
+import 'package:habido_app/ui/profile_v2/profile_dashboard_v2.dart';
+import 'package:habido_app/ui/profile_v2/user_info/UserInfoRouteNew.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
 import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
@@ -130,6 +138,7 @@ class Routes {
   static const habitList = 'habitList';
   static const allHabits = 'allHabits';
   static const userHabit = 'userHabit';
+  static const userHabitPlanCount = 'userHabitPlanCount';
   static const habitTimer = 'habitTimer';
   static const habitFeeling = 'habitFeeling';
   static const habitFeelingAnswer = 'habitFeelingAnswer';
@@ -146,15 +155,19 @@ class Routes {
   static const feelingDetail = 'feelingDetail';
   static const notif = 'notif';
   static const profile = 'profile';
-  static const userInfo = 'userInfo';
-  static const psyTestList = 'psyTestList';
 
+  static const userInfo = 'userInfo';
+  static const sensitivityNotes = 'sensitivityNotes';
+  static const psyTestList = 'psyTestList';
   static const yourRank = 'yourRank';
   static const habitSuccess = 'habitSuccess';
   static const help = 'help';
+  static const helpV2 = 'helpV2';
   static const feedback = 'feedback';
+  static const feedbackV2 = 'feedbackV2';
   static const feedbackCatList = 'feedbackCatList';
   static const faq = 'faq';
+  static const faqV2 = 'faqV2';
   static const terms = 'terms';
   static const bonusPoint = 'bonusPoint';
   static const posterView = 'posterView';
@@ -186,9 +199,9 @@ class Routes {
         );
         break;
 
-      case Routes.login2:
-        route = SlideRightRouteBuilder(LoginRoute2(), settings);
-        break;
+      // case Routes.login2:
+      //   route = SlideRightRouteBuilder(LoginRoute2(), settings);
+      //   break;
 
       case Routes.personalInfo:
         route = PageRouteBuilder(
@@ -496,6 +509,10 @@ class Routes {
         route = SlideRightRouteBuilder(AllHabitsRoute(), settings);
         break;
 
+      case Routes.userHabitPlanCount:
+        route = SlideRightRouteBuilder(HabitDetailWithCountRoute(), settings);
+        break;
+
       case Routes.userHabit:
         var args = settings.arguments as Map;
         route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.userHabit)
@@ -646,9 +663,11 @@ class Routes {
         break;
 
       case Routes.feelingEmoji:
-        var args = settings.arguments as Map;
+        dynamic args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             FeelingEmojiRoute(
+              moodTrackerQuestionResponse:
+                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
             ),
             settings);
@@ -669,6 +688,8 @@ class Routes {
         route = SlideRightRouteBuilder(
             FeelingCauseRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
+              moodTrackerQuestionResponse:
+                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -679,6 +700,8 @@ class Routes {
             FeelingDetailRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
               selectedCauses: _getValueByKey(args, 'selectedCauses'),
+              moodTrackerQuestionResponse:
+                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -688,11 +711,11 @@ class Routes {
         break;
 
       case Routes.profile:
-        route = SlideRightRouteBuilder(ProfileScreen(), settings);
+        route = SlideRightRouteBuilder(ProfileScreenV2(), settings);
         break;
 
       case Routes.userInfo:
-        route = SlideRightRouteBuilder(UserInfoRoute(), settings);
+        route = SlideRightRouteBuilder(UserInfoRouteNew(), settings);
         break;
 
       case Routes.psyTestList:
@@ -720,8 +743,20 @@ class Routes {
         route = SlideRightRouteBuilder(HelpRoute(), settings);
         break;
 
+      case Routes.helpV2:
+        route = SlideRightRouteBuilder(HelpRouteV2(), settings);
+        break;
+
       case Routes.feedback:
         route = SlideRightRouteBuilder(FeedbackRoute(), settings);
+        break;
+
+      case Routes.feedbackV2:
+        route = SlideRightRouteBuilder(FeedbackRouteV2(), settings);
+        break;
+
+      case Routes.sensitivityNotes:
+        route = SlideRightRouteBuilder(SensitivityNotes(), settings);
         break;
 
       case Routes.feedbackCatList:
@@ -730,6 +765,10 @@ class Routes {
 
       case Routes.faq:
         route = SlideRightRouteBuilder(FaqRoute(), settings);
+        break;
+
+      case Routes.faqV2:
+        route = SlideRightRouteBuilder(FaqRouteV2(), settings);
         break;
 
       case Routes.terms:

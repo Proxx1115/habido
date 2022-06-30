@@ -1,37 +1,38 @@
 class MoodTrackerAnswer {
   int? feelinQuestionAnsId;
-  int? nextQuestionId;
   String? answerText;
   String? answerImageUrl;
-  String? themeImageUrl;
   String? backgroundColor;
+  String? themeImageUrl;
+  String? topColor;
+  String? bottomColor;
 
   MoodTrackerAnswer({
     this.feelinQuestionAnsId,
-    this.nextQuestionId,
     this.answerText,
     this.answerImageUrl,
-    this.themeImageUrl,
     this.backgroundColor,
+    this.topColor,
+    this.bottomColor,
   });
 
   MoodTrackerAnswer.fromJson(dynamic json) {
     feelinQuestionAnsId = json['feelinQuestionAnsId'];
-    nextQuestionId = json['nextQuestionId'];
     answerText = json['answerText'];
     answerImageUrl = json['answerImageUrl'];
-    themeImageUrl = json['themeImageUrl'];
     backgroundColor = json['backgroundColor'];
+    topColor = json['topColor'];
+    bottomColor = json['bottomColor'];
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map['feelinQuestionAnsId'] = feelinQuestionAnsId;
-    map['nextQuestionId'] = nextQuestionId;
     map['answerText'] = answerText;
     map['answerImageUrl'] = answerImageUrl;
-    map['themeImageUrl'] = themeImageUrl;
     map['backgroundColor'] = backgroundColor;
+    map['topColor'] = topColor;
+    map['bottomColor'] = bottomColor;
     return map;
   }
 }

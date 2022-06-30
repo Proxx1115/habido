@@ -3,7 +3,7 @@ import 'package:habido_app/models/chat_type.dart';
 import 'package:habido_app/ui/chat/chat_screen.dart';
 import 'package:habido_app/ui/chat/chat_screen_new.dart';
 import 'package:habido_app/utils/size_helper.dart';
-import 'package:habido_app/ui/home/dashboard/dashboard_app_bar.dart';
+import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
@@ -62,8 +62,7 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
         Stack(
           children: [
             StadiumContainer(
-              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 45.0,
-                  SizeHelper.margin, SizeHelper.margin),
+              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 45.0, SizeHelper.margin, SizeHelper.margin),
               padding: EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 20.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -77,8 +76,7 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
                   ),
                   CustomText(
                     'Би таны сэтгэл зүйг дэмжих найз байх болно.',
-                    margin: EdgeInsets.only(
-                        top: SizeHelper.margin, bottom: SizeHelper.margin),
+                    margin: EdgeInsets.only(top: SizeHelper.margin, bottom: SizeHelper.margin),
                     maxLines: 5,
                     alignment: Alignment.center,
                   ),
@@ -100,8 +98,7 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
               alignment: Alignment.topCenter,
               child: Container(
                 margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Image.asset(Assets.habido_assistant_png,
-                    height: 50.0, width: 50.0),
+                child: Image.asset(Assets.habido_assistant_png, height: 50.0, width: 50.0),
               ),
             ),
           ],

@@ -4,18 +4,19 @@ class Tip {
   String? description;
   String? mediaType;
   String? link;
-  String? photoBase64;
+  String? bgColor;
   bool? featured;
 
-  Tip({this.tipId, this.title, this.description, this.mediaType, this.link, this.photoBase64, this.featured});
+  Tip({this.tipId, this.title, this.description, this.mediaType, this.link, this.bgColor, this.featured});
 
   Tip.fromJson(dynamic json) {
+    print("goysda");
     tipId = json['tipId'];
     title = json['title'];
     description = json['description'];
     mediaType = json['mediaType'];
     link = json['link'];
-    photoBase64 = json['photoBase64'];
+    bgColor = json['bgColor'];
     featured = json['featured'];
   }
 
@@ -26,7 +27,7 @@ class Tip {
     map['description'] = description;
     map['mediaType'] = mediaType;
     map['link'] = link;
-    map['photoBase64'] = photoBase64;
+    map['bgColor'] = bgColor;
     map['featured'] = featured;
     return map;
   }

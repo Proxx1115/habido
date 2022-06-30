@@ -195,6 +195,8 @@ class LocaleKeys {
   static String get sessionExpired =>
       'Холболт салсан байна. Дахин нэвтэрнэ үү.';
 
+  static String get oauthWarning => 'Бид бүртгэлийн төрлөө шинэчлэж байгаа тул та дараах сонголтуудаас нэгийг сонгон баталгаажуулна уу';
+
   ///
   /// Sign up
   ///
@@ -204,6 +206,15 @@ class LocaleKeys {
 
   static String get enterCode =>
       'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу';
+
+  static String get positive => 'Эерэг';
+  static String get negative => 'Сөрөг';
+  static String get totalRecorded => 'Нийт бүртгэсэн';
+
+  static String get totalHabits => 'Нийт төлөвлөсөн';
+  static String get completedHabits => 'Амжилттай хэвшүүлсэн';
+  static String get uncompletedHabits => 'Эхэлсэн ч дуусгаагүй';
+  static String get failedHabits => 'Хэрэгжүүлээгүй';
 
   static String get enterProfile => 'Хувийн мэдээллээ оруулна уу';
 
@@ -283,6 +294,8 @@ class LocaleKeys {
   static String get signUpQuest3Answer =>
       'Хосоороо болзож, хамт өнгөрөөх цаг тогтмол гаргах нь хосын харилцааг илүү ойр дотно болгож, хоорондын ойлголцлыг нэмэгдүүлнэ';
 
+  static String get thanksHabiDo => 'Баярлалаа, HabiDo';
+
   static String get gonnaTryLater => 'Дараа туршиж үзнэ ээ';
 
   static String get signUpCompletedText =>
@@ -323,6 +336,8 @@ class LocaleKeys {
   static String get habitAdvice => 'Дадал хэвшүүлэх зөвлөмж';
 
   static String get habidoTip => 'HabiDo заавар';
+
+  static String get noActivityYet => 'No activity yet';
 
   /// Habit new version
   static String get seeAllHabits => 'Бүх дадал харах';
@@ -690,6 +705,17 @@ class LocaleKeys {
   static String get feelingDetailHint => 'Би өнөөдөр...';
 
   /// Profile
+
+  static String get performance => 'Үзүүлэлт';
+
+  static String get badge => 'Тэмдэг';
+
+  static String get ability => 'Чадвар';
+
+  static String get myProcess => 'Миний явц';
+
+  static String get myFeeling => 'Миний мэдрэмж';
+
   static String get allTime => 'Бүх цаг үе';
 
   static String get progress => 'Үйлдэл';

@@ -1,37 +1,49 @@
-class MoodTrackerQuestion {
+import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/mood_tracker_answer.dart';
+
+class MoodTrackerQuestionResponse extends BaseResponse {
   int? userFeelingId;
-  int? nextQuestionId;
+  int? feelingQuestionId;
   String? questionText;
   String? questionType;
   bool? isLast;
-  List? answers;
+  List<MoodTrackerAnswer>? answers;
 
-  MoodTrackerQuestion({
+  MoodTrackerQuestionResponse({
     this.userFeelingId,
-    this.nextQuestionId,
+    this.feelingQuestionId,
     this.questionText,
     this.questionType,
     this.isLast,
     this.answers,
   });
 
-  MoodTrackerQuestion.fromJson(dynamic json) {
+  MoodTrackerQuestionResponse.fromJson(dynamic json) {
+    parseBaseParams(json);
+
     userFeelingId = json['userFeelingId'];
-    nextQuestionId = json['nextQuestionId'];
+    feelingQuestionId = json['feelingQuestionId'];
     questionText = json['questionText'];
     questionType = json['questionType'];
     isLast = json['isLast'];
-    answers = json['answers'];
+    if (json['answers'] != null) {
+      answers = [];
+      json['answers'].forEach((v) {
+        answers?.add(MoodTrackerAnswer.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map['userFeelingId'] = userFeelingId;
-    map['nextQuestionId'] = nextQuestionId;
+    map['feelingQuestionId'] = feelingQuestionId;
     map['questionText'] = questionText;
     map['questionType'] = questionType;
     map['isLast'] = isLast;
-    map['answers'] = answers;
+    if (answers != null) {
+      map['answers'] = answers?.map((v) => v.toJson()).toList();
+    }
     return map;
   }
 }
