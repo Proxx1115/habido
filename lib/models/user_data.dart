@@ -12,12 +12,14 @@ class UserData extends BaseResponse {
   String? photo;
   bool? isOnboardingDone;
   bool? isOnboardingDone2;
+  bool? hasOAuth2;
   int? rankId; // 1-6
   String? rankPhoto;
   String? rankName;
   String? rankBody;
   String? address;
   String? employment;
+  int? oAuth2SkipCount;
 
   UserData(
       {this.userId,
@@ -36,7 +38,9 @@ class UserData extends BaseResponse {
       this.rankName,
       this.rankBody,
       this.address,
-      this.employment});
+      this.employment,
+      this.hasOAuth2,
+      this.oAuth2SkipCount});
 
   UserData.fromJson(dynamic json) {
     parseBaseParams(json);
@@ -58,6 +62,8 @@ class UserData extends BaseResponse {
     rankBody = json['rankBody'];
     address = json['address'];
     employment = json['employment'];
+    hasOAuth2 = json['hasOAuth2'];
+    oAuth2SkipCount = json['oAuth2SkipCount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -73,6 +79,8 @@ class UserData extends BaseResponse {
     map['isOnboardingDone2'] = isOnboardingDone2;
     map['address'] = address;
     map['employment'] = employment;
+    map['hasOAuth2'] = hasOAuth2;
+    map['oAuth2SkipCount'] = oAuth2SkipCount;
 
     return map;
   }

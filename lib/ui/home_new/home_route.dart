@@ -9,12 +9,18 @@ import 'package:habido_app/ui/chat/chatbot_dashboard.dart';
 import 'package:habido_app/ui/content_v2/content_dashboard_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_dashboard.dart';
 import 'package:habido_app/ui/psy_test_v2/psy_test_dashboard_v2/psy_test_dashboard_v2.dart';
+import 'package:habido_app/utils/api/api_helper.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/authDialog.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/dialogs.dart';
@@ -35,12 +41,15 @@ class _HomeRouteNewState extends State<HomeRouteNew>
   // Bottom navigation bar
   late TabController _tabController;
 
+  bool canSkip = true;
+
   @override
   void initState() {
     super.initState();
     BlocManager.homeBloc.currentTabIndex = 2;
     _tabController = TabController(initialIndex: 2, length: 5, vsync: this);
     BlocManager.homeBloc.add(HomeShowcaseEvent(ShowcaseKeyName.dashboard));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkSession(context));
   }
 
   @override
@@ -175,14 +184,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               child: _bottomNavigationBarItem(3, Assets.test, LocaleKeys.test),
             ),
           ),
-          Expanded(
-            child: ElevatedButton(
-              child: Text("okey"),
-              onPressed: () {
-                _authDialog();
-              },
-            ),
-          ),
 
           /// Зөвлөмж
           Expanded(
@@ -270,52 +271,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       ),
     );
   }
+}
 
-  _authDialog() {
-    return showCustomDialog(context,
-        child: CustomDialogBody(
-          child: Column(
-            children: [
-              /// Image
-              // if (Func.isNotEmpty(_notifList[index].photo))
-
-              /// Title
-              Center(
-                child: CustomText(
-                  LocaleKeys.oauthWarning,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(vertical: 20.0),
-                  fontWeight: FontWeight.w500,
-                  maxLines: 4,
-                ),
-              ),
-              Center(
-                child: Row(
-                  children: [
-                    InkWell(
-                      child: Image.asset(
-                        Assets.google_icon,
-                        width: 40,
-                      ),
-                    ),
-                    InkWell(
-                      child: Image.asset(
-                        Assets.fb_icon,
-                        width: 40,
-                      ),
-                    ),
-                    InkWell(
-                      child: Image.asset(
-                        Assets.apple_icon,
-                        width: 40,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-          // onPressedButton: () {},
-        ));
+_checkSession(BuildContext context) {
+  if (globals.userData!.hasOAuth2 == false) {
+    showAuthDialog(
+      context,
+      child:
+          AuthDialog(asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
+    );
   }
 }
