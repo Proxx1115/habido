@@ -206,16 +206,16 @@ class _PerformanceState extends State<Performance> {
           //     },
           //     child: CustomText('okey')),
 
-          // _moodTracker.length != 0
-          //     ? FeelingLast(
-          //         answerImageUrl: '${_moodTracker[0].answerImageUrl!}',
-          //         answerText: '${_moodTracker[0].answerText!}',
-          //         reasons: _moodTracker[0].reasons!,
-          //         writtenAnswer: '${_moodTracker[0].writtenAnswer!}',
-          //         bottomDate: '${_moodTracker[0].date!}',
-          //         maxLines: 2,
-          //       )
-          //     : Container(),
+          _moodTracker.length != 0
+              ? FeelingLast(
+                  answerImageUrl: '${_moodTracker[0].answerImageUrl!}',
+                  answerText: '${_moodTracker[0].answerText!}',
+                  reasons: _moodTracker[0].reasons!,
+                  writtenAnswer: '${_moodTracker[0].writtenAnswer!}',
+                  bottomDate: '${_moodTracker[0].date!}',
+                  maxLines: 2,
+                )
+              : Container(),
         ],
       ),
     );
@@ -348,7 +348,7 @@ class _PerformanceState extends State<Performance> {
 
   Widget _calender() {
     return Container(
-      height: ResponsiveFlutter.of(context).hp(22),
+      height: ResponsiveFlutter.of(context).hp(20),
       width: ResponsiveFlutter.of(context).wp(100),
       padding: EdgeInsets.symmetric(horizontal: ResponsiveFlutter.of(context).hp(2.5)),
       decoration: BoxDecoration(
@@ -448,8 +448,9 @@ class _PerformanceState extends State<Performance> {
                         child: GridView.builder(
                           itemCount: 7,
                           primary: false,
+                          physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return Center(child: Text(_weekDay(index)));
+                            return Container( padding:EdgeInsets.only(bottom: 5),child: Center(child: Text(_weekDay(index))));
                           },
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 7,
@@ -502,12 +503,11 @@ class _PerformanceState extends State<Performance> {
                         child: Column(children: [
                           Expanded(child: SizedBox()),
                           Expanded(
-                            flex: 10,
+                            flex: 30,
                             child: Column(
                               children: [
                                 for (var orderWeek in romboNumber)
                                   Container(
-                                      // color: Colors.red,
                                       margin: EdgeInsets.only(
                                         bottom: ResponsiveFlutter.of(context).fontSize(0.2),
                                         right: ResponsiveFlutter.of(context).fontSize(0.2),

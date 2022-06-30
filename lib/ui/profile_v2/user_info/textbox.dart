@@ -96,12 +96,14 @@ class _UserInfoTextFieldState extends State<UserInfoTextField> {
         maxLines: widget.maxLines ?? 1,
         autofocus: widget.autofocus,
         decoration: InputDecoration(
-          errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: _focusNode.hasFocus ? Colors.red : customColors.greyText)),
-          border: UnderlineInputBorder(borderSide: BorderSide(color: _focusNode.hasFocus ? customColors.primary : customColors.greyText)),
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: _focusNode.hasFocus ? customColors.primary : customColors.greyText)),
+              // errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: _focusNode.hasFocus ? Colors.red : customColors.greyText)),
+          // border: UnderlineInputBorder(borderSide: BorderSide(color: _focusNode.hasFocus ? customColors.primary : customColors.greyText)),
+          // focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: _focusNode.hasFocus ? customColors.primary : customColors.greyText)),
           // enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: _focusNode.hasFocus ? Colors.red : customColors.greyText)),
           // disabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: _focusNode.hasFocus ? Colors.red : customColors.greyText)),
-
+          errorBorder:  InputBorder.none,
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
           filled: true,
           fillColor: _backgroundColor,
           prefixIcon: _prefixIcon(),
