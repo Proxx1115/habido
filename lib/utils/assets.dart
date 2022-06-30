@@ -24,7 +24,9 @@ class Assets {
   static const String clear_circle = 'assets/images/global/clear_circle.svg';
   static const String clear = 'assets/images/global/clear.svg';
   static const String edit = 'assets/images/global/edit.svg';
+  static const String editTextField = 'assets/images/global/editTextfield.svg';
   static const String editV2 = 'assets/images/global/editV2.svg';
+  static const String clear_new = 'assets/images/profile/clear_new.svg';
 
   static const String edit24 = 'assets/images/global/edit24.svg';
   static const String obscure_hidden = 'assets/images/global/obscure_hidden.svg';
@@ -59,6 +61,9 @@ class Assets {
   static const String arrow_back = 'assets/images/global/arrow_back.svg';
   static const String arrow_right = 'assets/images/global/arrow_right.svg';
   static const String male_habido_png = 'assets/images/global/male_habido.png';
+  static const String bell_ring = 'assets/images/global/bell_ring.svg';
+  static const String reminder = 'assets/images/global/reminder.svg';
+  static const String dot = 'assets/images/global/dot.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
@@ -118,6 +123,13 @@ class Assets {
   static const String rank_background2 = 'assets/images/profile/rank_background2.png';
   static const String question_mark = 'assets/images/profile/question_mark.svg';
   static const String terms = 'assets/images/profile/terms.svg';
+  static const String new_badge_background =
+      'assets/images/profile/new_badge_background.svg';
+
+  static const String totalHabits = 'assets/images/profile/process0.svg';
+  static const String completedHabits = 'assets/images/profile/process1.svg';
+  static const String uncompletedHabits = 'assets/images/profile/process2.svg';
+  static const String failedHabits = 'assets/images/profile/process3.svg';
 
   /// Chat
   static const String typing = 'assets/images/chat/typing.gif';
@@ -134,6 +146,8 @@ class Assets {
   static const String play = 'assets/images/habit/play.svg';
   static const String pause = 'assets/images/habit/pause.svg';
   static const String reset = 'assets/images/habit/reset.svg';
+  static const String emptyWoman = 'assets/images/habit/EmptyWoman.svg';
+  static const String emptyman = 'assets/images/habit/EmptyMan.svg';
   // static const String emoji1 = 'assets/images/habit/emoji1.svg';
   // static const String emoji2 = 'assets/images/habit/emoji2.svg';
   // static const String emoji3 = 'assets/images/habit/emoji3.svg';

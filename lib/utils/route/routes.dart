@@ -41,6 +41,7 @@ import 'package:habido_app/ui/habit/progress/habit_tree/habit_tree_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart';
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/habit_new/all_habits_route.dart';
+import 'package:habido_app/ui/habit_new/user_habit_v2/user_habit_route_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_count.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_expense.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_feeling.dart';
@@ -65,11 +66,13 @@ import 'package:habido_app/ui/profile/profile_dashboard.dart';
 import 'package:habido_app/ui/profile/terms_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
-import 'package:habido_app/ui/profile_v2/faq_route_v2.dart';
-import 'package:habido_app/ui/profile_v2/feedback_route_v2.dart';
-import 'package:habido_app/ui/profile_v2/help_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/help_screen/faq_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/help_screen/feedback_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/help_screen/help_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/new_badge/new_badge.dart';
 import 'package:habido_app/ui/profile_v2/performance/sensitivityNotes.dart';
 import 'package:habido_app/ui/profile_v2/profile_dashboard_v2.dart';
+import 'package:habido_app/ui/profile_v2/user_info/UserInfoRouteNew.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
 import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
@@ -574,7 +577,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.userHabit)
             ? SlideRightRouteBuilder(
-                UserHabitRoute(
+                UserHabitRouteV2(
                   screenMode: _getValueByKey(args, 'screenMode'),
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
@@ -719,7 +722,8 @@ class Routes {
         dynamic args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             FeelingEmojiRoute(
-              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse:
+                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
             ),
             settings);
@@ -740,7 +744,8 @@ class Routes {
         route = SlideRightRouteBuilder(
             FeelingCauseRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
-              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse:
+                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -751,7 +756,8 @@ class Routes {
             FeelingDetailRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
               selectedCauses: _getValueByKey(args, 'selectedCauses'),
-              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse:
+                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -765,7 +771,7 @@ class Routes {
         break;
 
       case Routes.userInfo:
-        route = SlideRightRouteBuilder(UserInfoRoute(), settings);
+        route = SlideRightRouteBuilder(UserInfoRouteNew(), settings);
         break;
 
       case Routes.psyTestList:

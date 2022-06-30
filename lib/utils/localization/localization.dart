@@ -117,6 +117,8 @@ class LocaleKeys {
 
   static String get personalInfo => 'Хувийн мэдээлэл';
 
+  static String get typeSomething => 'Type something...';
+
   ///
   /// Intro
   ///
@@ -195,6 +197,11 @@ class LocaleKeys {
   static String get positive => 'Эерэг';
   static String get negative => 'Сөрөг';
   static String get totalRecorded => 'Нийт бүртгэсэн';
+
+  static String get totalHabits => 'Нийт төлөвлөсөн';
+  static String get completedHabits => 'Амжилттай хэвшүүлсэн';
+  static String get uncompletedHabits => 'Эхэлсэн ч дуусгаагүй';
+  static String get failedHabits => 'Хэрэгжүүлээгүй';
 
   static String get enterProfile => 'Хувийн мэдээллээ оруулна уу';
 
@@ -331,7 +338,16 @@ class LocaleKeys {
 
   static String get planNewHabit => 'Шинэ дадал төлөвлөх';
 
+  static String get startNewHabit => 'Шинэ дадал эхлүүлэх';
+
   static String get todaysHabit => 'Өнөөдрийн дадал';
+
+  static String get activeHabitEmpty => 'Өө, идэвхтэй дадал байхгүй байна..';
+
+  static String get completedHabitEmpty =>
+      'Өө, хэрэгжүүлж дууссан дадал байхгүй байна…';
+
+  static String get historyHabitEmpty => 'Өө, түүх байхгүй байна…';
 
   /// Showcase
   static String get showcaseAddHabit => 'Шинэ дадал үүсгэх';

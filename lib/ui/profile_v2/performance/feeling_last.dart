@@ -48,7 +48,7 @@ class FeelingLast extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: CachedNetworkImage(
-                  imageUrl: answerImageUrl ?? "",
+                  imageUrl: answerImageUrl,
                   placeholder: (context, url) => Container(),
                   //CustomLoader(),
                   errorWidget: (context, url, error) => Container(),
@@ -65,7 +65,7 @@ class FeelingLast extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomText(
-                        answerText ?? "",
+                        answerText,
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                       ),

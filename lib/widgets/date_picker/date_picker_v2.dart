@@ -9,7 +9,7 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'date_picker_bloc.dart';
 
-class CustomDatePicker extends StatefulWidget {
+class CustomDatePickerV2 extends StatefulWidget {
   final DatePickerBloc bloc;
   final DateTime? initialDate;
   final Function(DateTime?) callback;
@@ -19,7 +19,7 @@ class CustomDatePicker extends StatefulWidget {
   final DateTime? lastDate;
   final Color? primaryColor;
 
-  const CustomDatePicker({
+  const CustomDatePickerV2({
     Key? key,
     required this.bloc,
     this.initialDate,
@@ -35,7 +35,7 @@ class CustomDatePicker extends StatefulWidget {
   _CustomDatePickerState createState() => _CustomDatePickerState();
 }
 
-class _CustomDatePickerState extends State<CustomDatePicker> {
+class _CustomDatePickerState extends State<CustomDatePickerV2> {
   // Data
   DateTime? _pickedDate;
 
@@ -63,33 +63,24 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               onTap: () {
                 _onTap();
               },
-              margin: widget.margin,
+              // margin: widget.margin,
               height: SizeHelper.boxHeight,
-              backgroundColor: Colors.red,
-              child: Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      /// Hint
-                      Expanded(
-                        child: CustomText(
-                          _text(),
-                          color: _color(),
-                          // margin: EdgeInsets.only(left: 18.0),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-
-                      /// Icon
-                      Container(
-                        // margin: EdgeInsets.only(right: 18.0),
-                        child: SvgPicture.asset(Assets.expand),
-                      ),
-                    ],
+                  /// Hint
+                  CustomText(
+                    _text(),
+                    color: _color(),
+                    margin: EdgeInsets.only(left: 18.0),
+                    fontWeight: FontWeight.w500,
                   ),
-                  SizedBox(height: 15),
-                  HorizontalLine()
+
+                  /// Icon
+                  Container(
+                    margin: EdgeInsets.only(right: 18.0),
+                    child: SvgPicture.asset(Assets.expand),
+                  ),
                 ],
               ),
             );
@@ -128,7 +119,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(primary: widget.primaryColor ?? customColors.primary),
+            colorScheme: ColorScheme.light(
+                primary: widget.primaryColor ?? customColors.primary),
           ),
           child: child ?? Container(),
         );

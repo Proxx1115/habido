@@ -20,7 +20,8 @@ import 'habit_list_bloc.dart';
 class HabitListScreen extends StatefulWidget {
   final HabitCategory habitCategory;
 
-  const HabitListScreen({Key? key, required this.habitCategory}) : super(key: key);
+  const HabitListScreen({Key? key, required this.habitCategory})
+      : super(key: key);
 
   @override
   _HabitListScreenState createState() => _HabitListScreenState();
@@ -79,7 +80,8 @@ class _HabitListScreenState extends State<HabitListScreen> {
                                 showcaseKey: ShowcaseKey.habit,
                                 description: LocaleKeys.showcaseHabitCategory,
                                 overlayOpacity: 0.5,
-                                overlayPadding: EdgeInsets.fromLTRB(-5.0, -5.0, -5.0, -10.0),
+                                overlayPadding: EdgeInsets.fromLTRB(
+                                    -5.0, -5.0, -5.0, -10.0),
                                 child: _listItem(i),
                               )
                             : _listItem(i),
@@ -129,7 +131,7 @@ class _HabitListScreenState extends State<HabitListScreen> {
         Navigator.pushNamed(context, Routes.userHabit, arguments: {
           'screenMode': ScreenMode.New,
           'habit': _habitList![index],
-          'title': LocaleKeys.createHabit,
+          'title': LocaleKeys.startNewHabit,
         });
       },
     );
