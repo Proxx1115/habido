@@ -117,7 +117,7 @@ class LocaleKeys {
 
   static String get personalInfo => 'Хувийн мэдээлэл';
 
-  
+  static String get typeSomething => 'Type something...';
 
   ///
   /// Intro
@@ -130,13 +130,23 @@ class LocaleKeys {
 
   static String get introTitle4 => 'Сэтгэл зүйн тест';
 
-  static List get intro1 => ["Дадлаа хэвшүүлэх, мэдэгдэл авах", "Явцаа хянах", "Өөрийн гаргасан үр дүн, статистикээ харах"];
+  static List get intro1 => [
+        "Дадлаа хэвшүүлэх, мэдэгдэл авах",
+        "Явцаа хянах",
+        "Өөрийн гаргасан үр дүн, статистикээ харах"
+      ];
 
-  static List get intro2 => ["Мэдрэмжээ илэрхийлэх", "Асуудлаа хуваалцах", "Өөрт хэрэгтэй мэдээллийг авах"];
+  static List get intro2 => [
+        "Мэдрэмжээ илэрхийлэх",
+        "Асуудлаа хуваалцах",
+        "Өөрт хэрэгтэй мэдээллийг авах"
+      ];
 
-  static List get intro3 => ["Суралцах", "Хөгжих", "Шинжлэх ухаанаар баталгаажсан мэдээлэл авах"];
+  static List get intro3 =>
+      ["Суралцах", "Хөгжих", "Шинжлэх ухаанаар баталгаажсан мэдээлэл авах"];
 
-  static List get intro4 => ["Өөрийгөө илүү таньж мэдэх", "Ойлгох", "Зөвлөмж авах"];
+  static List get intro4 =>
+      ["Өөрийгөө илүү таньж мэдэх", "Ойлгох", "Зөвлөмж авах"];
 
   ///
   /// Login
@@ -179,9 +189,11 @@ class LocaleKeys {
 
   static String get sureToLogout => 'Та гарахдаа итгэлтэй байна уу?';
 
-  static String get pleaseUpdateApp => 'Аппликэйшний шинэ хувилбар гарсан тул та update татна уу.';
+  static String get pleaseUpdateApp =>
+      'Аппликэйшний шинэ хувилбар гарсан тул та update татна уу.';
 
-  static String get sessionExpired => 'Холболт салсан байна. Дахин нэвтэрнэ үү.';
+  static String get sessionExpired =>
+      'Холболт салсан байна. Дахин нэвтэрнэ үү.';
 
   ///
   /// Sign up
@@ -190,7 +202,8 @@ class LocaleKeys {
 
   static String get enterPhoneNumber => 'Та өөрийн утасны дугаараа оруулна уу';
 
-  static String get enterCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу';
+  static String get enterCode =>
+      'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу';
 
   static String get enterProfile => 'Хувийн мэдээллээ оруулна уу';
 
@@ -220,7 +233,8 @@ class LocaleKeys {
 
   static String get passwordsDoesNotMatch => 'Нууц үгээ зөв давтан оруулна уу!';
 
-  static String get passwordsLengthNotValid => 'Нууц үг доод тал нь 8 тэмдэгт байх ёстой!';
+  static String get passwordsLengthNotValid =>
+      'Нууц үг доод тал нь 8 тэмдэгт байх ёстой!';
 
   static String get oldPassword => 'Хуучин нууц үг';
 
@@ -228,7 +242,8 @@ class LocaleKeys {
 
   static String get firstName => 'Нэр';
 
-  static String get agreeTermCond1 => 'Хэрэглэгч нь 18 нас хүрээгүй тохиолдолд түүний эцэг, эх, асран хамгаалагч, харгалзан дэмжигч нь ';
+  static String get agreeTermCond1 =>
+      'Хэрэглэгч нь 18 нас хүрээгүй тохиолдолд түүний эцэг, эх, асран хамгаалагч, харгалзан дэмжигч нь ';
 
   static String get agreeTermCond2 => '"Үйлчилгээний нөхцөл"';
 
@@ -251,7 +266,8 @@ class LocaleKeys {
         'Санхүү',
       ];
 
-  static String get signUpQuest2 => 'Тууштай байдлаа хамтдаа үнэлээд нэг үзэх үү?';
+  static String get signUpQuest2 =>
+      'Тууштай байдлаа хамтдаа үнэлээд нэг үзэх үү?';
 
   static List<String> get signUpQuest2Answers => [
         'Тууштай байж чаддаггүй',
@@ -261,14 +277,16 @@ class LocaleKeys {
         'Зорьсондоо заавал хүрдэг',
       ];
 
-  static String get signUpQuest3 => 'Мэдрэмж бүртгэх дадлаар аяллаа эхлүүлэх үү? ';
+  static String get signUpQuest3 =>
+      'Мэдрэмж бүртгэх дадлаар аяллаа эхлүүлэх үү? ';
 
   static String get signUpQuest3Answer =>
       'Хосоороо болзож, хамт өнгөрөөх цаг тогтмол гаргах нь хосын харилцааг илүү ойр дотно болгож, хоорондын ойлголцлыг нэмэгдүүлнэ';
 
   static String get gonnaTryLater => 'Дараа туршиж үзнэ ээ';
 
-  static String get signUpCompletedText => 'Баяр хүргэе, та HabiDo-тай хамт амьдралын чанараа сайжруулах аяллаа эхлүүллээ';
+  static String get signUpCompletedText =>
+      'Баяр хүргэе, та HabiDo-тай хамт амьдралын чанараа сайжруулах аяллаа эхлүүллээ';
 //
 // static String get termCondNotFound => 'Вэб холбоос олдсонгүй';
 //
@@ -323,7 +341,16 @@ class LocaleKeys {
 
   static String get planNewHabit => 'Шинэ дадал төлөвлөх';
 
+  static String get startNewHabit => 'Шинэ дадал эхлүүлэх';
+
   static String get todaysHabit => 'Өнөөдрийн дадал';
+
+  static String get activeHabitEmpty => 'Өө, идэвхтэй дадал байхгүй байна..';
+
+  static String get completedHabitEmpty =>
+      'Өө, хэрэгжүүлж дууссан дадал байхгүй байна…';
+
+  static String get historyHabitEmpty => 'Өө, түүх байхгүй байна…';
 
   /// Showcase
   static String get showcaseAddHabit => 'Шинэ дадал үүсгэх';
@@ -336,19 +363,24 @@ class LocaleKeys {
 
   static String get showcaseProfile => 'Өөрийн гүйцэтгэлийг харах';
 
-  static String get showcaseCalendar => 'Сар бүрийн төлөвлөгөө ба амжилтаа хараарай';
+  static String get showcaseCalendar =>
+      'Сар бүрийн төлөвлөгөө ба амжилтаа хараарай';
 
   static String get showcaseNotification => 'Сануулга харах';
 
-  static String get showcaseHabitCategory => 'Өөртөө хэвшүүлэхийг хүсэж буй дадлын төрлийг сонгоно';
+  static String get showcaseHabitCategory =>
+      'Өөртөө хэвшүүлэхийг хүсэж буй дадлын төрлийг сонгоно';
 
-  static String get showcaseHabit => 'Сонгосон төрлөөс өөрийн хэвшүүлэх дадлыг сонгоно';
+  static String get showcaseHabit =>
+      'Сонгосон төрлөөс өөрийн хэвшүүлэх дадлыг сонгоно';
 
-  static String get showcaseUserHabit => 'Сонгосон дадлынхаа төлөвлөгөөг гарган хадгална';
+  static String get showcaseUserHabit =>
+      'Сонгосон дадлынхаа төлөвлөгөөг гарган хадгална';
 
   static String get showcaseTimer => 'Тухайн дадлыг хэвшүүлэхдээ бүртгэл хийнэ';
 
-  static String get showcaseSlidable => 'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой';
+  static String get showcaseSlidable =>
+      'Нүүр хэсгээс өөрийн сонгосон дадлыг цуцлах болон засварлах боломжтой';
 
   /// Chat
   static String get chatbot => 'Чатбот';
@@ -382,13 +414,17 @@ class LocaleKeys {
 
   static String get doTest2 => 'Тест бөглөх';
 
-  static String get psyTestHint1 => 'Та өөрийгөө ямар онцлогтойгоо мэддэг ч бүрэн итгэлгүй байгаа юм биш биз?';
+  static String get psyTestHint1 =>
+      'Та өөрийгөө ямар онцлогтойгоо мэддэг ч бүрэн итгэлгүй байгаа юм биш биз?';
 
-  static String get psyTestHint2 => 'Та өөрийгөө бүрэн хүлээн зөвшөөрч, илүү таньж, алдаа дутагдалтайгаа нүүр тулж, засаж сайжруулж чадна';
+  static String get psyTestHint2 =>
+      'Та өөрийгөө бүрэн хүлээн зөвшөөрч, илүү таньж, алдаа дутагдалтайгаа нүүр тулж, засаж сайжруулж чадна';
 
-  static String get psyTestHint3 => 'Тиймээс сэтгэл зүйн тестийг бөглөөд үзээрэй';
+  static String get psyTestHint3 =>
+      'Тиймээс сэтгэл зүйн тестийг бөглөөд үзээрэй';
 
-  static String get psyTestHint4 => 'Доорх товчийг дарж сэтгэл зүйн тестээ бөглөөрэй';
+  static String get psyTestHint4 =>
+      'Доорх товчийг дарж сэтгэл зүйн тестээ бөглөөрэй';
 
   static String get recommendedHabit => 'Танд санал болгож буй дадал';
 
@@ -596,7 +632,8 @@ class LocaleKeys {
 
   static String get howAreYouFeeling => 'Та хэр сэтгэл ханамжтай байна бэ?';
 
-  static String get feelingAtTheTime => 'Яг одоо ямар сэтгэл хөдлөлтэй байна вэ?';
+  static String get feelingAtTheTime =>
+      'Яг одоо ямар сэтгэл хөдлөлтэй байна вэ?';
 
   static String get pleasing => 'Ханамжтай';
 
@@ -612,9 +649,11 @@ class LocaleKeys {
 
   static String get pickShape => 'Дүрс сонгох';
 
-  static String get validate12 => 'Уучлаарай, 12-оос доош насны хүн бүртгүүлэх боломжгүй';
+  static String get validate12 =>
+      'Уучлаарай, 12-оос доош насны хүн бүртгүүлэх боломжгүй';
 
-  static String get validate12UserProfile => 'Уучлаарай, 12-оос доош насруу өөрчлөх боломжгүй!';
+  static String get validate12UserProfile =>
+      'Уучлаарай, 12-оос доош насруу өөрчлөх боломжгүй!';
 
   static String get pleaseEnterStartDate => 'Эхлэх огноо сонгоно уу';
 
@@ -622,12 +661,14 @@ class LocaleKeys {
 
   static String get pleaseSelectGoal => 'Зорилго сонгоно уу';
 
-  static String get answerOneOfThoseQuestion => 'Дараах асуултуудаас нэгийг нь сонгон хариулаарай';
+  static String get answerOneOfThoseQuestion =>
+      'Дараах асуултуудаас нэгийг нь сонгон хариулаарай';
 
   /// Feeling
   static String get howsYourDay => 'Өнөөдөр хэрхэн өнгөрч байна даа?';
 
-  static String get whatCausesThisFeeling => 'Энэ мэдрэмж юунаас болоод үүсэж байна вэ?';
+  static String get whatCausesThisFeeling =>
+      'Энэ мэдрэмж юунаас болоод үүсэж байна вэ?';
 
   static String get shareFeelingMore => 'Мэдрэмжээ дэлгэрэнгүй хуваалцвал';
 
@@ -644,7 +685,8 @@ class LocaleKeys {
   static String get mySelf => 'Өөрөөсөө болж';
   static String get finance => 'Санхүү';
 
-  static String get feelingDetailIntro => 'Мэдрэмжээ илэрхийлэн бичих нь өөрийгөө хөндлөнгөөс анзаарахад тустай шүү';
+  static String get feelingDetailIntro =>
+      'Мэдрэмжээ илэрхийлэн бичих нь өөрийгөө хөндлөнгөөс анзаарахад тустай шүү';
   static String get feelingDetailHint => 'Би өнөөдөр...';
 
   /// Profile
@@ -666,11 +708,13 @@ class LocaleKeys {
 
   static String get changePassword => 'Нууц үг солих';
 
-  static String get pleaseEnterVerifyCode => 'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу';
+  static String get pleaseEnterVerifyCode =>
+      'Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу';
 
   static String get biometricAuth => 'Царай/хурууны хээ ашиглан нэвтрэх';
 
-  static String get biometricFailed => 'Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу';
+  static String get biometricFailed =>
+      'Биометрээр нэвтрэх үйлдэл амжилтгүй боллоо. Дахин оролдоно уу';
 
   static String get changePhoneNumber => 'Утасны дугаар солих';
 
@@ -684,12 +728,14 @@ class LocaleKeys {
 
   static String get feedback => 'Санал хүсэлт';
 
-  static String get feedbackHint => 'HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй';
+  static String get feedbackHint =>
+      'HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй';
 
   static String get faq => 'Түгээмэл асуулт, хариулт';
 }
 
-class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys> {
+class FlutterBlocLocalizationsDelegate
+    extends LocalizationsDelegate<LocaleKeys> {
   @override
   Future<LocaleKeys> load(Locale locale) => Future(() => LocaleKeys());
 
@@ -697,5 +743,6 @@ class FlutterBlocLocalizationsDelegate extends LocalizationsDelegate<LocaleKeys>
   bool shouldReload(FlutterBlocLocalizationsDelegate old) => false;
 
   @override
-  bool isSupported(Locale locale) => locale.languageCode.toLowerCase().contains(LanguageCode.en);
+  bool isSupported(Locale locale) =>
+      locale.languageCode.toLowerCase().contains(LanguageCode.en);
 }
