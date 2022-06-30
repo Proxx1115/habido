@@ -145,7 +145,7 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
               text: LocaleKeys.thanksHabido,
               onPressed: () {
                 BlocManager.psyTestBlocV2.add(GetTestListEvent());
-                Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+                Navigator.popUntil(context, ModalRoute.withName(Routes.home)); //! fix
               },
             ),
           ],

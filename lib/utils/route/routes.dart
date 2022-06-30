@@ -42,6 +42,10 @@ import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart'
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/habit_new/all_habits_route.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_count.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_expense.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_feeling.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_minute.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_satisfaction.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/home_new/advice_route_screen.dart';
 import 'package:habido_app/ui/home_new/home_route.dart';
@@ -135,7 +139,6 @@ class Routes {
   static const habitList = 'habitList';
   static const allHabits = 'allHabits';
   static const userHabit = 'userHabit';
-  static const userHabitPlanCount = 'userHabitPlanCount';
   static const habitTimer = 'habitTimer';
   static const habitFeeling = 'habitFeeling';
   static const habitFeelingAnswer = 'habitFeelingAnswer';
@@ -152,6 +155,13 @@ class Routes {
   static const feelingDetail = 'feelingDetail';
   static const notif = 'notif';
   static const profile = 'profile';
+
+  /// userHabit
+  static const habitDetailWithMinute = 'habitDetailWithMinute';
+  static const habitDetailWithCount = 'habitDetailWithCount';
+  static const habitDetailWithFinance = 'habitDetailWithFinance';
+  static const habitDetailWithFeeling = 'habitDetailWithFeeling';
+  static const habitDetailWithSatisfaction = 'habitDetailWithSatisfaction';
 
   static const userInfo = 'userInfo';
   static const sensitivityNotes = 'sensitivityNotes';
@@ -196,9 +206,9 @@ class Routes {
         );
         break;
 
-      // case Routes.login2:
-      //   route = SlideRightRouteBuilder(LoginRoute2(), settings);
-      //   break;
+      case Routes.login2:
+        route = SlideRightRouteBuilder(LoginRoute2(), settings);
+        break;
 
       case Routes.personalInfo:
         route = PageRouteBuilder(
@@ -219,8 +229,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp2CodeRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -230,8 +239,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -241,8 +249,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -252,8 +259,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -337,7 +343,13 @@ class Routes {
         break;
 
       case Routes.tip:
-        route = SlideRightRouteBuilder(TipRoute(), settings);
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            TipRoute(
+              tipCategoryId: _getValueByKey(args, 'tipCategoryId'),
+              categoryName: _getValueByKey(args, 'categoryName'),
+            ),
+            settings);
         break;
 
       case Routes.calendar:
@@ -506,10 +518,58 @@ class Routes {
         route = SlideRightRouteBuilder(AllHabitsRoute(), settings);
         break;
 
-      case Routes.userHabitPlanCount:
-        route = SlideRightRouteBuilder(HabitDetailWithCountRoute(), settings);
+      /// UserHabit Detail
+      case Routes.habitDetailWithMinute:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            HabitDetailWithMinuteRoute(
+              userHabitId: _getValueByKey(args, 'userHabitId'),
+              name: _getValueByKey(args, 'name'),
+            ),
+            settings);
         break;
 
+      case Routes.habitDetailWithCount:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            HabitDetailWithCountRoute(
+              userHabitId: _getValueByKey(args, 'userHabitId'),
+              name: _getValueByKey(args, 'name'),
+            ),
+            settings);
+        break;
+
+      case Routes.habitDetailWithFinance:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            HabitDetailWithExpenseRoute(
+              userHabitId: _getValueByKey(args, 'userHabitId'),
+              name: _getValueByKey(args, 'name'),
+            ),
+            settings);
+        break;
+
+      case Routes.habitDetailWithFeeling:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            HabitDetailWithFeelingRoute(
+              userHabitId: _getValueByKey(args, 'userHabitId'),
+              name: _getValueByKey(args, 'name'),
+            ),
+            settings);
+        break;
+
+      case Routes.habitDetailWithSatisfaction:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            HabitDetailWithSatisfactionRoute(
+              userHabitId: _getValueByKey(args, 'userHabitId'),
+              name: _getValueByKey(args, 'name'),
+            ),
+            settings);
+        break;
+
+      /// ~~~~~~~~~~~~~~
       case Routes.userHabit:
         var args = settings.arguments as Map;
         route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.userHabit)
@@ -519,8 +579,7 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings:
-                      _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               )
@@ -530,8 +589,7 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings:
-                      _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               );
@@ -647,9 +705,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           HabitTotalExpenseRoute(
-            expenseCategoryList: _getValueByKey(args, 'expenseCategoryList'),
-            primaryColor: _getValueByKey(args, 'primaryColor'),
-            backgroundColor: _getValueByKey(args, 'backgroundColor'),
+            userHabitId: _getValueByKey(args, 'userHabitId'),
           ),
           settings,
         );
@@ -724,8 +780,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = NoTransitionRoute(
           HabitSuccessRoute(
-            habitProgressResponse:
-                _getValueByKey(args, 'habitProgressResponse'),
+            habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
             callback: _getValueByKey(args, 'callback'),
           ),

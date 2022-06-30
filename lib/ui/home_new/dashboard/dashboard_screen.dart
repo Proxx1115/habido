@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/mood_tracker.dart';
+import 'package:habido_app/models/tip%20category.dart';
 import 'package:habido_app/models/tip.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
@@ -52,15 +53,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   AdviceVideoResponse? _adviceVideo;
 
-  List<Tip>? _tips;
+  List<TipCategory>? _tips;
 
-  List<MoodTracker> _moodTrackerList = [];
+  List<MoodTracker>? _moodTrackerList;
 
   @override
   void initState() {
     super.initState();
     BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
-    // BlocManager.homeNewBloc.add(GetTipEvent()); // todo
+    BlocManager.homeNewBloc.add(GetTipEvent());
     BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
   }
 
@@ -139,64 +140,64 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             SizedBox(height: 23.0),
 
-            _moodTrackerList.isEmpty
-                ?
+            _moodTrackerList != null
+                ? (_moodTrackerList!.isEmpty
+                    ?
 
-                /// You wanna share your Feeling?
-                Stack(
-                    children: [
-                      Container(
-                        height: 105.0,
-                        padding: EdgeInsets.fromLTRB(40.0, 16.0, 40.0, 0.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          color: customColors.whiteBackground,
-                        ),
-                        child: Column(
-                          children: [
-                            CustomText(
-                              LocaleKeys.shareHowYouFeel,
-                              fontWeight: FontWeight.w500,
-                              alignment: Alignment.center,
-                              fontSize: 15.0,
+                    /// You wanna share your Feeling?
+                    Stack(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 28.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: customColors.whiteBackground,
                             ),
-                            SizedBox(height: 9.0),
-
-                            /// FeelingItem
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            child: Column(
                               children: [
-                                ///
-                                for (var el in _feelingEmojis)
-                                  Container(padding: EdgeInsets.symmetric(horizontal: 5.7), child: SvgPicture.asset(el, height: 31.0, width: 31.0))
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      _startBtn()
-                    ],
-                  )
-                :
+                                CustomText(
+                                  LocaleKeys.shareHowYouFeel,
+                                  fontWeight: FontWeight.w500,
+                                  alignment: Alignment.center,
+                                  fontSize: 15.0,
+                                ),
+                                SizedBox(height: 9.0),
 
-                /// Mood Tracker List
-                Row(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Row(
-                          children: [
-                            for (var i = 0; i < _moodTrackerList.length; i++) Expanded(child: _moodTrackerItem(index: i, onTap: () {})),
-                            for (var i = 0; i < 3 - _moodTrackerList.length; i++) Expanded(child: _moodTrackerNoActivity())
-                            // List.generate(
-                            // _moodTrackerList.length,
-                            // (index) => Expanded(child: _moodTrackerItem(index: index, onTap: () {})),
-                            // )
-                          ],
-                        ),
-                      ),
-                      Expanded(child: _shareFeelingBtn())
-                    ],
+                                /// FeelingItem
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ///
+                                    for (var el in _feelingEmojis)
+                                      Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 5.7), child: SvgPicture.asset(el, height: 31.0, width: 31.0))
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          _startBtn()
+                        ],
+                      )
+                    :
+
+                    /// Mood Tracker List
+                    Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Row(
+                              children: [
+                                for (var i = 0; i < _moodTrackerList!.length; i++) Expanded(child: _moodTrackerItem(index: i, onTap: () {})),
+                                for (var i = 0; i < 3 - _moodTrackerList!.length; i++) Expanded(child: _moodTrackerNoActivity())
+                              ],
+                            ),
+                          ),
+                          Expanded(child: _shareFeelingBtn())
+                        ],
+                      ))
+                : Container(
+                    height: 118.0,
                   ),
 
             /// Divider
@@ -246,7 +247,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                   )
-                : Container(),
+                : Container(
+                    child: Text("Tips null"),
+                  ),
 
             SizedBox(height: SizeHelper.padding),
           ],
@@ -384,7 +387,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _tipItem(index) {
-    Tip tipData = _tips![index];
+    TipCategory tipData = _tips![index];
     return Container(
       height: 100.0,
       width: 250.0,
@@ -396,7 +399,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: InkWell(
         borderRadius: BorderRadius.circular(15.0),
         onTap: () {
-          Navigator.of(context).pushNamed(Routes.tip);
+          Navigator.pushNamed(
+            context,
+            Routes.tip,
+            arguments: {
+              'tipCategoryId': tipData.tipCategoryId,
+              'categoryName': tipData.categoryName,
+            },
+          );
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -409,10 +419,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               width: 75.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
-                color: Colors.teal, // todo dynamic
+                color: Colors.teal, // todo dynamic tipData.bgColor!,
               ),
               child: CachedNetworkImage(
-                imageUrl: tipData.link!,
+                imageUrl: tipData.icon!,
                 // placeholder: (context, url) => CustomLoader(context, size: 20.0),
                 placeholder: (context, url) => Container(),
                 errorWidget: (context, url, error) => Container(),
@@ -427,7 +437,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             /// Title
             Expanded(
               child: CustomText(
-                tipData.title,
+                tipData.categoryName,
                 fontWeight: FontWeight.w500,
                 fontSize: 15.0,
                 maxLines: 2,
@@ -441,22 +451,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _profilePicture() {
-    return ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(25.0)),
-      child: CachedNetworkImage(
-        imageUrl: globals.userData!.photo!,
-        fit: BoxFit.cover,
-        width: 46.0,
-        height: 46.0,
-        placeholder: (context, url) => CustomLoader(size: SizeHelper.boxHeight),
-        // placeholder: (context, url, error) => Container(),
-        errorWidget: (context, url, error) => Container(),
-      ),
-    );
+    return globals.userData!.photo != null
+        ? ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(25.0)),
+            child: CachedNetworkImage(
+              imageUrl: globals.userData!.photo!,
+              fit: BoxFit.cover,
+              width: 46.0,
+              height: 46.0,
+              placeholder: (context, url) => CustomLoader(size: SizeHelper.boxHeight),
+              // placeholder: (context, url, error) => Container(),
+              errorWidget: (context, url, error) => Container(),
+            ),
+          )
+        : SvgPicture.asset(
+            Assets.male_habido,
+            width: 46.0,
+            height: 46.0,
+          );
   }
 
   Widget _moodTrackerItem({index, onTap}) {
-    MoodTracker _moodTrackerData = _moodTrackerList[index];
+    MoodTracker _moodTrackerData = _moodTrackerList![index];
     return InkWell(
       borderRadius: BorderRadius.circular(20.0),
       onTap: () {
@@ -618,6 +634,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     } else if (state is TipSuccess) {
       _tips = state.tipList;
+      print("tips ok ${state.tipList}");
     } else if (state is TipFailed) {
       showCustomDialog(
         context,
@@ -625,6 +642,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     } else if (state is MoodTrackerSuccess) {
       _moodTrackerList = state.moodTrackerList;
+      print("moodTrackerList ok ${state.moodTrackerList}");
     } else if (state is MoodTrackerFailed) {
       showCustomDialog(
         context,

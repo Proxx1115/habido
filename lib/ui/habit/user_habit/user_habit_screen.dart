@@ -370,14 +370,14 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                       content: state.userHabitResponse.content!,
                       backgroundColor: customColors.greyBackground,
                       callback: () {
-                        Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+                        Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
                       },
                     ),
                   ],
                 )
               : null,
           onPressedButton: () {
-            Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
           },
         ),
       );
@@ -391,7 +391,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
           buttonText: LocaleKeys.ok,
           primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
           onPressedButton: () {
-            Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
           },
         ),
       );

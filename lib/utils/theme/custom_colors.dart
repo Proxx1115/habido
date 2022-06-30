@@ -32,6 +32,7 @@ class ConstantColors {
   static const shamrock = const Color(0xFF46CEAC);
   static const loblolly = const Color(0xFFC2CAD1);
   static const athensGray = const Color(0xFFF2F5F7);
+  static const selago = const Color(0xFFE7F0FC);
   // feeling backgrounds
   static const feeling1Top = const Color(0xFF76BDB8); // Гайхалтай
   static const feeling1Btm = const Color(0xFFC5F4F1); // Гайхалтай
@@ -90,6 +91,7 @@ class CustomColors {
   Color get whiteButtonBackground => Colors.white; // bordered
   Color get blackButtonBackground => Colors.black;
   Color get blueButtonBackground => ConstantColors.blueRibbon;
+  Color get lightBlueButtonBackground => ConstantColors.selago;
   Color primaryButtonContent = Colors.white; // enabled
   Color blackButtonContent = ConstantColors.black; // bordered
 
@@ -114,6 +116,7 @@ class CustomColors {
   Color iconYellowGreen = ConstantColors.yellowGreen;
   Color iconSeaGreen = ConstantColors.seaGreen;
   Color iconLightGray = ConstantColors.cornflowerBlue;
+  Color iconFeijoGreen = ConstantColors.feijoGreen;
 
   /// Feeling Backgrounds
   Color feeling1Top = ConstantColors.feeling1Top;
