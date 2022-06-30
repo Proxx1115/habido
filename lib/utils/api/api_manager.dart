@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:habido_app/models/achievements_response.dart';
 import 'package:habido_app/models/active_habit_response.dart';
 import 'package:habido_app/models/advice_video_response.dart';
+import 'package:habido_app/models/badge_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/mood_tracker_monthly_stat_response.dart';
@@ -36,11 +37,13 @@ import 'package:habido_app/models/mood_tracker_list_response.dart';
 import 'package:habido_app/models/history_habit_response.dart';
 import 'package:habido_app/models/mood_tracker_question.dart';
 import 'package:habido_app/models/mood_tracker_save_request.dart';
+import 'package:habido_app/models/profile_habit_count.dart';
 import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/models/psy_test_review.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
 import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
+import 'package:habido_app/models/skill_list_response.dart';
 import 'package:habido_app/models/tip_response.dart';
 import 'package:habido_app/models/test_info_result_response.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
@@ -228,6 +231,24 @@ class ApiManager {
   static Future<MoodTrackerMonthlyStatResponse> moodTrackerMonthlyStat(int year, int month) async {
     return MoodTrackerMonthlyStatResponse.fromJson(
       await httpUtils.sendRequest(path: HttpPath.monthlyStat + '?year=$year&month=$month', httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<BadgeListResponse> badgeList() async {
+    return BadgeListResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.badgeList, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<ProfileHabitCount> profileHabitCount() async {
+    return ProfileHabitCount.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.profileHabitCount, httpMethod: HttpMethod.get),
+    );
+  }
+
+  static Future<SkillListResponse> skillList() async {
+    return SkillListResponse.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.habitSkillList, httpMethod: HttpMethod.get),
     );
   }
 

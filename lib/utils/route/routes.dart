@@ -60,11 +60,13 @@ import 'package:habido_app/ui/profile/profile_dashboard.dart';
 import 'package:habido_app/ui/profile/terms_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
 import 'package:habido_app/ui/profile/user_info_route.dart';
-import 'package:habido_app/ui/profile_v2/faq_route_v2.dart';
-import 'package:habido_app/ui/profile_v2/feedback_route_v2.dart';
-import 'package:habido_app/ui/profile_v2/help_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/help_screen/faq_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/help_screen/feedback_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/help_screen/help_route_v2.dart';
+import 'package:habido_app/ui/profile_v2/new_badge/new_badge.dart';
 import 'package:habido_app/ui/profile_v2/performance/sensitivityNotes.dart';
 import 'package:habido_app/ui/profile_v2/profile_dashboard_v2.dart';
+import 'package:habido_app/ui/profile_v2/user_info/UserInfoRouteNew.dart';
 import 'package:habido_app/ui/psy_test/psy_categories/psy_categories_route.dart';
 import 'package:habido_app/ui/psy_test/psy_intro_route.dart';
 import 'package:habido_app/ui/psy_test/psy_test/psy_test_route.dart';
@@ -217,8 +219,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp2CodeRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -228,8 +229,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -239,8 +239,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -250,8 +249,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -513,8 +511,7 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings:
-                      _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               )
@@ -524,8 +521,7 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings:
-                      _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               );
@@ -703,7 +699,7 @@ class Routes {
         break;
 
       case Routes.userInfo:
-        route = SlideRightRouteBuilder(UserInfoRoute(), settings);
+        route = SlideRightRouteBuilder(UserInfoRouteNew(), settings);
         break;
 
       case Routes.psyTestList:
@@ -718,8 +714,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = NoTransitionRoute(
           HabitSuccessRoute(
-            habitProgressResponse:
-                _getValueByKey(args, 'habitProgressResponse'),
+            habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
             callback: _getValueByKey(args, 'callback'),
           ),

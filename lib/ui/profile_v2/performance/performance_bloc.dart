@@ -4,6 +4,7 @@ import 'package:habido_app/models/mood_tracker_monthly_stat_response.dart';
 import 'package:habido_app/models/mood_tracker_latest.dart';
 import 'package:habido_app/models/mood_tracker_latest_response.dart';
 import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
+import 'package:habido_app/models/profile_habit_count.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -21,6 +22,8 @@ class PerformanceBloc extends Bloc<PerformanceEvent, PerformanceState> {
       yield* _mapGetMoodTrackerThenToState(event);
     } else if (event is GetMonthlyStatEvent) {
       yield* _mapGetMonthlyStatEventToState(event);
+    } else if (event is GetProfileHabitCountEvent) {
+      yield* _mapGetProfileHabitCountEventToState();
     }
   }
 
@@ -85,6 +88,22 @@ class PerformanceBloc extends Bloc<PerformanceEvent, PerformanceState> {
       yield ModdMonthlyStatFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<PerformanceState> _mapGetProfileHabitCountEventToState() async* {
+    try {
+      yield ProfileHabitCountLoading();
+
+      var res = await ApiManager.profileHabitCount();
+      print("profile habit count: ${res.uncompletedHabits}");
+      if (res.code == ResponseCode.Success) {
+        yield ProfileHabitCountSuccess(res);
+      } else {
+        yield ProfileHabitCountEmpty();
+      }
+    } catch (e) {
+      yield ProfileHabitCountFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// BLOC EVENTS
@@ -134,6 +153,8 @@ class GetMonthlyStatEvent extends PerformanceEvent {
   @override
   String toString() => 'GetMonthlyStatEvent { year & month: $year $month }';
 }
+
+class GetProfileHabitCountEvent extends PerformanceEvent {}
 
 /// BLOC STATES
 abstract class PerformanceState extends Equatable {
@@ -265,6 +286,38 @@ class ModdMonthlyStatFailed extends PerformanceState {
   final String message;
 
   const ModdMonthlyStatFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'ContentListFailed { message: $message }';
+}
+
+/// MOOD TRACKER LATEST STATES
+
+class ProfileHabitCountLoading extends PerformanceState {}
+
+class ProfileHabitCountEmpty extends PerformanceState {}
+
+class ProfileHabitCountSuccess extends PerformanceState {
+  final ProfileHabitCount profileHabitCount;
+
+  const ProfileHabitCountSuccess(
+    this.profileHabitCount,
+  );
+
+  @override
+  List<Object> get props => [profileHabitCount];
+
+  @override
+  String toString() => 'MoodProfileHabitCountSuccess { profileHabitCount: $profileHabitCount}';
+}
+
+class ProfileHabitCountFailed extends PerformanceState {
+  final String message;
+
+  const ProfileHabitCountFailed(this.message);
 
   @override
   List<Object> get props => [message];
