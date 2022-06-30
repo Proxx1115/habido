@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_with_date.dart';
+import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
@@ -60,8 +62,8 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapGetUserHabitProgressLogEventToState(event);
     } else if (event is UpdateUserHabitProgressLogEvent) {
       yield* _mapUpdateUserHabitProgressLogEventToState(event);
-    } else if (event is UpdateUserHabitProgressLogEvent) {
-      yield* _mapUpdateUserHabitProgressLogEventToState(event);
+    } else if (event is GetUserHabitPlanCountEvent) {
+      yield* _mapGetUserHabitPlanCountEventToState(event);
     }
   }
 
@@ -300,6 +302,19 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
+  Stream<UserHabitState> _mapGetUserHabitPlanCountEventToState(GetUserHabitPlanCountEvent event) async* {
+    try {
+      var res = await ApiManager.getUserHabitPlanCount(event.userHabitId);
+      if (res.code == ResponseCode.Success) {
+        yield GetUserHabitPlanCountSuccess(res);
+      } else {
+        yield GetUserHabitPlanCountFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetUserHabitPlanCountFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
   Stream<UserHabitState> _mapUpdateUserHabitProgressLogEventToState(UpdateUserHabitProgressLogEvent event) async* {
     try {
       var res = await ApiManager.updateHabitProgressLog(event.habitProgressLog);
@@ -522,6 +537,18 @@ class UpdateUserHabitProgressLogEvent extends UserHabitEvent {
   String toString() => 'UpdateUserHabitProgressLogEvent { habitProgressLog: $habitProgressLog }';
 }
 
+class GetUserHabitPlanCountEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetUserHabitPlanCountEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetUserHabitPlanCountEvent { habitPlanCount: $userHabitId }';
+}
+
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -709,8 +736,7 @@ class HabitFinanceTotalAmountSuccess extends UserHabitState {
   List<Object> get props => [totalAmount, expenseCategories];
 
   @override
-  String toString() =>
-      'HabitFinanceTotalAmountSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
+  String toString() => 'HabitFinanceTotalAmountSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
 }
 
 class HabitFinanceTotalAmountFailed extends UserHabitState {
@@ -849,6 +875,30 @@ class GetUserHabitProgressLogFailed extends UserHabitState {
 
   @override
   String toString() => 'GetUserHabitProgressLogFailed { message: $message }';
+}
+
+class GetUserHabitPlanCountSuccess extends UserHabitState {
+  final UserHabitPlanCount userHabitPlanCount;
+
+  const GetUserHabitPlanCountSuccess(this.userHabitPlanCount);
+
+  @override
+  List<Object> get props => [userHabitPlanCount];
+
+  @override
+  String toString() => 'GetUserHabitPlanCountSuccess { habitProgressLog: $userHabitPlanCount }';
+}
+
+class GetUserHabitPlanCountFailed extends UserHabitState {
+  final String message;
+
+  const GetUserHabitPlanCountFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetUserHabitPlanCountFailed { message: $message }';
 }
 
 class UpdateUserHabitProgressLogSuccess extends UserHabitState {}

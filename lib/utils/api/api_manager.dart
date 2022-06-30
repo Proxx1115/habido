@@ -46,6 +46,7 @@ import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
 import 'package:habido_app/models/skill_list_response.dart';
 import 'package:habido_app/models/tip_response.dart';
 import 'package:habido_app/models/test_info_result_response.dart';
+import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
 import 'package:habido_app/models/habit_question_response.dart';
@@ -784,6 +785,16 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.updateHabitProgressLog,
         objectData: habitProgressLog,
+      ),
+    );
+  }
+
+  /// new
+  static Future<UserHabitPlanCount> getUserHabitPlanCount(int userHabitId) async {
+    return UserHabitPlanCount.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.userHabitPlanCount + '/$userHabitId',
+        httpMethod: HttpMethod.get,
       ),
     );
   }

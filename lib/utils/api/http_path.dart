@@ -81,6 +81,7 @@ class HttpPath {
   static const String dynamicHabitSettings = '/mobile/habit/settings';
   static const String getHabitProgressLog = '/mobile/user-habit/progress/log';
   static const String updateHabitProgressLog = '/mobile/user-habit/progress/log';
+  static const String userHabitPlanCount = '/mobile/user-habit/plan/count';
   static const String sendFeedback = '/mobile/feed-back';
   static const String feedBackCatList = '/mobile/feed-back/categories';
 

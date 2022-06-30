@@ -57,6 +57,6 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
   }
 
   _navigateToHabitDetailRoute() {
-    /// todo
+    // todo
   }
 }
