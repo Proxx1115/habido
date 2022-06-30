@@ -41,6 +41,7 @@ import 'package:habido_app/ui/habit/progress/habit_tree/habit_tree_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart';
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/habit_new/all_habits_route.dart';
+import 'package:habido_app/ui/habit_new/user_habit_v2/user_habit_route_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_count.dart';
 import 'package:habido_app/ui/home/home_route.dart';
 import 'package:habido_app/ui/home_new/advice_route_screen.dart';
@@ -221,7 +222,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp2CodeRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -231,7 +233,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -241,7 +244,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -251,7 +255,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest:
+                _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -512,12 +517,13 @@ class Routes {
         var args = settings.arguments as Map;
         route = SharedPref.getShowcaseHasShown(ShowcaseKeyName.userHabit)
             ? SlideRightRouteBuilder(
-                UserHabitRoute(
+                UserHabitRouteV2(
                   screenMode: _getValueByKey(args, 'screenMode'),
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings:
+                      _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               )
@@ -527,7 +533,8 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings:
+                      _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               );
@@ -659,7 +666,8 @@ class Routes {
         dynamic args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             FeelingEmojiRoute(
-              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse:
+                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
             ),
             settings);
@@ -680,7 +688,8 @@ class Routes {
         route = SlideRightRouteBuilder(
             FeelingCauseRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
-              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse:
+                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -691,7 +700,8 @@ class Routes {
             FeelingDetailRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
               selectedCauses: _getValueByKey(args, 'selectedCauses'),
-              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse:
+                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -720,7 +730,8 @@ class Routes {
         var args = settings.arguments as Map;
         route = NoTransitionRoute(
           HabitSuccessRoute(
-            habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
+            habitProgressResponse:
+                _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
             callback: _getValueByKey(args, 'callback'),
           ),
