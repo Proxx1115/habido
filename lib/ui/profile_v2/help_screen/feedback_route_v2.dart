@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
+import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
 class FeedbackRouteV2 extends StatefulWidget {
@@ -42,28 +47,20 @@ class _FeedbackRouteV2State extends State<FeedbackRouteV2> {
     return CustomScaffold(
       appBarTitle: LocaleKeys.feedback,
       padding: SizeHelper.screenPadding,
-      child: Column(
-        children: [
-          RoundedCornerListView(
-            padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
-            children: [
-              /// HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй
-              CustomTextField(
-                controller: _feedbackController,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(SizeHelper.borderRadius),
-                  topRight: Radius.circular(SizeHelper.borderRadius),
-                ),
-                // suffixAsset: Assets.edit,
-                hintText: LocaleKeys.feedbackHint,
-                maxLines: 10,
-                autofocus: true,
-              ),
-            ],
-          ),
-          CustomButton(
-            style: CustomButtonStyle.secondary,
+      child: _feelingDetailTextField(),
+      floatingActionButton: _buttonFinish(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  _buttonFinish() {
+    return !Func.visibleKeyboard(context)
+        ? CustomButton(
+            margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
+            fontWeight: FontWeight.w700,
+            alignment: Alignment.bottomCenter,
             text: LocaleKeys.send,
+            borderRadius: BorderRadius.circular(15.0),
             onPressed: _enabledButton
                 ? () async {
                     var request = SendFeedbackRequest()
@@ -99,7 +96,58 @@ class _FeedbackRouteV2State extends State<FeedbackRouteV2> {
                     }
                   }
                 : null,
+          )
+        : Container();
+  }
+
+  Widget _feelingDetailTextField() {
+    return Container(
+      height: 200,
+      padding: EdgeInsets.fromLTRB(18.0, 9.0, 18.0, 18.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: customColors.whiteBackground,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              SvgPicture.asset(
+                Assets.warning_calendar,
+                height: 20.0,
+                width: 20.0,
+              ),
+              SizedBox(width: 10.0),
+              Expanded(
+                child: CustomText(
+                  "HabiDo-тэй холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй",
+                  fontSize: 11.0,
+                  color: customColors.primaryText,
+                  maxLines: 2,
+                ),
+              ),
+            ],
           ),
+
+          /// Divider
+          HorizontalLine(margin: EdgeInsets.only(top: 9.0)),
+
+          Expanded(
+            child: TextField(
+              controller: _feedbackController,
+              maxLines: null,
+              cursorColor: customColors.whiteText,
+              style: TextStyle(color: customColors.primaryText),
+              decoration: InputDecoration(
+                hintText: LocaleKeys.feelingDetailHint,
+                hintStyle: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  color: customColors.disabledText,
+                ),
+                border: InputBorder.none,
+              ),
+            ),
+          )
         ],
       ),
     );

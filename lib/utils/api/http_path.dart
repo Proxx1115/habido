@@ -12,6 +12,9 @@ class HttpPath {
   static const String moodTrackerLatest = '/mobile/mood-tracker/latest';
   static const String moodTrackerThen = '/mobile/mood-tracker/then';
   static const String monthlyStat = '/mobile/mood-tracker/monthly-stat';
+  static const String badgeList = '/mobile/badge/list';
+  static const String profileHabitCount = '/mobile/user-habit/count';
+  static const String habitSkillList = '/mobile/skill/list';
 
   static const String param = '/auth/param';
   static const String getDevice = '/mobile/user-device';
