@@ -9,6 +9,7 @@ import 'package:habido_app/models/gender.dart';
 import 'package:habido_app/models/update_profile_picture_request.dart';
 import 'package:habido_app/models/update_user_data_request.dart';
 import 'package:habido_app/models/user_device.dart';
+import 'package:habido_app/ui/profile_v2/user_info/textbox.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/biometrics_util.dart';
 import 'package:habido_app/utils/device_helper.dart';
@@ -186,7 +187,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
                   _profilePicture(),
                 ],
               ),
-              // SizedBox(height: 10.0),
+              SizedBox(height: 10.0),
 
               /// Profile pic
               // _profilePicture(),
@@ -198,37 +199,6 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
         ],
       ),
     );
-    // return CustomScaffold(
-    //   appBarTitle: LocaleKeys.userInfo,
-    //   loading: state is UserLoading,
-    //   child: Padding(
-    //     padding: const EdgeInsets.symmetric(vertical: 30),
-    //     child: Column(
-    //       children: [
-    //         Stack(
-    //           alignment: Alignment.topCenter,
-    //           children: [
-    //             Positioned(
-    //               child: Container(
-    //                 margin: EdgeInsets.only(top: 20),
-    //                 height: ResponsiveFlutter.of(context).hp(50),
-    //                 color: Colors.cyanAccent,
-    //               ),
-    //             ),
-    //             Container(
-    //               width: ResponsiveFlutter.of(context).wp(20),
-    //               height: ResponsiveFlutter.of(context).hp(10),
-    //               color: Colors.greenAccent,
-    //             ),
-    //           ],
-    //         ),
-    //
-    //         /// Button save
-    //         _buttonSave(),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   Widget _profilePicture() {
@@ -308,20 +278,20 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
   }
 
   _lastNameTextField() {
-    return CustomTextField(
+    return UserInfoTextField(
       controller: _lastNameController,
       hintText: LocaleKeys.lastName,
-      suffixAsset: Assets.edit,
+      suffixAsset: Assets.editV2,
       margin: EdgeInsets.only(top: 15.0),
       backgroundColor: Colors.transparent,
     );
   }
 
   _firstNameTextField() {
-    return CustomTextField(
+    return UserInfoTextField(
       controller: _firstNameController,
       hintText: LocaleKeys.yourName,
-      suffixAsset: Assets.edit,
+      suffixAsset: Assets.editV2,
       margin: EdgeInsets.only(top: 15.0),
       backgroundColor: Colors.transparent,
     );

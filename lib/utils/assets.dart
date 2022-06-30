@@ -23,6 +23,7 @@ class Assets {
   static const String clear = 'assets/images/global/clear.svg';
   static const String edit = 'assets/images/global/edit.svg';
   static const String editV2 = 'assets/images/global/editV2.svg';
+  static const String clear_new = 'assets/images/profile/clear_new.svg';
 
   static const String edit24 = 'assets/images/global/edit24.svg';
   static const String obscure_hidden = 'assets/images/global/obscure_hidden.svg';

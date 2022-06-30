@@ -74,11 +74,13 @@ class _SkillRouteState extends State<SkillRoute> {
     //     ),
     //   ]),
     // );
-    return ListView.builder(
-      itemBuilder: (context, index) => _ability(index),
-      // itemExtent: 90.0,
-      itemCount: _skillList.length,
-    );
+    return _skillList.length != 0
+        ? ListView.builder(
+            itemBuilder: (context, index) => _ability(index),
+            // itemExtent: 90.0,
+            itemCount: _skillList.length,
+          )
+        : Container();
     // return ElevatedButton(
     //     onPressed: () {
     //       print('asd:${_skillList}');
