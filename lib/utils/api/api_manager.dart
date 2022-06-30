@@ -5,6 +5,7 @@ import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/badge_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
 import 'package:habido_app/models/mood_tracker_monthly_stat_response.dart';
 import 'package:habido_app/models/change_password_request.dart';
 import 'package:habido_app/models/change_phone_request.dart';
@@ -43,6 +44,7 @@ import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/models/psy_test_review.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
 import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
+import 'package:habido_app/models/tip%20category.dart';
 import 'package:habido_app/models/skill_list_response.dart';
 import 'package:habido_app/models/tip_response.dart';
 import 'package:habido_app/models/test_info_result_response.dart';
@@ -616,6 +618,16 @@ class ApiManager {
     );
   }
 
+  static Future<HabitFinanceTotalAmountResponse> habitFinanceTotalAmountByDate(HabitTotalAmountByDateRequest request) async {
+    return HabitFinanceTotalAmountResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.habitFinanceTotalAmountByDate +
+            '?userHabitId=${request.userHabitId}&startDate=${request.startDate}&lastDate=${request.lastDate}',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
   static Future<HabitQuestionResponse> habitQuestions(int questionId) async {
     return HabitQuestionResponse.fromJson(
       await httpUtils.sendRequest(
@@ -847,7 +859,19 @@ class ApiManager {
 
   static Future<TipResponse> getTips() async {
     return TipResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.tips),
+      await httpUtils.sendRequest(
+        path: HttpPath.tips,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<TipCategory> getTipById(int categoryTipId) async {
+    return TipCategory.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.tip + '/$categoryTipId',
+        httpMethod: HttpMethod.get,
+      ),
     );
   }
 

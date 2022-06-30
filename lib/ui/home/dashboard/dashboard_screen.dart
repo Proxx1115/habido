@@ -110,7 +110,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             // width: 162.0,
                             child: Text(
                               LocaleKeys.createNewHabit,
-                              style: TextStyle(fontFamily: FontAsset.FiraSansCondensed, fontWeight: FontWeight.w500, fontSize: 15.0, color: HexColor.fromHex('#424852')),
+                              style: TextStyle(
+                                  fontFamily: FontAsset.FiraSansCondensed,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15.0,
+                                  color: HexColor.fromHex('#424852')),
                             ),
                           ),
 
@@ -208,15 +212,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 String todayDone = '';
                 List<UserHabit>? todayUserHabits = _todayUserHabits;
                 if (todayUserHabits != null) {
-                  todayDone = todayUserHabits.where((element) => element.isDone!).toList().length.toString() + '/' + _todayUserHabits!.length.toString();
+                  todayDone =
+                      todayUserHabits.where((element) => element.isDone!).toList().length.toString() + '/' + _todayUserHabits!.length.toString();
                 }
                 return Column(
                   children: [
                     /// Today
-                    if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty) _expandableHabitList(LocaleKeys.today, _todayUserHabits!, true, true, todayDone),
+                    if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
+                      _expandableHabitList(LocaleKeys.today, _todayUserHabits!, true, true, todayDone),
 
                     /// Tomorrow
-                    if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty) _expandableHabitList(LocaleKeys.tomorrow, _tomorrowUserHabits!, false, false, ''),
+                    if (_tomorrowUserHabits != null && _tomorrowUserHabits!.isNotEmpty)
+                      _expandableHabitList(LocaleKeys.tomorrow, _tomorrowUserHabits!, false, false, ''),
                   ],
                 );
               },

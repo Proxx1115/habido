@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/all_habit_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/active_habit.dart';
+import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit_new/habit_item_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 
 class ActiveHabitList extends StatefulWidget {
@@ -35,7 +37,9 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
             itemBuilder: (context, index) => HabitItemWidget(
               data: _activeHabitList[index],
               isActiveHabit: true,
-              onTap: _navigateToHabitDetailRoute,
+              onTap: () {
+                _navigateToHabitDetailRoute(context, _activeHabitList[index]);
+              },
             ),
             itemCount: _activeHabitList.length,
           );
@@ -56,7 +60,19 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
     }
   }
 
-  _navigateToHabitDetailRoute() {
-    // todo
+  _navigateToHabitDetailRoute(BuildContext context, ActiveHabit habitData) {
+    // Navigate
+    // if (habitData.goalType != null) {
+    String? route = HabitHelper.getDetailRoute(habitData.goalType!);
+    if (route != null) {
+      Navigator.pushNamed(
+        context,
+        route,
+        arguments: {
+          'userHabitId': habitData.userHabitId,
+          'name': habitData.name,
+        },
+      );
+    }
   }
 }

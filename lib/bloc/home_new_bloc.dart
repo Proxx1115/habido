@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/mood_tracker.dart';
 import 'package:habido_app/models/mood_tracker_last.dart';
+import 'package:habido_app/models/tip%20category.dart';
 import 'package:habido_app/models/tip.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -23,6 +24,8 @@ class HomeNewBloc extends Bloc<HomeNewEvent, HomeNewState> {
       yield* _mapGetAdviceVideoEventToState();
     } else if (event is GetTipEvent) {
       yield* _mapGetTipEventToState();
+    } else if (event is GetTipsByIdEvent) {
+      yield* _mapGetTipsByIdEventToState(event);
     }
   }
 
@@ -31,7 +34,6 @@ class HomeNewBloc extends Bloc<HomeNewEvent, HomeNewState> {
       yield MoodTrackerLoading();
 
       var res = await ApiManager.getMoodTracker();
-      print('@@@@@@@@@@@GetMoodTrackerEvent>>>>>>>>>> ${res.moodTrackerList}');
 
       if (res.code == ResponseCode.Success) {
         yield MoodTrackerSuccess(res.moodTrackerList!);
@@ -60,7 +62,7 @@ class HomeNewBloc extends Bloc<HomeNewEvent, HomeNewState> {
 
   Stream<HomeNewState> _mapGetTipEventToState() async* {
     try {
-      yield AdviceVideoLoading();
+      // yield AdviceVideoLoading();
 
       var res = await ApiManager.getTips();
       if (res.code == ResponseCode.Success) {
@@ -70,6 +72,21 @@ class HomeNewBloc extends Bloc<HomeNewEvent, HomeNewState> {
       }
     } catch (e) {
       yield TipFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<HomeNewState> _mapGetTipsByIdEventToState(GetTipsByIdEvent event) async* {
+    try {
+      // yield AdviceVideoLoading();
+
+      var res = await ApiManager.getTipById(event.categoryTipId);
+      if (res.code == ResponseCode.Success) {
+        yield TipByIdSuccess(res);
+      } else {
+        yield TipByIdFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield TipByIdFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -90,6 +107,17 @@ class GetMoodTrackerEvent extends HomeNewEvent {}
 class GetMoodTrackerLastEvent extends HomeNewEvent {}
 
 class GetTipEvent extends HomeNewEvent {}
+
+class GetTipsByIdEvent extends HomeNewEvent {
+  final int categoryTipId;
+  const GetTipsByIdEvent(this.categoryTipId);
+
+  @override
+  List<Object> get props => [categoryTipId];
+
+  @override
+  String toString() => 'GetTipsByIdEvent { categoryTipId: $categoryTipId }';
+}
 
 class GetAdviceVideoEvent extends HomeNewEvent {}
 
@@ -138,7 +166,7 @@ class AdviceVideoFailed extends HomeNewState {
 }
 
 class TipSuccess extends HomeNewState {
-  final List<Tip> tipList;
+  final List<TipCategory> tipList;
 
   const TipSuccess(this.tipList);
 
@@ -159,6 +187,29 @@ class TipFailed extends HomeNewState {
 
   @override
   String toString() => 'TipFailed { message: $message }';
+}
+
+class TipByIdSuccess extends HomeNewState {
+  final TipCategory tipData;
+
+  const TipByIdSuccess(this.tipData);
+
+  @override
+  List<Object> get props => [tipData];
+  @override
+  String toString() => 'TipByIdSuccess { tipData: $tipData }';
+}
+
+class TipByIdFailed extends HomeNewState {
+  final String message;
+
+  const TipByIdFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'TipByIdFailed { message: $message }';
 }
 
 class MoodTrackerSuccess extends HomeNewState {

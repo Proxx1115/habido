@@ -168,9 +168,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
-    } else if (state is AddHabitProgressSuccess ||
-        state is UpdateHabitProgressSuccess ||
-        state is DeleteHabitProgressSuccess) {
+    } else if (state is AddHabitProgressSuccess || state is UpdateHabitProgressSuccess || state is DeleteHabitProgressSuccess) {
       var request = HabitProgressListByDateRequest()
         ..dateTime = Func.toDateStr(DateTime.now())
         ..userHabitId = _userHabit.userHabitId;
@@ -229,9 +227,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
       onTap: () {
         if (_enabledTotalAmountCard && _expenseCategoryList != null && _expenseCategoryList!.isNotEmpty) {
           Navigator.pushNamed(context, Routes.habitTotalExpense, arguments: {
-            'expenseCategoryList': _expenseCategoryList,
-            'primaryColor': _primaryColor,
-            'backgroundColor': _backgroundColor,
+            'userHabitId': _userHabit.userHabitId,
           });
         }
       },
@@ -282,9 +278,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
               lineHeight: 5,
               progressColor: _primaryColor,
               backgroundColor: customColors.greyBackground,
-              percent: (_totalAmount > Func.toDouble(_userHabit.goalValue))
-                  ? 1
-                  : _totalAmount / Func.toDouble(_userHabit.goalValue),
+              percent: (_totalAmount > Func.toDouble(_userHabit.goalValue)) ? 1 : _totalAmount / Func.toDouble(_userHabit.goalValue),
             ),
           )
         : Container();

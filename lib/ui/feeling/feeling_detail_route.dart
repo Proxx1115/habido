@@ -1,13 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/mood_tracker_bloc.dart';
 import 'package:habido_app/models/mood_tracker_answer.dart';
 import 'package:habido_app/models/mood_tracker_question.dart';
 import 'package:habido_app/models/mood_tracker_save_request.dart';
-import 'package:habido_app/ui/feeling/btn_back_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -263,13 +261,24 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
 
   void _blocListener(BuildContext context, MoodTrackerState state) {
     if (state is MoodTrackerSaveSuccess) {
-      print('>>Feeling Sucks ess<<<< ${state}');
-      // todo Amjilttai bolloo dialog harulah >> ok btn go home zuva zuva
       // showCustomDialog(
       //   context,
       //   child: CustomDialogBody(asset: Assets.success, text: LocaleKeys.psyTestSuccess, buttonText: LocaleKeys.ok),
       // );
-      Navigator.pushNamed(context, Routes.home_new);
+      showCustomDialog(
+        context,
+        isDismissible: false,
+        child: CustomDialogBody(
+          asset: Assets.success,
+          text: Func.isNotEmpty(state.moodTrackerQuestion.message) ? state.moodTrackerQuestion.message : LocaleKeys.tyForSharingFeeling,
+          buttonText: LocaleKeys.thanksHabido,
+          primaryColor: customColors.primary, //HabitHelper.getPrimaryColor(_primaryColorCode),
+          child: null,
+          onPressedButton: () {
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new)); // todo tushig
+          },
+        ),
+      );
     } else if (state is MoodTrackerSaveFailed) {
       showCustomDialog(
         context,
