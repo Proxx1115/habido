@@ -65,31 +65,24 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               },
               margin: widget.margin,
               height: SizeHelper.boxHeight,
-              backgroundColor: Colors.red,
-              child: Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      /// Hint
-                      Expanded(
-                        child: CustomText(
-                          _text(),
-                          color: _color(),
-                          // margin: EdgeInsets.only(left: 18.0),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-
-                      /// Icon
-                      Container(
-                        // margin: EdgeInsets.only(right: 18.0),
-                        child: SvgPicture.asset(Assets.expand),
-                      ),
-                    ],
+                  /// Hint
+                  Expanded(
+                    child: CustomText(
+                      _text(),
+                      color: _color(),
+                      // margin: EdgeInsets.only(left: 18.0),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  SizedBox(height: 15),
-                  HorizontalLine()
+
+                  /// Icon
+                  Container(
+                    // margin: EdgeInsets.only(right: 18.0),
+                    child: SvgPicture.asset(Assets.expand),
+                  ),
                 ],
               ),
             );

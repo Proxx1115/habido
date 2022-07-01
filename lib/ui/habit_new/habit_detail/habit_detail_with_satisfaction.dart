@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
-import 'package:habido_app/models/active_habit.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -13,20 +12,20 @@ import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
-class HabitDetailWithCountRoute extends StatefulWidget {
+class HabitDetailWithSatisfactionRoute extends StatefulWidget {
   final int? userHabitId;
   final String? name;
-  const HabitDetailWithCountRoute({
+  const HabitDetailWithSatisfactionRoute({
     Key? key,
     this.userHabitId,
     this.name,
   }) : super(key: key);
 
   @override
-  State<HabitDetailWithCountRoute> createState() => _HabitDetailWithCountRouteState();
+  State<HabitDetailWithSatisfactionRoute> createState() => _HabitDetailWithCountRouteState();
 }
 
-class _HabitDetailWithCountRouteState extends State<HabitDetailWithCountRoute> {
+class _HabitDetailWithCountRouteState extends State<HabitDetailWithSatisfactionRoute> {
   UserHabitPlanCount? _userHabitPlanCount;
 
   @override
@@ -63,7 +62,7 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithCountRoute> {
 
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
-      appBarTitle: '${widget.name} - Count',
+      appBarTitle: '${widget.name} - Satisfaction',
       child: Container(
         padding: SizeHelper.screenPadding,
         child: _userHabitPlanCount != null

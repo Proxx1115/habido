@@ -43,6 +43,27 @@ class HabitHelper {
     }
   }
 
+  static String? getDetailRoute(String toolType) {
+    //  HabitGoalSettings? habitGoalSettings = habit.goalSettings;
+
+    switch (toolType) {
+      case ToolType.Minute:
+      case ToolType.Hour:
+        return Routes.habitDetailWithMinute;
+      case ToolType.Count:
+        return Routes.habitDetailWithCount; // count-iig drink water esehiig odoohondoo yalgahgui
+      case ToolType.Income:
+      case ToolType.Expense:
+        return Routes.habitDetailWithFinance;
+      case ToolType.Feeling:
+        return Routes.habitDetailWithFeeling;
+      case ToolType.Satisfaction:
+        return Routes.habitDetailWithSatisfaction;
+      default:
+        return "";
+    }
+  }
+
   static Color getPrimaryColor(String? colorCode) {
     var res = customColors.primary;
     try {
@@ -82,9 +103,7 @@ class HabitHelper {
   }
 
   static Color getBackgroundColor1(UserHabit userHabit) {
-    return userHabit.habit?.backgroundColor != null
-        ? HexColor.fromHex(userHabit.habit!.backgroundColor!)
-        : customColors.primaryBackground;
+    return userHabit.habit?.backgroundColor != null ? HexColor.fromHex(userHabit.habit!.backgroundColor!) : customColors.primaryBackground;
   }
 
   static Color getBackgroundColor2(Habit habit) {
@@ -92,9 +111,7 @@ class HabitHelper {
   }
 
   static Color getBackgroundColor3(HabitCategory habitCategory) {
-    return habitCategory.backgroundColor != null
-        ? HexColor.fromHex(habitCategory.backgroundColor!)
-        : customColors.primaryBackground;
+    return habitCategory.backgroundColor != null ? HexColor.fromHex(habitCategory.backgroundColor!) : customColors.primaryBackground;
   }
 
   static List<ComboItem>? getGoalSettingsComboList(List<HabitGoalSettings>? goalSettingsList) {
@@ -116,8 +133,6 @@ class HabitHelper {
   static ComboItem? getGoalSettingsComboItem(HabitGoalSettings? goalSettings) {
     return goalSettings != null ? ComboItem(txt: goalSettings.goalName ?? '', val: goalSettings) : null;
   }
-
-
 }
 
 /// Хэмжигдэхүүн

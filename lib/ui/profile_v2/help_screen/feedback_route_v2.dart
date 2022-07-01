@@ -56,11 +56,11 @@ class _FeedbackRouteV2State extends State<FeedbackRouteV2> {
   _buttonFinish() {
     return !Func.visibleKeyboard(context)
         ? CustomButton(
-            margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
-            fontWeight: FontWeight.w700,
-            alignment: Alignment.bottomCenter,
-            text: LocaleKeys.send,
-            borderRadius: BorderRadius.circular(15.0),
+              margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
+              fontWeight: FontWeight.w700,
+              alignment: Alignment.bottomCenter,
+              text: LocaleKeys.send,
+              borderRadius: BorderRadius.circular(15.0),
             onPressed: _enabledButton
                 ? () async {
                     var request = SendFeedbackRequest()
