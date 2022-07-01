@@ -39,6 +39,7 @@ import 'package:habido_app/models/mood_tracker_list_response.dart';
 import 'package:habido_app/models/history_habit_response.dart';
 import 'package:habido_app/models/mood_tracker_question.dart';
 import 'package:habido_app/models/mood_tracker_save_request.dart';
+import 'package:habido_app/models/oauthResponse.dart';
 import 'package:habido_app/models/profile_habit_count.dart';
 import 'package:habido_app/models/psy_test_response_v2.dart';
 import 'package:habido_app/models/psy_test_results_response2.dart';
@@ -145,6 +146,13 @@ class ApiManager {
   static Future<BaseResponse> addOauth(AddOauth request) async {
     return BaseResponse.fromJson(await httpUtils.sendRequest(
       path: HttpPath.addOauth,
+      objectData: request,
+    ));
+  }
+
+  static Future<OAuthResponse> userOauth2(AddOauth request) async {
+    return OAuthResponse.fromJson(await httpUtils.sendRequest(
+      path: HttpPath.userOauth2,
       objectData: request,
     ));
   }
@@ -267,19 +275,22 @@ class ApiManager {
 
   static Future<BadgeListResponse> badgeList() async {
     return BadgeListResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.badgeList, httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.badgeList, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<ProfileHabitCount> profileHabitCount() async {
     return ProfileHabitCount.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.profileHabitCount, httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.profileHabitCount, httpMethod: HttpMethod.get),
     );
   }
 
   static Future<SkillListResponse> skillList() async {
     return SkillListResponse.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.habitSkillList, httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.habitSkillList, httpMethod: HttpMethod.get),
     );
   }
 
@@ -683,7 +694,8 @@ class ApiManager {
     );
   }
 
-  static Future<HabitFinanceTotalAmountResponse> habitFinanceTotalAmountByDate(HabitTotalAmountByDateRequest request) async {
+  static Future<HabitFinanceTotalAmountResponse> habitFinanceTotalAmountByDate(
+      HabitTotalAmountByDateRequest request) async {
     return HabitFinanceTotalAmountResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.habitFinanceTotalAmountByDate +
@@ -872,7 +884,8 @@ class ApiManager {
   }
 
   /// new
-  static Future<UserHabitPlanCount> getUserHabitPlanCount(int userHabitId) async {
+  static Future<UserHabitPlanCount> getUserHabitPlanCount(
+      int userHabitId) async {
     return UserHabitPlanCount.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.userHabitPlanCount + '/$userHabitId',

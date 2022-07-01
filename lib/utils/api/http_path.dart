@@ -4,6 +4,7 @@ class HttpPath {
   static const String checkSession = '/mobile/check-session';
   static const String signUpPhone = '/auth/user/signup';
   static const String addOauth = '/mobile/add/oauth2';
+  static const String userOauth2 = '/auth/user/oauth2';
   static const String signUpVerifyCode = '/auth/user/verify-code';
   static const String signUpRegister = '/auth/user/register';
   static const String changePassword = '/mobile/change/pass';

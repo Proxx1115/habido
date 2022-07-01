@@ -1,10 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
     package="mn.app.habido_app">
 
     <!-- Permissions options for the Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-<uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
 
     <!-- Permissions options for the `contacts` group -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -94,15 +95,15 @@
             <data android:scheme="https" />
         </intent>
         <!-- If your app makes calls -->
-        <intent>
+        <!-- <intent>
             <action android:name="android.intent.action.DIAL" />
             <data android:scheme="tel" />
         </intent>
-        <!-- If your app emails -->
+        If your app emails
         <intent>
             <action android:name="android.intent.action.SEND" />
             <data android:mimeType="*/*" />
-        </intent>
+        </intent> -->
     </queries>
 
     <application
@@ -157,7 +158,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
             	<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-   	<meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+   	    <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
 
     </application>
 
