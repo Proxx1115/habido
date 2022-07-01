@@ -12,7 +12,6 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_container_v2.dart';
 import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item_v2.dart';
 import 'package:habido_app/widgets/dialogs.dart';
@@ -30,8 +29,11 @@ class HabitCategoriesScreenV2 extends StatefulWidget {
 class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
   // Data
   List<Habit>? _habitList;
+  // Habit _newHabit;
   // Bloc
   final _habitCategoryBloc = HabitCategoryBloc();
+
+  HabitCategory? _customCategory;
 
   // Gridview
   double _mainAxisSpacing = 15.0;
@@ -55,16 +57,17 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
               padding:
                   EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 55),
               children: [
-                if (_habitCategoryList != null &&
-                    _habitCategoryList!.isNotEmpty)
-                  for (var el in _habitCategoryList!)
-                    if (el.userId != 0)
-                      ButtonStadiumWithText(
-                        backgroundColor: customColors.primary,
-                        asset: Assets.add,
-                        text: el.name!,
-                        borderRadius: 15.0,
-                      ),
+                if (_customCategory != null)
+                  ButtonStadiumWithText(
+                    onPressed: () {
+                      _habitCategoryBloc
+                          .add(GetCustomHabitSettingsEvent(_customCategory!));
+                    },
+                    backgroundColor: customColors.primary,
+                    asset: Assets.add,
+                    text: _customCategory!.name!, //_customCategory!.name!
+                    borderRadius: 15.0,
+                  ),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -77,37 +80,9 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
                           SizedBox(
                             height: 10.0,
                           ),
-                          _expandableHabitList(
-                              el.name!, el.habits!, true, false, ''),
+                          _expandableHabitList(el.name!, el.habits!),
                         ],
                       )
-
-                /// Category list
-                // if (_habitCategoryList != null &&
-                //     _habitCategoryList!.isNotEmpty)
-                // Expanded(
-                //   child: GridView.count(
-                //     primary: false,
-                //     padding: const EdgeInsets.all(SizeHelper.padding),
-                //     crossAxisSpacing: 15.0,
-                //     mainAxisSpacing: _mainAxisSpacing,
-                //     crossAxisCount: 2,
-                //     childAspectRatio: 1.11,
-                //     children: List.generate(
-                //       _habitCategoryList!.length,
-                //       (index) => (index == 0)
-                //           ? CustomShowcase(
-                //               showcaseKey: ShowcaseKey.habitCategory,
-                //               description: LocaleKeys.showcaseHabitCategory,
-                //               overlayOpacity: 0.5,
-                //               overlayPadding: EdgeInsets.all(-5.0),
-                //               child:
-                //                   _categoryItem(_habitCategoryList![index]),
-                //             )
-                //           : _categoryItem(_habitCategoryList![index]),
-                //     ),
-                //   ),
-                // ),
               ],
             );
           },
@@ -119,8 +94,8 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
   void _blocListener(BuildContext context, HabitCategoryState state) {
     if (state is HabitCategoriesSuccess) {
       _habitCategoryList = state.habitCategoryList;
-      // print(_habitCategoryList);
       if (_habitCategoryList != null && _habitCategoryList!.isNotEmpty) {
+        _customCategory = _habitCategoryList!.where((x) => x.userId != 0).first;
         _habitCategoryBloc
             .add(HabitCategoryShowcaseEvent(ShowcaseKeyName.habitCategory));
       }
@@ -160,33 +135,11 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
     }
   }
 
-  Widget _categoryItem(HabitCategory category) {
-    return (Func.isNotEmpty(category.photo) && Func.isNotEmpty(category.color))
-        ? FadeInAnimation(
-            child: GridItemContainer(
-              imageUrl: category.photo!,
-              backgroundColor: category.color!,
-              text: category.name ?? '',
-              onPressed: () {
-                if (Func.toInt(category.userId) > 0) {
-                  _habitCategoryBloc.add(GetCustomHabitSettingsEvent(category));
-                } else {
-                  // Default habit
-                  Navigator.pushNamed(context, Routes.habitList, arguments: {
-                    'habitCategory': category,
-                  });
-                }
-              },
-            ),
-          )
-        : Container();
-  }
-
-  Widget _expandableHabitList(String title, List<Habit> userHabitList,
-      bool enabled, bool isToday, String? todayText) {
+  Widget _expandableHabitList(
+    String title,
+    List<Habit> userHabitList,
+  ) {
     return ExpandableContainerV2(
-      isToday: isToday,
-      todayText: todayText,
       title: title,
       expandableListItems: List.generate(
         userHabitList.length,
@@ -195,31 +148,12 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
           text: userHabitList[index].name ?? '',
           leadingUrl: userHabitList[index].photo,
           leadingColor: customColors.iconWhite,
-          // leadingBackgroundColor: (userHabitList[index].habit?.color != null)
-          //     ? HexColor.fromHex(userHabitList[index].habit!.color!)
-          //     : null,
-          // suffixAsset: _getSuffixAsset(userHabitList[index]),
-          // suffixColor: _getSuffixColor(userHabitList[index]),
-          // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
-          // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
           onPressed: () {
-            // Is finished
-            // if (userHabitList[index].isDone ?? false) return;
-
-            // Navigate
-            // if (enabled && userHabitList[index].habit?.goalSettings != null) {
-            //   String? route =
-            //       HabitHelper.getProgressRoute(userHabitList[index].habit!);
-            //   if (route != null) {
-            //     Navigator.pushNamed(
-            //       context,
-            //       route,
-            //       arguments: {
-            //         'userHabit': userHabitList[index],
-            //       },
-            //     );
-            //   }
-            // }
+            Navigator.pushNamed(context, Routes.userHabit, arguments: {
+              'screenMode': ScreenMode.New,
+              'habitId': userHabitList[index].habitId,
+              'title': LocaleKeys.startNewHabit,
+            });
           },
         ),
       ),

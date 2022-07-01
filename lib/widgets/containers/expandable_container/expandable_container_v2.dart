@@ -35,7 +35,7 @@ class _ExpandableContainerV2State extends State<ExpandableContainerV2> {
   late double _expandedHeight;
 
   // List item
-  final _listItemHeight = SizeHelper.listItemHeight70;
+  final _listItemHeight = 60;
   final _liteItemMarginBottom = 10.0;
 
   @override
@@ -45,8 +45,9 @@ class _ExpandableContainerV2State extends State<ExpandableContainerV2> {
 
   @override
   Widget build(BuildContext context) {
-    _expandedHeight = widget.expandableListItems.length *
-        (_listItemHeight + _liteItemMarginBottom);
+    _expandedHeight = widget.expandableListItems.length /
+        2 *
+        (60 + _liteItemMarginBottom + 30);
 
     return Container(
       margin: widget.margin,
@@ -114,6 +115,7 @@ class _ExpandableContainerV2State extends State<ExpandableContainerV2> {
       width: screenWidth,
       height: _isExpanded ? _expandedHeight : _collapsedHeight,
       child: GridView.count(
+        childAspectRatio: ((MediaQuery.of(context).size.width - 55) / 2) / 73,
         crossAxisCount: 2,
         mainAxisSpacing: 15,
         crossAxisSpacing: 15,
@@ -129,12 +131,3 @@ class _ExpandableContainerV2State extends State<ExpandableContainerV2> {
     );
   }
 }
- // List.generate(
-        //   widget.expandableListItems.length,
-        //   (index) => Expanded(
-        //     child: Container(
-        //       margin: EdgeInsets.only(bottom: _liteItemMarginBottom),
-        //       child: widget.expandableListItems[index],
-        //     ),
-        //   ),
-        // ),

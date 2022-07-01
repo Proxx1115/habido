@@ -7,15 +7,15 @@ import 'package:showcaseview/showcaseview.dart';
 
 class UserHabitRouteV2 extends StatefulWidget {
   final String screenMode;
-  final Habit habit;
+  final int? habitId;
   final UserHabit? userHabit;
   final CustomHabitSettingsResponse? customHabitSettings;
   final String? title;
 
   const UserHabitRouteV2({
     Key? key,
+    required this.habitId,
     required this.screenMode,
-    required this.habit,
     this.userHabit,
     this.customHabitSettings,
     this.title,
@@ -33,10 +33,10 @@ class UserHabitRouteV2State extends State<UserHabitRouteV2> {
         builder: (context) {
           return UserHabitScreenV2(
             screenMode: widget.screenMode,
-            habit: widget.habit,
             userHabit: widget.userHabit,
             customHabitSettings: widget.customHabitSettings,
             title: widget.title,
+            habitId: widget.habitId!,
           );
         },
       ),

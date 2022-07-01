@@ -522,7 +522,7 @@ class Routes {
                   screenMode: _getValueByKey(args, 'screenMode'),
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
-                  habit: _getValueByKey(args, 'habit'),
+                  habitId: _getValueByKey(args, 'habitId'),
                   customHabitSettings:
                       _getValueByKey(args, 'customHabitSettings'),
                 ),

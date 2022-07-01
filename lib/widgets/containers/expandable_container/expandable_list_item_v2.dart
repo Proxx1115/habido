@@ -8,7 +8,6 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
-import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class ExpandableListItemV2 extends StatelessWidget {
@@ -52,25 +51,21 @@ class ExpandableListItemV2 extends StatelessWidget {
         actionExtentRatio: 0.25, // todo calculate ratio
         child: InkWell(
           onTap: onPressed,
-          borderRadius: SizeHelper.borderRadiusOdd,
+          borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
           child: Container(
-            height: 78.0,
-            padding: EdgeInsets.fromLTRB(22.0, 12.0, 22.0, 12.0),
+            padding: EdgeInsets.symmetric(horizontal: 15.0),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-              color: customColors.whiteBackground,
-            ),
-            child: Container(
-              height: 60.0,
+                borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
+                color: customColors.whiteBackground),
+            child: Expanded(
               child: Row(
                 children: [
                   /// Image
                   if (Func.isNotEmpty(leadingUrl))
                     Container(
-                      margin: EdgeInsets.only(right: 15.0),
-                      padding: EdgeInsets.all(10.0),
-                      height: 40.0,
-                      width: 40.0,
+                      margin: EdgeInsets.only(
+                        right: 15.0,
+                      ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
                             Radius.circular(SizeHelper.borderRadius)),
@@ -80,9 +75,8 @@ class ExpandableListItemV2 extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: leadingUrl!,
                         color: leadingColor,
-                        fit: BoxFit.fitHeight,
-                        width: 20.0,
-                        height: 20.0,
+                        width: 25.0,
+                        height: 25.0,
                         placeholder: (context, url) => Container(),
                         errorWidget: (context, url, error) => Container(),
                       ),

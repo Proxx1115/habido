@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/size_helper.dart';
-import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/animations/animations.dart';
-import 'package:habido_app/widgets/containers/containers.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item_v2.dart';
-import 'package:habido_app/widgets/text.dart';
+import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
 
 class ExpandableContainer extends StatefulWidget {
   final String title;
-  final List<ExpandableListItemV2> expandableListItems;
+  final List<ExpandableListItem> expandableListItems;
   final EdgeInsets? margin;
   final bool isToday;
   final String? todayText;

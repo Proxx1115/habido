@@ -529,7 +529,7 @@ class ButtonStadiumWithText extends StatelessWidget {
               child: SvgPicture.asset(
                 asset,
                 fit: BoxFit.scaleDown,
-                color: iconColor ?? _getContentColor(),
+                color: customColors.iconWhite,
               ),
             ),
             CustomText(text),
