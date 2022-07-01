@@ -13,6 +13,9 @@ class HttpPath {
   static const String moodTrackerLatest = '/mobile/mood-tracker/latest';
   static const String moodTrackerThen = '/mobile/mood-tracker/then';
   static const String monthlyStat = '/mobile/mood-tracker/monthly-stat';
+  static const String badgeList = '/mobile/badge/list';
+  static const String profileHabitCount = '/mobile/user-habit/count';
+  static const String habitSkillList = '/mobile/skill/list';
 
   static const String param = '/auth/param';
   static const String getDevice = '/mobile/user-device';
@@ -64,6 +67,8 @@ class HttpPath {
       '/mobile/habit/user-habit/expense-categories';
   static const String habitFinanceTotalAmount =
       '/mobile/habit/user-habit/total-amount';
+  static const String habitFinanceTotalAmountByDate =
+      '/mobile/habit/user-habit/date/total-amount';
   static const String habitQuestion = '/mobile/habit/questions';
   static const String addHabitProgress =
       '/mobile/habit/user-habit/plan/progress';
@@ -88,6 +93,7 @@ class HttpPath {
   static const String getHabitProgressLog = '/mobile/user-habit/progress/log';
   static const String updateHabitProgressLog =
       '/mobile/user-habit/progress/log';
+  static const String userHabitPlanCount = '/mobile/user-habit/plan/count';
   static const String sendFeedback = '/mobile/feed-back';
   static const String feedBackCatList = '/mobile/feed-back/categories';
 
@@ -101,6 +107,7 @@ class HttpPath {
   static const String moodTrackerLast = '/mobile/mood-tracker/latest';
   static const String adviceVideo = '/mobile/advice-video';
   static const String tips = '/mobile/tips';
+  static const String tip = '/mobile/tip';
 
   /// All Habits
   static const String activeHabitFirst = '/mobile/user-habit/ongoing/first';

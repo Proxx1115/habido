@@ -73,14 +73,14 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                     child: CustomText(
                       _text(),
                       color: _color(),
-                      margin: EdgeInsets.only(left: 18.0),
+                      // margin: EdgeInsets.only(left: 18.0),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
 
                   /// Icon
                   Container(
-                    margin: EdgeInsets.only(right: 18.0),
+                    // margin: EdgeInsets.only(right: 18.0),
                     child: SvgPicture.asset(Assets.expand),
                   ),
                 ],
