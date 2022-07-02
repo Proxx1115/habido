@@ -150,6 +150,7 @@ class LocaleKeys {
   static String get loginWithGoogle => 'Google-ээр нэвтрэх';
 
   static String get loginWithFb => 'Facebook-ээр нэвтрэх';
+  static String get loginOr => 'эсвэл';
 
   static String get loginWithApple => 'Apple-аар нэвтрэх';
 

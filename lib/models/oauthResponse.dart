@@ -6,8 +6,9 @@ class OAuthResponse extends BaseResponse {
 
   OAuthResponse({this.token});
 
-  OAuthResponse.fromJson(dynamic json) {
-    token = json["token"];
+  OAuthResponse.fromJson(Map<String, dynamic> json) {
+    parseBaseParams(json);
+    token = json["token"] ?? '';
   }
 
   Map<String, dynamic> toJson() {

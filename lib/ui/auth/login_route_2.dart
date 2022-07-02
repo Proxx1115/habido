@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -20,8 +22,6 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
-
 class LoginRoute2 extends StatefulWidget {
   const LoginRoute2({Key? key}) : super(key: key);
 
@@ -30,9 +30,16 @@ class LoginRoute2 extends StatefulWidget {
 }
 
 class _LoginRoute2State extends State<LoginRoute2> {
+  GoogleSignInAccount? currentUser;
+
   @override
   void initState() {
     super.initState();
+    // _googleSignIn.onCurrentUserChanged.listen((account) {
+    //   setState(() {
+    //     currentUser = account;
+    //   });
+    // });
   }
 
   @override
@@ -55,12 +62,18 @@ class _LoginRoute2State extends State<LoginRoute2> {
 
   void _blocListener(BuildContext context, OAuthState state) {
     if (state is LoginSuccess) {
-      if (globals.userData?.isOnboardingDone ?? false) {
-        /// Go to home
-        Navigator.pushNamed(context, Routes.home_new); // todo home
-      } else {
-        /// Go to chat
-        Navigator.pushNamed(context, Routes.habidoAssistant);
+      if (globals.userData!.birthDay == null ||
+          globals.userData!.gender == null ||
+          globals.userData!.firstName == null) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.personalInfo, (Route<dynamic> route) => false);
+        if (globals.userData?.isOnboardingDone == false) {
+          /// Go to home
+          Navigator.pushNamed(context, Routes.home_new);
+
+          /// Go to chat
+          // Navigator.pushNamed(context, Routes.habidoAssistant);
+        }
       }
     } else if (state is LoginFailed) {
       showCustomDialog(
@@ -72,7 +85,7 @@ class _LoginRoute2State extends State<LoginRoute2> {
       );
     } else if (state is SessionTimeoutState) {
       Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.login, (Route<dynamic> route) => false);
+          Routes.login2, (Route<dynamic> route) => false);
 
       showCustomDialog(
         context,
@@ -119,6 +132,8 @@ class _LoginRoute2State extends State<LoginRoute2> {
                           ),
 
                           SizedBox(height: 40.0),
+                          _oldLogin(context),
+                          SizedBox(height: 20.0),
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +147,7 @@ class _LoginRoute2State extends State<LoginRoute2> {
                               ),
                               SizedBox(width: 5.5),
                               CustomText(
-                                LocaleKeys.loginWithSocial,
+                                LocaleKeys.loginOr,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16.0,
                                 color: customColors.grayBorder,
@@ -148,7 +163,7 @@ class _LoginRoute2State extends State<LoginRoute2> {
                             ],
                           ),
 
-                          SizedBox(height: 40.0),
+                          SizedBox(height: 20.0),
 
                           /// Google-ээр нэвтрэх
                           _socialLoginBtn(context, "google"),
@@ -160,32 +175,34 @@ class _LoginRoute2State extends State<LoginRoute2> {
                           SizedBox(height: 15.0),
 
                           /// Apple-аар нэвтрэх
-                          _socialLoginBtn(context, "apple"),
+                          Platform.isIOS
+                              ? _socialLoginBtn(context, "apple")
+                              : Container(),
                         ],
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 15.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomText(
-                      '${LocaleKeys.hasNotAccount} ',
-                      fontSize: 15.0,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _navigateToSignUp(context);
-                      },
-                      child: CustomText(
-                        LocaleKeys.signUp,
-                        fontSize: 15.0,
-                        color: customColors.primary,
-                      ),
-                    )
-                  ],
-                ),
+                SizedBox(height: 40.0),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     CustomText(
+                //       '${LocaleKeys.hasNotAccount} ',
+                //       fontSize: 15.0,
+                //     ),
+                //     InkWell(
+                //       onTap: () {
+                //         _navigateToSignUp(context);
+                //       },
+                //       child: CustomText(
+                //         LocaleKeys.signUp,
+                //         fontSize: 15.0,
+                //         color: customColors.primary,
+                //       ),
+                //     )
+                //   ],
+                // ),
                 SizedBox(height: 30.0)
               ],
             ),
@@ -266,36 +283,93 @@ class _LoginRoute2State extends State<LoginRoute2> {
     );
   }
 
+  Widget _oldLogin(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.login, (Route<dynamic> route) => false);
+      },
+      child: Container(
+        height: 50.0,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            border: Border.all(
+              color: customColors.primary,
+              width: 1,
+            ),
+            color: Colors.white),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomText(
+              LocaleKeys.phoneNumber,
+              alignment: Alignment.center,
+              textAlign: TextAlign.center,
+              fontWeight: FontWeight.w500,
+              fontSize: 15.0,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _navigateToSignUp(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        Routes.signUp, (Route<dynamic> route) => false);
+  }
+
   Future<void> _onGoogleAuth(context) async {
-    GoogleSignInAccount? currentUser;
+    var gmail = 'Gmail';
     try {
-      await _googleSignIn.signIn();
-      var gmail = 'Gmail';
-      print('user:::::::::::${currentUser!.email}');
+      final GoogleSignIn _googleSignIn =
+          GoogleSignIn(scopes: ['email'], hostedDomain: "", clientId: "");
+
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      print("amjilttai:::::${googleUser}");
+      print('email:::::::::::${googleUser!.email}');
+
       var request = AddOauth()
-        ..email = currentUser.email
+        ..email = googleUser!.email
         ..type = gmail;
       BlocManager.oauthBloc.add(LoginEvent(request));
     } catch (e) {
-      print('Googleer newterch chadsangvi');
+      print('Googleer newterch chadsangvi::::::$e');
     }
   }
 
   Future<void> _onFacebookAuth(context) async {
-    dynamic userFbData;
-    var fb = 'Facebook';
-    final result =
-        await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
-    if (result.status == LoginStatus.success) {
-      final requestData = await FacebookAuth.i.getUserData(
-        fields: "email, name",
-      );
-      userFbData = requestData;
-      print('user:::::::::::${userFbData}');
-      var request = AddOauth()
-        ..email = userFbData.email
-        ..type = fb;
-      BlocManager.oauthBloc.add(LoginEvent(request));
+    try {
+      Map? userFbData;
+      var fb = 'Facebook';
+      final result =
+          await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
+      if (result.status == LoginStatus.success) {
+        final requestData = await FacebookAuth.i.getUserData(
+          fields: "email, name",
+        );
+        setState(() {
+          userFbData = requestData;
+        });
+        print('user:::::::::::${userFbData}');
+        print('user:::::::::::${userFbData!['email']}');
+
+        var request = AddOauth()
+          ..email = userFbData!['email']
+          ..type = fb;
+        BlocManager.oauthBloc.add(LoginEvent(request));
+      }
+    } catch (e) {
+      print("Fb bolohgvi bna $e");
+    }
+  }
+
+  _checkUserInfo(BuildContext context) {
+    if (globals.userData!.birthDay == null ||
+        globals.userData!.gender == null ||
+        globals.userData!.firstName == null) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.personalInfo, (Route<dynamic> route) => false);
     }
   }
 
@@ -317,11 +391,13 @@ class _LoginRoute2State extends State<LoginRoute2> {
     var request = AddOauth()
       ..email = credential.email
       ..type = apple;
-    BlocManager.oauthBloc.add(LoginEvent(request));
-  }
+    var res = await ApiManager.addOauth(request);
 
-  _navigateToSignUp(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        Routes.signUp, (Route<dynamic> route) => false);
+    if (res.code == ResponseCode.Success) {
+      print("Amjilttai email nemlee");
+      Navigator.pop(context);
+    } else {
+      print("mail nemj chadsangvi${res}");
+    }
   }
 }

@@ -33,7 +33,8 @@ class HomeRouteNew extends StatefulWidget {
   _HomeRouteNewState createState() => _HomeRouteNewState();
 }
 
-class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderStateMixin {
+class _HomeRouteNewState extends State<HomeRouteNew>
+    with SingleTickerProviderStateMixin {
   // UI
   final _homeNewKey = GlobalKey<ScaffoldState>();
 
@@ -48,7 +49,7 @@ class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderSt
     BlocManager.homeBloc.currentTabIndex = 2;
     _tabController = TabController(initialIndex: 2, length: 5, vsync: this);
     BlocManager.homeBloc.add(HomeShowcaseEvent(ShowcaseKeyName.dashboard));
-    WidgetsBinding.instance.addPostFrameCallback((_) => _checkSession(context));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkOAuth(context));
   }
 
   @override
@@ -68,7 +69,8 @@ class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderSt
               if (state is NavigateToPageState) {
                 _tabController.index = state.index;
               } else if (state is HomeShowcaseState) {
-                ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
+                ShowCaseWidget.of(context)
+                    ?.startShowCase(state.showcaseKeyList);
               }
             },
             child: BlocBuilder<HomeBloc, HomeState>(
@@ -125,7 +127,8 @@ class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
-  _CustomBottomNavigationBarState createState() => _CustomBottomNavigationBarState();
+  _CustomBottomNavigationBarState createState() =>
+      _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
@@ -153,7 +156,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.profile,
               description: LocaleKeys.showcaseProfile,
-              child: _bottomNavigationBarItem(0, Assets.assistant, LocaleKeys.habit),
+              child: _bottomNavigationBarItem(
+                  0, Assets.assistant, LocaleKeys.habit),
             ),
           ),
 
@@ -162,7 +166,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.assistant,
               description: LocaleKeys.showcaseAssistant,
-              child: _bottomNavigationBarItem(1, Assets.male_habido, LocaleKeys.chatbot), //todo set Icon
+              child: _bottomNavigationBarItem(
+                  1, Assets.male_habido, LocaleKeys.chatbot), //todo set Icon
             ),
           ),
 
@@ -186,7 +191,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               showcaseKey: ShowcaseKey.content,
               description: LocaleKeys.showcaseContent,
               overlayOpacity: 0.7,
-              child: _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
+              child: _bottomNavigationBarItem(
+                  4, Assets.content, LocaleKeys.advice),
             ),
           ),
         ],
@@ -195,7 +201,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   Widget _bottomNavigationBarItem(int index, String asset, String text) {
-    _navBarItemWidth = _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
+    _navBarItemWidth =
+        _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
 
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -218,7 +225,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 Container(
                   width: 20.0,
                   height: SizeHelper.borderWidth,
-                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.primaryBorder,
+                  color: BlocManager.homeBloc.currentTabIndex == index
+                      ? customColors.primary
+                      : customColors.primaryBorder,
                 ),
                 Expanded(
                   child: HorizontalLine(color: customColors.primaryBorder),
@@ -237,7 +246,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     height: 24.0,
                     child: SvgPicture.asset(
                       asset,
-                      color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                      color: BlocManager.homeBloc.currentTabIndex == index
+                          ? customColors.primary
+                          : customColors.iconGrey,
                     ),
                   ),
                 ),
@@ -247,7 +258,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   text,
                   padding: EdgeInsets.only(top: 5.0),
                   alignment: Alignment.center,
-                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                  color: BlocManager.homeBloc.currentTabIndex == index
+                      ? customColors.primary
+                      : customColors.iconGrey,
                   fontSize: 11.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -260,12 +273,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 }
 
-_checkSession(BuildContext context) {
+_checkOAuth(BuildContext context) {
   if (globals.userData!.hasOAuth2 == false) {
     showAuthDialog(
       context,
-      child:
-          AuthDialog(asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
+      child: AuthDialog(
+          asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
     );
   }
 }

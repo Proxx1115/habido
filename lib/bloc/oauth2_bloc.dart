@@ -36,7 +36,6 @@ class OAuthBloc extends Bloc<OAuthEvent, OAuthState> {
   Stream<OAuthState> _mapLoginEventToState(AddOauth request) async* {
     try {
       yield OAuthLoading();
-
       OAuthResponse res = await ApiManager.userOauth2(request);
       if (res.code == ResponseCode.Success) {
         /// Session хадгалах
@@ -45,6 +44,7 @@ class OAuthBloc extends Bloc<OAuthEvent, OAuthState> {
         /// Get user data
         var userData = await ApiManager.getUserData();
         if (userData.code == ResponseCode.Success) {
+          print("usrdataa ::::::::::::::$res");
           await afterLogin();
 
           yield LoginSuccess(res);

@@ -4,9 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:habido_app/bloc/authDialog_bloc.dart';
+import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/addOauth.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -18,6 +21,7 @@ import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -66,21 +70,40 @@ class AuthDialog extends StatefulWidget {
 }
 
 class _AuthDialogState extends State<AuthDialog> {
-  GoogleSignInAccount? currentUser;
-  dynamic? userFbData;
-
   @override
-  void initState() {
-    _googleSignIn.onCurrentUserChanged.listen((account) {
-      setState(() {
-        currentUser = account;
-      });
-    });
-    super.initState();
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider.value(
+      value: BlocManager.emailBloc,
+      child: BlocListener<EmailBloc, EmailState>(
+        listener: _blocListener,
+        child: BlocBuilder<EmailBloc, EmailState>(
+          builder: _blocBuilder,
+        ),
+      ),
+    );
+  }
+
+  void _blocListener(BuildContext context, EmailState state) {
+    if (state is AddEmailSuccess) {
+      Navigator.pop(context);
+    } else if (state is LoginFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
+      );
+    }
+  }
+
+  @override
+  Widget _blocBuilder(BuildContext context, EmailState state) {
     return Container(
       padding: MediaQuery.of(context).viewInsets,
       decoration: new BoxDecoration(
@@ -208,50 +231,44 @@ class _AuthDialogState extends State<AuthDialog> {
   }
 
   Future<void> _onGoogleAuth(context) async {
-    GoogleSignInAccount? user = currentUser;
+    var gmail = 'Gmail';
     try {
-      await _googleSignIn.signIn();
-      var gmail = 'Gmail';
-      print('user:::::::::::${user!.email}');
-      var request = AddOauth()
-        ..email = user.email
-        ..type = gmail;
-      var res = await ApiManager.addOauth(request);
+      final GoogleSignIn _googleSignIn =
+          GoogleSignIn(scopes: ['email'], hostedDomain: "", clientId: "");
 
-      if (res.code == ResponseCode.Success) {
-        print("Amjilttai email nemlee");
-        Navigator.pop(context);
-      } else {
-        print("mail nemj chadsangvi${res}");
-      }
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      print("amjilttai:::::${googleUser}");
+
+      var request = AddOauth()
+        ..email = googleUser!.email
+        ..type = gmail;
+      BlocManager.emailBloc.add(AddEmailEvent(request));
     } catch (e) {
-      print('Googleer newterch chadsangvi');
+      print('Googleer newterch chadsangvi::::::$e');
     }
   }
 
   Future<void> _onFacebookAuth(context) async {
-    var fb = 'Facebook';
-    final result =
-        await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
-    if (result.status == LoginStatus.success) {
-      final requestData = await FacebookAuth.i.getUserData(
-        fields: "email, name",
-      );
-      setState(() {
-        userFbData = requestData;
-      });
-      print('user:::::::::::${userFbData}');
-      var request = AddOauth()
-        ..email = userFbData.email
-        ..type = fb;
-      var res = await ApiManager.addOauth(request);
-
-      if (res.code == ResponseCode.Success) {
-        print("Amjilttai email nemlee");
-        Navigator.pop(context);
-      } else {
-        print("mail nemj chadsangvi${res}");
+    try {
+      Map? userFbData;
+      var fb = 'Facebook';
+      final result =
+          await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
+      if (result.status == LoginStatus.success) {
+        final requestData = await FacebookAuth.i.getUserData(
+          fields: "email, name",
+        );
+        setState(() {
+          userFbData = requestData;
+        });
+        print('user:::::::::::${userFbData}');
+        var request = AddOauth()
+          ..email = userFbData!['email']
+          ..type = fb;
+        BlocManager.emailBloc.add(AddEmailEvent(request));
       }
+    } catch (e) {
+      print("Fb bolohgvi bna $e");
     }
   }
 

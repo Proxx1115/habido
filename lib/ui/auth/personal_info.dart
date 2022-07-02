@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/ui/profile_v2/user_info/textbox.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -7,11 +8,13 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/date_picker/date_picker.dart';
+import 'package:habido_app/widgets/date_picker/date_pickerInfo.dart';
 import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
+import 'package:habido_app/widgets/userInfoSwitch.dart';
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({Key? key}) : super(key: key);
@@ -46,8 +49,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
             child: Column(
               children: [
                 Container(
-                  width: 251.0,
-                  height: 251.0,
+                  width: 200.0,
+                  height: 200.0,
                   margin: EdgeInsets.fromLTRB(62, 48, 62, 32),
                   child: SvgPicture.asset(
                     Assets.PersonalInfo,
@@ -69,11 +72,17 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             fontWeight: FontWeight.w700,
                             fontSize: 30.0,
                           ),
-                          _userNameTextField(),
+                          _lastNameTextField(),
+                          HorizontalLine(),
                           _birthdayPicker(),
+                          HorizontalLine(),
                           _genderSwitch(),
+                          HorizontalLine(),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 50,
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
@@ -95,17 +104,27 @@ class _PersonalInfoState extends State<PersonalInfo> {
     );
   }
 
-  _userNameTextField() {
-    return CustomTextField(
-      controller: _userNameController,
-      hintText: LocaleKeys.lastName,
-      suffixAsset: Assets.edit,
-      margin: EdgeInsets.only(top: 15.0),
+  _lastNameTextField() {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          Assets.PersonalInfo,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.contain,
+        ),
+        UserInfoTextField(
+          controller: _userNameController,
+          hintText: LocaleKeys.lastName,
+          // suffixAsset: Assets.editV2,
+          margin: EdgeInsets.only(top: 15.0),
+          backgroundColor: Colors.transparent,
+        ),
+      ],
     );
   }
 
   _birthdayPicker() {
-    return CustomDatePicker(
+    return InfoDatePicker(
       bloc: _birthDatePickerBloc,
       initialDate: _selectedBirthDate,
       hintText: LocaleKeys.birthDate,
@@ -121,8 +140,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   _genderSwitch() {
     return StadiumContainer(
-      margin: EdgeInsets.only(top: 15.0),
-      child: CustomSwitch(
+      backgroundColor: Colors.transparent,
+      child: UserInfoSwitch(
         value: _genderValue,
         // margin: EdgeInsets.only(left: 18.0),
         activeText: LocaleKeys.female,
