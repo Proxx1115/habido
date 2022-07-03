@@ -67,6 +67,7 @@ class _LoginRoute2State extends State<LoginRoute2> {
           globals.userData!.firstName == null) {
         Navigator.of(context).pushNamedAndRemoveUntil(
             Routes.personalInfo, (Route<dynamic> route) => false);
+      } else {
         if (globals.userData?.isOnboardingDone == false) {
           /// Go to home
           Navigator.pushNamed(context, Routes.home_new);
@@ -184,26 +185,6 @@ class _LoginRoute2State extends State<LoginRoute2> {
                   ),
                 ),
                 SizedBox(height: 40.0),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     CustomText(
-                //       '${LocaleKeys.hasNotAccount} ',
-                //       fontSize: 15.0,
-                //     ),
-                //     InkWell(
-                //       onTap: () {
-                //         _navigateToSignUp(context);
-                //       },
-                //       child: CustomText(
-                //         LocaleKeys.signUp,
-                //         fontSize: 15.0,
-                //         color: customColors.primary,
-                //       ),
-                //     )
-                //   ],
-                // ),
-                SizedBox(height: 30.0)
               ],
             ),
           )

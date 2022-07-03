@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -184,15 +185,17 @@ class _AuthDialogState extends State<AuthDialog> {
           SizedBox(
             width: 15,
           ),
-          InkWell(
-            onTap: () {
-              _onAppleAuth(context);
-            },
-            child: Image.asset(
-              Assets.apple_icon,
-              width: 50,
-            ),
-          ),
+          Platform.isIOS
+              ? InkWell(
+                  onTap: () {
+                    _onAppleAuth(context);
+                  },
+                  child: Image.asset(
+                    Assets.apple_icon,
+                    width: 50,
+                  ),
+                )
+              : Container(),
           SizedBox(width: 10.0),
         ],
       ),
@@ -235,7 +238,7 @@ class _AuthDialogState extends State<AuthDialog> {
     var gmail = 'Gmail';
     try {
       final GoogleSignIn _googleSignIn =
-          GoogleSignIn(scopes: ['email'], hostedDomain: "", clientId: "");
+          GoogleSignIn(scopes: ['email'], hostedDomain: "");
 
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       print("amjilttai:::::${googleUser}");

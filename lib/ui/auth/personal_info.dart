@@ -10,6 +10,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
@@ -67,6 +68,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
           },
         ),
       );
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.home_new, (Route<dynamic> route) => false);
     } else if (state is UpdateUserDataFailed) {
       showCustomDialog(
         context,
