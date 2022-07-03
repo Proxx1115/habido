@@ -36,8 +36,6 @@ class AllHabitBloc extends Bloc<AllHabitEvent, AllHabitState> {
     try {
       var res = await ApiManager.getActiveHabitFirst();
 
-      print('>>>>>>>>>>>SSSEX>>>>>>>>>>>${res}');
-
       if (res.code == ResponseCode.Success) {
         yield GetActiveHabitFirstSuccess(res.activeHabitList!);
       } else {

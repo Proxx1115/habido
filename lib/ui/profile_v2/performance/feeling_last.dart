@@ -48,7 +48,7 @@ class FeelingLast extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: CachedNetworkImage(
-                  imageUrl: answerImageUrl ?? "",
+                  imageUrl: answerImageUrl,
                   placeholder: (context, url) => Container(),
                   //CustomLoader(),
                   errorWidget: (context, url, error) => Container(),
@@ -65,7 +65,7 @@ class FeelingLast extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomText(
-                        answerText ?? "",
+                        answerText,
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                       ),
@@ -83,25 +83,25 @@ class FeelingLast extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  // Row(
-                  //   children: [
-                  //     for (var reasons in reasons)
-                  //       Container(
-                  //         padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                  //         margin: EdgeInsets.only(right: 7),
-                  //         decoration: BoxDecoration(
-                  //           color: customColors.primaryButtonDisabledContent,
-                  //           borderRadius: BorderRadius.circular(15),
-                  //         ),
-                  //         child: CustomText(
-                  //           reasons,
-                  //           fontSize: 11,
-                  //           fontWeight: FontWeight.w500,
-                  //           color: Colors.white,
-                  //         ),
-                  //       )
-                  //   ],
-                  // )
+                  Row(
+                    children: [
+                      for (var reasons in reasons)
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                          margin: EdgeInsets.only(right: 7),
+                          decoration: BoxDecoration(
+                            color: customColors.primaryButtonDisabledContent,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: CustomText(
+                            reasons,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        )
+                    ],
+                  )
                 ],
               ))
             ],

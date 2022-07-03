@@ -24,7 +24,6 @@ class _AllHabitsRouteState extends State<AllHabitsRoute> {
   int _currentIndex = 0;
 
   changePage() {
-    print('index ${_currentIndex}');
     _pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 400), curve: Curves.easeIn);
   }
 
@@ -61,64 +60,6 @@ class _AllHabitsRouteState extends State<AllHabitsRoute> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _habitList() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: 99,
-            color: Colors.red,
-          ),
-          Container(
-            height: 299,
-            color: Colors.yellow,
-          ),
-          Container(
-            height: 299,
-            color: Colors.teal,
-          ),
-          Container(
-            height: 299,
-            color: Colors.green,
-          ),
-          Container(
-            height: 299,
-            color: Colors.teal,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _habitList2() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: 299,
-            color: Colors.green,
-          ),
-          Container(
-            height: 299,
-            color: Colors.teal,
-          ),
-          Container(
-            height: 99,
-            color: Colors.red,
-          ),
-          Container(
-            height: 299,
-            color: Colors.yellow,
-          ),
-          Container(
-            height: 299,
-            color: Colors.teal,
-          ),
-        ],
       ),
     );
   }

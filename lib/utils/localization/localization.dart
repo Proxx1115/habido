@@ -71,7 +71,7 @@ class LocaleKeys {
 
   static String get status => 'Төлөв';
 
-  static String get day => 'Хоног';
+  static String get day => 'өдөр';
 
   static String get time => 'Хугацаа';
 
@@ -117,6 +117,8 @@ class LocaleKeys {
 
   static String get personalInfo => 'Хувийн мэдээлэл';
 
+  static String get typeSomething => 'Type something...';
+
   ///
   /// Intro
   ///
@@ -158,6 +160,7 @@ class LocaleKeys {
   static String get loginWithGoogle => 'Google-ээр нэвтрэх';
 
   static String get loginWithFb => 'Facebook-ээр нэвтрэх';
+  static String get loginOr => 'эсвэл';
 
   static String get loginWithApple => 'Apple-аар нэвтрэх';
 
@@ -210,9 +213,16 @@ class LocaleKeys {
   static String get negative => 'Сөрөг';
   static String get totalRecorded => 'Нийт бүртгэсэн';
 
+  static String get totalHabits => 'Нийт төлөвлөсөн';
+  static String get completedHabits => 'Амжилттай хэвшүүлсэн';
+  static String get uncompletedHabits => 'Эхэлсэн ч дуусгаагүй';
+  static String get failedHabits => 'Хэрэгжүүлээгүй';
+
   static String get enterProfile => 'Хувийн мэдээллээ оруулна уу';
 
   static String get yourName => 'Таны нэр';
+
+  static String get nickname => 'Nickname';
 
   static String get birthDate => 'Төрсөн огноо';
 
@@ -350,7 +360,16 @@ class LocaleKeys {
 
   static String get planNewHabit => 'Шинэ дадал төлөвлөх';
 
+  static String get startNewHabit => 'Шинэ дадал эхлүүлэх';
+
   static String get todaysHabit => 'Өнөөдрийн дадал';
+
+  static String get activeHabitEmpty => 'Өө, идэвхтэй дадал байхгүй байна..';
+
+  static String get completedHabitEmpty =>
+      'Өө, хэрэгжүүлж дууссан дадал байхгүй байна…';
+
+  static String get historyHabitEmpty => 'Өө, түүх байхгүй байна…';
 
   /// Showcase
   static String get showcaseAddHabit => 'Шинэ дадал үүсгэх';
@@ -664,6 +683,17 @@ class LocaleKeys {
   static String get answerOneOfThoseQuestion =>
       'Дараах асуултуудаас нэгийг нь сонгон хариулаарай';
 
+  /// User Habit Detail
+  static String get execution => 'Гүйцэтгэл';
+
+  static String get totalPlans => 'Нийт төлөвлөгөөт';
+
+  static String get completedPlans => 'Амжилттай гүйцэтгэсэн';
+
+  static String get skipPlans => 'Алгассан';
+
+  static String get uncompletedPlans => 'Хэрэгжүүлээгүй';
+
   /// Feeling
   static String get howsYourDay => 'Өнөөдөр хэрхэн өнгөрч байна даа?';
 
@@ -671,6 +701,8 @@ class LocaleKeys {
       'Энэ мэдрэмж юунаас болоод үүсэж байна вэ?';
 
   static String get shareFeelingMore => 'Мэдрэмжээ дэлгэрэнгүй хуваалцвал';
+  static String get tyForSharingFeeling =>
+      'Сэтгэл зүйдээ анхаарсан танд баярлалаа.';
 
   /// Feeling Causes
   static String get family => 'Гэр бүл';

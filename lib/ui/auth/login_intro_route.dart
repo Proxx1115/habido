@@ -48,14 +48,6 @@ class LoginIntroRoute extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 58.0),
                 ),
                 SizedBox(height: 15.0),
-                CustomButton(
-                  text: LocaleKeys.signUp,
-                  onPressed: () {
-                    _navigateToSignUp(context);
-                  },
-                  borderRadius: BorderRadius.circular(15.0),
-                  margin: EdgeInsets.symmetric(horizontal: 58.0),
-                )
               ],
             ),
           ),
@@ -65,10 +57,12 @@ class LoginIntroRoute extends StatelessWidget {
   }
 
   _navigateToLogin(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(Routes.login2, (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        Routes.login2, (Route<dynamic> route) => false);
   }
 
   _navigateToSignUp(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(Routes.signUp, (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        Routes.signUp, (Route<dynamic> route) => false);
   }
 }

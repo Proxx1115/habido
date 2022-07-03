@@ -27,8 +27,8 @@
         <string>Editor</string>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>fb408796694591510</string>
           <string>com.googleusercontent.apps.843003625940-kcavo4qgalkb6pge0klb96de49ob6234</string>
+          <string>fb408796694591510</string>
         </array>
       </dict>
     </array>
@@ -109,7 +109,7 @@
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>``
+	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
@@ -124,5 +124,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

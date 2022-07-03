@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
 import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
-import 'package:habido_app/ui/profile_v2/ability/ability.dart';
 import 'package:habido_app/ui/profile_v2/performance/performance.dart';
 import 'package:habido_app/ui/profile_v2/badge/badge.dart';
 import 'package:habido_app/ui/profile_v2/profile_bloc/profile_bloc.dart';
 import 'package:habido_app/ui/profile_v2/profile_card_v2.dart';
+import 'package:habido_app/ui/profile_v2/skill/skill_route.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
@@ -26,7 +27,7 @@ class ProfileScreenV2 extends StatefulWidget {
 }
 
 class _ProfileScreenV2State extends State<ProfileScreenV2> {
-  // Page view
+  /// Page view
   PageController _controller = PageController();
   int _currentIndex = 0;
 
@@ -54,7 +55,8 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
   void _blocListener(BuildContext context, ProfileState state) {}
 
   Widget _blocBuilder(BuildContext context, ProfileState state) {
-    return SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
       child: Column(
         children: [
           // AppBarWithProfile(
@@ -65,40 +67,30 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
           //     Navigator.pushNamed(context, Routes.helpV2);
           //   },
           // ),
-
-          Container(
-            margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
-            child: Column(
-              children: [
-                ProfileCardV2(),
-                SizedBox(height: 20),
-                _tabItem(),
-                SizedBox(height: 10),
-                _pageItem(),
-              ],
-            ),
-          ),
+          ProfileCardV2(),
+          SizedBox(height: 20),
+          _tabItem(),
+          SizedBox(height: 10),
+          Expanded(child: _pageItem()),
+          SizedBox(height: 20),
         ],
       ),
     );
   }
 
   Widget _pageItem() {
-    return Container(
-      height: MediaQuery.of(context).size.height * 1.2,
-      width: MediaQuery.of(context).size.width,
-      child: PageView(
-        controller: _controller,
-        children: [
-          Performance(),
-          Badge(),
-          Ability(),
-        ],
-        onPageChanged: (index) {
-          _currentIndex = index;
-          setState(() {});
-        },
-      ),
+    return PageView(
+      controller: _controller,
+      physics: NeverScrollableScrollPhysics(),
+      children: [
+        Performance(),
+        Badge(),
+        SkillRoute(),
+      ],
+      onPageChanged: (index) {
+        _currentIndex = index;
+        setState(() {});
+      },
     );
   }
 

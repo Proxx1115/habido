@@ -1,8 +1,8 @@
-import 'package:habido_app/models/tip.dart';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/tip%20category.dart';
 
 class TipResponse extends BaseResponse {
-  List<Tip>? tipList;
+  List<TipCategory>? tipList;
 
   TipResponse({this.tipList});
 
@@ -11,7 +11,7 @@ class TipResponse extends BaseResponse {
     if (json['data'] != null) {
       tipList = [];
       json['data'].forEach((v) {
-        tipList?.add(Tip.fromJson(v));
+        tipList?.add(TipCategory.fromJson(v));
       });
     }
   }

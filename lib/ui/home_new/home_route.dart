@@ -49,7 +49,7 @@ class _HomeRouteNewState extends State<HomeRouteNew>
     BlocManager.homeBloc.currentTabIndex = 2;
     _tabController = TabController(initialIndex: 2, length: 5, vsync: this);
     BlocManager.homeBloc.add(HomeShowcaseEvent(ShowcaseKeyName.dashboard));
-    WidgetsBinding.instance.addPostFrameCallback((_) => _checkSession(context));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkOAuth(context));
   }
 
   @override
@@ -273,12 +273,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 }
 
-_checkSession(BuildContext context) {
+_checkOAuth(BuildContext context) {
   if (globals.userData!.hasOAuth2 == false) {
     showAuthDialog(
       context,
-      child:
-          AuthDialog(asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
+      child: AuthDialog(
+          asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
     );
   }
 }

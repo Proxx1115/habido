@@ -205,17 +205,15 @@ class _HabitDashboardState extends State<HabitDashboard> {
 
           SizedBox(height: 18.0),
 
-          /// New Habit
-          // _newHabitWidget(),
-          // _isUserHabitEmpty
-          //     ? _newHabitWidget()
-          //     :
+          // New Habit
+          _isUserHabitEmpty
+              ? _newHabitWidget()
+              :
+              // Today's Habits
+              _userHabitListWidget(),
 
-          /// Today's Habits
-          _userHabitListWidget(),
-
-          Container(
-            height: 200,
+          SizedBox(
+            height: 120,
           )
         ],
       ),
@@ -473,11 +471,12 @@ class _HabitDashboardState extends State<HabitDashboard> {
           isEnd: index == userHabitList.length - 1,
           delay: index * 0.2,
           text: userHabitList[index].name ?? '',
-          subText: "Өдөр бүр", //userHabitList[index].name ?? ''
-          reminders: ["12:00", "15:31", "23:59"],
+          subText: "Өдөр бүр", //userHabitList[index].name ?? '' // todo sda
+          reminders: ["12:00", "15:31", "23:59"], // todo sda
           leadingUrl: userHabitList[index].habit?.photo,
           leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
-          processPercent: 50, //_getSuffixAsset(userHabitList[index])
+          processPercent: 50, // todo sda
+          //_getSuffixAsset(userHabitList[index])
           // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
           // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
           onPressed: () {

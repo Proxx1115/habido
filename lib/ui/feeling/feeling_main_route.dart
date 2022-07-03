@@ -184,7 +184,6 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
       );
     }
     if (state is MoodTrackerSaveSuccess) {
-      print('MoodTrackerSaveSuccess');
       MoodTrackerQuestionResponse _moodTrackerQuestionResponse = state.moodTrackerQuestion;
       Navigator.pushNamed(
         context,
@@ -211,7 +210,6 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
       ..questionId = _moodTrackerQuestion!.feelingQuestionId
       ..userFeelingId = _moodTrackerQuestion!.userFeelingId
       ..answers = answers;
-    print('requestsda ${request}');
 
     BlocManager.moodTrackerBloc.add(SaveMoodTrackerEvent(request));
   }

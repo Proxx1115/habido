@@ -55,7 +55,8 @@ class _LoginRouteState extends State<LoginRoute> {
 
     // Phone number, pass
     _phoneNumberController.text = SharedPref.getPhoneNumber();
-    _visibleButtonBiometrics = SharedPref.getBiometricAuth(_phoneNumberController.text);
+    _visibleButtonBiometrics =
+        SharedPref.getBiometricAuth(_phoneNumberController.text);
 
     // todo test
     // _phoneNumberController.text = '88989800';
@@ -106,10 +107,14 @@ class _LoginRouteState extends State<LoginRoute> {
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is SessionTimeoutState) {
-      Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.login, (Route<dynamic> route) => false);
 
       showCustomDialog(
         context,
@@ -132,7 +137,8 @@ class _LoginRouteState extends State<LoginRoute> {
       backgroundColor: customColors.primaryBackground,
       child: LayoutBuilder(builder: (context, constraints) {
         if (_height < constraints.maxHeight) _height = constraints.maxHeight;
-        if (_height < SizeHelper.minHeightScreen) _height = SizeHelper.minHeightScreen;
+        if (_height < SizeHelper.minHeightScreen)
+          _height = SizeHelper.minHeightScreen;
 
         return SingleChildScrollView(
           // physics: NeverScrollableScrollPhysics(),
@@ -152,7 +158,8 @@ class _LoginRouteState extends State<LoginRoute> {
                   padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
                   decoration: BoxDecoration(
                     color: customColors.whiteBackground,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(25)),
                   ),
                   child: Column(
                     children: [
@@ -186,7 +193,7 @@ class _LoginRouteState extends State<LoginRoute> {
                       ),
 
                       MarginVertical(height: 10.0),
-                      _btnSignUp(),
+                      // _btnSignUp(),
 
                       /// Button - Нууц үг мартсан уу? Сэргээх
                       // _btnForgotPass(),
@@ -241,7 +248,9 @@ class _LoginRouteState extends State<LoginRoute> {
   _validateForm() {
     setState(() {
       _enabledButtonLogin =
-          (Func.isValidPhoneNumber(_phoneNumberController.text) && _passwordController.text.isNotEmpty && _passwordController.text.length > 0);
+          (Func.isValidPhoneNumber(_phoneNumberController.text) &&
+              _passwordController.text.isNotEmpty &&
+              _passwordController.text.length > 0);
     });
   }
 
@@ -263,7 +272,9 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _btnBiometrics() {
-    return (_visibleButtonBiometrics && biometricsUtil.canCheckBiometrics && biometricsUtil.availableBiometricsCount > 0)
+    return (_visibleButtonBiometrics &&
+            biometricsUtil.canCheckBiometrics &&
+            biometricsUtil.availableBiometricsCount > 0)
         ? ButtonStadium(
             asset: Assets.biometric,
             margin: EdgeInsets.only(left: 15.0),
