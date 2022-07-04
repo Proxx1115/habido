@@ -291,6 +291,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           suffixAsset: _getSuffixAsset(userHabitList[index]),
           suffixColor: _getSuffixColor(userHabitList[index]),
+          
           // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
           // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
           onPressed: () {

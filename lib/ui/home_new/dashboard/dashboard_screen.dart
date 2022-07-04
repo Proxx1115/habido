@@ -23,6 +23,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
+import 'package:habido_app/widgets/video_player/video_player.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -586,7 +587,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _startAdviceBtn() {
     return InkWell(
       onTap: () {
-        _navigateToAdviceRoute(context);
+        showModalBottomSheet(
+          enableDrag: true,
+          isScrollControlled: true,
+          context: context,
+          builder: (context) => Container(
+            height: MediaQuery.of(context).size.height,
+            child: VideoPlayer(
+              videoURL: _adviceVideo!.video!,
+              height: MediaQuery.of(context).size.width * 16 / 9,
+            ),
+          ),
+        );
       },
       customBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -651,13 +663,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  _navigateToAdviceRoute(BuildContext context) {
-    Navigator.pushNamed(
-      context,
-      Routes.advice,
-      arguments: {
-        'adviceVideo': _adviceVideo,
-      },
-    );
-  }
+  // _navigateToAdviceRoute(BuildContext context) {
+  //   Navigator.pushNamed(
+  //     context,
+  //     Routes.advice,
+  //     arguments: {
+  //       'adviceVideo': _adviceVideo,
+  //     },
+  //   );
+  // }
 }
