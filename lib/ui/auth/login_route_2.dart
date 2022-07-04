@@ -68,12 +68,12 @@ class _LoginRoute2State extends State<LoginRoute2> {
         Navigator.of(context).pushNamedAndRemoveUntil(
             Routes.personalInfo, (Route<dynamic> route) => false);
       } else {
-        if (globals.userData?.isOnboardingDone == false) {
+        if (globals.userData?.isOnboardingDone2 == false) {
           /// Go to home
           Navigator.pushNamed(context, Routes.home_new);
-
-          /// Go to chat
-          // Navigator.pushNamed(context, Routes.habidoAssistant);
+          print("home ruu userlee");
+        } else {
+          Navigator.pushNamed(context, Routes.home_new);
         }
       }
     } else if (state is LoginFailed) {
@@ -330,13 +330,16 @@ class _LoginRoute2State extends State<LoginRoute2> {
         setState(() {
           userFbData = requestData;
         });
-        print('user:::::::::::${userFbData}');
         print('user:::::::::::${userFbData!['email']}');
-
         var request = AddOauth()
           ..email = userFbData!['email']
           ..type = fb;
+        print("auth req::::::::::::${request.toJson()}");
+
         BlocManager.oauthBloc.add(LoginEvent(request));
+      } else {
+        print("result::::::::::${result.status}");
+        print("result::::::::::${result.message}");
       }
     } catch (e) {
       print("Fb bolohgvi bna $e");

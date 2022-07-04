@@ -110,7 +110,7 @@ class OAuthBloc extends Bloc<OAuthEvent, OAuthState> {
           await ApiManager.logout();
           await afterLogout();
           Navigator.of(context).pushNamedAndRemoveUntil(
-              Routes.login, (Route<dynamic> route) => false);
+              Routes.login2, (Route<dynamic> route) => false);
         },
         button2Text: LocaleKeys.no,
       ),

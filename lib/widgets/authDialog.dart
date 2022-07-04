@@ -161,6 +161,11 @@ class _AuthDialogState extends State<AuthDialog> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Platform.isIOS
+              ? Container()
+              : SizedBox(
+                  width: 30,
+                ),
           InkWell(
             onTap: () {
               _onGoogleAuth(context);

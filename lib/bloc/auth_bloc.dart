@@ -105,7 +105,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapBiometricsChangedEventToState(BiometricsChangedEvent event) async* {
+  Stream<AuthState> _mapBiometricsChangedEventToState(
+      BiometricsChangedEvent event) async* {
     yield BiometricsChangedState(event.biometricsAuth);
     yield AuthDefault();
   }
@@ -129,7 +130,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         buttonText: LocaleKeys.ok,
         onPressedButton: () {
           afterLogout();
-          Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.login, (Route<dynamic> route) => false);
         },
       ),
     );
@@ -145,14 +147,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         onPressedButton: () async {
           await ApiManager.logout();
           await afterLogout();
-          Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.login2, (Route<dynamic> route) => false);
         },
         button2Text: LocaleKeys.no,
       ),
     );
   }
 
-  Stream<AuthState> _mapSignUpPhoneEventToState(SignUpPhoneRequest request) async* {
+  Stream<AuthState> _mapSignUpPhoneEventToState(
+      SignUpPhoneRequest request) async* {
     try {
       yield AuthLoading();
 
@@ -167,7 +171,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapSignUpPhoneResendEventToState(SignUpPhoneRequest request) async* {
+  Stream<AuthState> _mapSignUpPhoneResendEventToState(
+      SignUpPhoneRequest request) async* {
     try {
       yield AuthLoading();
 
@@ -182,7 +187,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapSignUpVerifyCodeEventToState(SignUpVerifyCodeEvent event) async* {
+  Stream<AuthState> _mapSignUpVerifyCodeEventToState(
+      SignUpVerifyCodeEvent event) async* {
     try {
       yield AuthLoading();
 
@@ -197,7 +203,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapSignUpRegisterEventToState(SignUpRegisterRequest request) async* {
+  Stream<AuthState> _mapSignUpRegisterEventToState(
+      SignUpRegisterRequest request) async* {
     try {
       yield AuthLoading();
 
@@ -215,7 +222,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapChangePasswordEventToState(ChangePasswordEvent event) async* {
+  Stream<AuthState> _mapChangePasswordEventToState(
+      ChangePasswordEvent event) async* {
     try {
       yield AuthLoading();
 
@@ -260,7 +268,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapChangePhoneResendCodeEventToState(ChangePhoneResendCodeEvent event) async* {
+  Stream<AuthState> _mapChangePhoneResendCodeEventToState(
+      ChangePhoneResendCodeEvent event) async* {
     try {
       yield AuthLoading();
 
@@ -268,14 +277,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (res.code == ResponseCode.Success) {
         yield ChangePhoneResendCodeSuccess();
       } else {
-        yield ChangePhoneResendCodeFailed(ApiHelper.getFailedMessage(res.message));
+        yield ChangePhoneResendCodeFailed(
+            ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield ChangePhoneResendCodeFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<AuthState> _mapForgotPasswordEventToState(ForgotPasswordEvent event) async* {
+  Stream<AuthState> _mapForgotPasswordEventToState(
+      ForgotPasswordEvent event) async* {
     try {
       yield AuthLoading();
 
@@ -290,7 +301,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _mapForgotPasswordResendCodeEventToState(ForgotPasswordResendCodeEvent event) async* {
+  Stream<AuthState> _mapForgotPasswordResendCodeEventToState(
+      ForgotPasswordResendCodeEvent event) async* {
     try {
       yield AuthLoading();
 
@@ -298,14 +310,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (res.code == ResponseCode.Success) {
         yield ForgotPasswordResendCodeSuccess();
       } else {
-        yield ForgotPasswordResendCodeFailed(ApiHelper.getFailedMessage(res.message));
+        yield ForgotPasswordResendCodeFailed(
+            ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield ForgotPasswordResendCodeFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<AuthState> _mapForgotPasswordChangeEventToState(ForgotPasswordChangeEvent event) async* {
+  Stream<AuthState> _mapForgotPasswordChangeEventToState(
+      ForgotPasswordChangeEvent event) async* {
     try {
       yield AuthLoading();
 
@@ -313,7 +327,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (res.code == ResponseCode.Success) {
         yield ForgotPasswordChangeSuccess();
       } else {
-        yield ForgotPasswordChangeFailed(ApiHelper.getFailedMessage(res.message));
+        yield ForgotPasswordChangeFailed(
+            ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield ForgotPasswordChangeFailed(LocaleKeys.errorOccurred);
@@ -403,7 +418,8 @@ class BiometricsChangedEvent extends AuthEvent {
   List<Object> get props => [biometricsAuth];
 
   @override
-  String toString() => 'BiometricsChangedEvent { biometricsAuth: $biometricsAuth }';
+  String toString() =>
+      'BiometricsChangedEvent { biometricsAuth: $biometricsAuth }';
 }
 
 class SessionTimeoutEvent extends AuthEvent {}
@@ -634,7 +650,8 @@ class BiometricsChangedState extends AuthState {
   List<Object> get props => [biometricsAuth];
 
   @override
-  String toString() => 'BiometricsChangedState { biometricsAuth: $biometricsAuth }';
+  String toString() =>
+      'BiometricsChangedState { biometricsAuth: $biometricsAuth }';
 }
 
 class ChangePasswordSuccess extends AuthState {}
@@ -713,7 +730,8 @@ class ForgotPasswordSuccess extends AuthState {
   List<Object> get props => [phoneNumber];
 
   @override
-  String toString() => 'ForgotPasswordSuccess { phoneNumber: $phoneNumber, userId: $userId }';
+  String toString() =>
+      'ForgotPasswordSuccess { phoneNumber: $phoneNumber, userId: $userId }';
 }
 
 class ForgotPasswordFailed extends AuthState {

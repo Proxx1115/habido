@@ -105,6 +105,10 @@
             <data android:mimeType="*/*" />
         </intent> -->
     </queries>
+    <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> <!-- allows app to access Facebook app features -->
+        <provider android:authorities="com.facebook.orca.provider.PlatformProvider" /> <!-- allows sharing to Messenger app -->
+    </queries>
 
     <application
         android:icon="@mipmap/ic_launcher"
