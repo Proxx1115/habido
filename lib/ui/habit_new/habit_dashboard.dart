@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
@@ -21,8 +20,6 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/indicatorItem.dart';
@@ -462,6 +459,14 @@ class _HabitDashboardState extends State<HabitDashboard> {
     }
   }
 
+  _getReminderTimes(reminders) {
+    List<String> _reminderTimes = [];
+    for (var el in reminders) {
+      _reminderTimes.add("${Func.toInt(el.time) ~/ 60}:${Func.toInt(el.time) % 60}");
+    }
+    return _reminderTimes;
+  }
+
   Widget _habitList(String title, List<UserHabit> userHabitList, bool enabled, bool isToday, String? todayText) {
     return Column(
       children: List.generate(
@@ -472,7 +477,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
           delay: index * 0.2,
           text: userHabitList[index].name ?? '',
           subText: "Өдөр бүр", //userHabitList[index].name ?? '' // todo sda
-          reminders: ["12:00", "15:31", "23:59"], // todo sda
+          reminders: _getReminderTimes(userHabitList[index].userHabitReminders!),
           leadingUrl: userHabitList[index].habit?.photo,
           leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           processPercent: 50, // todo sda

@@ -62,6 +62,7 @@ class HttpPath {
   static const String habitExpenseCategories = '/mobile/habit/user-habit/expense-categories';
   static const String habitFinanceTotalAmount = '/mobile/habit/user-habit/total-amount';
   static const String habitFinanceTotalAmountByDate = '/mobile/habit/user-habit/date/total-amount';
+  static const String habitFeelingPieChart = '/mobile/details/feeling-pie-chart';
   static const String habitQuestion = '/mobile/habit/questions';
   static const String addHabitProgress = '/mobile/habit/user-habit/plan/progress';
   static const String updateHabitProgress = '/mobile/habit/user-habit/plan/progress';

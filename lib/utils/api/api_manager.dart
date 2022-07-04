@@ -5,6 +5,7 @@ import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/badge_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/habit_feeling_pie_chart_response.dart';
 import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
 import 'package:habido_app/models/mood_tracker_monthly_stat_response.dart';
 import 'package:habido_app/models/change_password_request.dart';
@@ -623,6 +624,15 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.habitFinanceTotalAmountByDate +
             '?userHabitId=${request.userHabitId}&startDate=${request.startDate}&lastDate=${request.lastDate}',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<HabitFeelingPieChartResponse> habitFeelingPieChart(int userHabitId) async {
+    return HabitFeelingPieChartResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.habitFeelingPieChart + '/$userHabitId',
         httpMethod: HttpMethod.get,
       ),
     );
