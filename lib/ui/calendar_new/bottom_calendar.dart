@@ -34,7 +34,7 @@ class _BottomCalendarState extends State<BottomCalendar> {
     for (int i = 1; i <= 35; i++) {
       var firstDayOfWeek = date.subtract(Duration(days: weekDay - i));
       DayModel currentDay =
-          DayModel(firstDayOfWeek.day, _weekDay(firstDayOfWeek.weekday), (i * 10).toString(), firstDayOfWeek.month, firstDayOfWeek.year);
+          DayModel(firstDayOfWeek.day, _weekDay(firstDayOfWeek.weekday), (i * 10).toString(), month: firstDayOfWeek.month, year: firstDayOfWeek.year);
       monthList.add(currentDay);
     }
     var curDay = DateTime.now();

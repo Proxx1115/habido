@@ -49,7 +49,7 @@ class _VerifyPhoneRouteState extends State<VerifyPhoneRoute> {
     super.initState();
 
     // Timer
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _startCountDown(_countdownSec));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _startCountDown(_countdownSec));
   }
 
   @override

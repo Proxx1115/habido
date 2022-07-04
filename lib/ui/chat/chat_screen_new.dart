@@ -138,7 +138,8 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                                 },
                                                 child: Container(
                                                   padding: EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(color: customColors.greyBackground, borderRadius: BorderRadius.circular(5)),
+                                                  decoration:
+                                                      BoxDecoration(color: customColors.greyBackground, borderRadius: BorderRadius.circular(5)),
                                                   child: Text(
                                                     chatBotSnapshot.data![i].name.toString(),
                                                     maxLines: 1,
@@ -165,8 +166,16 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                       width: MediaQuery.of(context).size.width,
                                       alignment: Alignment.topLeft,
                                       color: Colors.white,
-                                      height: bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length != 0
-                                          ? bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length > 4
+                                      height: bloc.chatList.last.cbMsgOptions!
+                                                  .where((element) => element.optionType!.toLowerCase() != 'input')
+                                                  .toList()
+                                                  .length !=
+                                              0
+                                          ? bloc.chatList.last.cbMsgOptions!
+                                                      .where((element) => element.optionType!.toLowerCase() != 'input')
+                                                      .toList()
+                                                      .length >
+                                                  4
                                               ? MediaQuery.of(context).size.height * 0.2
                                               : MediaQuery.of(context).size.height * 0.14
                                           : 0,
@@ -185,9 +194,15 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                               spacing: 4,
                                               children: [
                                                 for (int i = 0;
-                                                    i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length;
+                                                    i <
+                                                        bloc.chatList.last.cbMsgOptions!
+                                                            .where((element) => element.optionType!.toLowerCase() != 'input')
+                                                            .toList()
+                                                            .length;
                                                     i++)
-                                                  _optionItem(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
+                                                  _optionItem(bloc.chatList.last.cbMsgOptions!
+                                                      .where((element) => element.optionType!.toLowerCase() != 'input')
+                                                      .toList()[i])
                                               ],
                                             ),
                                           ),
@@ -268,7 +283,9 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
           crossAxisSpacing: 15,
           padding: EdgeInsets.all(20),
           children: [
-            for (int i = 0; i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length; i++)
+            for (int i = 0;
+                i < bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList().length;
+                i++)
               _emojiOption(bloc.chatList.last.cbMsgOptions!.where((element) => element.optionType!.toLowerCase() != 'input').toList()[i])
           ],
         ),
@@ -391,9 +408,11 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
             child: CustomText(cbChatResponse.msg!, maxLines: 15, fontFamily: FontAsset.FiraSansCondensed),
           ),
         if (cbChatResponse.cbMsgOptions != null && cbChatResponse.cbMsgOptions!.length == 1 && cbChatResponse.cbMsgOptions!.first.isSelected == true)
-          _selectedOptionItem(cbChatResponse.cbMsgOptions!.first, prefixTime: cbChatResponse.msgSentTime != null ? Func.toTimeStr(cbChatResponse.optionSelectedTime) : null),
+          _selectedOptionItem(cbChatResponse.cbMsgOptions!.first,
+              prefixTime: cbChatResponse.msgSentTime != null ? Func.toTimeStr(cbChatResponse.optionSelectedTime) : null),
         if (cbChatResponse.isEnd == true &&
-            ((cbChatResponse.hasOption == true && cbChatResponse.cbMsgOptions!.where((element) => element.isSelected == true).length > 0) || cbChatResponse.hasOption == false))
+            ((cbChatResponse.hasOption == true && cbChatResponse.cbMsgOptions!.where((element) => element.isSelected == true).length > 0) ||
+                cbChatResponse.hasOption == false))
           Padding(padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5), child: HorizontalLine())
       ],
     );
@@ -513,12 +532,16 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
 
   gotoBottom() {
     Timer(Duration(milliseconds: 1300), () {
-      _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 30), curve: Curves.easeInOut).then((value) {
-        if (isFirst == true) {
-          bloc.isShowSubject.add(true);
-          isFirst = false;
-        }
-      });
+      if (_scrollController.hasClients) {
+        _scrollController
+            .animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 30), curve: Curves.easeInOut)
+            .then((value) {
+          if (isFirst == true) {
+            bloc.isShowSubject.add(true);
+            isFirst = false;
+          }
+        });
+      }
     });
   }
 

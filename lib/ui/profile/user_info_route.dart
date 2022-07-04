@@ -66,20 +66,16 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     _lastNameController.addListener(() => _validateForm());
     _firstNameController.addListener(() => _validateForm());
 
-    if (globals.userData?.lastName != null)
-      _lastNameController.text = globals.userData!.lastName!;
-    if (globals.userData?.firstName != null)
-      _firstNameController.text = globals.userData!.firstName!;
-    if (globals.userData?.gender != null)
-      _genderValue = globals.userData!.gender == Gender.Female;
-    if (globals.userData?.birthDay != null)
-      _selectedBirthDate = Func.toDate(globals.userData!.birthDay!);
+    if (globals.userData?.lastName != null) _lastNameController.text = globals.userData!.lastName!;
+    if (globals.userData?.firstName != null) _firstNameController.text = globals.userData!.firstName!;
+    if (globals.userData?.gender != null) _genderValue = globals.userData!.gender == Gender.Female;
+    if (globals.userData?.birthDay != null) _selectedBirthDate = Func.toDate(globals.userData!.birthDay!);
 
     if (Func.isNotEmpty(DeviceHelper.deviceId)) {
       BlocManager.userBloc.add(GetUserDeviceEvent(DeviceHelper.deviceId!));
     }
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _validateForm());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _validateForm());
 
     super.initState();
   }
@@ -98,8 +94,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
               child: Column(
                 children: [
                   RoundedCornerListView(
-                    padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0,
-                        SizeHelper.padding, SizeHelper.padding),
+                    padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
                     children: [
                       SizedBox(height: 10.0),
 
@@ -161,10 +156,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     } else if (state is UpdateUserDataFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
     if (state is UpdateProfilePictureSuccess) {
@@ -172,10 +164,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     } else if (state is UpdateProfilePictureFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is GetUserDeviceSuccess) {
       _userDevice = state.userDevice;
@@ -184,8 +173,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     } else if (state is UpdateUserDeviceSuccess) {
       SharedPref.setBiometricAuth(_userDevice!.isBiometric);
 
-      BlocManager.authBloc
-          .add(BiometricsChangedEvent(_userDevice!.isBiometric ?? false));
+      BlocManager.authBloc.add(BiometricsChangedEvent(_userDevice!.isBiometric ?? false));
     } else if (state is UpdateUserDeviceFailed) {
       print('UpdateUserDeviceFailed');
     }
@@ -203,20 +191,16 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
             buttonText: LocaleKeys.camera,
             button2Text: LocaleKeys.gallery,
             onPressedButton: () async {
-              String base64Image =
-                  await ImageUtils.getBase64Image(context, ImageSource.camera);
+              String base64Image = await ImageUtils.getBase64Image(context, ImageSource.camera);
               if (base64Image.isNotEmpty) {
-                var request = UpdateProfilePictureRequest()
-                  ..photoBase64 = base64Image;
+                var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
                 BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
               }
             },
             onPressedButton2: () async {
-              String base64Image =
-                  await ImageUtils.getBase64Image(context, ImageSource.gallery);
+              String base64Image = await ImageUtils.getBase64Image(context, ImageSource.gallery);
               if (base64Image.isNotEmpty) {
-                var request = UpdateProfilePictureRequest()
-                  ..photoBase64 = base64Image;
+                var request = UpdateProfilePictureRequest()..photoBase64 = base64Image;
                 BlocManager.userBloc.add(UpdateProfilePictureEvent(request));
               }
             },
@@ -234,15 +218,13 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
               Align(
                 alignment: Alignment.topCenter,
                 child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(_profilePictureSize)),
+                  borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
                   child: CachedNetworkImage(
                     imageUrl: globals.userData!.photo!,
                     fit: BoxFit.cover,
                     width: _profilePictureSize,
                     height: _profilePictureSize,
-                    placeholder: (context, url) =>
-                        CustomLoader(size: _profilePictureSize),
+                    placeholder: (context, url) => CustomLoader(size: _profilePictureSize),
                     // placeholder: (context, url, error) => Container(),
                     errorWidget: (context, url, error) => Container(),
                   ),
@@ -256,15 +238,13 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                 child: Opacity(
                   opacity: 0.75,
                   child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(_profilePictureSize)),
+                    borderRadius: BorderRadius.all(Radius.circular(_profilePictureSize)),
                     child: Container(
                       padding: EdgeInsets.all(41.0),
                       height: _profilePictureSize,
                       width: _profilePictureSize,
                       decoration: BoxDecoration(color: customColors.primary),
-                      child: SvgPicture.asset(Assets.camera,
-                          color: customColors.iconWhite),
+                      child: SvgPicture.asset(Assets.camera, color: customColors.iconWhite),
                     ),
                   ),
                 ),
@@ -333,9 +313,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     return ListItemContainer(
       margin: EdgeInsets.only(top: 15.0),
       borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-      title: Func.isNotEmpty(globals.userData?.phone)
-          ? globals.userData!.phone!
-          : LocaleKeys.phone,
+      title: Func.isNotEmpty(globals.userData?.phone) ? globals.userData!.phone! : LocaleKeys.phone,
       suffixAsset: Assets.arrow_forward,
       onPressed: () {
         Navigator.pushNamed(context, Routes.changePhone);
@@ -347,9 +325,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     return ListItemContainer(
       margin: EdgeInsets.only(top: 15.0),
       borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-      title: Func.isNotEmpty(globals.userData?.email)
-          ? globals.userData!.email!
-          : LocaleKeys.email,
+      title: Func.isNotEmpty(globals.userData?.email) ? globals.userData!.email! : LocaleKeys.email,
       suffixAsset: Assets.arrow_forward,
       onPressed: () {
         Navigator.pushNamed(context, Routes.changeEmail);
@@ -370,9 +346,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   }
 
   Widget _biometricsSwitch() {
-    return (_userDevice != null &&
-            biometricsUtil.canCheckBiometrics &&
-            biometricsUtil.availableBiometricsCount > 0)
+    return (_userDevice != null && biometricsUtil.canCheckBiometrics && biometricsUtil.availableBiometricsCount > 0)
         ? StadiumContainer(
             margin: EdgeInsets.only(top: 15.0),
             child: CustomSwitch(
@@ -396,9 +370,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
 
   _validateForm() {
     setState(() {
-      _enabledBtnSave = _selectedBirthDate != null &&
-          _lastNameController.text.length > 0 &&
-          _firstNameController.text.length > 0;
+      _enabledBtnSave = _selectedBirthDate != null && _lastNameController.text.length > 0 && _firstNameController.text.length > 0;
     });
   }
 
@@ -419,17 +391,13 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
         ? CustomButton(
             style: CustomButtonStyle.secondary,
             text: LocaleKeys.save,
-            margin: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0,
-                SizeHelper.padding, SizeHelper.marginBottom),
+            margin: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
             onPressed: _enabledBtnSave
                 ? () {
                     if (!_validateAge()) {
                       showCustomDialog(
                         context,
-                        child: CustomDialogBody(
-                            asset: Assets.error,
-                            text: LocaleKeys.validate12UserProfile,
-                            buttonText: LocaleKeys.ok),
+                        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12UserProfile, buttonText: LocaleKeys.ok),
                       );
 
                       return;

@@ -21,11 +21,12 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   @override
   Stream<DashboardState> mapEventToState(DashboardEvent event) async* {
-
     if (event is RefreshDashboardUserHabits) {
       yield* _mapRefreshDashboardUserHabitsToState();
     } else if (event is SkipUserHabitEvent) {
       yield* _mapSkipUserHabitEventToState(event);
+    } else if (event is GetUserHabitByDate) {
+      yield* _mapGetUserHabitByDateEventToState(event);
     }
   }
 
@@ -75,6 +76,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
         BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+        BlocManager.dashboardBloc.add(GetUserHabitByDate(DateTime.now().toString()));
 
         yield SkipUserHabitSuccess();
       } else {
@@ -82,6 +84,22 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       }
     } catch (e) {
       yield SkipUserHabitFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<DashboardState> _mapGetUserHabitByDateEventToState(GetUserHabitByDate event) async* {
+    try {
+      yield DashboardUserHabitsLoading();
+
+      var res = await ApiManager.userHabitsByDate(event.date);
+      if (res.code == ResponseCode.Success) {
+        // Refresh dashboard
+        yield GetUserHabitByDateSuccess(userHabits: res.userHabitList);
+      } else {
+        yield GetUserHabitByDateFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield GetUserHabitByDateFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -152,8 +170,31 @@ class RefreshDashboardUserHabitsSuccess extends DashboardState {
   List<Object> get props => [todayUserHabits ?? [], tomorrowUserHabits ?? []];
 
   @override
-  String toString() =>
-      'RefreshDashboardUserHabitsSuccess { todayUserHabits: $todayUserHabits, tomorrowUserHabits: $tomorrowUserHabits }';
+  String toString() => 'RefreshDashboardUserHabitsSuccess { todayUserHabits: $todayUserHabits, tomorrowUserHabits: $tomorrowUserHabits }';
+}
+
+class GetUserHabitByDateSuccess extends DashboardState {
+  final List<UserHabit>? userHabits;
+
+  const GetUserHabitByDateSuccess({this.userHabits});
+
+  @override
+  List<Object> get props => [userHabits ?? []];
+
+  @override
+  String toString() => 'RefreshDashboardUserHabitsSuccess { userHabits: $userHabits}';
+}
+
+class GetUserHabitByDateFailed extends DashboardState {
+  final String message;
+
+  const GetUserHabitByDateFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetUserHabitByDateFailed { message: $message }';
 }
 
 class RefreshDashboardUserHabitsFailed extends DashboardState {
