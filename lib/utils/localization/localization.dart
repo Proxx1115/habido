@@ -174,7 +174,7 @@ class LocaleKeys {
 
   static String get phone => 'Утас';
 
-  static String get email => 'И-мэйл';
+  static String get email => 'И-мэйл хаяг';
 
   static String get password => 'Нууц үг';
 
@@ -224,7 +224,7 @@ class LocaleKeys {
 
   static String get nickname => 'Nickname';
 
-  static String get birthDate => 'Төрсөн огноо';
+  static String get birthDate => 'Төрсөн он сар өдөр';
 
   static String get startDate => 'Хэзээ эхлэх';
 
@@ -775,6 +775,8 @@ class LocaleKeys {
       'HabiDo-тай холбоотой санал, сэтгэгдлээ бидэнд илгээгээрэй';
 
   static String get faq => 'Түгээмэл асуулт, хариулт';
+  static String get employment => 'Ажил эрхлэлтийн байдал';
+  static String get address => 'Гэрийн хаяг';
 }
 
 class FlutterBlocLocalizationsDelegate
