@@ -29,8 +29,7 @@ class HttpPath {
   static const String testCategories = '/mobile/test-categories';
   static const String categoryTests = '/mobile/category-tests';
   static const String contentList = '/mobile/content/list';
-  static const String highLightedContentList =
-      '/mobile/highlighted-content/list';
+  static const String highLightedContentList = '/mobile/highlighted-content/list';
   static const String contentTags = '/mobile/content/tags';
 
   static const String content = '/mobile/content';
@@ -65,12 +64,9 @@ class HttpPath {
   static const String habitFinanceTotalAmountByDate = '/mobile/habit/user-habit/date/total-amount';
   static const String habitFeelingPieChart = '/mobile/details/feeling-pie-chart';
   static const String habitQuestion = '/mobile/habit/questions';
-  static const String addHabitProgress =
-      '/mobile/habit/user-habit/plan/progress';
-  static const String updateHabitProgress =
-      '/mobile/habit/user-habit/plan/progress';
-  static const String deleteHabitProgress =
-      '/mobile/habit/user-habit/plan/progress';
+  static const String addHabitProgress = '/mobile/habit/user-habit/plan/progress';
+  static const String updateHabitProgress = '/mobile/habit/user-habit/plan/progress';
+  static const String deleteHabitProgress = '/mobile/habit/user-habit/plan/progress';
   static const String calendar = '/mobile/habit/calendar';
   static const String calendarDate = '/mobile/habit/date/user-habits';
   static const String unreadNotifCount = '/mobile/notifs/not-read';
@@ -86,8 +82,7 @@ class HttpPath {
   static const String forgotPasswordChange = '/auth/user/change-pass';
   static const String dynamicHabitSettings = '/mobile/habit/settings';
   static const String getHabitProgressLog = '/mobile/user-habit/progress/log';
-  static const String updateHabitProgressLog =
-      '/mobile/user-habit/progress/log';
+  static const String updateHabitProgressLog = '/mobile/user-habit/progress/log';
   static const String userHabitPlanCount = '/mobile/user-habit/plan/count';
   static const String sendFeedback = '/mobile/feed-back';
   static const String feedBackCatList = '/mobile/feed-back/categories';
@@ -102,7 +97,7 @@ class HttpPath {
   static const String moodTrackerLast = '/mobile/mood-tracker/latest';
   static const String adviceVideo = '/mobile/advice-video';
   static const String tips = '/mobile/tips';
-  static const String createHabit = '/mobile/habit';
+  static const String getHabit = '/mobile/habit';
   static const String tip = '/mobile/tip';
 
   /// All Habits

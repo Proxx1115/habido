@@ -259,8 +259,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
-  Stream<UserHabitState> _mapDeleteHabitProgressEventToState(
-      DeleteHabitProgressEvent event) async* {
+  Stream<UserHabitState> _mapDeleteHabitProgressEventToState(DeleteHabitProgressEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
@@ -755,8 +754,7 @@ class SaveUserHabitProgressSuccess extends UserHabitState {
   List<Object> get props => [habitProgressResponse];
 
   @override
-  String toString() =>
-      'SaveUserHabitProgressSuccess { habitProgressResponse: $habitProgressResponse }';
+  String toString() => 'SaveUserHabitProgressSuccess { habitProgressResponse: $habitProgressResponse }';
 }
 
 class SaveUserHabitProgressFailed extends UserHabitState {
@@ -780,8 +778,7 @@ class GetHabitProgressListWithDateSuccess extends UserHabitState {
   List<Object> get props => [habitProgressListWithDate];
 
   @override
-  String toString() =>
-      'GetHabitProgressListSuccess { habitProgressList: $habitProgressListWithDate }';
+  String toString() => 'GetHabitProgressListSuccess { habitProgressList: $habitProgressListWithDate }';
 }
 
 class GetHabitProgressListWithDateFailed extends UserHabitState {
@@ -805,8 +802,7 @@ class GetHabitProgressListByDateSuccess extends UserHabitState {
   List<Object> get props => [habitProgressList];
 
   @override
-  String toString() =>
-      'GetHabitProgressListByDateSuccess { habitProgressList: $habitProgressList }';
+  String toString() => 'GetHabitProgressListByDateSuccess { habitProgressList: $habitProgressList }';
 }
 
 class GetHabitProgressListByDateFailed extends UserHabitState {
@@ -825,15 +821,13 @@ class HabitFinanceTotalAmountSuccess extends UserHabitState {
   final double totalAmount;
   final List<UserHabitExpenseCategory> expenseCategories;
 
-  const HabitFinanceTotalAmountSuccess(
-      this.totalAmount, this.expenseCategories);
+  const HabitFinanceTotalAmountSuccess(this.totalAmount, this.expenseCategories);
 
   @override
   List<Object> get props => [totalAmount, expenseCategories];
 
   @override
-  String toString() =>
-      'HabitFinanceTotalAmountSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
+  String toString() => 'HabitFinanceTotalAmountSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
 }
 
 class HabitFinanceTotalAmountFailed extends UserHabitState {
