@@ -75,7 +75,7 @@ class _SplashRouteState extends State<SplashRoute> {
           /// Go to home
           Navigator.of(context).pushNamedAndRemoveUntil(Routes.home_new, (Route<dynamic> route) => false);
         } else {
-          /// Go to chat
+          /// Go to chat // todo see this tushig
           Navigator.of(context).pushNamedAndRemoveUntil(Routes.habidoAssistant, (Route<dynamic> route) => false);
         }
       } else {

@@ -520,8 +520,6 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                                 _goalSettings = item.val;
                               });
 
-                              print('test');
-
                               _goalSliderBloc?.add(SliderResetEvent(
                                 Func.toDouble(_goalSettings!.goalMin),
                                 Func.toDouble(_goalSettings!.goalMax),

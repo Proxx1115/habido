@@ -118,6 +118,7 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithSatisfactionR
                 shrinkWrap: true,
                 primary: true,
                 childAspectRatio: 2,
+
                 crossAxisCount: 2,
                 children: [
                   _performanceItem(

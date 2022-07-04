@@ -14,7 +14,6 @@ class UserHabitsByDate {
         userHabits?.add(UserHabit.fromJson(v));
       });
     }
-    print('test');
   }
 
   Map<String, dynamic> toJson() {

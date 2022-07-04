@@ -299,7 +299,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       fontWeight: FontWeight.w500,
                       fontSize: 9.0,
                       maxLines: 2,
-                      margin: EdgeInsets.symmetric(horizontal: 8.0),
                     ),
                     SizedBox(height: 8.0),
                     Container(

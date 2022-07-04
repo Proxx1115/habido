@@ -157,8 +157,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     /// Plan term
     switch (_screenMode) {
       case ScreenMode.Edit:
-        _planTerm = _userHabit!.planTerm ??
-            PlanTerm.getInitialPlanTerm(_habit.planTerms);
+        _planTerm = _userHabit!.planTerm ?? PlanTerm.getInitialPlanTerm(_habit.planTerms);
         _planList = _userHabit!.planDays ?? [];
         break;
       case ScreenMode.CustomEdit:
@@ -236,8 +235,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     switch (_screenMode) {
       case ScreenMode.Edit:
       case ScreenMode.CustomEdit:
-        if (_userHabit!.userHabitReminders != null &&
-            _userHabit!.userHabitReminders!.isNotEmpty) {
+        if (_userHabit!.userHabitReminders != null && _userHabit!.userHabitReminders!.isNotEmpty) {
           _reminderBloc.switchValue = true;
           _reminderBloc.timeOfDayList = [];
           for (var el in _userHabit!.userHabitReminders!) {
@@ -258,8 +256,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     _tip = _habit.tip;
 
     /// Showcase
-    BlocManager.userHabitBloc
-        .add(UserHabitShowcaseEvent(ShowcaseKeyName.userHabit));
+    BlocManager.userHabitBloc.add(UserHabitShowcaseEvent(ShowcaseKeyName.userHabit));
 
     super.initState();
   }
@@ -267,15 +264,13 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBarTitle:
-          widget.title != null ? widget.title : LocaleKeys.showcaseAddHabit,
+      appBarTitle: widget.title != null ? widget.title : LocaleKeys.showcaseAddHabit,
       backgroundColor: HabitHelper.getBackgroundColor(_backgroundColorCode),
       child: BlocProvider.value(
         value: BlocManager.userHabitBloc,
         child: BlocListener<UserHabitBloc, UserHabitState>(
           listener: _blocListener,
-          child: BlocBuilder<UserHabitBloc, UserHabitState>(
-              builder: (context, state) {
+          child: BlocBuilder<UserHabitBloc, UserHabitState>(builder: (context, state) {
             return Column(
               children: [
                 Expanded(
@@ -346,8 +341,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
                 /// Buttons
                 Container(
-                  margin: EdgeInsets.fromLTRB(
-                      20.0, 15.0, 20.0, SizeHelper.marginBottom),
+                  margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, SizeHelper.marginBottom),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -376,9 +370,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         isDismissible: false,
         child: CustomDialogBody(
           asset: Assets.success,
-          text: Func.isNotEmpty(state.userHabitResponse.message)
-              ? state.userHabitResponse.message
-              : LocaleKeys.success,
+          text: Func.isNotEmpty(state.userHabitResponse.message) ? state.userHabitResponse.message : LocaleKeys.success,
           buttonText: LocaleKeys.thanksHabido,
           primaryColor: ConstantColors.createHabitColor,
           child: state.userHabitResponse.content != null
@@ -389,8 +381,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
                       content: state.userHabitResponse.content!,
                       backgroundColor: customColors.greyBackground,
                       callback: () {
-                        Navigator.popUntil(
-                            context, ModalRoute.withName(Routes.home));
+                        Navigator.popUntil(context, ModalRoute.withName(Routes.home));
                       },
                     ),
                   ],
@@ -401,8 +392,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
           },
         ),
       );
-    } else if (state is UpdateUserHabitSuccess ||
-        state is DeleteUserHabitSuccess) {
+    } else if (state is UpdateUserHabitSuccess || state is DeleteUserHabitSuccess) {
       showCustomDialog(
         context,
         isDismissible: false,
@@ -416,9 +406,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
           },
         ),
       );
-    } else if (state is InsertUserHabitFailed ||
-        state is UpdateUserHabitFailed ||
-        state is DeleteUserHabitFailed) {
+    } else if (state is InsertUserHabitFailed || state is UpdateUserHabitFailed || state is DeleteUserHabitFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(
@@ -557,12 +545,10 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         userHabit.endDate = Func.dateTimeToDateStr(_endDate);
 
         // Reminder
-        if (_reminderBloc.switchValue &&
-            _reminderBloc.timeOfDayList.isNotEmpty) {
+        if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
           userHabit.userHabitReminders = [];
           for (var el in _reminderBloc.timeOfDayList) {
-            userHabit.userHabitReminders!
-                .add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+            userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
           }
         } else {
           userHabit.userHabitReminders = null;
@@ -597,12 +583,10 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         userHabit.endDate = Func.dateTimeToDateStr(_endDate);
 
         // Reminder
-        if (_reminderBloc.switchValue &&
-            _reminderBloc.timeOfDayList.isNotEmpty) {
+        if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
           userHabit.userHabitReminders = [];
           for (var el in _reminderBloc.timeOfDayList) {
-            userHabit.userHabitReminders!
-                .add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+            userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
           }
         } else {
           userHabit.userHabitReminders = null;
@@ -644,12 +628,10 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         userHabit.endDate = Func.dateTimeToDateStr(_endDate);
 
         // Reminder
-        if (_reminderBloc.switchValue &&
-            _reminderBloc.timeOfDayList.isNotEmpty) {
+        if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
           userHabit.userHabitReminders = [];
           for (var el in _reminderBloc.timeOfDayList) {
-            userHabit.userHabitReminders!
-                .add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+            userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
           }
         } else {
           userHabit.userHabitReminders = null;
@@ -683,12 +665,10 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         userHabit.endDate = Func.dateTimeToDateStr(_endDate);
 
         // Reminder
-        if (_reminderBloc.switchValue &&
-            _reminderBloc.timeOfDayList.isNotEmpty) {
+        if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
           userHabit.userHabitReminders = [];
           for (var el in _reminderBloc.timeOfDayList) {
-            userHabit.userHabitReminders!
-                .add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+            userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
           }
         } else {
           userHabit.userHabitReminders = null;
@@ -717,8 +697,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
                 margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
                 child: Row(
                   children: [
-                    SvgPicture.asset(Assets.trophy,
-                        color: customColors.primary),
+                    SvgPicture.asset(Assets.trophy, color: customColors.primary),
                     SizedBox(width: 15.0),
                     Expanded(
                       child: CustomText(LocaleKeys.goal),
@@ -740,21 +719,15 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
                           child: CustomCombobox(
                             primaryColor: customColors.primary,
                             backgroundColor: customColors.whiteBackground,
-                            initialText: HabitHelper.getGoalSettingsComboItem(
-                                        _goalSettings) !=
-                                    null
+                            initialText: HabitHelper.getGoalSettingsComboItem(_goalSettings) != null
                                 ? Func.toStr(_goalSettings!.goalName)
                                 : LocaleKeys.selectMeasure,
-                            selectedItem: HabitHelper.getGoalSettingsComboItem(
-                                _goalSettings),
-                            list: HabitHelper.getGoalSettingsComboList(
-                                _goalSettingsList),
+                            selectedItem: HabitHelper.getGoalSettingsComboItem(_goalSettings),
+                            list: HabitHelper.getGoalSettingsComboList(_goalSettingsList),
                             onItemSelected: (ComboItem item) {
                               setState(() {
                                 _goalSettings = item.val;
                               });
-
-                              print('test');
 
                               _goalSliderBloc?.add(SliderResetEvent(
                                 Func.toDouble(_goalSettings!.goalMin),
@@ -772,8 +745,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
               HorizontalLine(margin: EdgeInsets.symmetric(horizontal: 15.0)),
 
               /// Slider
-              if (_goalSliderBloc != null &&
-                  (_goalSettings?.goalRequired ?? false))
+              if (_goalSliderBloc != null && (_goalSettings?.goalRequired ?? false))
                 CustomSlider(
                   sliderBloc: _goalSliderBloc!,
                   margin: EdgeInsets.symmetric(horizontal: 15.0),
@@ -799,8 +771,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
                 margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
                 child: Row(
                   children: [
-                    SvgPicture.asset(Assets.trophy,
-                        color: customColors.primary),
+                    SvgPicture.asset(Assets.trophy, color: customColors.primary),
                     SizedBox(width: 15.0),
                     Expanded(
                       child: CustomText(
@@ -835,8 +806,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
           iconList: _iconList ?? [],
           selectedIcon: _icon,
           margin: EdgeInsets.only(top: 15.0),
-          primaryColor: customColors
-              .primary, //HabitHelper.getPrimaryColor(_primaryColorCode)
+          primaryColor: customColors.primary, //HabitHelper.getPrimaryColor(_primaryColorCode)
           onIconSelected: (value) {
             setState(() {
               _icon = value;
@@ -857,9 +827,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
       text = LocaleKeys.pleaseEnterStartDate;
     } else if (_endDate == null) {
       text = LocaleKeys.pleaseEnterEndDate;
-    } else if ((_habit.goalSettings?.goalRequired ?? false) &&
-        _goalSliderBloc != null &&
-        _goalSliderBloc!.value <= 0.0) {
+    } else if ((_habit.goalSettings?.goalRequired ?? false) && _goalSliderBloc != null && _goalSliderBloc!.value <= 0.0) {
       text = LocaleKeys.pleaseSelectGoal;
     }
 

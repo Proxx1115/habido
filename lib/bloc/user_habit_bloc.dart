@@ -7,6 +7,7 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_with_date.dart';
 import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
+import 'package:habido_app/models/user_habit_feeling_pie_chart_feeling.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
@@ -46,6 +47,8 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapGetHabitFinanceTotalAmountEventToState(event);
     } else if (event is GetHabitFinanceTotalAmountByDateEvent) {
       yield* _mapGetHabitFinanceTotalAmountByDateEventToState(event);
+    } else if (event is GetHabitFeelingChartDataEvent) {
+      yield* _mapGetHabitFeelingChartDataEventToState(event);
     } else if (event is GetHabitProgressListWithDateEvent) {
       yield* _mapGetHabitProgressListWithDateEventToState(event);
     } else if (event is GetHabitProgressListByDateEvent) {
@@ -157,6 +160,22 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
+  Stream<UserHabitState> _mapGetHabitFeelingChartDataEventToState(GetHabitFeelingChartDataEvent event) async* {
+    try {
+      // yield UserHabitProgressLoading();
+
+      var res = await ApiManager.habitFeelingPieChart(event.userHabitId);
+
+      if (res.code == ResponseCode.Success) {
+        yield HabitFeelingPieChartSuccess(res.totalCount!, res.feelings ?? []);
+      } else {
+        yield HabitFeelingPieChartFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield HabitFeelingPieChartFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
   Stream<UserHabitState> _mapSaveUserHabitProgressEventToState(SaveUserHabitProgressEvent event) async* {
     try {
       yield UserHabitProgressLoading();
@@ -240,7 +259,8 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
-  Stream<UserHabitState> _mapDeleteHabitProgressEventToState(DeleteHabitProgressEvent event) async* {
+  Stream<UserHabitState> _mapDeleteHabitProgressEventToState(
+      DeleteHabitProgressEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
@@ -471,7 +491,20 @@ class GetHabitFinanceTotalAmountByDateEvent extends UserHabitEvent {
   List<Object> get props => [request];
 
   @override
-  String toString() => 'GetHabitFinanceTotalAmountByDateEvent { userHabitId: $request }';
+  String toString() => 'GetHabitFinanceTotalAmountByDateEvent { request: $request }';
+}
+
+/// User Habit Detail - Feeling
+class GetHabitFeelingChartDataEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetHabitFeelingChartDataEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetHabitFeelingChartDataEvent { userHabitId: $userHabitId }';
 }
 
 class GetHabitProgressListWithDateEvent extends UserHabitEvent {
@@ -722,7 +755,8 @@ class SaveUserHabitProgressSuccess extends UserHabitState {
   List<Object> get props => [habitProgressResponse];
 
   @override
-  String toString() => 'SaveUserHabitProgressSuccess { habitProgressResponse: $habitProgressResponse }';
+  String toString() =>
+      'SaveUserHabitProgressSuccess { habitProgressResponse: $habitProgressResponse }';
 }
 
 class SaveUserHabitProgressFailed extends UserHabitState {
@@ -746,7 +780,8 @@ class GetHabitProgressListWithDateSuccess extends UserHabitState {
   List<Object> get props => [habitProgressListWithDate];
 
   @override
-  String toString() => 'GetHabitProgressListSuccess { habitProgressList: $habitProgressListWithDate }';
+  String toString() =>
+      'GetHabitProgressListSuccess { habitProgressList: $habitProgressListWithDate }';
 }
 
 class GetHabitProgressListWithDateFailed extends UserHabitState {
@@ -770,7 +805,8 @@ class GetHabitProgressListByDateSuccess extends UserHabitState {
   List<Object> get props => [habitProgressList];
 
   @override
-  String toString() => 'GetHabitProgressListByDateSuccess { habitProgressList: $habitProgressList }';
+  String toString() =>
+      'GetHabitProgressListByDateSuccess { habitProgressList: $habitProgressList }';
 }
 
 class GetHabitProgressListByDateFailed extends UserHabitState {
@@ -789,13 +825,15 @@ class HabitFinanceTotalAmountSuccess extends UserHabitState {
   final double totalAmount;
   final List<UserHabitExpenseCategory> expenseCategories;
 
-  const HabitFinanceTotalAmountSuccess(this.totalAmount, this.expenseCategories);
+  const HabitFinanceTotalAmountSuccess(
+      this.totalAmount, this.expenseCategories);
 
   @override
   List<Object> get props => [totalAmount, expenseCategories];
 
   @override
-  String toString() => 'HabitFinanceTotalAmountSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
+  String toString() =>
+      'HabitFinanceTotalAmountSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
 }
 
 class HabitFinanceTotalAmountFailed extends UserHabitState {
@@ -833,6 +871,32 @@ class HabitFinanceTotalAmountByDateFailed extends UserHabitState {
 
   @override
   String toString() => 'HabitFinanceTotalAmountByDateFailed { message: $message }';
+}
+
+// User Habit Detail - Feeling
+class HabitFeelingPieChartSuccess extends UserHabitState {
+  final int totalCount;
+  final List<UserHabitFeelingPieChartFeeling> feelings;
+
+  const HabitFeelingPieChartSuccess(this.totalCount, this.feelings);
+
+  @override
+  List<Object> get props => [totalCount, feelings];
+
+  @override
+  String toString() => 'HabitFeelingPieChartSuccess { totalCount: $totalCount, feelings: $feelings }';
+}
+
+class HabitFeelingPieChartFailed extends UserHabitState {
+  final String message;
+
+  const HabitFeelingPieChartFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'HabitFeelingPieChartFailed { message: $message }';
 }
 
 class AddHabitProgressSuccess extends UserHabitState {}
