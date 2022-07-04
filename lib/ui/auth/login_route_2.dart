@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -346,40 +348,33 @@ class _LoginRoute2State extends State<LoginRoute2> {
     }
   }
 
-  _checkUserInfo(BuildContext context) {
-    if (globals.userData!.birthDay == null ||
-        globals.userData!.gender == null ||
-        globals.userData!.firstName == null) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.personalInfo, (Route<dynamic> route) => false);
-    }
-  }
-
   Future<void> _onAppleAuth(context) async {
     final credential = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName,
       ],
-      webAuthenticationOptions: WebAuthenticationOptions(
-        redirectUri:
-            Uri.parse('https://api.dreamwod.app/auth/callbacks/apple-sign-in'),
-        clientId: 'com.dreamwod.app.login',
-      ),
     );
+    final provider = OAuthProvider('apple.com');
+    final cred = provider.credential(
+      idToken: credential.identityToken,
+      accessToken: credential.authorizationCode,
+    );
+    await FirebaseAuth.instance.signInWithCredential(cred);
+    String? token = credential.identityToken;
+
+    String normalizedSource = base64Url.normalize(token!.split(".")[1]);
+    dynamic payload =
+        jsonDecode(utf8.decode(base64Url.decode(normalizedSource)));
+    print("token::::::::$payload");
 
     var apple = 'AppleId';
-    print('user:::::::::::${credential.email}');
+    // print('user:::::::::::${credential.identityToken}');
     var request = AddOauth()
-      ..email = credential.email
+      ..email = payload['email']
       ..type = apple;
-    var res = await ApiManager.addOauth(request);
+    print("userData::::::::::::::::::$request");
 
-    if (res.code == ResponseCode.Success) {
-      print("Amjilttai email nemlee");
-      Navigator.pop(context);
-    } else {
-      print("mail nemj chadsangvi${res}");
-    }
+    BlocManager.oauthBloc.add(LoginEvent(request));
   }
 }

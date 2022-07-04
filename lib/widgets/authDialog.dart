@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -287,25 +288,25 @@ class _AuthDialogState extends State<AuthDialog> {
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName,
       ],
-      webAuthenticationOptions: WebAuthenticationOptions(
-        redirectUri:
-            Uri.parse('https://api.dreamwod.app/auth/callbacks/apple-sign-in'),
-        clientId: 'com.dreamwod.app.login',
-      ),
     );
+    final provider = OAuthProvider('apple.com');
+    final cred = provider.credential(
+      idToken: credential.identityToken,
+      accessToken: credential.authorizationCode,
+    );
+    await FirebaseAuth.instance.signInWithCredential(cred);
+    String? token = credential.identityToken;
+
+    String normalizedSource = base64Url.normalize(token!.split(".")[1]);
+    dynamic payload =
+        jsonDecode(utf8.decode(base64Url.decode(normalizedSource)));
+    print("token::::::::$payload");
 
     var apple = 'AppleId';
-    print('user:::::::::::${credential.email}');
+    // print('user:::::::::::${credential.identityToken}');
     var request = AddOauth()
-      ..email = credential.email
+      ..email = payload['email']
       ..type = apple;
-    var res = await ApiManager.addOauth(request);
-
-    if (res.code == ResponseCode.Success) {
-      print("Amjilttai email nemlee");
-      Navigator.pop(context);
-    } else {
-      print("mail nemj chadsangvi${res}");
-    }
+    BlocManager.emailBloc.add(AddEmailEvent(request));
   }
 }
