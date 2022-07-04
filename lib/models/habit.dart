@@ -1,7 +1,9 @@
+import 'package:habido_app/models/base_response.dart';
+
 import 'habit_goal_settings.dart';
 import 'habit_plan_terms.dart';
 
-class Habit {
+class Habit extends BaseResponse {
   int? habitId; // 0
   int? categoryId; // avtsan
   String? name; // user habit name
