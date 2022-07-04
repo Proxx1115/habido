@@ -6,6 +6,7 @@ import 'package:habido_app/models/badge_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/habit_feeling_pie_chart_response.dart';
+import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
 import 'package:habido_app/models/mood_tracker_monthly_stat_response.dart';
 import 'package:habido_app/models/change_password_request.dart';
@@ -108,8 +109,6 @@ class ApiManager {
       objectData: request,
       hasAuthorization: false,
     ));
-
-    print('test');
 
     return res;
   }
@@ -955,6 +954,12 @@ class ApiManager {
         path: HttpPath.moodTrackerSave,
         objectData: answer,
       ),
+    );
+  }
+
+  static Future<Habit> createHabit(int habitId) async {
+    return Habit.fromJson(
+      await httpUtils.sendRequest(path: HttpPath.createHabit + '?habitId=$habitId', httpMethod: HttpMethod.get),
     );
   }
 

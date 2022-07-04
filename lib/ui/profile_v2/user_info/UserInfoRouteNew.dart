@@ -150,6 +150,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 52.5),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
@@ -160,27 +161,35 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
 
                         /// Овог
                         _lastNameTextField(),
+                        HorizontalLine(),
 
                         /// Таны нэр
                         _firstNameTextField(),
+                        HorizontalLine(),
 
                         /// Төрсөн огноо
                         _birthdayPicker(),
+                        HorizontalLine(),
 
                         /// Хүйс
-                        _genderSwitch(),
+                        // _genderSwitch(),
+                        // HorizontalLine(),
 
                         /// Утасны дугаар солих
                         _changePhoneCard(),
+                        HorizontalLine(),
 
                         /// И-мэйл хаяг солих
                         _changeEmailCard(),
+                        HorizontalLine(),
 
                         /// Нууц үг солих
                         _changePasswordCard(),
+                        HorizontalLine(),
 
                         /// Биометрээр нэвтрэх
                         _biometricsSwitch(),
+                        const SizedBox(height: 25)
                       ],
                     ),
                   ),
@@ -337,6 +346,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
   Widget _changePhoneCard() {
     return ListItemContainer(
       margin: EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.symmetric(vertical: 15),
       borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
       title: Func.isNotEmpty(globals.userData?.phone) ? globals.userData!.phone! : LocaleKeys.phone,
       suffixAsset: Assets.arrow_forward,
@@ -349,6 +359,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
   Widget _changeEmailCard() {
     return ListItemContainer(
       margin: EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.symmetric(vertical: 15),
       borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
       title: Func.isNotEmpty(globals.userData?.email) ? globals.userData!.email! : LocaleKeys.email,
       suffixAsset: Assets.arrow_forward,
@@ -361,6 +372,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
   Widget _changePasswordCard() {
     return ListItemContainer(
       margin: EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.symmetric(vertical: 15),
       borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
       title: LocaleKeys.changePassword,
       suffixAsset: Assets.arrow_forward,
@@ -414,30 +426,32 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
 
   _buttonSave() {
     return !Func.visibleKeyboard(context)
-        ? CustomButton(
-            style: CustomButtonStyle.secondary,
-            text: LocaleKeys.save,
-            margin: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
-            onPressed: _enabledBtnSave
-                ? () {
-                    if (!_validateAge()) {
-                      showCustomDialog(
-                        context,
-                        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12UserProfile, buttonText: LocaleKeys.ok),
-                      );
+          ? CustomButton(
+      margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
+      fontWeight: FontWeight.w700,
+      alignment: Alignment.bottomCenter,
+      text: LocaleKeys.save,
+      borderRadius: BorderRadius.circular(15.0),
+              onPressed: _enabledBtnSave
+                  ? () {
+                      if (!_validateAge()) {
+                        showCustomDialog(
+                          context,
+                          child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12UserProfile, buttonText: LocaleKeys.ok),
+                        );
 
-                      return;
+                        return;
+                      }
+                      var request = UpdateUserDataRequest()
+                        ..lastName = _lastNameController.text
+                        ..firstName = _firstNameController.text
+                        ..birthday = Func.toDateStr(_selectedBirthDate!)
+                        ..userGender = _genderValue ? Gender.Female : Gender.Male;
+
+                      BlocManager.userBloc.add(UpdateUserDataEvent(request));
                     }
-                    var request = UpdateUserDataRequest()
-                      ..lastName = _lastNameController.text
-                      ..firstName = _firstNameController.text
-                      ..birthday = Func.toDateStr(_selectedBirthDate!)
-                      ..userGender = _genderValue ? Gender.Female : Gender.Male;
-
-                    BlocManager.userBloc.add(UpdateUserDataEvent(request));
-                  }
-                : null,
-          )
+                  : null,
+            )
         : Container();
   }
 }

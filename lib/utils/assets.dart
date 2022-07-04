@@ -64,6 +64,7 @@ class Assets {
   static const String bell_ring = 'assets/images/global/bell_ring.svg';
   static const String reminder = 'assets/images/global/reminder.svg';
   static const String dot = 'assets/images/global/dot.svg';
+  static const String downArrow = 'assets/images/global/down_arrow.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';

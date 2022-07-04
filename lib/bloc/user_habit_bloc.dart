@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_with_date.dart';
@@ -70,6 +70,8 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapUpdateUserHabitProgressLogEventToState(event);
     } else if (event is GetUserHabitPlanCountEvent) {
       yield* _mapGetUserHabitPlanCountEventToState(event);
+    } else if (event is createHabitEvent) {
+      yield* _mapGetCreateUserHabitEventToState(event);
     }
   }
 
@@ -352,6 +354,20 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
+  Stream<UserHabitState> _mapGetCreateUserHabitEventToState(createHabitEvent event) async* {
+    try {
+      var res = await ApiManager.createHabit(event.habitId);
+      print("sonin gar ve");
+      if (res.code == ResponseCode.Success) {
+        yield createHabitSuccess(res);
+      } else {
+        yield createHabitFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield createHabitFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
   Stream<UserHabitState> _mapUpdateUserHabitProgressLogEventToState(UpdateUserHabitProgressLogEvent event) async* {
     try {
       var res = await ApiManager.updateHabitProgressLog(event.habitProgressLog);
@@ -609,6 +625,18 @@ class GetUserHabitPlanCountEvent extends UserHabitEvent {
 
   @override
   String toString() => 'GetUserHabitPlanCountEvent { habitPlanCount: $userHabitId }';
+}
+
+class createHabitEvent extends UserHabitEvent {
+  final int habitId;
+
+  const createHabitEvent(this.habitId);
+
+  @override
+  List<Object> get props => [habitId];
+
+  @override
+  String toString() => 'createHabitEvent { habitId: $habitId }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1027,4 +1055,27 @@ class UpdateUserHabitProgressLogFailed extends UserHabitState {
 
   @override
   String toString() => 'UpdateUserHabitProgressLogFailed { message: $message }';
+}
+
+class createHabitSuccess extends UserHabitState {
+  final Habit habit;
+  createHabitSuccess(this.habit);
+
+  @override
+  List<Object> get props => [habit];
+
+  @override
+  String toString() => 'createHabitSuccess { habit: $habit }';
+}
+
+class createHabitFailed extends UserHabitState {
+  final String message;
+
+  const createHabitFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'createHabitFailed { message: $message }';
 }

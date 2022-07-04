@@ -85,7 +85,8 @@ class UserHabit extends BaseResponse {
     map['habit'] = habit;
     map['isDynamicHabit'] = isDynamicHabit ?? false;
     if (userHabitReminders != null) {
-      map['userHabitReminders'] = userHabitReminders?.map((v) => v.toJson()).toList();
+      map['userHabitReminders'] =
+          userHabitReminders?.map((v) => v.toJson()).toList();
     }
     if (planDays != null) {
       map['planDays'] = planDays?.map((v) => v.toJson()).toList();
