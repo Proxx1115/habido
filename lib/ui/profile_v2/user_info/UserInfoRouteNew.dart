@@ -5,14 +5,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/auth_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_bloc.dart';
+import 'package:habido_app/models/dictionary.dart';
 import 'package:habido_app/models/gender.dart';
+import 'package:habido_app/models/get_dict_request.dart';
+import 'package:habido_app/models/get_dict_response.dart';
 import 'package:habido_app/models/update_profile_picture_request.dart';
 import 'package:habido_app/models/update_user_data_request.dart';
 import 'package:habido_app/models/user_device.dart';
 import 'package:habido_app/ui/profile_v2/user_info/textbox.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/biometrics_util.dart';
 import 'package:habido_app/utils/device_helper.dart';
+import 'package:habido_app/utils/dict_helper.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/image_utils.dart';
@@ -20,16 +25,22 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
+import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/combobox/combo_helper.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/customDialog.dart';
+import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/date_picker/date_picker.dart';
 import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
 import 'package:habido_app/widgets/dialogs.dart';
+import 'package:habido_app/widgets/listItem.dart';
 import 'package:habido_app/widgets/loaders.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
+import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -46,6 +57,11 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
 
   // Овог
   final _lastNameController = TextEditingController();
+
+  final _employmentController = TextEditingController();
+  final _addressController = TextEditingController();
+  ComboItem? _selectedEmp;
+  List<DictData>? _employmentList;
 
   // Нэр
   final _firstNameController = TextEditingController();
@@ -79,6 +95,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
 
     if (Func.isNotEmpty(DeviceHelper.deviceId)) {
       BlocManager.userBloc.add(GetUserDeviceEvent(DeviceHelper.deviceId!));
+      BlocManager.userBloc.add(GetEmploymentDict());
     }
 
     WidgetsBinding.instance?.addPostFrameCallback((_) => _validateForm());
@@ -145,6 +162,12 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
     } else if (state is UpdateUserDeviceFailed) {
       print('UpdateUserDeviceFailed');
     }
+    if (state is EmploymentDictSuccess) {
+      _employmentList = state.dictData;
+      print("dict emp:::::::::${_employmentList}");
+    } else if (state is EmploymentDictFailed) {
+      print("Failed employment dict");
+    }
   }
 
   Widget _blocBuilder(BuildContext context, UserState state) {
@@ -184,24 +207,20 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
                         _birthdayPicker(),
                         HorizontalLine(),
 
+                        /// Employment
+                        _employmentChooser(),
+                        HorizontalLine(),
+
                         /// Address
-                        _employment(),
-
-                        /// Хүйс
-                        // _genderSwitch(),
-                        // HorizontalLine(),
-
-                        /// Утасны дугаар солих
-                        _changePhoneCard(),
+                        _address(),
                         HorizontalLine(),
 
                         /// И-мэйл хаяг солих
                         _changeEmailCard(),
                         HorizontalLine(),
 
-                        /// Нууц үг солих
-                        _changePasswordCard(),
-                        HorizontalLine(),
+                        /// Утасны дугаар солих
+                        _changePhoneCard(),
 
                         /// Биометрээр нэвтрэх
                         _biometricsSwitch(),
@@ -375,7 +394,55 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
       title: Func.isNotEmpty(globals.userData?.phone)
           ? globals.userData!.phone!
           : LocaleKeys.employment,
-      suffixAsset: Assets.arrow_forward,
+      suffixAsset: Assets.down_arrow,
+      onPressed: () {
+        print("object");
+        showCustomListDialog(
+          context,
+          child: Column(
+            children: [
+              Text("djcbdjk"),
+              Container(
+                  decoration: new BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: new BorderRadius.only(
+                        topLeft: Radius.circular(35.0),
+                        topRight: Radius.circular(35.0)),
+                  ),
+                  height: 400,
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: _employmentList!.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                          onTap: () {
+                            _selectedEmp:
+                            _employmentController.text;
+                          },
+                          child: Column(
+                            children: [
+                              Text(_employmentList![index].txt!),
+                              HorizontalLine()
+                            ],
+                          ));
+                    },
+                  )),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _address() {
+    return ListItemContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.symmetric(vertical: 15),
+      borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+      title: Func.isNotEmpty(globals.userData?.phone)
+          ? globals.userData!.phone!
+          : LocaleKeys.address,
+      suffixAsset: Assets.down_arrow,
       onPressed: () {
         Navigator.pushNamed(context, Routes.changePhone);
       },
@@ -503,5 +570,112 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
                 : null,
           )
         : Container();
+  }
+
+  Widget _employmentChooser() {
+    return ListItemContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.symmetric(vertical: 15),
+      borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+      title: Func.isNotEmpty(globals.userData?.phone)
+          ? globals.userData!.phone!
+          : LocaleKeys.employment,
+      suffixAsset: Assets.down_arrow,
+      onPressed: () {
+        _showBottomSheet();
+      },
+    );
+
+    // return InkWell(
+    //   onTap: _showBottomSheet,
+    //   child: Container(
+    //     margin: EdgeInsets.symmetric(vertical: 8),
+    //     padding: EdgeInsets.all(15),
+    //     decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(10),
+    //       color: Colors.white,
+    //       border: Border.all(color: Colors.pink, width: 1.0),
+    //     ),
+    //     child: Container(
+    //       child: Row(
+    //         children: [
+    //           Expanded(
+    //             child: Column(
+    //               children: [
+    //                 Text(
+    //                   'AppText.transactionBank',
+    //                 ),
+    //                 Text(
+    //                   _selectedEmp != null ? _selectedEmp!.txt : '',
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //           Image.asset(
+    //             Assets.add,
+    //             color: Colors.yellow,
+    //             width: 24,
+    //             height: 24,
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
+  }
+
+  void _showBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: new BoxDecoration(
+            // color: Colors.red,
+            borderRadius: new BorderRadius.only(
+                topLeft: Radius.circular(35.0),
+                topRight: Radius.circular(35.0)),
+          ),
+          padding: EdgeInsets.symmetric(
+              horizontal: SizeHelper.padding, vertical: SizeHelper.padding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 25,
+              ),
+              CustomText(
+                LocaleKeys.chooseEmp.toUpperCase(),
+                alignment: Alignment.center,
+                color: customColors.primary,
+                fontWeight: FontWeight.bold,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _employmentList!.length,
+                  itemBuilder: (context, i) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: SizeHelper.padding,
+                      ),
+                      child: Column(
+                        children: [
+                          CustomText(
+                            _employmentList![i].txt!,
+                            // alignment: Alignment.,
+                            fontSize: 18,
+                            color: customColors.grayText,
+                          ),
+                          HorizontalLine()
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

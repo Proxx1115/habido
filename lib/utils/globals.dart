@@ -1,3 +1,4 @@
+import 'package:habido_app/models/dictionary.dart';
 import 'package:habido_app/models/param_response.dart';
 import 'package:habido_app/models/user_data.dart';
 
@@ -6,6 +7,7 @@ Globals globals = Globals();
 class Globals {
   ParamResponse? param;
   UserData? userData;
+  DictData? employmentData;
 
   // Calendar
   int? _badgeCount;
@@ -28,6 +30,7 @@ class Globals {
   void clear() {
     param = null;
     userData = null;
+    employmentData = null;
     calendarBadgeCount = null;
     unreadNotifCount = null;
   }

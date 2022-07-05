@@ -123,6 +123,7 @@ class Assets {
   static const String process2 = 'assets/images/profile/process2.svg';
   static const String process3 = 'assets/images/profile/process3.svg';
   static const String pointButton = 'assets/images/profile/point_button.svg';
+  static const String down_arrow = 'assets/images/profile/down_arrow.svg';
 
   static const String male = 'assets/images/profile/male.png';
   static const String female = 'assets/images/profile/female.png';
@@ -139,7 +140,8 @@ class Assets {
       'assets/images/profile/rank_background2.png';
   static const String question_mark = 'assets/images/profile/question_mark.svg';
   static const String terms = 'assets/images/profile/terms.svg';
-  static const String new_badge_background = 'assets/images/profile/new_badge_background.svg';
+  static const String new_badge_background =
+      'assets/images/profile/new_badge_background.svg';
 
   static const String totalHabits = 'assets/images/profile/process0.svg';
   static const String completedHabits = 'assets/images/profile/process1.svg';
@@ -245,10 +247,14 @@ class Assets {
 
   // User Habit Detail - Feeling
   static const String sad_emoji = 'assets/images/habit/_Гунигтай_байна.svg';
-  static const String unpleasant_emoji = 'assets/images/habit/_Тааламжгүй_байна.svg';
-  static const String unknown_emoji = 'assets/images/habit/_Юу_мэдэрч_байгаагаа_мэдэхгүй.svg';
-  static const String calm_emoji = 'assets/images/habit/_Тайван_сайхан_байна.svg';
-  static const String happy_emoji = 'assets/images/habit/_Маш_их_баяртай_байна.svg';
+  static const String unpleasant_emoji =
+      'assets/images/habit/_Тааламжгүй_байна.svg';
+  static const String unknown_emoji =
+      'assets/images/habit/_Юу_мэдэрч_байгаагаа_мэдэхгүй.svg';
+  static const String calm_emoji =
+      'assets/images/habit/_Тайван_сайхан_байна.svg';
+  static const String happy_emoji =
+      'assets/images/habit/_Маш_их_баяртай_байна.svg';
 
   /// Feeling
   static const String emoji1 = 'assets/images/feeling/emoji1.svg';

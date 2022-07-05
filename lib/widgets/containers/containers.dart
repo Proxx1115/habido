@@ -507,6 +507,7 @@ class ListItemContainer extends StatelessWidget {
                       title,
                       fontWeight: FontWeight.w500,
                       maxLines: 2,
+                      color: customColors.grayText,
                     ),
 
                     /// Body

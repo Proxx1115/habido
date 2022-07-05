@@ -5,7 +5,14 @@ import 'package:habido_app/models/addOauth.dart';
 import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/badge_response.dart';
 import 'package:habido_app/models/banners_response.dart';
+import 'package:habido_app/models/base_request.dart';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/dict_list_response.dart';
+import 'package:habido_app/models/dictionary.dart';
+import 'package:habido_app/models/get_dict_list_request.dart';
+import 'package:habido_app/models/get_dict_request.dart';
+import 'package:habido_app/models/get_dict_response.dart';
+import 'package:habido_app/models/get_dicts_list_response.dart';
 import 'package:habido_app/models/habit_feeling_pie_chart_response.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
@@ -88,6 +95,7 @@ import 'package:habido_app/ui/chat/cb_chatbots/cb_chat_history_response.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_chat_response.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_chatbots_response.dart';
 import 'package:habido_app/ui/chat/cb_chatbots/cb_msg_option_request.dart';
+import 'package:habido_app/utils/dict_helper.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -705,7 +713,8 @@ class ApiManager {
     );
   }
 
-  static Future<HabitFeelingPieChartResponse> habitFeelingPieChart(int userHabitId) async {
+  static Future<HabitFeelingPieChartResponse> habitFeelingPieChart(
+      int userHabitId) async {
     return HabitFeelingPieChartResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.habitFeelingPieChart + '/$userHabitId',
@@ -1045,7 +1054,9 @@ class ApiManager {
 
   static Future<Habit> createHabit(int habitId) async {
     return Habit.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.createHabit + '?habitId=$habitId', httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(
+          path: HttpPath.createHabit + '?habitId=$habitId',
+          httpMethod: HttpMethod.get),
     );
   }
 
@@ -1058,4 +1069,22 @@ class ApiManager {
 
   //   return res;
   // }
+
+  ///Table Dict
+  static Future<ActiveHabitResponse> getTableDict(String dictCode) async {
+    return ActiveHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.tableDict + '/$dictCode',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<DataDictResponse> getDictEmployment() async {
+    var dictCode = DictCode.employment;
+    return DataDictResponse.fromJson(await httpUtils.sendRequest(
+      path: HttpPath.tableDict + '/' + '${dictCode}',
+      httpMethod: HttpMethod.get,
+    ));
+  }
 }

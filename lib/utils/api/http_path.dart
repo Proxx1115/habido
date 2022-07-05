@@ -126,4 +126,7 @@ class HttpPath {
   /// Mood Tracker
   static const String moodTrackerQuestions = '/mobile/mood-tracker/start';
   static const String moodTrackerSave = '/mobile/mood-tracker/save';
+
+  ///Table Dict
+  static const String tableDict = '/main/dict/table';
 }

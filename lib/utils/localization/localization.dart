@@ -777,6 +777,7 @@ class LocaleKeys {
   static String get faq => 'Түгээмэл асуулт, хариулт';
   static String get employment => 'Ажил эрхлэлтийн байдал';
   static String get address => 'Гэрийн хаяг';
+  static String get chooseEmp => 'Та ажил эрхлэлтээ сонгоно уу';
 }
 
 class FlutterBlocLocalizationsDelegate

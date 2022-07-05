@@ -1,4 +1,6 @@
+import 'package:habido_app/models/dictionary.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 
 class ComboItem {
   ComboItem({this.txt = '', this.val, this.imageAssetName});
@@ -46,31 +48,31 @@ class ComboHelper {
     return comboItem;
   }
 
-// static List<ComboItem> dictToCombo(List<DictData>? dictList) {
-//   var comboItemList = <ComboItem>[];
-//   try {
-//     if (dictList != null && dictList.isNotEmpty) {
-//       for (var el in dictList) {
-//         comboItemList.add(ComboItem()
-//           ..txt = el.txt ?? ''
-//           ..val = el.val);
-//       }
-//     }
-//   } catch (e) {
-//     print(e);
-//   }
-//
-//   return comboItemList;
-// }
+  static List<ComboItem> dictToCombo(List<DictData>? dictList) {
+    var comboItemList = <ComboItem>[];
+    try {
+      if (dictList != null && dictList.isNotEmpty) {
+        for (var el in dictList) {
+          comboItemList.add(ComboItem()
+            ..txt = el.txt ?? ''
+            ..val = el.val);
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
 
-// static List<ComboItem> get logicList => <ComboItem>[
-//       ComboItem()
-//         ..txt = LocaleKeys.no
-//         ..val = 0,
-//       ComboItem()
-//         ..txt = LocaleKeys.yes
-//         ..val = 1
-//     ];
+    return comboItemList;
+  }
+
+  static List<ComboItem> get logicList => <ComboItem>[
+        ComboItem()
+          ..txt = LocaleKeys.no
+          ..val = 0,
+        ComboItem()
+          ..txt = LocaleKeys.yes
+          ..val = 1
+      ];
 //
 // static List<ComboItem> get genderComboList => <ComboItem>[
 //       ComboItem()
