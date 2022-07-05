@@ -9,6 +9,7 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:flutter/cupertino.dart' as cupertino;
 import 'package:habido_app/widgets/scaffold.dart';
@@ -65,6 +66,8 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
   }
 
   _getContent() {
+    (_searchController.text.isEmpty && Func.isEmpty(_selectedTag!.filterValue)) ? _isShow = true : _isShow = false;
+    print("ahahha $_isShow");
     BlocManager.contentBlocV2.add(GetContentFirst(_selectedTag!.filterValue ?? "", _searchController.text));
   }
 
@@ -100,7 +103,6 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
       );
     } else if (state is ContentFirstSuccess) {
       _contentList = state.contentList;
-      print('First:${state.contentList[0].title}');
     } else if (state is ContentFirstFailed) {
       showCustomDialog(
         context,
@@ -193,11 +195,14 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                 _isShow
                     ? Column(
                         children: [
-                          CustomText(
-                            "Онцлох",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: customColors.primaryText,
+                          FadeInAnimation(
+                            duration: 500,
+                            child: CustomText(
+                              "Онцлох",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: customColors.primaryText,
+                            ),
                           ),
                           SizedBox(height: 10),
                           if (_contentHighlightedList != null)
@@ -206,11 +211,14 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                         ],
                       )
                     : Container(),
-                CustomText(
-                  _selectedTag!.name ?? "Танд",
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: customColors.primaryText,
+                FadeInAnimation(
+                  duration: 500,
+                  child: CustomText(
+                    _selectedTag!.name ?? "Танд",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: customColors.primaryText,
+                  ),
                 ),
                 SizedBox(height: 12),
                 for (var i = 0; i < _contentList.length; i++) ContentCardV2(content: _contentList[i]),
@@ -240,7 +248,8 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     return InkWell(
       onTap: () {
         _selectedTag = tag;
-        Func.isEmpty(_selectedTag!.filterValue) ? _isShow = true : _isShow = false;
+        // (Func.isEmpty(_selectedTag!.filterValue)) ? _isShow = true : _isShow = false;
+        print("haha st ${_isShow}");
 
         _getContent();
         setState(() {});
