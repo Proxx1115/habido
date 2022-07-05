@@ -14,11 +14,14 @@ class AdviceRoute extends StatefulWidget {
 class _AdviceRouteState extends State<AdviceRoute> {
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      appBarTitle: widget.adviceVideo.title,
-      child: VideoPlayer(
-        videoURL: widget.adviceVideo.video!,
-        height: MediaQuery.of(context).size.width * 16 / 9,
+    return InkWell(
+      onTap: () => showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) => VideoPlayer(
+          videoURL: widget.adviceVideo.video!,
+          height: MediaQuery.of(context).size.width * 16 / 9,
+        ),
       ),
     );
   }

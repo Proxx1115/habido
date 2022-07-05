@@ -45,7 +45,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
       curve: Curves.easeIn,
     );
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _init());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _init());
   }
 
   @override
@@ -224,8 +224,7 @@ class _HabitSuccessRouteState extends State<HabitSuccessRoute> with SingleTicker
 
   Future<void> _init() async {
     // Show reveal dialog
-    if (animationController.status == AnimationStatus.forward ||
-        animationController.status == AnimationStatus.completed) {
+    if (animationController.status == AnimationStatus.forward || animationController.status == AnimationStatus.completed) {
       animationController.reverse();
     } else {
       animationController.forward();

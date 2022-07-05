@@ -32,6 +32,7 @@ class Habit extends BaseResponse {
   });
 
   Habit.fromJson(dynamic json) {
+    parseBaseParams(json);
     habitId = json['habitId'];
     categoryId = json['categoryId'];
     name = json['name'];

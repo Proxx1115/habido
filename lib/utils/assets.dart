@@ -70,6 +70,7 @@ class Assets {
   static const String reminder = 'assets/images/global/reminder.svg';
   static const String dot = 'assets/images/global/dot.svg';
   static const String downArrow = 'assets/images/global/down_arrow.svg';
+  static const String info = 'assets/images/global/info.svg';
 
   /// Intro
   static const String intro1 = 'assets/images/intro/intro1.svg';
@@ -105,6 +106,7 @@ class Assets {
 
   /// Home
   static const String home = 'assets/images/home/home.svg';
+  static const String habit = 'assets/images/home/habit.svg';
   static const String test = 'assets/images/home/test.svg';
   static const String assistant = 'assets/images/home/assistant.svg';
   static const String content = 'assets/images/home/content.svg';

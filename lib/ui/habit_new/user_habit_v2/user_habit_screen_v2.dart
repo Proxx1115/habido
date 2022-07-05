@@ -63,7 +63,7 @@ class UserHabitScreenV2 extends StatefulWidget {
 class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
   // Main
   late String _screenMode;
-  late Habit _habit;
+  Habit? _habit;
   UserHabit? _userHabit;
 
   // Name
@@ -106,8 +106,14 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
   @override
   void initState() {
-    BlocManager.userHabitBloc.add(createHabitEvent(widget.habitId));
+    BlocManager.userHabitBloc.add(GetHabitEvent(widget.habitId));
 
+    // /// Showcase
+
+    super.initState();
+  }
+
+  _initScreen() {
     /// Screen mode
     _screenMode = widget.screenMode;
 
@@ -115,23 +121,23 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     _userHabit = widget.userHabit;
 
     /// Name
-    _nameController.text = _habit.name ?? '';
+    _nameController.text = _habit!.name ?? '';
 
     /// Color
     _colorList = widget.customHabitSettings?.colorList;
     switch (_screenMode) {
       case ScreenMode.New:
       case ScreenMode.Edit:
-        _primaryColorCode = _habit.color;
-        _backgroundColorCode = _habit.backgroundColor;
+        _primaryColorCode = _habit!.color;
+        _backgroundColorCode = _habit!.backgroundColor;
         break;
       case ScreenMode.CustomNew:
         _primaryColorCode = _colorList?.first.primaryColor;
         _backgroundColorCode = _colorList?.first.backgroundColor;
         break;
       case ScreenMode.CustomEdit:
-        _primaryColorCode = _habit.color;
-        _backgroundColorCode = _habit.backgroundColor;
+        _primaryColorCode = _habit!.color;
+        _backgroundColorCode = _habit!.backgroundColor;
         break;
     }
 
@@ -147,8 +153,8 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         }
         break;
       case ScreenMode.CustomEdit:
-        if (Func.isNotEmpty(_habit.photo)) {
-          _icon = CustomHabitIcon()..link = _habit.photo;
+        if (Func.isNotEmpty(_habit!.photo)) {
+          _icon = CustomHabitIcon()..link = _habit!.photo;
         }
         break;
     }
@@ -156,7 +162,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     /// Plan term
     switch (_screenMode) {
       case ScreenMode.Edit:
-        _planTerm = _userHabit!.planTerm ?? PlanTerm.getInitialPlanTerm(_habit.planTerms);
+        _planTerm = _userHabit!.planTerm ?? PlanTerm.getInitialPlanTerm(_habit!.planTerms);
         _planList = _userHabit!.planDays ?? [];
         break;
       case ScreenMode.CustomEdit:
@@ -164,7 +170,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         _planList = _userHabit!.planDays ?? [];
         break;
       case ScreenMode.New:
-        _planTerm = PlanTerm.getInitialPlanTerm(_habit.planTerms);
+        _planTerm = PlanTerm.getInitialPlanTerm(_habit!.planTerms);
         _planList = [];
         break;
       case ScreenMode.CustomNew:
@@ -179,7 +185,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
     switch (_screenMode) {
       case ScreenMode.New:
-        _goalSettings = _habit.goalSettings;
+        _goalSettings = _habit!.goalSettings;
         break;
       case ScreenMode.Edit:
         _goalSettings = _userHabit?.habit?.goalSettings;
@@ -253,12 +259,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     }
 
     /// Tip
-    _tip = _habit.tip;
-
-    /// Showcase
-    BlocManager.userHabitBloc.add(UserHabitShowcaseEvent(ShowcaseKeyName.userHabit));
-
-    super.initState();
+    _tip = _habit!.tip;
   }
 
   @override
@@ -271,87 +272,89 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         child: BlocListener<UserHabitBloc, UserHabitState>(
           listener: _blocListener,
           child: BlocBuilder<UserHabitBloc, UserHabitState>(builder: (context, state) {
-            return Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: [
-                          CustomShowcase(
-                            showcaseKey: ShowcaseKey.userHabit,
-                            description: LocaleKeys.showcaseUserHabit,
-                            overlayOpacity: 0.9,
-                            overlayPadding: EdgeInsets.all(20.0),
-                            shapeBorder: CircleBorder(),
-                            child: Column(
+            return _habit != null
+                ? Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                            child: ListView(
+                              shrinkWrap: true,
                               children: [
-                                /// Нэр
-                                _nameTextField(),
-
-                                /// Зөвлөмж
-                                _tipWidget(),
-
-                                /// Дүрс сонгох
-                                _iconPicker(),
-
-                                /// Plan terms
-                                _planTermsWidget(),
-
-                                /// Зорилго
-                                _goalWidget(),
-
-                                SizedBox(height: 15.0),
-
-                                Container(
-                                  width: double.infinity,
-                                  height: 50.0,
-                                  child: Row(
+                                CustomShowcase(
+                                  showcaseKey: ShowcaseKey.userHabit,
+                                  description: LocaleKeys.showcaseUserHabit,
+                                  overlayOpacity: 0.9,
+                                  overlayPadding: EdgeInsets.all(20.0),
+                                  shapeBorder: CircleBorder(),
+                                  child: Column(
                                     children: [
-                                      /// Эхлэх огноо
-                                      Expanded(child: _startDatePicker()),
+                                      /// Нэр
+                                      _nameTextField(),
 
-                                      SizedBox(
-                                        width: 15,
+                                      /// Зөвлөмж
+                                      _tipWidget(),
+
+                                      /// Дүрс сонгох
+                                      _iconPicker(),
+
+                                      /// Plan terms
+                                      _planTermsWidget(),
+
+                                      /// Зорилго
+                                      _goalWidget(),
+
+                                      SizedBox(height: 15.0),
+
+                                      Container(
+                                        width: double.infinity,
+                                        height: 50.0,
+                                        child: Row(
+                                          children: [
+                                            /// Эхлэх огноо
+                                            Expanded(child: _startDatePicker()),
+
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+
+                                            /// Дуусах огноо
+                                            Expanded(child: _endDatePicker()),
+                                          ],
+                                        ),
                                       ),
 
-                                      /// Дуусах огноо
-                                      Expanded(child: _endDatePicker()),
+                                      _reminder(),
                                     ],
                                   ),
                                 ),
-
-                                _reminder(),
                               ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
 
-                /// Buttons
-                Container(
-                  margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, SizeHelper.marginBottom),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      /// Button delete
-                      // _buttonDelete(),
+                      /// Buttons
+                      Container(
+                        margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, SizeHelper.marginBottom),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            /// Button delete
+                            // _buttonDelete(),
 
-                      /// Button save
-                      Expanded(
-                        child: _buttonSave(),
+                            /// Button save
+                            Expanded(
+                              child: _buttonSave(),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
-                ),
-              ],
-            );
+                  )
+                : Container();
           }),
         ),
       ),
@@ -397,7 +400,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
           buttonText: LocaleKeys.ok,
           primaryColor: ConstantColors.createHabitColor,
           onPressedButton: () {
-            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home));
           },
         ),
       );
@@ -413,8 +416,9 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
       );
     } else if (state is UserHabitShowcaseState) {
       ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
-    } else if (state is createHabitSuccess) {
+    } else if (state is GetHabitSuccess) {
       _habit = state.habit;
+      _initScreen();
     }
   }
 
@@ -462,7 +466,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
   Widget _planTermsWidget() {
     return PlanTermsWidget(
       primaryColor: ConstantColors.athensGrey,
-      habitPlanTerms: _habit.planTerms,
+      habitPlanTerms: _habit!.planTerms,
       initialPlanTerm: _planTerm,
       onPlanTermChanged: (term) {
         _planTerm = term;
@@ -544,7 +548,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         userHabit.isDynamicHabit = false;
 
         // Habit settings
-        userHabit.habitId = _habit.habitId;
+        userHabit.habitId = _habit!.habitId;
 
         // Name
         userHabit.name = _nameController.text;
@@ -748,6 +752,8 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
                                 _goalSettings = item.val;
                               });
 
+                              print('test');
+
                               _goalSliderBloc?.add(SliderResetEvent(
                                 Func.toDouble(_goalSettings!.goalMin),
                                 Func.toDouble(_goalSettings!.goalMax),
@@ -824,7 +830,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
       text = LocaleKeys.pleaseEnterStartDate;
     } else if (_endDate == null) {
       text = LocaleKeys.pleaseEnterEndDate;
-    } else if ((_habit.goalSettings?.goalRequired ?? false) && _goalSliderBloc != null && _goalSliderBloc!.value <= 0.0) {
+    } else if ((_habit!.goalSettings?.goalRequired ?? false) && _goalSliderBloc != null && _goalSliderBloc!.value <= 0.0) {
       text = LocaleKeys.pleaseSelectGoal;
     }
 

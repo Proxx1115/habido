@@ -282,7 +282,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
                         shrinkWrap: true,
                         children: [
                           CustomShowcase(
-                            showcaseKey: ShowcaseKey.userHabit,
+                            showcaseKey: ShowcaseKey.userHabitTest,
                             description: LocaleKeys.showcaseUserHabit,
                             overlayOpacity: 0.9,
                             overlayPadding: EdgeInsets.all(20.0),

@@ -98,7 +98,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
       BlocManager.userBloc.add(GetEmploymentDict());
     }
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _validateForm());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _validateForm());
 
     super.initState();
   }

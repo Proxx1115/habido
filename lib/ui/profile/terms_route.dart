@@ -28,8 +28,7 @@ class _TermsRouteState extends State<TermsRoute> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance?.addPostFrameCallback(
-        (_) => BlocManager.paramBloc.add(GetParamEvent()));
+    WidgetsBinding.instance.addPostFrameCallback((_) => BlocManager.paramBloc.add(GetParamEvent()));
   }
 
   @override
@@ -52,17 +51,13 @@ class _TermsRouteState extends State<TermsRoute> {
 
   void _blocListener(BuildContext context, ParamState state) {
     if (state is ParamSuccess) {
-      if (state.response.termsOfService != null &&
-          state.response.termsOfService!.length > 0) {
+      if (state.response.termsOfService != null && state.response.termsOfService!.length > 0) {
         _termsOfService = state.response.termsOfService;
       }
     } else if (state is ParamFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }

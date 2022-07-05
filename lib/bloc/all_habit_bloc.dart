@@ -7,6 +7,7 @@ import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC
@@ -75,8 +76,9 @@ class AllHabitBloc extends Bloc<AllHabitEvent, AllHabitState> {
   Stream<AllHabitState> _mapGetCompletedHabitThenToState(GetCompletedHabitThenEvent event) async* {
     try {
       var res = await ApiManager.getCompletedHabitThen(event.userHabitId);
+
       if (res.code == ResponseCode.Success) {
-        yield GetCompletedHabitThenSuccess(res.data ?? []);
+        yield GetCompletedHabitThenSuccess(res.completedHabitList!);
       } else {
         yield GetCompletedHabitThenFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
@@ -259,7 +261,6 @@ class GetCompletedHabitThenSuccess extends AllHabitState {
 
   @override
   List<Object> get props => [completedHabitList];
-
   @override
   String toString() => 'GetCompletedHabitThenSuccess { completedHabitList: $completedHabitList }';
 }
