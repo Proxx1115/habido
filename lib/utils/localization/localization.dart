@@ -119,6 +119,8 @@ class LocaleKeys {
 
   static String get typeSomething => 'Type something...';
 
+  static String get chooseYourQuestion => 'ТА АСУУЛТАА СОНГОНО УУ';
+
   ///
   /// Intro
   ///
@@ -344,8 +346,7 @@ class LocaleKeys {
 
   static String get activeHabitEmpty => 'Өө, идэвхтэй дадал байхгүй байна..';
 
-  static String get completedHabitEmpty =>
-      'Өө, хэрэгжүүлж дууссан дадал байхгүй байна…';
+  static String get completedHabitEmpty => 'Өө, хэрэгжүүлж дууссан дадал байхгүй байна…';
 
   static String get historyHabitEmpty => 'Өө, түүх байхгүй байна…';
 
@@ -430,6 +431,8 @@ class LocaleKeys {
   static String get sureToSkipHabit => 'Энэ удаад алгасах уу?';
 
   static String get daily => 'Өдөр бүр';
+
+  static String get reflectionsOftheDay => 'Өдрийн эргэцүүлэл';
 
   static String get weekly => '7 хоног бүр';
 
@@ -620,7 +623,7 @@ class LocaleKeys {
 
   static String get howAreYouFeeling => 'Та хэр сэтгэл ханамжтай байна бэ?';
 
-  static String get feelingAtTheTime => 'Яг одоо ямар сэтгэл хөдлөлтэй байна вэ?';
+  static String get feelingAtTheTime => 'Сэтгэл санаа хэр байна даа?';
 
   static String get pleasing => 'Ханамжтай';
 
@@ -646,7 +649,7 @@ class LocaleKeys {
 
   static String get pleaseSelectGoal => 'Зорилго сонгоно уу';
 
-  static String get answerOneOfThoseQuestion => 'Дараах асуултуудаас нэгийг нь сонгон хариулаарай';
+  static String get answerOneOfThoseQuestion => 'Асуултуудаас нэгийг сонгон хариулаарай';
 
   /// User Habit Detail
   static String get execution => 'Гүйцэтгэл';
