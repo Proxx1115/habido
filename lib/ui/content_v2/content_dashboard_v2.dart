@@ -6,6 +6,7 @@ import 'package:habido_app/models/content_v2.dart';
 import 'package:habido_app/ui/content_v2/content_bloc_v2.dart';
 import 'package:habido_app/ui/content_v2/content_card_v2.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/dialogs.dart';
@@ -36,6 +37,7 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
   ContentTagV2? _selectedTag;
 
   /// CONTENT
+  bool _isShow = true;
   List<ContentV2>? _contentHighlightedList;
 
   /// CONTENT FIRST
@@ -188,16 +190,22 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
             child: Column(
               children: [
                 SizedBox(height: 25),
-                CustomText(
-                  "Онцлох",
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: customColors.primaryText,
-                ),
-                SizedBox(height: 10),
-                if (_contentHighlightedList != null)
-                  for (var i = 0; i < _contentHighlightedList!.length; i++) ContentCardV2(content: _contentHighlightedList![i]),
-                SizedBox(height: 3),
+                _isShow
+                    ? Column(
+                        children: [
+                          CustomText(
+                            "Онцлох",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: customColors.primaryText,
+                          ),
+                          SizedBox(height: 10),
+                          if (_contentHighlightedList != null)
+                            for (var i = 0; i < _contentHighlightedList!.length; i++) ContentCardV2(content: _contentHighlightedList![i]),
+                          SizedBox(height: 3),
+                        ],
+                      )
+                    : Container(),
                 CustomText(
                   _selectedTag!.name ?? "Танд",
                   fontWeight: FontWeight.w500,
@@ -232,6 +240,7 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     return InkWell(
       onTap: () {
         _selectedTag = tag;
+        Func.isEmpty(_selectedTag!.filterValue) ? _isShow = true : _isShow = false;
 
         _getContent();
         setState(() {});

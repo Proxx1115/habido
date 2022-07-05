@@ -172,7 +172,7 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomText(
-                      "Нийтэлсэн: ${content.createdAt}",
+                      "Нийтэлсэн: ${Func.toDateTimeStr(content.createdAt!)}",
                       fontSize: 11,
                       fontWeight: FontWeight.w300,
                       color: customColors.lightText,
@@ -232,7 +232,7 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
                     Row(
                       children: [
                         CustomText(
-                          "Нийтэлсэн: ${content.createdAt}",
+                          "Нийтэлсэн: ${Func.toDateTimeStr(content.createdAt!)}",
                           fontSize: 11,
                           fontWeight: FontWeight.w300,
                           color: customColors.lightText,
