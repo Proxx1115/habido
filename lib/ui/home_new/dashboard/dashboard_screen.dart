@@ -204,7 +204,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ],
                       ))
                 : Container(
-                    height: 118.0,
+                    height: 97.0,
                   ),
 
             /// Divider

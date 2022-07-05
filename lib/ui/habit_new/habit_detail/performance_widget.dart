@@ -107,7 +107,7 @@ class PerformanceWidget extends StatelessWidget {
                 LocaleKeys.day,
                 fontSize: 11,
                 fontWeight: FontWeight.w400,
-                margin: EdgeInsets.only(bottom: 1.2),
+                // margin: EdgeInsets.only(bottom: 1.2),
               ),
             ],
           ),

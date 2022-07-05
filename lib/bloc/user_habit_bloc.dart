@@ -56,6 +56,10 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapGetUserHabitDetailsSatisfactionEventToState(event);
     } else if (event is GetHabitProgressListWithDateEvent) {
       yield* _mapGetHabitProgressListWithDateEventToState(event);
+    } else if (event is GetUserHabitDetailsFeelingLatestEvent) {
+      yield* _mapGetUserHabitDetailsFeelingLatestEventToState(event);
+    } else if (event is GetUserHabitDetailsFeelingNextEvent) {
+      yield* _mapGetUserHabitDetailsFeelingNextEventToState(event);
     } else if (event is GetHabitProgressListByDateEvent) {
       yield* _mapGetHabitProgressListByDateEventToState(event);
     } else if (event is AddHabitProgressEvent) {
@@ -430,6 +434,19 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield GetFeelingDetailsLatestFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<UserHabitState> _mapGetUserHabitDetailsFeelingNextEventToState(GetUserHabitDetailsFeelingNextEvent event) async* {
+    try {
+      var res = await ApiManager.getUserHabitDetailsFeelingNext(event.userHabitId, event.planId);
+      if (res.code == ResponseCode.Success) {
+        yield GetFeelingDetailsThenSuccess(res.userHabitDetailsFeelingList!);
+      } else {
+        yield GetFeelingDetailsThenFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetFeelingDetailsThenFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -709,6 +726,19 @@ class GetUserHabitDetailsFeelingLatestEvent extends UserHabitEvent {
 
   @override
   String toString() => 'GetUserHabitDetailsFeelingLatestEvent { userHabitId: $userHabitId }';
+}
+
+class GetUserHabitDetailsFeelingNextEvent extends UserHabitEvent {
+  final int userHabitId;
+  final int planId;
+
+  const GetUserHabitDetailsFeelingNextEvent(this.userHabitId, this.planId);
+
+  @override
+  List<Object> get props => [userHabitId, planId];
+
+  @override
+  String toString() => 'GetUserHabitDetailsFeelingNextEvent { userHabitId: $userHabitId - planId: $planId }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1173,6 +1203,30 @@ class GetFeelingDetailsLatestFailed extends UserHabitState {
 
   @override
   String toString() => 'GetFeelingDetailsLatestFailed { message: $message }';
+}
+
+class GetFeelingDetailsThenSuccess extends UserHabitState {
+  final List<UserHabitDetailsFeeling> userHabitDetailsFeelingList;
+
+  const GetFeelingDetailsThenSuccess(this.userHabitDetailsFeelingList);
+
+  @override
+  List<Object> get props => [userHabitDetailsFeelingList];
+
+  @override
+  String toString() => 'GetFeelingDetailsThenSuccess { userHabitDetailsFeelingList: $userHabitDetailsFeelingList }';
+}
+
+class GetFeelingDetailsThenFailed extends UserHabitState {
+  final String message;
+
+  const GetFeelingDetailsThenFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetFeelingDetailsThenFailed { message: $message }';
 }
 
 class GetFeelingDetailsSatisfactionSuccess extends UserHabitState {

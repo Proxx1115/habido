@@ -854,6 +854,15 @@ class ApiManager {
     );
   }
 
+  static Future<UserHabitDetailsFeelingResponse> getUserHabitDetailsFeelingNext(int userHabitId, int planId) async {
+    return UserHabitDetailsFeelingResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.userHabitDetailsFeelingNext + '?userHabitId=$userHabitId&planId=$planId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
   static Future<BaseResponse> sendFeedback(SendFeedbackRequest request) async {
     return BaseResponse.fromJson(
       await httpUtils.sendRequest(

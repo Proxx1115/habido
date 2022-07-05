@@ -11,6 +11,7 @@ import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
@@ -95,7 +96,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
 
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
-      appBarTitle: '${widget.name} - Feeling',
+      appBarTitle: widget.name,
       child: Container(
         padding: SizeHelper.screenPadding,
         child: (_userHabitPlanCount != null && _feelings != null && _totalCount != null)
@@ -128,7 +129,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
                     NoSplashContainer(
                       child: InkWell(
                         onTap: () {
-                          // _navigateToAllHabitsRoute();
+                          _navigateToFeelingNotesRoute();
                         },
                         child: CustomText(
                           LocaleKeys.seeAllNote,
@@ -279,12 +280,14 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
               ),
 
               /// Note
-              Container(
-                margin: EdgeInsets.only(left: 14.5),
-                child: CustomText(
-                  feelingDetails!.note,
-                  fontSize: 11.0,
-                  maxLines: 2,
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 14.5, bottom: 10.0),
+                  child: CustomText(
+                    feelingDetails!.note,
+                    fontSize: 11.0,
+                    maxLines: 2,
+                  ),
                 ),
               ),
             ]),
@@ -367,13 +370,13 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
     double _percentage = Func.toDouble(_habitFeelingPieChartFeeling.count) * 100 / Func.toDouble(_totalCount);
     return PieChartSectionData(
       radius: 12,
-      color: HexColor.fromHex(_getColor(_habitFeelingPieChartFeeling.count!)),
+      color: HexColor.fromHex(_getColor(_habitFeelingPieChartFeeling.index!)),
       value: Func.toDouble(_percentage),
       showTitle: false,
     );
   }
 
-  Widget _feelingItem(feeling) {
+  Widget _feelingItem(UserHabitFeelingPieChartFeeling feeling) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
@@ -383,6 +386,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
             _getAsset(feeling.count!),
             height: 14,
             width: 14,
+            color: HexColor.fromHex(_getColor(feeling.index!)),
           ),
 
           SizedBox(width: 9.0),
@@ -405,5 +409,11 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
         ],
       ),
     );
+  }
+
+  _navigateToFeelingNotesRoute() {
+    Navigator.pushNamed(context, Routes.feelingNotes, arguments: {
+      'userHabitId': widget.userHabitId,
+    });
   }
 }

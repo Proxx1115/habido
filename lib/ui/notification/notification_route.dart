@@ -32,8 +32,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
   List<Notif> _notifList = [];
 
   // Refresh
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   final SlidableController _controller = SlidableController();
 
   @override
@@ -116,10 +115,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
     } else if (state is ReadAllNotifFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -138,13 +134,11 @@ class _NotificationRouteState extends State<NotificationRoute> {
           BlocManager.notifBloc.add(DeleteNotifEvent(item.notifId ?? 0));
         },
         child: ListItemContainer(
-          margin: EdgeInsets.fromLTRB(
-              SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
+          margin: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
           height: 70.0,
           leadingImageUrl: _notifList[index].photo,
           leadingColor: HexColor.fromHex(ColorCodes.primary),
-          leadingBackgroundColor:
-              HexColor.fromHex(_notifList[index].color ?? '#F4F6F8'),
+          leadingBackgroundColor: HexColor.fromHex(_notifList[index].color ?? '#F4F6F8'),
           // suffixAsset: Assets.arrow_forward,
           // suffixColor: customColors.primary,
           title: _notifList[index].title ?? '',
@@ -165,8 +159,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
                         height: 50.0,
                         width: 50.0,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(SizeHelper.borderRadius)),
+                          borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
                           color: customColors.greyBackground,
                         ),
                         child: CachedNetworkImage(
@@ -211,7 +204,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
 
-    _notifList = [];
+    // _notifList = [];
     BlocManager.notifBloc.add(GetFirstNotifsEvent());
 
     _refreshController.refreshCompleted();
@@ -225,8 +218,7 @@ class _NotificationRouteState extends State<NotificationRoute> {
     // _notifList.add((_notifList.length + 1).toString());
 
     if (_notifList.isNotEmpty) {
-      BlocManager.notifBloc
-          .add(GetNextNotifsEvent(_notifList.last.notifId ?? 0));
+      BlocManager.notifBloc.add(GetNextNotifsEvent(_notifList.last.notifId ?? 0));
     }
 
     if (mounted) setState(() {});
