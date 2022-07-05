@@ -9,6 +9,7 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/screen_mode.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/animations/animations.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
@@ -22,8 +23,7 @@ class HabitCategoriesScreenV2 extends StatefulWidget {
   const HabitCategoriesScreenV2({Key? key}) : super(key: key);
 
   @override
-  _HabitCategoriesScreenV2State createState() =>
-      _HabitCategoriesScreenV2State();
+  _HabitCategoriesScreenV2State createState() => _HabitCategoriesScreenV2State();
 }
 
 class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
@@ -54,14 +54,12 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
         child: BlocBuilder<HabitCategoryBloc, HabitCategoryState>(
           builder: (context, state) {
             return ListView(
-              padding:
-                  EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 55),
+              padding: EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 55),
               children: [
                 if (_customCategory != null)
                   ButtonStadiumWithText(
                     onPressed: () {
-                      _habitCategoryBloc
-                          .add(GetCustomHabitSettingsEvent(_customCategory!));
+                      _habitCategoryBloc.add(GetCustomHabitSettingsEvent(_customCategory!));
                     },
                     backgroundColor: customColors.primary,
                     asset: Assets.add,
@@ -71,8 +69,7 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
                 SizedBox(
                   height: 20.0,
                 ),
-                if (_habitCategoryList != null &&
-                    _habitCategoryList!.isNotEmpty)
+                if (_habitCategoryList != null && _habitCategoryList!.isNotEmpty)
                   for (var el in _habitCategoryList!)
                     if (el.userId == 0)
                       Column(
@@ -96,8 +93,7 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
       _habitCategoryList = state.habitCategoryList;
       if (_habitCategoryList != null && _habitCategoryList!.isNotEmpty) {
         _customCategory = _habitCategoryList!.where((x) => x.userId != 0).first;
-        _habitCategoryBloc
-            .add(HabitCategoryShowcaseEvent(ShowcaseKeyName.habitCategory));
+        _habitCategoryBloc.add(HabitCategoryShowcaseEvent(ShowcaseKeyName.habitCategory));
       }
     } else if (state is HabitCategoriesFailed) {
       showCustomDialog(
@@ -147,7 +143,7 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
           delay: index * 0.2,
           text: userHabitList[index].name ?? '',
           leadingUrl: userHabitList[index].photo,
-          leadingColor: customColors.iconWhite,
+          leadingColor: HexColor.fromHex(userHabitList[index].color!),
           onPressed: () {
             Navigator.pushNamed(context, Routes.userHabit, arguments: {
               'screenMode': ScreenMode.New,

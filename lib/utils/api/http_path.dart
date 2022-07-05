@@ -101,7 +101,7 @@ class HttpPath {
   static const String moodTrackerLast = '/mobile/mood-tracker/latest';
   static const String adviceVideo = '/mobile/advice-video';
   static const String tips = '/mobile/tips';
-  static const String createHabit = '/mobile/habit';
+  static const String getHabit = '/mobile/habit';
   static const String tip = '/mobile/tip';
 
   /// All Habits

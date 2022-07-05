@@ -27,7 +27,7 @@ class _TermsScreenState extends State<TermsScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) => BlocManager.paramBloc.add(GetParamEvent()));
+    WidgetsBinding.instance.addPostFrameCallback((_) => BlocManager.paramBloc.add(GetParamEvent()));
   }
 
   @override

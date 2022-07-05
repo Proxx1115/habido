@@ -6,6 +6,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/models/user_habit.dart';
+import 'package:habido_app/ui/calendar_new/calendar_screen.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit_new/slidable_habit_item_widget.dart';
 import 'package:habido_app/ui/habit_new/tag_item_widget.dart';
@@ -35,6 +36,7 @@ class HabitDashboard extends StatefulWidget {
 
 class _HabitDashboardState extends State<HabitDashboard> {
   bool _isUserHabitEmpty = false;
+  bool _isToday = true;
 
   /// For You Habit Data
   final List _habitForYouData = [
@@ -94,11 +96,13 @@ class _HabitDashboardState extends State<HabitDashboard> {
   // User habits
   List<UserHabit>? _todayUserHabits;
 
+  DateTime _userHabitDate = DateTime.now();
+
   @override
   void initState() {
     super.initState();
 
-    BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+    BlocManager.dashboardBloc.add(GetUserHabitByDate(_userHabitDate.toString()));
   }
 
   @override
@@ -157,48 +161,14 @@ class _HabitDashboardState extends State<HabitDashboard> {
           SizedBox(height: 8.0),
 
           /// Calendar
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: SizeHelper.margin),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText(
-                      "Долдугаар сар", // todo dynamic
-                      fontSize: 13.0,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _navigateToAllHabitsRoute();
-                      },
-                      child: CustomText(
-                        LocaleKeys.seeAllHabits,
-                        fontSize: 10.0,
-                        color: customColors.primary,
-                        margin: EdgeInsets.only(right: 23.0),
-                        padding: EdgeInsets.all(5.0),
-                        underlined: true,
-                      ),
-                    ),
-                  ],
-                ),
-
-                ///
-                SizedBox(height: 10.0),
-
-                /// Calendar
-                Container(
-                  height: 43,
-                  color: Colors.cyanAccent,
-                  width: double.infinity,
-                  child: Center(child: Text("Календар")),
-                ),
-              ],
-            ),
+          CalendarScreen(
+            onDateTimeChanged: (value) {
+              _userHabitDate = value;
+              BlocManager.dashboardBloc.add(GetUserHabitByDate(_userHabitDate.toString()));
+              Func.dateTimeToDateStr(_userHabitDate) != Func.dateTimeToDateStr(DateTime.now()) ? _isToday = false : _isToday = true;
+              print("isToday: ${_isToday}");
+            },
           ),
-
-          SizedBox(height: 26.0),
 
           /// Habits For You
           _habitsForYou(),
@@ -433,8 +403,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
 
                     SizedBox(height: 12.0),
 
-                    if (_todayUserHabits != null && _todayUserHabits!.isNotEmpty)
-                      _habitList(LocaleKeys.today, _todayUserHabits!, true, true, todayDone),
+                    if (Func.isNotEmpty(_todayUserHabits)) _habitList(LocaleKeys.today, _todayUserHabits!, true, _isToday, todayDone),
                   ],
                 );
               },
@@ -459,15 +428,18 @@ class _HabitDashboardState extends State<HabitDashboard> {
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
+    } else if (state is GetUserHabitByDateSuccess) {
+      _todayUserHabits = state.userHabits;
+      if ((_todayUserHabits == null) || (_todayUserHabits?.length == 0))
+        _isUserHabitEmpty = true;
+      else
+        _isUserHabitEmpty = false;
+    } else if (state is GetUserHabitByDateFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
     }
-  }
-
-  _getReminderTimes(reminders) {
-    List<String> _reminderTimes = [];
-    for (var el in reminders) {
-      _reminderTimes.add("${Func.toInt(el.time) ~/ 60}:${Func.toInt(el.time) % 60}");
-    }
-    return _reminderTimes;
   }
 
   Widget _habitList(String title, List<UserHabit> userHabitList, bool enabled, bool isToday, String? todayText) {
@@ -480,7 +452,12 @@ class _HabitDashboardState extends State<HabitDashboard> {
           delay: index * 0.2,
           text: userHabitList[index].name ?? '',
           subText: "Өдөр бүр", //userHabitList[index].name ?? '' // todo sda
-          reminders: _getReminderTimes(userHabitList[index].userHabitReminders!),
+          reminders: userHabitList[index]
+              .userHabitReminders!
+              .take(3)
+              .toList()
+              .map((e) => ("${Func.toInt(e.time) ~/ 60} : ${Func.toInt(e.time) % 60}"))
+              .toList(), // todo sda
           leadingUrl: userHabitList[index].habit?.photo,
           leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           processPercent: 50, // todo sda
@@ -492,7 +469,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
             if (userHabitList[index].isDone ?? false) return;
 
             // Navigate
-            if (enabled && userHabitList[index].habit?.goalSettings != null) {
+            if (enabled && userHabitList[index].habit?.goalSettings != null && isToday) {
               String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!);
               if (route != null) {
                 Navigator.pushNamed(
@@ -505,7 +482,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
               }
             }
           },
-          onPressedSkip: (userHabitList[index].isDone ?? false)
+          onPressedSkip: (userHabitList[index].isDone ?? false || !_isToday)
               ? null
               : () {
                   showCustomDialog(
@@ -525,7 +502,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
                     ),
                   );
                 },
-          onPressedEdit: (userHabitList[index].isDone ?? false)
+          onPressedEdit: ((userHabitList[index].isDone ?? false) && !_isToday)
               ? null
               : () {
                   Navigator.pushNamed(
@@ -539,12 +516,27 @@ class _HabitDashboardState extends State<HabitDashboard> {
                     },
                   );
                 },
+          onPressedDetail: () {
+            _navigateToHabitDetailRoute(context, userHabitList[index]);
+          },
         ),
       ),
     );
   }
 
-  _navigateToAllHabitsRoute() {
-    Navigator.pushNamed(context, Routes.allHabits);
+  _navigateToHabitDetailRoute(BuildContext context, UserHabit habitData) {
+    // Navigate
+    // if (habitData.goalType != null) {
+    String? route = HabitHelper.getDetailRoute(habitData.habit!.goalSettings!.toolType!);
+    if (route != null) {
+      Navigator.pushNamed(
+        context,
+        route,
+        arguments: {
+          'userHabitId': habitData.userHabitId,
+          'name': habitData.name,
+        },
+      );
+    }
   }
 }

@@ -55,7 +55,7 @@ class _VerifyPasswordRouteState extends State<VerifyPasswordRoute> {
     super.initState();
 
     // Timer
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _startCountDown(_countdownSec));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _startCountDown(_countdownSec));
   }
 
   @override

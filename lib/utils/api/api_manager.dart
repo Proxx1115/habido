@@ -112,6 +112,8 @@ class ApiManager {
       hasAuthorization: false,
     ));
 
+    print('test');
+
     return res;
   }
 
@@ -979,9 +981,9 @@ class ApiManager {
     );
   }
 
-  static Future<Habit> createHabit(int habitId) async {
+  static Future<Habit> getHabit(int habitId) async {
     return Habit.fromJson(
-      await httpUtils.sendRequest(path: HttpPath.createHabit + '?habitId=$habitId', httpMethod: HttpMethod.get),
+      await httpUtils.sendRequest(path: HttpPath.getHabit + '/$habitId', httpMethod: HttpMethod.get),
     );
   }
 

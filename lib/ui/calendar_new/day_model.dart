@@ -5,7 +5,7 @@ class DayModel {
   String? dayName;
   String? process;
 
-  DayModel(int? day, String? dayName, String? process, int? month, int? year) {
+  DayModel(int? day, String? dayName, String? process, {int? month, int? year}) {
     this.month = month ?? 1;
     this.year = year ?? 2022;
     this.day = day ?? 0;

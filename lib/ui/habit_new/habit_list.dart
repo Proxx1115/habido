@@ -9,13 +9,7 @@ class ExpandableContainer extends StatefulWidget {
   final bool isToday;
   final String? todayText;
 
-  const ExpandableContainer(
-      {Key? key,
-      required this.title,
-      required this.expandableListItems,
-      this.margin,
-      required this.isToday,
-      this.todayText})
+  const ExpandableContainer({Key? key, required this.title, required this.expandableListItems, this.margin, required this.isToday, this.todayText})
       : super(key: key);
 
   @override
@@ -39,8 +33,7 @@ class _ExpandableContainerState extends State<ExpandableContainer> {
 
   @override
   Widget build(BuildContext context) {
-    _expandedHeight = widget.expandableListItems.length *
-        (_listItemHeight + _liteItemMarginBottom);
+    _expandedHeight = widget.expandableListItems.length * (_listItemHeight + _liteItemMarginBottom);
 
     return Container(
       margin: widget.margin,

@@ -107,7 +107,7 @@ class _TreeCountdownTimerState extends State<TreeCountdownTimer> with TickerProv
         // Resume progress
         if (widget.userHabitProgressLog!.status == UserHabitProgressLogStatus.Play) {
           _onPressedPlay();
-          WidgetsBinding.instance?.addPostFrameCallback((_) => () {
+          WidgetsBinding.instance.addPostFrameCallback((_) => () {
                 setState(() {
                   print('refresh screen for pause button');
                 });

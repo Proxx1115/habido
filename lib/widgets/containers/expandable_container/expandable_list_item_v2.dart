@@ -54,9 +54,7 @@ class ExpandableListItemV2 extends StatelessWidget {
           borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 15.0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
-                color: customColors.whiteBackground),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(SizeHelper.borderRadius), color: customColors.whiteBackground),
             child: Expanded(
               child: Row(
                 children: [
@@ -66,12 +64,10 @@ class ExpandableListItemV2 extends StatelessWidget {
                       margin: EdgeInsets.only(
                         right: 15.0,
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(SizeHelper.borderRadius)),
-                        color: leadingBackgroundColor ??
-                            customColors.greyBackground,
-                      ),
+                      // decoration: BoxDecoration(
+                      // borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                      // color: leadingBackgroundColor ?? customColors.greyBackground,
+                      //     ),
                       child: CachedNetworkImage(
                         imageUrl: leadingUrl!,
                         color: leadingColor,
