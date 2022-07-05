@@ -65,17 +65,12 @@ class CustomButton extends StatelessWidget {
           child: TextButton(
             onPressed: onPressed,
             style: TextButton.styleFrom(
-              backgroundColor: onPressed != null
-                  ? _backgroundColor
-                  : _disabledBackgroundColor,
-              primary:
-                  onPressed != null ? _contentColor : _disabledContentColor,
+              backgroundColor: onPressed != null ? _backgroundColor : _disabledBackgroundColor,
+              primary: onPressed != null ? _contentColor : _disabledContentColor,
               textStyle: TextStyle(fontWeight: FontWeight.w500),
               shape: RoundedRectangleBorder(
                 borderRadius: _borderRadius,
-                side: isBordered
-                    ? BorderSide(color: customColors.primary, width: 1)
-                    : BorderSide.none,
+                side: isBordered ? BorderSide(color: customColors.primary, width: 1) : BorderSide.none,
               ),
             ),
             child: _child,
@@ -133,22 +128,15 @@ class CustomButton extends StatelessWidget {
   }
 
   Color get _backgroundColor {
-    return backgroundColor ??
-        (isBordered
-            ? customColors.whiteButtonBackground
-            : customColors.primaryButtonBackground);
+    return backgroundColor ?? (isBordered ? customColors.whiteButtonBackground : customColors.primaryButtonBackground);
   }
 
   Color get _disabledBackgroundColor {
-    return disabledBackgroundColor ??
-        customColors.primaryButtonDisabledBackground;
+    return disabledBackgroundColor ?? customColors.primaryButtonDisabledBackground;
   }
 
   Color get _contentColor {
-    return contentColor ??
-        (isBordered
-            ? customColors.blackButtonContent
-            : customColors.primaryButtonContent);
+    return contentColor ?? (isBordered ? customColors.blackButtonContent : customColors.primaryButtonContent);
   }
 
   Color get _disabledContentColor {
@@ -165,8 +153,7 @@ class CustomButton extends StatelessWidget {
         fontWeight: fontWeight ?? FontWeight.w500,
       );
     } else if (asset != null) {
-      return SvgPicture.asset(asset!,
-          color: onPressed != null ? _contentColor : _disabledContentColor);
+      return SvgPicture.asset(asset!, color: onPressed != null ? _contentColor : _disabledContentColor);
     } else {
       return Container();
     }
@@ -229,11 +216,7 @@ class ButtonStadium extends StatelessWidget {
       width: size ?? _getSize(),
       decoration: BoxDecoration(
         borderRadius: _getBorderRadius(),
-        border: visibleBorder
-            ? Border.all(
-                width: SizeHelper.borderWidth,
-                color: customColors.primaryBorder)
-            : null,
+        border: visibleBorder ? Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder) : null,
         color: backgroundColor ?? _getBackgroundColor(),
       ),
       child: child ??
@@ -434,15 +417,13 @@ class CircleButton extends StatelessWidget {
       width: size,
       height: size,
       child: TextButton(
-        child: SvgPicture.asset(asset,
-            color: contentColor ?? customColors.primaryButtonContent),
+        child: SvgPicture.asset(asset, color: contentColor ?? customColors.primaryButtonContent),
         style: ButtonStyle(
           padding: MaterialStateProperty.all(EdgeInsets.zero),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           ),
-          backgroundColor: MaterialStateProperty.all(
-              backgroundColor ?? customColors.primaryButtonBackground),
+          backgroundColor: MaterialStateProperty.all(backgroundColor ?? customColors.primaryButtonBackground),
         ),
         onPressed: onPressed,
       ),
@@ -508,11 +489,7 @@ class ButtonStadiumWithText extends StatelessWidget {
       // width: size ?? _getSize(),
       decoration: BoxDecoration(
         borderRadius: _getBorderRadius(),
-        border: visibleBorder
-            ? Border.all(
-                width: SizeHelper.borderWidth,
-                color: customColors.primaryBorder)
-            : null,
+        border: visibleBorder ? Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder) : null,
         color: customColors.whiteBackground,
       ),
       child: child ??

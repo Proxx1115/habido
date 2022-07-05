@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
-import 'package:habido_app/models/active_habit.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/calendar_new/calendar_screen.dart';
@@ -23,8 +21,6 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_container.dart';
-import 'package:habido_app/widgets/containers/expandable_container/expandable_list_item.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/indicatorItem.dart';
@@ -162,7 +158,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 13.0),
+          SizedBox(height: 8.0),
 
           /// Calendar
           CalendarScreen(

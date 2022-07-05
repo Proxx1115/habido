@@ -123,19 +123,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             /// Hello
-            Row(
-              children: [
-                _profilePicture(),
-                SizedBox(width: 15.0),
+            NoSplashContainer(
+              child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.userInfo);
+                },
+                child: Row(
+                  children: [
+                    _profilePicture(),
+                    SizedBox(width: 15.0),
 
-                /// Name
-                CustomText(
-                  "${LocaleKeys.hi} ${globals.userData!.firstName}",
-                  // (globals.userData!.firstName ?? ''),
-                  fontWeight: FontWeight.w700,
-                  fontSize: 22.0,
+                    /// Name
+                    CustomText(
+                      "${LocaleKeys.hi} ${globals.userData!.firstName}",
+                      // (globals.userData!.firstName ?? ''),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 22.0,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
 
             SizedBox(height: 23.0),
