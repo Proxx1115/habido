@@ -7,7 +7,6 @@ import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
-import 'package:habido_app/ui/habit/progress/habit_feeling/emoji_widget.dart';
 import 'package:habido_app/ui/habit_new/progress/habit_feeling/emoji_widget_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -22,21 +21,21 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 
-class HabitFeelingAnswerV2Route extends StatefulWidget {
+class HabitFeelingAnswerRouteV2 extends StatefulWidget {
   final UserHabit userHabit;
   final VoidCallback? callBack;
 
-  const HabitFeelingAnswerV2Route({
+  const HabitFeelingAnswerRouteV2({
     Key? key,
     required this.userHabit,
     this.callBack,
   }) : super(key: key);
 
   @override
-  _HabitFeelingAnswerV2RouteState createState() => _HabitFeelingAnswerV2RouteState();
+  _HabitFeelingAnswerRouteV2State createState() => _HabitFeelingAnswerRouteV2State();
 }
 
-class _HabitFeelingAnswerV2RouteState extends State<HabitFeelingAnswerV2Route> {
+class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
   // UI
   late Color _primaryColor;
   late Color _backgroundColor;
@@ -301,12 +300,13 @@ class _HabitFeelingAnswerV2RouteState extends State<HabitFeelingAnswerV2Route> {
             style: CustomButtonStyle.primary,
             backgroundColor: customColors.primary,
             text: LocaleKeys.finish,
-            onPressed: _selectedQuestion != null
+            onPressed: _selectedQuestion != null && _reflectionsTextFieldController.text.isNotEmpty && _selectedEmoji != null
                 ? () {
                     HabitAnswer? answer = _selectedQuestion;
 
-                    if (answer != null && Func.isNotEmpty(_conclusion)) {
+                    if (answer != null) {
                       var request = SaveUserHabitProgressRequest();
+
                       request.userHabitId = _userHabit.userHabitId;
                       request.value = Func.toStr(_selectedEmoji!);
                       request.note = Func.toStr(_conclusion);

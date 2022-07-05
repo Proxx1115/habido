@@ -43,7 +43,6 @@ import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/habit_new/all_habits_route.dart';
 import 'package:habido_app/ui/habit_new/habit_categories_v2/habit_categories_route_v2.dart';
 import 'package:habido_app/ui/habit_new/progress/habit_feeling/habit_feeling_answer_route_v2.dart';
-import 'package:habido_app/ui/habit_new/progress/habit_feeling/test.dart';
 import 'package:habido_app/ui/habit_new/user_habit_v2/user_habit_route_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_count.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_expense.dart';
@@ -634,7 +633,7 @@ class Routes {
       case Routes.habitFeelingAnswer:
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
-          HabitFeelingAnswerV2Route(
+          HabitFeelingAnswerRouteV2(
             userHabit: _getValueByKey(args, 'userHabit'),
             callBack: _getValueByKey(args, 'callBack'),
           ),
