@@ -154,7 +154,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 13.0),
+          SizedBox(height: 8.0),
 
           /// Calendar
           Container(
@@ -165,24 +165,27 @@ class _HabitDashboardState extends State<HabitDashboard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomText(
-                      "Гуравдугаар сар", // todo dynamic
+                      "Долдугаар сар", // todo dynamic
                       fontSize: 13.0,
                     ),
-                    ButtonText(
-                      onPressed: () {
+                    InkWell(
+                      onTap: () {
                         _navigateToAllHabitsRoute();
                       },
-                      text: LocaleKeys.seeAllHabits,
-                      fontSize: 10.0,
-                      color: customColors.primary,
-                      margin: EdgeInsets.only(right: 23.0),
-                      underlined: true,
+                      child: CustomText(
+                        LocaleKeys.seeAllHabits,
+                        fontSize: 10.0,
+                        color: customColors.primary,
+                        margin: EdgeInsets.only(right: 23.0),
+                        padding: EdgeInsets.all(5.0),
+                        underlined: true,
+                      ),
                     ),
                   ],
                 ),
 
                 ///
-                SizedBox(height: 15.0),
+                SizedBox(height: 10.0),
 
                 /// Calendar
                 Container(

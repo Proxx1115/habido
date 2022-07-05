@@ -44,11 +44,11 @@ class _PerformanceState extends State<Performance> {
     Color(0xff73BBB6),
   ];
 
-  Map _calendar1 = {"color": Color(0xff73BBB6), "text": "Гайхамшиг"};
-  Map _calendar2 = {"color": Color(0xff73BBB6).withOpacity(0.8), "text": "Гайхамшиг"};
-  Map _calendar3 = {"color": Color(0xff73BBB6).withOpacity(0.6), "text": "Гайхамшиг"};
-  Map _calendar4 = {"color": Color(0xff73BBB6).withOpacity(0.4), "text": "Гайхамшиг"};
-  Map _calendar5 = {"color": Color(0xff73BBB6).withOpacity(0.2), "text": "Бөглөгүй"};
+  Map _calendar1 = {"color": Color(0xff73BBB6), "text": LocaleKeys.emoji1};
+  Map _calendar2 = {"color": Color(0xff73BBB6).withOpacity(0.8), "text": LocaleKeys.emoji2};
+  Map _calendar3 = {"color": Color(0xff73BBB6).withOpacity(0.6), "text": LocaleKeys.emoji3};
+  Map _calendar4 = {"color": Color(0xff73BBB6).withOpacity(0.4), "text": LocaleKeys.emoji4};
+  Map _calendar5 = {"color": Color(0xff73BBB6).withOpacity(0.2), "text": LocaleKeys.notNoted};
   List _calendarDesc = [];
 
   /// MOOD TRACKER RESPONSE
@@ -384,26 +384,13 @@ class _PerformanceState extends State<Performance> {
 
                               /// Body
                               CustomText(
-                                "Тухайн өдрийн мэдрэмжийг өнгөөр илтгэн харуулж байгаа юм.",
-                                maxLines: 2,
+                                LocaleKeys.moodCalendarInfo,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
+                                maxLines: 100,
                                 // margin: EdgeInsets.only(bottom: 20.0),
                               ),
-                            CustomText(
-                              "Жишээ нь: Тухайн өдөр “Мэдэхгүй ээ”, “Онцгүй байсан” гэх мэтээр тэмдэглэвэл бүдэг өнгөөр, харин аз “Гайхалтай”, “Дажгүй шүү” гэж бүртгэх тусам өнгө нь тодрох юм. ",
-                              maxLines: 5,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              // margin: EdgeInsets.only(bottom: 20.0),
-                            ),
-                            CustomText(
-                              "Ингэснээр сарын сүүлээр өөрийн тухайн сарын сэтгэл зүйн байдлаа  ажиглах боломжтой юм.",
-                              maxLines: 5,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              // margin: EdgeInsets.only(bottom: 20.0),
-                            ),
+
                             SizedBox(height: 20),
                             // Column(
                             //   children: [],
@@ -450,7 +437,7 @@ class _PerformanceState extends State<Performance> {
                           primary: false,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return Container( padding:EdgeInsets.only(bottom: 5),child: Center(child: Text(_weekDay(index))));
+                            return Container(padding: EdgeInsets.only(bottom: 5), child: Center(child: Text(_weekDay(index))));
                           },
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 7,

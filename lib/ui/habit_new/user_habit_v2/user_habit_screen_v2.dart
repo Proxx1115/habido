@@ -106,7 +106,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
   @override
   void initState() {
-    BlocManager.userHabitBloc.add(createHabitEvent(widget.habitId));
+    BlocManager.userHabitBloc.add(CreateHabitEvent(widget.habitId));
 
     /// Screen mode
     _screenMode = widget.screenMode;
@@ -413,7 +413,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
       );
     } else if (state is UserHabitShowcaseState) {
       ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
-    } else if (state is createHabitSuccess) {
+    } else if (state is CreateHabitSuccess) {
       _habit = state.habit;
     }
   }

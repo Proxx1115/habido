@@ -50,6 +50,8 @@ import 'package:habido_app/models/tip%20category.dart';
 import 'package:habido_app/models/skill_list_response.dart';
 import 'package:habido_app/models/tip_response.dart';
 import 'package:habido_app/models/test_info_result_response.dart';
+import 'package:habido_app/models/user_habit_details_feeling_response.dart';
+import 'package:habido_app/models/user_habit_details_satisfaction_response.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
@@ -628,10 +630,21 @@ class ApiManager {
     );
   }
 
+  /// User Habit Details - Feeling
   static Future<HabitFeelingPieChartResponse> habitFeelingPieChart(int userHabitId) async {
     return HabitFeelingPieChartResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.habitFeelingPieChart + '/$userHabitId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  /// User Habit Details - Satisfaction
+  static Future<UserHabitDetailsSatisfactionResponse> habitDetailsSatisfaction(int userHabitId) async {
+    return UserHabitDetailsSatisfactionResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.habitDetailsSatisfaction + '/$userHabitId',
         httpMethod: HttpMethod.get,
       ),
     );
@@ -810,11 +823,20 @@ class ApiManager {
     );
   }
 
-  /// new
+  /// User Habit Details
   static Future<UserHabitPlanCount> getUserHabitPlanCount(int userHabitId) async {
     return UserHabitPlanCount.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.userHabitPlanCount + '/$userHabitId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<UserHabitDetailsFeelingResponse> getUserHabitDetailsFeelingLatest(int userHabitId) async {
+    return UserHabitDetailsFeelingResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.userHabitDetailsFeelingLatest + '?userHabitId=$userHabitId',
         httpMethod: HttpMethod.get,
       ),
     );

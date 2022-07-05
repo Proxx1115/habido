@@ -233,8 +233,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp2CodeRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -244,8 +243,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -255,8 +253,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -266,8 +263,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -587,8 +583,7 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habitId: _getValueByKey(args, 'habitId'),
-                  customHabitSettings:
-                      _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               )
@@ -598,8 +593,7 @@ class Routes {
                   title: _getValueByKey(args, 'title'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habit: _getValueByKey(args, 'habit'),
-                  customHabitSettings:
-                      _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               );
@@ -729,8 +723,7 @@ class Routes {
         dynamic args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             FeelingEmojiRoute(
-              moodTrackerQuestionResponse:
-                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
             ),
             settings);
@@ -751,8 +744,7 @@ class Routes {
         route = SlideRightRouteBuilder(
             FeelingCauseRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
-              moodTrackerQuestionResponse:
-                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -763,8 +755,7 @@ class Routes {
             FeelingDetailRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
               selectedCauses: _getValueByKey(args, 'selectedCauses'),
-              moodTrackerQuestionResponse:
-                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -793,8 +784,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = NoTransitionRoute(
           HabitSuccessRoute(
-            habitProgressResponse:
-                _getValueByKey(args, 'habitProgressResponse'),
+            habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
             callback: _getValueByKey(args, 'callback'),
           ),

@@ -59,10 +59,6 @@ class HttpPath {
   static const String saveUserHabitProgress = '/mobile/habit/save-progress';
   static const String habitProgressListWithDate = '/mobile/habit/user-habit/progresses';
   static const String habitProgressListByDate = '/mobile/habit/user-habit/date/progress';
-  static const String habitExpenseCategories = '/mobile/habit/user-habit/expense-categories';
-  static const String habitFinanceTotalAmount = '/mobile/habit/user-habit/total-amount';
-  static const String habitFinanceTotalAmountByDate = '/mobile/habit/user-habit/date/total-amount';
-  static const String habitFeelingPieChart = '/mobile/details/feeling-pie-chart';
   static const String habitQuestion = '/mobile/habit/questions';
   static const String addHabitProgress = '/mobile/habit/user-habit/plan/progress';
   static const String updateHabitProgress = '/mobile/habit/user-habit/plan/progress';
@@ -83,9 +79,17 @@ class HttpPath {
   static const String dynamicHabitSettings = '/mobile/habit/settings';
   static const String getHabitProgressLog = '/mobile/user-habit/progress/log';
   static const String updateHabitProgressLog = '/mobile/user-habit/progress/log';
-  static const String userHabitPlanCount = '/mobile/user-habit/plan/count';
   static const String sendFeedback = '/mobile/feed-back';
   static const String feedBackCatList = '/mobile/feed-back/categories';
+
+  /// User Habit Details
+  static const String habitExpenseCategories = '/mobile/habit/user-habit/expense-categories';
+  static const String habitFinanceTotalAmount = '/mobile/habit/user-habit/total-amount';
+  static const String habitFinanceTotalAmountByDate = '/mobile/habit/user-habit/date/total-amount';
+  static const String habitFeelingPieChart = '/mobile/details/feeling-pie-chart';
+  static const String habitDetailsSatisfaction = '/mobile/details/satisfaction';
+  static const String userHabitPlanCount = '/mobile/user-habit/plan/count';
+  static const String userHabitDetailsFeelingLatest = '/mobile/details/feeling/latest';
 
   static const String cbChatBots = '/mobile/cb/chat-bots';
   static const String cbFirstChat = '/mobile/cb/first-chat';
