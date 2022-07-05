@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
-import 'package:habido_app/models/active_habit.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
-import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -64,7 +61,7 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithCountRoute> {
 
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
-      appBarTitle: '${widget.name} - Count',
+      appBarTitle: widget.name,
       child: Container(
         padding: SizeHelper.screenPadding,
         child: _userHabitPlanCount != null

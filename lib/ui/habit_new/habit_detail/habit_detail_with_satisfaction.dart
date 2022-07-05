@@ -7,7 +7,9 @@ import 'package:habido_app/models/user_habit_details_satisfaction.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
@@ -87,7 +89,7 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
 
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
-      appBarTitle: '${widget.name} - Satisfaction ${widget.userHabitId}',
+      appBarTitle: widget.name,
       child: Container(
         padding: SizeHelper.screenPadding,
         child: (_userHabitPlanCount != null)
@@ -120,7 +122,7 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
                     NoSplashContainer(
                       child: InkWell(
                         onTap: () {
-                          // _navigateToAllHabitsRoute();
+                          _navigateToSatisfactionNotesRoute();
                         },
                         child: CustomText(
                           LocaleKeys.seeAllNote,
@@ -137,10 +139,9 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
 
                 SizedBox(height: 12.0),
 
-                /// Feeling Details Latest List
-                // if (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.isNotEmpty)
-                //   for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++)
-                //   FeelingNoteSmallWidget(_userHabitDetailsFeelingList![i]),
+                /// Satisfaction Details Latest List
+                if (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.isNotEmpty)
+                  for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
               ])
             : Container(),
       ),
@@ -149,5 +150,93 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
 
   Widget _satisfactionHistoryGraph() {
     return Container();
+  }
+
+  Widget _noteItem(feelingDetails) {
+    return Container(
+      height: 64.0,
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      margin: EdgeInsets.only(bottom: 5.0),
+      decoration: BoxDecoration(
+        color: customColors.greyBackground,
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      child: Row(
+        children: [
+          /// Date
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomText(
+                Func.toRomboMonth(Func.getMonthFromDateStr(feelingDetails!.date!)),
+                color: customColors.greyText,
+                fontWeight: FontWeight.w500,
+                fontSize: 15.0,
+              ),
+              CustomText(
+                Func.getDayFromDateStr(feelingDetails!.date!),
+                color: customColors.greyText,
+                fontWeight: FontWeight.w500,
+                fontSize: 13.0,
+              ),
+            ],
+          ),
+
+          SizedBox(width: 13.0),
+
+          /// Vertical Line
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 5.0),
+            child: VerticalDivider(
+              width: 1,
+              color: customColors.greyText,
+            ),
+          ),
+
+          SizedBox(width: 14.5),
+
+          Expanded(
+            child: Column(children: [
+              SizedBox(height: 7.0),
+
+              Row(
+                children: [
+                  CustomText(
+                    '${feelingDetails!.value}/10 ',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11.0,
+                  ),
+
+                  /// Feeling name
+                  CustomText(
+                    feelingDetails!.value == 1 ? LocaleKeys.pleasing : LocaleKeys.notPleasing,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 11.0,
+                  ),
+                ],
+              ),
+
+              /// Note
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 14.5, bottom: 10.0),
+                  child: CustomText(
+                    feelingDetails!.note,
+                    fontSize: 11.0,
+                    maxLines: 2,
+                  ),
+                ),
+              ),
+            ]),
+          )
+        ],
+      ),
+    );
+  }
+
+  _navigateToSatisfactionNotesRoute() {
+    Navigator.pushNamed(context, Routes.satisfactionNotes, arguments: {
+      'userHabitId': widget.userHabitId,
+    });
   }
 }
