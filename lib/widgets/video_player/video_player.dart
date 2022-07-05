@@ -30,9 +30,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
         controller: YoutubePlayerController(
           initialVideoId: _convertUrlToId(),
           flags: YoutubePlayerFlags(
-            hideControls: false,
+            hideControls: true,
             controlsVisibleAtStart: true,
-            autoPlay: false,
+            autoPlay: true,
             mute: false,
           ),
         ),
