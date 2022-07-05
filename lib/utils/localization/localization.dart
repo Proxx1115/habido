@@ -119,6 +119,8 @@ class LocaleKeys {
 
   static String get typeSomething => 'Type something...';
 
+  static String get chooseYourQuestion => 'ТА АСУУЛТАА СОНГОНО УУ';
+
   ///
   /// Intro
   ///
@@ -430,6 +432,8 @@ class LocaleKeys {
 
   static String get daily => 'Өдөр бүр';
 
+  static String get reflectionsOftheDay => 'Өдрийн эргэцүүлэл';
+
   static String get weekly => '7 хоног бүр';
 
   static String get monthly => 'Сар бүр';
@@ -623,7 +627,7 @@ class LocaleKeys {
 
   static String get howAreYouFeeling => 'Та хэр сэтгэл ханамжтай байна бэ?';
 
-  static String get feelingAtTheTime => 'Яг одоо ямар сэтгэл хөдлөлтэй байна вэ?';
+  static String get feelingAtTheTime => 'Сэтгэл санаа хэр байна даа?';
 
   static String get pleasing => 'Ханамжтай';
 
@@ -649,7 +653,7 @@ class LocaleKeys {
 
   static String get pleaseSelectGoal => 'Зорилго сонгоно уу';
 
-  static String get answerOneOfThoseQuestion => 'Дараах асуултуудаас нэгийг нь сонгон хариулаарай';
+  static String get answerOneOfThoseQuestion => 'Асуултуудаас нэгийг сонгон хариулаарай';
 
   /// User Habit Detail
   static String get execution => 'Гүйцэтгэл';

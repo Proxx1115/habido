@@ -955,8 +955,8 @@ class ApiManager {
     );
   }
 
-  static Future<ActiveHabitResponse> getCompletedHabitThen(int userHabitId) async {
-    return ActiveHabitResponse.fromJson(
+  static Future<CompletedHabitResponse> getCompletedHabitThen(int userHabitId) async {
+    return CompletedHabitResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.completedHabitThen + '/$userHabitId',
         httpMethod: HttpMethod.get,

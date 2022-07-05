@@ -27,10 +27,8 @@ import 'package:habido_app/ui/feeling/feeling_main_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/habit/habit_success_route.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_route.dart';
-import 'package:habido_app/ui/habit/habit_categories/habit_categories_route.dart';
 import 'package:habido_app/ui/habit/habit_list/habit_list_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_breath/habit_breath_route.dart';
-import 'package:habido_app/ui/habit/progress/habit_feeling/habit_feeling_answer_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_feeling/habit_feeling_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/habit_finance_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/habit_finance_statement_route.dart';
@@ -44,6 +42,7 @@ import 'package:habido_app/ui/habit_new/all_habits_route.dart';
 import 'package:habido_app/ui/habit_new/habit_categories_v2/habit_categories_route_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/feeling_note_list_route.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/satisfaction_note_list_route.dart';
+import 'package:habido_app/ui/habit_new/progress/habit_feeling/habit_feeling_answer_route_v2.dart';
 import 'package:habido_app/ui/habit_new/user_habit_v2/user_habit_route_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_count.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_expense.dart';
@@ -65,14 +64,11 @@ import 'package:habido_app/ui/profile/faq_route.dart';
 import 'package:habido_app/ui/profile/feedback_cat_list.dart';
 import 'package:habido_app/ui/profile/feedback_route.dart';
 import 'package:habido_app/ui/profile/help_route.dart';
-import 'package:habido_app/ui/profile/profile_dashboard.dart';
 import 'package:habido_app/ui/profile/terms_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
-import 'package:habido_app/ui/profile/user_info_route.dart';
 import 'package:habido_app/ui/profile_v2/help_screen/faq_route_v2.dart';
 import 'package:habido_app/ui/profile_v2/help_screen/feedback_route_v2.dart';
 import 'package:habido_app/ui/profile_v2/help_screen/help_route_v2.dart';
-import 'package:habido_app/ui/profile_v2/new_badge/new_badge.dart';
 import 'package:habido_app/ui/profile_v2/performance/sensitivityNotes.dart';
 import 'package:habido_app/ui/profile_v2/profile_dashboard_v2.dart';
 import 'package:habido_app/ui/profile_v2/user_info/UserInfoRouteNew.dart';
@@ -654,7 +650,7 @@ class Routes {
       case Routes.habitFeelingAnswer:
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
-          HabitFeelingAnswerRoute(
+          HabitFeelingAnswerRouteV2(
             userHabit: _getValueByKey(args, 'userHabit'),
             callBack: _getValueByKey(args, 'callBack'),
           ),

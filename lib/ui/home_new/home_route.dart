@@ -144,7 +144,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.profile,
               description: LocaleKeys.showcaseProfile,
-              child: _bottomNavigationBarItem(0, Assets.assistant, LocaleKeys.habit),
+              child: _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
             ),
           ),
 
@@ -153,7 +153,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.assistant,
               description: LocaleKeys.showcaseAssistant,
-              child: _bottomNavigationBarItem(1, Assets.male_habido, LocaleKeys.chatbot), //todo set Icon
+              child: _bottomNavigationBarItem(1, Assets.assistant, LocaleKeys.chatbot), //todo set Icon
             ),
           ),
 

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:habido_app/models/active_habit.dart';
+import 'package:habido_app/ui/habit_new/progress_indicator_widget.dart';
 import 'package:habido_app/ui/habit_new/tag_item_widget.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/size_helper.dart';
@@ -70,38 +71,11 @@ class HabitItemWidget extends StatelessWidget {
               ),
               isActiveHabit
                   ? Container()
-                  : Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: data.progressPercentage == 0 ? 1 : data.progressPercentage / 100,
-                          valueColor: new AlwaysStoppedAnimation<Color>(_getColor()),
-                          backgroundColor: customColors.whiteBackground,
-                          strokeWidth: 2.0,
-                        ),
-                        CustomText(
-                          '${data.progressPercentage}%',
-                          color: _getColor(),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 8.0,
-                        ),
-                      ],
-                    )
-              // Container(
-              //     margin: EdgeInsets.only(top: 10.0),
-              //     height: 33.0,
-              //     width: 33.0,
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(500),
-              //       border: Border.all(color: customColors.iconVikingGreen, width: 2),
-              //     ),
-              //     child: CustomText(
-              //       '100%',
-              //       fontSize: 8,
-              //       fontWeight: FontWeight.w700,
-              //       color: customColors.iconSeaGreen,
-              //       alignment: Alignment.center,
-              //     ))
+                  : ProgressIndicatorWidget(
+                      value: data.progressPercentage == 0 ? 1 : data.progressPercentage / 100,
+                      percentage: data.progressPercentage,
+                      status: data.status,
+                    ),
             ],
           ),
         ),
