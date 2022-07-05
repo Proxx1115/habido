@@ -10,10 +10,12 @@ import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
+import 'package:habido_app/widgets/text.dart';
 
 class CalendarScreen extends StatefulWidget {
   final ValueChanged<DateTime> onDateTimeChanged;
@@ -130,9 +132,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: SizeHelper.margin),
-                          child: Text(
-                            _monthName(currentDate.month),
-                            style: TextStyle(color: Colors.black, fontSize: ResponsiveFlutter.of(context).fontSize(2)),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  _monthName(currentDate.month),
+                                  style: TextStyle(color: Colors.black, fontSize: ResponsiveFlutter.of(context).fontSize(2)),
+                                ),
+                              ),
+                              NoSplashContainer(
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, Routes.allHabits);
+                                  },
+                                  child: CustomText(
+                                    LocaleKeys.seeAllHabits,
+                                    fontSize: 11,
+                                    color: customColors.primary,
+                                    underlined: true,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 23.0),
+                            ],
                           ),
                         ),
                         SizedBox(

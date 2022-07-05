@@ -395,6 +395,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
                 return Column(
                   children: [
                     /// Today
+                    // todo isToday ? showText : none Tushig
                     CustomText(
                       LocaleKeys.todaysHabit,
                       fontSize: 16.0,
