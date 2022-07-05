@@ -5,6 +5,7 @@ import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/badge_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/date_interval_progress_response.dart';
 import 'package:habido_app/models/habit_feeling_pie_chart_response.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
@@ -680,6 +681,15 @@ class ApiManager {
     return HabitCalendarResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.calendar + '?startDate=$startDate&endDate=$endDate',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<DateIntervalProgressResponse> getDatesProgress(String startDate, String endDate) async {
+    return DateIntervalProgressResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.datesProgress + '?startDate=$startDate&endDate=$endDate',
         httpMethod: HttpMethod.get,
       ),
     );

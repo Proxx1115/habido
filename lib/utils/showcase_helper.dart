@@ -21,12 +21,13 @@ class ShowcaseKey {
   static final habitCategory = GlobalKey();
   static final habit = GlobalKey();
   static final userHabit = GlobalKey();
+  static final userHabitTest = GlobalKey();
   static final timer = GlobalKey();
 
   static List<GlobalKey> getKeysByName(String? keyName) {
     switch (keyName) {
       case ShowcaseKeyName.dashboard:
-        return [addHabit, psyTest, assistant, content, profile, calendar, notification];
+        return [addHabit, psyTest, assistant, content, profile, calendar, notification, userHabitTest];
       case ShowcaseKeyName.slidable:
         return [slidable];
       case ShowcaseKeyName.habitCategory:

@@ -68,6 +68,7 @@ class HttpPath {
   static const String updateHabitProgress = '/mobile/habit/user-habit/plan/progress';
   static const String deleteHabitProgress = '/mobile/habit/user-habit/plan/progress';
   static const String calendar = '/mobile/habit/calendar';
+  static const String datesProgress = '/mobile/habit-plan/process';
   static const String calendarDate = '/mobile/habit/date/user-habits';
   static const String unreadNotifCount = '/mobile/notifs/not-read';
   static const String readAllNotif = '/mobile/notifs/read-all';
