@@ -189,6 +189,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
 
   PieChartSectionData _pieChartData(UserHabitExpenseCategory expenseCategory) {
     return PieChartSectionData(
+      radius: 24,
       color: HexColor.fromHex(expenseCategory.categoryColor ?? '#A9B0BB'),
       value: Func.toDouble(expenseCategory.habitCatPercentage),
       title: '${Func.toInt(expenseCategory.habitCatPercentage)}%',

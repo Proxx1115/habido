@@ -7,6 +7,10 @@ import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_with_date.dart';
 import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
+import 'package:habido_app/models/user_habit_details_feeling.dart';
+import 'package:habido_app/models/user_habit_details_feeling_response.dart';
+import 'package:habido_app/models/user_habit_details_satisfaction.dart';
+import 'package:habido_app/models/user_habit_feeling_pie_chart_feeling.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/models/user_habit_progress_log.dart';
 import 'package:habido_app/models/habit_progress_response.dart';
@@ -46,6 +50,10 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapGetHabitFinanceTotalAmountEventToState(event);
     } else if (event is GetHabitFinanceTotalAmountByDateEvent) {
       yield* _mapGetHabitFinanceTotalAmountByDateEventToState(event);
+    } else if (event is GetHabitFeelingChartDataEvent) {
+      yield* _mapGetHabitFeelingChartDataEventToState(event);
+    } else if (event is GetUserHabitDetailsSatisfactionEvent) {
+      yield* _mapGetUserHabitDetailsSatisfactionEventToState(event);
     } else if (event is GetHabitProgressListWithDateEvent) {
       yield* _mapGetHabitProgressListWithDateEventToState(event);
     } else if (event is GetHabitProgressListByDateEvent) {
@@ -68,13 +76,12 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapUpdateUserHabitProgressLogEventToState(event);
     } else if (event is GetUserHabitPlanCountEvent) {
       yield* _mapGetUserHabitPlanCountEventToState(event);
-    } else if (event is createHabitEvent) {
-      yield* _mapGetCreateUserHabitEventToState(event);
+    } else if (event is GetHabitEvent) {
+      yield* _mapGetUserHabitEventToState(event);
     }
   }
 
-  Stream<UserHabitState> _mapInsertUserHabitEventToState(
-      InsertUserHabitEvent event) async* {
+  Stream<UserHabitState> _mapInsertUserHabitEventToState(InsertUserHabitEvent event) async* {
     try {
       yield UserHabitLoading();
 
@@ -92,8 +99,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
-  Stream<UserHabitState> _mapUpdateUserHabitEventToState(
-      UpdateUserHabitEvent event) async* {
+  Stream<UserHabitState> _mapUpdateUserHabitEventToState(UpdateUserHabitEvent event) async* {
     try {
       yield UserHabitLoading();
 
@@ -111,13 +117,11 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
-  Stream<UserHabitState> _mapDeleteUserHabitEventToState(
-      DeleteUserHabitEvent event) async* {
+  Stream<UserHabitState> _mapDeleteUserHabitEventToState(DeleteUserHabitEvent event) async* {
     try {
       yield UserHabitLoading();
 
-      var res =
-          await ApiManager.deleteUserHabit(event.userHabit.userHabitId ?? 0);
+      var res = await ApiManager.deleteUserHabit(event.userHabit.userHabitId ?? 0);
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
         BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
@@ -131,44 +135,81 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
-  Stream<UserHabitState> _mapGetHabitFinanceTotalAmountEventToState(
-      GetHabitFinanceTotalAmountEvent event) async* {
+  Stream<UserHabitState> _mapGetHabitFinanceTotalAmountEventToState(GetHabitFinanceTotalAmountEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
       var res = await ApiManager.habitFinanceTotalAmount(event.userHabitId);
       if (res.code == ResponseCode.Success) {
-        yield HabitFinanceTotalAmountSuccess(
-            Func.toDouble(res.totalAmount), res.expenseCategories ?? []);
+        yield HabitFinanceTotalAmountSuccess(Func.toDouble(res.totalAmount), res.expenseCategories ?? []);
       } else {
-        yield HabitFinanceTotalAmountFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield HabitFinanceTotalAmountFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield HabitFinanceTotalAmountFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapGetHabitFinanceTotalAmountByDateEventToState(
-      GetHabitFinanceTotalAmountByDateEvent event) async* {
+  Stream<UserHabitState> _mapGetHabitFinanceTotalAmountByDateEventToState(GetHabitFinanceTotalAmountByDateEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
       var res = await ApiManager.habitFinanceTotalAmountByDate(event.request);
       if (res.code == ResponseCode.Success) {
-        yield HabitFinanceTotalAmountByDateSuccess(
-            Func.toDouble(res.totalAmount), res.expenseCategories ?? []);
+        yield HabitFinanceTotalAmountByDateSuccess(Func.toDouble(res.totalAmount), res.expenseCategories ?? []);
       } else {
-        yield HabitFinanceTotalAmountByDateFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield HabitFinanceTotalAmountByDateFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield HabitFinanceTotalAmountByDateFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapSaveUserHabitProgressEventToState(
-      SaveUserHabitProgressEvent event) async* {
+  Stream<UserHabitState> _mapGetHabitFeelingChartDataEventToState(GetHabitFeelingChartDataEvent event) async* {
+    try {
+      // yield UserHabitProgressLoading();
+
+      var res = await ApiManager.habitFeelingPieChart(event.userHabitId);
+
+      if (res.code == ResponseCode.Success) {
+        yield HabitFeelingPieChartSuccess(res.totalCount!, res.feelings ?? []);
+      } else {
+        yield HabitFeelingPieChartFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield HabitFeelingPieChartFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapGetUserHabitDetailsSatisfactionEventToState(GetUserHabitDetailsSatisfactionEvent event) async* {
+    try {
+      // yield UserHabitProgressLoading();
+
+      var res = await ApiManager.habitDetailsSatisfaction(event.userHabitId);
+
+      if (res.code == ResponseCode.Success) {
+        yield GetFeelingDetailsSatisfactionSuccess(res.userHabitDetailsSatisfactionList!);
+      } else {
+        yield GetFeelingDetailsSatisfactionFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetFeelingDetailsSatisfactionFailed(LocaleKeys.errorOccurred);
+    }
+
+    ///
+    try {
+      var res = await ApiManager.getUserHabitDetailsFeelingLatest(event.userHabitId);
+      if (res.code == ResponseCode.Success) {
+        yield GetFeelingDetailsLatestSuccess(res.userHabitDetailsFeelingList!);
+      } else {
+        yield GetFeelingDetailsLatestFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetFeelingDetailsLatestFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapSaveUserHabitProgressEventToState(SaveUserHabitProgressEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
@@ -184,34 +225,29 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
         yield SaveUserHabitProgressSuccess(res);
       } else {
-        yield SaveUserHabitProgressFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield SaveUserHabitProgressFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield SaveUserHabitProgressFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapGetHabitProgressListWithDateEventToState(
-      GetHabitProgressListWithDateEvent event) async* {
+  Stream<UserHabitState> _mapGetHabitProgressListWithDateEventToState(GetHabitProgressListWithDateEvent event) async* {
     try {
       yield HabitFinanceStatementLoading();
 
       var res = await ApiManager.habitProgressListWithDate(event.userHabitId);
       if (res.code == ResponseCode.Success) {
-        yield GetHabitProgressListWithDateSuccess(
-            res.habitProgressListWithDate ?? []);
+        yield GetHabitProgressListWithDateSuccess(res.habitProgressListWithDate ?? []);
       } else {
-        yield GetHabitProgressListWithDateFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield GetHabitProgressListWithDateFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield GetHabitProgressListWithDateFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapGetHabitProgressListByDateEventToState(
-      GetHabitProgressListByDateEvent event) async* {
+  Stream<UserHabitState> _mapGetHabitProgressListByDateEventToState(GetHabitProgressListByDateEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
@@ -219,16 +255,14 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       if (res.code == ResponseCode.Success) {
         yield GetHabitProgressListByDateSuccess(res.habitProgressList ?? []);
       } else {
-        yield GetHabitProgressListByDateFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield GetHabitProgressListByDateFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield GetHabitProgressListByDateFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapAddHabitProgressEventToState(
-      AddHabitProgressEvent event) async* {
+  Stream<UserHabitState> _mapAddHabitProgressEventToState(AddHabitProgressEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
@@ -236,16 +270,14 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       if (res.code == ResponseCode.Success) {
         yield AddHabitProgressSuccess();
       } else {
-        yield AddHabitProgressFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield AddHabitProgressFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield AddHabitProgressFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapUpdateHabitProgressEventToState(
-      UpdateHabitProgressEvent event) async* {
+  Stream<UserHabitState> _mapUpdateHabitProgressEventToState(UpdateHabitProgressEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
@@ -253,16 +285,14 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       if (res.code == ResponseCode.Success) {
         yield UpdateHabitProgressSuccess();
       } else {
-        yield UpdateHabitProgressFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield UpdateHabitProgressFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield UpdateHabitProgressFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapDeleteHabitProgressEventToState(
-      DeleteHabitProgressEvent event) async* {
+  Stream<UserHabitState> _mapDeleteHabitProgressEventToState(DeleteHabitProgressEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
@@ -270,8 +300,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       if (res.code == ResponseCode.Success) {
         yield DeleteHabitProgressSuccess();
       } else {
-        yield DeleteHabitProgressFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield DeleteHabitProgressFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield DeleteHabitProgressFailed(LocaleKeys.errorOccurred);
@@ -286,8 +315,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       if (res.code == ResponseCode.Success) {
         List<ComboItem> list = [];
 
-        if (res.habitExpenseCategoryList != null &&
-            res.habitExpenseCategoryList!.isNotEmpty) {
+        if (res.habitExpenseCategoryList != null && res.habitExpenseCategoryList!.isNotEmpty) {
           for (var el in res.habitExpenseCategoryList!) {
             list.add(
               ComboItem()
@@ -299,16 +327,14 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
 
         yield GetExpenseCategoriesSuccess(list);
       } else {
-        yield GetExpenseCategoriesFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield GetExpenseCategoriesFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield GetExpenseCategoriesFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapGetHabitQuestionEventToState(
-      GetHabitQuestionEvent event) async* {
+  Stream<UserHabitState> _mapGetHabitQuestionEventToState(GetHabitQuestionEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
@@ -316,19 +342,16 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       if (res.code == ResponseCode.Success) {
         yield HabitQuestionSuccess(res);
       } else {
-        yield HabitQuestionFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield HabitQuestionFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield HabitQuestionFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapUserHabitShowcaseEventToState(
-      UserHabitShowcaseEvent event) async* {
+  Stream<UserHabitState> _mapUserHabitShowcaseEventToState(UserHabitShowcaseEvent event) async* {
     if (!SharedPref.getShowcaseHasShown(event.showcaseKeyName)) {
-      List<GlobalKey> keyList =
-          ShowcaseKey.getKeysByName(event.showcaseKeyName);
+      List<GlobalKey> keyList = ShowcaseKey.getKeysByName(event.showcaseKeyName);
       if (keyList.isNotEmpty) {
         yield UserHabitShowcaseState(keyList);
         yield UserHabitDefault();
@@ -337,8 +360,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     }
   }
 
-  Stream<UserHabitState> _mapGetUserHabitProgressLogEventToState(
-      GetUserHabitProgressLogEvent event) async* {
+  Stream<UserHabitState> _mapGetUserHabitProgressLogEventToState(GetUserHabitProgressLogEvent event) async* {
     try {
       yield UserHabitProgressLoading();
 
@@ -346,47 +368,41 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       if (res.code == ResponseCode.Success) {
         yield GetUserHabitProgressLogSuccess(res);
       } else {
-        yield GetUserHabitProgressLogFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield GetUserHabitProgressLogFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield GetUserHabitProgressLogFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapGetUserHabitPlanCountEventToState(
-      GetUserHabitPlanCountEvent event) async* {
+  Stream<UserHabitState> _mapGetUserHabitPlanCountEventToState(GetUserHabitPlanCountEvent event) async* {
     try {
       var res = await ApiManager.getUserHabitPlanCount(event.userHabitId);
       if (res.code == ResponseCode.Success) {
         yield GetUserHabitPlanCountSuccess(res);
       } else {
-        yield GetUserHabitPlanCountFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield GetUserHabitPlanCountFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield GetUserHabitPlanCountFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapGetCreateUserHabitEventToState(
-      createHabitEvent event) async* {
+  Stream<UserHabitState> _mapGetUserHabitEventToState(GetHabitEvent event) async* {
     try {
-      var res = await ApiManager.createHabit(event.habitId);
-      print("sonin gar ve");
+      var res = await ApiManager.getHabit(event.habitId);
       if (res.code == ResponseCode.Success) {
-        yield createHabitSuccess(res);
+        print("end irj bnu");
+        yield GetHabitSuccess(res);
       } else {
-        yield createHabitFailed(
-            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield GetHabitFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
-      yield createHabitFailed(LocaleKeys.errorOccurred);
+      yield GetHabitFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserHabitState> _mapUpdateUserHabitProgressLogEventToState(
-      UpdateUserHabitProgressLogEvent event) async* {
+  Stream<UserHabitState> _mapUpdateUserHabitProgressLogEventToState(UpdateUserHabitProgressLogEvent event) async* {
     try {
       var res = await ApiManager.updateHabitProgressLog(event.habitProgressLog);
       if (res.code == ResponseCode.Success) {
@@ -399,6 +415,19 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     } catch (e) {
       print('UpdateUserHabitProgressLogFailed: Error');
       // yield UpdateUserHabitProgressLogFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapGetUserHabitDetailsFeelingLatestEventToState(GetUserHabitDetailsFeelingLatestEvent event) async* {
+    try {
+      var res = await ApiManager.getUserHabitDetailsFeelingLatest(event.userHabitId);
+      if (res.code == ResponseCode.Success) {
+        yield GetFeelingDetailsLatestSuccess(res.userHabitDetailsFeelingList!);
+      } else {
+        yield GetFeelingDetailsLatestFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetFeelingDetailsLatestFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -495,8 +524,7 @@ class GetHabitFinanceTotalAmountEvent extends UserHabitEvent {
   List<Object> get props => [userHabitId];
 
   @override
-  String toString() =>
-      'GetHabitFinanceTotalAmountEvent { userHabitId: $userHabitId }';
+  String toString() => 'GetHabitFinanceTotalAmountEvent { userHabitId: $userHabitId }';
 }
 
 class GetHabitFinanceTotalAmountByDateEvent extends UserHabitEvent {
@@ -508,8 +536,33 @@ class GetHabitFinanceTotalAmountByDateEvent extends UserHabitEvent {
   List<Object> get props => [request];
 
   @override
-  String toString() =>
-      'GetHabitFinanceTotalAmountByDateEvent { userHabitId: $request }';
+  String toString() => 'GetHabitFinanceTotalAmountByDateEvent { request: $request }';
+}
+
+/// User Habit Detail - Feeling
+class GetHabitFeelingChartDataEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetHabitFeelingChartDataEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetHabitFeelingChartDataEvent { userHabitId: $userHabitId }';
+}
+
+/// User Habit Detail - Satisfaction
+class GetUserHabitDetailsSatisfactionEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetUserHabitDetailsSatisfactionEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetUserHabitDetailsSatisfactionEvent { userHabitId: $userHabitId }';
 }
 
 class GetHabitProgressListWithDateEvent extends UserHabitEvent {
@@ -521,8 +574,7 @@ class GetHabitProgressListWithDateEvent extends UserHabitEvent {
   List<Object> get props => [userHabitId];
 
   @override
-  String toString() =>
-      'GetHabitProgressListEvent { userHabitId: $userHabitId }';
+  String toString() => 'GetHabitProgressListEvent { userHabitId: $userHabitId }';
 }
 
 class GetHabitProgressListByDateEvent extends UserHabitEvent {
@@ -546,8 +598,7 @@ class AddHabitProgressEvent extends UserHabitEvent {
   List<Object> get props => [habitProgress];
 
   @override
-  String toString() =>
-      'AddHabitProgressEvent { habitProgress: $habitProgress }';
+  String toString() => 'AddHabitProgressEvent { habitProgress: $habitProgress }';
 }
 
 class UpdateHabitProgressEvent extends UserHabitEvent {
@@ -559,8 +610,7 @@ class UpdateHabitProgressEvent extends UserHabitEvent {
   List<Object> get props => [habitProgress];
 
   @override
-  String toString() =>
-      'UpdateHabitProgressEvent { habitProgress: $habitProgress }';
+  String toString() => 'UpdateHabitProgressEvent { habitProgress: $habitProgress }';
 }
 
 class DeleteHabitProgressEvent extends UserHabitEvent {
@@ -598,8 +648,7 @@ class UserHabitShowcaseEvent extends UserHabitEvent {
   List<Object> get props => [showcaseKeyName];
 
   @override
-  String toString() =>
-      'UserHabitShowcaseEvent { showcaseKeyName: $showcaseKeyName }';
+  String toString() => 'UserHabitShowcaseEvent { showcaseKeyName: $showcaseKeyName }';
 }
 
 class GetUserHabitProgressLogEvent extends UserHabitEvent {
@@ -611,8 +660,7 @@ class GetUserHabitProgressLogEvent extends UserHabitEvent {
   List<Object> get props => [userHabitId];
 
   @override
-  String toString() =>
-      'GetUserHabitProgressLogEvent { userHabitId: $userHabitId }';
+  String toString() => 'GetUserHabitProgressLogEvent { userHabitId: $userHabitId }';
 }
 
 class UpdateUserHabitProgressLogEvent extends UserHabitEvent {
@@ -624,8 +672,7 @@ class UpdateUserHabitProgressLogEvent extends UserHabitEvent {
   List<Object> get props => [habitProgressLog];
 
   @override
-  String toString() =>
-      'UpdateUserHabitProgressLogEvent { habitProgressLog: $habitProgressLog }';
+  String toString() => 'UpdateUserHabitProgressLogEvent { habitProgressLog: $habitProgressLog }';
 }
 
 class GetUserHabitPlanCountEvent extends UserHabitEvent {
@@ -637,20 +684,31 @@ class GetUserHabitPlanCountEvent extends UserHabitEvent {
   List<Object> get props => [userHabitId];
 
   @override
-  String toString() =>
-      'GetUserHabitPlanCountEvent { habitPlanCount: $userHabitId }';
+  String toString() => 'GetUserHabitPlanCountEvent { userHabitId: $userHabitId }';
 }
 
-class createHabitEvent extends UserHabitEvent {
+class GetHabitEvent extends UserHabitEvent {
   final int habitId;
 
-  const createHabitEvent(this.habitId);
+  const GetHabitEvent(this.habitId);
 
   @override
   List<Object> get props => [habitId];
 
   @override
-  String toString() => 'createHabitEvent { habitId: $habitId }';
+  String toString() => 'CreateHabitEvent { habitId: $habitId }';
+}
+
+class GetUserHabitDetailsFeelingLatestEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetUserHabitDetailsFeelingLatestEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetUserHabitDetailsFeelingLatestEvent { userHabitId: $userHabitId }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -691,8 +749,7 @@ class InsertUserHabitSuccess extends UserHabitState {
   List<Object> get props => [userHabitResponse];
 
   @override
-  String toString() =>
-      'InsertUserHabitSuccess { userHabitResponse: $userHabitResponse }';
+  String toString() => 'InsertUserHabitSuccess { userHabitResponse: $userHabitResponse }';
 }
 
 class InsertUserHabitFailed extends UserHabitState {
@@ -768,8 +825,7 @@ class SaveUserHabitProgressSuccess extends UserHabitState {
   List<Object> get props => [habitProgressResponse];
 
   @override
-  String toString() =>
-      'SaveUserHabitProgressSuccess { habitProgressResponse: $habitProgressResponse }';
+  String toString() => 'SaveUserHabitProgressSuccess { habitProgressResponse: $habitProgressResponse }';
 }
 
 class SaveUserHabitProgressFailed extends UserHabitState {
@@ -793,8 +849,7 @@ class GetHabitProgressListWithDateSuccess extends UserHabitState {
   List<Object> get props => [habitProgressListWithDate];
 
   @override
-  String toString() =>
-      'GetHabitProgressListSuccess { habitProgressList: $habitProgressListWithDate }';
+  String toString() => 'GetHabitProgressListSuccess { habitProgressList: $habitProgressListWithDate }';
 }
 
 class GetHabitProgressListWithDateFailed extends UserHabitState {
@@ -818,8 +873,7 @@ class GetHabitProgressListByDateSuccess extends UserHabitState {
   List<Object> get props => [habitProgressList];
 
   @override
-  String toString() =>
-      'GetHabitProgressListByDateSuccess { habitProgressList: $habitProgressList }';
+  String toString() => 'GetHabitProgressListByDateSuccess { habitProgressList: $habitProgressList }';
 }
 
 class GetHabitProgressListByDateFailed extends UserHabitState {
@@ -838,15 +892,13 @@ class HabitFinanceTotalAmountSuccess extends UserHabitState {
   final double totalAmount;
   final List<UserHabitExpenseCategory> expenseCategories;
 
-  const HabitFinanceTotalAmountSuccess(
-      this.totalAmount, this.expenseCategories);
+  const HabitFinanceTotalAmountSuccess(this.totalAmount, this.expenseCategories);
 
   @override
   List<Object> get props => [totalAmount, expenseCategories];
 
   @override
-  String toString() =>
-      'HabitFinanceTotalAmountSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
+  String toString() => 'HabitFinanceTotalAmountSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
 }
 
 class HabitFinanceTotalAmountFailed extends UserHabitState {
@@ -865,15 +917,13 @@ class HabitFinanceTotalAmountByDateSuccess extends UserHabitState {
   final double totalAmount;
   final List<UserHabitExpenseCategory> expenseCategories;
 
-  const HabitFinanceTotalAmountByDateSuccess(
-      this.totalAmount, this.expenseCategories);
+  const HabitFinanceTotalAmountByDateSuccess(this.totalAmount, this.expenseCategories);
 
   @override
   List<Object> get props => [totalAmount, expenseCategories];
 
   @override
-  String toString() =>
-      'HabitFinanceTotalAmountByDateSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
+  String toString() => 'HabitFinanceTotalAmountByDateSuccess { totalAmount: $totalAmount, expenseCategories: $expenseCategories }';
 }
 
 class HabitFinanceTotalAmountByDateFailed extends UserHabitState {
@@ -885,8 +935,33 @@ class HabitFinanceTotalAmountByDateFailed extends UserHabitState {
   List<Object> get props => [message];
 
   @override
-  String toString() =>
-      'HabitFinanceTotalAmountByDateFailed { message: $message }';
+  String toString() => 'HabitFinanceTotalAmountByDateFailed { message: $message }';
+}
+
+// User Habit Detail - Feeling
+class HabitFeelingPieChartSuccess extends UserHabitState {
+  final int totalCount;
+  final List<UserHabitFeelingPieChartFeeling> feelings;
+
+  const HabitFeelingPieChartSuccess(this.totalCount, this.feelings);
+
+  @override
+  List<Object> get props => [totalCount, feelings];
+
+  @override
+  String toString() => 'HabitFeelingPieChartSuccess { totalCount: $totalCount, feelings: $feelings }';
+}
+
+class HabitFeelingPieChartFailed extends UserHabitState {
+  final String message;
+
+  const HabitFeelingPieChartFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'HabitFeelingPieChartFailed { message: $message }';
 }
 
 class AddHabitProgressSuccess extends UserHabitState {}
@@ -940,8 +1015,7 @@ class GetExpenseCategoriesSuccess extends UserHabitState {
   List<Object> get props => [habitExpenseCategoryList];
 
   @override
-  String toString() =>
-      'GetExpenseCategoriesSuccess { habitExpenseCategoryList: $habitExpenseCategoryList }';
+  String toString() => 'GetExpenseCategoriesSuccess { habitExpenseCategoryList: $habitExpenseCategoryList }';
 }
 
 class GetExpenseCategoriesFailed extends UserHabitState {
@@ -965,8 +1039,7 @@ class HabitQuestionSuccess extends UserHabitState {
   List<Object> get props => [habitQuestionResponse];
 
   @override
-  String toString() =>
-      'GetHabitQuestionsSuccess { habitQuestionResponse: $habitQuestionResponse }';
+  String toString() => 'GetHabitQuestionsSuccess { habitQuestionResponse: $habitQuestionResponse }';
 }
 
 class HabitQuestionFailed extends UserHabitState {
@@ -990,8 +1063,7 @@ class UserHabitShowcaseState extends UserHabitState {
   List<Object> get props => [showcaseKeyList];
 
   @override
-  String toString() =>
-      'UserHabitShowcaseState { showcaseKeyList: $showcaseKeyList }';
+  String toString() => 'UserHabitShowcaseState { showcaseKeyList: $showcaseKeyList }';
 }
 
 class GetUserHabitProgressLogSuccess extends UserHabitState {
@@ -1003,8 +1075,7 @@ class GetUserHabitProgressLogSuccess extends UserHabitState {
   List<Object> get props => [habitProgressLog];
 
   @override
-  String toString() =>
-      'GetUserHabitProgressLogSuccess { habitProgressLog: $habitProgressLog }';
+  String toString() => 'GetUserHabitProgressLogSuccess { habitProgressLog: $habitProgressLog }';
 }
 
 class GetUserHabitProgressLogFailed extends UserHabitState {
@@ -1028,8 +1099,7 @@ class GetUserHabitPlanCountSuccess extends UserHabitState {
   List<Object> get props => [userHabitPlanCount];
 
   @override
-  String toString() =>
-      'GetUserHabitPlanCountSuccess { habitProgressLog: $userHabitPlanCount }';
+  String toString() => 'GetUserHabitPlanCountSuccess { habitProgressLog: $userHabitPlanCount }';
 }
 
 class GetUserHabitPlanCountFailed extends UserHabitState {
@@ -1058,25 +1128,73 @@ class UpdateUserHabitProgressLogFailed extends UserHabitState {
   String toString() => 'UpdateUserHabitProgressLogFailed { message: $message }';
 }
 
-class createHabitSuccess extends UserHabitState {
+class GetHabitSuccess extends UserHabitState {
   final Habit habit;
-  createHabitSuccess(this.habit);
+  GetHabitSuccess(this.habit);
 
   @override
   List<Object> get props => [habit];
 
   @override
-  String toString() => 'createHabitSuccess { habit: $habit }';
+  String toString() => 'CreateHabitSuccess { habit: $habit }';
 }
 
-class createHabitFailed extends UserHabitState {
+class GetHabitFailed extends UserHabitState {
   final String message;
 
-  const createHabitFailed(this.message);
+  const GetHabitFailed(this.message);
 
   @override
   List<Object> get props => [message];
 
   @override
-  String toString() => 'createHabitFailed { message: $message }';
+  String toString() => 'GetHabitFailed { message: $message }';
+}
+
+class GetFeelingDetailsLatestSuccess extends UserHabitState {
+  final List<UserHabitDetailsFeeling> userHabitDetailsFeelingList;
+
+  const GetFeelingDetailsLatestSuccess(this.userHabitDetailsFeelingList);
+
+  @override
+  List<Object> get props => [userHabitDetailsFeelingList];
+
+  @override
+  String toString() => 'GetFeelingDetailsLatestSuccess { userHabitDetailsFeelingList: $userHabitDetailsFeelingList }';
+}
+
+class GetFeelingDetailsLatestFailed extends UserHabitState {
+  final String message;
+
+  const GetFeelingDetailsLatestFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetFeelingDetailsLatestFailed { message: $message }';
+}
+
+class GetFeelingDetailsSatisfactionSuccess extends UserHabitState {
+  final List<UserHabitDetailsSatisfaction> userHabitDetailsSatisfactionList;
+
+  const GetFeelingDetailsSatisfactionSuccess(this.userHabitDetailsSatisfactionList);
+
+  @override
+  List<Object> get props => [userHabitDetailsSatisfactionList];
+
+  @override
+  String toString() => 'GetFeelingDetailsLatestSuccess { userHabitDetailsFeelingList: $userHabitDetailsSatisfactionList }';
+}
+
+class GetFeelingDetailsSatisfactionFailed extends UserHabitState {
+  final String message;
+
+  const GetFeelingDetailsSatisfactionFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetFeelingDetailsSatisfactionFailed { message: $message }';
 }

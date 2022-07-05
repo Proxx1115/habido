@@ -471,15 +471,15 @@ class LocaleKeys {
   static String get pleaseSelectEmoji => 'Та мэдрэмжээ сонгоно уу?';
 
   /// old emoji
-  // static String get emoji1 => 'Гунигтай байна';
+  static String get recapDayEmoji1 => 'Гунигтай байна';
 
-  // static String get emoji2 => 'Тааламжгүй байна';
+  static String get recapDayEmoji2 => 'Тааламжгүй байна';
 
-  // static String get emoji3 => 'Юу мэдэрч байгаагаа мэдэхгүй байна';
+  static String get recapDayEmoji3 => 'Юу мэдэрч байгаагаа мэдэхгүй байна';
 
-  // static String get emoji4 => 'Тайван сайхан байна';
+  static String get recapDayEmoji4 => 'Тайван сайхан байна';
 
-  // static String get emoji5 => 'Маш их баяртай байна';
+  static String get recapDayEmoji5 => 'Маш их баяртай байна';
 
   static String get emoji1 => 'Гайхалтай';
 
@@ -487,9 +487,11 @@ class LocaleKeys {
 
   static String get emoji3 => 'Мэдэхгүй ээ';
 
-  static String get emoji4 => 'Тааламжгүй ээ';
+  static String get emoji4 => 'Тааламжгүй';
 
   static String get emoji5 => 'Онцгүй ээ';
+
+  static String get notNoted => 'Тэмдэглээгүй';
 
   static String get happyEmoji => 'Баяр хөөртэй';
 
@@ -582,6 +584,8 @@ class LocaleKeys {
   ///
 
   static String get note => 'Тэмдэглэл';
+
+  static String get seeAllNote => 'Бүх тэмдэглэл харах';
 
   static String get writeNote => 'Тэмдэглэл хөтлөх';
 
@@ -689,6 +693,9 @@ class LocaleKeys {
   /// Profile
 
   static String get performance => 'Үзүүлэлт';
+
+  static String get moodCalendarInfo =>
+      'Өдрийн мэдрэмжийн ерөнхий төлвийг тухайн өдөр тэмдэглэсэн нийт мэдрэмжийн дундажаар тооцоолж, өнгөөр ялган харуулж байгаа юм. Мэдрэмжийн календарын өнгө тод ногооноос бүдэг ногоон руу уусах бөгөөд, эерэг мэдрэмжийг (Гайхалтай) хамгийн тод өнгөөр, сөрөг мэдрэмжийг(Онцгүй) бүдэг өнгөөр илэрхийлж, бусад мэдрэмжүүдийг (Дажгүй, Мэдэхгүй, Тааламжгүй) өнгийн уусалттайгаар илэрхийлж байгаа.';
 
   static String get badge => 'Тэмдэг';
 

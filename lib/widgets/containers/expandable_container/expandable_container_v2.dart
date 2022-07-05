@@ -15,13 +15,7 @@ class ExpandableContainerV2 extends StatefulWidget {
   final bool? isToday;
   final String? todayText;
 
-  const ExpandableContainerV2(
-      {Key? key,
-      required this.title,
-      required this.expandableListItems,
-      this.margin,
-      this.isToday,
-      this.todayText})
+  const ExpandableContainerV2({Key? key, required this.title, required this.expandableListItems, this.margin, this.isToday, this.todayText})
       : super(key: key);
 
   @override
@@ -45,9 +39,7 @@ class _ExpandableContainerV2State extends State<ExpandableContainerV2> {
 
   @override
   Widget build(BuildContext context) {
-    _expandedHeight = widget.expandableListItems.length /
-        2 *
-        (60 + _liteItemMarginBottom + 30);
+    _expandedHeight = (widget.expandableListItems.length / 2).ceil() * (60 + _liteItemMarginBottom + 20);
 
     return Container(
       margin: widget.margin,
@@ -72,35 +64,32 @@ class _ExpandableContainerV2State extends State<ExpandableContainerV2> {
             _isExpanded = !_isExpanded;
           });
         },
-        child: FadeInAnimation(
-          duration: 200,
-          child: Container(
-            margin: EdgeInsets.only(bottom: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                /// Title
-                CustomText(
-                  widget.title,
-                  margin: EdgeInsets.only(left: 12.0),
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
-                ),
+        child: Container(
+          margin: EdgeInsets.only(bottom: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              /// Title
+              CustomText(
+                widget.title,
+                margin: EdgeInsets.only(left: 12.0),
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
 
-                /// Icon
-                Container(
-                  width: 10,
-                  height: 10,
-                  padding: EdgeInsets.zero,
-                  child: RotatedBox(
-                    quarterTurns: _isExpanded ? 0 : 5,
-                    child: SvgPicture.asset(
-                      Assets.downArrow,
-                    ),
+              /// Icon
+              Container(
+                width: 10,
+                height: 10,
+                padding: EdgeInsets.zero,
+                child: RotatedBox(
+                  quarterTurns: _isExpanded ? 0 : 5,
+                  child: SvgPicture.asset(
+                    Assets.downArrow,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -115,15 +104,16 @@ class _ExpandableContainerV2State extends State<ExpandableContainerV2> {
       width: screenWidth,
       height: _isExpanded ? _expandedHeight : _collapsedHeight,
       child: GridView.count(
+        physics: NeverScrollableScrollPhysics(),
         childAspectRatio: ((MediaQuery.of(context).size.width - 55) / 2) / 73,
         crossAxisCount: 2,
         mainAxisSpacing: 15,
         crossAxisSpacing: 15,
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(15),
         children: [
           for (var el in widget.expandableListItems)
             Container(
-              margin: EdgeInsets.only(bottom: _liteItemMarginBottom),
+              // margin: EdgeInsets.only(bottom: _liteItemMarginBottom),
               child: el,
             ),
         ],

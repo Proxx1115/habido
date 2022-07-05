@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/date_interval_progress_response.dart';
 import 'package:habido_app/models/habit_calendar_response.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
@@ -21,6 +22,8 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       yield* _mapGetCalendarEventToState(event);
     } else if (event is GetCalendarDateEvent) {
       yield* _mapGetCalendarDateEventToState(event);
+    } else if (event is GetDateIntervalProgressEvent) {
+      yield* _mapGetDateIntervalProgressToState(event);
     }
   }
 
@@ -45,6 +48,25 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       }
     } catch (e) {
       yield CalendarFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<CalendarState> _mapGetDateIntervalProgressToState(GetDateIntervalProgressEvent event) async* {
+    try {
+      // yield CalendarLoading();
+
+      var res = await ApiManager.getDatesProgress(event.startDate, event.endDate);
+      print("hhesd");
+
+      if (res.code == ResponseCode.Success) {
+        if (res.datesProgress != null && res.datesProgress!.isNotEmpty) {
+          yield GetDateIntervalProgressSuccess(res.datesProgress!);
+        }
+      } else {
+        yield GetDateIntervalProgressFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetDateIntervalProgressFailed(LocaleKeys.errorOccurred);
     }
   }
 
@@ -87,6 +109,19 @@ class GetCalendarEvent extends CalendarEvent {
 
   @override
   String toString() => 'GetCalendarEvent { startDate: $startDate, endDate: $endDate }';
+}
+
+class GetDateIntervalProgressEvent extends CalendarEvent {
+  final String startDate;
+  final String endDate;
+
+  const GetDateIntervalProgressEvent(this.startDate, this.endDate);
+
+  @override
+  List<Object> get props => [startDate, endDate];
+
+  @override
+  String toString() => 'createHabitEvent { startDate: $startDate, endDate: $endDate }';
 }
 
 class GetCalendarDateEvent extends CalendarEvent {
@@ -140,6 +175,30 @@ class CalendarFailed extends CalendarState {
 
   @override
   String toString() => 'CalendarFailed { message: $message }';
+}
+
+class GetDateIntervalProgressSuccess extends CalendarState {
+  final List<DateProgress> datesProgress;
+
+  const GetDateIntervalProgressSuccess(this.datesProgress);
+
+  @override
+  List<Object> get props => [datesProgress];
+
+  @override
+  String toString() => 'GetDateIntervalProgressSuccess { datesProgress: $datesProgress }';
+}
+
+class GetDateIntervalProgressFailed extends CalendarState {
+  final String message;
+
+  const GetDateIntervalProgressFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetDateIntervalProgressFailed { message: $message }';
 }
 
 class CalendarDateSuccess extends CalendarState {

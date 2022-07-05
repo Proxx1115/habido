@@ -77,7 +77,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
       BlocManager.userBloc.add(GetUserDeviceEvent(DeviceHelper.deviceId!));
     }
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _validateForm());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _validateForm());
 
     super.initState();
   }
@@ -426,32 +426,32 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
 
   _buttonSave() {
     return !Func.visibleKeyboard(context)
-          ? CustomButton(
-      margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
-      fontWeight: FontWeight.w700,
-      alignment: Alignment.bottomCenter,
-      text: LocaleKeys.save,
-      borderRadius: BorderRadius.circular(15.0),
-              onPressed: _enabledBtnSave
-                  ? () {
-                      if (!_validateAge()) {
-                        showCustomDialog(
-                          context,
-                          child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12UserProfile, buttonText: LocaleKeys.ok),
-                        );
+        ? CustomButton(
+            margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
+            fontWeight: FontWeight.w700,
+            alignment: Alignment.bottomCenter,
+            text: LocaleKeys.save,
+            borderRadius: BorderRadius.circular(15.0),
+            onPressed: _enabledBtnSave
+                ? () {
+                    if (!_validateAge()) {
+                      showCustomDialog(
+                        context,
+                        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12UserProfile, buttonText: LocaleKeys.ok),
+                      );
 
-                        return;
-                      }
-                      var request = UpdateUserDataRequest()
-                        ..lastName = _lastNameController.text
-                        ..firstName = _firstNameController.text
-                        ..birthday = Func.toDateStr(_selectedBirthDate!)
-                        ..userGender = _genderValue ? Gender.Female : Gender.Male;
-
-                      BlocManager.userBloc.add(UpdateUserDataEvent(request));
+                      return;
                     }
-                  : null,
-            )
+                    var request = UpdateUserDataRequest()
+                      ..lastName = _lastNameController.text
+                      ..firstName = _firstNameController.text
+                      ..birthday = Func.toDateStr(_selectedBirthDate!)
+                      ..userGender = _genderValue ? Gender.Female : Gender.Male;
+
+                    BlocManager.userBloc.add(UpdateUserDataEvent(request));
+                  }
+                : null,
+          )
         : Container();
   }
 }

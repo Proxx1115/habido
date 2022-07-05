@@ -1,14 +1,20 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
-import 'package:habido_app/models/active_habit.dart';
+import 'package:habido_app/models/user_habit_details_feeling.dart';
+import 'package:habido_app/models/user_habit_feeling_pie_chart_feeling.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/utils/theme/hex_color.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -23,16 +29,27 @@ class HabitDetailWithFeelingRoute extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<HabitDetailWithFeelingRoute> createState() => _HabitDetailWithCountRouteState();
+  State<HabitDetailWithFeelingRoute> createState() => _HabitDetailWithFeelingRouteState();
 }
 
-class _HabitDetailWithCountRouteState extends State<HabitDetailWithFeelingRoute> {
+class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRoute> {
   UserHabitPlanCount? _userHabitPlanCount;
+
+  // Total count
+  int? _totalCount;
+
+  // Graph
+  List<UserHabitFeelingPieChartFeeling>? _feelings;
+
+  // Feeling Details Latest List
+  List<UserHabitDetailsFeeling>? _userHabitDetailsFeelingList;
 
   @override
   void initState() {
     super.initState();
     BlocManager.userHabitBloc.add(GetUserHabitPlanCountEvent(widget.userHabitId!));
+    BlocManager.userHabitBloc.add(GetHabitFeelingChartDataEvent(widget.userHabitId!));
+    BlocManager.userHabitBloc.add(GetUserHabitDetailsFeelingLatestEvent(widget.userHabitId!));
   }
 
   @override
@@ -58,6 +75,21 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithFeelingRoute>
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
+    } else if (state is HabitFeelingPieChartSuccess) {
+      _totalCount = state.totalCount;
+      _feelings = state.feelings;
+    } else if (state is HabitFeelingPieChartFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is GetFeelingDetailsLatestSuccess) {
+      _userHabitDetailsFeelingList = state.userHabitDetailsFeelingList.take(3).toList();
+    } else if (state is GetFeelingDetailsLatestFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
     }
   }
 
@@ -66,7 +98,7 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithFeelingRoute>
       appBarTitle: '${widget.name} - Feeling',
       child: Container(
         padding: SizeHelper.screenPadding,
-        child: _userHabitPlanCount != null
+        child: (_userHabitPlanCount != null && _feelings != null && _totalCount != null)
             ? Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 SizedBox(height: 18.0),
                 CustomText(
@@ -75,115 +107,300 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithFeelingRoute>
                   fontSize: 16.0,
                 ),
                 SizedBox(height: 15.0),
-                _performance(),
+                PerformanceWidget(
+                  totalPlans: _userHabitPlanCount!.totalPlans,
+                  completedPlans: _userHabitPlanCount!.completedPlans,
+                  skipPlans: _userHabitPlanCount!.skipPlans,
+                  uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
+                ),
+                SizedBox(height: 15.0),
+                _feelingInfo(),
+                SizedBox(height: 15.0),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      LocaleKeys.note,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    NoSplashContainer(
+                      child: InkWell(
+                        onTap: () {
+                          // _navigateToAllHabitsRoute();
+                        },
+                        child: CustomText(
+                          LocaleKeys.seeAllNote,
+                          fontSize: 10.0,
+                          color: customColors.primary,
+                          margin: EdgeInsets.only(right: 23.0),
+                          padding: EdgeInsets.all(5.0),
+                          underlined: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 12.0),
+
+                /// Feeling Details Latest 3
+                if (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.isNotEmpty)
+                  for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
               ])
             : Container(),
       ),
     );
   }
 
-  Widget _performance() {
-    return Container(
-        height: 180,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Stack(
-          children: [
-            Center(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 40),
-                height: 1,
-                width: double.infinity,
-                color: customColors.greyBackground,
-              ),
-            ),
-            Center(
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 24),
-                height: double.infinity,
-                width: 1,
-                color: customColors.greyBackground,
-              ),
-            ),
-
-            /// gridview
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: GridView.count(
-                // physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                primary: true,
-                childAspectRatio: 2,
-                crossAxisCount: 2,
-                children: [
-                  _performanceItem(
-                    image: Assets.calendar,
-                    title: "${_userHabitPlanCount!.totalPlans}",
-                    text: LocaleKeys.totalPlans,
-                  ),
-                  _performanceItem(
-                    image: Assets.star_empty,
-                    color: customColors.iconFeijoGreen,
-                    title: "${_userHabitPlanCount!.completedPlans}",
-                    text: LocaleKeys.completedPlans,
-                  ),
-                  _performanceItem(
-                    image: Assets.star_half,
-                    // color: customColors.iconFeijoGreen,
-                    title: "${_userHabitPlanCount!.skipPlans}",
-                    text: LocaleKeys.skipPlans,
-                  ),
-                  _performanceItem(
-                    image: Assets.clear_circle,
-                    title: "${_userHabitPlanCount!.uncompletedPlans}",
-                    text: LocaleKeys.uncompletedPlans,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ));
+  _getAsset(int index) {
+    switch (index) {
+      case 1:
+        return Assets.sad_emoji;
+      case 2:
+        return Assets.unpleasant_emoji;
+      case 3:
+        return Assets.unknown_emoji;
+      case 4:
+        return Assets.calm_emoji;
+      case 5:
+        return Assets.happy_emoji;
+      default:
+        return Assets.sad_emoji;
+    }
   }
 
-  Widget _performanceItem({required String image, required String title, required String text, Color? color}) {
+  String _getText(int index) {
+    switch (index) {
+      case 1:
+        return LocaleKeys.recapDayEmoji1;
+      case 2:
+        return LocaleKeys.recapDayEmoji2;
+      case 3:
+        return LocaleKeys.recapDayEmoji3;
+      case 4:
+        return LocaleKeys.recapDayEmoji4;
+      case 5:
+        return LocaleKeys.recapDayEmoji5;
+      default:
+        return LocaleKeys.pleaseSelectEmoji;
+    }
+  }
+
+  _getColor(int index) {
+    switch (index) {
+      case 1:
+        return "FA6C51";
+      case 2:
+        return "FDCD56";
+      case 3:
+        return "73B0F4";
+      case 4:
+        return "61DDBC";
+      case 5:
+        return "2AB08C";
+      default:
+        return "2AB08C";
+    }
+  }
+
+  Widget _noteItem(feelingDetails) {
     return Container(
-      padding: EdgeInsets.only(left: 34.0, top: 12.5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      height: 64.0,
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      margin: EdgeInsets.only(bottom: 5.0),
+      decoration: BoxDecoration(
+        color: customColors.greyBackground,
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      child: Row(
         children: [
-          SvgPicture.asset(
-            image,
-            height: 18,
-            fit: BoxFit.contain,
-            color: color,
-          ),
-          SizedBox(height: 3),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          /// Date
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomText(
-                title,
-                fontSize: 15,
+                Func.toRomboMonth(Func.getMonthFromDateStr(feelingDetails!.date!)),
+                color: customColors.greyText,
                 fontWeight: FontWeight.w500,
+                fontSize: 15.0,
               ),
-              SizedBox(width: 1),
               CustomText(
-                LocaleKeys.day,
-                fontSize: 11,
-                fontWeight: FontWeight.w400,
-                margin: EdgeInsets.only(bottom: 1.2),
+                Func.getDayFromDateStr(feelingDetails!.date!),
+                color: customColors.greyText,
+                fontWeight: FontWeight.w500,
+                fontSize: 13.0,
               ),
             ],
           ),
+
+          SizedBox(width: 13.0),
+
+          /// Vertical Line
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 5.0),
+            child: VerticalDivider(
+              width: 1,
+              color: customColors.greyText,
+            ),
+          ),
+
+          Expanded(
+            child: Column(children: [
+              SizedBox(height: 7.0),
+
+              Row(
+                children: [
+                  /// Feeling emoji
+                  Container(
+                    height: 20,
+                    width: 20,
+                    padding: EdgeInsets.all(2.0),
+                    margin: EdgeInsets.only(left: 11.5),
+                    decoration: BoxDecoration(
+                      color: customColors.whiteBackground,
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    child: SvgPicture.asset(_getAsset(feelingDetails!.value!)),
+                  ),
+
+                  SizedBox(width: 6.0),
+
+                  /// Feeling name
+                  Expanded(
+                    child: CustomText(
+                      _getText(feelingDetails!.value!),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11.0,
+                    ),
+                  ),
+                ],
+              ),
+
+              /// Note
+              Container(
+                margin: EdgeInsets.only(left: 14.5),
+                child: CustomText(
+                  feelingDetails!.note,
+                  fontSize: 11.0,
+                  maxLines: 2,
+                ),
+              ),
+            ]),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _feelingInfo() {
+    return Container(
+      padding: EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+        color: customColors.whiteBackground, //whiteBackground
+      ),
+      child: Row(
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              /// Chart
+              _feelingPieChart(),
+
+              Center(
+                child: Column(
+                  children: [
+                    /// Нийт
+                    CustomText(
+                      LocaleKeys.total,
+                      alignment: Alignment.center,
+                      fontSize: 11.0,
+                      fontWeight: FontWeight.w500,
+                      color: customColors.primary,
+                    ),
+
+                    /// Total Count
+                    CustomText(
+                      Func.toStr(_totalCount),
+                      alignment: Alignment.center,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          SizedBox(width: 15),
+
+          // Feelings
+          Expanded(
+            child: Column(
+              children: [for (var el in _feelings!) _feelingItem(el)],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _feelingPieChart() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.width * 0.25,
+      width: MediaQuery.of(context).size.width * 0.25,
+      child: Container(
+        child: PieChart(
+          PieChartData(
+            sections: [
+              for (var el in _feelings!) _pieChartData(el),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  PieChartSectionData _pieChartData(UserHabitFeelingPieChartFeeling _habitFeelingPieChartFeeling) {
+    double _percentage = Func.toDouble(_habitFeelingPieChartFeeling.count) * 100 / Func.toDouble(_totalCount);
+    return PieChartSectionData(
+      radius: 12,
+      color: HexColor.fromHex(_getColor(_habitFeelingPieChartFeeling.count!)),
+      value: Func.toDouble(_percentage),
+      showTitle: false,
+    );
+  }
+
+  Widget _feelingItem(feeling) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          /// Image
+          SvgPicture.asset(
+            _getAsset(feeling.count!),
+            height: 14,
+            width: 14,
+          ),
+
+          SizedBox(width: 9.0),
+
+          /// Feeling
+          Expanded(
+            child: CustomText(
+              feeling.name,
+              fontSize: 10,
+            ),
+          ),
+
+          SizedBox(width: 9.0),
+
+          /// Count
           CustomText(
-            text,
-            fontSize: 11,
-            fontWeight: FontWeight.w400,
+            '${feeling.count}',
+            fontSize: 10,
           ),
         ],
       ),

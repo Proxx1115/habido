@@ -55,7 +55,7 @@ class HabidoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance?.addObserver(LifecycleEventHandler(BlocManager.mainBloc));
+    WidgetsBinding.instance.addObserver(LifecycleEventHandler(BlocManager.mainBloc));
 
     return BlocProvider(
       create: (context) => BlocManager.mainBloc,

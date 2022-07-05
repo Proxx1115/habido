@@ -275,7 +275,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
           primaryColor: customColors.primary, //HabitHelper.getPrimaryColor(_primaryColorCode),
           child: null,
           onPressedButton: () {
-            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new)); // todo tushig
+            Navigator.pushNamed(context, Routes.home_new);
           },
         ),
       );

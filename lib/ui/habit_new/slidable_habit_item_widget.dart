@@ -47,14 +47,14 @@ class SlidableHabitItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double caltulatedExtentRatio = 55 / (MediaQuery.of(context).size.width - (SizeHelper.margin * 2));
+    double calculatedExtentRatio = 55 / (MediaQuery.of(context).size.width - (SizeHelper.margin * 2));
     return MoveInAnimation(
       duration: 400,
       delay: delay,
       child: Slidable(
         controller: _controller,
         actionPane: SlidableDrawerActionPane(),
-        actionExtentRatio: caltulatedExtentRatio,
+        actionExtentRatio: 0.19,
         child: InkWell(
           onTap: onPressed,
           borderRadius: isStart
