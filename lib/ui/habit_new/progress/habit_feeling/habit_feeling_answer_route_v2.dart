@@ -83,7 +83,7 @@ class _HabitFeelingAnswerV2RouteState extends State<HabitFeelingAnswerV2Route> {
         child: BlocBuilder<UserHabitBloc, UserHabitState>(
           builder: (context, state) {
             return CustomScaffold(
-              appBarTitle: _userHabit.name,
+              appBarTitle: LocaleKeys.reflectionsOftheDay,
               appBarLeadingColor: _primaryColor,
               backgroundColor: _backgroundColor,
               loading: state is UserHabitProgressLoading,
