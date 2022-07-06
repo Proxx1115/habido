@@ -187,6 +187,7 @@ class _PerformanceState extends State<Performance> {
               Navigator.pushNamed(context, Routes.sensitivityNotes);
             },
             child: Container(
+              padding: EdgeInsets.only(right: 12.0),
               alignment: Alignment.bottomRight,
               child: Text(
                 LocaleKeys.seeHistory,
