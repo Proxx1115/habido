@@ -8,6 +8,7 @@ import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/date_picker/date_picker.dart';
 import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
+import 'package:habido_app/widgets/date_picker/date_picker_v2.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -60,8 +61,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: SizeHelper.margin),
+                      padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
                       child: Column(
                         children: [
                           CustomText(
@@ -105,7 +105,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   _birthdayPicker() {
-    return CustomDatePicker(
+    return CustomDatePickerV2(
       bloc: _birthDatePickerBloc,
       initialDate: _selectedBirthDate,
       hintText: LocaleKeys.birthDate,
@@ -142,8 +142,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   _validateForm() {
     setState(() {
-      _enabledBtnSave =
-          _selectedBirthDate != null && _userNameController.text.length > 0;
+      _enabledBtnSave = _selectedBirthDate != null && _userNameController.text.length > 0;
     });
   }
 }
