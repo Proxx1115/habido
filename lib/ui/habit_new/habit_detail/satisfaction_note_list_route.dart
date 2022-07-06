@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit_details_feeling.dart';
+import 'package:habido_app/ui/habit_new/habit_helper.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -40,7 +41,7 @@ class _SatisfactionNoteListRouteState extends State<SatisfactionNoteListRoute> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBarTitle: "VFFDFAA", // LocaleKeys.note,
+      appBarTitle: LocaleKeys.note,
       padding: EdgeInsets.fromLTRB(SizeHelper.padding, 30.0, SizeHelper.padding, SizeHelper.padding),
       child: BlocProvider.value(
         value: BlocManager.userHabitBloc,
@@ -165,7 +166,7 @@ class _SatisfactionNoteListRouteState extends State<SatisfactionNoteListRoute> {
           child: Column(
             children: [
               CustomText(
-                '${feelingDetails.value!}/10 ${_getText(feelingDetails.value!)}',
+                '${feelingDetails.value!}/10 ${UserHabitHelper.isPleasing(feelingDetails.value!)}',
                 fontWeight: FontWeight.w500,
                 fontSize: 15.0,
               ),
@@ -176,6 +177,7 @@ class _SatisfactionNoteListRouteState extends State<SatisfactionNoteListRoute> {
               CustomText(
                 feelingDetails.note,
                 fontSize: 11.0,
+                alignment: Alignment.topLeft,
                 maxLines: 4,
               ),
             ],
@@ -204,22 +206,5 @@ class _SatisfactionNoteListRouteState extends State<SatisfactionNoteListRoute> {
         ),
       ]),
     );
-  }
-
-  String _getText(int index) {
-    switch (index) {
-      case 1:
-        return LocaleKeys.recapDayEmoji1;
-      case 2:
-        return LocaleKeys.recapDayEmoji2;
-      case 3:
-        return LocaleKeys.recapDayEmoji3;
-      case 4:
-        return LocaleKeys.recapDayEmoji4;
-      case 5:
-        return LocaleKeys.recapDayEmoji5;
-      default:
-        return LocaleKeys.pleaseSelectEmoji;
-    }
   }
 }

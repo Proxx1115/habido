@@ -204,7 +204,7 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
             padding: EdgeInsets.all(13.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white,
+              color: customColors.whiteBackground,
             ),
             child: Image.asset(
               Assets.exit,

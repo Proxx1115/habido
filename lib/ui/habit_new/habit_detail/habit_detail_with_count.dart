@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -65,21 +66,37 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithCountRoute> {
       child: Container(
         padding: SizeHelper.screenPadding,
         child: _userHabitPlanCount != null
-            ? Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                SizedBox(height: 18.0),
-                CustomText(
-                  LocaleKeys.execution,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16.0,
-                ),
-                SizedBox(height: 15.0),
-                PerformanceWidget(
-                  totalPlans: _userHabitPlanCount!.totalPlans,
-                  completedPlans: _userHabitPlanCount!.completedPlans,
-                  skipPlans: _userHabitPlanCount!.skipPlans,
-                  uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
-                ),
-              ])
+            ? Column(
+                children: [
+                  SizedBox(height: 18.0),
+                  CustomText(
+                    LocaleKeys.execution,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.0,
+                  ),
+                  SizedBox(height: 15.0),
+                  PerformanceWidget(
+                    totalPlans: _userHabitPlanCount!.totalPlans,
+                    completedPlans: _userHabitPlanCount!.completedPlans,
+                    skipPlans: _userHabitPlanCount!.skipPlans,
+                    uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
+                  ),
+
+                  /// Chart
+
+                  /// Delete Btn
+                  SizedBox(height: 20.0),
+
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: DeleteButtonWidget(
+                      onDelete: () {
+                        BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                      },
+                    ),
+                  ),
+                ],
+              )
             : Container(),
       ),
     );

@@ -68,7 +68,7 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithMinuteRoute> 
       child: Container(
         padding: SizeHelper.screenPadding,
         child: _userHabitPlanCount != null
-            ? Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            ? Column(children: [
                 SizedBox(height: 18.0),
                 CustomText(
                   LocaleKeys.execution,

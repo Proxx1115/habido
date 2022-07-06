@@ -125,12 +125,12 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     try {
       yield UserHabitLoading();
 
-      var res = await ApiManager.deleteUserHabit(event.userHabit.userHabitId ?? 0);
+      var res = await ApiManager.deleteUserHabit(event.userHabitId);
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
         BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
 
-        yield DeleteUserHabitSuccess(event.userHabit);
+        yield DeleteUserHabitSuccess(event.userHabitId);
       } else {
         yield DeleteUserHabitFailed(ApiHelper.getFailedMessage(res.message));
       }
@@ -509,15 +509,15 @@ class UpdateUserHabitEvent extends UserHabitEvent {
 }
 
 class DeleteUserHabitEvent extends UserHabitEvent {
-  final UserHabit userHabit;
+  final int userHabitId;
 
-  const DeleteUserHabitEvent(this.userHabit);
-
-  @override
-  List<Object> get props => [userHabit];
+  const DeleteUserHabitEvent(this.userHabitId);
 
   @override
-  String toString() => 'DeleteUserHabitEvent { userHabit: $userHabit }';
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'DeleteUserHabitEvent { userHabitId: $userHabitId }';
 }
 
 class SaveUserHabitProgressEvent extends UserHabitEvent {
@@ -819,15 +819,15 @@ class UpdateUserHabitFailed extends UserHabitState {
 }
 
 class DeleteUserHabitSuccess extends UserHabitState {
-  final UserHabit userHabit;
+  final int userHabitId;
 
-  const DeleteUserHabitSuccess(this.userHabit);
-
-  @override
-  List<Object> get props => [userHabit];
+  const DeleteUserHabitSuccess(this.userHabitId);
 
   @override
-  String toString() => 'DeleteUserHabitSuccess { userHabit: $userHabit }';
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'DeleteUserHabitSuccess { userHabitId: $userHabitId }';
 }
 
 class DeleteUserHabitFailed extends UserHabitState {

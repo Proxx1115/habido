@@ -7,6 +7,7 @@ import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit_details_feeling.dart';
 import 'package:habido_app/models/user_habit_feeling_pie_chart_feeling.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -100,7 +101,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
       child: Container(
         padding: SizeHelper.screenPadding,
         child: (_userHabitPlanCount != null && _feelings != null && _totalCount != null)
-            ? Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            ? Column(children: [
                 SizedBox(height: 18.0),
                 CustomText(
                   LocaleKeys.execution,
@@ -149,6 +150,18 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
                 /// Feeling Details Latest 3
                 if (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.isNotEmpty)
                   for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
+
+                /// Delete Btn
+                SizedBox(height: 20.0),
+
+                Align(
+                  alignment: Alignment.topRight,
+                  child: DeleteButtonWidget(
+                    onDelete: () {
+                      BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                    },
+                  ),
+                ),
               ])
             : Container(),
       ),
