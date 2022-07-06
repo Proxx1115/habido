@@ -20,7 +20,8 @@ import 'package:habido_app/widgets/video_player/video_player.dart';
 class TipRoute extends StatefulWidget {
   final int? tipCategoryId;
   final String? categoryName;
-  const TipRoute({Key? key, this.tipCategoryId, this.categoryName}) : super(key: key);
+  const TipRoute({Key? key, this.tipCategoryId, this.categoryName})
+      : super(key: key);
 
   @override
   State<TipRoute> createState() => _TipRouteState();
@@ -63,7 +64,10 @@ class _TipRouteState extends State<TipRoute> {
     } else if (state is TipByIdFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -118,10 +122,11 @@ class _TipRouteState extends State<TipRoute> {
             // SizedBox(height: 30.0),
 
             /// Image // todo change
-            SvgPicture.asset(
-              Assets.instruction_dev,
+            Image.network(
+              tipData.link!,
               height: MediaQuery.of(context).size.height * 0.6,
               fit: BoxFit.contain,
+              // cacheHeight: 200,
             ),
 
             SizedBox(height: 50.0),

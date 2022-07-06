@@ -38,6 +38,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapUpdateUserDeviceEventToState(event);
     } else if (event is GetEmploymentDict) {
       yield* _mapGetEmploymentDictState();
+    } else if (event is GetAddressDict) {
+      yield* _mapGetAddressDictAddress();
     }
   }
 
@@ -66,6 +68,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       } else {
         print("resFailed::::::::::${res}");
         yield EmploymentDictFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield UserDataFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserState> _mapGetAddressDictAddress() async* {
+    try {
+      yield UserLoading();
+
+      var res = await ApiManager.getDictAddress();
+      if (res.code == ResponseCode.Success) {
+        yield AddressDictSuccess(res.dictList ?? []);
+      } else {
+        print("resFailed::::::::::${res}");
+        yield AddressDictFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield UserDataFailed(LocaleKeys.errorOccurred);
@@ -185,6 +203,8 @@ class GetUserDataEvent extends UserEvent {}
 class GetRankList extends UserEvent {}
 
 class GetEmploymentDict extends UserEvent {}
+
+class GetAddressDict extends UserEvent {}
 
 class NavigateRankEvent extends UserEvent {
   final int index;
@@ -313,6 +333,30 @@ class EmploymentDictFailed extends UserState {
   final String message;
 
   const EmploymentDictFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'UserDataFailed { message: $message }';
+}
+
+class AddressDictSuccess extends UserState {
+  final List<DictData> dictData;
+
+  const AddressDictSuccess(this.dictData);
+
+  @override
+  List<Object> get props => [dictData];
+
+  @override
+  String toString() => 'UserDataSuccess { userData: $dictData }';
+}
+
+class AddressDictFailed extends UserState {
+  final String message;
+
+  const AddressDictFailed(this.message);
 
   @override
   List<Object> get props => [message];

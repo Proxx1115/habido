@@ -1124,4 +1124,12 @@ class ApiManager {
       httpMethod: HttpMethod.get,
     ));
   }
+
+  static Future<DataDictResponse> getDictAddress() async {
+    var dictCode = DictCode.address;
+    return DataDictResponse.fromJson(await httpUtils.sendRequest(
+      path: HttpPath.tableDict + '/' + '${dictCode}',
+      httpMethod: HttpMethod.get,
+    ));
+  }
 }

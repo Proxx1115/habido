@@ -13,7 +13,9 @@ class DictData extends BaseResponse {
     val = json['val'];
     txt = json['txt'];
     orderNo = json['orderNo'];
+    isSelected = false;
   }
+  bool isSelected = false; // Local param
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};

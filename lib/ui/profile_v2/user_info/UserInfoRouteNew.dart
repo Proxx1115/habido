@@ -58,10 +58,11 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
   // Овог
   final _lastNameController = TextEditingController();
 
-  final _employmentController = TextEditingController();
-  final _addressController = TextEditingController();
-  ComboItem? _selectedEmp;
+  String? _selectedEmp;
+  String? _selectedAdd;
+
   List<DictData>? _employmentList;
+  List<DictData>? _addressList;
 
   // Нэр
   final _firstNameController = TextEditingController();
@@ -96,10 +97,10 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
     if (Func.isNotEmpty(DeviceHelper.deviceId)) {
       BlocManager.userBloc.add(GetUserDeviceEvent(DeviceHelper.deviceId!));
       BlocManager.userBloc.add(GetEmploymentDict());
+      BlocManager.userBloc.add(GetAddressDict());
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _validateForm());
-
     super.initState();
   }
 
@@ -164,9 +165,13 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
     }
     if (state is EmploymentDictSuccess) {
       _employmentList = state.dictData;
-      print("dict emp:::::::::${_employmentList}");
     } else if (state is EmploymentDictFailed) {
       print("Failed employment dict");
+    }
+    if (state is AddressDictSuccess) {
+      _addressList = state.dictData;
+    } else if (state is AddressDictFailed) {
+      print("Failed address dict");
     }
   }
 
@@ -212,7 +217,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
                         HorizontalLine(),
 
                         /// Address
-                        _address(),
+                        _addressChooser(),
                         HorizontalLine(),
 
                         /// И-мэйл хаяг солих
@@ -386,54 +391,6 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
     );
   }
 
-  _employment() {
-    return ListItemContainer(
-      margin: EdgeInsets.only(top: 15.0),
-      padding: EdgeInsets.symmetric(vertical: 15),
-      borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-      title: Func.isNotEmpty(globals.userData?.phone)
-          ? globals.userData!.phone!
-          : LocaleKeys.employment,
-      suffixAsset: Assets.down_arrow,
-      onPressed: () {
-        print("object");
-        showCustomListDialog(
-          context,
-          child: Column(
-            children: [
-              Text("djcbdjk"),
-              Container(
-                  decoration: new BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: new BorderRadius.only(
-                        topLeft: Radius.circular(35.0),
-                        topRight: Radius.circular(35.0)),
-                  ),
-                  height: 400,
-                  child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: _employmentList!.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                          onTap: () {
-                            _selectedEmp:
-                            _employmentController.text;
-                          },
-                          child: Column(
-                            children: [
-                              Text(_employmentList![index].txt!),
-                              HorizontalLine()
-                            ],
-                          ));
-                    },
-                  )),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   _address() {
     return ListItemContainer(
       margin: EdgeInsets.only(top: 15.0),
@@ -473,9 +430,9 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
           ? globals.userData!.email!
           : LocaleKeys.email,
       suffixAsset: Assets.arrow_forward,
-      onPressed: () {
-        Navigator.pushNamed(context, Routes.changeEmail);
-      },
+      // onPressed: () {
+      //   Navigator.pushNamed(context, Routes.changeEmail);
+      // },
     );
   }
 
@@ -563,7 +520,11 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
                       ..lastName = _lastNameController.text
                       ..firstName = _firstNameController.text
                       ..birthday = Func.toDateStr(_selectedBirthDate!)
-                      ..userGender = _genderValue ? Gender.Female : Gender.Male;
+                      ..userGender = _genderValue ? Gender.Female : Gender.Male
+                      ..employment = _selectedEmp
+                      ..address = _selectedAdd;
+                    // ..email = _firstNameController.text
+                    // ..phone = _firstNameController.text;
 
                     BlocManager.userBloc.add(UpdateUserDataEvent(request));
                   }
@@ -577,102 +538,117 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
       margin: EdgeInsets.only(top: 15.0),
       padding: EdgeInsets.symmetric(vertical: 15),
       borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-      title: Func.isNotEmpty(globals.userData?.phone)
-          ? globals.userData!.phone!
-          : LocaleKeys.employment,
+      title: globals.userData!.employment != null
+          ? globals.userData!.employment
+          : _selectedEmp == null
+              ? null
+              : _selectedEmp,
+      hintText:
+          globals.userData!.employment == null ? LocaleKeys.employment : null,
       suffixAsset: Assets.down_arrow,
       onPressed: () {
-        _showBottomSheet();
+        showCustomDialog(
+          context,
+          child: CustomDialogBody(
+            child: Container(
+              height: 300,
+              child: Column(
+                children: [
+                  CustomText(
+                    LocaleKeys.chooseEmp.toUpperCase(),
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600,
+                    color: customColors.primary,
+                    alignment: Alignment.center,
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  if (_employmentList != null)
+                    for (var el in _employmentList!)
+                      Column(
+                        children: [
+                          InkWell(
+                            child: CustomText(
+                              el.txt,
+                              fontSize: 13.0,
+                            ),
+                            onTap: () {
+                              el.isSelected = true;
+                              _selectedEmp = el.txt;
+                              print(_selectedEmp);
+                              setState(() {});
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          HorizontalLine(
+                              margin: EdgeInsets.symmetric(vertical: 14.0)),
+                        ],
+                      )
+                ],
+              ),
+            ),
+          ),
+        );
       },
     );
-
-    // return InkWell(
-    //   onTap: _showBottomSheet,
-    //   child: Container(
-    //     margin: EdgeInsets.symmetric(vertical: 8),
-    //     padding: EdgeInsets.all(15),
-    //     decoration: BoxDecoration(
-    //       borderRadius: BorderRadius.circular(10),
-    //       color: Colors.white,
-    //       border: Border.all(color: Colors.pink, width: 1.0),
-    //     ),
-    //     child: Container(
-    //       child: Row(
-    //         children: [
-    //           Expanded(
-    //             child: Column(
-    //               children: [
-    //                 Text(
-    //                   'AppText.transactionBank',
-    //                 ),
-    //                 Text(
-    //                   _selectedEmp != null ? _selectedEmp!.txt : '',
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //           Image.asset(
-    //             Assets.add,
-    //             color: Colors.yellow,
-    //             width: 24,
-    //             height: 24,
-    //           )
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
-  void _showBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          decoration: new BoxDecoration(
-            // color: Colors.red,
-            borderRadius: new BorderRadius.only(
-                topLeft: Radius.circular(35.0),
-                topRight: Radius.circular(35.0)),
-          ),
-          padding: EdgeInsets.symmetric(
-              horizontal: SizeHelper.padding, vertical: SizeHelper.padding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 25,
-              ),
-              CustomText(
-                LocaleKeys.chooseEmp.toUpperCase(),
-                alignment: Alignment.center,
-                color: customColors.primary,
-                fontWeight: FontWeight.bold,
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _employmentList!.length,
-                  itemBuilder: (context, i) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(
-                        vertical: SizeHelper.padding,
-                      ),
-                      child: Column(
+  Widget _addressChooser() {
+    return ListItemContainer(
+      margin: EdgeInsets.only(top: 15.0),
+      padding: EdgeInsets.symmetric(vertical: 15),
+      borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+      title: globals.userData!.address != null
+          ? globals.userData!.address
+          : _selectedAdd == null
+              ? null
+              : _selectedAdd,
+      hintText:
+          globals.userData!.employment == null ? LocaleKeys.address : null,
+      suffixAsset: Assets.down_arrow,
+      onPressed: () {
+        showCustomDialog(
+          context,
+          child: CustomDialogBody(
+            child: Container(
+              height: 300,
+              child: Column(
+                children: [
+                  CustomText(
+                    LocaleKeys.chooseEmp.toUpperCase(),
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600,
+                    color: customColors.primary,
+                    alignment: Alignment.center,
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  if (_addressList != null)
+                    for (var el in _addressList!)
+                      Column(
                         children: [
-                          CustomText(
-                            _employmentList![i].txt!,
-                            // alignment: Alignment.,
-                            fontSize: 18,
-                            color: customColors.grayText,
+                          InkWell(
+                            child: CustomText(
+                              el.txt,
+                              fontSize: 13.0,
+                            ),
+                            onTap: () {
+                              el.isSelected = true;
+                              _selectedAdd = el.txt;
+                              print(_selectedAdd);
+                              setState(() {});
+                              Navigator.of(context).pop();
+                            },
                           ),
-                          HorizontalLine()
+                          HorizontalLine(
+                              margin: EdgeInsets.symmetric(vertical: 14.0)),
                         ],
-                      ),
-                    );
-                  },
-                ),
+                      )
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
