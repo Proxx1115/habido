@@ -105,7 +105,8 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
                                 children: [
                                   /// Category count
                                   CustomText(
-                                    Func.toStr(_totalAmount),
+                                    // Func.toStr(_totalAmount),
+                                    Func.toMoneyStr(_totalAmount.toString()) + '₮',
                                     alignment: Alignment.center,
                                     fontSize: 35.0,
                                     fontWeight: FontWeight.w500,

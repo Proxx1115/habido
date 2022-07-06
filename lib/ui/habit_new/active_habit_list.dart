@@ -152,7 +152,7 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
     // _notifList.add((_notifList.length + 1).toString());
 
     if (_activeHabitList.isNotEmpty) {
-      BlocManager.userHabitBloc.add(GetActiveHabitThenEvent(_activeHabitList.last.habitId ?? 0));
+      BlocManager.userHabitBloc.add(GetActiveHabitThenEvent(_activeHabitList.last.userHabitId ?? 0));
     }
 
     if (mounted) setState(() {});
