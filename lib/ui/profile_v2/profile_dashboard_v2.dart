@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
-import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/ui/profile_v2/performance/performance.dart';
 import 'package:habido_app/ui/profile_v2/badge/badge.dart';
 import 'package:habido_app/ui/profile_v2/profile_bloc/profile_bloc.dart';

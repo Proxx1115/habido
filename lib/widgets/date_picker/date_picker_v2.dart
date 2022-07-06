@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/ui/calendar_new/bottom_calendar.dart';
+import 'package:habido_app/ui/habit/calendar/calendar_button.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'date_picker_bloc.dart';
 
@@ -110,26 +113,32 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
 
   _onTap() async {
     print('clicked');
+    showCustomDialog(context,
+        child: Container(
+            color: customColors.whiteBackground,
+            child: BottomCalendar(
+              onDateTimeChanged: (DateTime value) {
+                _pickedDate = value;
+              },
+            )));
+    // _pickedDate = await showDatePicker(
+    //   context: context,
+    //   initialDate: DateTime.now(),
+    //   firstDate: widget.firstDate ?? DateTime(1900),
+    //   lastDate: widget.lastDate ?? DateTime(2100),
+    //   builder: (BuildContext context, Widget? child) {
+    //     return Theme(
+    //       data: ThemeData.light().copyWith(
+    //         colorScheme: ColorScheme.light(primary: widget.primaryColor ?? customColors.primary),
+    //       ),
+    //       child: child ?? Container(),
+    //     );
+    //   },
+    // );
 
-    _pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: widget.firstDate ?? DateTime(1900),
-      lastDate: widget.lastDate ?? DateTime(2100),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-                primary: widget.primaryColor ?? customColors.primary),
-          ),
-          child: child ?? Container(),
-        );
-      },
-    );
-
-    setState(() {
-      print(_pickedDate);
-      widget.callback(_pickedDate);
-    });
+    // setState(() {
+    //   print(_pickedDate);
+    //   widget.callback(_pickedDate);
+    // });
   }
 }

@@ -117,9 +117,11 @@ class LocaleKeys {
 
   static String get personalInfo => 'Хувийн мэдээлэл';
 
-  static String get typeSomething => 'Type something...';
+  static String get typeNote => 'Тэмдэглэл бичих...';
 
   static String get chooseYourQuestion => 'ТА АСУУЛТАА СОНГОНО УУ';
+
+  static String get seeHistory => 'Түүх харах';
 
   ///
   /// Intro

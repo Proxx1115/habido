@@ -5,30 +5,30 @@ import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 
-class FeelingLast extends StatelessWidget {
+class FeelingItem extends StatelessWidget {
   final String answerImageUrl;
   final String answerText;
-  final String? topDate;
-  final String? bottomDate;
-
+  final String? date;
+  final bool state;
   final List<String> reasons;
   final String writtenAnswer;
   final int maxLines;
 
-  const FeelingLast(
+  const FeelingItem(
       {Key? key,
       required this.answerImageUrl,
       required this.answerText,
-      this.topDate,
       required this.reasons,
       required this.writtenAnswer,
-      this.bottomDate,
-      required this.maxLines})
+      this.date,
+      required this.maxLines,
+      required this.state})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      // height: 75.0,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -69,16 +69,19 @@ class FeelingLast extends StatelessWidget {
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                       ),
-                      topDate != null
-                          ? CustomText(
-                              Func.toDateTimeStr(
-                                topDate ?? "",
-                              ).toString(),
-                              color: customColors.cornflowerText,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 11,
-                              alignment: Alignment.bottomRight,
-                            )
+                      state
+                          ? date != null
+                              ? CustomText(
+                                  Func.toDateStr(
+                                    Func.toDate(date ?? ""),
+                                    dateFormat: 'yyyy-MM-dd  hh:mm',
+                                  ).toString(),
+                                  color: customColors.cornflowerText,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 11,
+                                  alignment: Alignment.bottomRight,
+                                )
+                              : Container()
                           : Container()
                     ],
                   ),
@@ -107,28 +110,41 @@ class FeelingLast extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          HorizontalLine(
-            color: customColors.primaryButtonDisabledContent,
-          ),
-          const SizedBox(height: 10),
-          CustomText(
-            writtenAnswer,
-            maxLines: maxLines,
-            fontSize: 11,
-            fontWeight: FontWeight.w400,
-          ),
-          const SizedBox(height: 10),
-          bottomDate != null
-              ? CustomText(
-                  Func.toDateTimeStr(
-                    bottomDate ?? "",
-                  ).toString(),
-                  color: customColors.cornflowerText,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 11,
-                  alignment: Alignment.bottomRight,
+          writtenAnswer.isNotEmpty
+              ? Column(
+                  children: [
+                    HorizontalLine(
+                      color: customColors.primaryButtonDisabledContent,
+                    ),
+                    const SizedBox(height: 10),
+                    CustomText(
+                      writtenAnswer,
+                      maxLines: maxLines,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ],
                 )
               : Container(),
+          state
+              ? Container()
+              : Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    date != null
+                        ? CustomText(
+                            Func.toDateStr(
+                              Func.toDate(date ?? ""),
+                              dateFormat: 'yyyy-MM-dd  hh:mm',
+                            ).toString(),
+                            color: customColors.cornflowerText,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 11,
+                            alignment: Alignment.bottomRight,
+                          )
+                        : Container(),
+                  ],
+                )
         ],
       ),
     );

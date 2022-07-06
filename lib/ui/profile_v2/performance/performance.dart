@@ -9,7 +9,7 @@ import 'package:habido_app/models/mood_tracker_latest_response.dart';
 import 'package:habido_app/models/mood_tracker_reason_with_count.dart';
 import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
 import 'package:habido_app/models/profile_habit_count.dart';
-import 'package:habido_app/ui/profile_v2/performance/feeling_last.dart';
+import 'package:habido_app/ui/profile_v2/performance/feeling_item.dart';
 import 'package:habido_app/ui/profile_v2/performance/performance_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -187,9 +187,10 @@ class _PerformanceState extends State<Performance> {
               Navigator.pushNamed(context, Routes.sensitivityNotes);
             },
             child: Container(
+              padding: EdgeInsets.only(right: 12.0),
               alignment: Alignment.bottomRight,
               child: Text(
-                "Түүх харах",
+                LocaleKeys.seeHistory,
                 style: TextStyle(
                   decoration: TextDecoration.underline,
                   color: customColors.primary,
@@ -207,12 +208,13 @@ class _PerformanceState extends State<Performance> {
           //     child: CustomText('okey')),
 
           _moodTracker.length > 0
-              ? FeelingLast(
+              ? FeelingItem(
+                  state: false,
                   answerImageUrl: '${_moodTracker[0].answerImageUrl!}',
                   answerText: '${_moodTracker[0].answerText!}',
                   reasons: _moodTracker[0].reasons!,
                   writtenAnswer: _moodTracker[0].writtenAnswer ?? "",
-                  bottomDate: '${_moodTracker[0].date!}',
+                  date: '${_moodTracker[0].date!}',
                   maxLines: 2,
                 )
               : Container(),
@@ -685,7 +687,7 @@ class _PerformanceState extends State<Performance> {
 
   Widget _processItem({required String image, required String title, required String text}) {
     return Container(
-      padding: EdgeInsets.only(left: 20),
+      padding: EdgeInsets.only(left: 20, top: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
