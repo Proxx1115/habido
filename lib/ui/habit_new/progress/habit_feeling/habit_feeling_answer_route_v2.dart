@@ -153,15 +153,21 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             _selectedQuestion != null
-                                                ? CustomText(
-                                                    _selectedQuestion!.answerText,
-                                                    fontWeight: FontWeight.w500,
-                                                    maxLines: 5,
-                                                    fontSize: 13.0,
+                                                ? Expanded(
+                                                    child: CustomText(
+                                                      _selectedQuestion!.answerText,
+                                                      fontWeight: FontWeight.w500,
+                                                      lineSpace: 1.5,
+                                                      maxLines: 5,
+                                                      fontSize: 13.0,
+                                                    ),
                                                   )
                                                 : Expanded(
                                                     child: Container(),
                                                   ),
+                                            SizedBox(
+                                              width: 20.0,
+                                            ),
                                             InkWell(
                                               onTap: () {
                                                 showCustomDialog(
