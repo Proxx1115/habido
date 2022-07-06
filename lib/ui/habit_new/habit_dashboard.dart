@@ -41,7 +41,7 @@ class HabitDashboard extends StatefulWidget {
 class _HabitDashboardState extends State<HabitDashboard> {
   final _habitDashboardKey = GlobalKey<ScaffoldState>();
 
-  bool _isUserHabitEmpty = false;
+  bool _isUserHabitEmpty = true;
   bool _isHabitTemplateEmpty = true;
   bool _isToday = true;
 

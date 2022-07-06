@@ -1,16 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26" height="6" viewBox="0 0 26 6">
-  <defs>
-    <clipPath id="clip-path">
-      <rect width="26" height="6" fill="none"/>
-    </clipPath>
-  </defs>
-  <g id="Group_53141" data-name="Group 53141" transform="translate(-329 -27)">
-    <g id="Repeat_Grid_11" data-name="Repeat Grid 11" transform="translate(329 27)" clip-path="url(#clip-path)">
-      <g transform="translate(-329 -27)">
-        <circle id="Ellipse_3884" data-name="Ellipse 3884" cx="3" cy="3" r="3" transform="translate(329 27)" fill="#cad0d7"/>
-        <circle id="Ellipse_3885" data-name="Ellipse 3885" cx="3" cy="3" r="3" transform="translate(339 27)" fill="#cad0d7"/>
-        <circle id="Ellipse_3886" data-name="Ellipse 3886" cx="3" cy="3" r="3" transform="translate(349 27)" fill="#cad0d7"/>
-      </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="6" viewBox="0 0 26 6">
+  <g id="Group_52904" data-name="Group 52904" transform="translate(-329 -27)">
+    <g id="Group_52554" data-name="Group 52554">
+      <circle id="Ellipse_3884" data-name="Ellipse 3884" cx="3" cy="3" r="3" transform="translate(329 27)" fill="#cad0d7"/>
+      <circle id="Ellipse_3885" data-name="Ellipse 3885" cx="3" cy="3" r="3" transform="translate(339 27)" fill="#cad0d7"/>
+      <circle id="Ellipse_3886" data-name="Ellipse 3886" cx="3" cy="3" r="3" transform="translate(349 27)" fill="#cad0d7"/>
     </g>
   </g>
 </svg>

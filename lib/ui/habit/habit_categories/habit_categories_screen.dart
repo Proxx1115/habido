@@ -96,6 +96,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
       Navigator.pushNamed(context, Routes.userHabit, arguments: {
         'screenMode': ScreenMode.CustomNew,
         'habit': state.customHabit,
+        'habitId': 0,
         'customHabitSettings': state.customHabitSettings,
         'title': LocaleKeys.createHabit,
       });

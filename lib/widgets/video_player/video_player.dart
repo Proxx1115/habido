@@ -23,6 +23,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: widget.height,
@@ -30,8 +36,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
         controller: YoutubePlayerController(
           initialVideoId: _convertUrlToId(),
           flags: YoutubePlayerFlags(
+            hideThumbnail: true,
+            enableCaption: false,
+            loop: true,
+            forceHD: true,
             hideControls: true,
-            controlsVisibleAtStart: true,
+            controlsVisibleAtStart: false,
             autoPlay: true,
             mute: false,
           ),

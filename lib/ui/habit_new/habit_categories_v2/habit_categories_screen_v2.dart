@@ -63,7 +63,7 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
                     },
                     backgroundColor: customColors.primary,
                     asset: Assets.add,
-                    text: _customCategory!.name!, //_customCategory!.name!
+                    text: LocaleKeys.addNew, //_customCategory!.name!
                     borderRadius: 15.0,
                   ),
                 SizedBox(
@@ -113,6 +113,7 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
       Navigator.pushNamed(context, Routes.userHabit, arguments: {
         'screenMode': ScreenMode.CustomNew,
         'habit': state.customHabit,
+        'habitId': 0,
         'customHabitSettings': state.customHabitSettings,
         'title': LocaleKeys.createHabit,
       });

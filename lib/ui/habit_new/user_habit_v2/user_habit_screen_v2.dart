@@ -45,6 +45,7 @@ class UserHabitScreenV2 extends StatefulWidget {
   final int habitId;
   final String screenMode;
   final UserHabit? userHabit;
+  final Habit? habit;
   final HabitTemplate? habitTemplate;
   final CustomHabitSettingsResponse? customHabitSettings;
   final String? title;
@@ -54,6 +55,7 @@ class UserHabitScreenV2 extends StatefulWidget {
     required this.habitId,
     required this.screenMode,
     this.userHabit,
+    this.habit,
     this.customHabitSettings,
     this.title,
     this.habitTemplate,
@@ -110,16 +112,23 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
   @override
   void initState() {
-    BlocManager.userHabitBloc.add(GetHabitEvent(widget.habitId));
+    if (widget.habitId > 0) {
+      BlocManager.userHabitBloc.add(GetHabitEvent(widget.habitId));
+    } else {
+      print('kereggg ${widget.habit!.color}');
+      _initScreen(widget.habit!);
+    }
 
     // /// Showcase
 
     super.initState();
   }
 
-  _initScreen() {
+  _initScreen(Habit habit) {
     /// Screen mode
     _screenMode = widget.screenMode;
+
+    _habit = habit;
 
     /// User habit
     _userHabit = widget.userHabit;
@@ -445,8 +454,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     } else if (state is UserHabitShowcaseState) {
       ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
     } else if (state is GetHabitSuccess) {
-      _habit = state.habit;
-      _initScreen();
+      _initScreen(state.habit);
     }
   }
 
@@ -515,11 +523,10 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
       initialDate: _startDate,
       primaryColor: ConstantColors.createHabitColor,
       callback: (date) {
-        print(date);
         _startDate = date;
 
         if (_startDate != null && Func.isBeforeDate(_endDate, _startDate)) {
-          _endDatePickerBloc.add(DatePickedEvent(_startDate!));
+          _endDatePickerBloc.add(DatePickedEvent(date!));
         }
       },
     );
@@ -535,7 +542,6 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
       initialDate: _endDate,
       primaryColor: ConstantColors.createHabitColor,
       callback: (date) {
-        print(date);
         _endDate = date;
 
         if (_endDate != null && Func.isBeforeDate(_endDate, _startDate)) {
@@ -719,6 +725,13 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         // Name
         userHabit.name = _nameController.text;
 
+        // Color
+        userHabit.habit!.color = _primaryColorCode;
+        userHabit.habit!.backgroundColor = _backgroundColorCode;
+
+        // Icon
+        userHabit.habit!.photo = _icon?.link;
+
         // Plan
         userHabit.planTerm = _planTerm;
 
@@ -730,8 +743,9 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         }
 
         // Goal
+        userHabit.habit!.goalSettings = _goalSettings;
+
         if (_goalSettings?.goalRequired ?? false) {
-          print("goal nemsen");
           userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
         }
 

@@ -58,12 +58,12 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
         Navigator.pushNamed(context, Routes.helpV2);
       },
       child: Container(
-        margin: EdgeInsets.only(right: 10),
-        height: 15,
-        width: 30,
+        padding: EdgeInsets.all(20),
         child: SvgPicture.asset(
           Assets.dots,
-          color: Colors.red,
+          height: 8,
+          width: 26,
+          // color: Colors.red,
         ),
       ),
     );
@@ -73,8 +73,7 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
 
   Widget _blocBuilder(BuildContext context, ProfileState state) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-          SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
+      padding: const EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
       child: Column(
         children: [
           // AppBarWithProfile(
@@ -134,25 +133,19 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          _controller.animateToPage(index,
-              duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+          _controller.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
           setState(() {});
         },
         child: Container(
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: _currentIndex == index
-                  ? customColors.primary
-                  : Colors.transparent),
+          decoration:
+              BoxDecoration(borderRadius: BorderRadius.circular(20), color: _currentIndex == index ? customColors.primary : Colors.transparent),
           child: CustomText(
             text,
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: _currentIndex == index
-                ? Colors.white
-                : customColors.primaryText,
+            color: _currentIndex == index ? Colors.white : customColors.primaryText,
             alignment: Alignment.center,
           ),
         ),

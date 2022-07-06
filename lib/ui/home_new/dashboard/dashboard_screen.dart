@@ -196,7 +196,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             flex: 3,
                             child: Row(
                               children: [
-                                for (var i = 0; i < _moodTrackerList!.length; i++) Expanded(child: _moodTrackerItem(index: i, onTap: () {})),
+                                for (var i = 0; i < _moodTrackerList!.length; i++)
+                                  Expanded(
+                                      child: _moodTrackerItem(
+                                          index: i,
+                                          onTap: () {
+                                            Navigator.pushNamed(context, Routes.sensitivityNotes);
+                                          })),
                                 for (var i = 0; i < 3 - _moodTrackerList!.length; i++) Expanded(child: _moodTrackerNoActivity())
                               ],
                             ),
@@ -255,9 +261,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                   )
-                : Container(
-                    child: Text("Tips null"),
-                  ),
+                : Container(),
 
             SizedBox(height: SizeHelper.padding),
           ],
@@ -480,54 +484,56 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _moodTrackerItem({index, onTap}) {
     MoodTracker _moodTrackerData = _moodTrackerList![index];
-    return InkWell(
-      borderRadius: BorderRadius.circular(20.0),
-      onTap: () {
-        onTap();
-      },
-      child: Container(
-        height: 97,
-        margin: EdgeInsets.only(right: 6.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-          color: Colors.white,
-        ),
-        child: Column(
-          children: [
-            SizedBox(height: 10.0),
-            CachedNetworkImage(
-              imageUrl: _moodTrackerData.imageUrl!,
-              // placeholder: (context, url) => CustomLoader(context, size: 20.0),
-              height: 37.8,
-              width: 37.8,
-              placeholder: (context, url) => Container(),
-              errorWidget: (context, url, error) => Container(),
-              fit: BoxFit.contain,
-            ),
-            SizedBox(height: 4.0),
-            CustomText(
-              _moodTrackerData.mood,
-              alignment: Alignment.center,
-              textAlign: TextAlign.center,
-              fontWeight: FontWeight.w700,
-              fontSize: 11.0,
-            ),
-            SizedBox(height: 4.0),
-            CustomText(
-              Func.dateTimeDifference(_moodTrackerData.dateTime!),
-              alignment: Alignment.center,
-              textAlign: TextAlign.center,
-              fontSize: 9.0,
-              color: customColors.disabledText,
-            ),
-            CustomText(
-              Func.toTimeStr(_moodTrackerData.dateTime),
-              alignment: Alignment.center,
-              textAlign: TextAlign.center,
-              fontSize: 9.0,
-              color: customColors.disabledText,
-            ),
-          ],
+    return NoSplashContainer(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20.0),
+        onTap: () {
+          onTap();
+        },
+        child: Container(
+          height: 97,
+          margin: EdgeInsets.only(right: 6.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            color: Colors.white,
+          ),
+          child: Column(
+            children: [
+              SizedBox(height: 10.0),
+              CachedNetworkImage(
+                imageUrl: _moodTrackerData.imageUrl!,
+                // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+                height: 37.8,
+                width: 37.8,
+                placeholder: (context, url) => Container(),
+                errorWidget: (context, url, error) => Container(),
+                fit: BoxFit.contain,
+              ),
+              SizedBox(height: 4.0),
+              CustomText(
+                _moodTrackerData.mood,
+                alignment: Alignment.center,
+                textAlign: TextAlign.center,
+                fontWeight: FontWeight.w700,
+                fontSize: 11.0,
+              ),
+              SizedBox(height: 4.0),
+              CustomText(
+                Func.dateTimeDifference(_moodTrackerData.dateTime!),
+                alignment: Alignment.center,
+                textAlign: TextAlign.center,
+                fontSize: 9.0,
+                color: customColors.disabledText,
+              ),
+              CustomText(
+                Func.toTimeStr(_moodTrackerData.dateTime),
+                alignment: Alignment.center,
+                textAlign: TextAlign.center,
+                fontSize: 9.0,
+                color: customColors.disabledText,
+              ),
+            ],
+          ),
         ),
       ),
     );
