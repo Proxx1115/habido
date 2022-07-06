@@ -91,6 +91,7 @@ class HttpPath {
   static const String habitDetailsSatisfaction = '/mobile/details/satisfaction';
   static const String userHabitPlanCount = '/mobile/user-habit/plan/count';
   static const String userHabitDetailsFeelingLatest = '/mobile/details/feeling/latest';
+  static const String userHabitDetailsFeelingNext = '/mobile/details/feeling/then';
 
   static const String cbChatBots = '/mobile/cb/chat-bots';
   static const String cbFirstChat = '/mobile/cb/first-chat';

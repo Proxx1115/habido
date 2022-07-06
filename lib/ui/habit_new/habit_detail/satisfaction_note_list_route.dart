@@ -1,7 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart' as cupertino;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit_details_feeling.dart';
@@ -16,15 +16,15 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class FeelingNoteListRoute extends StatefulWidget {
+class SatisfactionNoteListRoute extends StatefulWidget {
   final int? userHabitId;
-  const FeelingNoteListRoute({Key? key, this.userHabitId}) : super(key: key);
+  const SatisfactionNoteListRoute({Key? key, this.userHabitId}) : super(key: key);
 
   @override
-  State<FeelingNoteListRoute> createState() => _FeelingNoteListRouteState();
+  State<SatisfactionNoteListRoute> createState() => _SatisfactionNoteListRouteState();
 }
 
-class _FeelingNoteListRouteState extends State<FeelingNoteListRoute> {
+class _SatisfactionNoteListRouteState extends State<SatisfactionNoteListRoute> {
   // Feeling Details Latest List
   List<UserHabitDetailsFeeling>? _userHabitDetailsFeelingList;
 
@@ -40,7 +40,7 @@ class _FeelingNoteListRouteState extends State<FeelingNoteListRoute> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBarTitle: LocaleKeys.note,
+      appBarTitle: "VFFDFAA", // LocaleKeys.note,
       padding: EdgeInsets.fromLTRB(SizeHelper.padding, 30.0, SizeHelper.padding, SizeHelper.padding),
       child: BlocProvider.value(
         value: BlocManager.userHabitBloc,
@@ -153,120 +153,57 @@ class _FeelingNoteListRouteState extends State<FeelingNoteListRoute> {
   Widget _listItem(int index) {
     final feelingDetails = _userHabitDetailsFeelingList![index];
     return Container(
-      height: 130.0,
-      padding: EdgeInsets.fromLTRB(16.0, 12.0, 13.0, 10.0),
-      margin: EdgeInsets.only(bottom: 12.0),
+      margin: EdgeInsets.only(bottom: 15.0),
       decoration: BoxDecoration(
         color: customColors.whiteBackground,
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
       ),
-      child: Row(
-        children: [
-          /// Date
-          Container(
-            // color: Colors.teal,
-            // decoration: BoxDecoration(
-            //   color: customColors.greyBackground,
-            //   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            // ),
-            child: Column(
-              children: [
-                CustomText(
-                  Func.toRomboMonth(Func.getMonthFromDateStr(feelingDetails!.date!)),
-                  color: customColors.greyText,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15.0,
-                ),
-                CustomText(
-                  Func.getDayFromDateStr(feelingDetails!.date!),
-                  color: customColors.greyText,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 13.0,
-                ),
-              ],
-            ),
-          ),
-
-          SizedBox(width: 19.0),
-
-          Expanded(
-            child: Column(children: [
-              Container(
-                // color: Colors.teal,
-                child: Row(
-                  children: [
-                    /// Feeling emoji
-                    Container(
-                      height: 20,
-                      width: 20,
-                      padding: EdgeInsets.all(2.0),
-                      decoration: BoxDecoration(
-                        color: customColors.whiteBackground,
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                      child: SvgPicture.asset(_getAsset(feelingDetails.value!)),
-                    ),
-
-                    SizedBox(width: 6.0),
-
-                    /// Feeling name
-                    Expanded(
-                      child: CustomText(
-                        _getText(feelingDetails.value!),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 11.0,
-                      ),
-                    ),
-
-                    CustomText(
-                      Func.toTimeStr(feelingDetails.date!),
-                      fontSize: 11.0,
-                      color: customColors.greyText,
-                    ),
-                  ],
-                ),
+      child: Column(children: [
+        /// Top section
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+          child: Column(
+            children: [
+              CustomText(
+                '${feelingDetails.value!}/10 ${_getText(feelingDetails.value!)}',
+                fontWeight: FontWeight.w500,
+                fontSize: 15.0,
               ),
 
-              Container(
-                // color: Colors.red,
-                child: CustomDivider(
-                  margin: EdgeInsets.symmetric(vertical: 6.0),
-                ),
-              ),
+              SizedBox(height: 10),
 
               /// Note
-              Expanded(
-                child: Container(
-                  // color: Colors.amber,
-                  child: CustomText(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    fontSize: 11.0,
-                    maxLines: 100,
-                  ),
-                ),
+              CustomText(
+                feelingDetails.note,
+                fontSize: 11.0,
+                maxLines: 4,
               ),
-            ]),
-          )
-        ],
-      ),
-    );
-  }
+            ],
+          ),
+        ),
 
-  _getAsset(int index) {
-    switch (index) {
-      case 1:
-        return Assets.sad_emoji;
-      case 2:
-        return Assets.unpleasant_emoji;
-      case 3:
-        return Assets.unknown_emoji;
-      case 4:
-        return Assets.calm_emoji;
-      case 5:
-        return Assets.happy_emoji;
-      default:
-        return Assets.sad_emoji;
-    }
+        /// Middle section - Image
+        CachedNetworkImage(
+          imageUrl: feelingDetails.photo!,
+          // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+          placeholder: (context, url) => Container(),
+          errorWidget: (context, url, error) => Container(),
+          fit: BoxFit.fill,
+        ),
+
+        /// Bottom section - DateTime
+        CustomText(
+          Func.toDateStr(
+              DateTime.parse(
+                feelingDetails.date!,
+              ),
+              dateFormat: 'yyyy-MM-dd, hh:mm'),
+          fontSize: 11.0,
+          color: customColors.greyText,
+          margin: EdgeInsets.fromLTRB(25.0, 12.0, 0.0, 20.0),
+        ),
+      ]),
+    );
   }
 
   String _getText(int index) {

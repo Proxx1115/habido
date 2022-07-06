@@ -27,10 +27,8 @@ import 'package:habido_app/ui/feeling/feeling_main_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/habit/habit_success_route.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_route.dart';
-import 'package:habido_app/ui/habit/habit_categories/habit_categories_route.dart';
 import 'package:habido_app/ui/habit/habit_list/habit_list_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_breath/habit_breath_route.dart';
-import 'package:habido_app/ui/habit/progress/habit_feeling/habit_feeling_answer_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_feeling/habit_feeling_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/habit_finance_route.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/habit_finance_statement_route.dart';
@@ -42,6 +40,8 @@ import 'package:habido_app/ui/habit/progress/habit_water/habit_water_route.dart'
 import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/habit_new/all_habits_route.dart';
 import 'package:habido_app/ui/habit_new/habit_categories_v2/habit_categories_route_v2.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/feeling_note_list_route.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/satisfaction_note_list_route.dart';
 import 'package:habido_app/ui/habit_new/progress/habit_feeling/habit_feeling_answer_route_v2.dart';
 import 'package:habido_app/ui/habit_new/user_habit_v2/user_habit_route_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_count.dart';
@@ -64,14 +64,11 @@ import 'package:habido_app/ui/profile/faq_route.dart';
 import 'package:habido_app/ui/profile/feedback_cat_list.dart';
 import 'package:habido_app/ui/profile/feedback_route.dart';
 import 'package:habido_app/ui/profile/help_route.dart';
-import 'package:habido_app/ui/profile/profile_dashboard.dart';
 import 'package:habido_app/ui/profile/terms_route.dart';
 import 'package:habido_app/ui/profile/your_rank_route.dart';
-import 'package:habido_app/ui/profile/user_info_route.dart';
 import 'package:habido_app/ui/profile_v2/help_screen/faq_route_v2.dart';
 import 'package:habido_app/ui/profile_v2/help_screen/feedback_route_v2.dart';
 import 'package:habido_app/ui/profile_v2/help_screen/help_route_v2.dart';
-import 'package:habido_app/ui/profile_v2/new_badge/new_badge.dart';
 import 'package:habido_app/ui/profile_v2/performance/sensitivityNotes.dart';
 import 'package:habido_app/ui/profile_v2/profile_dashboard_v2.dart';
 import 'package:habido_app/ui/profile_v2/user_info/UserInfoRouteNew.dart';
@@ -142,7 +139,6 @@ class Routes {
 
   static const habitCategories = 'habitCategories';
   static const habitList = 'habitList';
-  static const allHabits = 'allHabits';
   static const userHabit = 'userHabit';
   static const habitTimer = 'habitTimer';
   static const habitFeeling = 'habitFeeling';
@@ -162,11 +158,14 @@ class Routes {
   static const profile = 'profile';
 
   /// userHabit
+  static const allHabits = 'allHabits';
   static const habitDetailWithMinute = 'habitDetailWithMinute';
   static const habitDetailWithCount = 'habitDetailWithCount';
   static const habitDetailWithFinance = 'habitDetailWithFinance';
   static const habitDetailWithFeeling = 'habitDetailWithFeeling';
   static const habitDetailWithSatisfaction = 'habitDetailWithSatisfaction';
+  static const feelingNotes = 'feelingNotes';
+  static const satisfactionNotes = 'satisfactionNotes';
 
   static const userInfo = 'userInfo';
   static const sensitivityNotes = 'sensitivityNotes';
@@ -570,6 +569,24 @@ class Routes {
             HabitDetailWithSatisfactionRoute(
               userHabitId: _getValueByKey(args, 'userHabitId'),
               name: _getValueByKey(args, 'name'),
+            ),
+            settings);
+        break;
+
+      case Routes.feelingNotes:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            FeelingNoteListRoute(
+              userHabitId: _getValueByKey(args, 'userHabitId'),
+            ),
+            settings);
+        break;
+
+      case Routes.satisfactionNotes:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            SatisfactionNoteListRoute(
+              userHabitId: _getValueByKey(args, 'userHabitId'),
             ),
             settings);
         break;

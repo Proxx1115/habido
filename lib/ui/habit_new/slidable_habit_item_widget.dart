@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:habido_app/ui/habit_new/progress_indicator_widget.dart';
 import 'package:habido_app/ui/habit_new/tag_item_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -17,6 +20,7 @@ class SlidableHabitItemWidget extends StatelessWidget {
   final Color? leadingBackgroundColor;
   final String text;
   final String subText;
+  final String status;
   final List<String>? reminders;
   final int? processPercent;
   final VoidCallback? onPressedSkip;
@@ -43,6 +47,7 @@ class SlidableHabitItemWidget extends StatelessWidget {
     this.delay,
     required this.isStart,
     required this.isEnd,
+    required this.status,
   }) : super(key: key);
 
   @override
@@ -63,7 +68,7 @@ class SlidableHabitItemWidget extends StatelessWidget {
                   ? SizeHelper.endHabitItemRadius
                   : null,
           child: Container(
-            height: 78.0,
+            height: 82.0,
             padding: EdgeInsets.fromLTRB(22.0, 12.0, 22.0, 12.0),
             decoration: BoxDecoration(
               borderRadius: isStart
@@ -95,15 +100,16 @@ class SlidableHabitItemWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       CustomText(text, fontSize: 15.0, fontWeight: FontWeight.w500),
+                      SizedBox(height: 2),
                       CustomText(subText, fontSize: 11.0),
-                      SizedBox(height: 3.5),
+                      SizedBox(height: 5),
                       if (reminders != null && reminders!.isNotEmpty)
                         Row(
                           children: [
                             for (var el in reminders!)
                               TagItemWidget(
                                 text: el,
-                                margin: EdgeInsets.only(right: 8.0),
+                                margin: EdgeInsets.only(right: 5.0),
                               )
                           ],
                         )
@@ -112,7 +118,10 @@ class SlidableHabitItemWidget extends StatelessWidget {
                 ),
 
                 /// Process Percent
-                Text('${processPercent}%')
+                ProgressIndicatorWidget(
+                  value: Func.toDouble(processPercent),
+                  status: status,
+                )
               ],
             ),
           ),
@@ -122,7 +131,7 @@ class SlidableHabitItemWidget extends StatelessWidget {
           if (onPressedSkip != null) _buttonSkip(context),
 
           // / Button detail
-          if (onPressedEdit != null) _buttonDetail(context),
+          if (onPressedDetail != null) _buttonDetail(context),
 
           // / Button edit
           if (onPressedEdit != null) _buttonEdit(context),
