@@ -7,6 +7,7 @@ import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit_details_feeling.dart';
 import 'package:habido_app/models/user_habit_feeling_pie_chart_feeling.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -23,10 +24,13 @@ import 'package:habido_app/widgets/text.dart';
 class HabitDetailWithFeelingRoute extends StatefulWidget {
   final int? userHabitId;
   final String? name;
+  final bool? isActive;
+
   const HabitDetailWithFeelingRoute({
     Key? key,
     this.userHabitId,
     this.name,
+    this.isActive,
   }) : super(key: key);
 
   @override
@@ -97,60 +101,87 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
       appBarTitle: widget.name,
-      child: Container(
+      child: SingleChildScrollView(
         padding: SizeHelper.screenPadding,
-        child: (_userHabitPlanCount != null && _feelings != null && _totalCount != null)
-            ? Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                SizedBox(height: 18.0),
+        child: Column(
+          children: [
+            SizedBox(height: 18.0),
+
+            CustomText(
+              LocaleKeys.execution,
+              fontWeight: FontWeight.w700,
+              fontSize: 16.0,
+            ),
+
+            SizedBox(height: 15.0),
+
+            /// Performance Info
+            _userHabitPlanCount != null
+                ? PerformanceWidget(
+                    totalPlans: _userHabitPlanCount!.totalPlans,
+                    completedPlans: _userHabitPlanCount!.completedPlans,
+                    skipPlans: _userHabitPlanCount!.skipPlans,
+                    uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
+                  )
+                : Container(),
+
+            SizedBox(height: 15.0),
+
+            /// Feeling Chart & Info
+            (_feelings != null && _totalCount != null && _totalCount! > 0) ? _feelingInfo() : Container(),
+
+            SizedBox(height: 15.0),
+
+            /// Title - (Note)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 CustomText(
-                  LocaleKeys.execution,
-                  fontWeight: FontWeight.w700,
+                  LocaleKeys.note,
                   fontSize: 16.0,
+                  fontWeight: FontWeight.w700,
                 ),
-                SizedBox(height: 15.0),
-                PerformanceWidget(
-                  totalPlans: _userHabitPlanCount!.totalPlans,
-                  completedPlans: _userHabitPlanCount!.completedPlans,
-                  skipPlans: _userHabitPlanCount!.skipPlans,
-                  uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
-                ),
-                SizedBox(height: 15.0),
-                _feelingInfo(),
-                SizedBox(height: 15.0),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText(
-                      LocaleKeys.note,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w700,
+                NoSplashContainer(
+                  child: InkWell(
+                    onTap: () {
+                      _navigateToFeelingNotesRoute();
+                    },
+                    child: CustomText(
+                      LocaleKeys.seeAllNote,
+                      fontSize: 10.0,
+                      color: customColors.primary,
+                      margin: EdgeInsets.only(right: 23.0),
+                      padding: EdgeInsets.all(5.0),
+                      underlined: true,
                     ),
-                    NoSplashContainer(
-                      child: InkWell(
-                        onTap: () {
-                          _navigateToFeelingNotesRoute();
-                        },
-                        child: CustomText(
-                          LocaleKeys.seeAllNote,
-                          fontSize: 10.0,
-                          color: customColors.primary,
-                          margin: EdgeInsets.only(right: 23.0),
-                          padding: EdgeInsets.all(5.0),
-                          underlined: true,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
+              ],
+            ),
 
-                SizedBox(height: 12.0),
+            SizedBox(height: 12.0),
 
-                /// Feeling Details Latest 3
-                if (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.isNotEmpty)
-                  for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
-              ])
-            : Container(),
+            /// Feeling Details 3
+            if (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.isNotEmpty)
+              for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
+
+            /// Delete Btn
+            if (widget.isActive!)
+              Column(
+                children: [
+                  SizedBox(height: 20.0),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: DeleteButtonWidget(
+                      onDelete: () {
+                        BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                      },
+                    ),
+                  ),
+                ],
+              ),
+          ],
+        ),
       ),
     );
   }

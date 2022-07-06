@@ -62,17 +62,18 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
         padding: const EdgeInsets.only(bottom: 30.0),
         child: ButtonNextWidget(onTap: _navigateToFeelingEmojiRoute, progressValue: 0.25),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       child: (_moodTrackerQuestion != null && _selectedFeelingData != null)
           ? SingleChildScrollView(
               child: Container(
                 height: _size.height,
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [HexColor.fromHex(_selectedFeelingData!.topColor!), HexColor.fromHex(_selectedFeelingData!.bottomColor!)],
-                )),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [HexColor.fromHex(_selectedFeelingData!.topColor!), HexColor.fromHex(_selectedFeelingData!.bottomColor!)],
+                  ),
+                ),
                 child: Column(
                   children: [
                     _closeBtn(),
@@ -152,34 +153,6 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
                         ),
                       ),
                     ),
-                    // Expanded(
-                    //   child: Column(
-                    //     children: [
-                    //       GridView.count(
-                    //         primary: false,
-                    //         padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    //         crossAxisSpacing: 15,
-                    //         childAspectRatio: 1,
-                    //         crossAxisCount: 3,
-                    //         mainAxisSpacing: 15.0,
-                    //         shrinkWrap: true,
-                    //         children: [
-                    //           for (var i = 0; i < _moodTrackerQuestion!.answers!.length; i++)
-                    //             EmojiItemWidget(
-                    //               emojiData: _moodTrackerQuestion!.answers![i],
-                    //               isSelected: _selectedFeelingData == _moodTrackerQuestion!.answers![i],
-                    //               isBold: true,
-                    //               onTap: () {
-                    //                 setState(() {
-                    //                   _selectedFeelingData = _moodTrackerQuestion!.answers![i];
-                    //                 });
-                    //               },
-                    //             ),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -204,7 +177,7 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
             padding: EdgeInsets.all(13.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white,
+              color: customColors.whiteBackground,
             ),
             child: Image.asset(
               Assets.exit,

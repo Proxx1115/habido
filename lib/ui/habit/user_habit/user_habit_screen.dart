@@ -657,7 +657,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                   text: LocaleKeys.sureToDelete,
                   buttonText: LocaleKeys.yes,
                   onPressedButton: () {
-                    BlocManager.userHabitBloc.add(DeleteUserHabitEvent(_userHabit!));
+                    BlocManager.userHabitBloc.add(DeleteUserHabitEvent(_userHabit!.userHabitId!));
                   },
                   button2Text: LocaleKeys.no,
                 ),

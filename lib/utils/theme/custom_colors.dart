@@ -86,6 +86,7 @@ class CustomColors {
   Color lightText = ConstantColors.trout;
   Color disabledText = ConstantColors.cornflowerBlue;
   Color grayText = ConstantColors.osloGray;
+  Color lightGreyText = ConstantColors.loblolly; // delete btn on details
 
   /// Indicator
   Color grayIndicator = ConstantColors.gray;
@@ -122,6 +123,7 @@ class CustomColors {
   Color iconLightGray = ConstantColors.cornflowerBlue;
   Color iconFeijoGreen = ConstantColors.feijoGreen;
   Color iconBlack = ConstantColors.blackIcon;
+  Color iconLightGrey = ConstantColors.loblolly; // delete btn on details
 
   /// Feeling Backgrounds
   Color feeling1Top = ConstantColors.feeling1Top;

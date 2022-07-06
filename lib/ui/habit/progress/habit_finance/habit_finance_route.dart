@@ -184,7 +184,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
     } else if (state is HabitFinanceTotalAmountSuccess) {
-      _totalAmount = state.totalAmount;
+      _totalAmount = Func.toDouble(state.totalAmount);
       _expenseCategoryList = state.expenseCategories;
 
       // Total amount бүрдсэн бол дадлыг дуусгана

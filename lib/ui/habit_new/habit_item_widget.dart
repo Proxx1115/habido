@@ -19,7 +19,7 @@ class HabitItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-        height: 78.0,
+        height: 82.0,
         padding: EdgeInsets.fromLTRB(22.0, 12.0, 22.0, 12.0),
         margin: EdgeInsets.only(bottom: 15.0),
         decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class HabitItemWidget extends StatelessWidget {
               isActiveHabit
                   ? Container()
                   : ProgressIndicatorWidget(
-                      value: data.progressPercentage,
+                      value: Func.toDouble(data.progressPercentage),
                       status: data.status,
                     ),
             ],

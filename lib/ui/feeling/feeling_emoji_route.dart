@@ -37,8 +37,8 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     // Gridview - dynamic spacing
-    double _crossAxisSpacing = (width - 90.0 * 3 - SizeHelper.margin * 2) / 2; // todo change
-    double _mainAxisSpacing = _crossAxisSpacing; // todo change
+    double _crossAxisSpacing = (width - 90.0 * 3 - SizeHelper.margin * 2) / 2;
+    double _mainAxisSpacing = _crossAxisSpacing;
 
     return BlocProvider.value(
       value: BlocManager.moodTrackerBloc,
@@ -47,6 +47,15 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
         child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
           return CustomScaffold(
             scaffoldKey: _feelingEmojiKey,
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: ButtonNextWidget(
+                onTap: _navigateToFeelingEmojiRoute,
+                isVisible: _selectedFeelingEmoji != null,
+                progressValue: 0.50,
+              ),
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             child: Container(
               padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
               decoration: BoxDecoration(
@@ -79,13 +88,13 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
                     child: GridView.count(
                       primary: false,
                       padding: const EdgeInsets.all(SizeHelper.padding),
-                      crossAxisSpacing: _crossAxisSpacing,
+                      crossAxisSpacing: 30.0, //_crossAxisSpacing
                       childAspectRatio: 1,
                       crossAxisCount: 3,
-                      mainAxisSpacing: _mainAxisSpacing,
+                      mainAxisSpacing: 30.0, //_mainAxisSpacing
                       children: [
                         for (var i = 0; i < widget.moodTrackerQuestionResponse!.answers!.length; i++)
-                          EmojiItemWidget(
+                          EmojiSecondItemWidget(
                             emojiData: widget.moodTrackerQuestionResponse!.answers![i],
                             isSelected: _selectedFeelingEmoji == widget.moodTrackerQuestionResponse!.answers![i],
                             onTap: () {
@@ -97,16 +106,6 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
                       ],
                     ),
                   ),
-
-                  SizedBox(height: 30.0),
-
-                  ButtonNextWidget(
-                    onTap: _navigateToFeelingEmojiRoute,
-                    isVisible: _selectedFeelingEmoji != null,
-                    progressValue: 0.50,
-                  ),
-
-                  SizedBox(height: 30.0)
                 ],
               ),
             ),

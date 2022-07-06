@@ -28,7 +28,7 @@ class _EmojiItemWidgetState extends State<EmojiItemWidget> {
         width: 90,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            border: widget.isSelected ? Border.all(color: Colors.white, width: 2.5) : null,
+            border: widget.isSelected ? Border.all(color: Colors.white, width: 2.5) : Border.all(color: Colors.transparent, width: 2.5),
             color: Colors.white.withOpacity(0.29)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,6 +49,63 @@ class _EmojiItemWidgetState extends State<EmojiItemWidget> {
               textAlign: TextAlign.center,
               fontWeight: widget.isBold ? FontWeight.w700 : FontWeight.normal,
               fontSize: 11.0,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EmojiSecondItemWidget extends StatelessWidget {
+  final MoodTrackerAnswer emojiData;
+  final Function onTap;
+  final bool isSelected;
+
+  const EmojiSecondItemWidget({
+    Key? key,
+    required this.emojiData,
+    required this.onTap,
+    required this.isSelected,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        height: 95,
+        width: 90,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            border: isSelected ? Border.all(color: Colors.white, width: 2.5) : Border.all(color: Colors.transparent, width: 2.5),
+            color: Colors.white.withOpacity(0.29)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 15.0),
+            Expanded(
+              child: Align(
+                alignment: Alignment.center,
+                child: CachedNetworkImage(
+                  imageUrl: emojiData.answerImageUrl!,
+                  // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+                  placeholder: (context, url) => Container(),
+                  errorWidget: (context, url, error) => Container(),
+                  height: 36,
+                  width: 36,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            Expanded(
+              child: CustomText(
+                emojiData.answerText,
+                alignment: Alignment.center,
+                fontSize: 11.0,
+                maxLines: 2,
+              ),
             ),
           ],
         ),

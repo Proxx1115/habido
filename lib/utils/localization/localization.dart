@@ -664,9 +664,9 @@ class LocaleKeys {
 
   static String get feelingAtTheTime => 'Сэтгэл санаа хэр байна даа?';
 
-  static String get pleasing => 'Ханамжтай';
+  static String get pleasing => 'Тааламжтай';
 
-  static String get notPleasing => 'Ханамжгүй';
+  static String get notPleasing => 'Тааламжгүй';
 
   static String get addNew => 'Шинээр нэмэх';
 
@@ -703,6 +703,10 @@ class LocaleKeys {
   static String get skipPlans => 'Алгассан';
 
   static String get uncompletedPlans => 'Хэрэгжүүлээгүй';
+
+  static String get giveUp => 'Бууж өгөх';
+
+  static String get noExpence => 'Өө, одоогоор зардал хоосон байна…';
 
   /// Feeling
   static String get howsYourDay => 'Өнөөдөр хэрхэн өнгөрч байна даа?';

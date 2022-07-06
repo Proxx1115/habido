@@ -9,30 +9,27 @@ class EmptyHabitWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Positioned(
-        top: MediaQuery.of(context).size.height / 2,
-        left: MediaQuery.of(context).size.width / 2,
-        child: Container(
-          height: MediaQuery.of(context).size.height / 2,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 284.0,
-                width: 255.0,
-                child: SvgPicture.asset(
-                  image,
-                ),
-              ),
-              CustomText(
-                text,
-                fontSize: 15.0,
-              ),
-            ],
+    var _size = MediaQuery.of(context).size;
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: _size.width * 0.2, vertical: _size.height * 0.2),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: SvgPicture.asset(
+              image,
+              width: double.infinity,
+            ),
           ),
-        ),
-      )
-    ]);
+          CustomText(
+            text,
+            alignment: Alignment.center,
+            fontSize: 15.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ],
+      ),
+    );
   }
 }
