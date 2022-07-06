@@ -24,13 +24,13 @@ import 'package:habido_app/widgets/text.dart';
 class HabitDetailWithFeelingRoute extends StatefulWidget {
   final int? userHabitId;
   final String? name;
-  final bool? isCompleted;
+  final bool? isActive;
 
   const HabitDetailWithFeelingRoute({
     Key? key,
     this.userHabitId,
     this.name,
-    this.isCompleted,
+    this.isActive,
   }) : super(key: key);
 
   @override
@@ -165,17 +165,21 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
             if (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.isNotEmpty)
               for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
 
-            SizedBox(height: 20.0),
-
             /// Delete Btn
-            Align(
-              alignment: Alignment.topRight,
-              child: DeleteButtonWidget(
-                onDelete: () {
-                  BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-                },
+            if (widget.isActive!)
+              Column(
+                children: [
+                  SizedBox(height: 20.0),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: DeleteButtonWidget(
+                      onDelete: () {
+                        BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ),
           ],
         ),
       ),

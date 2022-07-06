@@ -17,12 +17,12 @@ import 'package:habido_app/widgets/text.dart';
 class HabitDetailWithMinuteRoute extends StatefulWidget {
   final int? userHabitId;
   final String? name;
-  final bool? isCompleted;
+  final bool? isActive;
   const HabitDetailWithMinuteRoute({
     Key? key,
     this.userHabitId,
     this.name,
-    this.isCompleted,
+    this.isActive,
   }) : super(key: key);
 
   @override

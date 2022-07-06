@@ -60,7 +60,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
   _blocListener(BuildContext context, UserHabitState state) {
     if (state is HabitFinanceTotalAmountSuccess) {
       _expenseCategoryList = state.expenseCategories;
-      _totalAmount = state.totalAmount;
+      _totalAmount = Func.toDouble(state.totalAmount);
     } else if (state is HabitFinanceTotalAmountFailed) {
       showCustomDialog(
         context,
@@ -68,7 +68,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
       );
     } else if (state is HabitFinanceTotalAmountByDateSuccess) {
       _expenseCategoryList = state.expenseCategories;
-      _totalAmount = state.totalAmount;
+      _totalAmount = Func.toDouble(state.totalAmount);
     } else if (state is HabitFinanceTotalAmountByDateFailed) {
       showCustomDialog(
         context,
