@@ -595,6 +595,12 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         userHabit.startDate = Func.dateTimeToDateStr(_startDate);
         userHabit.endDate = Func.dateTimeToDateStr(_endDate);
 
+        // Goal
+        if (_goalSettings?.goalRequired ?? false) {
+          print("goal nemsen");
+          userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
+        }
+
         // Reminder
         if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
           userHabit.userHabitReminders = [];
@@ -632,6 +638,12 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
           for (var el in _planList) {
             if (el.isSelected ?? false) userHabit.planDays!.add(el);
           }
+        }
+
+        // Goal
+        if (_goalSettings?.goalRequired ?? false) {
+          print("goal nemsen");
+          userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
         }
 
         // Start, end date
@@ -719,6 +731,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
         // Goal
         if (_goalSettings?.goalRequired ?? false) {
+          print("goal nemsen");
           userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
         }
 
