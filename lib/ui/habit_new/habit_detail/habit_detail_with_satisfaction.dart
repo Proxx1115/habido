@@ -95,8 +95,7 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
           text: LocaleKeys.success,
           buttonText: LocaleKeys.ok,
           onPressedButton: () {
-            // BlocManager.userHabitBloc.add(GetActiveHabitFirstEvent()); // todo horvoo
-            Navigator.pop(context);
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
           },
         ),
       );
@@ -115,7 +114,7 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
       appBarTitle: widget.name,
-      child: Container(
+      child: SingleChildScrollView(
         padding: SizeHelper.screenPadding,
         child: (_userHabitPlanCount != null)
             ? Column(

@@ -63,7 +63,7 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithCountRoute> {
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
       appBarTitle: widget.name,
-      child: Container(
+      child: SingleChildScrollView(
         padding: SizeHelper.screenPadding,
         child: _userHabitPlanCount != null
             ? Column(

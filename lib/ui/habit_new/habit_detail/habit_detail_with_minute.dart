@@ -64,25 +64,27 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithMinuteRoute> 
 
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
-      appBarTitle: '${widget.name} - Minute',
-      child: Container(
+      appBarTitle: widget.name,
+      child: SingleChildScrollView(
         padding: SizeHelper.screenPadding,
         child: _userHabitPlanCount != null
-            ? Column(children: [
-                SizedBox(height: 18.0),
-                CustomText(
-                  LocaleKeys.execution,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16.0,
-                ),
-                SizedBox(height: 15.0),
-                PerformanceWidget(
-                  totalPlans: _userHabitPlanCount!.totalPlans,
-                  completedPlans: _userHabitPlanCount!.completedPlans,
-                  skipPlans: _userHabitPlanCount!.skipPlans,
-                  uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
-                ),
-              ])
+            ? Column(
+                children: [
+                  SizedBox(height: 18.0),
+                  CustomText(
+                    LocaleKeys.execution,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.0,
+                  ),
+                  SizedBox(height: 15.0),
+                  PerformanceWidget(
+                    totalPlans: _userHabitPlanCount!.totalPlans,
+                    completedPlans: _userHabitPlanCount!.completedPlans,
+                    skipPlans: _userHabitPlanCount!.skipPlans,
+                    uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
+                  ),
+                ],
+              )
             : Container(),
       ),
     );

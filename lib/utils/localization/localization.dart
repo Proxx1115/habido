@@ -670,6 +670,8 @@ class LocaleKeys {
 
   static String get giveUp => 'Бууж өгөх';
 
+  static String get noExpence => 'Өө, одоогоор зардал хоосон байна…';
+
   /// Feeling
   static String get howsYourDay => 'Өнөөдөр хэрхэн өнгөрч байна даа?';
 

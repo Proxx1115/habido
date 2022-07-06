@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
+import 'package:habido_app/ui/habit_new/empty_habit_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -29,7 +30,8 @@ class HabitTotalExpenseRoute extends StatefulWidget {
 }
 
 class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
-  List<UserHabitExpenseCategory> _expenseCategoryList = [];
+  List<UserHabitExpenseCategory>? _expenseCategoryList;
+  double? _totalAmount;
   String? _selectedDateInterval;
   List _dateFilters = ["Бүгд", "Сүүлийн 7 хоног", "Сүүлийн 1 сар"];
 
@@ -58,15 +60,15 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
   _blocListener(BuildContext context, UserHabitState state) {
     if (state is HabitFinanceTotalAmountSuccess) {
       _expenseCategoryList = state.expenseCategories;
-      print("seks BUGD");
+      _totalAmount = state.totalAmount;
     } else if (state is HabitFinanceTotalAmountFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
     } else if (state is HabitFinanceTotalAmountByDateSuccess) {
-      print("seks By Date");
       _expenseCategoryList = state.expenseCategories;
+      _totalAmount = state.totalAmount;
     } else if (state is HabitFinanceTotalAmountByDateFailed) {
       showCustomDialog(
         context,
@@ -78,57 +80,59 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
       appBarTitle: LocaleKeys.totalExpense,
-      child: SingleChildScrollView(
-        padding: SizeHelper.screenPadding,
-        child: Column(
-          children: [
-            /// Filter tabs
-            _tabItem(),
-
-            StadiumContainer(
-              margin: EdgeInsets.only(top: 15.0),
-              padding: EdgeInsets.fromLTRB(15.0, SizeHelper.margin, 15.0, SizeHelper.margin),
-              borderRadius: SizeHelper.borderRadiusOdd,
+      child: _totalAmount != 0 && _expenseCategoryList != null
+          ? SingleChildScrollView(
+              padding: SizeHelper.screenPadding,
               child: Column(
                 children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      /// Chart
-                      _categoryChart(),
+                  /// Filter tabs
+                  _tabItem(),
 
-                      Center(
-                        child: Column(
+                  StadiumContainer(
+                    margin: EdgeInsets.only(top: 15.0),
+                    padding: EdgeInsets.fromLTRB(15.0, SizeHelper.margin, 15.0, SizeHelper.margin),
+                    borderRadius: SizeHelper.borderRadiusOdd,
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
                           children: [
-                            /// Category count
-                            CustomText(
-                              Func.toStr(_expenseCategoryList.length),
-                              alignment: Alignment.center,
-                              fontSize: 35.0,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            /// Chart
+                            _categoryChart(),
 
-                            /// Зардал
-                            CustomText(
-                              LocaleKeys.expense,
-                              alignment: Alignment.center,
-                              fontSize: 13.0,
-                              color: customColors.greyText,
+                            Center(
+                              child: Column(
+                                children: [
+                                  /// Category count
+                                  CustomText(
+                                    Func.toStr(_totalAmount),
+                                    alignment: Alignment.center,
+                                    fontSize: 35.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+
+                                  /// Зардал
+                                  CustomText(
+                                    LocaleKeys.expense,
+                                    alignment: Alignment.center,
+                                    fontSize: 13.0,
+                                    color: customColors.greyText,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
 
-                  /// Labels
-                  _categoryChartLabels(),
+                        /// Labels
+                        _categoryChartLabels(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
+            )
+          : EmptyHabitWidget(Assets.emptyman, LocaleKeys.noExpence),
     );
   }
 
@@ -179,7 +183,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
         child: PieChart(
           PieChartData(
             sections: [
-              for (var el in _expenseCategoryList) _pieChartData(el),
+              for (var el in _expenseCategoryList!) _pieChartData(el),
             ],
           ),
         ),
@@ -206,10 +210,10 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
       margin: EdgeInsets.only(top: 15.0),
       child: Column(
         children: [
-          for (int i = 0; i < _expenseCategoryList.length; i += 2)
+          for (int i = 0; i < _expenseCategoryList!.length; i += 2)
             _categoryChartLabelRow(
-              _expenseCategoryList[i],
-              (i + 1 < _expenseCategoryList.length) ? _expenseCategoryList[i + 1] : null,
+              _expenseCategoryList![i],
+              (i + 1 < _expenseCategoryList!.length) ? _expenseCategoryList![i + 1] : null,
             ),
         ],
       ),

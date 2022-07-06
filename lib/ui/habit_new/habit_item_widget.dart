@@ -72,7 +72,7 @@ class HabitItemWidget extends StatelessWidget {
               isActiveHabit
                   ? Container()
                   : ProgressIndicatorWidget(
-                      value: data.progressPercentage,
+                      value: Func.toDouble(data.progressPercentage),
                       status: data.status,
                     ),
             ],
