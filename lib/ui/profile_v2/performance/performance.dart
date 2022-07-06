@@ -45,10 +45,22 @@ class _PerformanceState extends State<Performance> {
   ];
 
   Map _calendar1 = {"color": Color(0xff73BBB6), "text": LocaleKeys.emoji1};
-  Map _calendar2 = {"color": Color(0xff73BBB6).withOpacity(0.8), "text": LocaleKeys.emoji2};
-  Map _calendar3 = {"color": Color(0xff73BBB6).withOpacity(0.6), "text": LocaleKeys.emoji3};
-  Map _calendar4 = {"color": Color(0xff73BBB6).withOpacity(0.4), "text": LocaleKeys.emoji4};
-  Map _calendar5 = {"color": Color(0xff73BBB6).withOpacity(0.2), "text": LocaleKeys.notNoted};
+  Map _calendar2 = {
+    "color": Color(0xff73BBB6).withOpacity(0.8),
+    "text": LocaleKeys.emoji2
+  };
+  Map _calendar3 = {
+    "color": Color(0xff73BBB6).withOpacity(0.6),
+    "text": LocaleKeys.emoji3
+  };
+  Map _calendar4 = {
+    "color": Color(0xff73BBB6).withOpacity(0.4),
+    "text": LocaleKeys.emoji4
+  };
+  Map _calendar5 = {
+    "color": Color(0xff73BBB6).withOpacity(0.2),
+    "text": LocaleKeys.notNoted
+  };
   List _calendarDesc = [];
 
   /// MOOD TRACKER RESPONSE
@@ -73,8 +85,15 @@ class _PerformanceState extends State<Performance> {
   @override
   void initState() {
     currentDateTime = DateTime(currentDateTime.year, currentDateTime.month);
-    _calendarDesc = [_calendar1, _calendar2, _calendar3, _calendar4, _calendar5];
-    BlocManager.performanceBloc.add(GetMonthlyReasonEvent(DateTime.now().year, DateTime.now().month));
+    _calendarDesc = [
+      _calendar1,
+      _calendar2,
+      _calendar3,
+      _calendar4,
+      _calendar5
+    ];
+    BlocManager.performanceBloc
+        .add(GetMonthlyReasonEvent(DateTime.now().year, DateTime.now().month));
     BlocManager.performanceBloc.add(GetMoodTrackerLatestEvent());
     BlocManager.performanceBloc.add(GetProfileHabitCountEvent());
     getMonthlyReason();
@@ -82,7 +101,8 @@ class _PerformanceState extends State<Performance> {
   }
 
   getMonthlyReason() {
-    BlocManager.performanceBloc.add(GetMonthlyStatEvent(currentDateTime.year, currentDateTime.month));
+    BlocManager.performanceBloc
+        .add(GetMonthlyStatEvent(currentDateTime.year, currentDateTime.month));
   }
 
   @override
@@ -120,13 +140,17 @@ class _PerformanceState extends State<Performance> {
 
   void _blocListener(BuildContext context, PerformanceState state) {
     if (state is MoodMonthlyReasonSuccess) {
-      _specificMoodTrackerReasonResponse = state.specificMoodTrackerReasonResponse;
+      _specificMoodTrackerReasonResponse =
+          state.specificMoodTrackerReasonResponse;
       // _moodReason = _specificMoodTrackerReasonResponse!.positiveReasons!;
       _moodReason = _specificMoodTrackerReasonResponse!.positiveReasons!;
     } else if (state is ModdMonthlyReasonFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is MoodTrackerLatestSuccess) {
       _moodTracker = state.moodTracker;
@@ -134,14 +158,20 @@ class _PerformanceState extends State<Performance> {
     } else if (state is ModdTrackerLatestFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is MoodMonthlyStatSuccess) {
       calendarMonthDaysResponse = state.calendarMonthDaysResponse;
     } else if (state is ModdMonthlyStatFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is ProfileHabitCountSuccess) {
       // calendarMonthDaysResponse = state.calendarMonthDaysResponse;
@@ -149,7 +179,10 @@ class _PerformanceState extends State<Performance> {
     } else if (state is ProfileHabitCountFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -251,12 +284,16 @@ class _PerformanceState extends State<Performance> {
                                   child: InkWell(
                                 onTap: () {
                                   positive = true;
-                                  _moodReason = _specificMoodTrackerReasonResponse!.positiveReasons!;
+                                  _moodReason =
+                                      _specificMoodTrackerReasonResponse!
+                                          .positiveReasons!;
                                   setState(() {});
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: positive ? customColors.primary : Colors.transparent,
+                                    color: positive
+                                        ? customColors.primary
+                                        : Colors.transparent,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: CustomText(
@@ -272,12 +309,16 @@ class _PerformanceState extends State<Performance> {
                                 child: InkWell(
                                   onTap: () {
                                     positive = false;
-                                    _moodReason = _specificMoodTrackerReasonResponse!.negativeReasons!;
+                                    _moodReason =
+                                        _specificMoodTrackerReasonResponse!
+                                            .negativeReasons!;
                                     setState(() {});
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: positive ? Colors.transparent : customColors.primary,
+                                      color: positive
+                                          ? Colors.transparent
+                                          : customColors.primary,
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: CustomText(
@@ -322,7 +363,8 @@ class _PerformanceState extends State<Performance> {
                           Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   CustomText(
                                     el.reasonName,
@@ -352,7 +394,8 @@ class _PerformanceState extends State<Performance> {
     return Container(
       height: ResponsiveFlutter.of(context).hp(20),
       width: ResponsiveFlutter.of(context).wp(100),
-      padding: EdgeInsets.symmetric(horizontal: ResponsiveFlutter.of(context).hp(2.5)),
+      padding: EdgeInsets.symmetric(
+          horizontal: ResponsiveFlutter.of(context).hp(2.5)),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -398,7 +441,9 @@ class _PerformanceState extends State<Performance> {
                             //   children: [],
                             // )
                             for (var i = 0; i < _calendarDesc.length; i++)
-                              _dayItemBottomSheet(color: _calendarDesc[i]['color'], text: _calendarDesc[i]['text']),
+                              _dayItemBottomSheet(
+                                  color: _calendarDesc[i]['color'],
+                                  text: _calendarDesc[i]['text']),
                             const SizedBox(height: 40),
 
                             CustomButton(
@@ -439,9 +484,12 @@ class _PerformanceState extends State<Performance> {
                           primary: false,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return Container(padding: EdgeInsets.only(bottom: 5), child: Center(child: Text(_weekDay(index))));
+                            return Container(
+                                padding: EdgeInsets.only(bottom: 5),
+                                child: Center(child: Text(_weekDay(index))));
                           },
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 7,
                           ),
                         ),
@@ -466,13 +514,15 @@ class _PerformanceState extends State<Performance> {
                                 currentDateTime.year,
                                 currentDateTime.month - 1,
                               );
-                              print("arrawBack:${currentDateTime.year} ${currentDateTime.month}");
+                              print(
+                                  "arrawBack:${currentDateTime.year} ${currentDateTime.month}");
                             } else {
                               currentDateTime = DateTime(
                                 currentDateTime.year - 1,
                                 currentDateTime.month - 1,
                               );
-                              print("arrawBack2:${currentDateTime.year} ${currentDateTime.month}");
+                              print(
+                                  "arrawBack2:${currentDateTime.year} ${currentDateTime.month}");
                             }
 
                             getMonthlyReason();
@@ -498,13 +548,17 @@ class _PerformanceState extends State<Performance> {
                                 for (var orderWeek in romboNumber)
                                   Container(
                                       margin: EdgeInsets.only(
-                                        bottom: ResponsiveFlutter.of(context).fontSize(0.2),
-                                        right: ResponsiveFlutter.of(context).fontSize(0.2),
+                                        bottom: ResponsiveFlutter.of(context)
+                                            .fontSize(0.2),
+                                        right: ResponsiveFlutter.of(context)
+                                            .fontSize(0.2),
                                       ),
                                       child: Center(
                                         child: CustomText(
                                           orderWeek,
-                                          lineSpace: ResponsiveFlutter.of(context).fontSize(0.13),
+                                          lineSpace:
+                                              ResponsiveFlutter.of(context)
+                                                  .fontSize(0.13),
                                           fontSize: 11,
                                           alignment: Alignment.center,
                                           // bgColor: Colors.amber,
@@ -525,14 +579,19 @@ class _PerformanceState extends State<Performance> {
                           primary: false,
                           itemBuilder: (context, index) {
                             return Container(
-                              margin: EdgeInsets.all(ResponsiveFlutter.of(context).fontSize(0.1)),
-                              color: _colorsOpacity[Func.toInt(calendarMonthDaysResponse!.days![index].point!)],
+                              margin: EdgeInsets.all(
+                                  ResponsiveFlutter.of(context).fontSize(0.1)),
+                              color: _colorsOpacity[Func.toInt(
+                                  calendarMonthDaysResponse!
+                                      .days![index].point!)],
                               // width: ResponsiveFlutter.of(context).wp(2),
                               // height: ResponsiveFlutter.of(context).hp(0.6),
                             );
                           },
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: ResponsiveFlutter.of(context).fontSize(0.3),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio:
+                                ResponsiveFlutter.of(context).fontSize(0.3),
                             crossAxisCount: 7,
                           ),
                         ),
@@ -544,19 +603,22 @@ class _PerformanceState extends State<Performance> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            if (DateTime.now().month != currentDateTime.month || DateTime.now().year != currentDateTime.year) {
+                            if (DateTime.now().month != currentDateTime.month ||
+                                DateTime.now().year != currentDateTime.year) {
                               if (currentDateTime.month != 12) {
                                 currentDateTime = DateTime(
                                   currentDateTime.year,
                                   currentDateTime.month + 1,
                                 );
-                                print("arrawNext:${currentDateTime.year} ${currentDateTime.month}");
+                                print(
+                                    "arrawNext:${currentDateTime.year} ${currentDateTime.month}");
                               } else {
                                 currentDateTime = DateTime(
                                   currentDateTime.year + 1,
                                   currentDateTime.month + 1,
                                 );
-                                print("arrawNext2:${currentDateTime.year} ${currentDateTime.month}");
+                                print(
+                                    "arrawNext2:${currentDateTime.year} ${currentDateTime.month}");
                               }
 
                               getMonthlyReason();
@@ -685,7 +747,8 @@ class _PerformanceState extends State<Performance> {
         ));
   }
 
-  Widget _processItem({required String image, required String title, required String text}) {
+  Widget _processItem(
+      {required String image, required String title, required String text}) {
     return Container(
       padding: EdgeInsets.only(left: 20, top: 5),
       child: Column(

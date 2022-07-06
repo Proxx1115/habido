@@ -20,9 +20,24 @@ class _IntroRouteState extends State<IntroRoute> {
   // PageView
   PageController _pageController = PageController();
   int _currentIndex = 0;
-  List<String> titleList = [LocaleKeys.introTitle1, LocaleKeys.introTitle2, LocaleKeys.introTitle3, LocaleKeys.introTitle4];
-  List<List> textList = [LocaleKeys.intro1, LocaleKeys.intro2, LocaleKeys.intro3, LocaleKeys.intro4];
-  List<String> assetList = [Assets.intro1, Assets.intro2, Assets.intro3, Assets.intro4];
+  List<String> titleList = [
+    LocaleKeys.introTitle1,
+    LocaleKeys.introTitle2,
+    LocaleKeys.introTitle3,
+    LocaleKeys.introTitle4
+  ];
+  List<List> textList = [
+    LocaleKeys.intro1,
+    LocaleKeys.intro2,
+    LocaleKeys.intro3,
+    LocaleKeys.intro4
+  ];
+  List<String> assetList = [
+    Assets.intro1,
+    Assets.intro2,
+    Assets.intro3,
+    Assets.intro4
+  ];
 
   @override
   void initState() {
@@ -61,7 +76,11 @@ class _IntroRouteState extends State<IntroRoute> {
           if (_currentIndex != 4)
             Container(
               alignment: Alignment.topCenter,
-              margin: EdgeInsets.fromLTRB(SizeHelper.margin, MediaQuery.of(context).size.height / 3 - 50, SizeHelper.margin, SizeHelper.margin),
+              margin: EdgeInsets.fromLTRB(
+                  SizeHelper.margin,
+                  MediaQuery.of(context).size.height / 3 - 50,
+                  SizeHelper.margin,
+                  SizeHelper.margin),
               child: _indicator(_currentIndex),
             ),
         ],
@@ -90,7 +109,9 @@ class _IntroRouteState extends State<IntroRoute> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: _currentIndex == index ? customColors.primary : customColors.primaryBackground,
+        color: _currentIndex == index
+            ? customColors.primary
+            : customColors.primaryBackground,
       ),
     );
   }
@@ -174,6 +195,7 @@ class _IntroRouteState extends State<IntroRoute> {
   _navigateToLogin() {
     // HeroHelper.navigatePushReplacement(context: context, nextRoute: LoginRoute());
 
-    Navigator.of(context).pushNamedAndRemoveUntil(Routes.login2, (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        Routes.login2, (Route<dynamic> route) => false);
   }
 }

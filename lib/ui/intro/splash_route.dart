@@ -71,13 +71,10 @@ class _SplashRouteState extends State<SplashRoute> {
     ApiManager.getUserData().then((userData) async {
       if (userData.code == ResponseCode.Success) {
         await AuthBloc.afterLogin();
-        if (userData.isOnboardingDone ?? false) {
-          /// Go to home
-          Navigator.of(context).pushNamedAndRemoveUntil(Routes.home_new, (Route<dynamic> route) => false);
-        } else {
-          /// Go to chat // todo see this tushig
-          Navigator.of(context).pushNamedAndRemoveUntil(Routes.habidoAssistant, (Route<dynamic> route) => false);
-        }
+
+        /// Go to home
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.home_new, (Route<dynamic> route) => false);
       } else {
         Future.delayed(Duration(seconds: 1), () {
           _navigateToFirstRoute();
@@ -102,7 +99,9 @@ class _SplashRouteState extends State<SplashRoute> {
 
   _navigateToFirstRoute() {
     Navigator.of(context).pushNamedAndRemoveUntil(
-      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login, // signUpQuestion loginIntro
+      SharedPref.checkIntroLimit()
+          ? Routes.intro
+          : Routes.login2, // signUpQuestion loginIntro
       (Route<dynamic> route) => false,
     );
   }

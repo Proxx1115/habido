@@ -81,7 +81,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                   /// Icon
                   Container(
                     // margin: EdgeInsets.only(right: 18.0),
-                    child: SvgPicture.asset(Assets.expand),
+                    child: SvgPicture.asset(Assets.down_arrow),
                   ),
                 ],
               ),
@@ -121,7 +121,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(primary: widget.primaryColor ?? customColors.primary),
+            colorScheme: ColorScheme.light(
+                primary: widget.primaryColor ?? customColors.primary),
           ),
           child: child ?? Container(),
         );

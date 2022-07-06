@@ -9,12 +9,18 @@ import 'package:habido_app/ui/chat/chatbot_dashboard.dart';
 import 'package:habido_app/ui/content_v2/content_dashboard_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_dashboard.dart';
 import 'package:habido_app/ui/psy_test_v2/psy_test_dashboard_v2/psy_test_dashboard_v2.dart';
+import 'package:habido_app/utils/api/api_helper.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
+import 'package:habido_app/widgets/authDialog.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/dialogs.dart';
@@ -27,12 +33,15 @@ class HomeRouteNew extends StatefulWidget {
   _HomeRouteNewState createState() => _HomeRouteNewState();
 }
 
-class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderStateMixin {
+class _HomeRouteNewState extends State<HomeRouteNew>
+    with SingleTickerProviderStateMixin {
   // UI
   final _homeNewKey = GlobalKey<ScaffoldState>();
 
   // Bottom navigation bar
   late TabController _tabController;
+
+  bool canSkip = true;
 
   @override
   void initState() {
@@ -40,6 +49,7 @@ class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderSt
     BlocManager.homeBloc.currentTabIndex = 2;
     _tabController = TabController(initialIndex: 2, length: 5, vsync: this);
     BlocManager.homeBloc.add(HomeShowcaseEvent(ShowcaseKeyName.dashboard));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkOAuth(context));
   }
 
   @override
@@ -59,7 +69,8 @@ class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderSt
               if (state is NavigateToPageState) {
                 _tabController.index = state.index;
               } else if (state is HomeShowcaseState) {
-                ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
+                ShowCaseWidget.of(context)
+                    ?.startShowCase(state.showcaseKeyList);
               }
             },
             child: BlocBuilder<HomeBloc, HomeState>(
@@ -116,7 +127,8 @@ class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
-  _CustomBottomNavigationBarState createState() => _CustomBottomNavigationBarState();
+  _CustomBottomNavigationBarState createState() =>
+      _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
@@ -146,7 +158,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Чатбот
           Expanded(
-            child: _bottomNavigationBarItem(1, Assets.assistant, LocaleKeys.chatbot),
+            child: _bottomNavigationBarItem(
+                1, Assets.assistant, LocaleKeys.chatbot),
           ),
 
           /// Нүүр
@@ -161,7 +174,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Зөвлөмж
           Expanded(
-            child: _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
+            child:
+                _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
           ),
         ],
       ),
@@ -169,7 +183,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   Widget _bottomNavigationBarItem(int index, String asset, String text) {
-    _navBarItemWidth = _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
+    _navBarItemWidth =
+        _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
 
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -192,7 +207,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 Container(
                   width: 20.0,
                   height: SizeHelper.borderWidth,
-                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.primaryBorder,
+                  color: BlocManager.homeBloc.currentTabIndex == index
+                      ? customColors.primary
+                      : customColors.primaryBorder,
                 ),
                 Expanded(
                   child: HorizontalLine(color: customColors.primaryBorder),
@@ -211,7 +228,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     height: 24.0,
                     child: SvgPicture.asset(
                       asset,
-                      color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                      color: BlocManager.homeBloc.currentTabIndex == index
+                          ? customColors.primary
+                          : customColors.iconGrey,
                     ),
                   ),
                 ),
@@ -221,7 +240,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   text,
                   padding: EdgeInsets.only(top: 5.0),
                   alignment: Alignment.center,
-                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
+                  color: BlocManager.homeBloc.currentTabIndex == index
+                      ? customColors.primary
+                      : customColors.iconGrey,
                   fontSize: 11.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -230,6 +251,16 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           ],
         ),
       ),
+    );
+  }
+}
+
+_checkOAuth(BuildContext context) {
+  if (globals.userData!.hasOAuth2 == false) {
+    showAuthDialog(
+      context,
+      child: AuthDialog(
+          asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
     );
   }
 }

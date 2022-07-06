@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/dictionary.dart';
+import 'package:habido_app/models/get_dict_request.dart';
 import 'package:habido_app/models/rank.dart';
 import 'package:habido_app/models/update_profile_picture_request.dart';
 import 'package:habido_app/models/update_user_data_request.dart';
@@ -34,6 +36,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapGetUserDeviceEventToState(event);
     } else if (event is UpdateUserDeviceEvent) {
       yield* _mapUpdateUserDeviceEventToState(event);
+    } else if (event is GetEmploymentDict) {
+      yield* _mapGetEmploymentDictState();
+    } else if (event is GetAddressDict) {
+      yield* _mapGetAddressDictAddress();
     }
   }
 
@@ -46,6 +52,38 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield UserDataSuccess(res);
       } else {
         yield UserDataFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield UserDataFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserState> _mapGetEmploymentDictState() async* {
+    try {
+      yield UserLoading();
+
+      var res = await ApiManager.getDictEmployment();
+      if (res.code == ResponseCode.Success) {
+        yield EmploymentDictSuccess(res.dictList ?? []);
+      } else {
+        print("resFailed::::::::::${res}");
+        yield EmploymentDictFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield UserDataFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserState> _mapGetAddressDictAddress() async* {
+    try {
+      yield UserLoading();
+
+      var res = await ApiManager.getDictAddress();
+      if (res.code == ResponseCode.Success) {
+        yield AddressDictSuccess(res.dictList ?? []);
+      } else {
+        print("resFailed::::::::::${res}");
+        yield AddressDictFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield UserDataFailed(LocaleKeys.errorOccurred);
@@ -69,21 +107,24 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     yield NavigateRankState(event.index);
   }
 
-  Stream<UserState> _mapUpdateProfilePictureEventToState(UpdateProfilePictureEvent event) async* {
+  Stream<UserState> _mapUpdateProfilePictureEventToState(
+      UpdateProfilePictureEvent event) async* {
     try {
       var res = await ApiManager.updateProfilePic(event.request);
       if (res.code == ResponseCode.Success) {
         BlocManager.userBloc.add(GetUserDataEvent());
         yield UpdateProfilePictureSuccess();
       } else {
-        yield UpdateProfilePictureFailed(ApiHelper.getFailedMessage(res.message));
+        yield UpdateProfilePictureFailed(
+            ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield UpdateProfilePictureFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<UserState> _mapUpdateUserDataEventToState(UpdateUserDataEvent event) async* {
+  Stream<UserState> _mapUpdateUserDataEventToState(
+      UpdateUserDataEvent event) async* {
     try {
       yield UserLoading();
 
@@ -98,7 +139,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
-  Stream<UserState> _mapGetUserDeviceEventToState(GetUserDeviceEvent event) async* {
+  Stream<UserState> _mapGetUserDeviceEventToState(
+      GetUserDeviceEvent event) async* {
     try {
       yield UserLoading();
 
@@ -113,7 +155,23 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
-  Stream<UserState> _mapUpdateUserDeviceEventToState(UpdateUserDeviceEvent event) async* {
+  Stream<UserState> _mapTableDictEventToState(GetUserDeviceEvent event) async* {
+    try {
+      yield UserLoading();
+
+      var res = await ApiManager.getUserDevice(event.deviceId);
+      if (res.code == ResponseCode.Success) {
+        yield GetUserDeviceSuccess(res);
+      } else {
+        yield GetUserDeviceFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield GetUserDeviceFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserState> _mapUpdateUserDeviceEventToState(
+      UpdateUserDeviceEvent event) async* {
     try {
       yield UserLoading();
 
@@ -143,6 +201,10 @@ abstract class UserEvent extends Equatable {
 class GetUserDataEvent extends UserEvent {}
 
 class GetRankList extends UserEvent {}
+
+class GetEmploymentDict extends UserEvent {}
+
+class GetAddressDict extends UserEvent {}
 
 class NavigateRankEvent extends UserEvent {
   final int index;
@@ -192,6 +254,18 @@ class GetUserDeviceEvent extends UserEvent {
   String toString() => 'GetUserDeviceEvent { deviceId: $deviceId }';
 }
 
+class GetTableDict extends UserEvent {
+  final String dict;
+
+  const GetTableDict(this.dict);
+
+  @override
+  List<Object> get props => [dict];
+
+  @override
+  String toString() => 'GetUserDeviceEvent { deviceId: $dict }';
+}
+
 class UpdateUserDeviceEvent extends UserEvent {
   final UserDevice userDevice;
 
@@ -235,6 +309,54 @@ class UserDataFailed extends UserState {
   final String message;
 
   const UserDataFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'UserDataFailed { message: $message }';
+}
+
+class EmploymentDictSuccess extends UserState {
+  final List<DictData> dictData;
+
+  const EmploymentDictSuccess(this.dictData);
+
+  @override
+  List<Object> get props => [dictData];
+
+  @override
+  String toString() => 'UserDataSuccess { userData: $dictData }';
+}
+
+class EmploymentDictFailed extends UserState {
+  final String message;
+
+  const EmploymentDictFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'UserDataFailed { message: $message }';
+}
+
+class AddressDictSuccess extends UserState {
+  final List<DictData> dictData;
+
+  const AddressDictSuccess(this.dictData);
+
+  @override
+  List<Object> get props => [dictData];
+
+  @override
+  String toString() => 'UserDataSuccess { userData: $dictData }';
+}
+
+class AddressDictFailed extends UserState {
+  final String message;
+
+  const AddressDictFailed(this.message);
 
   @override
   List<Object> get props => [message];

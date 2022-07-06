@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
+import 'package:habido_app/ui/intro/intro_route.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -55,7 +56,8 @@ class HabidoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addObserver(LifecycleEventHandler(BlocManager.mainBloc));
+    WidgetsBinding.instance
+        .addObserver(LifecycleEventHandler(BlocManager.mainBloc));
 
     return BlocProvider(
       create: (context) => BlocManager.mainBloc,

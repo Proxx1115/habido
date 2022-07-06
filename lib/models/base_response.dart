@@ -1,4 +1,6 @@
 import 'package:habido_app/utils/api/api_helper.dart';
+import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 
 class BaseResponse {
   int? code;
@@ -34,5 +36,19 @@ class BaseResponse {
       ${ResponseParam.message}: $message,
       ${ResponseParam.data}: $data,
     }''';
+  }
+}
+
+class ResponseHelper {
+  static const code = 'code';
+  static const message = 'message';
+  static const data = 'data';
+
+  static String getFailedDesc(String desc) {
+    if (Func.isNotEmpty(desc)) {
+      return desc;
+    } else {
+      return LocaleKeys.failed;
+    }
   }
 }

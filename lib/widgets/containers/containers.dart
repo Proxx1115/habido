@@ -433,7 +433,8 @@ class ListItemContainer extends StatelessWidget {
   final String? leadingAsset;
   final Color? leadingColor;
   final Color? leadingBackgroundColor;
-  final String title;
+  final String? title;
+  final String? hintText;
   final String? body;
   final String? date;
   final String? suffixAsset;
@@ -450,11 +451,12 @@ class ListItemContainer extends StatelessWidget {
     this.leadingAsset,
     this.leadingColor,
     this.leadingBackgroundColor,
-    required this.title,
+    this.title,
     this.body,
     this.date,
     this.suffixAsset,
     this.suffixColor,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -492,11 +494,19 @@ class ListItemContainer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     /// Title
-                    CustomText(
-                      title,
-                      fontWeight: FontWeight.w500,
-                      maxLines: 2,
-                    ),
+
+                    title == null
+                        ? CustomText(
+                            hintText,
+                            fontWeight: FontWeight.w500,
+                            maxLines: 2,
+                            color: customColors.grayText,
+                          )
+                        : CustomText(
+                            title,
+                            fontWeight: FontWeight.w500,
+                            maxLines: 2,
+                          ),
 
                     /// Body
                     if (Func.isNotEmpty(body))
