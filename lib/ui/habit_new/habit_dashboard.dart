@@ -512,7 +512,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
                     Routes.userHabit,
                     arguments: {
                       'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
-                      'habit': userHabitList[index].habit,
+                      'habitId': userHabitList[index].habitId,
                       'userHabit': userHabitList[index],
                       'title': LocaleKeys.ediHabit,
                     },

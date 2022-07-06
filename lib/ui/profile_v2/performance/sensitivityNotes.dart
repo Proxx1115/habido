@@ -122,7 +122,7 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
                     answerImageUrl: '${_moodTracker[index].answerImageUrl}',
                     answerText: '${_moodTracker[index].answerText!}',
                     reasons: _moodTracker[index].reasons!,
-                    writtenAnswer: '${_moodTracker[index].writtenAnswer!}',
+                    writtenAnswer: _moodTracker[index].writtenAnswer ?? "",
                     bottomDate: '${_moodTracker[index].date!}',
                     maxLines: 2,
                   ),

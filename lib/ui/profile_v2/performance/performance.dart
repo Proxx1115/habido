@@ -206,12 +206,12 @@ class _PerformanceState extends State<Performance> {
           //     },
           //     child: CustomText('okey')),
 
-          _moodTracker.length != 0
+          _moodTracker.length > 0
               ? FeelingLast(
                   answerImageUrl: '${_moodTracker[0].answerImageUrl!}',
                   answerText: '${_moodTracker[0].answerText!}',
                   reasons: _moodTracker[0].reasons!,
-                  writtenAnswer: '${_moodTracker[0].writtenAnswer!}',
+                  writtenAnswer: _moodTracker[0].writtenAnswer ?? "",
                   bottomDate: '${_moodTracker[0].date!}',
                   maxLines: 2,
                 )

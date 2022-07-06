@@ -220,7 +220,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       var res = await ApiManager.saveUserHabitProgress(event.request);
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
-        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+        BlocManager.dashboardBloc.add(GetUserHabitByDate(DateTime.now().toString()));
 
         if (res.rank != null) {
           // Rank ахисан
