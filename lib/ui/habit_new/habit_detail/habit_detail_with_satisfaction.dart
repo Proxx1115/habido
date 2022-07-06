@@ -22,13 +22,13 @@ import 'package:habido_app/widgets/text.dart';
 class HabitDetailWithSatisfactionRoute extends StatefulWidget {
   final int? userHabitId;
   final String? name;
-  final bool? isCompleted;
+  final bool? isActive;
 
   const HabitDetailWithSatisfactionRoute({
     Key? key,
     this.userHabitId,
     this.name,
-    this.isCompleted,
+    this.isActive,
   }) : super(key: key);
 
   @override
@@ -172,16 +172,20 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
                     for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
 
                   /// Delete Btn
-                  SizedBox(height: 20.0),
-
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: DeleteButtonWidget(
-                      onDelete: () {
-                        BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-                      },
+                  if (widget.isActive!)
+                    Column(
+                      children: [
+                        SizedBox(height: 20.0),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: DeleteButtonWidget(
+                            onDelete: () {
+                              BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ],
               )
             : Container(),

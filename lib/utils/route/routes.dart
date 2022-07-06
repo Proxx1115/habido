@@ -529,7 +529,7 @@ class Routes {
             HabitDetailWithMinuteRoute(
               userHabitId: _getValueByKey(args, 'userHabitId'),
               name: _getValueByKey(args, 'name'),
-              isCompleted: _getValueByKey(args, 'isCompleted'),
+              isActive: _getValueByKey(args, 'isActive'),
             ),
             settings);
         break;
@@ -540,7 +540,7 @@ class Routes {
             HabitDetailWithCountRoute(
               userHabitId: _getValueByKey(args, 'userHabitId'),
               name: _getValueByKey(args, 'name'),
-              isCompleted: _getValueByKey(args, 'isCompleted'),
+              isActive: _getValueByKey(args, 'isActive'),
             ),
             settings);
         break;
@@ -561,7 +561,7 @@ class Routes {
             HabitDetailWithFeelingRoute(
               userHabitId: _getValueByKey(args, 'userHabitId'),
               name: _getValueByKey(args, 'name'),
-              isCompleted: _getValueByKey(args, 'isCompleted'),
+              isActive: _getValueByKey(args, 'isActive'),
             ),
             settings);
         break;
@@ -572,7 +572,7 @@ class Routes {
             HabitDetailWithSatisfactionRoute(
               userHabitId: _getValueByKey(args, 'userHabitId'),
               name: _getValueByKey(args, 'name'),
-              isCompleted: _getValueByKey(args, 'isCompleted'),
+              isActive: _getValueByKey(args, 'isActive'),
             ),
             settings);
         break;
