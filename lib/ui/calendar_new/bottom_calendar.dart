@@ -217,7 +217,6 @@ class _BottomCalendarState extends State<BottomCalendar> {
 
   Widget _dayItem(DayModel day) {
     return Container(
-      color: Colors.red,
       child: InkWell(
         onTap: () {
           setState(() {

@@ -108,7 +108,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       elevation: 0,
       automaticallyImplyLeading: false,
       flexibleSpace: DashboardAppBar(
-        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+        padding: EdgeInsets.fromLTRB(20.0, 0.0, 16.5, 0.0),
         visibleShowCase: true,
       ),
     );
@@ -375,21 +375,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
           SizedBox(width: 26.0),
 
           /// Right Section - Close Button
-          Align(
-            alignment: Alignment.topCenter,
-            child: InkWell(
-              onTap: () {
-                ///
-              },
-              child: Container(
-                height: 35.0,
-                width: 35.0,
-                padding: EdgeInsets.all(14.0),
-                color: Colors.white,
-                child: Image.asset(Assets.exit),
-              ),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.topCenter,
+          //   child: InkWell(
+          //     onTap: () {
+          //       ///
+          //     },
+          //     child: Container(
+          //       height: 35.0,
+          //       width: 35.0,
+          //       padding: EdgeInsets.all(14.0),
+          //       color: Colors.white,
+          //       child: Image.asset(Assets.exit),
+          //     ),
+          //   ),
+          // ),
 
           SizedBox(width: 13.5),
         ],
