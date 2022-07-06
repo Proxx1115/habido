@@ -54,6 +54,7 @@ class HttpPath {
   static const String updateUserHabit = '/mobile/habit/user-habit';
   static const String deleteUserHabit = '/mobile/habit/user-habit';
   static const String userHabitsByDate = '/mobile/habit/date/user-habits';
+  static const String habitTemplates = '/mobile/habit/template';
   static const String userHabitsByDates = '/mobile/habit/dates/user-habits';
   static const String skipUserHabit = '/mobile/skip-habit';
   static const String saveUserHabitProgress = '/mobile/habit/save-progress';

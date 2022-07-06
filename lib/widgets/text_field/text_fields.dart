@@ -29,6 +29,7 @@ class CustomTextField extends StatefulWidget {
   final String? prefixAsset;
   final String? hintText;
   final double fontSize;
+  final FontWeight? fontWeight;
   final Color? textColor;
 
   // final Widget? suffixWidget;
@@ -55,6 +56,7 @@ class CustomTextField extends StatefulWidget {
     this.obscureText = false,
     this.inputFormatter,
     this.fontSize = 15.0,
+    this.fontWeight = FontWeight.w500,
     this.textColor,
     this.maxLines,
     this.maxLength,
@@ -141,7 +143,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   Color get _textColor => widget.textColor ?? (_focusNode.hasFocus ? customColors.primary : customColors.primaryText);
 
-  FontWeight get _fontWeight => _focusNode.hasFocus ? FontWeight.w500 : FontWeight.normal;
+  FontWeight get _fontWeight => _focusNode.hasFocus ? FontWeight.w600 : FontWeight.w500;
 
   Widget? _suffixIcon() {
     if (_focusNode.hasFocus && (widget.maxLines ?? 1) == 1) {

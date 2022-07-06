@@ -199,7 +199,7 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                             duration: 500,
                             child: CustomText(
                               "Онцлох",
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w700,
                               fontSize: 16,
                               color: customColors.primaryText,
                             ),
@@ -215,7 +215,7 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                   duration: 500,
                   child: CustomText(
                     _selectedTag!.name ?? "Танд",
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w700,
                     fontSize: 16,
                     color: customColors.primaryText,
                   ),

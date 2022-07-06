@@ -16,27 +16,6 @@ enum CustomTextStyle {
 
 // ignore: must_be_immutable
 class CustomText extends StatelessWidget {
-  CustomText(
-    this.text, {
-    this.style = CustomTextStyle.Normal,
-    this.margin = const EdgeInsets.all(0.0),
-    this.padding = const EdgeInsets.all(0.0),
-    this.alignment,
-    this.color,
-    this.bgColor,
-    this.fontSize,
-    this.fontWeight,
-    this.softWrap,
-    this.maxLines,
-    this.lineSpace,
-    this.textAlign,
-    this.overflow,
-    this.fontStyle = FontStyle.normal,
-    this.fontFamily,
-    this.underlined = false,
-    this.border,
-  });
-
   /// Main
   final String? text;
   final CustomTextStyle style;
@@ -60,6 +39,27 @@ class CustomText extends StatelessWidget {
   final FontStyle fontStyle;
   final bool underlined;
   final BoxBorder? border;
+
+  CustomText(
+    this.text, {
+    this.style = CustomTextStyle.Normal,
+    this.margin = const EdgeInsets.all(0.0),
+    this.padding = const EdgeInsets.all(0.0),
+    this.alignment,
+    this.color,
+    this.bgColor,
+    this.fontSize,
+    this.fontWeight,
+    this.softWrap,
+    this.maxLines,
+    this.lineSpace,
+    this.textAlign,
+    this.overflow,
+    this.fontStyle = FontStyle.normal,
+    this.fontFamily,
+    this.underlined = false,
+    this.border,
+  });
 
   @override
   Widget build(BuildContext context) {

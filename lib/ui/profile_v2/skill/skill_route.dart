@@ -138,7 +138,7 @@ class _SkillRouteState extends State<SkillRoute> {
                           textAlign: TextAlign.justify,
                         ),
                       },
-                      data: _skillList[index].description!),
+                      data: _skillList[index].description ?? ''),
                 ),
                 SizedBox(height: 25),
               ],

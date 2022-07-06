@@ -5,6 +5,7 @@ import 'package:habido_app/models/advice_video_response.dart';
 import 'package:habido_app/models/badge_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/dashboard_habit_templates_response.dart';
 import 'package:habido_app/models/date_interval_progress_response.dart';
 import 'package:habido_app/models/habit_feeling_pie_chart_response.dart';
 import 'package:habido_app/models/habit.dart';
@@ -570,6 +571,15 @@ class ApiManager {
     return UserHabitListResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.userHabitsByDate + '?date=$date',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<DashboardHabitTemplatesResponse> dashboardHabitTemplates() async {
+    return DashboardHabitTemplatesResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.habitTemplates,
         httpMethod: HttpMethod.get,
       ),
     );

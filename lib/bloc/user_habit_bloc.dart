@@ -107,7 +107,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       var res = await ApiManager.insertUserHabit(event.userHabit);
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
-        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+        BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(DateTime.now().toString()));
 
         yield InsertUserHabitSuccess(res);
       } else {
@@ -125,7 +125,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       var res = await ApiManager.updateUserHabit(event.userHabit);
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
-        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+        BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(DateTime.now().toString()));
 
         yield UpdateUserHabitSuccess(event.userHabit);
       } else {
@@ -143,7 +143,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       var res = await ApiManager.deleteUserHabit(event.userHabitId);
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
-        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+        BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(DateTime.now().toString()));
 
         yield DeleteUserHabitSuccess(event.userHabitId);
       } else {
@@ -235,7 +235,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       var res = await ApiManager.saveUserHabitProgress(event.request);
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
-        BlocManager.dashboardBloc.add(GetUserHabitByDate(DateTime.now().toString()));
+        BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(DateTime.now().toString()));
 
         if (res.rank != null) {
           // Rank ахисан

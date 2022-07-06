@@ -141,20 +141,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: <Widget>[
           /// Дадал
           Expanded(
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.profile,
-              description: LocaleKeys.showcaseProfile,
-              child: _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
-            ),
+            child: _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
           ),
 
           /// Чатбот
           Expanded(
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.assistant,
-              description: LocaleKeys.showcaseAssistant,
-              child: _bottomNavigationBarItem(1, Assets.assistant, LocaleKeys.chatbot), //todo set Icon
-            ),
+            child: _bottomNavigationBarItem(1, Assets.assistant, LocaleKeys.chatbot),
           ),
 
           /// Нүүр
@@ -164,21 +156,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Тест
           Expanded(
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.psyTest,
-              description: LocaleKeys.showcasePsyTest,
-              child: _bottomNavigationBarItem(3, Assets.test, LocaleKeys.test),
-            ),
+            child: _bottomNavigationBarItem(3, Assets.test, LocaleKeys.test),
           ),
 
           /// Зөвлөмж
           Expanded(
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.content,
-              description: LocaleKeys.showcaseContent,
-              overlayOpacity: 0.7,
-              child: _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
-            ),
+            child: _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
           ),
         ],
       ),
@@ -248,53 +231,5 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         ),
       ),
     );
-  }
-
-  _authDialog() {
-    return showCustomDialog(context,
-        child: CustomDialogBody(
-          child: Column(
-            children: [
-              /// Image
-              // if (Func.isNotEmpty(_notifList[index].photo))
-
-              /// Title
-              Center(
-                child: CustomText(
-                  LocaleKeys.oauthWarning,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.symmetric(vertical: 20.0),
-                  fontWeight: FontWeight.w500,
-                  maxLines: 4,
-                ),
-              ),
-              Center(
-                child: Row(
-                  children: [
-                    InkWell(
-                      child: Image.asset(
-                        Assets.google_icon,
-                        width: 40,
-                      ),
-                    ),
-                    InkWell(
-                      child: Image.asset(
-                        Assets.fb_icon,
-                        width: 40,
-                      ),
-                    ),
-                    InkWell(
-                      child: Image.asset(
-                        Assets.apple_icon,
-                        width: 40,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-          // onPressedButton: () {},
-        ));
   }
 }

@@ -281,57 +281,50 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
                       child: ListView(
                         shrinkWrap: true,
                         children: [
-                          CustomShowcase(
-                            showcaseKey: ShowcaseKey.userHabitTest,
-                            description: LocaleKeys.showcaseUserHabit,
-                            overlayOpacity: 0.9,
-                            overlayPadding: EdgeInsets.all(20.0),
-                            shapeBorder: CircleBorder(),
-                            child: Column(
-                              children: [
-                                /// Нэр
-                                _nameTextField(),
+                          Column(
+                            children: [
+                              /// Нэр
+                              _nameTextField(),
 
-                                /// Зөвлөмж
-                                _tipWidget(),
-                                // Container(
-                                //   height: 30.0,
-                                //   width: 30.0,
-                                //   color: Colors.red,
-                                // ),
+                              /// Зөвлөмж
+                              _tipWidget(),
+                              // Container(
+                              //   height: 30.0,
+                              //   width: 30.0,
+                              //   color: Colors.red,
+                              // ),
 
-                                /// Дүрс сонгох
-                                _iconPicker(),
+                              /// Дүрс сонгох
+                              _iconPicker(),
 
-                                /// Plan terms
-                                _planTermsWidget(),
+                              /// Plan terms
+                              _planTermsWidget(),
 
-                                /// Зорилго
-                                _goalWidget(),
+                              /// Зорилго
+                              _goalWidget(),
 
-                                SizedBox(height: 15.0),
+                              SizedBox(height: 15.0),
 
-                                Container(
-                                  width: double.infinity,
-                                  height: 50.0,
-                                  child: Row(
-                                    children: [
-                                      /// Эхлэх огноо
-                                      Expanded(child: _startDatePicker()),
+                              Container(
+                                width: double.infinity,
+                                height: 50.0,
+                                child: Row(
+                                  children: [
+                                    /// Эхлэх огноо
+                                    Expanded(child: _startDatePicker()),
 
-                                      SizedBox(
-                                        width: 15,
-                                      ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
 
-                                      /// Дуусах огноо
-                                      Expanded(child: _endDatePicker()),
-                                    ],
-                                  ),
+                                    /// Дуусах огноо
+                                    Expanded(child: _endDatePicker()),
+                                  ],
                                 ),
+                              ),
 
-                                _reminder(),
-                              ],
-                            ),
+                              _reminder(),
+                            ],
                           ),
                         ],
                       ),
