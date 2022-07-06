@@ -121,6 +121,8 @@ class LocaleKeys {
 
   static String get chooseYourQuestion => 'ТА АСУУЛТАА СОНГОНО УУ';
 
+  static String get seeHistory => 'Түүх харах';
+
   ///
   /// Intro
   ///
