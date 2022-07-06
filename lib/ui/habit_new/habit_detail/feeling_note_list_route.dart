@@ -172,13 +172,13 @@ class _FeelingNoteListRouteState extends State<FeelingNoteListRoute> {
             child: Column(
               children: [
                 CustomText(
-                  Func.toRomboMonth(Func.getMonthFromDateStr(feelingDetails!.date!)),
+                  Func.toRomboMonth(Func.getMonthFromDateStr(feelingDetails.date!)),
                   color: customColors.greyText,
                   fontWeight: FontWeight.w500,
                   fontSize: 15.0,
                 ),
                 CustomText(
-                  Func.getDayFromDateStr(feelingDetails!.date!),
+                  Func.getDayFromDateStr(feelingDetails.date!),
                   color: customColors.greyText,
                   fontWeight: FontWeight.w500,
                   fontSize: 13.0,

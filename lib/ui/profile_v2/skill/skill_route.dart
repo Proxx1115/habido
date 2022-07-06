@@ -110,7 +110,7 @@ class _SkillRouteState extends State<SkillRoute> {
                       color: customColors.greyBackground,
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: _skillList[index].image! ?? "",
+                      imageUrl: _skillList[index].image!,
                       placeholder: (context, url) => Container(),
                       //CustomLoader(),
                       errorWidget: (context, url, error) => Container(),
@@ -138,7 +138,7 @@ class _SkillRouteState extends State<SkillRoute> {
                           textAlign: TextAlign.justify,
                         ),
                       },
-                      data: _skillList[index].description! ?? ''),
+                      data: _skillList[index].description!),
                 ),
                 SizedBox(height: 25),
               ],
@@ -167,7 +167,7 @@ class _SkillRouteState extends State<SkillRoute> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: CachedNetworkImage(
-                    imageUrl: _skillList[index].image! ?? '',
+                    imageUrl: _skillList[index].image!,
                     fit: BoxFit.fitHeight,
                     height: 55,
                     width: 33.0,

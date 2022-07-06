@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:habido_app/bloc/all_habit_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/completed_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit_new/habit_item_widget.dart';
@@ -29,16 +29,16 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
   @override
   void initState() {
     super.initState();
-    BlocManager.allHabitBloc.add(GetCompletedHabitFirstEvent());
+    BlocManager.userHabitBloc.add(GetCompletedHabitFirstEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: BlocManager.allHabitBloc,
-      child: BlocListener<AllHabitBloc, AllHabitState>(
+      value: BlocManager.userHabitBloc,
+      child: BlocListener<UserHabitBloc, UserHabitState>(
         listener: _blocListener,
-        child: BlocBuilder<AllHabitBloc, AllHabitState>(builder: (context, state) {
+        child: BlocBuilder<UserHabitBloc, UserHabitState>(builder: (context, state) {
           return SmartRefresher(
             enablePullDown: true,
             enablePullUp: true,
@@ -96,7 +96,7 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
     );
   }
 
-  void _blocListener(BuildContext context, AllHabitState state) {
+  void _blocListener(BuildContext context, UserHabitState state) {
     if (state is GetCompletedHabitFirstSuccess) {
       _completedHabitList = state.completedHabitList;
       print('asdsadas ${state.completedHabitList}');
@@ -140,7 +140,7 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
       child: CustomDialogBody(asset: Assets.error, text: 'refresh', buttonText: LocaleKeys.ok),
     );
     _completedHabitList = [];
-    BlocManager.allHabitBloc.add(GetCompletedHabitFirstEvent());
+    BlocManager.userHabitBloc.add(GetCompletedHabitFirstEvent());
 
     _refreshController.refreshCompleted();
   }
@@ -151,7 +151,7 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
     if (_completedHabitList.isNotEmpty) {
-      BlocManager.allHabitBloc.add(GetCompletedHabitThenEvent(_completedHabitList.last.userHabitId ?? 0));
+      BlocManager.userHabitBloc.add(GetCompletedHabitThenEvent(_completedHabitList.last.userHabitId ?? 0));
     }
 
     if (mounted) setState(() {});
