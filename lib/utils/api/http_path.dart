@@ -57,6 +57,7 @@ class HttpPath {
   static const String updateUserHabit = '/mobile/habit/user-habit';
   static const String deleteUserHabit = '/mobile/habit/user-habit';
   static const String userHabitsByDate = '/mobile/habit/date/user-habits';
+  static const String habitTemplates = '/mobile/habit/template';
   static const String userHabitsByDates = '/mobile/habit/dates/user-habits';
   static const String skipUserHabit = '/mobile/skip-habit';
   static const String saveUserHabitProgress = '/mobile/habit/save-progress';
@@ -103,8 +104,13 @@ class HttpPath {
       '/mobile/details/feeling-pie-chart';
   static const String habitDetailsSatisfaction = '/mobile/details/satisfaction';
   static const String userHabitPlanCount = '/mobile/user-habit/plan/count';
+<<<<<<< HEAD
   static const String userHabitDetailsFeelingLatest =
       '/mobile/details/feeling/latest';
+=======
+  static const String userHabitDetailsFeelingLatest = '/mobile/details/feeling/latest';
+  static const String userHabitDetailsFeelingNext = '/mobile/details/feeling/then';
+>>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
 
   static const String cbChatBots = '/mobile/cb/chat-bots';
   static const String cbFirstChat = '/mobile/cb/first-chat';

@@ -153,22 +153,30 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: <Widget>[
           /// Дадал
           Expanded(
+<<<<<<< HEAD
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.profile,
               description: LocaleKeys.showcaseProfile,
               child:
                   _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
             ),
+=======
+            child: _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
+>>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
           ),
 
           /// Чатбот
           Expanded(
+<<<<<<< HEAD
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.assistant,
               description: LocaleKeys.showcaseAssistant,
               child: _bottomNavigationBarItem(
                   1, Assets.assistant, LocaleKeys.chatbot), //todo set Icon
             ),
+=======
+            child: _bottomNavigationBarItem(1, Assets.assistant, LocaleKeys.chatbot),
+>>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
           ),
 
           /// Нүүр
@@ -178,15 +186,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Тест
           Expanded(
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.psyTest,
-              description: LocaleKeys.showcasePsyTest,
-              child: _bottomNavigationBarItem(3, Assets.test, LocaleKeys.test),
-            ),
+            child: _bottomNavigationBarItem(3, Assets.test, LocaleKeys.test),
           ),
 
           /// Зөвлөмж
           Expanded(
+<<<<<<< HEAD
             child: CustomShowcase(
               showcaseKey: ShowcaseKey.content,
               description: LocaleKeys.showcaseContent,
@@ -194,6 +199,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               child: _bottomNavigationBarItem(
                   4, Assets.content, LocaleKeys.advice),
             ),
+=======
+            child: _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
+>>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
           ),
         ],
       ),
@@ -271,6 +279,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       ),
     );
   }
+<<<<<<< HEAD
 }
 
 _checkOAuth(BuildContext context) {
@@ -281,4 +290,6 @@ _checkOAuth(BuildContext context) {
           asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
     );
   }
+=======
+>>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
 }

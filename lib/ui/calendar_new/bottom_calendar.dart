@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/ui/calendar_new/day_model.dart';
 import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 
 class BottomCalendar extends StatefulWidget {
-  BottomCalendar({Key? key}) : super(key: key);
+  final ValueChanged<DateTime> onDateTimeChanged;
+  BottomCalendar({Key? key, required this.onDateTimeChanged}) : super(key: key);
 
   @override
   State<BottomCalendar> createState() => _BottomCalendarState();
@@ -14,6 +16,7 @@ class _BottomCalendarState extends State<BottomCalendar> {
   var currentDateTime = DateTime.now();
   List<String> weekNameList = ['Да', 'Мя', 'Лх', 'Пү', 'Ба', 'Бя', 'Ня'];
   DayModel? selectedDate;
+  late DateTime _selectedDate;
 
   @override
   void initState() {
@@ -213,12 +216,19 @@ class _BottomCalendarState extends State<BottomCalendar> {
     return InkWell(
       onTap: () {
         print('test:${currentDateTime.month}:: ${day.month}');
+        print(selectedDate);
         setState(() {
           selectedDate = day;
+          _selectedDate = new DateTime(day.year!, day.month!, day.day!);
         });
+        widget.onDateTimeChanged(_selectedDate);
+        Navigator.pop(context);
       },
       child: Container(
-        color: selectedDate == day ? Colors.orange : Colors.transparent,
+        decoration: BoxDecoration(
+          color: selectedDate == day ? customColors.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(5.0),
+        ),
         margin: EdgeInsets.all(ResponsiveFlutter.of(context).fontSize(1)),
         child: Center(
             child: Text(day.day.toString(),

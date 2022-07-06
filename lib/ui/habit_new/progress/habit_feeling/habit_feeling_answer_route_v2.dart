@@ -153,15 +153,21 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             _selectedQuestion != null
-                                                ? CustomText(
-                                                    _selectedQuestion!.answerText,
-                                                    fontWeight: FontWeight.w500,
-                                                    maxLines: 5,
-                                                    fontSize: 13.0,
+                                                ? Expanded(
+                                                    child: CustomText(
+                                                      _selectedQuestion!.answerText,
+                                                      fontWeight: FontWeight.w500,
+                                                      lineSpace: 1.5,
+                                                      maxLines: 5,
+                                                      fontSize: 13.0,
+                                                    ),
                                                   )
                                                 : Expanded(
                                                     child: Container(),
                                                   ),
+                                            SizedBox(
+                                              width: 20.0,
+                                            ),
                                             InkWell(
                                               onTap: () {
                                                 showCustomDialog(
@@ -225,7 +231,7 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                         CustomTextField(
                                           controller: _reflectionsTextFieldController,
                                           keyboardType: TextInputType.text,
-                                          hintText: LocaleKeys.typeSomething,
+                                          hintText: LocaleKeys.typeNote,
                                         ),
                                       ],
                                     ),
@@ -263,7 +269,11 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
     }
     if (state is HabitQuestionSuccess) {
       _questionList = state.habitQuestionResponse.answers;
-      if (_questionList != null) _selectedQuestion = _questionList![0];
+      if (_questionList != null) {
+        _selectedQuestion = _questionList![0];
+        _selectedQuestion!.isSelected = true;
+        setState(() {});
+      }
 
       if (_questionList != null && _questionList!.isNotEmpty) {
         // _questionList![0].isSelected = true;

@@ -7,12 +7,16 @@ import 'package:habido_app/models/badge_response.dart';
 import 'package:habido_app/models/banners_response.dart';
 import 'package:habido_app/models/base_request.dart';
 import 'package:habido_app/models/base_response.dart';
+<<<<<<< HEAD
 import 'package:habido_app/models/dict_list_response.dart';
 import 'package:habido_app/models/dictionary.dart';
 import 'package:habido_app/models/get_dict_list_request.dart';
 import 'package:habido_app/models/get_dict_request.dart';
 import 'package:habido_app/models/get_dict_response.dart';
 import 'package:habido_app/models/get_dicts_list_response.dart';
+=======
+import 'package:habido_app/models/dashboard_habit_templates_response.dart';
+>>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
 import 'package:habido_app/models/date_interval_progress_response.dart';
 import 'package:habido_app/models/habit_feeling_pie_chart_response.dart';
 import 'package:habido_app/models/habit.dart';
@@ -654,8 +658,21 @@ class ApiManager {
     );
   }
 
+<<<<<<< HEAD
   static Future<HabitProgressResponse> saveUserHabitProgress(
       SaveUserHabitProgressRequest request) async {
+=======
+  static Future<DashboardHabitTemplatesResponse> dashboardHabitTemplates() async {
+    return DashboardHabitTemplatesResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.habitTemplates,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<HabitProgressResponse> saveUserHabitProgress(SaveUserHabitProgressRequest request) async {
+>>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
     return HabitProgressResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.saveUserHabitProgress,
@@ -945,6 +962,15 @@ class ApiManager {
       await httpUtils.sendRequest(
         path: HttpPath.userHabitDetailsFeelingLatest +
             '?userHabitId=$userHabitId',
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<UserHabitDetailsFeelingResponse> getUserHabitDetailsFeelingNext(int userHabitId, int planId) async {
+    return UserHabitDetailsFeelingResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.userHabitDetailsFeelingNext + '?userHabitId=$userHabitId&planId=$planId',
         httpMethod: HttpMethod.get,
       ),
     );

@@ -15,9 +15,7 @@ class ReminderWidgetV2 extends StatefulWidget {
   final Color? primaryColor;
   final EdgeInsets? margin;
 
-  const ReminderWidgetV2(
-      {Key? key, required this.reminderBloc, this.primaryColor, this.margin})
-      : super(key: key);
+  const ReminderWidgetV2({Key? key, required this.reminderBloc, this.primaryColor, this.margin}) : super(key: key);
 
   @override
   _ReminderWidgetV2State createState() => _ReminderWidgetV2State();
@@ -64,7 +62,7 @@ class _ReminderWidgetV2State extends State<ReminderWidgetV2> {
   Widget _aboutHabitTextField() {
     return CustomTextField(
       controller: _aboutHabitController,
-      hintText: LocaleKeys.typeSomething,
+      hintText: LocaleKeys.typeNote,
       maxLength: 30,
       borderRadius: SizeHelper.borderRadiusOdd,
     );
@@ -87,8 +85,7 @@ class _ReminderWidgetV2State extends State<ReminderWidgetV2> {
   }
 
   void _onPressedButtonAdd() async {
-    TimeOfDay? selectedTimeOfDay =
-        await showCustomTimePicker(context, widget.primaryColor);
+    TimeOfDay? selectedTimeOfDay = await showCustomTimePicker(context, widget.primaryColor);
     if (selectedTimeOfDay != null) {
       widget.reminderBloc.add(AddReminderEvent(selectedTimeOfDay));
     }

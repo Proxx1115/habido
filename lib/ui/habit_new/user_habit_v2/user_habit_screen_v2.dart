@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_goal_settings.dart';
+import 'package:habido_app/models/habit_template.dart';
 import 'package:habido_app/models/plan.dart';
 import 'package:habido_app/ui/content/content_card.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
@@ -44,6 +45,7 @@ class UserHabitScreenV2 extends StatefulWidget {
   final int habitId;
   final String screenMode;
   final UserHabit? userHabit;
+  final HabitTemplate? habitTemplate;
   final CustomHabitSettingsResponse? customHabitSettings;
   final String? title;
 
@@ -54,6 +56,7 @@ class UserHabitScreenV2 extends StatefulWidget {
     this.userHabit,
     this.customHabitSettings,
     this.title,
+    this.habitTemplate,
   }) : super(key: key);
 
   @override
@@ -65,6 +68,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
   late String _screenMode;
   Habit? _habit;
   UserHabit? _userHabit;
+  HabitTemplate? _habitTemplate;
 
   // Name
   final _nameController = TextEditingController();
@@ -120,6 +124,9 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     /// User habit
     _userHabit = widget.userHabit;
 
+    /// Habit Template
+    _habitTemplate = widget.habitTemplate;
+
     /// Name
     _nameController.text = _habit!.name ?? '';
 
@@ -127,17 +134,18 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     _colorList = widget.customHabitSettings?.colorList;
     switch (_screenMode) {
       case ScreenMode.New:
+      case ScreenMode.HabitTemplate:
       case ScreenMode.Edit:
-        _primaryColorCode = _habit!.color;
-        _backgroundColorCode = _habit!.backgroundColor;
+        // _primaryColorCode = _habit!.color;
+        // _backgroundColorCode = _habit!.backgroundColor;
         break;
       case ScreenMode.CustomNew:
         _primaryColorCode = _colorList?.first.primaryColor;
         _backgroundColorCode = _colorList?.first.backgroundColor;
         break;
       case ScreenMode.CustomEdit:
-        _primaryColorCode = _habit!.color;
-        _backgroundColorCode = _habit!.backgroundColor;
+        // _primaryColorCode = _habit!.color;
+        // _backgroundColorCode = _habit!.backgroundColor;
         break;
     }
 
@@ -146,6 +154,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     switch (_screenMode) {
       case ScreenMode.New:
       case ScreenMode.Edit:
+      case ScreenMode.HabitTemplate:
         break;
       case ScreenMode.CustomNew:
         if (Func.isNotEmpty(_iconList?.first.link)) {
@@ -173,6 +182,10 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         _planTerm = PlanTerm.getInitialPlanTerm(_habit!.planTerms);
         _planList = [];
         break;
+      case ScreenMode.HabitTemplate:
+        _planTerm = _habitTemplate!.planTerm ?? PlanTerm.getInitialPlanTerm(_habit!.planTerms);
+        _planList = _habitTemplate!.planDays ?? [];
+        break;
       case ScreenMode.CustomNew:
       default:
         _planTerm = PlanTerm.Daily;
@@ -185,7 +198,9 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
     switch (_screenMode) {
       case ScreenMode.New:
+      case ScreenMode.HabitTemplate:
         _goalSettings = _habit!.goalSettings;
+        _visibleGoalMeasure = true;
         break;
       case ScreenMode.Edit:
         _goalSettings = _userHabit?.habit?.goalSettings;
@@ -209,6 +224,9 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         case ScreenMode.CustomEdit:
           value = Func.toDouble(_userHabit!.goalValue);
           break;
+        case ScreenMode.HabitTemplate:
+          value = Func.toDouble(_habitTemplate!.goalValue);
+          break;
         case ScreenMode.New:
         case ScreenMode.CustomNew:
         default:
@@ -231,6 +249,11 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         _startDate = Func.toDate(_userHabit!.startDate ?? '');
         _endDate = Func.toDate(_userHabit!.endDate ?? '');
         break;
+      case ScreenMode.HabitTemplate:
+        _startDate = DateTime.now();
+        print('durationst ${_habitTemplate!.duration}');
+        _endDate = DateTime.now().add(new Duration(days: _habitTemplate!.duration ?? 0));
+        break;
       case ScreenMode.New:
       case ScreenMode.CustomNew:
       default:
@@ -245,6 +268,18 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
           _reminderBloc.switchValue = true;
           _reminderBloc.timeOfDayList = [];
           for (var el in _userHabit!.userHabitReminders!) {
+            _reminderBloc.timeOfDayList.add(TimeOfDay(
+              hour: Func.toInt(el.time) ~/ 60,
+              minute: Func.toInt(el.time) % 60,
+            ));
+          }
+        }
+        break;
+      case ScreenMode.HabitTemplate:
+        if (_habitTemplate!.templateReminders != null && _habitTemplate!.templateReminders!.isNotEmpty) {
+          _reminderBloc.switchValue = true;
+          _reminderBloc.timeOfDayList = [];
+          for (var el in _habitTemplate!.templateReminders!) {
             _reminderBloc.timeOfDayList.add(TimeOfDay(
               hour: Func.toInt(el.time) ~/ 60,
               minute: Func.toInt(el.time) % 60,
@@ -283,52 +318,45 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
                             child: ListView(
                               shrinkWrap: true,
                               children: [
-                                CustomShowcase(
-                                  showcaseKey: ShowcaseKey.userHabit,
-                                  description: LocaleKeys.showcaseUserHabit,
-                                  overlayOpacity: 0.9,
-                                  overlayPadding: EdgeInsets.all(20.0),
-                                  shapeBorder: CircleBorder(),
-                                  child: Column(
-                                    children: [
-                                      /// Нэр
-                                      _nameTextField(),
+                                Column(
+                                  children: [
+                                    /// Нэр
+                                    _nameTextField(),
 
-                                      /// Зөвлөмж
-                                      _tipWidget(),
+                                    /// Зөвлөмж
+                                    _tipWidget(),
 
-                                      /// Дүрс сонгох
-                                      _iconPicker(),
+                                    /// Дүрс сонгох
+                                    _iconPicker(),
 
-                                      /// Plan terms
-                                      _planTermsWidget(),
+                                    /// Plan terms
+                                    _planTermsWidget(),
 
-                                      /// Зорилго
-                                      _goalWidget(),
+                                    /// Зорилго
+                                    _goalWidget(),
 
-                                      SizedBox(height: 15.0),
+                                    SizedBox(height: 15.0),
 
-                                      Container(
-                                        width: double.infinity,
-                                        height: 50.0,
-                                        child: Row(
-                                          children: [
-                                            /// Эхлэх огноо
-                                            Expanded(child: _startDatePicker()),
+                                    Container(
+                                      width: double.infinity,
+                                      height: 50.0,
+                                      child: Row(
+                                        children: [
+                                          /// Эхлэх огноо
+                                          Expanded(child: _startDatePicker()),
 
-                                            SizedBox(
-                                              width: 15,
-                                            ),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
 
-                                            /// Дуусах огноо
-                                            Expanded(child: _endDatePicker()),
-                                          ],
-                                        ),
+                                          /// Дуусах огноо
+                                          Expanded(child: _endDatePicker()),
+                                        ],
                                       ),
+                                    ),
 
-                                      _reminder(),
-                                    ],
-                                  ),
+                                    _reminder(),
+                                  ],
                                 ),
                               ],
                             ),
@@ -400,7 +428,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
           buttonText: LocaleKeys.ok,
           primaryColor: ConstantColors.createHabitColor,
           onPressedButton: () {
-            Navigator.popUntil(context, ModalRoute.withName(Routes.home));
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
           },
         ),
       );
@@ -582,6 +610,49 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
         BlocManager.userHabitBloc.add(InsertUserHabitEvent(userHabit));
         break;
+
+      case ScreenMode.HabitTemplate:
+
+        /// New
+        var userHabit = UserHabit();
+        userHabit.userHabitId = 0;
+        userHabit.isDynamicHabit = false;
+
+        // Habit settings
+        userHabit.habitId = _habit!.habitId;
+
+        // Name
+        userHabit.name = _nameController.text;
+
+        // Plan
+        userHabit.planTerm = _planTerm;
+
+        if (_planList.isNotEmpty) {
+          userHabit.planDays = [];
+          for (var el in _planList) {
+            if (el.isSelected ?? false) userHabit.planDays!.add(el);
+          }
+        }
+
+        // Start, end date
+        userHabit.startDate = Func.dateTimeToDateStr(_startDate);
+        userHabit.endDate = Func.dateTimeToDateStr(_endDate);
+
+        // Reminder
+        if (_reminderBloc.switchValue && _reminderBloc.timeOfDayList.isNotEmpty) {
+          userHabit.userHabitReminders = [];
+          for (var el in _reminderBloc.timeOfDayList) {
+            userHabit.userHabitReminders!.add(UserHabitReminders()..time = el.hour * 60 + el.minute);
+          }
+        } else {
+          userHabit.userHabitReminders = null;
+        }
+
+        // Note
+        userHabit.userNote = '';
+
+        BlocManager.userHabitBloc.add(InsertUserHabitEvent(userHabit));
+        break;
       case ScreenMode.Edit:
 
         /// Edit
@@ -644,6 +715,11 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
           for (var el in _planList) {
             if (el.isSelected ?? false) userHabit.planDays!.add(el);
           }
+        }
+
+        // Goal
+        if (_goalSettings?.goalRequired ?? false) {
+          userHabit.goalValue = Func.toStr(_goalSliderBloc?.value);
         }
 
         // Start, end date
