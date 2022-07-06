@@ -33,7 +33,7 @@ class PsyUserTestDashboard extends StatefulWidget {
 
 class _PsyUserTestDashboardState extends State<PsyUserTestDashboard> {
   // UI
-  final _psyDashboardKey = GlobalKey<ScaffoldState>();
+  final _psyUserTestDashboardKey = GlobalKey<ScaffoldState>();
 
   // Data
   // List<PsyTestCategoryResults>? _categoryList;
@@ -52,7 +52,7 @@ class _PsyUserTestDashboardState extends State<PsyUserTestDashboard> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      scaffoldKey: _psyDashboardKey,
+      scaffoldKey: _psyUserTestDashboardKey,
       onWillPop: () {
         print('nothing');
       },
@@ -111,16 +111,12 @@ class _PsyUserTestDashboardState extends State<PsyUserTestDashboard> {
               child: Column(
                 children: [
                   /// Latest test
-                  _latestTest != null
-                      ? HorizontalPsyTestCard(test: _latestTest!)
-                      : Container(),
+                  _latestTest != null ? HorizontalPsyTestCard(test: _latestTest!) : Container(),
                   SizedBox(
                     height: 15,
                   ),
 
-                  (_userTests != null && _userTests!.isNotEmpty)
-                      ? HorizontalLine()
-                      : Container(),
+                  (_userTests != null && _userTests!.isNotEmpty) ? HorizontalLine() : Container(),
 
                   (_userTests != null && _userTests!.isNotEmpty)
                       ? SectionTitleText(
@@ -161,15 +157,13 @@ class _PsyUserTestDashboardState extends State<PsyUserTestDashboard> {
                   margin: EdgeInsets.only(bottom: 10.0),
                   height: 70.0,
                   leadingImageUrl: el.photo,
-                  leadingBackgroundColor:
-                      HexColor.fromHex(el.color ?? '#F4F6F8'),
+                  leadingBackgroundColor: HexColor.fromHex(el.color ?? '#F4F6F8'),
                   title: el.testResult?.testName ?? '',
                   suffixAsset: Assets.arrow_forward,
                   onPressed: () {
-                    Navigator.pushNamed(context, Routes.psyTestResult,
-                        arguments: {
-                          'psyTestResult': el.testResult,
-                        });
+                    Navigator.pushNamed(context, Routes.psyTestResult, arguments: {
+                      'psyTestResult': el.testResult,
+                    });
                   },
                 ),
 
@@ -212,8 +206,7 @@ class _PsyUserTestDashboardState extends State<PsyUserTestDashboard> {
             Stack(
               children: [
                 StadiumContainer(
-                  margin: EdgeInsets.fromLTRB(SizeHelper.margin, 45.0,
-                      SizeHelper.margin, SizeHelper.margin),
+                  margin: EdgeInsets.fromLTRB(SizeHelper.margin, 45.0, SizeHelper.margin, SizeHelper.margin),
                   padding: EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 20.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -225,14 +218,10 @@ class _PsyUserTestDashboardState extends State<PsyUserTestDashboard> {
                         maxLines: 5,
                         alignment: Alignment.center,
                       ),
-                      CustomText(LocaleKeys.psyTestHint2,
-                          margin: EdgeInsets.only(top: SizeHelper.margin),
-                          maxLines: 5,
-                          alignment: Alignment.center),
+                      CustomText(LocaleKeys.psyTestHint2, margin: EdgeInsets.only(top: SizeHelper.margin), maxLines: 5, alignment: Alignment.center),
                       CustomText(
                         LocaleKeys.psyTestHint3,
-                        margin: EdgeInsets.only(
-                            top: SizeHelper.margin, bottom: SizeHelper.margin),
+                        margin: EdgeInsets.only(top: SizeHelper.margin, bottom: SizeHelper.margin),
                         maxLines: 5,
                         alignment: Alignment.center,
                       ),
@@ -254,8 +243,7 @@ class _PsyUserTestDashboardState extends State<PsyUserTestDashboard> {
                   alignment: Alignment.topCenter,
                   child: Container(
                     margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    child: Image.asset(Assets.habido_assistant_png,
-                        height: 50.0, width: 50.0),
+                    child: Image.asset(Assets.habido_assistant_png, height: 50.0, width: 50.0),
                   ),
                 ),
               ],

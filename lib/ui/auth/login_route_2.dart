@@ -14,10 +14,10 @@ class LoginRoute2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _loginKey = GlobalKey<ScaffoldState>();
+    final _loginNewKey = GlobalKey<ScaffoldState>();
 
     return CustomScaffold(
-      scaffoldKey: _loginKey,
+      scaffoldKey: _loginNewKey,
       padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
       child: CustomScrollView(
         slivers: [

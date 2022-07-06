@@ -79,65 +79,59 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ),
-      floatingActionButton: CustomShowcase(
-        showcaseKey: ShowcaseKey.addHabit,
-        description: LocaleKeys.showcaseAddHabit,
-        shapeBorder: CircleBorder(),
-        overlayPadding: EdgeInsets.all(10.0),
-        child: BlocProvider.value(
-          value: BlocManager.dashboardBloc,
-          child: BlocListener<DashboardBloc, DashboardState>(
-            listener: _blocListener,
-            child: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
-              return _isUserHabitEmpty
-                  ? Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          topRight: Radius.circular(25.0),
-                          bottomRight: Radius.circular(25.0),
-                          bottomLeft: Radius.circular(25.0),
+      floatingActionButton: BlocProvider.value(
+        value: BlocManager.dashboardBloc,
+        child: BlocListener<DashboardBloc, DashboardState>(
+          listener: _blocListener,
+          child: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
+            return _isUserHabitEmpty
+                ? Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(25.0),
+                        bottomRight: Radius.circular(25.0),
+                        bottomLeft: Radius.circular(25.0),
+                      ),
+                      color: customColors.whiteBackground,
+                    ),
+                    width: 217.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        /// Text
+                        Container(
+                          margin: EdgeInsets.only(right: 15),
+                          // width: 162.0,
+                          child: Text(
+                            LocaleKeys.createNewHabit,
+                            style: TextStyle(
+                                fontFamily: FontAsset.FiraSansCondensed,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15.0,
+                                color: HexColor.fromHex('#424852')),
+                          ),
                         ),
-                        color: customColors.whiteBackground,
-                      ),
-                      width: 217.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          /// Text
-                          Container(
-                            margin: EdgeInsets.only(right: 15),
-                            // width: 162.0,
-                            child: Text(
-                              LocaleKeys.createNewHabit,
-                              style: TextStyle(
-                                  fontFamily: FontAsset.FiraSansCondensed,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15.0,
-                                  color: HexColor.fromHex('#424852')),
-                            ),
-                          ),
 
-                          /// Button
-                          ButtonStadium(
-                            style: ButtonStadiumStyle.Secondary,
-                            asset: Assets.add,
-                            onPressed: () {
-                              Navigator.pushNamed(context, Routes.habitCategories);
-                            },
-                          ),
-                        ],
-                      ),
-                    )
-                  : ButtonStadium(
-                      style: ButtonStadiumStyle.Secondary,
-                      asset: Assets.add,
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.habitCategories);
-                      },
-                    );
-            }),
-          ),
+                        /// Button
+                        ButtonStadium(
+                          style: ButtonStadiumStyle.Secondary,
+                          asset: Assets.add,
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.habitCategories);
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                : ButtonStadium(
+                    style: ButtonStadiumStyle.Secondary,
+                    asset: Assets.add,
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.habitCategories);
+                    },
+                  );
+          }),
         ),
       ),
     );
@@ -291,7 +285,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
           suffixAsset: _getSuffixAsset(userHabitList[index]),
           suffixColor: _getSuffixColor(userHabitList[index]),
-          
+
           // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
           // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
           onPressed: () {

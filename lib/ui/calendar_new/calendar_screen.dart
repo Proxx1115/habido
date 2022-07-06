@@ -64,7 +64,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           month: date.add(new Duration(days: i)).month);
       fixedWeek.add(currentDay);
     }
-    setState(() {});
+    // setState(() {});
   }
 
   String _weekDay(int week) {
