@@ -133,52 +133,52 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
             SizedBox(height: 15.0),
 
             /// Title - (Note)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(
-                  LocaleKeys.note,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w700,
-                ),
-                NoSplashContainer(
-                  child: InkWell(
-                    onTap: () {
-                      _navigateToFeelingNotesRoute();
-                    },
-                    child: CustomText(
-                      LocaleKeys.seeAllNote,
-                      fontSize: 10.0,
-                      color: customColors.primary,
-                      margin: EdgeInsets.only(right: 23.0),
-                      padding: EdgeInsets.all(5.0),
-                      underlined: true,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.length > 0)
+                ? Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            LocaleKeys.note,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          NoSplashContainer(
+                            child: InkWell(
+                              onTap: () {
+                                _navigateToFeelingNotesRoute();
+                              },
+                              child: CustomText(
+                                LocaleKeys.seeAllNote,
+                                fontSize: 10.0,
+                                color: customColors.primary,
+                                margin: EdgeInsets.only(right: 23.0),
+                                padding: EdgeInsets.all(5.0),
+                                underlined: true,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 12.0),
 
-            SizedBox(height: 12.0),
-
-            /// Feeling Details 3
-            if (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.isNotEmpty)
-              for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
+                      /// Feeling Details 3
+                      for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
+                      SizedBox(height: 20.0),
+                    ],
+                  )
+                : Container(),
 
             /// Delete Btn
             if (widget.isActive!)
-              Column(
-                children: [
-                  SizedBox(height: 20.0),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: DeleteButtonWidget(
-                      onDelete: () {
-                        BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-                      },
-                    ),
-                  ),
-                ],
+              Align(
+                alignment: Alignment.topRight,
+                child: DeleteButtonWidget(
+                  onDelete: () {
+                    BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                  },
+                ),
               ),
           ],
         ),
@@ -189,17 +189,17 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
   _getAsset(int index) {
     switch (index) {
       case 1:
-        return Assets.sad_emoji;
+        return Assets.emoji1;
       case 2:
-        return Assets.unpleasant_emoji;
+        return Assets.emoji2;
       case 3:
-        return Assets.unknown_emoji;
+        return Assets.emoji3;
       case 4:
-        return Assets.calm_emoji;
+        return Assets.emoji4;
       case 5:
-        return Assets.happy_emoji;
+        return Assets.emoji5;
       default:
-        return Assets.sad_emoji;
+        return Assets.emoji1;
     }
   }
 
@@ -414,7 +414,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
         children: [
           /// Image
           SvgPicture.asset(
-            _getAsset(feeling.count!),
+            _getAsset(feeling.index!),
             height: 14,
             width: 14,
             color: HexColor.fromHex(_getColor(feeling.index!)),

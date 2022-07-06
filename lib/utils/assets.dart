@@ -157,11 +157,11 @@ class Assets {
   static const String reset = 'assets/images/habit/reset.svg';
   static const String emptyWoman = 'assets/images/habit/EmptyWoman.svg';
   static const String emptyman = 'assets/images/habit/EmptyMan.svg';
-  // static const String emoji1 = 'assets/images/habit/emoji1.svg';
-  // static const String emoji2 = 'assets/images/habit/emoji2.svg';
-  // static const String emoji3 = 'assets/images/habit/emoji3.svg';
-  // static const String emoji4 = 'assets/images/habit/emoji4.svg';
-  // static const String emoji5 = 'assets/images/habit/emoji5.svg';
+  static const String emoji1 = 'assets/images/habit/emoji1.svg';
+  static const String emoji2 = 'assets/images/habit/emoji2.svg';
+  static const String emoji3 = 'assets/images/habit/emoji3.svg';
+  static const String emoji4 = 'assets/images/habit/emoji4.svg';
+  static const String emoji5 = 'assets/images/habit/emoji5.svg';
 
   static const String happyEmoji = 'assets/images/habit/_Баяр_хөөртэй.png';
   static const String frustratedEmoji = 'assets/images/habit/_Бухимдсан.png';
@@ -224,11 +224,11 @@ class Assets {
   static const String happy_emoji = 'assets/images/habit/_Маш_их_баяртай_байна.svg';
 
   /// Feeling
-  static const String emoji1 = 'assets/images/feeling/emoji1.svg';
-  static const String emoji2 = 'assets/images/feeling/emoji2.svg';
-  static const String emoji3 = 'assets/images/feeling/emoji3.svg';
-  static const String emoji4 = 'assets/images/feeling/emoji4.svg';
-  static const String emoji5 = 'assets/images/feeling/emoji5.svg';
+  static const String mood1 = 'assets/images/feeling/emoji1.svg';
+  static const String mood2 = 'assets/images/feeling/emoji2.svg';
+  static const String mood3 = 'assets/images/feeling/emoji3.svg';
+  static const String mood4 = 'assets/images/feeling/emoji4.svg';
+  static const String mood5 = 'assets/images/feeling/emoji5.svg';
   static const String exit = 'assets/images/feeling/exit.png';
 
   /// awesome, cool emojis

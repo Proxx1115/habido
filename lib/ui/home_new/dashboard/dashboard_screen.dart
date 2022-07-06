@@ -45,11 +45,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   double _indicatorVerticalMargin = 0;
 
   List _feelingEmojis = [
-    Assets.emoji1,
-    Assets.emoji2,
-    Assets.emoji3,
-    Assets.emoji4,
-    Assets.emoji5,
+    Assets.mood1,
+    Assets.mood2,
+    Assets.mood3,
+    Assets.mood4,
+    Assets.mood5,
   ];
 
   AdviceVideoResponse? _adviceVideo;
