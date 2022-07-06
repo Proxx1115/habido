@@ -127,6 +127,7 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
         arguments: {
           'userHabitId': habitData.userHabitId,
           'name': habitData.name,
+          'isCompleted': false,
         },
       );
     }

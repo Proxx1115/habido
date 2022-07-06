@@ -119,6 +119,7 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
             child: BottomCalendar(
               onDateTimeChanged: (DateTime value) {
                 _pickedDate = value;
+                widget.callback(_pickedDate);
               },
             )));
     // _pickedDate = await showDatePicker(

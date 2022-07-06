@@ -24,10 +24,13 @@ import 'package:habido_app/widgets/text.dart';
 class HabitDetailWithFeelingRoute extends StatefulWidget {
   final int? userHabitId;
   final String? name;
+  final bool? isCompleted;
+
   const HabitDetailWithFeelingRoute({
     Key? key,
     this.userHabitId,
     this.name,
+    this.isCompleted,
   }) : super(key: key);
 
   @override

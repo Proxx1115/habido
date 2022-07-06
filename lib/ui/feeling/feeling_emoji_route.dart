@@ -37,8 +37,8 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     // Gridview - dynamic spacing
-    double _crossAxisSpacing = (width - 90.0 * 3 - SizeHelper.margin * 2) / 2; // todo change
-    double _mainAxisSpacing = _crossAxisSpacing; // todo change
+    double _crossAxisSpacing = (width - 90.0 * 3 - SizeHelper.margin * 2) / 2;
+    double _mainAxisSpacing = _crossAxisSpacing;
 
     return BlocProvider.value(
       value: BlocManager.moodTrackerBloc,

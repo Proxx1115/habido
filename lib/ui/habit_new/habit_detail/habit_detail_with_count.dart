@@ -15,10 +15,13 @@ import 'package:habido_app/widgets/text.dart';
 class HabitDetailWithCountRoute extends StatefulWidget {
   final int? userHabitId;
   final String? name;
+  final bool? isCompleted;
+
   const HabitDetailWithCountRoute({
     Key? key,
     this.userHabitId,
     this.name,
+    this.isCompleted,
   }) : super(key: key);
 
   @override
@@ -85,16 +88,20 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithCountRoute> {
                   /// Chart
 
                   /// Delete Btn
-                  SizedBox(height: 20.0),
-
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: DeleteButtonWidget(
-                      onDelete: () {
-                        BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-                      },
-                    ),
-                  ),
+                  if (widget.isCompleted!)
+                    Column(
+                      children: [
+                        SizedBox(height: 20.0),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: DeleteButtonWidget(
+                            onDelete: () {
+                              BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                            },
+                          ),
+                        ),
+                      ],
+                    )
                 ],
               )
             : Container(),
