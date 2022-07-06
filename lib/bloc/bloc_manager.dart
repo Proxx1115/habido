@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-<<<<<<< HEAD
-import 'package:habido_app/bloc/all_habit_bloc.dart';
 import 'package:habido_app/bloc/authDialog_bloc.dart';
-=======
->>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
 import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
 import 'package:habido_app/bloc/mood_tracker_bloc.dart';

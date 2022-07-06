@@ -168,7 +168,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   _userNameTextField() {
     return UserInfoTextField(
       controller: _userNameController,
-      hintText: LocaleKeys.nickname,
+      hintText: LocaleKeys.firstName,
       // suffixAsset: Assets.editV2,
       margin: EdgeInsets.only(top: 15.0),
       backgroundColor: Colors.transparent,

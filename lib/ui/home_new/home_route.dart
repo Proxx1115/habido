@@ -153,30 +153,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: <Widget>[
           /// Дадал
           Expanded(
-<<<<<<< HEAD
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.profile,
-              description: LocaleKeys.showcaseProfile,
-              child:
-                  _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
-            ),
-=======
             child: _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
->>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
           ),
 
           /// Чатбот
           Expanded(
-<<<<<<< HEAD
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.assistant,
-              description: LocaleKeys.showcaseAssistant,
-              child: _bottomNavigationBarItem(
-                  1, Assets.assistant, LocaleKeys.chatbot), //todo set Icon
-            ),
-=======
-            child: _bottomNavigationBarItem(1, Assets.assistant, LocaleKeys.chatbot),
->>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
+            child: _bottomNavigationBarItem(
+                1, Assets.assistant, LocaleKeys.chatbot),
           ),
 
           /// Нүүр
@@ -191,17 +174,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Зөвлөмж
           Expanded(
-<<<<<<< HEAD
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.content,
-              description: LocaleKeys.showcaseContent,
-              overlayOpacity: 0.7,
-              child: _bottomNavigationBarItem(
-                  4, Assets.content, LocaleKeys.advice),
-            ),
-=======
-            child: _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
->>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
+            child:
+                _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
           ),
         ],
       ),
@@ -279,7 +253,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       ),
     );
   }
-<<<<<<< HEAD
 }
 
 _checkOAuth(BuildContext context) {
@@ -290,6 +263,4 @@ _checkOAuth(BuildContext context) {
           asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
     );
   }
-=======
->>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
 }

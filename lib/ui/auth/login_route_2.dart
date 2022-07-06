@@ -51,7 +51,6 @@ class _LoginRoute2State extends State<LoginRoute2> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return BlocProvider.value(
       value: BlocManager.oauthBloc,
       child: BlocListener<OAuthBloc, OAuthState>(
@@ -105,10 +104,7 @@ class _LoginRoute2State extends State<LoginRoute2> {
 
   @override
   Widget _blocBuilder(BuildContext context, OAuthState state) {
-    final _loginKey = GlobalKey<ScaffoldState>();
-=======
     final _loginNewKey = GlobalKey<ScaffoldState>();
->>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
 
     return CustomScaffold(
       scaffoldKey: _loginNewKey,

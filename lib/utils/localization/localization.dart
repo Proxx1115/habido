@@ -241,6 +241,7 @@ class LocaleKeys {
   static String get understand => 'Ойлголоо';
 
   static String get termsOfService => 'Үйлчилгээний нөхцөл';
+  static String get exit => 'Гарах';
 
   static String get readTerms => 'Та үйлчилгээний нөхцөлтэй танилцана уу';
 

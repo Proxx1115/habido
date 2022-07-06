@@ -93,6 +93,10 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
       _genderValue = globals.userData!.gender == Gender.Female;
     if (globals.userData?.birthDay != null)
       _selectedBirthDate = Func.toDate(globals.userData!.birthDay!);
+    if (globals.userData?.employment != null)
+      _selectedEmp = globals.userData!.employment!;
+    if (globals.userData?.address != null)
+      _selectedAdd = globals.userData!.address!;
 
     if (Func.isNotEmpty(DeviceHelper.deviceId)) {
       BlocManager.userBloc.add(GetUserDeviceEvent(DeviceHelper.deviceId!));

@@ -240,14 +240,9 @@ class _PerformanceState extends State<Performance> {
           //     },
           //     child: CustomText('okey')),
 
-<<<<<<< HEAD
-          _moodTracker == null
-              ? FeelingLast(
-=======
           _moodTracker.length > 0
               ? FeelingItem(
                   state: false,
->>>>>>> 19e11f9c07c981983ac8e5901b08155b52084f75
                   answerImageUrl: '${_moodTracker[0].answerImageUrl!}',
                   answerText: '${_moodTracker[0].answerText!}',
                   reasons: _moodTracker[0].reasons!,

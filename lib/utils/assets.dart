@@ -69,6 +69,7 @@ class Assets {
   static const String bell_ring = 'assets/images/global/bell_ring.svg';
   static const String reminder = 'assets/images/global/reminder.svg';
   static const String dot = 'assets/images/global/dot.svg';
+
   static const String downArrow = 'assets/images/global/down_arrow.svg';
   static const String info = 'assets/images/global/info.svg';
 
@@ -129,6 +130,7 @@ class Assets {
 
   static const String male = 'assets/images/profile/male.png';
   static const String female = 'assets/images/profile/female.png';
+  static const String dots = 'assets/images/profile/calendar2.svg';
   static const String clock2 = 'assets/images/profile/clock2.svg';
   static const String scratch = 'assets/images/profile/scratch.svg';
   static const String calendar2 = 'assets/images/profile/calendar2.svg';
@@ -142,6 +144,7 @@ class Assets {
       'assets/images/profile/rank_background2.png';
   static const String question_mark = 'assets/images/profile/question_mark.svg';
   static const String terms = 'assets/images/profile/terms.svg';
+  static const String profile_exit = 'assets/images/profile/exit.svg';
   static const String new_badge_background =
       'assets/images/profile/new_badge_background.svg';
 
