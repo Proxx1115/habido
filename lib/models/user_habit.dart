@@ -1,4 +1,5 @@
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/utils/func.dart';
 import 'habit.dart';
 import 'user_habit_reminders.dart';
 import 'plan.dart';
@@ -11,6 +12,7 @@ class UserHabit extends BaseResponse {
   String? userNote; // Өөрийн тэмдэглэл
   bool? isDone;
   String? habitState;
+  double? percentage;
 
   // HabitGoalSettings
   String? planTerm; // PlanTerm: Daily, Weekly, Monthly
@@ -33,6 +35,7 @@ class UserHabit extends BaseResponse {
     this.endDate,
     this.userNote,
     this.isDone,
+    this.percentage,
     this.planTerm,
     this.goalValue,
     this.habitId,
@@ -50,6 +53,7 @@ class UserHabit extends BaseResponse {
     endDate = json['endDate'];
     userNote = json['userNote'];
     isDone = json['isDone'];
+    percentage = Func.toDouble(json['percentage']);
     habitState = json['habitState'];
     planTerm = json['planTerm'];
     goalValue = json['goalValue'];
@@ -85,8 +89,7 @@ class UserHabit extends BaseResponse {
     map['habit'] = habit;
     map['isDynamicHabit'] = isDynamicHabit ?? false;
     if (userHabitReminders != null) {
-      map['userHabitReminders'] =
-          userHabitReminders?.map((v) => v.toJson()).toList();
+      map['userHabitReminders'] = userHabitReminders?.map((v) => v.toJson()).toList();
     }
     if (planDays != null) {
       map['planDays'] = planDays?.map((v) => v.toJson()).toList();

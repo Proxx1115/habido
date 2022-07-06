@@ -448,6 +448,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
       children: List.generate(
         userHabitList.length,
         (index) => SlidableHabitItemWidget(
+          status: userHabitList[index].habitState!,
           isStart: index == 0,
           isEnd: index == userHabitList.length - 1,
           delay: index * 0.2,
@@ -457,11 +458,12 @@ class _HabitDashboardState extends State<HabitDashboard> {
               .userHabitReminders!
               .take(3)
               .toList()
-              .map((e) => ("${Func.toInt(e.time) ~/ 60} : ${Func.toInt(e.time) % 60}"))
-              .toList(), // todo sda
+              .map((e) => ("${(Func.toInt(e.time) ~/ 60)}".padLeft(2, "0") + ":" + "${Func.toInt(e.time) % 60}".padLeft(2, "0")))
+              .toList(),
           leadingUrl: userHabitList[index].habit?.photo,
           leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
-          processPercent: 50, // todo sda
+          processPercent: userHabitList[index].percentage!.toInt(),
+          // processPercent: 50,
           //_getSuffixAsset(userHabitList[index])
           // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
           // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
@@ -483,9 +485,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
               }
             }
           },
-          onPressedSkip: (userHabitList[index].isDone ?? false || !_isToday)
-              ? null
-              : () {
+          onPressedSkip: ((!userHabitList[index].isDone!) && _isToday)
+              ? () {
                   showCustomDialog(
                     context,
                     isDismissible: true,
@@ -502,21 +503,22 @@ class _HabitDashboardState extends State<HabitDashboard> {
                       },
                     ),
                   );
-                },
-          onPressedEdit: ((userHabitList[index].isDone ?? false) && !_isToday)
-              ? null
-              : () {
+                }
+              : null,
+          onPressedEdit: ((!userHabitList[index].isDone!) && _isToday)
+              ? () {
                   Navigator.pushNamed(
                     context,
                     Routes.userHabit,
                     arguments: {
                       'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
-                      'habit': userHabitList[index].habit,
+                      'habitId': userHabitList[index].habitId,
                       'userHabit': userHabitList[index],
                       'title': LocaleKeys.ediHabit,
                     },
                   );
-                },
+                }
+              : null,
           onPressedDetail: () {
             _navigateToHabitDetailRoute(context, userHabitList[index]);
           },

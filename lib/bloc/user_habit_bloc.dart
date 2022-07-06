@@ -1,12 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/active_habit.dart';
 import 'package:habido_app/models/base_response.dart';
+import 'package:habido_app/models/completed_habit.dart';
 import 'package:habido_app/models/habit.dart';
 import 'package:habido_app/models/habit_progress.dart';
 import 'package:habido_app/models/habit_progress_list_by_date_request.dart';
 import 'package:habido_app/models/habit_progress_list_with_date.dart';
 import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
+import 'package:habido_app/models/history_habit.dart';
 import 'package:habido_app/models/user_habit_details_feeling.dart';
 import 'package:habido_app/models/user_habit_details_feeling_response.dart';
 import 'package:habido_app/models/user_habit_details_satisfaction.dart';
@@ -82,6 +85,18 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       yield* _mapGetUserHabitPlanCountEventToState(event);
     } else if (event is GetHabitEvent) {
       yield* _mapGetUserHabitEventToState(event);
+    } else if (event is GetActiveHabitFirstEvent) {
+      yield* _mapGetActiveHabitFirstToState();
+    } else if (event is GetActiveHabitThenEvent) {
+      yield* _mapGetActiveHabitThenToState(event);
+    } else if (event is GetCompletedHabitFirstEvent) {
+      yield* _mapGetCompletedHabitFirstToState();
+    } else if (event is GetCompletedHabitThenEvent) {
+      yield* _mapGetCompletedHabitThenToState(event);
+    } else if (event is GetHistoryHabitFirstEvent) {
+      yield* _mapGetHistoryHabitFirstToState();
+    } else if (event is GetHistoryHabitThenEvent) {
+      yield* _mapGetHistoryHabitThenToState(event);
     }
   }
 
@@ -220,7 +235,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       var res = await ApiManager.saveUserHabitProgress(event.request);
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
-        BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
+        BlocManager.dashboardBloc.add(GetUserHabitByDate(DateTime.now().toString()));
 
         if (res.rank != null) {
           // Rank ахисан
@@ -445,6 +460,86 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       }
     } catch (e) {
       yield GetFeelingDetailsThenFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapGetActiveHabitFirstToState() async* {
+    try {
+      var res = await ApiManager.getActiveHabitFirst();
+
+      if (res.code == ResponseCode.Success) {
+        yield GetActiveHabitFirstSuccess(res.activeHabitList!);
+      } else {
+        yield GetActiveHabitFirstFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetActiveHabitFirstFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapGetActiveHabitThenToState(GetActiveHabitThenEvent event) async* {
+    try {
+      var res = await ApiManager.getActiveHabitThen(event.userHabitId);
+      if (res.code == ResponseCode.Success) {
+        yield GetActiveHabitThenSuccess(res.data ?? []);
+      } else {
+        yield GetActiveHabitThenFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetActiveHabitThenFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapGetCompletedHabitFirstToState() async* {
+    try {
+      var res = await ApiManager.getCompletedHabitFirst();
+      if (res.code == ResponseCode.Success) {
+        yield GetCompletedHabitFirstSuccess(res.completedHabitList!);
+      } else {
+        yield GetCompletedHabitFirstFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetCompletedHabitFirstFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapGetCompletedHabitThenToState(GetCompletedHabitThenEvent event) async* {
+    try {
+      var res = await ApiManager.getCompletedHabitThen(event.userHabitId);
+
+      if (res.code == ResponseCode.Success) {
+        yield GetCompletedHabitThenSuccess(res.completedHabitList!);
+      } else {
+        yield GetCompletedHabitThenFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetCompletedHabitThenFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapGetHistoryHabitFirstToState() async* {
+    try {
+      var res = await ApiManager.getHistoryHabitFirst();
+      if (res.code == ResponseCode.Success) {
+        yield GetHabitHistoryFirstSuccess(res.data ?? []);
+      } else {
+        yield GetHabitHistoryFirstFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetHabitHistoryFirstFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<UserHabitState> _mapGetHistoryHabitThenToState(GetHistoryHabitThenEvent event) async* {
+    try {
+      var res = await ApiManager.getActiveHabitThen(event.userHabitId);
+      if (res.code == ResponseCode.Success) {
+        yield GetHistoryHabitThenSuccess(res.data ?? []);
+      } else {
+        yield GetHistoryHabitThenFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+      }
+    } catch (e) {
+      yield GetHistoryHabitThenFailed(LocaleKeys.errorOccurred);
     }
   }
 }
@@ -739,6 +834,48 @@ class GetUserHabitDetailsFeelingNextEvent extends UserHabitEvent {
 
   @override
   String toString() => 'GetUserHabitDetailsFeelingNextEvent { userHabitId: $userHabitId - planId: $planId }';
+}
+
+class GetActiveHabitFirstEvent extends UserHabitEvent {}
+
+class GetActiveHabitThenEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetActiveHabitThenEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetNextNotifsEvent { userHabitId: $userHabitId }';
+}
+
+class GetCompletedHabitFirstEvent extends UserHabitEvent {}
+
+class GetCompletedHabitThenEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetCompletedHabitThenEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetNextNotifsEvent { userHabitId: $userHabitId }';
+}
+
+class GetHistoryHabitFirstEvent extends UserHabitEvent {}
+
+class GetHistoryHabitThenEvent extends UserHabitEvent {
+  final int userHabitId;
+
+  const GetHistoryHabitThenEvent(this.userHabitId);
+
+  @override
+  List<Object> get props => [userHabitId];
+
+  @override
+  String toString() => 'GetNextNotifsEvent { userHabitId: $userHabitId }';
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1251,4 +1388,152 @@ class GetFeelingDetailsSatisfactionFailed extends UserHabitState {
 
   @override
   String toString() => 'GetFeelingDetailsSatisfactionFailed { message: $message }';
+}
+
+class GetActiveHabitInit extends UserHabitState {}
+
+/// Active Habits
+class GetActiveHabitFirstSuccess extends UserHabitState {
+  final List<ActiveHabit> activeHabitList;
+
+  const GetActiveHabitFirstSuccess(this.activeHabitList);
+
+  @override
+  List<Object> get props => [activeHabitList];
+
+  @override
+  String toString() => 'GetActiveHabitFirstSuccess { activeHabitList: $activeHabitList }';
+}
+
+class GetActiveHabitFirstFailed extends UserHabitState {
+  final String message;
+
+  const GetActiveHabitFirstFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetActiveHabitFirstFailed { message: $message }';
+}
+
+class GetActiveHabitThenSuccess extends UserHabitState {
+  final List<ActiveHabit> activeHabitList;
+
+  const GetActiveHabitThenSuccess(this.activeHabitList);
+
+  @override
+  List<Object> get props => [activeHabitList];
+
+  @override
+  String toString() => 'GetActiveHabitThenSuccess { activeHabitList: $activeHabitList }';
+}
+
+class GetActiveHabitThenFailed extends UserHabitState {
+  final String message;
+
+  const GetActiveHabitThenFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetActiveHabitThenFailed { message: $message }';
+}
+
+/// Completed Habits
+class GetCompletedHabitFirstSuccess extends UserHabitState {
+  final List<CompletedHabit> completedHabitList;
+
+  const GetCompletedHabitFirstSuccess(this.completedHabitList);
+
+  @override
+  List<Object> get props => [completedHabitList];
+
+  @override
+  String toString() => 'GetCompletedHabitFirstSuccess { completedHabitList: $completedHabitList }';
+}
+
+class GetCompletedHabitFirstFailed extends UserHabitState {
+  final String message;
+
+  const GetCompletedHabitFirstFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetCompletedHabitFirstFailed { message: $message }';
+}
+
+class GetCompletedHabitThenSuccess extends UserHabitState {
+  final List<CompletedHabit> completedHabitList;
+
+  const GetCompletedHabitThenSuccess(this.completedHabitList);
+
+  @override
+  List<Object> get props => [completedHabitList];
+  @override
+  String toString() => 'GetCompletedHabitThenSuccess { completedHabitList: $completedHabitList }';
+}
+
+class GetCompletedHabitThenFailed extends UserHabitState {
+  final String message;
+
+  const GetCompletedHabitThenFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetCompletedHabitThenFailed { message: $message }';
+}
+
+/// Habit History
+class GetHabitHistoryFirstSuccess extends UserHabitState {
+  final List<HistoryHabit> habitHistoryList;
+
+  const GetHabitHistoryFirstSuccess(this.habitHistoryList);
+
+  @override
+  List<Object> get props => [habitHistoryList];
+
+  @override
+  String toString() => 'GetHabitHistoryFirstSuccess { habitHistoryList: $habitHistoryList }';
+}
+
+class GetHabitHistoryFirstFailed extends UserHabitState {
+  final String message;
+
+  const GetHabitHistoryFirstFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetHabitHistoryFirstFailed { message: $message }';
+}
+
+class GetHistoryHabitThenSuccess extends UserHabitState {
+  final List<HistoryHabit> habitHistoryList;
+
+  const GetHistoryHabitThenSuccess(this.habitHistoryList);
+
+  @override
+  List<Object> get props => [habitHistoryList];
+
+  @override
+  String toString() => 'GetHistoryHabitThenSuccess { habitHistoryList: $habitHistoryList }';
+}
+
+class GetHistoryHabitThenFailed extends UserHabitState {
+  final String message;
+
+  const GetHistoryHabitThenFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetHistoryHabitThenFailed { message: $message }';
 }

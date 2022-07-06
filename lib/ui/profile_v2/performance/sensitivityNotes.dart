@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/mood_tracker_latest.dart';
 import 'package:habido_app/models/mood_tracker_latest_response.dart';
-import 'package:habido_app/ui/profile_v2/performance/feeling_last.dart';
+import 'package:habido_app/ui/profile_v2/performance/feeling_item.dart';
 import 'package:habido_app/ui/profile_v2/performance/performance_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -118,12 +118,13 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
               child: ListView.builder(
                 itemBuilder: (context, index) => Container(
                   margin: EdgeInsets.only(bottom: 15),
-                  child: FeelingLast(
+                  child: FeelingItem(
+                    state: true,
                     answerImageUrl: '${_moodTracker[index].answerImageUrl}',
                     answerText: '${_moodTracker[index].answerText!}',
                     reasons: _moodTracker[index].reasons!,
-                    writtenAnswer: '${_moodTracker[index].writtenAnswer!}',
-                    bottomDate: '${_moodTracker[index].date!}',
+                    writtenAnswer: _moodTracker[index].writtenAnswer ?? "",
+                    date: '${_moodTracker[index].date!}',
                     maxLines: 2,
                   ),
                 ),

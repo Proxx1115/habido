@@ -74,8 +74,7 @@ class _CustomSwitchV2State extends State<CustomSwitchV2> {
   Widget build(BuildContext context) {
     return Container(
       // margin: widget.margin,
-      padding:
-          EdgeInsets.only(left: 18.0, top: 15.0, right: 15.0, bottom: 18.0),
+      padding: EdgeInsets.only(left: 18.0, top: 15.0, right: 15.0, bottom: 18.0),
       child: (widget.leadingAsset != null || text != null)
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,8 +88,7 @@ class _CustomSwitchV2State extends State<CustomSwitchV2> {
                       if (widget.leadingAsset != null)
                         SvgPicture.asset(
                           widget.leadingAsset!,
-                          color:
-                              widget.leadingAssetColor ?? customColors.iconGrey,
+                          color: widget.leadingAssetColor ?? customColors.iconGrey,
                           fit: BoxFit.fitHeight,
                         ),
 
@@ -102,13 +100,8 @@ class _CustomSwitchV2State extends State<CustomSwitchV2> {
                           runSpacing: 10.0,
                           children: [
                             if (widget.reminderBloc.switchValue)
-                              for (int i = 0;
-                                  i < widget.reminderBloc.timeOfDayList.length;
-                                  i++)
-                                _reminderItem(
-                                    widget.reminderBloc.timeOfDayList[i]),
-                            if (widget.reminderBloc.timeOfDayList.length != 8)
-                              _buttonAdd()
+                              for (int i = 0; i < widget.reminderBloc.timeOfDayList.length; i++) _reminderItem(widget.reminderBloc.timeOfDayList[i]),
+                            if (widget.reminderBloc.timeOfDayList.length != 8) _buttonAdd()
                           ],
                         ),
                       ),
@@ -141,9 +134,7 @@ class _CustomSwitchV2State extends State<CustomSwitchV2> {
                 widget.activeAsset!,
               )
             : null,
-        inactiveThumbImage: widget.inactiveAsset != null
-            ? AssetImage(widget.inactiveAsset!)
-            : null,
+        inactiveThumbImage: widget.inactiveAsset != null ? AssetImage(widget.inactiveAsset!) : null,
         onChanged: widget.enabled
             ? (newValue) {
                 setState(() {
@@ -161,13 +152,16 @@ class _CustomSwitchV2State extends State<CustomSwitchV2> {
   }
 
   Widget _reminderItem(TimeOfDay timeOfDay) {
+    String hour = timeOfDay.hour < 10 ? '0${timeOfDay.hour}' : '${timeOfDay.hour}';
+    String minute = timeOfDay.minute < 10 ? '0${timeOfDay.minute}' : '${timeOfDay.minute}';
+
     // _onPressedDeleteItem(timeOfDay);
     return TagItemWidgetV2(
       fontSize: 12.0,
       width: 52.0,
       height: 22.0,
       color: widget.activeColor ?? customColors.primary,
-      text: '${timeOfDay.hour}:${timeOfDay.minute}',
+      text: '$hour:$minute',
       onPressed: () {
         widget.reminderBloc.add(RemoveReminderEvent(timeOfDay));
       },
@@ -183,15 +177,13 @@ class _CustomSwitchV2State extends State<CustomSwitchV2> {
         width: 52.0,
         height: 22.0,
         fontSize: 10.0,
-        onPressed:
-            widget.reminderBloc.switchValue ? _onPressedButtonAdd : () {},
+        onPressed: widget.reminderBloc.switchValue ? _onPressedButtonAdd : () {},
       ),
     );
   }
 
   void _onPressedButtonAdd() async {
-    TimeOfDay? selectedTimeOfDay =
-        await showCustomTimePicker(context, widget.primaryColor);
+    TimeOfDay? selectedTimeOfDay = await showCustomTimePicker(context, widget.primaryColor);
     if (selectedTimeOfDay != null) {
       widget.reminderBloc.add(AddReminderEvent(selectedTimeOfDay));
       print(widget.reminderBloc.timeOfDayList.length);
