@@ -30,7 +30,7 @@ class HabitDetailWithFeelingRoute extends StatefulWidget {
     Key? key,
     this.userHabitId,
     this.name,
-    this.isActive,
+    this.isActive = false,
   }) : super(key: key);
 
   @override
@@ -171,15 +171,15 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
                 : Container(),
 
             /// Delete Btn
-            if (widget.isActive!)
-              Align(
-                alignment: Alignment.topRight,
-                child: DeleteButtonWidget(
-                  onDelete: () {
-                    BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-                  },
-                ),
-              ),
+            // if (widget.isActive!)
+            //   Align(
+            //     alignment: Alignment.topRight,
+            //     child: DeleteButtonWidget(
+            //       onDelete: () {
+            //         BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+            //       },
+            //     ),
+            //   ),
           ],
         ),
       ),

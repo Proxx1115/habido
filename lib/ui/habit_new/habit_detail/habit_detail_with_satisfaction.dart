@@ -177,15 +177,15 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
                     ),
 
                   /// Delete Btn
-                  if (widget.isActive!)
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: DeleteButtonWidget(
-                        onDelete: () {
-                          BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-                        },
-                      ),
-                    ),
+                  // if (widget.isActive!)
+                  //   Align(
+                  //     alignment: Alignment.topRight,
+                  //     child: DeleteButtonWidget(
+                  //       onDelete: () {
+                  //         BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                  //       },
+                  //     ),
+                  //   ),
                 ],
               )
             : Container(),

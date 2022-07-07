@@ -194,6 +194,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
       case ScreenMode.HabitTemplate:
         _planTerm = _habitTemplate!.planTerm ?? PlanTerm.getInitialPlanTerm(_habit!.planTerms);
         _planList = _habitTemplate!.planDays ?? [];
+        print("palan list $_planList");
         break;
       case ScreenMode.CustomNew:
       default:
@@ -642,7 +643,8 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         if (_planList.isNotEmpty) {
           userHabit.planDays = [];
           for (var el in _planList) {
-            if (el.isSelected ?? false) userHabit.planDays!.add(el);
+            print("orjeenuu ${el.day}");
+            userHabit.planDays!.add(el);
           }
         }
 

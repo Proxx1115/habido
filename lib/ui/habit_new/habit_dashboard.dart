@@ -522,7 +522,10 @@ class _HabitDashboardState extends State<HabitDashboard> {
                 }
               : null,
           onPressedDetail: () {
-            _navigateToHabitDetailRoute(context, userHabitList[index]);
+            _navigateToHabitDetailRoute(
+              context,
+              userHabitList[index],
+            );
           },
         ),
       ),

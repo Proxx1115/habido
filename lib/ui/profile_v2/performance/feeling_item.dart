@@ -89,18 +89,20 @@ class FeelingItem extends StatelessWidget {
                   Row(
                     children: [
                       for (var reasons in reasons)
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                          margin: EdgeInsets.only(right: 7),
-                          decoration: BoxDecoration(
-                            color: customColors.primaryButtonDisabledContent,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: CustomText(
-                            reasons,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                            margin: EdgeInsets.only(right: 7),
+                            decoration: BoxDecoration(
+                              color: customColors.primaryButtonDisabledContent,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: CustomText(
+                              reasons,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
                           ),
                         )
                     ],

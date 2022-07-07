@@ -88,20 +88,20 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithCountRoute> {
                   /// Chart
 
                   /// Delete Btn
-                  if (widget.isActive!)
-                    Column(
-                      children: [
-                        SizedBox(height: 20.0),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: DeleteButtonWidget(
-                            onDelete: () {
-                              BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                  // if (widget.isActive!)
+                  //   Column(
+                  //     children: [
+                  //       SizedBox(height: 20.0),
+                  //       Align(
+                  //         alignment: Alignment.topRight,
+                  //         child: DeleteButtonWidget(
+                  //           onDelete: () {
+                  //             BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                  //           },
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
                 ],
               )
             : Container(),

@@ -33,8 +33,7 @@ class HomeRouteNew extends StatefulWidget {
   _HomeRouteNewState createState() => _HomeRouteNewState();
 }
 
-class _HomeRouteNewState extends State<HomeRouteNew>
-    with SingleTickerProviderStateMixin {
+class _HomeRouteNewState extends State<HomeRouteNew> with SingleTickerProviderStateMixin {
   // UI
   final _homeNewKey = GlobalKey<ScaffoldState>();
 
@@ -69,8 +68,7 @@ class _HomeRouteNewState extends State<HomeRouteNew>
               if (state is NavigateToPageState) {
                 _tabController.index = state.index;
               } else if (state is HomeShowcaseState) {
-                ShowCaseWidget.of(context)
-                    ?.startShowCase(state.showcaseKeyList);
+                ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
               }
             },
             child: BlocBuilder<HomeBloc, HomeState>(
@@ -127,8 +125,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
-  _CustomBottomNavigationBarState createState() =>
-      _CustomBottomNavigationBarState();
+  _CustomBottomNavigationBarState createState() => _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
@@ -158,8 +155,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Чатбот
           Expanded(
-            child: _bottomNavigationBarItem(
-                1, Assets.assistant, LocaleKeys.chatbot),
+            child: _bottomNavigationBarItem(1, Assets.assistant, LocaleKeys.chatbot),
           ),
 
           /// Нүүр
@@ -174,8 +170,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Зөвлөмж
           Expanded(
-            child:
-                _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
+            child: _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
           ),
         ],
       ),
@@ -183,8 +178,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   Widget _bottomNavigationBarItem(int index, String asset, String text) {
-    _navBarItemWidth =
-        _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
+    _navBarItemWidth = _navBarItemWidth ?? (MediaQuery.of(context).size.width) / 5;
 
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -207,9 +201,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 Container(
                   width: 20.0,
                   height: SizeHelper.borderWidth,
-                  color: BlocManager.homeBloc.currentTabIndex == index
-                      ? customColors.primary
-                      : customColors.primaryBorder,
+                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.primaryBorder,
                 ),
                 Expanded(
                   child: HorizontalLine(color: customColors.primaryBorder),
@@ -228,9 +220,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     height: 24.0,
                     child: SvgPicture.asset(
                       asset,
-                      color: BlocManager.homeBloc.currentTabIndex == index
-                          ? customColors.primary
-                          : customColors.iconGrey,
+                      color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
                     ),
                   ),
                 ),
@@ -240,9 +230,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   text,
                   padding: EdgeInsets.only(top: 5.0),
                   alignment: Alignment.center,
-                  color: BlocManager.homeBloc.currentTabIndex == index
-                      ? customColors.primary
-                      : customColors.iconGrey,
+                  color: BlocManager.homeBloc.currentTabIndex == index ? customColors.primary : customColors.iconGrey,
                   fontSize: 11.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -259,8 +247,8 @@ _checkOAuth(BuildContext context) {
   if (globals.userData!.hasOAuth2 == false) {
     showAuthDialog(
       context,
-      child: AuthDialog(
-          asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
+      isDismissible: false,
+      child: AuthDialog(asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
     );
   }
 }

@@ -29,10 +29,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
-void showAuthDialog(BuildContext context,
-    {required Widget child, bool isDismissible = false}) {
-  Func.hideKeyboard(context);
-
+void showAuthDialog(BuildContext context, {required Widget child, bool isDismissible = false}) {
   showModalBottomSheet(
     context: context,
     isDismissible: false,
@@ -40,7 +37,7 @@ void showAuthDialog(BuildContext context,
     backgroundColor: Colors.transparent,
     isScrollControlled: false,
     builder: (BuildContext context) {
-      return child;
+      return WillPopScope(onWillPop: () async => false, child: child);
     },
   );
 }
@@ -56,15 +53,7 @@ class AuthDialog extends StatefulWidget {
   final VoidCallback? onPressedButton2;
 
   AuthDialog(
-      {Key? key,
-      this.primaryColor,
-      this.asset,
-      this.text,
-      this.buttonText,
-      this.skipCount,
-      this.onPressedButton,
-      this.onPressedButton2,
-      this.child})
+      {Key? key, this.primaryColor, this.asset, this.text, this.buttonText, this.skipCount, this.onPressedButton, this.onPressedButton2, this.child})
       : super(key: key);
 
   @override
@@ -96,10 +85,7 @@ class _AuthDialogState extends State<AuthDialog> {
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -110,8 +96,7 @@ class _AuthDialogState extends State<AuthDialog> {
       padding: MediaQuery.of(context).viewInsets,
       decoration: new BoxDecoration(
         color: customColors.whiteBackground,
-        borderRadius: new BorderRadius.only(
-            topLeft: Radius.circular(35.0), topRight: Radius.circular(35.0)),
+        borderRadius: new BorderRadius.only(topLeft: Radius.circular(35.0), topRight: Radius.circular(35.0)),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -219,9 +204,7 @@ class _AuthDialogState extends State<AuthDialog> {
             ..type = gmail;
           var res = await ApiManager.addOauth(request);
           if (res.code == ResponseCode.Success) {
-            if (globals.userData!.oAuth2SkipCount == 0 ||
-                globals.userData!.oAuth2SkipCount == 1 ||
-                globals.userData!.oAuth2SkipCount == 2) {
+            if (globals.userData!.oAuth2SkipCount == 0 || globals.userData!.oAuth2SkipCount == 1 || globals.userData!.oAuth2SkipCount == 2) {
               Navigator.pop(context);
             }
           }
@@ -243,8 +226,7 @@ class _AuthDialogState extends State<AuthDialog> {
   Future<void> _onGoogleAuth(context) async {
     var gmail = 'Gmail';
     try {
-      final GoogleSignIn _googleSignIn =
-          GoogleSignIn(scopes: ['email'], hostedDomain: "");
+      final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email'], hostedDomain: "");
 
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       print("amjilttai:::::${googleUser}");
@@ -262,8 +244,7 @@ class _AuthDialogState extends State<AuthDialog> {
     try {
       Map? userFbData;
       var fb = 'Facebook';
-      final result =
-          await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
+      final result = await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
       if (result.status == LoginStatus.success) {
         final requestData = await FacebookAuth.i.getUserData(
           fields: "email, name",
@@ -298,8 +279,7 @@ class _AuthDialogState extends State<AuthDialog> {
     String? token = credential.identityToken;
 
     String normalizedSource = base64Url.normalize(token!.split(".")[1]);
-    dynamic payload =
-        jsonDecode(utf8.decode(base64Url.decode(normalizedSource)));
+    dynamic payload = jsonDecode(utf8.decode(base64Url.decode(normalizedSource)));
     print("token::::::::$payload");
 
     var apple = 'AppleId';

@@ -61,7 +61,7 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
         padding: EdgeInsets.all(20),
         child: SvgPicture.asset(
           Assets.dots,
-          height: 8,
+          height: 6,
           width: 26,
           // color: Colors.red,
         ),
