@@ -10,6 +10,7 @@ class UserHabitRouteV2 extends StatefulWidget {
   final String screenMode;
   final int? habitId;
   final UserHabit? userHabit;
+  final Habit? habit;
   final HabitTemplate? habitTemplate;
   final CustomHabitSettingsResponse? customHabitSettings;
   final String? title;
@@ -22,6 +23,7 @@ class UserHabitRouteV2 extends StatefulWidget {
     this.customHabitSettings,
     this.title,
     this.habitTemplate,
+    this.habit,
   }) : super(key: key);
 
   @override
@@ -39,8 +41,9 @@ class UserHabitRouteV2State extends State<UserHabitRouteV2> {
             userHabit: widget.userHabit,
             customHabitSettings: widget.customHabitSettings,
             habitTemplate: widget.habitTemplate,
+            habit: widget.habit,
             title: widget.title,
-            habitId: widget.habitId!,
+            habitId: widget.habitId ?? 0,
           );
         },
       ),

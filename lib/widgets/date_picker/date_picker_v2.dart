@@ -45,7 +45,6 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
   @override
   void initState() {
     _pickedDate = widget.initialDate;
-
     super.initState();
   }
 
@@ -112,16 +111,22 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
   }
 
   _onTap() async {
-    print('clicked');
     showCustomDialog(context,
         child: Container(
             color: customColors.whiteBackground,
             child: BottomCalendar(
+              initialDate: widget.initialDate,
               onDateTimeChanged: (DateTime value) {
                 _pickedDate = value;
                 widget.callback(_pickedDate);
               },
             )));
+    setState(() {
+      print("pzdani udur ${_pickedDate}");
+      print("initial udur ${widget.initialDate}");
+      widget.callback(_pickedDate);
+    });
+
     // _pickedDate = await showDatePicker(
     //   context: context,
     //   initialDate: DateTime.now(),

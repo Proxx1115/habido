@@ -18,6 +18,7 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/date_picker/date_picker.dart';
 import 'package:habido_app/widgets/date_picker/date_pickerInfo.dart';
 import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
+import 'package:habido_app/widgets/date_picker/date_picker_v2.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
@@ -68,15 +69,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
           },
         ),
       );
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.home_new, (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.home_new, (Route<dynamic> route) => false);
     } else if (state is UpdateUserDataFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -115,8 +112,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: SizeHelper.margin),
+                              padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
                               child: Column(
                                 children: [
                                   CustomText(
@@ -137,18 +133,15 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               height: 50,
                             ),
                             Container(
-                              margin:
-                                  EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
+                              margin: EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
                               child: CustomButton(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0)),
+                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                 onPressed: () {
                                   _buttonSave();
                                 },
                                 text: LocaleKeys.continueTxt,
                                 fontWeight: FontWeight.w900,
-                                backgroundColor:
-                                    customColors.primaryButtonBackground,
+                                backgroundColor: customColors.primaryButtonBackground,
                               ),
                             ),
                           ],
@@ -176,7 +169,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   _birthdayPicker() {
-    return InfoDatePicker(
+    return CustomDatePickerV2(
       bloc: _birthDatePickerBloc,
       initialDate: _selectedBirthDate,
       hintText: LocaleKeys.birthDate,
@@ -213,8 +206,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   _validateForm() {
     setState(() {
-      _enabledBtnSave =
-          _selectedBirthDate != null && _userNameController.text.length > 0;
+      _enabledBtnSave = _selectedBirthDate != null && _userNameController.text.length > 0;
     });
   }
 
@@ -236,10 +228,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     if (!_validateAge()) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: LocaleKeys.validate12UserProfile,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12UserProfile, buttonText: LocaleKeys.ok),
       );
 
       return;

@@ -7,6 +7,7 @@ import 'package:habido_app/models/habit_category.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/shared_pref.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
@@ -71,7 +72,6 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
           ..backgroundColor = res.colorList!.first.backgroundColor
           ..photo = res.iconList?.first.link
           ..goalSettings = res.goalSettingsList?.first;
-
         yield CustomHabitSettingsSuccess(customHabit, res);
       } else {
         yield CustomHabitSettingsFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
@@ -182,8 +182,7 @@ class CustomHabitSettingsSuccess extends HabitCategoryState {
   List<Object> get props => [customHabitSettings];
 
   @override
-  String toString() =>
-      'DynamicHabitSettingsSuccess { habit: $customHabit, dynamicHabitSettings: $customHabitSettings }';
+  String toString() => 'DynamicHabitSettingsSuccess { habit: $customHabit, dynamicHabitSettings: $customHabitSettings }';
 }
 
 class CustomHabitSettingsFailed extends HabitCategoryState {

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/bloc/mood_tracker_bloc.dart';
 import 'package:habido_app/models/mood_tracker_answer.dart';
 import 'package:habido_app/models/mood_tracker_question.dart';
@@ -54,6 +55,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
         listener: _blocListener,
         child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
           return CustomScaffold(
+            onWillPop: () async => false,
             scaffoldKey: _feelingDetailKey,
             child: Container(
               padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
@@ -275,7 +277,10 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
           primaryColor: customColors.primary, //HabitHelper.getPrimaryColor(_primaryColorCode),
           child: null,
           onPressedButton: () {
-            Navigator.pushNamed(context, Routes.home_new);
+            BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
+            BlocManager.homeNewBloc.add(GetTipEvent());
+            BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
           },
         ),
       );

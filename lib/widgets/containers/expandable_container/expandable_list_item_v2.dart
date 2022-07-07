@@ -55,40 +55,38 @@ class ExpandableListItemV2 extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 15.0),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(SizeHelper.borderRadius), color: customColors.whiteBackground),
-            child: Expanded(
-              child: Row(
-                children: [
-                  /// Image
-                  if (Func.isNotEmpty(leadingUrl))
-                    Container(
-                      margin: EdgeInsets.only(
-                        right: 15.0,
-                      ),
-                      // decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-                      // color: leadingBackgroundColor ?? customColors.greyBackground,
-                      //     ),
-                      child: CachedNetworkImage(
-                        imageUrl: leadingUrl!,
-                        color: leadingColor,
-                        width: 25.0,
-                        height: 25.0,
-                        placeholder: (context, url) => Container(),
-                        errorWidget: (context, url, error) => Container(),
-                      ),
+            child: Row(
+              children: [
+                /// Image
+                if (Func.isNotEmpty(leadingUrl))
+                  Container(
+                    margin: EdgeInsets.only(
+                      right: 15.0,
                     ),
-
-                  /// Text
-                  Expanded(
-                    child: CustomText(
-                      text,
-                      fontWeight: FontWeight.w500,
-                      maxLines: 2,
-                      fontSize: 13.0,
+                    // decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                    // color: leadingBackgroundColor ?? customColors.greyBackground,
+                    //     ),
+                    child: CachedNetworkImage(
+                      imageUrl: leadingUrl!,
+                      color: leadingColor,
+                      width: 25.0,
+                      height: 25.0,
+                      placeholder: (context, url) => Container(),
+                      errorWidget: (context, url, error) => Container(),
                     ),
                   ),
-                ],
-              ),
+
+                /// Text
+                Expanded(
+                  child: CustomText(
+                    text,
+                    fontWeight: FontWeight.w500,
+                    maxLines: 2,
+                    fontSize: 13.0,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

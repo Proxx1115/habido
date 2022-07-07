@@ -121,17 +121,11 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-                primary: widget.primaryColor ?? customColors.primary),
+            colorScheme: ColorScheme.light(primary: widget.primaryColor ?? customColors.primary),
           ),
           child: child ?? Container(),
         );
       },
     );
-
-    setState(() {
-      print(_pickedDate);
-      widget.callback(_pickedDate);
-    });
   }
 }

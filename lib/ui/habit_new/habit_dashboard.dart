@@ -41,7 +41,6 @@ class HabitDashboard extends StatefulWidget {
 class _HabitDashboardState extends State<HabitDashboard> {
   final _habitDashboardKey = GlobalKey<ScaffoldState>();
 
-  bool _isUserHabitEmpty = false;
   bool _isHabitTemplateEmpty = true;
   bool _isToday = true;
 
@@ -62,7 +61,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
   ];
 
   // User habits
-  List<UserHabit>? _todayUserHabits;
+  List<UserHabit>? _userHabits;
 
   // Habit templates
   List<HabitTemplate>? _habitTemplates;
@@ -81,45 +80,42 @@ class _HabitDashboardState extends State<HabitDashboard> {
     return CustomScaffold(
       scaffoldKey: _habitDashboardKey,
       backgroundColor: customColors.primaryBackground, // primaryBackground
-      child: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: [
-          /// App bar
-          _homeAppBar(),
-
-          /// List
-          /// Rest of items
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return _listItems();
-              },
-              childCount: 1,
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: BlocProvider.value(
+      child: BlocProvider.value(
         value: BlocManager.dashboardBloc,
         child: BlocListener<DashboardBloc, DashboardState>(
           listener: _blocListener,
-          child: BlocBuilder<DashboardBloc, DashboardState>(
-            builder: (context, state) {
-              return CustomButton(
-                margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
-                text: LocaleKeys.planNewHabit,
-                fontWeight: FontWeight.w700,
-                alignment: Alignment.bottomCenter,
-                borderRadius: BorderRadius.circular(15.0),
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.habitCategories);
-                },
-              );
-            },
-          ),
+          child: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
+            return CustomScrollView(
+              physics: BouncingScrollPhysics(),
+              slivers: [
+                /// App bar
+                _homeAppBar(),
+
+                /// List
+                /// Rest of items
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return _listItems();
+                    },
+                    childCount: 1,
+                  ),
+                ),
+              ],
+            );
+          }),
         ),
       ),
-
+      floatingActionButton: CustomButton(
+        margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
+        text: LocaleKeys.planNewHabit,
+        fontWeight: FontWeight.w700,
+        alignment: Alignment.bottomCenter,
+        borderRadius: BorderRadius.circular(15.0),
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.habitCategories);
+        },
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
     );
   }
@@ -140,38 +136,38 @@ class _HabitDashboardState extends State<HabitDashboard> {
   }
 
   Widget _listItems() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 8.0),
+    return Column(
+      children: [
+        SizedBox(height: 8.0),
 
-          /// Calendar
-          CalendarScreen(
-            onDateTimeChanged: (value) {
-              _userHabitDate = value;
-              BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
-              Func.dateTimeToDateStr(_userHabitDate) != Func.dateTimeToDateStr(DateTime.now()) ? _isToday = false : _isToday = true;
-              print("isToday: ${_isToday}");
-            },
-          ),
+        /// Calendar
+        CalendarScreen(
+          onDateTimeChanged: (value) {
+            _userHabitDate = value;
+            BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
+            Func.dateTimeToDateStr(_userHabitDate) != Func.dateTimeToDateStr(DateTime.now()) ? _isToday = false : _isToday = true;
+            print("isToday: ${_isToday}");
+          },
+        ),
 
-          /// Habits For You
-          _isHabitTemplateEmpty ? Container() : _habitsForYou(),
+        /// Habits For You
+        _habitTemplates == null ? Container() : _habitsForYou(),
 
-          SizedBox(height: 18.0),
+        SizedBox(height: 18.0),
 
-          // New Habit
-          _isUserHabitEmpty
-              ? _newHabitWidget()
-              :
-              // Today's Habits
-              _userHabitListWidget(),
+        // New Habit
+        _userHabits == null
+            ? Container()
+            :
+            // Today's Habits
+            _userHabits!.length > 0
+                ? _userHabitListWidget()
+                : _newHabitWidget(),
 
-          SizedBox(
-            height: 120,
-          )
-        ],
-      ),
+        SizedBox(
+          height: 120,
+        )
+      ],
     );
   }
 
@@ -221,7 +217,6 @@ class _HabitDashboardState extends State<HabitDashboard> {
   }
 
   Widget _habitForYouItem(HabitTemplate template) {
-    print("demplate ${template.planTerm}");
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.userHabit, arguments: {
@@ -396,10 +391,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
             child: BlocBuilder<DashboardBloc, DashboardState>(
               builder: (context, state) {
                 String todayDone = '';
-                List<UserHabit>? todayUserHabits = _todayUserHabits;
-                if (todayUserHabits != null) {
-                  todayDone =
-                      todayUserHabits.where((element) => element.isDone!).toList().length.toString() + '/' + _todayUserHabits!.length.toString();
+                if (_userHabits != null) {
+                  todayDone = _userHabits!.where((element) => element.isDone!).toList().length.toString() + '/' + _userHabits!.length.toString();
                 }
                 return Column(
                   children: [
@@ -413,7 +406,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
 
                     SizedBox(height: 12.0),
 
-                    if (Func.isNotEmpty(_todayUserHabits)) _habitList(LocaleKeys.today, _todayUserHabits!, true, _isToday, todayDone),
+                    if (Func.isNotEmpty(_userHabits)) _habitList(LocaleKeys.today, _userHabits!, true, _isToday, todayDone),
                   ],
                 );
               },
@@ -426,11 +419,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
 
   void _blocListener(BuildContext context, DashboardState state) {
     if (state is RefreshDashboardUserHabitsSuccess) {
-      _todayUserHabits = state.todayUserHabits;
-      if ((_todayUserHabits == null) || (_todayUserHabits?.length == 0))
-        _isUserHabitEmpty = true;
-      else
-        _isUserHabitEmpty = false;
+      _userHabits = state.todayUserHabits;
     } else if (state is SkipUserHabitSuccess) {
       print('SkipUserHabitSuccess');
     } else if (state is SkipUserHabitFailed) {
@@ -439,23 +428,14 @@ class _HabitDashboardState extends State<HabitDashboard> {
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is GetUserHabitByDateSuccess) {
-      _todayUserHabits = state.userHabits;
-      if ((_todayUserHabits == null) || (_todayUserHabits?.length == 0))
-        _isUserHabitEmpty = true;
-      else
-        _isUserHabitEmpty = false;
+      _userHabits = state.userHabits;
     } else if (state is GetUserHabitByDateFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is GetHabitTemplateListSuccess) {
-      if ((state.habitTemplates == null) || (state.habitTemplates?.length == 0))
-        _isHabitTemplateEmpty = true;
-      else {
-        _isHabitTemplateEmpty = false;
-        _habitTemplates = state.habitTemplates;
-      }
+      _habitTemplates = state.habitTemplates;
       print("irsen uu ${_habitTemplates!.length} and ${_isHabitTemplateEmpty}");
     } else if (state is GetHabitTemplateListFailed) {
       showCustomDialog(

@@ -46,6 +46,7 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
         listener: _blocListener,
         child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
           return CustomScaffold(
+            onWillPop: () async => false,
             scaffoldKey: _feelingEmojiKey,
             floatingActionButton: Padding(
               padding: const EdgeInsets.only(bottom: 30.0),

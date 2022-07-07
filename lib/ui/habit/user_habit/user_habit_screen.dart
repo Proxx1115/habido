@@ -31,7 +31,6 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/date_picker/date_picker.dart';
 import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
-import 'package:habido_app/widgets/date_picker/date_picker_v2.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/slider/custom_slider.dart';
@@ -584,7 +583,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   }
 
   Widget _startDatePicker() {
-    return CustomDatePickerV2(
+    return CustomDatePicker(
       bloc: _startDatePickerBloc,
       hintText: LocaleKeys.startDate,
       margin: EdgeInsets.only(top: 15.0),
@@ -603,7 +602,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
   }
 
   Widget _endDatePicker() {
-    return CustomDatePickerV2(
+    return CustomDatePicker(
       bloc: _endDatePickerBloc,
       hintText: LocaleKeys.endDate,
       margin: EdgeInsets.only(top: 15.0),
