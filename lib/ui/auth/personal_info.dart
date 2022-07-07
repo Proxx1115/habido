@@ -68,11 +68,15 @@ class _PersonalInfoState extends State<PersonalInfo> {
           },
         ),
       );
-      Navigator.of(context).pushNamedAndRemoveUntil(Routes.home_new, (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.home_new, (Route<dynamic> route) => false);
     } else if (state is UpdateUserDataFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -90,6 +94,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             return Container(
               color: customColors.primaryBackground,
               child: CustomScaffold(
+                onWillPop: () async => false,
                 scaffoldKey: _signUpKey,
                 child: CustomScrollView(slivers: [
                   SliverFillRemaining(
@@ -113,7 +118,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: SizeHelper.margin),
                                 child: Expanded(
                                   child: Column(
                                     children: [
@@ -122,9 +128,15 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                         fontWeight: FontWeight.w700,
                                         fontSize: 30.0,
                                       ),
-                                      FormItem(image: Assets.username, widget: _userNameTextField()),
-                                      FormItem(image: Assets.calendar, widget: _birthdayPicker()),
-                                      FormItem(image: Assets.username, widget: _genderSwitch()),
+                                      FormItem(
+                                          image: Assets.username,
+                                          widget: _userNameTextField()),
+                                      FormItem(
+                                          image: Assets.calendar,
+                                          widget: _birthdayPicker()),
+                                      FormItem(
+                                          image: Assets.username,
+                                          widget: _genderSwitch()),
                                     ],
                                   ),
                                 ),
@@ -133,15 +145,18 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 height: 50,
                               ),
                               Container(
-                                margin: EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
+                                margin:
+                                    EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
                                 child: CustomButton(
-                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0)),
                                   onPressed: () {
                                     _buttonSave();
                                   },
                                   text: LocaleKeys.continueTxt,
                                   fontWeight: FontWeight.w900,
-                                  backgroundColor: customColors.primaryButtonBackground,
+                                  backgroundColor:
+                                      customColors.primaryButtonBackground,
                                 ),
                               ),
                             ],
@@ -171,7 +186,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   _birthdayPicker() {
-    return CustomDatePickerV2(
+    return InfoDatePicker(
       margin: EdgeInsets.zero,
       bloc: _birthDatePickerBloc,
       initialDate: _selectedBirthDate,
@@ -180,7 +195,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
       callback: (date) {
         // print(date);
         _selectedBirthDate = date;
-        _validateForm();
       },
     );
   }
@@ -207,9 +221,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   _validateForm() {
-    setState(() {
-      _enabledBtnSave = _selectedBirthDate != null && _userNameController.text.length > 0;
-    });
+    if (_selectedBirthDate != null && _userNameController.text.length > 0)
+      return true;
+    return false;
   }
 
   _validateAge() {
@@ -249,7 +263,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
             child: Column(
               children: [
                 widget,
-                Container(height: 2.0, width: double.infinity, color: ConstantColors.cornflowerBlue),
+                Container(
+                    height: 2.0,
+                    width: double.infinity,
+                    color: ConstantColors.cornflowerBlue),
               ],
             ),
           ),
@@ -264,11 +281,27 @@ class _PersonalInfoState extends State<PersonalInfo> {
     if (!_validateAge()) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12UserProfile, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: LocaleKeys.validate12UserProfile,
+            buttonText: LocaleKeys.ok),
       );
 
       return;
     }
+
+    if (!_validateForm()) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: LocaleKeys.validateFirstname,
+            buttonText: LocaleKeys.ok),
+      );
+
+      return;
+    }
+
     var request = UpdateUserDataRequest()
       ..firstName = _userNameController.text
       ..birthday = Func.toDateStr(_selectedBirthDate!)

@@ -329,7 +329,7 @@ class _LoginRouteState extends State<LoginRoute> {
       textColor: customColors.greyText,
       padding: EdgeInsets.symmetric(vertical: 15.0),
       onPressed: () {
-        Navigator.pushNamed(context, Routes.login2);
+        Navigator.popUntil(context, ModalRoute.withName(Routes.login2));
       },
     );
   }

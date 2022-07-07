@@ -684,6 +684,8 @@ class LocaleKeys {
   static String get validate12UserProfile =>
       'Уучлаарай, 12-оос доош насруу өөрчлөх боломжгүй!';
 
+  static String get validateFirstname => 'Нэрээ бичнэ үү!';
+
   static String get pleaseEnterStartDate => 'Эхлэх огноо сонгоно уу';
 
   static String get pleaseEnterEndDate => 'Дуусах огноо сонгоно уу';
