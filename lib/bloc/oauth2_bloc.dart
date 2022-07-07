@@ -43,7 +43,7 @@ class OAuthBloc extends Bloc<OAuthEvent, OAuthState> {
 
         /// Get user data
         var userData = await ApiManager.getUserData();
-        if (userData.code == ResponseCode.Success) {
+      if (userData.code == ResponseCode.Success) {
           print("usrdataa ::::::::::::::$res");
           await afterLogin();
 
