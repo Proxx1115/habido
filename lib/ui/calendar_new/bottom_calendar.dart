@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/ui/calendar_new/day_model.dart';
 import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 
 class BottomCalendar extends StatefulWidget {
@@ -224,6 +225,9 @@ class _BottomCalendarState extends State<BottomCalendar> {
             _selectedDate = new DateTime(day.year!, day.month!, day.day!);
             widget.onDateTimeChanged(_selectedDate);
           });
+          print(_selectedDayModel!.day);
+
+          // Navigator.pop(context);
         },
         child: Container(
           decoration: BoxDecoration(
