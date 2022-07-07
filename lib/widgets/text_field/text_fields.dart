@@ -31,6 +31,7 @@ class CustomTextField extends StatefulWidget {
   final double fontSize;
   final FontWeight? fontWeight;
   final Color? textColor;
+  final double? padding;
 
   // final Widget? suffixWidget;
   final String? suffixAsset;
@@ -62,6 +63,7 @@ class CustomTextField extends StatefulWidget {
     this.maxLength,
     // this.suffixWidget,
     this.suffixAsset,
+    this.padding,
     // this.suffixColor,
     // this.visibleSuffix = true,
     // this.alwaysVisibleSuffix = true,
@@ -107,7 +109,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           hintStyle: TextStyle(fontSize: widget.fontSize, color: customColors.greyText),
           suffixIcon: _suffixIcon(),
           counterText: '',
-          contentPadding: SizeHelper.boxPadding,
+          contentPadding: widget.padding != null ? EdgeInsets.all(widget.padding!) : SizeHelper.boxPadding,
         ),
         style: TextStyle(color: _textColor, fontSize: widget.fontSize, fontWeight: _fontWeight),
         keyboardType: widget.keyboardType,

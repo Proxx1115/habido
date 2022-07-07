@@ -62,6 +62,7 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
         child: BlocBuilder<DatePickerBloc, DatePickerState>(
           builder: (context, state) {
             return StadiumContainer(
+              backgroundColor: Colors.transparent,
               onTap: () {
                 _onTap();
               },
@@ -74,7 +75,7 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
                   CustomText(
                     _text(),
                     color: _color(),
-                    margin: EdgeInsets.only(left: 18.0),
+                    margin: widget.margin == null ? EdgeInsets.only(left: 18.0) : widget.margin,
                     fontWeight: FontWeight.w500,
                   ),
 
@@ -122,8 +123,6 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
               },
             )));
     setState(() {
-      print("pzdani udur ${_pickedDate}");
-      print("initial udur ${widget.initialDate}");
       widget.callback(_pickedDate);
     });
 

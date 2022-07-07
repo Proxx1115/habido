@@ -21,7 +21,6 @@ import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
 import 'package:habido_app/widgets/date_picker/date_picker_v2.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'package:habido_app/widgets/userInfoSwitch.dart';
@@ -108,43 +107,45 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           ),
                         ),
                         Expanded(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
-                              child: Column(
-                                children: [
-                                  CustomText(
-                                    LocaleKeys.personalInfo,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 30.0,
+                            child: Container(
+                          // color: Colors.red,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
+                                child: Expanded(
+                                  child: Column(
+                                    children: [
+                                      CustomText(
+                                        LocaleKeys.personalInfo,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 30.0,
+                                      ),
+                                      FormItem(image: Assets.username, widget: _userNameTextField()),
+                                      FormItem(image: Assets.calendar, widget: _birthdayPicker()),
+                                      FormItem(image: Assets.username, widget: _genderSwitch()),
+                                    ],
                                   ),
-                                  _userNameTextField(),
-                                  HorizontalLine(),
-                                  _birthdayPicker(),
-                                  HorizontalLine(),
-                                  _genderSwitch(),
-                                  HorizontalLine(),
-                                ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
-                              child: CustomButton(
-                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                                onPressed: () {
-                                  _buttonSave();
-                                },
-                                text: LocaleKeys.continueTxt,
-                                fontWeight: FontWeight.w900,
-                                backgroundColor: customColors.primaryButtonBackground,
+                              SizedBox(
+                                height: 50,
                               ),
-                            ),
-                          ],
+                              Container(
+                                margin: EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
+                                child: CustomButton(
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  onPressed: () {
+                                    _buttonSave();
+                                  },
+                                  text: LocaleKeys.continueTxt,
+                                  fontWeight: FontWeight.w900,
+                                  backgroundColor: customColors.primaryButtonBackground,
+                                ),
+                              ),
+                            ],
+                          ),
                         )),
                       ],
                     ),
@@ -159,8 +160,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   _userNameTextField() {
-    return UserInfoTextField(
+    return CustomTextField(
+      padding: 0,
       controller: _userNameController,
+      // decoration: InputDecoration(contentPadding: EdgeInsets.zero,),
       hintText: LocaleKeys.firstName,
       // suffixAsset: Assets.editV2,
       margin: EdgeInsets.only(top: 15.0),
@@ -170,10 +173,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
 
   _birthdayPicker() {
     return CustomDatePickerV2(
+      margin: EdgeInsets.zero,
       bloc: _birthDatePickerBloc,
       initialDate: _selectedBirthDate,
       hintText: LocaleKeys.birthDate,
-      margin: EdgeInsets.only(top: 15.0),
       lastDate: DateTime.now(),
       callback: (date) {
         // print(date);
@@ -220,6 +223,40 @@ class _PersonalInfoState extends State<PersonalInfo> {
     int dayDiff = today.day - _selectedBirthDate!.day;
 
     return yearDiff > 12 || yearDiff == 12 && monthDiff >= 0 && dayDiff >= 0;
+  }
+
+  Widget FormItem({image, widget}) {
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: customColors.whiteBackground,
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            width: 26.0,
+            height: 26.0,
+            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            child: SvgPicture.asset(
+              image,
+              width: 12.0,
+            ),
+          ),
+          SizedBox(
+            width: 10.0,
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                widget,
+                Container(height: 2.0, width: double.infinity, color: ConstantColors.cornflowerBlue),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   _buttonSave() {
