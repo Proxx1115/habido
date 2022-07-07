@@ -166,7 +166,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
       // decoration: InputDecoration(contentPadding: EdgeInsets.zero,),
       hintText: LocaleKeys.firstName,
       // suffixAsset: Assets.editV2,
-      margin: EdgeInsets.only(top: 15.0),
       backgroundColor: Colors.transparent,
     );
   }
