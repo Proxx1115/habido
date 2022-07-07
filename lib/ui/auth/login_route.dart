@@ -193,7 +193,7 @@ class _LoginRouteState extends State<LoginRoute> {
                       ),
 
                       MarginVertical(height: 10.0),
-                      // _btnSignUp(),
+                      _btnSignUp(),
 
                       /// Button - Нууц үг мартсан уу? Сэргээх
                       // _btnForgotPass(),
@@ -324,12 +324,12 @@ class _LoginRouteState extends State<LoginRoute> {
   Widget _btnSignUp() {
     return ButtonMultiPartText(
       text1: "",
-      text2: LocaleKeys.signUp,
+      text2: LocaleKeys.back,
       backgroundColor: customColors.whiteBackground,
       textColor: customColors.greyText,
       padding: EdgeInsets.symmetric(vertical: 15.0),
       onPressed: () {
-        Navigator.pushNamed(context, Routes.signUp1Phone);
+        Navigator.pushNamed(context, Routes.login2);
       },
     );
   }
