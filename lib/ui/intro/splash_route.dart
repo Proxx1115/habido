@@ -9,6 +9,7 @@ import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/biometrics_util.dart';
 import 'package:habido_app/utils/device_helper.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/globals.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/shared_pref.dart';
@@ -71,10 +72,18 @@ class _SplashRouteState extends State<SplashRoute> {
     ApiManager.getUserData().then((userData) async {
       if (userData.code == ResponseCode.Success) {
         await AuthBloc.afterLogin();
+        if (globals.userData!.birthDay == null ||
+            globals.userData!.gender == null ||
+            globals.userData!.firstName == null) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.personalInfo, (Route<dynamic> route) => false);
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.home_new, (Route<dynamic> route) => false);
+        }
 
         /// Go to home
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            Routes.home_new, (Route<dynamic> route) => false);
+
       } else {
         Future.delayed(Duration(seconds: 1), () {
           _navigateToFirstRoute();
