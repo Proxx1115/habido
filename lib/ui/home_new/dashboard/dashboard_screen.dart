@@ -68,32 +68,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      scaffoldKey: _dashboardKey,
-      backgroundColor: customColors.primaryBackground,
-      child: BlocProvider.value(
-        value: BlocManager.homeNewBloc,
-        child: BlocListener<HomeNewBloc, HomeNewState>(
-          listener: _blocListener,
-          child: BlocBuilder<HomeNewBloc, HomeNewState>(builder: (context, state) {
-            return CustomScrollView(
-              physics: BouncingScrollPhysics(),
-              slivers: [
-                /// Home App Bar
-                _homeAppBar(),
+    return SafeArea(
+      top: true,
+      left: true,
+      bottom: true,
+      child: CustomScaffold(
+        scaffoldKey: _dashboardKey,
+        backgroundColor: customColors.primaryBackground,
+        child: BlocProvider.value(
+          value: BlocManager.homeNewBloc,
+          child: BlocListener<HomeNewBloc, HomeNewState>(
+            listener: _blocListener,
+            child: BlocBuilder<HomeNewBloc, HomeNewState>(
+                builder: (context, state) {
+              return SafeArea(
+                child: CustomScrollView(
+                  physics: BouncingScrollPhysics(),
+                  slivers: [
+                    /// Home App Bar
+                    _homeAppBar(),
 
-                /// Rest of items
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return _listWidget();
-                    },
-                    childCount: 1,
-                  ),
+                    /// Rest of items
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return _listWidget();
+                        },
+                        childCount: 1,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -104,7 +112,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       pinned: false,
       snap: true,
       floating: true,
-      // backgroundColor: customColors.primaryBackground,
+      backgroundColor: customColors.primaryBackground,
       elevation: 0,
       automaticallyImplyLeading: false,
       flexibleSpace: DashboardAppBar(
@@ -115,11 +123,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _listWidget() {
-    _sliderHeight = _sliderHeight ?? (MediaQuery.of(context).size.width - SizeHelper.margin * 2) / 2;
+    _sliderHeight = _sliderHeight ??
+        (MediaQuery.of(context).size.width - SizeHelper.margin * 2) / 2;
 
     return Container(
       child: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
+        padding: EdgeInsets.fromLTRB(
+            SizeHelper.padding, SizeHelper.padding, SizeHelper.padding, 0.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -178,7 +188,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     ///
                                     for (var el in _feelingEmojis)
                                       Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 5.7), child: SvgPicture.asset(el, height: 31.0, width: 31.0))
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5.7),
+                                          child: SvgPicture.asset(el,
+                                              height: 31.0, width: 31.0))
                                   ],
                                 )
                               ],
@@ -196,14 +209,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             flex: 3,
                             child: Row(
                               children: [
-                                for (var i = 0; i < _moodTrackerList!.length; i++)
+                                for (var i = 0;
+                                    i < _moodTrackerList!.length;
+                                    i++)
                                   Expanded(
                                       child: _moodTrackerItem(
                                           index: i,
                                           onTap: () {
-                                            Navigator.pushNamed(context, Routes.sensitivityNotes);
+                                            Navigator.pushNamed(context,
+                                                Routes.sensitivityNotes);
                                           })),
-                                for (var i = 0; i < 3 - _moodTrackerList!.length; i++) Expanded(child: _moodTrackerNoActivity())
+                                for (var i = 0;
+                                    i < 3 - _moodTrackerList!.length;
+                                    i++)
+                                  Expanded(child: _moodTrackerNoActivity())
                               ],
                             ),
                           ),
@@ -237,7 +256,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               aspectRatio: _sliderAspectRatio,
               sliderHeight: _sliderHeight!,
               sliderMargin: EdgeInsets.only(top: _sliderTopMargin),
-              indicatorMargin: EdgeInsets.symmetric(vertical: _indicatorVerticalMargin, horizontal: 2.0),
+              indicatorMargin: EdgeInsets.symmetric(
+                  vertical: _indicatorVerticalMargin, horizontal: 2.0),
             ),
 
             SizedBox(height: 12.0),
@@ -470,7 +490,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               fit: BoxFit.cover,
               width: 46.0,
               height: 46.0,
-              placeholder: (context, url) => CustomLoader(size: SizeHelper.boxHeight),
+              placeholder: (context, url) =>
+                  CustomLoader(size: SizeHelper.boxHeight),
               // placeholder: (context, url, error) => Container(),
               errorWidget: (context, url, error) => Container(),
             ),
@@ -650,11 +671,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void _blocListener(BuildContext context, HomeNewState state) {
     if (state is AdviceVideoSuccess) {
-      _adviceVideo = AdviceVideoResponse(title: state.title, video: state.video);
+      _adviceVideo =
+          AdviceVideoResponse(title: state.title, video: state.video);
     } else if (state is AdviceVideoFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is TipSuccess) {
       _tips = state.tipList;
@@ -662,7 +687,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     } else if (state is TipFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is MoodTrackerSuccess) {
       _moodTrackerList = state.moodTrackerList;
@@ -670,7 +698,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     } else if (state is MoodTrackerFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
