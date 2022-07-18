@@ -112,11 +112,10 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
   @override
   void initState() {
-    if (widget.habitId > 0) {
+    if (widget.habitId > 0 && widget.habit == null) {
       BlocManager.userHabitBloc.add(GetHabitEvent(widget.habitId));
     } else {
-      print('kereggg ${widget.habit!.color}');
-      _initScreen(widget.habit!);
+      _initScreen(habit: widget.habit!);
     }
 
     // /// Showcase
@@ -124,11 +123,11 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     super.initState();
   }
 
-  _initScreen(Habit habit) {
+  _initScreen({Habit? habit}) {
     /// Screen mode
     _screenMode = widget.screenMode;
 
-    _habit = habit;
+    if (habit != null) _habit = habit;
 
     /// User habit
     _userHabit = widget.userHabit;
@@ -455,7 +454,9 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     } else if (state is UserHabitShowcaseState) {
       ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
     } else if (state is GetHabitSuccess) {
-      _initScreen(state.habit);
+      _habit = state.habit;
+      print("statiin habit ${_habit!.color}");
+      _initScreen(habit: state.habit);
     }
   }
 

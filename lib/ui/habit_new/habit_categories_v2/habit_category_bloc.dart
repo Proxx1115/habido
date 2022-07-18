@@ -72,6 +72,7 @@ class HabitCategoryBloc extends Bloc<HabitCategoryEvent, HabitCategoryState> {
           ..backgroundColor = res.colorList!.first.backgroundColor
           ..photo = res.iconList?.first.link
           ..goalSettings = res.goalSettingsList?.first;
+        print("custom habit ${customHabit.color}");
         yield CustomHabitSettingsSuccess(customHabit, res);
       } else {
         yield CustomHabitSettingsFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);

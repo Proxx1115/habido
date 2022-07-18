@@ -615,6 +615,7 @@ class Routes {
                 UserHabitRouteV2(
                   screenMode: _getValueByKey(args, 'screenMode'),
                   title: _getValueByKey(args, 'title'),
+                  habit: _getValueByKey(args, 'habit'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habitTemplate: _getValueByKey(args, 'habitTemplate'),
                   habitId: _getValueByKey(args, 'habitId'),
