@@ -64,8 +64,11 @@ class _LoginRoute2State extends State<LoginRoute2> {
 
   void _blocListener(BuildContext context, OAuthState state) {
     if (state is LoginSuccess) {
-      if (globals.userData!.birthDay == null || globals.userData!.gender == null || globals.userData!.firstName == null) {
-        Navigator.of(context).pushNamedAndRemoveUntil(Routes.personalInfo, (Route<dynamic> route) => false);
+      if (globals.userData!.birthDay == null ||
+          globals.userData!.gender == null ||
+          globals.userData!.firstName == null) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.personalInfo, (Route<dynamic> route) => false);
       } else {
         if (globals.userData?.isOnboardingDone2 == false) {
           /// Go to home
@@ -78,10 +81,14 @@ class _LoginRoute2State extends State<LoginRoute2> {
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is SessionTimeoutState) {
-      Navigator.of(context).pushNamedAndRemoveUntil(Routes.login2, (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.login2, (Route<dynamic> route) => false);
 
       showCustomDialog(
         context,
@@ -100,6 +107,7 @@ class _LoginRoute2State extends State<LoginRoute2> {
     final _loginNewKey = GlobalKey<ScaffoldState>();
 
     return CustomScaffold(
+      onWillPop: () async => false,
       scaffoldKey: _loginNewKey,
       padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
       child: CustomScrollView(
@@ -171,7 +179,9 @@ class _LoginRoute2State extends State<LoginRoute2> {
                           SizedBox(height: 15.0),
 
                           /// Apple-аар нэвтрэх
-                          Platform.isIOS ? _socialLoginBtn(context, "apple") : Container(),
+                          Platform.isIOS
+                              ? _socialLoginBtn(context, "apple")
+                              : Container(),
                         ],
                       ),
                     ],
@@ -208,7 +218,11 @@ class _LoginRoute2State extends State<LoginRoute2> {
       "textColor": customColors.primaryButtonContent,
     };
 
-    Map _data = {"google": _googleData, "facebook": _facebookData, "apple": _appleData};
+    Map _data = {
+      "google": _googleData,
+      "facebook": _facebookData,
+      "apple": _appleData
+    };
 
     return InkWell(
       onTap: () {
@@ -256,7 +270,9 @@ class _LoginRoute2State extends State<LoginRoute2> {
   Widget _oldLogin(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
+        Navigator.of(context).pushNamed(
+          Routes.login,
+        );
       },
       child: Container(
         height: 50.0,
@@ -284,13 +300,15 @@ class _LoginRoute2State extends State<LoginRoute2> {
   }
 
   _navigateToSignUp(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(Routes.signUp, (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        Routes.signUp, (Route<dynamic> route) => false);
   }
 
   Future<void> _onGoogleAuth(context) async {
     var gmail = 'Gmail';
     try {
-      final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email'], hostedDomain: "");
+      final GoogleSignIn _googleSignIn =
+          GoogleSignIn(scopes: ['email'], hostedDomain: "");
 
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       print("amjilttai:::::${googleUser}");
@@ -309,7 +327,8 @@ class _LoginRoute2State extends State<LoginRoute2> {
     try {
       Map? userFbData;
       var fb = 'Facebook';
-      final result = await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
+      final result =
+          await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
       if (result.status == LoginStatus.success) {
         final requestData = await FacebookAuth.i.getUserData();
         setState(() {
@@ -347,7 +366,8 @@ class _LoginRoute2State extends State<LoginRoute2> {
     String? token = credential.identityToken;
 
     String normalizedSource = base64Url.normalize(token!.split(".")[1]);
-    dynamic payload = jsonDecode(utf8.decode(base64Url.decode(normalizedSource)));
+    dynamic payload =
+        jsonDecode(utf8.decode(base64Url.decode(normalizedSource)));
     print("token::::::::$payload");
 
     var apple = 'AppleId';
