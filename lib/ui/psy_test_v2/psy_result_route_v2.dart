@@ -29,13 +29,26 @@ class PsyTestResultRouteV2 extends StatefulWidget {
   final bool isActiveAppBar;
   final int testId;
   final TestResult? testResult;
-  const PsyTestResultRouteV2({Key? key, required this.testResult, required this.testId, required this.isActiveAppBar}) : super(key: key);
+  const PsyTestResultRouteV2(
+      {Key? key,
+      required this.testResult,
+      required this.testId,
+      required this.isActiveAppBar})
+      : super(key: key);
 
   @override
   _PsyTestResultRouteV2State createState() => _PsyTestResultRouteV2State();
 }
 
 class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
+  double _rating = 0;
+
+  @override
+  void initState() {
+    _rating = widget.testResult!.reviewScore!;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -54,11 +67,6 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
   void _blocListener(BuildContext context, TestsStateV2 state) {
     if (state is TestReviewSuccess) {
       print("Post success review");
-    } else if (state is TestReviewFailed) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
-      );
     }
   }
 
@@ -100,14 +108,16 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
                         title: widget.testResult!.habit!.name ?? '',
                         leadingImageUrl: widget.testResult!.habit!.photo ?? "",
                         // suffixAsset: Assets.arrow_forward,
-                        leadingBackgroundColor: HexColor.fromHex("#F1F8E9"), //todo yela onPressed
+                        leadingBackgroundColor: Colors.white,
+                        leadingColor: HexColor.fromHex(widget
+                            .testResult!.habit!.color!), //todo yela onPressed
                         onPressed: () {
-                          Navigator.popUntil(context, ModalRoute.withName(Routes.home));
-                          Navigator.pushNamed(context, Routes.userHabit, arguments: {
-                            'screenMode': ScreenMode.New,
-                            'habit': widget.testResult!.habit,
-                            'title': LocaleKeys.createHabit,
-                          });
+                          Navigator.pushNamed(context, Routes.userHabit,
+                              arguments: {
+                                'screenMode': ScreenMode.New,
+                                'habit': widget.testResult!.habit,
+                                'title': LocaleKeys.createHabit,
+                              });
                         },
                       ),
 
@@ -145,7 +155,8 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
               text: LocaleKeys.thanksHabido,
               onPressed: () {
                 BlocManager.psyTestBlocV2.add(GetTestListEvent());
-                Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
+                Navigator.popUntil(
+                    context, ModalRoute.withName(Routes.home_new));
               },
             ),
           ],
@@ -176,7 +187,7 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
                 itemSize: 16,
                 initialRating: widget.testResult!.reviewScore!,
                 direction: Axis.horizontal,
-                allowHalfRating: true,
+                allowHalfRating: false,
                 itemCount: 5,
                 ratingWidget: RatingWidget(
                   full: SvgPicture.asset(
@@ -196,8 +207,9 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
                   ),
                 ),
                 itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                ignoreGestures: _ignoreRatingGesture(),
+                ignoreGestures: _rating != 0,
                 onRatingUpdate: (rating) {
+                  _rating = rating;
                   var psyTestReview = PsyTestReview()
                     ..testId = widget.testId
                     ..score = rating;
@@ -209,9 +221,5 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
         ],
       ),
     );
-  }
-
-  bool _ignoreRatingGesture() {
-    return widget.testResult!.reviewScore != 0;
   }
 }

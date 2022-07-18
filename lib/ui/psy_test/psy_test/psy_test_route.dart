@@ -89,7 +89,8 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
                             child: PageView(
                               controller: _pageController,
                               physics: NeverScrollableScrollPhysics(),
-                              children: List.generate(_questionList!.length, (index) => _pageViewItem(index)),
+                              children: List.generate(_questionList!.length,
+                                  (index) => _pageViewItem(index)),
                               onPageChanged: (index) {
                                 setState(() {
                                   _currentIndex = index;
@@ -145,10 +146,13 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
           asset: Assets.success,
           text: LocaleKeys.psyTestSuccess,
           buttonText: LocaleKeys.seeResult,
-          primaryColor: customColors.feijoBackground,
+          primaryColor: customColors.primary,
           onPressedButton: () {
             Navigator.pushReplacementNamed(context, Routes.psyTestResultV2,
-                arguments: {'testId': state.psyTestResult.testId, 'testResult': _testResult});
+                arguments: {
+                  'testId': state.psyTestResult.testId,
+                  'testResult': _testResult
+                });
           },
         ),
       );
@@ -171,7 +175,8 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
     if (_currentIndex == 0) {
       Navigator.pop(context);
     } else {
-      _pageController.animateToPage(_currentIndex - 1, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+      _pageController.animateToPage(_currentIndex - 1,
+          duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
     }
   }
 
@@ -220,9 +225,11 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
 
         /// Answers
         Expanded(
-          child: (psyTestQuestion.testAnswers != null && psyTestQuestion.testAnswers!.isNotEmpty)
+          child: (psyTestQuestion.testAnswers != null &&
+                  psyTestQuestion.testAnswers!.isNotEmpty)
               ? ListView(
-                  children: List.generate(psyTestQuestion.testAnswers!.length, (index) => _answerItem(questionIndex, index)),
+                  children: List.generate(psyTestQuestion.testAnswers!.length,
+                      (index) => _answerItem(questionIndex, index)),
                 )
               : Container(),
         ),
@@ -234,21 +241,27 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
   }
 
   Widget _answerItem(int questionIndex, int answerIndex) {
-    PsyTestAnswer answer = _questionList![questionIndex].testAnswers![answerIndex];
+    PsyTestAnswer answer =
+        _questionList![questionIndex].testAnswers![answerIndex];
 
     return SelectableListItem(
       text: answer.text,
-      isSelected: _questionList![questionIndex].testAnswers![answerIndex].isSelected,
+      isSelected:
+          _questionList![questionIndex].testAnswers![answerIndex].isSelected,
       margin: EdgeInsets.only(top: 15.0),
       onPressed: (isSelected) {
         setState(() {
-          _questionList![questionIndex].testAnswers![answerIndex].isSelected = isSelected;
+          _questionList![questionIndex].testAnswers![answerIndex].isSelected =
+              isSelected;
 
           // Unselect others
           if (isSelected) {
-            for (int i = 0; i < _questionList![questionIndex].testAnswers!.length; i++) {
+            for (int i = 0;
+                i < _questionList![questionIndex].testAnswers!.length;
+                i++) {
               if (i != answerIndex) {
-                _questionList![questionIndex].testAnswers![i].isSelected = false;
+                _questionList![questionIndex].testAnswers![i].isSelected =
+                    false;
               }
             }
           }
