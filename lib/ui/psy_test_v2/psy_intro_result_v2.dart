@@ -36,15 +36,14 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
 
   @override
   void initState() {
-    BlocManager.psyTestBlocV2
-        .add(GetTestIntrolResultEvent(widget.test.testId!));
+    BlocManager.psyTestBlocV2.add(GetTestIntrolResultEvent(widget.test.testId!));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBarTitle: LocaleKeys.psyTest,
+      appBarTitle: widget.test.name,
       child: BlocProvider.value(
         value: BlocManager.psyTestBlocV2,
         child: BlocListener<TestsBlocV2, TestsStateV2>(
@@ -63,10 +62,7 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
     } else if (state is TestIntrolResultFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -76,8 +72,7 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
         ? Column(
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(
-                    SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
+                margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
                 child: _tab(),
               ),
               SizedBox(height: 20),
@@ -88,8 +83,7 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
                   controller: _pageController,
                   physics: NeverScrollableScrollPhysics(),
                   children: [
-                    PsyIntroRouteV2(
-                        testInfo: _testInfoResultResponse!.testInfo!),
+                    PsyIntroRouteV2(testInfo: _testInfoResultResponse!.testInfo!),
                     _testInfoResultResponse!.testResult != null
                         ? PsyTestResultRouteV2(
                             isActiveAppBar: false,
@@ -144,15 +138,13 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
   }
 
   /// TAB ITEM
-  Widget _tabItem(
-      {required int index, required String text, required int flex}) {
+  Widget _tabItem({required int index, required String text, required int flex}) {
     return Expanded(
       flex: flex,
       child: InkWell(
         onTap: () {
           setState(() {
-            _pageController.animateToPage(index,
-                duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+            _pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
           });
         },
         child: Column(
@@ -167,9 +159,7 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
             Container(
               height: 2,
               decoration: BoxDecoration(
-                color: _currentIndex == index
-                    ? customColors.primary
-                    : Colors.transparent,
+                color: _currentIndex == index ? customColors.primary : Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
               ),
             )

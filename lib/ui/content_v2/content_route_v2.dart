@@ -30,6 +30,7 @@ class ContentRouteV2 extends StatefulWidget {
 class _ContentRouteV2State extends State<ContentRouteV2> {
   /// CONTENT
   ContentV2? _content;
+  bool? _isLiked;
 
   /// ScrollController
   late ScrollController _scrollController;
@@ -61,6 +62,7 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: title,
+      backgroundColor: customColors.whiteBackground,
       child: BlocProvider.value(
         value: BlocManager.contentBlocV2,
         child: BlocListener<ContentBlocV2, ContentStateV2>(
@@ -76,6 +78,7 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
   void _blocListener(BuildContext context, ContentStateV2 state) {
     if (state is ContentSuccessV2) {
       _content = state.content;
+      _isLiked = _content!.isLiked;
     } else if (state is ContentFailedV2) {
       showCustomDialog(
         context,
@@ -180,7 +183,7 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
                     Row(
                       children: [
                         CustomText(
-                          "Сэтгэл зүй",
+                          content.tags!.first.name,
                           maxLines: 2,
                           fontSize: 11,
                           color: customColors.primary,
@@ -219,27 +222,38 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
                       data: content.text ?? ''),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        BlocManager.contentBlocV2.add(GetContentLikeEvent(content.contentId!));
-                        BlocManager.contentBlocV2.add(GetContentEventV2(widget.contentId));
-                      },
-                      child: content.isLiked! ? SvgPicture.asset(Assets.heartRed) : SvgPicture.asset(Assets.heart),
-                    ),
-                    Row(
-                      children: [
-                        CustomText(
-                          "Нийтэлсэн: ${Func.toDateTimeStr(content.createdAt!)}",
-                          fontSize: 11,
-                          fontWeight: FontWeight.w300,
-                          color: customColors.lightText,
-                        ),
-                      ],
-                    ),
-                  ],
+                Container(
+                  // margin: EdgeInsets.symmetric(horizontal: 6),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          _isLiked = !_isLiked!;
+                          BlocManager.contentBlocV2.add(LikeContentEvent(content.contentId!));
+                        },
+                        child: _isLiked!
+                            ? SvgPicture.asset(
+                                Assets.heartRed,
+                                width: 20,
+                              )
+                            : SvgPicture.asset(
+                                Assets.heart,
+                                width: 20,
+                              ),
+                      ),
+                      Row(
+                        children: [
+                          CustomText(
+                            "Нийтэлсэн: ${Func.toDateTimeStr(content.createdAt!)}",
+                            fontSize: 11,
+                            fontWeight: FontWeight.w300,
+                            color: customColors.lightText,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
