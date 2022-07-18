@@ -131,93 +131,96 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _blocBuilder(BuildContext context, AuthState state) {
-    return CustomScaffold(
-      scaffoldKey: _loginKey,
-      loading: state is AuthLoading,
-      backgroundColor: customColors.primaryBackground,
-      child: LayoutBuilder(builder: (context, constraints) {
-        if (_height < constraints.maxHeight) _height = constraints.maxHeight;
-        if (_height < SizeHelper.minHeightScreen)
-          _height = SizeHelper.minHeightScreen;
+    return SafeArea(
+      bottom: false,
+      child: CustomScaffold(
+        scaffoldKey: _loginKey,
+        loading: state is AuthLoading,
+        backgroundColor: customColors.primaryBackground,
+        child: LayoutBuilder(builder: (context, constraints) {
+          if (_height < constraints.maxHeight) _height = constraints.maxHeight;
+          if (_height < SizeHelper.minHeightScreen)
+            _height = SizeHelper.minHeightScreen;
 
-        return SingleChildScrollView(
-          // physics: NeverScrollableScrollPhysics(),
-          child: Container(
-            height: _height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(child: Container(), flex: 25),
+          return SingleChildScrollView(
+            // physics: NeverScrollableScrollPhysics(),
+            child: Container(
+              height: _height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(child: Container(), flex: 25),
 
-                /// HabiDo logo
-                HeroHelper.getAppLogoWithName(),
+                  /// HabiDo logo
+                  HeroHelper.getAppLogoWithName(),
 
-                Expanded(child: Container(), flex: 25),
+                  Expanded(child: Container(), flex: 25),
 
-                Container(
-                  padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
-                  decoration: BoxDecoration(
+                  Container(
+                    padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
+                    decoration: BoxDecoration(
+                      color: customColors.whiteBackground,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(25)),
+                    ),
+                    child: Column(
+                      children: [
+                        /// Утасны дугаар
+                        _phoneNumberTextField(),
+
+                        /// Нууц үг
+                        _passwordTextField(),
+
+                        SizedBox(height: 15.0),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            _btnForgotPass(),
+                          ],
+                        ),
+
+                        SizedBox(height: 15.0),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              /// Нэвтрэх button
+                              child: _btnLogin(),
+                            ),
+
+                            /// Biometrics button
+                            _btnBiometrics(),
+                          ],
+                        ),
+
+                        MarginVertical(height: 10.0),
+                        _btnSignUp(),
+
+                        /// Button - Нууц үг мартсан уу? Сэргээх
+                        // _btnForgotPass(),
+                      ],
+                    ),
+                  ),
+
+                  Expanded(
+                    child: Container(color: customColors.whiteBackground),
+                    flex: 25,
+                  ),
+
+                  /// Button - Та бүртгэлтэй юу? Бүртгүүлэх
+                  // _btnSignUp(),
+                  Container(
+                    height: 120,
                     color: customColors.whiteBackground,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(25)),
-                  ),
-                  child: Column(
-                    children: [
-                      /// Утасны дугаар
-                      _phoneNumberTextField(),
-
-                      /// Нууц үг
-                      _passwordTextField(),
-
-                      SizedBox(height: 15.0),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          _btnForgotPass(),
-                        ],
-                      ),
-
-                      SizedBox(height: 15.0),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            /// Нэвтрэх button
-                            child: _btnLogin(),
-                          ),
-
-                          /// Biometrics button
-                          _btnBiometrics(),
-                        ],
-                      ),
-
-                      MarginVertical(height: 10.0),
-                      _btnSignUp(),
-
-                      /// Button - Нууц үг мартсан уу? Сэргээх
-                      // _btnForgotPass(),
-                    ],
-                  ),
-                ),
-
-                Expanded(
-                  child: Container(color: customColors.whiteBackground),
-                  flex: 25,
-                ),
-
-                /// Button - Та бүртгэлтэй юу? Бүртгүүлэх
-                // _btnSignUp(),
-                Container(
-                  height: 120,
-                  color: customColors.whiteBackground,
-                  // margin: EdgeInsets.symmetric(vertical: 35.0),
-                )
-              ],
+                    // margin: EdgeInsets.symmetric(vertical: 35.0),
+                  )
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 

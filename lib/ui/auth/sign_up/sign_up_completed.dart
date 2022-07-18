@@ -16,43 +16,45 @@ class SignUpCompletedRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     final _signUpCompletedKey = GlobalKey<ScaffoldState>();
 
-    return CustomScaffold(
-      scaffoldKey: _signUpCompletedKey,
-      child: Column(
-        children: [
-          /// HabiDo logo
-          Expanded(
-            flex: 1,
-            child: HeroHelper.getAppLogoWithName(),
-          ),
+    return SafeArea(
+      child: CustomScaffold(
+        scaffoldKey: _signUpCompletedKey,
+        child: Column(
+          children: [
+            /// HabiDo logo
+            Expanded(
+              flex: 1,
+              child: HeroHelper.getAppLogoWithName(),
+            ),
 
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                children: [
-                  CustomText(
-                    LocaleKeys.signUpCompletedText,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 25.0,
-                    maxLines: 5,
-                  ),
-                  SizedBox(height: SizeHelper.margin),
-                  _thanksBtn(context)
-                ],
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    CustomText(
+                      LocaleKeys.signUpCompletedText,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 25.0,
+                      maxLines: 5,
+                    ),
+                    SizedBox(height: SizeHelper.margin),
+                    _thanksBtn(context)
+                  ],
+                ),
               ),
             ),
-          ),
 
-          Expanded(
-            child: Image.asset(
-              Assets.sign_up_success,
-              width: double.infinity,
-              fit: BoxFit.fitWidth,
-            ),
-          )
-        ],
+            Expanded(
+              child: Image.asset(
+                Assets.sign_up_success,
+                width: double.infinity,
+                fit: BoxFit.fitWidth,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

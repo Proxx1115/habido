@@ -35,13 +35,15 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      child: BlocProvider.value(
-        value: BlocManager.psyTestBlocV2,
-        child: BlocListener<TestsBlocV2, TestsStateV2>(
-          listener: _blocListener,
-          child: BlocBuilder<TestsBlocV2, TestsStateV2>(
-            builder: _blocBuilder,
+    return SafeArea(
+      child: CustomScaffold(
+        child: BlocProvider.value(
+          value: BlocManager.psyTestBlocV2,
+          child: BlocListener<TestsBlocV2, TestsStateV2>(
+            listener: _blocListener,
+            child: BlocBuilder<TestsBlocV2, TestsStateV2>(
+              builder: _blocBuilder,
+            ),
           ),
         ),
       ),
@@ -54,7 +56,10 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
     } else if (state is TestListFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -69,7 +74,8 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
             padding: EdgeInsets.symmetric(horizontal: 15.0),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
+            margin: EdgeInsets.fromLTRB(
+                SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
             child: Column(
               children: [
                 if (_testNameWithTests != null)
@@ -136,7 +142,8 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
                           child: Container(
                             height: 16,
                             width: 16,
-                            padding: EdgeInsets.symmetric(horizontal: 4.5, vertical: 5.5),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 4.5, vertical: 5.5),
                             color: customColors.shamrockBorder,
                             child: SvgPicture.asset(
                               Assets.check,

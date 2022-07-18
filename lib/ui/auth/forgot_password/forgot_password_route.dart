@@ -42,21 +42,24 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
         listener: _blocListener,
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
-            return CustomScaffold(
-              appBarTitle: LocaleKeys.resetPassword,
-              loading: state is AuthLoading,
-              child: Container(
-                padding: SizeHelper.screenPadding,
-                child: Column(
-                  children: [
-                    /// Утасны дугаар
-                    _txtboxPhoneNumber(),
+            return SafeArea(
+              bottom: false,
+              child: CustomScaffold(
+                appBarTitle: LocaleKeys.resetPassword,
+                loading: state is AuthLoading,
+                child: Container(
+                  padding: SizeHelper.screenPadding,
+                  child: Column(
+                    children: [
+                      /// Утасны дугаар
+                      _txtboxPhoneNumber(),
 
-                    Expanded(child: Container()),
+                      Expanded(child: Container()),
 
-                    /// Button save
-                    _buttonSave(),
-                  ],
+                      /// Button save
+                      _buttonSave(),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -75,7 +78,10 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
     } else if (state is ForgotPasswordFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -104,7 +110,8 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
       onPressed: _enabledBtnSave
           ? () {
               Func.hideKeyboard(context);
-              var request = ForgotPasswordRequest()..phone = _phoneNumberController.text;
+              var request = ForgotPasswordRequest()
+                ..phone = _phoneNumberController.text;
               BlocManager.authBloc.add(ForgotPasswordEvent(request));
             }
           : null,

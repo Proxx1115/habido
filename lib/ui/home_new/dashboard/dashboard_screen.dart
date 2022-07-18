@@ -69,9 +69,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      top: true,
-      left: true,
-      bottom: true,
       child: CustomScaffold(
         scaffoldKey: _dashboardKey,
         backgroundColor: customColors.primaryBackground,
@@ -81,24 +78,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
             listener: _blocListener,
             child: BlocBuilder<HomeNewBloc, HomeNewState>(
                 builder: (context, state) {
-              return SafeArea(
-                child: CustomScrollView(
-                  physics: BouncingScrollPhysics(),
-                  slivers: [
-                    /// Home App Bar
-                    _homeAppBar(),
+              return CustomScrollView(
+                physics: BouncingScrollPhysics(),
+                slivers: [
+                  /// Home App Bar
+                  _homeAppBar(),
 
-                    /// Rest of items
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          return _listWidget();
-                        },
-                        childCount: 1,
-                      ),
+                  /// Rest of items
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return _listWidget();
+                      },
+                      childCount: 1,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             }),
           ),

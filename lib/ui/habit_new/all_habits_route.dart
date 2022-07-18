@@ -24,7 +24,8 @@ class _AllHabitsRouteState extends State<AllHabitsRoute> {
   int _currentIndex = 0;
 
   changePage() {
-    _pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 400), curve: Curves.easeIn);
+    _pageController.animateToPage(_currentIndex,
+        duration: Duration(milliseconds: 400), curve: Curves.easeIn);
   }
 
   @override

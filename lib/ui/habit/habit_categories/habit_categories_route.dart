@@ -20,10 +20,12 @@ class _HabitCategoriesRouteState extends State<HabitCategoriesRoute> {
     return ShowCaseWidget(
       builder: Builder(
         builder: (context) {
-          return CustomScaffold(
-            scaffoldKey: _habitCategoriesKey,
-            appBarTitle: LocaleKeys.createHabit,
-            child: HabitCategoriesScreen(),
+          return SafeArea(
+            child: CustomScaffold(
+              scaffoldKey: _habitCategoriesKey,
+              appBarTitle: LocaleKeys.createHabit,
+              child: HabitCategoriesScreen(),
+            ),
           );
         },
       ),

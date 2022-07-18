@@ -32,63 +32,70 @@ class _ContentRouteState extends State<ContentRoute> {
 
   @override
   Widget build(BuildContext context) {
-    _imageWidth = _imageWidth ?? MediaQuery.of(context).size.width - _margin * 2;
+    _imageWidth =
+        _imageWidth ?? MediaQuery.of(context).size.width - _margin * 2;
 
-    return CustomScaffold(
-      appBarTitle: LocaleKeys.advice,
-      child: SingleChildScrollView(
-        padding: SizeHelper.screenPadding,
-        child: Column(
-          children: [
-            /// Cover image
-            Hero(
-              tag: Func.toStr(widget.content.contentId),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                child: CachedNetworkImage(
-                  imageUrl: widget.content.contentPhoto!,
-                  fit: BoxFit.fitWidth,
-                  width: double.infinity,
-                  // height: _imageWidth! * SizeHelper.contentImageRatio,
-                  alignment: Alignment.topCenter,
-                  placeholder: (context, url) => CustomLoader(),
-                  errorWidget: (context, url, error) => Container(),
+    return SafeArea(
+      child: CustomScaffold(
+        appBarTitle: LocaleKeys.advice,
+        child: SingleChildScrollView(
+          padding: SizeHelper.screenPadding,
+          child: Column(
+            children: [
+              /// Cover image
+              Hero(
+                tag: Func.toStr(widget.content.contentId),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0)),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.content.contentPhoto!,
+                    fit: BoxFit.fitWidth,
+                    width: double.infinity,
+                    // height: _imageWidth! * SizeHelper.contentImageRatio,
+                    alignment: Alignment.topCenter,
+                    placeholder: (context, url) => CustomLoader(),
+                    errorWidget: (context, url, error) => Container(),
+                  ),
                 ),
               ),
-            ),
 
-            /// Text
-            FadeInAnimation(
-              delay: 1.5,
-              child: Container(
-                margin: EdgeInsets.only(top: 15.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-                  color: customColors.whiteBackground,
-                ),
-                padding: SizeHelper.boxPadding,
-                child: Column(
-                  children: [
-                    /// Title
-                    CustomText(
-                      widget.content.title ?? '',
-                      fontWeight: FontWeight.w600,
-                      maxLines: 3,
-                      alignment: Alignment.center,
-                    ),
-                    /// Body
-                    Container(
-                      margin: EdgeInsets.only(top: 5.0),
-                      child: Html(
-                        shrinkWrap: true,
-                        data: widget.content.text ?? '',
+              /// Text
+              FadeInAnimation(
+                delay: 1.5,
+                child: Container(
+                  margin: EdgeInsets.only(top: 15.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(SizeHelper.borderRadius)),
+                    color: customColors.whiteBackground,
+                  ),
+                  padding: SizeHelper.boxPadding,
+                  child: Column(
+                    children: [
+                      /// Title
+                      CustomText(
+                        widget.content.title ?? '',
+                        fontWeight: FontWeight.w600,
+                        maxLines: 3,
+                        alignment: Alignment.center,
                       ),
-                    ),
-                  ],
+
+                      /// Body
+                      Container(
+                        margin: EdgeInsets.only(top: 5.0),
+                        child: Html(
+                          shrinkWrap: true,
+                          data: widget.content.text ?? '',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

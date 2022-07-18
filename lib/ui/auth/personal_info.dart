@@ -93,76 +93,78 @@ class _PersonalInfoState extends State<PersonalInfo> {
           builder: (context, state) {
             return Container(
               color: customColors.primaryBackground,
-              child: CustomScaffold(
-                onWillPop: () async => false,
-                scaffoldKey: _signUpKey,
-                child: CustomScrollView(slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 200.0,
-                          height: 200.0,
-                          margin: EdgeInsets.fromLTRB(62, 48, 62, 32),
-                          child: SvgPicture.asset(
-                            Assets.PersonalInfo,
-                            width: MediaQuery.of(context).size.width,
-                            fit: BoxFit.contain,
+              child: SafeArea(
+                child: CustomScaffold(
+                  onWillPop: () async => false,
+                  scaffoldKey: _signUpKey,
+                  child: CustomScrollView(slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 200.0,
+                            height: 200.0,
+                            margin: EdgeInsets.fromLTRB(62, 48, 62, 32),
+                            child: SvgPicture.asset(
+                              Assets.PersonalInfo,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        Expanded(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: SizeHelper.margin),
+                          Expanded(
                               child: Column(
-                                children: [
-                                  CustomText(
-                                    LocaleKeys.personalInfo,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 30.0,
-                                  ),
-                                  formItem(
-                                    image: Assets.username,
-                                    widget: _userNameTextField(),
-                                  ),
-                                  formItem(
-                                    image: Assets.calendar,
-                                    widget: _birthdayPicker(),
-                                  ),
-                                  formItem(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: SizeHelper.margin),
+                                child: Column(
+                                  children: [
+                                    CustomText(
+                                      LocaleKeys.personalInfo,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 30.0,
+                                    ),
+                                    formItem(
                                       image: Assets.username,
-                                      widget: _genderSwitch()),
-                                ],
+                                      widget: _userNameTextField(),
+                                    ),
+                                    formItem(
+                                      image: Assets.calendar,
+                                      widget: _birthdayPicker(),
+                                    ),
+                                    formItem(
+                                        image: Assets.username,
+                                        widget: _genderSwitch()),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Container(
-                              margin:
-                                  EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
-                              child: CustomButton(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0)),
-                                onPressed: () {
-                                  _buttonSave();
-                                },
-                                text: LocaleKeys.continueTxt,
-                                fontWeight: FontWeight.w900,
-                                backgroundColor:
-                                    customColors.primaryButtonBackground,
+                              SizedBox(
+                                height: 50,
                               ),
-                            ),
-                          ],
-                        )),
-                      ],
-                    ),
-                  )
-                ]),
+                              Container(
+                                margin:
+                                    EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
+                                child: CustomButton(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0)),
+                                  onPressed: () {
+                                    _buttonSave();
+                                  },
+                                  text: LocaleKeys.continueTxt,
+                                  fontWeight: FontWeight.w900,
+                                  backgroundColor:
+                                      customColors.primaryButtonBackground,
+                                ),
+                              ),
+                            ],
+                          )),
+                        ],
+                      ),
+                    )
+                  ]),
+                ),
               ),
             );
           },
