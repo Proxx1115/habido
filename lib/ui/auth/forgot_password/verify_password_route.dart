@@ -55,7 +55,8 @@ class _VerifyPasswordRouteState extends State<VerifyPasswordRoute> {
     super.initState();
 
     // Timer
-    WidgetsBinding.instance.addPostFrameCallback((_) => _startCountDown(_countdownSec));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _startCountDown(_countdownSec));
   }
 
   @override
@@ -72,39 +73,42 @@ class _VerifyPasswordRouteState extends State<VerifyPasswordRoute> {
         listener: _blocListener,
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
-            return CustomScaffold(
-              appBarTitle: LocaleKeys.resetPassword,
-              loading: state is AuthLoading,
-              child: (_countdownTimerController != null)
-                  ? Column(
-                      children: [
-                        RoundedCornerListView(
-                          padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.padding),
-                          children: [
-                            /// Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу
-                            CustomText(
-                              LocaleKeys.pleaseEnterVerifyCode,
-                              maxLines: 4,
-                              margin: EdgeInsets.only(top: 20.0),
-                              alignment: Alignment.center,
-                            ),
+            return SafeArea(
+              child: CustomScaffold(
+                appBarTitle: LocaleKeys.resetPassword,
+                loading: state is AuthLoading,
+                child: (_countdownTimerController != null)
+                    ? Column(
+                        children: [
+                          RoundedCornerListView(
+                            padding: EdgeInsets.fromLTRB(SizeHelper.padding,
+                                0.0, SizeHelper.padding, SizeHelper.padding),
+                            children: [
+                              /// Танд мессежээр ирсэн 4-н оронтой кодыг оруулна уу
+                              CustomText(
+                                LocaleKeys.pleaseEnterVerifyCode,
+                                maxLines: 4,
+                                margin: EdgeInsets.only(top: 20.0),
+                                alignment: Alignment.center,
+                              ),
 
-                            /// Код
-                            _codeInput(),
+                              /// Код
+                              _codeInput(),
 
-                            /// Цаг
-                            _timer(),
+                              /// Цаг
+                              _timer(),
 
-                            /// Button resend
-                            _buttonResend()
-                          ],
-                        ),
+                              /// Button resend
+                              _buttonResend()
+                            ],
+                          ),
 
-                        /// Button save
-                        _buttonNext(),
-                      ],
-                    )
-                  : Container(),
+                          /// Button save
+                          _buttonNext(),
+                        ],
+                      )
+                    : Container(),
+              ),
             );
           },
         ),
@@ -118,7 +122,10 @@ class _VerifyPasswordRouteState extends State<VerifyPasswordRoute> {
     } else if (state is ForgotPasswordResendCodeFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -172,7 +179,8 @@ class _VerifyPasswordRouteState extends State<VerifyPasswordRoute> {
   _startCountDown(int sec) {
     setState(() {
       _endTime = DateTime.now().millisecondsSinceEpoch + 1000 * sec;
-      _countdownTimerController = CountdownTimerController(endTime: _endTime, onEnd: _onEndCountDown);
+      _countdownTimerController =
+          CountdownTimerController(endTime: _endTime, onEnd: _onEndCountDown);
     });
   }
 
@@ -209,7 +217,8 @@ class _VerifyPasswordRouteState extends State<VerifyPasswordRoute> {
     return CustomButton(
       style: CustomButtonStyle.secondary,
       asset: Assets.long_arrow_next,
-      margin: EdgeInsets.only(right: SizeHelper.margin, bottom: SizeHelper.marginBottom),
+      margin: EdgeInsets.only(
+          right: SizeHelper.margin, bottom: SizeHelper.marginBottom),
       onPressed: _enabledBtnNext
           ? () {
               _onPressedBtnNext();

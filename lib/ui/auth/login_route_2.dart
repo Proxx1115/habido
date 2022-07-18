@@ -106,92 +106,96 @@ class _LoginRoute2State extends State<LoginRoute2> {
   Widget _blocBuilder(BuildContext context, OAuthState state) {
     final _loginNewKey = GlobalKey<ScaffoldState>();
 
-    return CustomScaffold(
-      onWillPop: () async => false,
-      scaffoldKey: _loginNewKey,
-      padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
-      child: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child:
+    return SafeArea(
+      bottom: false,
+      top: true,
+      child: CustomScaffold(
+        onWillPop: () async => false,
+        scaffoldKey: _loginNewKey,
+        padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child:
 
-                      /// HabiDo logo
-                      HeroHelper.getAppLogoWithName(),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          CustomText(
-                            LocaleKeys.login,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30.0,
-                          ),
-
-                          SizedBox(height: 40.0),
-                          _oldLogin(context),
-                          SizedBox(height: 20.0),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 1.0,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: customColors.grayBorder,
-                                ),
-                              ),
-                              SizedBox(width: 5.5),
-                              CustomText(
-                                LocaleKeys.loginOr,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16.0,
-                                color: customColors.grayBorder,
-                              ),
-                              SizedBox(width: 5.5),
-                              Expanded(
-                                child: Container(
-                                  height: 1.0,
-                                  width: MediaQuery.of(context).size.width,
-                                  color: customColors.grayBorder,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          SizedBox(height: 20.0),
-
-                          /// Google-ээр нэвтрэх
-                          _socialLoginBtn(context, "google"),
-                          SizedBox(height: 15.0),
-
-                          /// Facebook-ээр нэвтрэх
-                          _socialLoginBtn(context, "facebook"),
-
-                          SizedBox(height: 15.0),
-
-                          /// Apple-аар нэвтрэх
-                          Platform.isIOS
-                              ? _socialLoginBtn(context, "apple")
-                              : Container(),
-                        ],
-                      ),
-                    ],
+                        /// HabiDo logo
+                        HeroHelper.getAppLogoWithName(),
                   ),
-                ),
-                SizedBox(height: 40.0),
-              ],
-            ),
-          )
-        ],
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            CustomText(
+                              LocaleKeys.login,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30.0,
+                            ),
+
+                            SizedBox(height: 40.0),
+                            _oldLogin(context),
+                            SizedBox(height: 20.0),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 1.0,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: customColors.grayBorder,
+                                  ),
+                                ),
+                                SizedBox(width: 5.5),
+                                CustomText(
+                                  LocaleKeys.loginOr,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0,
+                                  color: customColors.grayBorder,
+                                ),
+                                SizedBox(width: 5.5),
+                                Expanded(
+                                  child: Container(
+                                    height: 1.0,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: customColors.grayBorder,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 20.0),
+
+                            /// Google-ээр нэвтрэх
+                            _socialLoginBtn(context, "google"),
+                            SizedBox(height: 15.0),
+
+                            /// Facebook-ээр нэвтрэх
+                            _socialLoginBtn(context, "facebook"),
+
+                            SizedBox(height: 15.0),
+
+                            /// Apple-аар нэвтрэх
+                            Platform.isIOS
+                                ? _socialLoginBtn(context, "apple")
+                                : Container(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 40.0),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

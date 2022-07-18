@@ -27,7 +27,8 @@ class ContentDashboardV2 extends StatefulWidget {
 
 class _ContentDashboardV2State extends State<ContentDashboardV2> {
   /// REFRESH CONTROLLER
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   /// SEARCH
   final _searchController = TextEditingController();
@@ -66,20 +67,25 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
   }
 
   _getContent() {
-    (_searchController.text.isEmpty && Func.isEmpty(_selectedTag!.filterValue)) ? _isShow = true : _isShow = false;
+    (_searchController.text.isEmpty && Func.isEmpty(_selectedTag!.filterValue))
+        ? _isShow = true
+        : _isShow = false;
     print("ahahha $_isShow");
-    BlocManager.contentBlocV2.add(GetContentFirst(_selectedTag!.filterValue ?? "", _searchController.text));
+    BlocManager.contentBlocV2.add(GetContentFirst(
+        _selectedTag!.filterValue ?? "", _searchController.text));
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      child: BlocProvider.value(
-        value: BlocManager.contentBlocV2,
-        child: BlocListener<ContentBlocV2, ContentStateV2>(
-          listener: _blocListener,
-          child: BlocBuilder<ContentBlocV2, ContentStateV2>(
-            builder: _blocBuilder,
+    return SafeArea(
+      child: CustomScaffold(
+        child: BlocProvider.value(
+          value: BlocManager.contentBlocV2,
+          child: BlocListener<ContentBlocV2, ContentStateV2>(
+            listener: _blocListener,
+            child: BlocBuilder<ContentBlocV2, ContentStateV2>(
+              builder: _blocBuilder,
+            ),
           ),
         ),
       ),
@@ -92,21 +98,30 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     } else if (state is ContentHighlightedListFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is ContentTagsSuccess) {
       _tagList.addAll(state.tagList);
     } else if (state is ContentTagsFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is ContentFirstSuccess) {
       _contentList = state.contentList;
     } else if (state is ContentFirstFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is ContentThenSuccess) {
       _contentList.addAll(state.contentList);
@@ -114,14 +129,20 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     } else if (state is ContentThenFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is ContentLikeSuccess) {
       print('Content Like success');
     } else if (state is ContentLikeFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -206,7 +227,11 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                           ),
                           SizedBox(height: 10),
                           if (_contentHighlightedList != null)
-                            for (var i = 0; i < _contentHighlightedList!.length; i++) ContentCardV2(content: _contentHighlightedList![i]),
+                            for (var i = 0;
+                                i < _contentHighlightedList!.length;
+                                i++)
+                              ContentCardV2(
+                                  content: _contentHighlightedList![i]),
                           SizedBox(height: 3),
                         ],
                       )
@@ -221,7 +246,8 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                   ),
                 ),
                 SizedBox(height: 12),
-                for (var i = 0; i < _contentList.length; i++) ContentCardV2(content: _contentList[i]),
+                for (var i = 0; i < _contentList.length; i++)
+                  ContentCardV2(content: _contentList[i]),
               ],
             ),
           ),
@@ -312,7 +338,10 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
     // _notifList.add((_notifList.length + 1).toString());
 
     if (_contentList.isNotEmpty) {
-      BlocManager.contentBlocV2.add(GetContentThenEvent(_selectedTag!.filterValue!, _searchController.text, _contentList.last.contentId ?? 0));
+      BlocManager.contentBlocV2.add(GetContentThenEvent(
+          _selectedTag!.filterValue!,
+          _searchController.text,
+          _contentList.last.contentId ?? 0));
     }
 
     if (mounted) setState(() {});

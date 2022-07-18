@@ -71,52 +71,57 @@ class _HabitDashboardState extends State<HabitDashboard> {
   @override
   void initState() {
     super.initState();
-    BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
+    BlocManager.dashboardBloc
+        .add(GetUserHabitByDateEvent(_userHabitDate.toString()));
     BlocManager.dashboardBloc.add(GetHabitTemplateListEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      scaffoldKey: _habitDashboardKey,
-      backgroundColor: customColors.primaryBackground, // primaryBackground
-      child: BlocProvider.value(
-        value: BlocManager.dashboardBloc,
-        child: BlocListener<DashboardBloc, DashboardState>(
-          listener: _blocListener,
-          child: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
-            return CustomScrollView(
-              physics: BouncingScrollPhysics(),
-              slivers: [
-                /// App bar
-                _homeAppBar(),
+    return SafeArea(
+      child: CustomScaffold(
+        scaffoldKey: _habitDashboardKey,
+        backgroundColor: customColors.primaryBackground, // primaryBackground
+        child: BlocProvider.value(
+          value: BlocManager.dashboardBloc,
+          child: BlocListener<DashboardBloc, DashboardState>(
+            listener: _blocListener,
+            child: BlocBuilder<DashboardBloc, DashboardState>(
+                builder: (context, state) {
+              return CustomScrollView(
+                physics: BouncingScrollPhysics(),
+                slivers: [
+                  /// App bar
+                  _homeAppBar(),
 
-                /// List
-                /// Rest of items
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return _listItems();
-                    },
-                    childCount: 1,
+                  /// List
+                  /// Rest of items
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return _listItems();
+                      },
+                      childCount: 1,
+                    ),
                   ),
-                ),
-              ],
-            );
-          }),
+                ],
+              );
+            }),
+          ),
         ),
+        floatingActionButton: CustomButton(
+          margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
+          text: LocaleKeys.planNewHabit,
+          fontWeight: FontWeight.w700,
+          alignment: Alignment.bottomCenter,
+          borderRadius: BorderRadius.circular(15.0),
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.habitCategories);
+          },
+        ),
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
       ),
-      floatingActionButton: CustomButton(
-        margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
-        text: LocaleKeys.planNewHabit,
-        fontWeight: FontWeight.w700,
-        alignment: Alignment.bottomCenter,
-        borderRadius: BorderRadius.circular(15.0),
-        onPressed: () {
-          Navigator.pushNamed(context, Routes.habitCategories);
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
     );
   }
 
@@ -144,8 +149,12 @@ class _HabitDashboardState extends State<HabitDashboard> {
         CalendarScreen(
           onDateTimeChanged: (value) {
             _userHabitDate = value;
-            BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
-            Func.dateTimeToDateStr(_userHabitDate) != Func.dateTimeToDateStr(DateTime.now()) ? _isToday = false : _isToday = true;
+            BlocManager.dashboardBloc
+                .add(GetUserHabitByDateEvent(_userHabitDate.toString()));
+            Func.dateTimeToDateStr(_userHabitDate) !=
+                    Func.dateTimeToDateStr(DateTime.now())
+                ? _isToday = false
+                : _isToday = true;
             print("isToday: ${_isToday}");
           },
         ),
@@ -242,7 +251,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
               height: 82.0,
               width: 82.0,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
                 color: HexColor.fromHex(template.color!),
               ),
               child:
@@ -280,7 +290,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
                   /// Time
                   Row(
                     children: [
-                      for (UserHabitReminders el in template.templateReminders ?? [])
+                      for (UserHabitReminders el
+                          in template.templateReminders ?? [])
                         _reminderItem(new TimeOfDay(
                           hour: Func.toInt(el.time) ~/ 60,
                           minute: Func.toInt(el.time) % 60,
@@ -297,8 +308,10 @@ class _HabitDashboardState extends State<HabitDashboard> {
   }
 
   Widget _reminderItem(TimeOfDay timeOfDay) {
-    String hour = timeOfDay.hour < 10 ? '0${timeOfDay.hour}' : '${timeOfDay.hour}';
-    String minute = timeOfDay.minute < 10 ? '0${timeOfDay.minute}' : '${timeOfDay.minute}';
+    String hour =
+        timeOfDay.hour < 10 ? '0${timeOfDay.hour}' : '${timeOfDay.hour}';
+    String minute =
+        timeOfDay.minute < 10 ? '0${timeOfDay.minute}' : '${timeOfDay.minute}';
 
     // _onPressedDeleteItem(timeOfDay);
     return TagItemWidgetV2(
@@ -335,7 +348,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
                 spacing: 10.0,
                 runSpacing: 15.0,
                 children: [
-                  for (var el in _newhabitSuggestionLists) _habitItem(asset: el["asset"], name: el["name"]),
+                  for (var el in _newhabitSuggestionLists)
+                    _habitItem(asset: el["asset"], name: el["name"]),
                 ],
               ),
             ),
@@ -383,7 +397,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
   Widget _userHabitListWidget() {
     return Container(
       child: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
+        padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0,
+            SizeHelper.padding, SizeHelper.marginBottom),
         child: BlocProvider.value(
           value: BlocManager.dashboardBloc,
           child: BlocListener<DashboardBloc, DashboardState>(
@@ -392,7 +407,13 @@ class _HabitDashboardState extends State<HabitDashboard> {
               builder: (context, state) {
                 String todayDone = '';
                 if (_userHabits != null) {
-                  todayDone = _userHabits!.where((element) => element.isDone!).toList().length.toString() + '/' + _userHabits!.length.toString();
+                  todayDone = _userHabits!
+                          .where((element) => element.isDone!)
+                          .toList()
+                          .length
+                          .toString() +
+                      '/' +
+                      _userHabits!.length.toString();
                 }
                 return Column(
                   children: [
@@ -406,7 +427,9 @@ class _HabitDashboardState extends State<HabitDashboard> {
 
                     SizedBox(height: 12.0),
 
-                    if (Func.isNotEmpty(_userHabits)) _habitList(LocaleKeys.today, _userHabits!, true, _isToday, todayDone),
+                    if (Func.isNotEmpty(_userHabits))
+                      _habitList(LocaleKeys.today, _userHabits!, true, _isToday,
+                          todayDone),
                   ],
                 );
               },
@@ -425,14 +448,20 @@ class _HabitDashboardState extends State<HabitDashboard> {
     } else if (state is SkipUserHabitFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is GetUserHabitByDateSuccess) {
       _userHabits = state.userHabits;
     } else if (state is GetUserHabitByDateFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is GetHabitTemplateListSuccess) {
       _habitTemplates = state.habitTemplates;
@@ -440,12 +469,16 @@ class _HabitDashboardState extends State<HabitDashboard> {
     } else if (state is GetHabitTemplateListFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
 
-  Widget _habitList(String title, List<UserHabit> userHabitList, bool enabled, bool isToday, String? todayText) {
+  Widget _habitList(String title, List<UserHabit> userHabitList, bool enabled,
+      bool isToday, String? todayText) {
     return Column(
       children: List.generate(
         userHabitList.length,
@@ -460,10 +493,14 @@ class _HabitDashboardState extends State<HabitDashboard> {
               .userHabitReminders!
               .take(3)
               .toList()
-              .map((e) => ("${(Func.toInt(e.time) ~/ 60)}".padLeft(2, "0") + ":" + "${Func.toInt(e.time) % 60}".padLeft(2, "0")))
+              .map((e) => ("${(Func.toInt(e.time) ~/ 60)}".padLeft(2, "0") +
+                  ":" +
+                  "${Func.toInt(e.time) % 60}".padLeft(2, "0")))
               .toList(),
           leadingUrl: userHabitList[index].habit?.photo,
-          leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
+          leadingBackgroundColor: (userHabitList[index].habit?.color != null)
+              ? HexColor.fromHex(userHabitList[index].habit!.color!)
+              : null,
           processPercent: userHabitList[index].percentage!.toInt(),
           // processPercent: 50,
           //_getSuffixAsset(userHabitList[index])
@@ -474,8 +511,11 @@ class _HabitDashboardState extends State<HabitDashboard> {
             if (userHabitList[index].isDone ?? false) return;
 
             // Navigate
-            if (enabled && userHabitList[index].habit?.goalSettings != null && isToday) {
-              String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!);
+            if (enabled &&
+                userHabitList[index].habit?.goalSettings != null &&
+                isToday) {
+              String? route =
+                  HabitHelper.getProgressRoute(userHabitList[index].habit!);
               if (route != null) {
                 Navigator.pushNamed(
                   context,
@@ -501,7 +541,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
                         var skipUserHabitRequest = SkipUserHabitRequest()
                           ..userHabitId = userHabitList[index].userHabitId
                           ..skipDay = Func.toDateStr(DateTime.now());
-                        BlocManager.dashboardBloc.add(SkipUserHabitEvent(skipUserHabitRequest));
+                        BlocManager.dashboardBloc
+                            .add(SkipUserHabitEvent(skipUserHabitRequest));
                       },
                     ),
                   );
@@ -513,7 +554,10 @@ class _HabitDashboardState extends State<HabitDashboard> {
                     context,
                     Routes.userHabit,
                     arguments: {
-                      'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
+                      'screenMode':
+                          (userHabitList[index].isDynamicHabit ?? false)
+                              ? ScreenMode.CustomEdit
+                              : ScreenMode.Edit,
                       'habitId': userHabitList[index].habitId,
                       'userHabit': userHabitList[index],
                       'title': LocaleKeys.ediHabit,
@@ -535,7 +579,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
   _navigateToHabitDetailRoute(BuildContext context, UserHabit habitData) {
     // Navigate
     // if (habitData.goalType != null) {
-    String? route = HabitHelper.getDetailRoute(habitData.habit!.goalSettings!.toolType!);
+    String? route =
+        HabitHelper.getDetailRoute(habitData.habit!.goalSettings!.toolType!);
     if (route != null) {
       Navigator.pushNamed(
         context,
