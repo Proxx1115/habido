@@ -28,8 +28,10 @@ import 'package:habido_app/widgets/text.dart';
 class PsyTestResultRouteV2 extends StatefulWidget {
   final bool isActiveAppBar;
   final int testId;
+  final String testName;
   final TestResult? testResult;
-  const PsyTestResultRouteV2({Key? key, required this.testResult, required this.testId, required this.isActiveAppBar}) : super(key: key);
+  const PsyTestResultRouteV2({Key? key, required this.testResult, required this.testId, required this.isActiveAppBar, required this.testName})
+      : super(key: key);
 
   @override
   _PsyTestResultRouteV2State createState() => _PsyTestResultRouteV2State();
@@ -39,6 +41,7 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      // appBarTitle: ,
       child: BlocProvider.value(
         value: BlocManager.psyTestBlocV2,
         child: BlocListener<TestsBlocV2, TestsStateV2>(
@@ -64,7 +67,7 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
 
   Widget _blocBuilder(BuildContext context, TestsStateV2 state) {
     return CustomScaffold(
-      appBarTitle: widget.isActiveAppBar == true ? "" : null,
+      appBarTitle: widget.isActiveAppBar == true ? widget.testName : null,
       onWillPop: () {
         Navigator.popUntil(context, ModalRoute.withName(Routes.home));
       },

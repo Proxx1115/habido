@@ -145,10 +145,10 @@ class _PsyTestRouteState extends State<PsyTestRoute> {
           asset: Assets.success,
           text: LocaleKeys.psyTestSuccess,
           buttonText: LocaleKeys.seeResult,
-          primaryColor: customColors.feijoBackground,
+          primaryColor: customColors.primary,
           onPressedButton: () {
             Navigator.pushReplacementNamed(context, Routes.psyTestResultV2,
-                arguments: {'testId': state.psyTestResult.testId, 'testResult': _testResult});
+                arguments: {'testId': state.psyTestResult.testId, 'testResult': _testResult, 'testName': widget.psyTest.name});
           },
         ),
       );
