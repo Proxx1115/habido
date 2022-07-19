@@ -62,7 +62,7 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
         child: BlocBuilder<DatePickerBloc, DatePickerState>(
           builder: (context, state) {
             return StadiumContainer(
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.white,
               onTap: () {
                 _onTap();
               },
@@ -75,7 +75,12 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
                   CustomText(
                     _text(),
                     color: _color(),
-                    margin: widget.margin == null ? EdgeInsets.only(left: 18.0) : widget.margin,
+                    margin: widget.margin == null
+                        ? EdgeInsets.only(
+                            left: 18.0,
+                          )
+                        : widget.margin,
+                    fontSize: 13,
                     fontWeight: FontWeight.w500,
                   ),
 
@@ -120,6 +125,7 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
               onDateTimeChanged: (DateTime value) {
                 _pickedDate = value;
                 widget.callback(_pickedDate);
+                Navigator.pop(context);
               },
             )));
     setState(() {
