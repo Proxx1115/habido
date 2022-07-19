@@ -107,15 +107,13 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
                         leadingImageUrl: widget.testResult!.habit!.photo ?? "",
                         // suffixAsset: Assets.arrow_forward,
                         leadingBackgroundColor: Colors.white,
-                        leadingColor: HexColor.fromHex(widget
-                            .testResult!.habit!.color!), //todo yela onPressed
+                        leadingColor: HexColor.fromHex(widget.testResult!.habit!.color!), //todo yela onPressed
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.userHabit,
-                              arguments: {
-                                'screenMode': ScreenMode.New,
-                                'habit': widget.testResult!.habit,
-                                'title': LocaleKeys.createHabit,
-                              });
+                          Navigator.pushNamed(context, Routes.userHabit, arguments: {
+                            'screenMode': ScreenMode.New,
+                            'habit': widget.testResult!.habit,
+                            'title': LocaleKeys.createHabit,
+                          });
                         },
                       ),
 
@@ -153,8 +151,7 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
               text: LocaleKeys.thanksHabido,
               onPressed: () {
                 BlocManager.psyTestBlocV2.add(GetTestListEvent());
-                Navigator.popUntil(
-                    context, ModalRoute.withName(Routes.home_new));
+                Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
               },
             ),
           ],
