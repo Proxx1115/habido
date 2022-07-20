@@ -4,7 +4,7 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class InfoContainerV2 extends StatelessWidget {
-  final String title;
+  final String? title;
   final Alignment? titleAlignment;
   final Color? textColor;
   final String body;
@@ -14,7 +14,7 @@ class InfoContainerV2 extends StatelessWidget {
 
   const InfoContainerV2({
     Key? key,
-    required this.title,
+    this.title,
     this.titleAlignment,
     required this.body,
     this.margin,
@@ -32,14 +32,16 @@ class InfoContainerV2 extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           /// Title
-          CustomText(
-            title,
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            maxLines: 2,
-            alignment: titleAlignment,
-            color: textColor,
-          ),
+          title != null
+              ? CustomText(
+                  title,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  maxLines: 2,
+                  alignment: titleAlignment,
+                  color: textColor,
+                )
+              : Container(),
 
           SizedBox(height: 10),
 

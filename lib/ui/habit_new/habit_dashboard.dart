@@ -77,46 +77,48 @@ class _HabitDashboardState extends State<HabitDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      scaffoldKey: _habitDashboardKey,
-      backgroundColor: customColors.primaryBackground, // primaryBackground
-      child: BlocProvider.value(
-        value: BlocManager.dashboardBloc,
-        child: BlocListener<DashboardBloc, DashboardState>(
-          listener: _blocListener,
-          child: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
-            return CustomScrollView(
-              physics: BouncingScrollPhysics(),
-              slivers: [
-                /// App bar
-                _homeAppBar(),
+    return SafeArea(
+      child: CustomScaffold(
+        scaffoldKey: _habitDashboardKey,
+        backgroundColor: customColors.primaryBackground, // primaryBackground
+        child: BlocProvider.value(
+          value: BlocManager.dashboardBloc,
+          child: BlocListener<DashboardBloc, DashboardState>(
+            listener: _blocListener,
+            child: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
+              return CustomScrollView(
+                physics: BouncingScrollPhysics(),
+                slivers: [
+                  /// App bar
+                  _homeAppBar(),
 
-                /// List
-                /// Rest of items
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return _listItems();
-                    },
-                    childCount: 1,
+                  /// List
+                  /// Rest of items
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return _listItems();
+                      },
+                      childCount: 1,
+                    ),
                   ),
-                ),
-              ],
-            );
-          }),
+                ],
+              );
+            }),
+          ),
         ),
+        floatingActionButton: CustomButton(
+          margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
+          text: LocaleKeys.planNewHabit,
+          fontWeight: FontWeight.w700,
+          alignment: Alignment.bottomCenter,
+          borderRadius: BorderRadius.circular(15.0),
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.habitCategories);
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
       ),
-      floatingActionButton: CustomButton(
-        margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
-        text: LocaleKeys.planNewHabit,
-        fontWeight: FontWeight.w700,
-        alignment: Alignment.bottomCenter,
-        borderRadius: BorderRadius.circular(15.0),
-        onPressed: () {
-          Navigator.pushNamed(context, Routes.habitCategories);
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
     );
   }
 
@@ -399,7 +401,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
                     /// Today
                     // todo isToday ? showText : none Tushig
                     CustomText(
-                      LocaleKeys.todaysHabit,
+                      _isToday ? LocaleKeys.todaysHabit : "${_userHabitDate.month}-р сарын ${_userHabitDate.day}",
                       fontSize: 16.0,
                       fontWeight: FontWeight.w700,
                     ),

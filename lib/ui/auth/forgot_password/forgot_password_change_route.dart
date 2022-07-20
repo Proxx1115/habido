@@ -28,12 +28,14 @@ class ForgotPasswordChangeRoute extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ForgotPasswordChangeRouteState createState() => _ForgotPasswordChangeRouteState();
+  _ForgotPasswordChangeRouteState createState() =>
+      _ForgotPasswordChangeRouteState();
 }
 
 class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
   // Нууц үг
-  final _pController = TextEditingController(); // Бусад dispose хийгдээгүй TextField-үүдээс нэрийг нь өөр өгөх хэрэгтэй
+  final _pController =
+      TextEditingController(); // Бусад dispose хийгдээгүй TextField-үүдээс нэрийг нь өөр өгөх хэрэгтэй
 
   // Нууц үг давтах
   final _pRepeatController = TextEditingController();
@@ -56,24 +58,26 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
         listener: _blocListener,
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
-            return CustomScaffold(
-              appBarTitle: LocaleKeys.resetPassword,
-              loading: state is AuthLoading,
-              child: Container(
-                padding: SizeHelper.screenPadding,
-                child: Column(
-                  children: [
-                    /// Шинэ нууц үг
-                    _passTextField(),
+            return SafeArea(
+              child: CustomScaffold(
+                appBarTitle: LocaleKeys.resetPassword,
+                loading: state is AuthLoading,
+                child: Container(
+                  padding: SizeHelper.screenPadding,
+                  child: Column(
+                    children: [
+                      /// Шинэ нууц үг
+                      _passTextField(),
 
-                    /// Шинэ нууц үг давтах
-                    _passRepeatTextField(),
+                      /// Шинэ нууц үг давтах
+                      _passRepeatTextField(),
 
-                    Expanded(child: Container()),
+                      Expanded(child: Container()),
 
-                    /// Button save
-                    _buttonSave(),
-                  ],
+                      /// Button save
+                      _buttonSave(),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -100,7 +104,10 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
     } else if (state is ForgotPasswordChangeFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -127,7 +134,8 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
 
   _validateForm() {
     setState(() {
-      _enabledBtnSave = _pController.text.length > 7 && _pRepeatController.text.length > 7;
+      _enabledBtnSave =
+          _pController.text.length > 7 && _pRepeatController.text.length > 7;
     });
   }
 
@@ -142,7 +150,9 @@ class _ForgotPasswordChangeRouteState extends State<ForgotPasswordChangeRoute> {
                 showCustomDialog(
                   context,
                   child: CustomDialogBody(
-                      asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, buttonText: LocaleKeys.ok),
+                      asset: Assets.error,
+                      text: LocaleKeys.passwordsDoesNotMatch,
+                      buttonText: LocaleKeys.ok),
                 );
 
                 return;

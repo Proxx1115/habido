@@ -35,13 +35,15 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      child: BlocProvider.value(
-        value: BlocManager.psyTestBlocV2,
-        child: BlocListener<TestsBlocV2, TestsStateV2>(
-          listener: _blocListener,
-          child: BlocBuilder<TestsBlocV2, TestsStateV2>(
-            builder: _blocBuilder,
+    return SafeArea(
+      child: CustomScaffold(
+        child: BlocProvider.value(
+          value: BlocManager.psyTestBlocV2,
+          child: BlocListener<TestsBlocV2, TestsStateV2>(
+            listener: _blocListener,
+            child: BlocBuilder<TestsBlocV2, TestsStateV2>(
+              builder: _blocBuilder,
+            ),
           ),
         ),
       ),
@@ -80,7 +82,7 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
                           el.testCatName,
                           color: customColors.primaryText,
                           fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                         ),
                         SizedBox(height: 15),
                         for (var data in el.tests!) _psyTest(data),
@@ -127,6 +129,7 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
                       test.name,
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
+                      maxLines: 2,
                       color: customColors.primaryText,
                     ),
                   ),

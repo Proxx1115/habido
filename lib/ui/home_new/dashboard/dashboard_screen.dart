@@ -68,32 +68,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      scaffoldKey: _dashboardKey,
-      backgroundColor: customColors.primaryBackground,
-      child: BlocProvider.value(
-        value: BlocManager.homeNewBloc,
-        child: BlocListener<HomeNewBloc, HomeNewState>(
-          listener: _blocListener,
-          child: BlocBuilder<HomeNewBloc, HomeNewState>(builder: (context, state) {
-            return CustomScrollView(
-              physics: BouncingScrollPhysics(),
-              slivers: [
-                /// Home App Bar
-                _homeAppBar(),
+    return SafeArea(
+      child: CustomScaffold(
+        scaffoldKey: _dashboardKey,
+        backgroundColor: customColors.primaryBackground,
+        child: BlocProvider.value(
+          value: BlocManager.homeNewBloc,
+          child: BlocListener<HomeNewBloc, HomeNewState>(
+            listener: _blocListener,
+            child: BlocBuilder<HomeNewBloc, HomeNewState>(builder: (context, state) {
+              return CustomScrollView(
+                physics: BouncingScrollPhysics(),
+                slivers: [
+                  /// Home App Bar
+                  _homeAppBar(),
 
-                /// Rest of items
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return _listWidget();
-                    },
-                    childCount: 1,
+                  /// Rest of items
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return _listWidget();
+                      },
+                      childCount: 1,
+                    ),
                   ),
-                ),
-              ],
-            );
-          }),
+                ],
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -104,7 +106,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       pinned: false,
       snap: true,
       floating: true,
-      // backgroundColor: customColors.primaryBackground,
+      backgroundColor: customColors.primaryBackground,
       elevation: 0,
       automaticallyImplyLeading: false,
       flexibleSpace: DashboardAppBar(
@@ -196,7 +198,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             flex: 3,
                             child: Row(
                               children: [
-                                for (var i = 0; i < _moodTrackerList!.length; i++)
+                                for (var i = _moodTrackerList!.length - 1; i > -1; i--)
                                   Expanded(
                                       child: _moodTrackerItem(
                                           index: i,

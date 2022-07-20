@@ -346,7 +346,7 @@ class LocaleKeys {
 
   static String get habidoTip => 'HabiDo заавар';
 
-  static String get noActivityYet => 'No activity yet';
+  static String get noActivityYet => 'Тэмдэглэл олдсонгүй';
 
   /// Habit new version
   static String get seeAllHabits => 'Бүх дадал харах';
@@ -516,15 +516,15 @@ class LocaleKeys {
 
   static String get recapDayEmoji5 => 'Маш их баяртай байна';
 
-  static String get emoji1 => 'Гайхалтай';
+  static String get emoji5 => 'Гайхалтай';
 
-  static String get emoji2 => 'Дажгүй шүү';
+  static String get emoji4 => 'Дажгүй шүү';
 
   static String get emoji3 => 'Мэдэхгүй ээ';
 
-  static String get emoji4 => 'Тааламжгүй';
+  static String get emoji2 => 'Тааламжгүй';
 
-  static String get emoji5 => 'Онцгүй ээ';
+  static String get emoji1 => 'Онцгүй ээ';
 
   static String get notNoted => 'Тэмдэглээгүй';
 

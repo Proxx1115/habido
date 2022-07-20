@@ -93,52 +93,51 @@ class _PersonalInfoState extends State<PersonalInfo> {
           builder: (context, state) {
             return Container(
               color: customColors.primaryBackground,
-              child: CustomScaffold(
-                onWillPop: () async => false,
-                scaffoldKey: _signUpKey,
-                child: CustomScrollView(slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 200.0,
-                          height: 200.0,
-                          margin: EdgeInsets.fromLTRB(62, 48, 62, 32),
-                          child: SvgPicture.asset(
-                            Assets.PersonalInfo,
-                            width: MediaQuery.of(context).size.width,
-                            fit: BoxFit.contain,
+              child: SafeArea(
+                child: CustomScaffold(
+                  onWillPop: () async => false,
+                  scaffoldKey: _signUpKey,
+                  child: CustomScrollView(slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 200.0,
+                            height: 200.0,
+                            margin: EdgeInsets.fromLTRB(62, 48, 62, 32),
+                            child: SvgPicture.asset(
+                              Assets.PersonalInfo,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        Expanded(
-                            child: Container(
-                          // color: Colors.red,
-                          child: Column(
+                          Expanded(
+                              child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: SizeHelper.margin),
-                                child: Expanded(
-                                  child: Column(
-                                    children: [
-                                      CustomText(
-                                        LocaleKeys.personalInfo,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 30.0,
-                                      ),
-                                      FormItem(
-                                          image: Assets.username,
-                                          widget: _userNameTextField()),
-                                      FormItem(
-                                          image: Assets.calendar,
-                                          widget: _birthdayPicker()),
-                                      FormItem(
-                                          image: Assets.username,
-                                          widget: _genderSwitch()),
-                                    ],
-                                  ),
+                                child: Column(
+                                  children: [
+                                    CustomText(
+                                      LocaleKeys.personalInfo,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 30.0,
+                                    ),
+                                    formItem(
+                                      image: Assets.username,
+                                      widget: _userNameTextField(),
+                                    ),
+                                    formItem(
+                                      image: Assets.calendar,
+                                      widget: _birthdayPicker(),
+                                    ),
+                                    formItem(
+                                        image: Assets.username,
+                                        widget: _genderSwitch()),
+                                  ],
                                 ),
                               ),
                               SizedBox(
@@ -160,12 +159,12 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 ),
                               ),
                             ],
-                          ),
-                        )),
-                      ],
-                    ),
-                  )
-                ]),
+                          )),
+                        ],
+                      ),
+                    )
+                  ]),
+                ),
               ),
             );
           },
@@ -238,45 +237,54 @@ class _PersonalInfoState extends State<PersonalInfo> {
     return yearDiff > 12 || yearDiff == 12 && monthDiff >= 0 && dayDiff >= 0;
   }
 
-  Widget FormItem({image, widget}) {
-    return Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: customColors.whiteBackground,
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            width: 26.0,
-            height: 26.0,
-            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            child: SvgPicture.asset(
-              image,
-              width: 12.0,
-            ),
+  Widget formItem({image, widget}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: customColors.whiteBackground,
+            borderRadius: BorderRadius.circular(5.0),
           ),
-          SizedBox(
-            width: 10.0,
+          width: 26.0,
+          height: 26.0,
+          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: SvgPicture.asset(
+            image,
+            width: 12.0,
           ),
-          Expanded(
-            child: Column(
-              children: [
-                widget,
-                Container(
-                    height: 2.0,
-                    width: double.infinity,
-                    color: ConstantColors.cornflowerBlue),
-              ],
-            ),
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        Expanded(
+          child: Column(
+            children: [
+              widget,
+              Container(
+                  height: 2.0,
+                  width: double.infinity,
+                  color: ConstantColors.cornflowerBlue),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   _buttonSave() {
     print("button ajillaj bna");
+    if (!_validateForm()) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: LocaleKeys.validateFirstname,
+            buttonText: LocaleKeys.ok),
+      );
+
+      return;
+    }
 
     if (!_validateAge()) {
       showCustomDialog(
@@ -284,18 +292,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
         child: CustomDialogBody(
             asset: Assets.error,
             text: LocaleKeys.validate12UserProfile,
-            buttonText: LocaleKeys.ok),
-      );
-
-      return;
-    }
-
-    if (!_validateForm()) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: LocaleKeys.validateFirstname,
             buttonText: LocaleKeys.ok),
       );
 

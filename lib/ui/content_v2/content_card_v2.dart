@@ -12,7 +12,8 @@ import 'package:habido_app/widgets/text.dart';
 
 class ContentCardV2 extends StatelessWidget {
   final ContentV2 content;
-  const ContentCardV2({Key? key, required this.content}) : super(key: key);
+  final String tagName;
+  const ContentCardV2({Key? key, required this.content, required this.tagName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class ContentCardV2 extends StatelessWidget {
                             Row(
                               children: [
                                 CustomText(
-                                  "Сэтгэл зүй ",
+                                  tagName,
                                   color: customColors.primary,
                                   fontSize: 11,
                                   fontWeight: FontWeight.w300,

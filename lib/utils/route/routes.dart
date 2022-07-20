@@ -458,6 +458,7 @@ class Routes {
           // ),
           PsyTestResultRouteV2(
             isActiveAppBar: true,
+            testName: _getValueByKey(args, 'testName'),
             testId: _getValueByKey(args, 'testId'),
             testResult: _getValueByKey(args, 'testResult'),
           ),
@@ -615,6 +616,7 @@ class Routes {
                 UserHabitRouteV2(
                   screenMode: _getValueByKey(args, 'screenMode'),
                   title: _getValueByKey(args, 'title'),
+                  habit: _getValueByKey(args, 'habit'),
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habitTemplate: _getValueByKey(args, 'habitTemplate'),
                   habitId: _getValueByKey(args, 'habitId'),

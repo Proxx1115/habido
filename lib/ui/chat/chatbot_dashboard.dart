@@ -24,28 +24,30 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      child: _soon
-          ? _hint()
-          : Column(
-              children: [
-                /// Calendar, Title, Notification
-                DashboardAppBar(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0),
-                  title: LocaleKeys.habidoAssistant,
-                ),
-
-                /// Chat
-                // Expanded(
-                //   child: ChatScreen(chatType: ChatType.assistant),
-                // ),
-                Expanded(
-                  child: ChatScreenNew(
-                    type: ChatScreenNewType.main,
+    return SafeArea(
+      child: CustomScaffold(
+        child: _soon
+            ? _hint()
+            : Column(
+                children: [
+                  /// Calendar, Title, Notification
+                  DashboardAppBar(
+                    padding: EdgeInsets.symmetric(horizontal: 15.0),
+                    title: LocaleKeys.habidoAssistant,
                   ),
-                ),
-              ],
-            ),
+
+                  /// Chat
+                  // Expanded(
+                  //   child: ChatScreen(chatType: ChatType.assistant),
+                  // ),
+                  Expanded(
+                    child: ChatScreenNew(
+                      type: ChatScreenNewType.main,
+                    ),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 
@@ -62,7 +64,8 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
         Stack(
           children: [
             StadiumContainer(
-              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 45.0, SizeHelper.margin, SizeHelper.margin),
+              margin: EdgeInsets.fromLTRB(SizeHelper.margin, 45.0,
+                  SizeHelper.margin, SizeHelper.margin),
               padding: EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 20.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -76,7 +79,8 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
                   ),
                   CustomText(
                     'Би таны сэтгэл зүйг дэмжих найз байх болно.',
-                    margin: EdgeInsets.only(top: SizeHelper.margin, bottom: SizeHelper.margin),
+                    margin: EdgeInsets.only(
+                        top: SizeHelper.margin, bottom: SizeHelper.margin),
                     maxLines: 5,
                     alignment: Alignment.center,
                   ),
@@ -98,7 +102,8 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
               alignment: Alignment.topCenter,
               child: Container(
                 margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Image.asset(Assets.habido_assistant_png, height: 50.0, width: 50.0),
+                child: Image.asset(Assets.habido_assistant_png,
+                    height: 50.0, width: 50.0),
               ),
             ),
           ],

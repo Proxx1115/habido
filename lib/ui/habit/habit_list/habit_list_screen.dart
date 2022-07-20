@@ -20,7 +20,8 @@ import 'habit_list_bloc.dart';
 class HabitListScreen extends StatefulWidget {
   final HabitCategory habitCategory;
 
-  const HabitListScreen({Key? key, required this.habitCategory}) : super(key: key);
+  const HabitListScreen({Key? key, required this.habitCategory})
+      : super(key: key);
 
   @override
   _HabitListScreenState createState() => _HabitListScreenState();
@@ -57,27 +58,30 @@ class _HabitListScreenState extends State<HabitListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      scaffoldKey: _habitHabitsKey,
-      appBarTitle: LocaleKeys.createHabit,
-      backgroundColor: _backgroundColor,
-      child: BlocProvider.value(
-        value: _habitListBloc,
-        child: BlocListener<HabitListBloc, HabitListState>(
-          listener: _blocListener,
-          child: BlocBuilder<HabitListBloc, HabitListState>(
-            builder: (context, state) {
-              return SingleChildScrollView(
-                padding: SizeHelper.screenPadding,
-                child: Column(
-                  children: <Widget>[
-                    /// HabitList
-                    if (_habitList != null && _habitList!.isNotEmpty)
-                      for (int i = 0; i < _habitList!.length; i++) (i == 0) ? _listItem(i) : _listItem(i),
-                  ],
-                ),
-              );
-            },
+    return SafeArea(
+      child: CustomScaffold(
+        scaffoldKey: _habitHabitsKey,
+        appBarTitle: LocaleKeys.createHabit,
+        backgroundColor: _backgroundColor,
+        child: BlocProvider.value(
+          value: _habitListBloc,
+          child: BlocListener<HabitListBloc, HabitListState>(
+            listener: _blocListener,
+            child: BlocBuilder<HabitListBloc, HabitListState>(
+              builder: (context, state) {
+                return SingleChildScrollView(
+                  padding: SizeHelper.screenPadding,
+                  child: Column(
+                    children: <Widget>[
+                      /// HabitList
+                      if (_habitList != null && _habitList!.isNotEmpty)
+                        for (int i = 0; i < _habitList!.length; i++)
+                          (i == 0) ? _listItem(i) : _listItem(i),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

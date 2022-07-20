@@ -73,13 +73,15 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      child: BlocProvider.value(
-        value: BlocManager.contentBlocV2,
-        child: BlocListener<ContentBlocV2, ContentStateV2>(
-          listener: _blocListener,
-          child: BlocBuilder<ContentBlocV2, ContentStateV2>(
-            builder: _blocBuilder,
+    return SafeArea(
+      child: CustomScaffold(
+        child: BlocProvider.value(
+          value: BlocManager.contentBlocV2,
+          child: BlocListener<ContentBlocV2, ContentStateV2>(
+            listener: _blocListener,
+            child: BlocBuilder<ContentBlocV2, ContentStateV2>(
+              builder: _blocBuilder,
+            ),
           ),
         ),
       ),
@@ -206,7 +208,12 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                           ),
                           SizedBox(height: 10),
                           if (_contentHighlightedList != null)
-                            for (var i = 0; i < _contentHighlightedList!.length; i++) ContentCardV2(content: _contentHighlightedList![i]),
+                            for (var i = 0; i < _contentHighlightedList!.length; i++)
+                              ContentCardV2(
+                                content: _contentHighlightedList![i],
+                                tagName:
+                                    Func.isEmpty(_selectedTag!.filterValue!) ? _contentHighlightedList![i].tags!.first.name! : _selectedTag!.name!,
+                              ),
                           SizedBox(height: 3),
                         ],
                       )
@@ -221,7 +228,11 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
                   ),
                 ),
                 SizedBox(height: 12),
-                for (var i = 0; i < _contentList.length; i++) ContentCardV2(content: _contentList[i]),
+                for (var i = 0; i < _contentList.length; i++)
+                  ContentCardV2(
+                    content: _contentList[i],
+                    tagName: Func.isEmpty(_selectedTag!.filterValue!) ? _contentList[i].tags!.first.name! : _selectedTag!.name!,
+                  ),
               ],
             ),
           ),
