@@ -170,21 +170,23 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
       textColor: customColors.primary,
       child: Column(
         children: [
-          Row(
-            children: [
-              CustomText(
-                LocaleKeys.retakeTest + ":",
-                fontSize: 15,
-                fontWeight: FontWeight.w300,
-              ),
-              CustomText(
-                Func.toDateStr(DateTime.now()),
-                fontSize: 15,
-                fontWeight: FontWeight.w300,
-                margin: EdgeInsets.only(left: 5),
-              ),
-            ],
-          ),
+          widget.testResult!.retakeTestDate != null
+              ? Row(
+                  children: [
+                    CustomText(
+                      LocaleKeys.retakeTest + ":",
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    CustomText(
+                      Func.toDateStr(Func.toDate(widget.testResult!.retakeTestDate)),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300,
+                      margin: EdgeInsets.only(left: 5),
+                    ),
+                  ],
+                )
+              : Container(),
           SizedBox(
             height: 10,
           ),
