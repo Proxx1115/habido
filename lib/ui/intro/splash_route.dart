@@ -72,14 +72,15 @@ class _SplashRouteState extends State<SplashRoute> {
     ApiManager.getUserData().then((userData) async {
       if (userData.code == ResponseCode.Success) {
         await AuthBloc.afterLogin();
-        if (globals.userData!.birthDay == null ||
-            globals.userData!.gender == null ||
-            globals.userData!.firstName == null) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              Routes.personalInfo, (Route<dynamic> route) => false);
+        if (globals.userData!.birthDay == null || globals.userData!.gender == null || globals.userData!.firstName == null) {
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.personalInfo, (Route<dynamic> route) => false);
         } else {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              Routes.home_new, (Route<dynamic> route) => false);
+          if (globals.userData?.isOnboardingDone2 == false) {
+            /// Go to home
+            Navigator.pushNamed(context, Routes.signUpQuestion);
+          } else {
+            Navigator.of(context).pushNamedAndRemoveUntil(Routes.home_new, (Route<dynamic> route) => false);
+          }
         }
 
         /// Go to home
@@ -108,9 +109,7 @@ class _SplashRouteState extends State<SplashRoute> {
 
   _navigateToFirstRoute() {
     Navigator.of(context).pushNamedAndRemoveUntil(
-      SharedPref.checkIntroLimit()
-          ? Routes.intro
-          : Routes.login2, // signUpQuestion loginIntro
+      SharedPref.checkIntroLimit() ? Routes.intro : Routes.login2, // signUpQuestion loginIntro
       (Route<dynamic> route) => false,
     );
   }

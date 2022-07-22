@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:habido_app/bloc/authDialog_bloc.dart';
+import 'package:habido_app/bloc/auth_dialog_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/addOauth.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
