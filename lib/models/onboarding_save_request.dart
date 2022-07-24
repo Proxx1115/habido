@@ -15,10 +15,10 @@ class OnBoardingSaveRequest extends BaseRequest {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
+  List<Map<String, dynamic>> toJsonList() {
+    var map;
     if (onBoardingQuestionAns != null) {
-      map['data'] = onBoardingQuestionAns?.map((v) => v.toJson()).toList();
+      map = onBoardingQuestionAns?.map((v) => v.toJson()).toList();
     }
     return map;
   }

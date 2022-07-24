@@ -5,8 +5,12 @@ import 'package:habido_app/bloc/onboarding_bloc.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/onboarding_answer.dart';
 import 'package:habido_app/models/onboarding_question.dart';
+import 'package:habido_app/models/onboarding_save_request.dart';
+import 'package:habido_app/models/onboarding_save_response.dart';
 import 'package:habido_app/models/onboarding_start_response.dart';
 import 'package:habido_app/ui/habit/habit_card.dart';
+import 'package:habido_app/ui/habit_new/habit_template/habit_template_card.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
@@ -36,9 +40,16 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
   // PageView
   PageController _pageController = PageController();
   int _currentIndex = 0;
-  List<String> assetList = [Assets.question1, Assets.question3, Assets.question3];
+  List<String> assetList = [
+    Assets.question1,
+    Assets.question3,
+    Assets.question3
+  ];
   List<OnBoardingAnswer> _selectedAnswers1 = [];
   List<OnBoardingAnswer> _selectedAnswers2 = [];
+  List<OnBoardingQuestion> _onBoardingQuestionAns = [];
+  OnBoardingSaveResponse? _saveResponse;
+
   Habit? _habit;
   double _height = 0.0;
   double _minHeight = 600;
@@ -56,11 +67,22 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
 
   _onSelectAnswer2(OnBoardingAnswer value) {
     _selectedAnswers2.add(value);
+    OnBoardingQuestion question = new OnBoardingQuestion()
+      ..questionId = value.questionId
+      ..answers = _selectedAnswers2;
+    _onBoardingQuestionAns.add(question);
     nextPage();
   }
 
   nextPage() {
-    _pageController.animateToPage(_currentIndex + 1, duration: Duration(milliseconds: 400), curve: Curves.easeIn);
+    if (_currentIndex == 1) {
+      OnBoardingSaveRequest request = OnBoardingSaveRequest()
+        ..onBoardingQuestionAns = _onBoardingQuestionAns;
+      print("odoginrequest ${request.onBoardingQuestionAns}");
+      _onBoardingBloc.add(SaveOnBoardingEvent(request));
+    }
+    _pageController.animateToPage(_currentIndex + 1,
+        duration: Duration(milliseconds: 400), curve: Curves.easeIn);
   }
 
   @override
@@ -85,7 +107,8 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
           value: _onBoardingBloc,
           child: BlocListener<OnBoardingBloc, OnBoardingState>(
             listener: _blocListener,
-            child: BlocBuilder<OnBoardingBloc, OnBoardingState>(builder: (context, state) {
+            child: BlocBuilder<OnBoardingBloc, OnBoardingState>(
+                builder: (context, state) {
               return (_questionList != null && _questionList!.isNotEmpty)
                   ? Stack(
                       children: [
@@ -119,7 +142,6 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
   _blocListener(BuildContext context, OnBoardingState state) {
     if (state is GetOnBoardingQuestSuccess) {
       _questionList = state.onBoardingStartResponse.questionList;
-      print('got questions ${_questionList}');
     } else if (state is GetOnBoardingQuestFailed) {
       showCustomDialog(
         context,
@@ -133,6 +155,7 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
         ),
       );
     } else if (state is OnBoardingSaveSuccess) {
+      _saveResponse = state.onBoardingSaveResponse;
     } else if (state is OnBoardingSaveFailed) {
       showCustomDialog(
         context,
@@ -167,9 +190,13 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
   Widget _indicatorItem(int index) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius:
-            _currentIndex == index ? BorderRadius.only(topRight: Radius.circular(2.0), bottomRight: Radius.circular(2.0)) : BorderRadius.zero,
-        color: _currentIndex >= index ? customColors.primary : Colors.transparent,
+        borderRadius: _currentIndex == index
+            ? BorderRadius.only(
+                topRight: Radius.circular(2.0),
+                bottomRight: Radius.circular(2.0))
+            : BorderRadius.zero,
+        color:
+            _currentIndex >= index ? customColors.primary : Colors.transparent,
       ),
     );
   }
@@ -207,7 +234,8 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
                     /// Indicator
                     Container(
                       alignment: Alignment.topCenter,
-                      margin: EdgeInsets.fromLTRB(SizeHelper.margin, 30.0, SizeHelper.margin, 40),
+                      margin: EdgeInsets.fromLTRB(
+                          SizeHelper.margin, 30.0, SizeHelper.margin, 40),
                       child: _indicator(_currentIndex),
                     ),
 
@@ -230,6 +258,12 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
                           text: LocaleKeys.continueTxt,
                           onPressed: _selectedAnswers1.length == 3
                               ? () {
+                                  OnBoardingQuestion question =
+                                      new OnBoardingQuestion()
+                                        ..questionId =
+                                            _questionList![0].questionId
+                                        ..answers = _selectedAnswers2;
+                                  _onBoardingQuestionAns.add(question);
                                   nextPage();
                                 }
                               : null,
@@ -270,14 +304,18 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
         decoration: BoxDecoration(
           border: Border.all(color: customColors.primary, width: 1),
           borderRadius: BorderRadius.circular(20.0),
-          color: _selectedAnswers1.contains(answer) ? customColors.primary : customColors.whiteBackground,
+          color: _selectedAnswers1.contains(answer)
+              ? customColors.primary
+              : customColors.whiteBackground,
         ),
         child: Text(
           // todo change to CustomText
           answer.text!,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: _selectedAnswers1.contains(answer) ? customColors.whiteText : customColors.primaryText,
+            color: _selectedAnswers1.contains(answer)
+                ? customColors.whiteText
+                : customColors.primaryText,
             fontWeight: FontWeight.w400,
             fontSize: 15.0,
           ),
@@ -298,11 +336,15 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
         decoration: BoxDecoration(
           border: Border.all(color: customColors.primary, width: 1),
           borderRadius: BorderRadius.circular(20.0),
-          color: _selectedAnswers2.contains(answer) ? customColors.primary : customColors.whiteBackground,
+          color: _selectedAnswers2.contains(answer)
+              ? customColors.primary
+              : customColors.whiteBackground,
         ),
         child: CustomText(
           answer.text!,
-          color: _selectedAnswers2.contains(answer) ? customColors.whiteText : customColors.primaryText,
+          color: _selectedAnswers2.contains(answer)
+              ? customColors.whiteText
+              : customColors.primaryText,
           alignment: Alignment.center,
           textAlign: TextAlign.center,
           fontWeight: FontWeight.w400,
@@ -314,7 +356,8 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
 
   Widget _question1() {
     return Container(
-      margin: const EdgeInsets.fromLTRB(SizeHelper.margin, 0, SizeHelper.margin, 28),
+      margin: const EdgeInsets.fromLTRB(
+          SizeHelper.margin, 0, SizeHelper.margin, 28),
       child: Column(
         children: [
           CustomText(
@@ -343,7 +386,8 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
 
   Widget _question2() {
     return Container(
-      margin: const EdgeInsets.fromLTRB(SizeHelper.margin, 0.0, SizeHelper.margin, SizeHelper.margin),
+      margin: const EdgeInsets.fromLTRB(
+          SizeHelper.margin, 0.0, SizeHelper.margin, SizeHelper.margin),
       child: Column(
         children: [
           CustomText(
@@ -372,38 +416,39 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
   }
 
   Widget _question3() {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(SizeHelper.margin, 0.0, SizeHelper.margin, SizeHelper.margin),
-      child: Column(
-        children: [
-          /// Question
-          CustomText(
-            LocaleKeys.signUpQuest3,
-            color: customColors.primaryText,
-            fontWeight: FontWeight.w700,
-            fontSize: 19.0,
-            maxLines: 2,
-          ),
-
-          SizedBox(height: SizeHelper.margin),
-
-          /// Body
-          CustomText(
-            LocaleKeys.signUpQuest3Answer,
-            color: customColors.primaryText,
-            fontWeight: FontWeight.w400,
-            fontSize: 15.0,
-            maxLines: 4,
-          ),
-
-          _habit != null
-              ? HorizontalHabitCard(habit: _habit!)
-              : Container(
-                  child: Text("Habit"),
+    return _saveResponse != null
+        ? Container(
+            margin: const EdgeInsets.fromLTRB(
+                SizeHelper.margin, 0.0, SizeHelper.margin, SizeHelper.margin),
+            child: Column(
+              children: [
+                /// Question
+                CustomText(
+                  _saveResponse!.question,
+                  color: customColors.primaryText,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19.0,
+                  maxLines: 2,
                 ),
-        ],
-      ),
-    );
+
+                SizedBox(height: SizeHelper.margin),
+
+                /// Tip
+                CustomText(
+                  _saveResponse!.tip,
+                  color: customColors.primaryText,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15.0,
+                  maxLines: 4,
+                ),
+
+                _saveResponse!.template != null
+                    ? HabitTemplateCard(template: _saveResponse!.template!)
+                    : Container(),
+              ],
+            ),
+          )
+        : Container();
   }
 
   _buttonNext({text, onPressed}) {

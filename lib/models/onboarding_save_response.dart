@@ -1,8 +1,5 @@
 import 'package:habido_app/models/base_response.dart';
 import 'package:habido_app/models/habit_template.dart';
-import 'package:habido_app/utils/func.dart';
-
-import 'habit.dart';
 
 class OnBoardingSaveResponse extends BaseResponse {
   String? question;
@@ -18,7 +15,9 @@ class OnBoardingSaveResponse extends BaseResponse {
     parseBaseParams(json);
     question = json['question'];
     tip = json['tip'];
-    template = json['template'] != null ? HabitTemplate.fromJson(json['template']) : null;
+    template = json['template'] != null
+        ? HabitTemplate.fromJson(json['template'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
