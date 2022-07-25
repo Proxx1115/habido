@@ -458,6 +458,7 @@ class Routes {
           // ),
           PsyTestResultRouteV2(
             isActiveAppBar: true,
+            testName: _getValueByKey(args, 'testName'),
             testId: _getValueByKey(args, 'testId'),
             testResult: _getValueByKey(args, 'testResult'),
           ),

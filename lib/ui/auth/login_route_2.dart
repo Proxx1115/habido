@@ -331,8 +331,8 @@ class _LoginRoute2State extends State<LoginRoute2> {
     try {
       Map? userFbData;
       var fb = 'Facebook';
-      final result =
-          await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
+      final result = await FacebookAuth.i
+          .login(permissions: ["public_profile", "email", "user_friends"]);
       if (result.status == LoginStatus.success) {
         final requestData = await FacebookAuth.i.getUserData();
         setState(() {
@@ -346,7 +346,7 @@ class _LoginRoute2State extends State<LoginRoute2> {
 
         BlocManager.oauthBloc.add(LoginEvent(request));
       } else {
-        print("result::::::::::${result.status}");
+        // print("result::::::::::${result.status}");
         print("result::::::::::${result.message}");
       }
     } catch (e) {

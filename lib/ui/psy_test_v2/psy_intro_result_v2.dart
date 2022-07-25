@@ -89,6 +89,7 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
                             isActiveAppBar: false,
                             testResult: _testInfoResultResponse?.testResult,
                             testId: widget.test.testId!,
+                            testName: widget.test.name!,
                           )
                         : Container()
                   ],
