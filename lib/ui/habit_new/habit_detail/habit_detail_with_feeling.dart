@@ -34,12 +34,10 @@ class HabitDetailWithFeelingRoute extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<HabitDetailWithFeelingRoute> createState() =>
-      _HabitDetailWithFeelingRouteState();
+  State<HabitDetailWithFeelingRoute> createState() => _HabitDetailWithFeelingRouteState();
 }
 
-class _HabitDetailWithFeelingRouteState
-    extends State<HabitDetailWithFeelingRoute> {
+class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRoute> {
   UserHabitPlanCount? _userHabitPlanCount;
 
   // Total count
@@ -54,12 +52,9 @@ class _HabitDetailWithFeelingRouteState
   @override
   void initState() {
     super.initState();
-    BlocManager.userHabitBloc
-        .add(GetUserHabitPlanCountEvent(widget.userHabitId!));
-    BlocManager.userHabitBloc
-        .add(GetHabitFeelingChartDataEvent(widget.userHabitId!));
-    BlocManager.userHabitBloc
-        .add(GetUserHabitDetailsFeelingLatestEvent(widget.userHabitId!));
+    BlocManager.userHabitBloc.add(GetUserHabitPlanCountEvent(widget.userHabitId!));
+    BlocManager.userHabitBloc.add(GetHabitFeelingChartDataEvent(widget.userHabitId!));
+    BlocManager.userHabitBloc.add(GetUserHabitDetailsFeelingLatestEvent(widget.userHabitId!));
   }
 
   @override
@@ -83,10 +78,7 @@ class _HabitDetailWithFeelingRouteState
     } else if (state is GetUserHabitPlanCountFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is HabitFeelingPieChartSuccess) {
       _totalCount = state.totalCount;
@@ -94,21 +86,14 @@ class _HabitDetailWithFeelingRouteState
     } else if (state is HabitFeelingPieChartFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is GetFeelingDetailsLatestSuccess) {
-      _userHabitDetailsFeelingList =
-          state.userHabitDetailsFeelingList.take(3).toList();
+      _userHabitDetailsFeelingList = state.userHabitDetailsFeelingList.take(3).toList();
     } else if (state is GetFeelingDetailsLatestFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -144,15 +129,12 @@ class _HabitDetailWithFeelingRouteState
               SizedBox(height: 15.0),
 
               /// Feeling Chart & Info
-              (_feelings != null && _totalCount != null && _totalCount! > 0)
-                  ? _feelingInfo()
-                  : Container(),
+              (_feelings != null && _totalCount != null && _totalCount! > 0) ? _feelingInfo() : Container(),
 
               SizedBox(height: 15.0),
 
               /// Title - (Note)
-              (_userHabitDetailsFeelingList != null &&
-                      _userHabitDetailsFeelingList!.length > 0)
+              (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.length > 0)
                   ? Column(
                       children: [
                         Row(
@@ -183,10 +165,7 @@ class _HabitDetailWithFeelingRouteState
                         SizedBox(height: 12.0),
 
                         /// Feeling Details 3
-                        for (int i = 0;
-                            i < _userHabitDetailsFeelingList!.length;
-                            i++)
-                          _noteItem(_userHabitDetailsFeelingList![i]),
+                        for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
                         SizedBox(height: 20.0),
                       ],
                     )
@@ -276,8 +255,7 @@ class _HabitDetailWithFeelingRouteState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomText(
-                Func.toRomboMonth(
-                    Func.getMonthFromDateStr(feelingDetails!.date!)),
+                Func.toRomboMonth(Func.getMonthFromDateStr(feelingDetails!.date!)),
                 color: customColors.greyText,
                 fontWeight: FontWeight.w500,
                 fontSize: 15.0,
@@ -356,8 +334,7 @@ class _HabitDetailWithFeelingRouteState
     return Container(
       padding: EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        borderRadius:
-            BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+        borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
         color: customColors.whiteBackground, //whiteBackground
       ),
       child: Row(
@@ -422,11 +399,8 @@ class _HabitDetailWithFeelingRouteState
     );
   }
 
-  PieChartSectionData _pieChartData(
-      UserHabitFeelingPieChartFeeling _habitFeelingPieChartFeeling) {
-    double _percentage = Func.toDouble(_habitFeelingPieChartFeeling.count) *
-        100 /
-        Func.toDouble(_totalCount);
+  PieChartSectionData _pieChartData(UserHabitFeelingPieChartFeeling _habitFeelingPieChartFeeling) {
+    double _percentage = Func.toDouble(_habitFeelingPieChartFeeling.count) * 100 / Func.toDouble(_totalCount);
     return PieChartSectionData(
       radius: 12,
       color: HexColor.fromHex(_getColor(_habitFeelingPieChartFeeling.index!)),

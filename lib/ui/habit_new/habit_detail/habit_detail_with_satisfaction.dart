@@ -28,7 +28,7 @@ class HabitDetailWithSatisfactionRoute extends StatefulWidget {
     Key? key,
     this.userHabitId,
     this.name,
-    this.isActive,
+    this.isActive = false,
   }) : super(key: key);
 
   @override

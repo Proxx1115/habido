@@ -68,15 +68,16 @@ class _PersonalInfoState extends State<PersonalInfo> {
           },
         ),
       );
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.home_new, (Route<dynamic> route) => false);
+      if (globals.userData?.isOnboardingDone2 == false) {
+        /// Go to home
+        Navigator.pushNamed(context, Routes.signUpQuestion);
+      } else {
+        Navigator.of(context).pushNamedAndRemoveUntil(Routes.home_new, (Route<dynamic> route) => false);
+      }
     } else if (state is UpdateUserDataFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -117,8 +118,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: SizeHelper.margin),
+                                padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
                                 child: Column(
                                   children: [
                                     CustomText(
@@ -134,9 +134,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                       image: Assets.calendar,
                                       widget: _birthdayPicker(),
                                     ),
-                                    formItem(
-                                        image: Assets.username,
-                                        widget: _genderSwitch()),
+                                    formItem(image: Assets.username, widget: _genderSwitch()),
                                   ],
                                 ),
                               ),
@@ -144,18 +142,15 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 height: 50,
                               ),
                               Container(
-                                margin:
-                                    EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
+                                margin: EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
                                 child: CustomButton(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
                                   onPressed: () {
                                     _buttonSave();
                                   },
                                   text: LocaleKeys.continueTxt,
                                   fontWeight: FontWeight.w900,
-                                  backgroundColor:
-                                      customColors.primaryButtonBackground,
+                                  backgroundColor: customColors.primaryButtonBackground,
                                 ),
                               ),
                             ],
@@ -220,8 +215,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   _validateForm() {
-    if (_selectedBirthDate != null && _userNameController.text.length > 0)
-      return true;
+    if (_selectedBirthDate != null && _userNameController.text.length > 0) return true;
     return false;
   }
 
@@ -261,10 +255,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           child: Column(
             children: [
               widget,
-              Container(
-                  height: 2.0,
-                  width: double.infinity,
-                  color: ConstantColors.cornflowerBlue),
+              Container(height: 2.0, width: double.infinity, color: ConstantColors.cornflowerBlue),
             ],
           ),
         ),
@@ -277,10 +268,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     if (!_validateForm()) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: LocaleKeys.validateFirstname,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validateFirstname, buttonText: LocaleKeys.ok),
       );
 
       return;
@@ -289,10 +277,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     if (!_validateAge()) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: LocaleKeys.validate12UserProfile,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12UserProfile, buttonText: LocaleKeys.ok),
       );
 
       return;

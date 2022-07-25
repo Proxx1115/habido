@@ -5,9 +5,11 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/active_habit.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/dialogs.dart';
@@ -85,6 +87,24 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithMinuteRoute> 
                     skipPlans: _userHabitPlanCount!.skipPlans,
                     uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
                   ),
+
+                  /// Delete Btn
+                  // if (widget.isActive!)
+                  //   Column(
+                  //     children: [
+                  //       SizedBox(height: 20.0),
+                  //       Align(
+                  //         alignment: Alignment.topRight,
+                  //         child: DeleteButtonWidget(
+                  //           onDelete: () {
+                  //             BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                  //             Navigator.of(context).pushNamedAndRemoveUntil(
+                  //                 Routes.allHabits, (Route<dynamic> route) => false);
+                  //           },
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
                 ],
               )
             : Container(),
