@@ -14,7 +14,8 @@ import 'package:habido_app/widgets/text.dart';
 
 class HabitTemplateCard extends StatefulWidget {
   final HabitTemplate template;
-  const HabitTemplateCard({Key? key, required this.template}) : super(key: key);
+  final bool? isFromOnboard;
+  const HabitTemplateCard({Key? key, required this.template, this.isFromOnboard = false}) : super(key: key);
 
   @override
   State<HabitTemplateCard> createState() => _HabitTemplateCardState();
@@ -34,7 +35,7 @@ class _HabitTemplateCardState extends State<HabitTemplateCard> {
       },
       borderRadius: BorderRadius.circular(15.0),
       child: Container(
-        height: 82,
+        height: widget.isFromOnboard! ? 100 : 82,
         decoration: BoxDecoration(
           color: customColors.whiteBackground,
           borderRadius: BorderRadius.circular(15.0),
@@ -45,12 +46,11 @@ class _HabitTemplateCardState extends State<HabitTemplateCard> {
             Container(
               margin: EdgeInsets.only(right: 15.0),
               padding: EdgeInsets.all(10.0),
-              height: 82.0,
-              width: 82.0,
+              height: widget.isFromOnboard! ? 100 : 82.0,
+              width: widget.isFromOnboard! ? 100 : 82.0,
               decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
-                color: HexColor.fromHex(widget.template.color!),
+                borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+                color: HexColor.fromHex(widget.template.color ?? "#FFFFFF"),
               ),
               child:
                   // SvgPicture.asset(Assets.male_habido)
@@ -65,7 +65,7 @@ class _HabitTemplateCardState extends State<HabitTemplateCard> {
             Expanded(
               child: Column(
                 children: [
-                  SizedBox(height: 11.0),
+                  SizedBox(height: widget.isFromOnboard! ? 23 : 11.0),
 
                   /// Title
                   CustomText(
@@ -87,8 +87,7 @@ class _HabitTemplateCardState extends State<HabitTemplateCard> {
                   /// Time
                   Row(
                     children: [
-                      for (UserHabitReminders el
-                          in widget.template.templateReminders ?? [])
+                      for (UserHabitReminders el in widget.template.templateReminders ?? [])
                         _reminderItem(new TimeOfDay(
                           hour: Func.toInt(el.time) ~/ 60,
                           minute: Func.toInt(el.time) % 60,
@@ -105,18 +104,17 @@ class _HabitTemplateCardState extends State<HabitTemplateCard> {
   }
 
   Widget _reminderItem(TimeOfDay timeOfDay) {
-    String hour =
-        timeOfDay.hour < 10 ? '0${timeOfDay.hour}' : '${timeOfDay.hour}';
-    String minute =
-        timeOfDay.minute < 10 ? '0${timeOfDay.minute}' : '${timeOfDay.minute}';
+    String hour = timeOfDay.hour < 10 ? '0${timeOfDay.hour}' : '${timeOfDay.hour}';
+    String minute = timeOfDay.minute < 10 ? '0${timeOfDay.minute}' : '${timeOfDay.minute}';
 
     // _onPressedDeleteItem(timeOfDay);
     return TagItemWidgetV2(
-      fontSize: 8.0,
+      textColor: widget.isFromOnboard! ? Colors.black : Colors.white,
+      fontSize: widget.isFromOnboard! ? 10 : 8.0,
       margin: EdgeInsets.only(right: 8.0),
-      width: 42.0,
-      height: 16.0,
-      color: customColors.primaryButtonDisabledContent,
+      width: widget.isFromOnboard! ? 52 : 42.0,
+      height: widget.isFromOnboard! ? 22 : 16.0,
+      color: widget.isFromOnboard! ? HexColor.fromHex('#F4F6F8') : customColors.primaryButtonDisabledContent,
       text: '$hour:$minute',
     );
   }
