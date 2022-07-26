@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
-import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
-import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/ui/profile_v2/performance/performance.dart';
 import 'package:habido_app/ui/profile_v2/badge/badge.dart';
 import 'package:habido_app/ui/profile_v2/profile_bloc/profile_bloc.dart';
@@ -40,6 +39,7 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       appBarTitle: LocaleKeys.myCorner,
+      actionWidget: _actionWidget(context),
       child: BlocProvider.value(
         value: BlocManager.profileBloc,
         child: BlocListener<ProfileBloc, ProfileState>(
@@ -52,11 +52,29 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
     );
   }
 
+  Widget _actionWidget(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.helpV2);
+      },
+      child: Container(
+        padding: EdgeInsets.all(20),
+        child: SvgPicture.asset(
+          Assets.dots,
+          height: 6,
+          width: 26,
+          // color: Colors.red,
+        ),
+      ),
+    );
+  }
+
   void _blocListener(BuildContext context, ProfileState state) {}
 
   Widget _blocBuilder(BuildContext context, ProfileState state) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
+      padding: const EdgeInsets.fromLTRB(
+          SizeHelper.margin, 20.0, SizeHelper.margin, 0.0),
       child: Column(
         children: [
           // AppBarWithProfile(
@@ -116,19 +134,25 @@ class _ProfileScreenV2State extends State<ProfileScreenV2> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          _controller.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+          _controller.animateToPage(index,
+              duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
           setState(() {});
         },
         child: Container(
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 12),
-          decoration:
-              BoxDecoration(borderRadius: BorderRadius.circular(20), color: _currentIndex == index ? customColors.primary : Colors.transparent),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: _currentIndex == index
+                  ? customColors.primary
+                  : Colors.transparent),
           child: CustomText(
             text,
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: _currentIndex == index ? Colors.white : customColors.primaryText,
+            color: _currentIndex == index
+                ? Colors.white
+                : customColors.primaryText,
             alignment: Alignment.center,
           ),
         ),

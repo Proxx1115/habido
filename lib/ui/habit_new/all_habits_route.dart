@@ -24,7 +24,8 @@ class _AllHabitsRouteState extends State<AllHabitsRoute> {
   int _currentIndex = 0;
 
   changePage() {
-    _pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 400), curve: Curves.easeIn);
+    _pageController.animateToPage(_currentIndex,
+        duration: Duration(milliseconds: 400), curve: Curves.easeIn);
   }
 
   @override
@@ -41,8 +42,8 @@ class _AllHabitsRouteState extends State<AllHabitsRoute> {
             SizedBox(height: 20.0),
             Expanded(
               child: PageView(
-                physics: NeverScrollableScrollPhysics(),
                 controller: _pageController,
+                physics: NeverScrollableScrollPhysics(),
                 onPageChanged: (value) {
                   _currentIndex = value;
                 },

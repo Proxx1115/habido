@@ -31,19 +31,7 @@ class DashboardAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           /// Calendar
-          visibleShowCase
-              ? CustomShowcase(
-                  description: LocaleKeys.showcaseCalendar,
-                  showcaseKey: ShowcaseKey.calendar,
-                  // overlayPadding: EdgeInsets.all(10.0),
-                  overlayPadding: EdgeInsets.all(-5.0),
-                  shapeBorder: CircleBorder(),
-                  // shapeBorder: ContinuousRectangleBorder(
-                  //   borderRadius: BorderRadius.circular(28.0),
-                  // ),
-                  child: CalendarButton(),
-                )
-              : CalendarButton(),
+          visibleShowCase ? CalendarButton() : CalendarButton(),
 
           /// Title
           if (Func.isNotEmpty(title))
@@ -52,21 +40,7 @@ class DashboardAppBar extends StatelessWidget {
             ),
 
           /// Notification
-          visibleShowCase
-              ? CustomShowcase(
-                  description: LocaleKeys.showcaseNotification,
-                  showcaseKey: ShowcaseKey.notification,
-                  // overlayPadding: EdgeInsets.all(10.0),
-                  // overlayPadding: EdgeInsets.all(-5.0),
-                  // shapeBorder: CircleBorder(),
-                  // shapeBorder: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                  // ),
-                  overlayPadding: EdgeInsets.all(-5.0),
-                  shapeBorder: CircleBorder(),
-                  child: NotificationButton(),
-                )
-              : NotificationButton(),
+          visibleShowCase ? NotificationButton() : NotificationButton(),
         ],
       ),
     );

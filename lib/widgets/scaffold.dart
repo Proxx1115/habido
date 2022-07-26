@@ -14,12 +14,14 @@ class CustomScaffold extends StatelessWidget {
   final Color? backgroundColor;
   final String? appBarTitle;
   final VoidCallback? appBarOnPressedLeading;
+  final VoidCallback? onPressedAction;
   final Color? appBarLeadingColor;
   final Color? appBarLeadingBackgroundColor;
   final Widget child;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final Widget? bottomNavigationBar;
+  final Widget? actionWidget;
 
   const CustomScaffold({
     this.scaffoldKey,
@@ -35,6 +37,8 @@ class CustomScaffold extends StatelessWidget {
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.bottomNavigationBar,
+    this.actionWidget,
+    this.onPressedAction,
   });
 
   @override
@@ -76,14 +80,14 @@ class CustomScaffold extends StatelessWidget {
     if (appBarTitle == null) {
       return EmptyAppBar(context: context);
     } else {
-      return CustomAppBar(
-        context,
-        backgroundColor: backgroundColor ?? customColors.primaryBackground,
-        titleText: appBarTitle,
-        leadingColor: appBarLeadingColor,
-        leadingBackgroundColor: appBarLeadingBackgroundColor,
-        onPressedLeading: appBarOnPressedLeading,
-      );
+      return CustomAppBar(context,
+          backgroundColor: backgroundColor ?? customColors.primaryBackground,
+          titleText: appBarTitle,
+          leadingColor: appBarLeadingColor,
+          leadingBackgroundColor: appBarLeadingBackgroundColor,
+          onPressedLeading: appBarOnPressedLeading,
+          actionWidget: actionWidget,
+          onPressedAction: onPressedAction);
     }
   }
 }

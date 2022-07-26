@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/ui/calendar_new/day_model.dart';
 import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
+import 'package:habido_app/utils/route/routes.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 
 class BottomCalendar extends StatefulWidget {
-  BottomCalendar({Key? key}) : super(key: key);
+  final DateTime? initialDate;
+  final ValueChanged<DateTime> onDateTimeChanged;
+  BottomCalendar({Key? key, required this.onDateTimeChanged, this.initialDate}) : super(key: key);
 
   @override
   State<BottomCalendar> createState() => _BottomCalendarState();
 }
 
 class _BottomCalendarState extends State<BottomCalendar> {
-  List<DayModel> monthList = [];
-  var currentDateTime = DateTime.now();
-  List<String> weekNameList = ['Да', 'Мя', 'Лх', 'Пү', 'Ба', 'Бя', 'Ня'];
-  DayModel? selectedDate;
+  List<DayModel> _monthList = [];
+  DateTime _currentDateTime = DateTime.now();
+  List<String> _weekNameList = ['Да', 'Мя', 'Лх', 'Пү', 'Ба', 'Бя', 'Ня'];
+  DayModel? _selectedDayModel;
+  late DateTime _selectedDate;
 
   @override
   void initState() {
-    currentDateTime = DateTime(currentDateTime.year, currentDateTime.month);
-    _initList(currentDateTime);
+    _currentDateTime = DateTime(_currentDateTime.year, _currentDateTime.month);
+    _initList(_currentDateTime);
     super.initState();
   }
 
@@ -29,16 +34,17 @@ class _BottomCalendarState extends State<BottomCalendar> {
   }
 
   _initList(DateTime date) {
-    monthList.clear();
+    _monthList.clear();
     var weekDay = date.weekday;
     for (int i = 1; i <= 35; i++) {
       var firstDayOfWeek = date.subtract(Duration(days: weekDay - i));
       DayModel currentDay =
           DayModel(firstDayOfWeek.day, _weekDay(firstDayOfWeek.weekday), (i * 10).toString(), month: firstDayOfWeek.month, year: firstDayOfWeek.year);
-      monthList.add(currentDay);
+      _monthList.add(currentDay);
     }
-    var curDay = DateTime.now();
-    selectedDate = monthList.where((element) => element.day == curDay.day).first;
+    var curDay = widget.initialDate ?? DateTime.now();
+    print("curDay ${widget.initialDate}");
+    _selectedDayModel = _monthList.where((element) => element.day == curDay.day).first;
     setState(() {});
   }
 
@@ -128,11 +134,11 @@ class _BottomCalendarState extends State<BottomCalendar> {
                 Expanded(
                   child: InkWell(
                       onTap: (() {
-                        currentDateTime = DateTime(
-                          currentDateTime.year,
-                          currentDateTime.month - 1,
+                        _currentDateTime = DateTime(
+                          _currentDateTime.year,
+                          _currentDateTime.month - 1,
                         );
-                        _initList(currentDateTime);
+                        _initList(_currentDateTime);
                       }),
                       child: Container(
                           decoration: BoxDecoration(
@@ -144,15 +150,15 @@ class _BottomCalendarState extends State<BottomCalendar> {
                 Expanded(
                   flex: 8,
                   child: Text(
-                    ' ${_monthName(currentDateTime.month)} - ${currentDateTime.year}',
+                    ' ${_monthName(_currentDateTime.month)} - ${_currentDateTime.year}',
                     textAlign: TextAlign.center,
                   ),
                 ),
                 Expanded(
                     child: InkWell(
                   onTap: (() {
-                    currentDateTime = DateTime(currentDateTime.year, currentDateTime.month + 1, currentDateTime.day);
-                    _initList(currentDateTime);
+                    _currentDateTime = DateTime(_currentDateTime.year, _currentDateTime.month + 1, _currentDateTime.day);
+                    _initList(_currentDateTime);
                   }),
                   child: Container(
                       decoration: BoxDecoration(
@@ -177,10 +183,11 @@ class _BottomCalendarState extends State<BottomCalendar> {
                     borderRadius: BorderRadius.all(Radius.circular(ResponsiveFlutter.of(context).fontSize(2))),
                     border: Border.all(width: 0, color: Colors.grey)),
                 child: GridView.builder(
-                  itemCount: weekNameList.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: _weekNameList.length,
                   primary: false,
                   itemBuilder: (context, index) {
-                    return Center(child: Text(weekNameList[index]));
+                    return Center(child: Text(_weekNameList[index]));
                   },
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 7,
@@ -193,11 +200,11 @@ class _BottomCalendarState extends State<BottomCalendar> {
           Expanded(
             flex: 7,
             child: GridView.builder(
-              itemCount: monthList.length,
+              itemCount: _monthList.length,
               primary: false,
               // padding: const EdgeInsets.all(20),
               itemBuilder: (context, index) {
-                return _dayItem(monthList[index]);
+                return _dayItem(_monthList[index]);
               },
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 7,
@@ -210,22 +217,36 @@ class _BottomCalendarState extends State<BottomCalendar> {
   }
 
   Widget _dayItem(DayModel day) {
-    return InkWell(
-      onTap: () {
-        print('test:${currentDateTime.month}:: ${day.month}');
-        setState(() {
-          selectedDate = day;
-        });
-      },
-      child: Container(
-        color: selectedDate == day ? Colors.orange : Colors.transparent,
-        margin: EdgeInsets.all(ResponsiveFlutter.of(context).fontSize(1)),
-        child: Center(
-            child: Text(day.day.toString(),
-                style: TextStyle(
-                  color: currentDateTime.month != day.month ? Colors.grey : Colors.black,
-                  fontSize: ResponsiveFlutter.of(context).fontSize(1.9),
-                ))),
+    return Container(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _selectedDayModel = day;
+            _selectedDate = new DateTime(day.year!, day.month!, day.day!);
+            widget.onDateTimeChanged(_selectedDate);
+          });
+          print(_selectedDayModel!.day);
+
+          // Navigator.pop(context);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: _selectedDayModel == day ? customColors.primary : Colors.transparent,
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          margin: EdgeInsets.all(ResponsiveFlutter.of(context).fontSize(1)),
+          child: Center(
+              child: Text(day.day.toString(),
+                  style: TextStyle(
+                    // color: (currentDateTime.month != day.month ? Colors.grey : Colors.black),
+                    color: _selectedDayModel == day
+                        ? customColors.whiteText
+                        : _currentDateTime.month != day.month
+                            ? Colors.grey
+                            : Colors.black,
+                    fontSize: ResponsiveFlutter.of(context).fontSize(1.9),
+                  ))),
+        ),
       ),
     );
   }

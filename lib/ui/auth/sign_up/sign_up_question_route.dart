@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/bloc/onboarding_bloc.dart';
+import 'package:habido_app/bloc/user_habit_bloc.dart';
+import 'package:habido_app/models/onboarding_answer.dart';
+import 'package:habido_app/models/onboarding_question.dart';
+import 'package:habido_app/models/onboarding_save_request.dart';
+import 'package:habido_app/models/onboarding_save_response.dart';
+import 'package:habido_app/models/onboarding_start_response.dart';
 import 'package:habido_app/ui/habit/habit_card.dart';
+import 'package:habido_app/ui/habit_new/habit_template/habit_template_card.dart';
+import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/models/habit.dart';
@@ -19,74 +30,138 @@ class SignUpQuestionRoute extends StatefulWidget {
 }
 
 class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
+  // Bloc
+  late OnBoardingBloc _onBoardingBloc;
+  List<OnBoardingQuestion>? _questionList;
+
   // Main
   final _signUpQuestionKey = GlobalKey<ScaffoldState>();
 
   // PageView
   PageController _pageController = PageController();
   int _currentIndex = 0;
-  List<String> assetList = [Assets.question1, Assets.question2, Assets.question3];
-  List<String> _selectedAnswers1 = [];
-  String _selectedAnswers2 = "";
+  List<String> assetList = [Assets.question1, Assets.question3, Assets.question3];
+  List<OnBoardingAnswer> _selectedAnswers1 = [];
+  List<OnBoardingAnswer> _selectedAnswers2 = [];
+  List<OnBoardingQuestion> _onBoardingQuestionAns = [];
+  OnBoardingSaveResponse? _saveResponse;
+
   Habit? _habit;
   double _height = 0.0;
   double _minHeight = 600;
 
-  _onSelectAnswer1(String value) {
+  _onSelectAnswer1(OnBoardingAnswer value) {
     if (_selectedAnswers1.contains(value)) {
       _selectedAnswers1.remove(value);
     } else {
-      if (_selectedAnswers1.length == 0 || _selectedAnswers1.length == 1 || _selectedAnswers1.length == 2) {
+      if (_selectedAnswers1.length < 3) {
         //todo fix
         _selectedAnswers1.add(value);
       }
     }
   }
 
-  _onSelectAnswer2(String value) {
-    _selectedAnswers2 = value;
-    print(_selectedAnswers2);
+  _onSelectAnswer2(OnBoardingAnswer value) {
+    _selectedAnswers2.add(value);
+    OnBoardingQuestion question = new OnBoardingQuestion()
+      ..questionId = value.questionId
+      ..answers = _selectedAnswers2;
+    _onBoardingQuestionAns.add(question);
     nextPage();
   }
 
   nextPage() {
+    if (_currentIndex == 1) {
+      OnBoardingSaveRequest request = OnBoardingSaveRequest()..onBoardingQuestionAns = _onBoardingQuestionAns;
+      print("odoginrequest ${request.onBoardingQuestionAns}");
+      _onBoardingBloc.add(SaveOnBoardingEvent(request));
+    }
     _pageController.animateToPage(_currentIndex + 1, duration: Duration(milliseconds: 400), curve: Curves.easeIn);
   }
 
   @override
   void initState() {
     super.initState();
+    _onBoardingBloc = OnBoardingBloc();
+    _onBoardingBloc.add(GetOnBoardingEvent());
+  }
+
+  @override
+  void dispose() {
+    _onBoardingBloc.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      backgroundColor: customColors.primaryBackground,
-      scaffoldKey: _signUpQuestionKey,
-      child: Stack(
-        children: [
-          /// PageView
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: PageView(
-              controller: _pageController,
-              physics: NeverScrollableScrollPhysics(),
-              onPageChanged: (value) {
-                setState(() {
-                  _currentIndex = value;
-                });
-              },
-              children: [
-                _pageViewItem(0, 'svg'),
-                _pageViewItem(1, 'svg'),
-                _pageViewItem(2, 'svg'),
-              ],
-            ),
+        backgroundColor: customColors.primaryBackground,
+        scaffoldKey: _signUpQuestionKey,
+        child: BlocProvider.value(
+          value: _onBoardingBloc,
+          child: BlocListener<OnBoardingBloc, OnBoardingState>(
+            listener: _blocListener,
+            child: BlocBuilder<OnBoardingBloc, OnBoardingState>(builder: (context, state) {
+              return (_questionList != null && _questionList!.isNotEmpty)
+                  ? Stack(
+                      children: [
+                        /// PageView
+                        Container(
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          child: PageView(
+                            controller: _pageController,
+                            physics: NeverScrollableScrollPhysics(),
+                            onPageChanged: (value) {
+                              setState(() {
+                                _currentIndex = value;
+                              });
+                            },
+                            children: [
+                              _pageViewItem(0, 'svg'),
+                              _pageViewItem(1, 'svg'),
+                              _pageViewItem(2, 'svg'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container();
+            }),
           ),
-        ],
-      ),
-    );
+        ));
+  }
+
+  _blocListener(BuildContext context, OnBoardingState state) {
+    if (state is GetOnBoardingQuestSuccess) {
+      _questionList = state.onBoardingStartResponse.questionList;
+    } else if (state is GetOnBoardingQuestFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
+    } else if (state is OnBoardingSaveSuccess) {
+      _saveResponse = state.onBoardingSaveResponse;
+    } else if (state is OnBoardingSaveFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
+    }
   }
 
   Widget _indicator(int currentIndex) {
@@ -148,11 +223,9 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
                     /// Indicator
                     Container(
                       alignment: Alignment.topCenter,
-                      margin: EdgeInsets.fromLTRB(SizeHelper.margin, 30.0, SizeHelper.margin, SizeHelper.margin),
+                      margin: EdgeInsets.fromLTRB(SizeHelper.margin, 30.0, SizeHelper.margin, 40),
                       child: _indicator(_currentIndex),
                     ),
-
-                    SizedBox(height: 40.0),
 
                     /// Content
                     _currentIndex == 0
@@ -171,8 +244,12 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
                       children: [
                         _buttonNext(
                           text: LocaleKeys.continueTxt,
-                          onPressed: _selectedAnswers1.length != 0
+                          onPressed: _selectedAnswers1.length == 3
                               ? () {
+                                  OnBoardingQuestion question = new OnBoardingQuestion()
+                                    ..questionId = _questionList![0].questionId
+                                    ..answers = _selectedAnswers1;
+                                  _onBoardingQuestionAns.add(question);
                                   nextPage();
                                 }
                               : null,
@@ -200,11 +277,11 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
     });
   }
 
-  Widget _answerItem1(String text) {
+  Widget _answerItem1(OnBoardingAnswer answer) {
     return InkWell(
       onTap: () {
         setState(() {
-          _onSelectAnswer1(text);
+          _onSelectAnswer1(answer);
         });
       },
       child: Container(
@@ -213,14 +290,14 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
         decoration: BoxDecoration(
           border: Border.all(color: customColors.primary, width: 1),
           borderRadius: BorderRadius.circular(20.0),
-          color: _selectedAnswers1.contains(text) ? customColors.primary : customColors.whiteBackground,
+          color: _selectedAnswers1.contains(answer) ? customColors.primary : customColors.whiteBackground,
         ),
         child: Text(
           // todo change to CustomText
-          text,
+          answer.text!,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: _selectedAnswers1.contains(text) ? customColors.whiteText : customColors.primaryText,
+            color: _selectedAnswers1.contains(answer) ? customColors.whiteText : customColors.primaryText,
             fontWeight: FontWeight.w400,
             fontSize: 15.0,
           ),
@@ -229,11 +306,11 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
     );
   }
 
-  Widget _answerItem2(String text) {
+  Widget _answerItem2(OnBoardingAnswer answer) {
     return InkWell(
       onTap: () {
         setState(() {
-          _onSelectAnswer2(text);
+          _onSelectAnswer2(answer);
         });
       },
       child: Container(
@@ -241,11 +318,11 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
         decoration: BoxDecoration(
           border: Border.all(color: customColors.primary, width: 1),
           borderRadius: BorderRadius.circular(20.0),
-          color: _selectedAnswers2 == (text) ? customColors.primary : customColors.whiteBackground,
+          color: _selectedAnswers2.contains(answer) ? customColors.primary : customColors.whiteBackground,
         ),
         child: CustomText(
-          text,
-          color: _selectedAnswers2 == text ? customColors.whiteText : customColors.primaryText,
+          answer.text!,
+          color: _selectedAnswers2.contains(answer) ? customColors.whiteText : customColors.primaryText,
           alignment: Alignment.center,
           textAlign: TextAlign.center,
           fontWeight: FontWeight.w400,
@@ -257,26 +334,26 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
 
   Widget _question1() {
     return Container(
-      margin: const EdgeInsets.fromLTRB(SizeHelper.margin, 0, SizeHelper.margin, SizeHelper.margin),
+      margin: const EdgeInsets.fromLTRB(SizeHelper.margin, 0, SizeHelper.margin, 28),
       child: Column(
         children: [
           CustomText(
-            LocaleKeys.signUpQuest1,
+            _questionList![0].text,
             alignment: Alignment.center,
             textAlign: TextAlign.center,
             color: customColors.primaryText,
             fontWeight: FontWeight.w700,
             fontSize: 19.0,
-            maxLines: 2,
+            maxLines: 3,
             margin: const EdgeInsets.symmetric(horizontal: 50.0),
           ),
           SizedBox(height: 28.0),
           Wrap(
             alignment: WrapAlignment.center,
-            spacing: 25.0,
+            spacing: 20.0,
             runSpacing: 20.0,
             children: [
-              for (var el in LocaleKeys.signUpQuest1Answers) _answerItem1(el),
+              for (var el in _questionList![0].answers!) _answerItem1(el),
             ],
           ),
         ],
@@ -296,7 +373,7 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
             color: customColors.primaryText,
             fontWeight: FontWeight.w700,
             fontSize: 19.0,
-            maxLines: 2,
+            maxLines: 3,
             margin: const EdgeInsets.symmetric(horizontal: 50.0),
           ),
           SizedBox(height: 28.0),
@@ -306,7 +383,7 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
             spacing: 25.0,
             runSpacing: 20.0,
             children: [
-              for (var el in LocaleKeys.signUpQuest2Answers) _answerItem2(el),
+              for (var el in _questionList![1].answers!) _answerItem2(el),
             ],
           ),
         ],
@@ -315,38 +392,43 @@ class _SignUpQuestionRouteState extends State<SignUpQuestionRoute> {
   }
 
   Widget _question3() {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(SizeHelper.margin, 0.0, SizeHelper.margin, SizeHelper.margin),
-      child: Column(
-        children: [
-          /// Question
-          CustomText(
-            LocaleKeys.signUpQuest3,
-            color: customColors.primaryText,
-            fontWeight: FontWeight.w700,
-            fontSize: 19.0,
-            maxLines: 2,
-          ),
-
-          SizedBox(height: SizeHelper.margin),
-
-          /// Body
-          CustomText(
-            LocaleKeys.signUpQuest3Answer,
-            color: customColors.primaryText,
-            fontWeight: FontWeight.w400,
-            fontSize: 15.0,
-            maxLines: 4,
-          ),
-
-          _habit != null
-              ? HorizontalHabitCard(habit: _habit!)
-              : Container(
-                  child: Text("Habit"),
+    return _saveResponse != null
+        ? Container(
+            margin: const EdgeInsets.fromLTRB(SizeHelper.margin, 0.0, SizeHelper.margin, SizeHelper.margin),
+            child: Column(
+              children: [
+                /// Question
+                CustomText(
+                  _saveResponse!.question,
+                  color: customColors.primaryText,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19.0,
+                  maxLines: 2,
                 ),
-        ],
-      ),
-    );
+
+                SizedBox(height: SizeHelper.margin),
+
+                /// Tip
+                CustomText(
+                  _saveResponse!.tip,
+                  color: customColors.primaryText,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15.0,
+                  maxLines: 4,
+                ),
+
+                SizedBox(height: SizeHelper.margin),
+
+                _saveResponse!.template != null
+                    ? HabitTemplateCard(
+                        template: _saveResponse!.template!,
+                        isFromOnboard: true,
+                      )
+                    : Container(),
+              ],
+            ),
+          )
+        : Container();
   }
 
   _buttonNext({text, onPressed}) {

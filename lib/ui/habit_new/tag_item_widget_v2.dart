@@ -9,6 +9,7 @@ class TagItemWidgetV2 extends StatelessWidget {
   final String? text;
   final EdgeInsets margin;
   final Color? color;
+  final Color? textColor;
   final double? width;
   final double? height;
   final double? fontSize;
@@ -23,6 +24,7 @@ class TagItemWidgetV2 extends StatelessWidget {
     this.fontSize,
     this.asset,
     this.onPressed,
+    this.textColor,
   }) : super(key: key);
 
   @override
@@ -31,13 +33,10 @@ class TagItemWidgetV2 extends StatelessWidget {
       width: width != null ? width : null,
       height: height != null ? height : null,
       margin: margin,
-      padding: width == null && height == null
-          ? EdgeInsets.symmetric(horizontal: 12.0, vertical: 3)
-          : EdgeInsets.all(0),
+      padding: width == null && height == null ? EdgeInsets.symmetric(horizontal: 12.0, vertical: 3) : EdgeInsets.all(0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color:
-            color == null ? customColors.primaryButtonDisabledContent : color,
+        color: color == null ? customColors.primaryButtonDisabledContent : color,
       ),
       child: InkWell(
         onTap: onPressed,
@@ -46,7 +45,7 @@ class TagItemWidgetV2 extends StatelessWidget {
                 text,
                 fontSize: fontSize == null ? 8.0 : fontSize,
                 fontWeight: FontWeight.w500,
-                color: customColors.whiteText,
+                color: textColor ?? customColors.whiteText,
                 alignment: Alignment.center,
               )
             : Container(

@@ -22,7 +22,7 @@ class TagItemWidget extends StatelessWidget {
       ),
       child: CustomText(
         text,
-        fontSize: 8.0,
+        fontSize: 11.0,
         fontWeight: FontWeight.w500,
         color: customColors.whiteText,
       ),

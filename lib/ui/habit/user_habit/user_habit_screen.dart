@@ -283,41 +283,34 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                       child: ListView(
                         shrinkWrap: true,
                         children: [
-                          CustomShowcase(
-                            showcaseKey: ShowcaseKey.userHabit,
-                            description: LocaleKeys.showcaseUserHabit,
-                            overlayOpacity: 0.9,
-                            overlayPadding: EdgeInsets.all(20.0),
-                            shapeBorder: CircleBorder(),
-                            child: Column(
-                              children: [
-                                /// Нэр
-                                _nameTextField(),
+                          Column(
+                            children: [
+                              /// Нэр
+                              _nameTextField(),
 
-                                /// Өнгө сонгох
-                                _colorPicker(),
+                              /// Өнгө сонгох
+                              _colorPicker(),
 
-                                /// Дүрс сонгох
-                                _iconPicker(),
+                              /// Дүрс сонгох
+                              _iconPicker(),
 
-                                /// Plan terms
-                                _planTermsWidget(),
+                              /// Plan terms
+                              _planTermsWidget(),
 
-                                /// Зорилго
-                                _goalWidget(),
+                              /// Зорилго
+                              _goalWidget(),
 
-                                /// Эхлэх огноо
-                                _startDatePicker(),
+                              /// Эхлэх огноо
+                              _startDatePicker(),
 
-                                /// Дуусах огноо
-                                _endDatePicker(),
+                              /// Дуусах огноо
+                              _endDatePicker(),
 
-                                /// Дадал сануулах
-                                _reminder(),
+                              /// Дадал сануулах
+                              _reminder(),
 
-                                // SizedBox(height: 300.0),
-                              ],
-                            ),
+                              // SizedBox(height: 300.0),
+                            ],
                           ),
 
                           /// Зөвлөмж
@@ -664,7 +657,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
                   text: LocaleKeys.sureToDelete,
                   buttonText: LocaleKeys.yes,
                   onPressedButton: () {
-                    BlocManager.userHabitBloc.add(DeleteUserHabitEvent(_userHabit!));
+                    BlocManager.userHabitBloc.add(DeleteUserHabitEvent(_userHabit!.userHabitId!));
                   },
                   button2Text: LocaleKeys.no,
                 ),

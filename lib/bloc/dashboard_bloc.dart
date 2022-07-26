@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habido_app/models/habit_template.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
@@ -25,8 +26,10 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       yield* _mapRefreshDashboardUserHabitsToState();
     } else if (event is SkipUserHabitEvent) {
       yield* _mapSkipUserHabitEventToState(event);
-    } else if (event is GetUserHabitByDate) {
+    } else if (event is GetUserHabitByDateEvent) {
       yield* _mapGetUserHabitByDateEventToState(event);
+    } else if (event is GetHabitTemplateListEvent) {
+      yield* _mapGetHabitTemplateListEventToState(event);
     }
   }
 
@@ -76,7 +79,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       if (res.code == ResponseCode.Success) {
         // Refresh dashboard
         BlocManager.dashboardBloc.add(RefreshDashboardUserHabits());
-        BlocManager.dashboardBloc.add(GetUserHabitByDate(DateTime.now().toString()));
+        BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(DateTime.now().toString()));
 
         yield SkipUserHabitSuccess();
       } else {
@@ -87,7 +90,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }
   }
 
-  Stream<DashboardState> _mapGetUserHabitByDateEventToState(GetUserHabitByDate event) async* {
+  Stream<DashboardState> _mapGetUserHabitByDateEventToState(GetUserHabitByDateEvent event) async* {
     try {
       yield DashboardUserHabitsLoading();
 
@@ -97,6 +100,22 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         yield GetUserHabitByDateSuccess(userHabits: res.userHabitList);
       } else {
         yield GetUserHabitByDateFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield GetUserHabitByDateFailed(LocaleKeys.errorOccurred);
+    }
+  }
+
+  Stream<DashboardState> _mapGetHabitTemplateListEventToState(GetHabitTemplateListEvent event) async* {
+    try {
+      yield DashboardUserHabitsLoading();
+
+      var res = await ApiManager.dashboardHabitTemplates();
+      if (res.code == ResponseCode.Success) {
+        // Refresh dashboard
+        yield GetHabitTemplateListSuccess(habitTemplates: res.habitTemplateList);
+      } else {
+        yield GetHabitTemplateListFailed(ApiHelper.getFailedMessage(res.message));
       }
     } catch (e) {
       yield GetUserHabitByDateFailed(LocaleKeys.errorOccurred);
@@ -117,10 +136,10 @@ abstract class DashboardEvent extends Equatable {
 
 class RefreshDashboardUserHabits extends DashboardEvent {}
 
-class GetUserHabitByDate extends DashboardEvent {
+class GetUserHabitByDateEvent extends DashboardEvent {
   final String date;
 
-  const GetUserHabitByDate(this.date);
+  const GetUserHabitByDateEvent(this.date);
 
   @override
   List<Object> get props => [date];
@@ -128,6 +147,8 @@ class GetUserHabitByDate extends DashboardEvent {
   @override
   String toString() => 'GetUserHabitByDate { date: $date }';
 }
+
+class GetHabitTemplateListEvent extends DashboardEvent {}
 
 class SkipUserHabitEvent extends DashboardEvent {
   final SkipUserHabitRequest skipUserHabitRequest;
@@ -182,7 +203,7 @@ class GetUserHabitByDateSuccess extends DashboardState {
   List<Object> get props => [userHabits ?? []];
 
   @override
-  String toString() => 'RefreshDashboardUserHabitsSuccess { userHabits: $userHabits}';
+  String toString() => 'GetUserHabitByDateSuccess { userHabits: $userHabits}';
 }
 
 class GetUserHabitByDateFailed extends DashboardState {
@@ -195,6 +216,30 @@ class GetUserHabitByDateFailed extends DashboardState {
 
   @override
   String toString() => 'GetUserHabitByDateFailed { message: $message }';
+}
+
+class GetHabitTemplateListSuccess extends DashboardState {
+  final List<HabitTemplate>? habitTemplates;
+
+  const GetHabitTemplateListSuccess({this.habitTemplates});
+
+  @override
+  List<Object> get props => [habitTemplates ?? []];
+
+  @override
+  String toString() => 'GetHabitTemplateListSuccess { habitTemplates: $habitTemplates}';
+}
+
+class GetHabitTemplateListFailed extends DashboardState {
+  final String message;
+
+  const GetHabitTemplateListFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetHabitTemplateListFailed { message: $message }';
 }
 
 class RefreshDashboardUserHabitsFailed extends DashboardState {

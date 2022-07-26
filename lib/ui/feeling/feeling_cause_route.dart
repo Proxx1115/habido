@@ -49,6 +49,7 @@ class _FeelingCauseRouteState extends State<FeelingCauseRoute> {
         listener: _blocListener,
         child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
           return CustomScaffold(
+            onWillPop: () async => false,
             scaffoldKey: _feelingCauseKey,
             child: Container(
               padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),

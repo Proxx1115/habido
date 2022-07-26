@@ -130,9 +130,10 @@ class _CustomDatePickerState extends State<InfoDatePicker> {
       },
     );
 
-    setState(() {
-      print(_pickedDate);
-      widget.callback(_pickedDate);
-    });
+    if (mounted)
+      setState(() {
+        print(_pickedDate);
+        widget.callback(_pickedDate);
+      });
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habido_app/bloc/all_habit_bloc.dart';
-import 'package:habido_app/bloc/authDialog_bloc.dart';
+import 'package:habido_app/bloc/auth_dialog_bloc.dart';
 import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/bloc/main_bloc.dart';
 import 'package:habido_app/bloc/mood_tracker_bloc.dart';
@@ -44,7 +43,6 @@ class BlocManager {
   static final contentBlocV2 = ContentBlocV2();
   static final psyTestBlocV2 = TestsBlocV2();
   static final homeNewBloc = HomeNewBloc();
-  static final allHabitBloc = AllHabitBloc();
   static final moodTrackerBloc = MoodTrackerBloc();
   static final badgeBloc = BadgeBloc();
   static final skillBloc = SkillBloc();
@@ -69,7 +67,6 @@ class BlocManager {
     performanceBloc.close();
     psyTestBlocV2.close();
     homeNewBloc.close();
-    allHabitBloc.close();
     contentBlocV2.close();
     moodTrackerBloc.close();
     badgeBloc.close();

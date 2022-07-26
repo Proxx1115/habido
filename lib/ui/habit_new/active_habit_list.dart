@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:habido_app/bloc/all_habit_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
+import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/active_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit_new/habit_item_widget.dart';
@@ -30,16 +30,16 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
   @override
   void initState() {
     super.initState();
-    BlocManager.allHabitBloc.add(GetActiveHabitFirstEvent());
+    BlocManager.userHabitBloc.add(GetActiveHabitFirstEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: BlocManager.allHabitBloc,
-      child: BlocListener<AllHabitBloc, AllHabitState>(
+      value: BlocManager.userHabitBloc,
+      child: BlocListener<UserHabitBloc, UserHabitState>(
         listener: _blocListener,
-        child: BlocBuilder<AllHabitBloc, AllHabitState>(builder: (context, state) {
+        child: BlocBuilder<UserHabitBloc, UserHabitState>(builder: (context, state) {
           return SmartRefresher(
             enablePullDown: true,
             enablePullUp: true,
@@ -97,7 +97,7 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
     );
   }
 
-  void _blocListener(BuildContext context, AllHabitState state) {
+  void _blocListener(BuildContext context, UserHabitState state) {
     if (state is GetActiveHabitFirstSuccess) {
       _activeHabitList = state.activeHabitList;
       print('asdsadas ${state.activeHabitList}');
@@ -127,6 +127,7 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
         arguments: {
           'userHabitId': habitData.userHabitId,
           'name': habitData.name,
+          'isActive': true,
         },
       );
     }
@@ -138,7 +139,7 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
     // if failed,use refreshFailed()
 
     _activeHabitList = [];
-    BlocManager.allHabitBloc.add(GetActiveHabitFirstEvent());
+    BlocManager.userHabitBloc.add(GetActiveHabitFirstEvent());
 
     _refreshController.refreshCompleted();
   }
@@ -151,7 +152,7 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
     // _notifList.add((_notifList.length + 1).toString());
 
     if (_activeHabitList.isNotEmpty) {
-      BlocManager.allHabitBloc.add(GetActiveHabitThenEvent(_activeHabitList.last.habitId ?? 0));
+      BlocManager.userHabitBloc.add(GetActiveHabitThenEvent(_activeHabitList.last.userHabitId ?? 0));
     }
 
     if (mounted) setState(() {});

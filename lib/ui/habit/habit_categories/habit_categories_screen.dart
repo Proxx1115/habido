@@ -59,15 +59,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
                       childAspectRatio: 1.11,
                       children: List.generate(
                         _habitCategoryList!.length,
-                        (index) => (index == 0)
-                            ? CustomShowcase(
-                                showcaseKey: ShowcaseKey.habitCategory,
-                                description: LocaleKeys.showcaseHabitCategory,
-                                overlayOpacity: 0.5,
-                                overlayPadding: EdgeInsets.all(-5.0),
-                                child: _categoryItem(_habitCategoryList![index]),
-                              )
-                            : _categoryItem(_habitCategoryList![index]),
+                        (index) => (index == 0) ? _categoryItem(_habitCategoryList![index]) : _categoryItem(_habitCategoryList![index]),
                       ),
                     ),
                   ),
@@ -104,6 +96,7 @@ class _HabitCategoriesScreenState extends State<HabitCategoriesScreen> {
       Navigator.pushNamed(context, Routes.userHabit, arguments: {
         'screenMode': ScreenMode.CustomNew,
         'habit': state.customHabit,
+        'habitId': 0,
         'customHabitSettings': state.customHabitSettings,
         'title': LocaleKeys.createHabit,
       });

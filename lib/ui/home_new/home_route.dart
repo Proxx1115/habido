@@ -93,31 +93,35 @@ class _HomeRouteNewState extends State<HomeRouteNew>
 
         return Future.value(false);
       },
-      child: Scaffold(
-        key: _homeNewKey,
-        body: TabBarView(
-          controller: _tabController,
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            /// HabitScreen
-            HabitDashboard(),
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: Scaffold(
+          key: _homeNewKey,
+          body: TabBarView(
+            controller: _tabController,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              /// HabitScreen
+              HabitDashboard(),
 
-            /// Чатбот
-            ChatbotDashboard(),
+              /// Чатбот
+              ChatbotDashboard(),
 
-            /// Нүүр
-            DashboardScreen(),
+              /// Нүүр
+              DashboardScreen(),
 
-            /// Тест
-            PsyTestDashboardV2(),
+              /// Тест
+              PsyTestDashboardV2(),
 
-            /// Зөвлөмж
-            ContentDashboardV2(),
-          ],
+              /// Зөвлөмж
+              ContentDashboardV2(),
+            ],
+          ),
+
+          /// Bottom navigation bar
+          bottomNavigationBar: CustomBottomNavigationBar(),
         ),
-
-        /// Bottom navigation bar
-        bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
   }
@@ -153,22 +157,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: <Widget>[
           /// Дадал
           Expanded(
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.profile,
-              description: LocaleKeys.showcaseProfile,
-              child:
-                  _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
-            ),
+            child: _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
           ),
 
           /// Чатбот
           Expanded(
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.assistant,
-              description: LocaleKeys.showcaseAssistant,
-              child: _bottomNavigationBarItem(
-                  1, Assets.assistant, LocaleKeys.chatbot), //todo set Icon
-            ),
+            child: _bottomNavigationBarItem(
+                1, Assets.assistant, LocaleKeys.chatbot),
           ),
 
           /// Нүүр
@@ -178,22 +173,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
           /// Тест
           Expanded(
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.psyTest,
-              description: LocaleKeys.showcasePsyTest,
-              child: _bottomNavigationBarItem(3, Assets.test, LocaleKeys.test),
-            ),
+            child: _bottomNavigationBarItem(3, Assets.test, LocaleKeys.test),
           ),
 
           /// Зөвлөмж
           Expanded(
-            child: CustomShowcase(
-              showcaseKey: ShowcaseKey.content,
-              description: LocaleKeys.showcaseContent,
-              overlayOpacity: 0.7,
-              child: _bottomNavigationBarItem(
-                  4, Assets.content, LocaleKeys.advice),
-            ),
+            child:
+                _bottomNavigationBarItem(4, Assets.content, LocaleKeys.advice),
           ),
         ],
       ),
@@ -277,6 +263,7 @@ _checkOAuth(BuildContext context) {
   if (globals.userData!.hasOAuth2 == false) {
     showAuthDialog(
       context,
+      isDismissible: false,
       child: AuthDialog(
           asset: Assets.error, skipCount: globals.userData!.oAuth2SkipCount),
     );

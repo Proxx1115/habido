@@ -58,37 +58,30 @@ class _HabitListScreenState extends State<HabitListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      scaffoldKey: _habitHabitsKey,
-      appBarTitle: LocaleKeys.createHabit,
-      backgroundColor: _backgroundColor,
-      child: BlocProvider.value(
-        value: _habitListBloc,
-        child: BlocListener<HabitListBloc, HabitListState>(
-          listener: _blocListener,
-          child: BlocBuilder<HabitListBloc, HabitListState>(
-            builder: (context, state) {
-              return SingleChildScrollView(
-                padding: SizeHelper.screenPadding,
-                child: Column(
-                  children: <Widget>[
-                    /// HabitList
-                    if (_habitList != null && _habitList!.isNotEmpty)
-                      for (int i = 0; i < _habitList!.length; i++)
-                        (i == 0)
-                            ? CustomShowcase(
-                                showcaseKey: ShowcaseKey.habit,
-                                description: LocaleKeys.showcaseHabitCategory,
-                                overlayOpacity: 0.5,
-                                overlayPadding: EdgeInsets.fromLTRB(
-                                    -5.0, -5.0, -5.0, -10.0),
-                                child: _listItem(i),
-                              )
-                            : _listItem(i),
-                  ],
-                ),
-              );
-            },
+    return SafeArea(
+      child: CustomScaffold(
+        scaffoldKey: _habitHabitsKey,
+        appBarTitle: LocaleKeys.createHabit,
+        backgroundColor: _backgroundColor,
+        child: BlocProvider.value(
+          value: _habitListBloc,
+          child: BlocListener<HabitListBloc, HabitListState>(
+            listener: _blocListener,
+            child: BlocBuilder<HabitListBloc, HabitListState>(
+              builder: (context, state) {
+                return SingleChildScrollView(
+                  padding: SizeHelper.screenPadding,
+                  child: Column(
+                    children: <Widget>[
+                      /// HabitList
+                      if (_habitList != null && _habitList!.isNotEmpty)
+                        for (int i = 0; i < _habitList!.length; i++)
+                          (i == 0) ? _listItem(i) : _listItem(i),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

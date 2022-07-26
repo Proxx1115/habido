@@ -73,7 +73,6 @@ class _PsyIntroRouteV2State extends State<PsyIntroRouteV2> {
   Widget _testInfoContainer() {
     return InfoContainerV2(
       margin: EdgeInsets.only(top: 15.0),
-      title: widget.testInfo.name!,
       body: widget.testInfo.description!,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

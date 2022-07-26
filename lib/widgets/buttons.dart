@@ -30,6 +30,7 @@ class CustomButton extends StatelessWidget {
   final Color? contentColor;
   final Color? disabledContentColor; // Text, image and so on...
   final bool isBordered;
+  final Color? borderColor;
 
   const CustomButton({
     Key? key,
@@ -50,6 +51,7 @@ class CustomButton extends StatelessWidget {
     this.contentColor,
     this.disabledContentColor,
     this.isBordered = false,
+    this.borderColor,
   }) : super(key: key);
 
   @override
@@ -70,7 +72,7 @@ class CustomButton extends StatelessWidget {
               textStyle: TextStyle(fontWeight: FontWeight.w500),
               shape: RoundedRectangleBorder(
                 borderRadius: _borderRadius,
-                side: isBordered ? BorderSide(color: customColors.primary, width: 1) : BorderSide.none,
+                side: isBordered ? BorderSide(color: borderColor ?? customColors.primary, width: 1) : BorderSide.none,
               ),
             ),
             child: _child,

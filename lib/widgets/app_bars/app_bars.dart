@@ -53,7 +53,7 @@ AppBar CustomAppBar(
     actionWidget = ButtonStadium(
       asset: actionAsset,
       iconColor: actionAssetColor,
-      margin: EdgeInsets.only(left: 15.0),
+      margin: EdgeInsets.only(left: 20.0),
       onPressed: () {
         if (onPressedAction != null) onPressedAction();
       },
@@ -74,7 +74,16 @@ AppBar CustomAppBar(
         leadingWidget,
 
         /// Title
-        (titleText != null) ? Expanded(child: CustomText(titleText, textAlign: TextAlign.center, fontWeight: FontWeight.w800)) : Container(),
+        (titleText != null)
+            ? Expanded(
+                child: CustomText(
+                titleText,
+                fontSize: 16,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                fontWeight: FontWeight.w800,
+              ))
+            : Container(),
 
         actionWidget,
       ],

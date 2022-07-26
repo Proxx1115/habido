@@ -24,8 +24,8 @@ class ContentBlocV2 extends Bloc<ContentEventV2, ContentStateV2> {
       yield* _mapGetContentFirstEventToState(event);
     } else if (event is GetContentThenEvent) {
       yield* _mapGetContentThenEventToState(event);
-    } else if (event is GetContentLikeEvent) {
-      yield* _mapGetContentLikeEventToState(event);
+    } else if (event is LikeContentEvent) {
+      yield* _mapLikeContentEventToState(event);
     }
   }
 
@@ -110,7 +110,7 @@ class ContentBlocV2 extends Bloc<ContentEventV2, ContentStateV2> {
     }
   }
 
-  Stream<ContentStateV2> _mapGetContentLikeEventToState(GetContentLikeEvent event) async* {
+  Stream<ContentStateV2> _mapLikeContentEventToState(LikeContentEvent event) async* {
     try {
       yield ContentLikeLoading();
 
@@ -175,9 +175,9 @@ class GetContentThenEvent extends ContentEventV2 {
   String toString() => 'GetContentThen { GetContentThen: $name $searchText $contentId }';
 }
 
-class GetContentLikeEvent extends ContentEventV2 {
+class LikeContentEvent extends ContentEventV2 {
   final int contentId;
-  const GetContentLikeEvent(this.contentId);
+  const LikeContentEvent(this.contentId);
 
   @override
   List<Object> get props => [contentId];

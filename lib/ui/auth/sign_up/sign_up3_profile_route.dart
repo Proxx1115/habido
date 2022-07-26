@@ -12,6 +12,7 @@ import 'package:habido_app/widgets/checkbox.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/date_picker/date_picker.dart';
 import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
+import 'package:habido_app/widgets/date_picker/date_picker_v2.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/switch.dart';
@@ -115,7 +116,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   }
 
   Widget _birthdayPicker() {
-    return CustomDatePicker(
+    return CustomDatePickerV2(
       bloc: _birthDatePickerBloc,
       hintText: LocaleKeys.birthDate,
       margin: EdgeInsets.only(top: 35.0),
@@ -162,15 +163,15 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
   Widget _genderInfo() {
     return _visibleTermCond
         ? StadiumContainer(
-      margin: EdgeInsets.only(top: 15.0),
-      padding: SizeHelper.boxPadding,
-      child: RichText(
-        text: TextSpan(
-          text: LocaleKeys.genderInfotext,
-          style: TextStyle(color: customColors.primaryText),
-        ),
-      ),
-    )
+            margin: EdgeInsets.only(top: 15.0),
+            padding: SizeHelper.boxPadding,
+            child: RichText(
+              text: TextSpan(
+                text: LocaleKeys.genderInfotext,
+                style: TextStyle(color: customColors.primaryText),
+              ),
+            ),
+          )
         : Container();
   }
 
@@ -202,7 +203,10 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
     return _visibleTermCond
         ? CustomCheckbox(
             text: LocaleKeys.understand,
-            margin: EdgeInsets.only(top: 30.0, bottom: 30.0,),
+            margin: EdgeInsets.only(
+              top: 30.0,
+              bottom: 30.0,
+            ),
             alignment: MainAxisAlignment.center,
             onChanged: (value) {
               _checkBoxValue = value;
@@ -225,8 +229,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
       }
 
       // Button next
-      _enabledBtnNext =
-          _birthDate != null && _nameController.text.length > 0 && (_visibleTermCond ? _checkBoxValue : true);
+      _enabledBtnNext = _birthDate != null && _nameController.text.length > 0 && (_visibleTermCond ? _checkBoxValue : true);
     });
   }
 
@@ -254,8 +257,7 @@ class _SignUp3ProfileRouteState extends State<SignUp3ProfileRoute> {
                     if (!_validateAge()) {
                       showCustomDialog(
                         context,
-                        child: CustomDialogBody(
-                            asset: Assets.error, text: LocaleKeys.validate12, buttonText: LocaleKeys.ok),
+                        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12, buttonText: LocaleKeys.ok),
                       );
 
                       return;

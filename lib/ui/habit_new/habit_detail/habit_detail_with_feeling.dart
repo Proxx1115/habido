@@ -7,10 +7,12 @@ import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit_details_feeling.dart';
 import 'package:habido_app/models/user_habit_feeling_pie_chart_feeling.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
@@ -22,10 +24,13 @@ import 'package:habido_app/widgets/text.dart';
 class HabitDetailWithFeelingRoute extends StatefulWidget {
   final int? userHabitId;
   final String? name;
+  final bool? isActive;
+
   const HabitDetailWithFeelingRoute({
     Key? key,
     this.userHabitId,
     this.name,
+    this.isActive = false,
   }) : super(key: key);
 
   @override
@@ -94,62 +99,91 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
   }
 
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
-    return CustomScaffold(
-      appBarTitle: '${widget.name} - Feeling',
-      child: Container(
-        padding: SizeHelper.screenPadding,
-        child: (_userHabitPlanCount != null && _feelings != null && _totalCount != null)
-            ? Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                SizedBox(height: 18.0),
-                CustomText(
-                  LocaleKeys.execution,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16.0,
-                ),
-                SizedBox(height: 15.0),
-                PerformanceWidget(
-                  totalPlans: _userHabitPlanCount!.totalPlans,
-                  completedPlans: _userHabitPlanCount!.completedPlans,
-                  skipPlans: _userHabitPlanCount!.skipPlans,
-                  uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
-                ),
-                SizedBox(height: 15.0),
-                _feelingInfo(),
-                SizedBox(height: 15.0),
+    return SafeArea(
+      child: CustomScaffold(
+        appBarTitle: widget.name,
+        child: SingleChildScrollView(
+          padding: SizeHelper.screenPadding,
+          child: Column(
+            children: [
+              SizedBox(height: 18.0),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText(
-                      LocaleKeys.note,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    NoSplashContainer(
-                      child: InkWell(
-                        onTap: () {
-                          // _navigateToAllHabitsRoute();
-                        },
-                        child: CustomText(
-                          LocaleKeys.seeAllNote,
-                          fontSize: 10.0,
-                          color: customColors.primary,
-                          margin: EdgeInsets.only(right: 23.0),
-                          padding: EdgeInsets.all(5.0),
-                          underlined: true,
+              CustomText(
+                LocaleKeys.execution,
+                fontWeight: FontWeight.w700,
+                fontSize: 16.0,
+              ),
+
+              SizedBox(height: 15.0),
+
+              /// Performance Info
+              _userHabitPlanCount != null
+                  ? PerformanceWidget(
+                      totalPlans: _userHabitPlanCount!.totalPlans,
+                      completedPlans: _userHabitPlanCount!.completedPlans,
+                      skipPlans: _userHabitPlanCount!.skipPlans,
+                      uncompletedPlans: _userHabitPlanCount!.uncompletedPlans,
+                    )
+                  : Container(),
+
+              SizedBox(height: 15.0),
+
+              /// Feeling Chart & Info
+              (_feelings != null && _totalCount != null && _totalCount! > 0) ? _feelingInfo() : Container(),
+
+              SizedBox(height: 15.0),
+
+              /// Title - (Note)
+              (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.length > 0)
+                  ? Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                              LocaleKeys.note,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            NoSplashContainer(
+                              child: InkWell(
+                                onTap: () {
+                                  _navigateToFeelingNotesRoute();
+                                },
+                                child: CustomText(
+                                  LocaleKeys.seeAllNote,
+                                  fontSize: 10.0,
+                                  color: customColors.primary,
+                                  margin: EdgeInsets.only(right: 23.0),
+                                  padding: EdgeInsets.all(5.0),
+                                  underlined: true,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
+                        SizedBox(height: 12.0),
 
-                SizedBox(height: 12.0),
+                        /// Feeling Details 3
+                        for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
+                        SizedBox(height: 20.0),
+                      ],
+                    )
+                  : Container(),
 
-                /// Feeling Details Latest 3
-                if (_userHabitDetailsFeelingList != null && _userHabitDetailsFeelingList!.isNotEmpty)
-                  for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
-              ])
-            : Container(),
+              /// Delete Btn
+              // if (widget.isActive!)
+              //   Align(
+              //     alignment: Alignment.topRight,
+              //     child: DeleteButtonWidget(
+              //       onDelete: () {
+              //         BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+              //       },
+              //     ),
+              //   ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -157,17 +191,17 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
   _getAsset(int index) {
     switch (index) {
       case 1:
-        return Assets.sad_emoji;
+        return Assets.emoji1;
       case 2:
-        return Assets.unpleasant_emoji;
+        return Assets.emoji2;
       case 3:
-        return Assets.unknown_emoji;
+        return Assets.emoji3;
       case 4:
-        return Assets.calm_emoji;
+        return Assets.emoji4;
       case 5:
-        return Assets.happy_emoji;
+        return Assets.emoji5;
       default:
-        return Assets.sad_emoji;
+        return Assets.emoji1;
     }
   }
 
@@ -279,12 +313,14 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
               ),
 
               /// Note
-              Container(
-                margin: EdgeInsets.only(left: 14.5),
-                child: CustomText(
-                  feelingDetails!.note,
-                  fontSize: 11.0,
-                  maxLines: 2,
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: 14.5, bottom: 10.0),
+                  child: CustomText(
+                    feelingDetails!.note,
+                    fontSize: 11.0,
+                    maxLines: 2,
+                  ),
                 ),
               ),
             ]),
@@ -367,22 +403,23 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
     double _percentage = Func.toDouble(_habitFeelingPieChartFeeling.count) * 100 / Func.toDouble(_totalCount);
     return PieChartSectionData(
       radius: 12,
-      color: HexColor.fromHex(_getColor(_habitFeelingPieChartFeeling.count!)),
+      color: HexColor.fromHex(_getColor(_habitFeelingPieChartFeeling.index!)),
       value: Func.toDouble(_percentage),
       showTitle: false,
     );
   }
 
-  Widget _feelingItem(feeling) {
+  Widget _feelingItem(UserHabitFeelingPieChartFeeling feeling) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         children: [
           /// Image
           SvgPicture.asset(
-            _getAsset(feeling.count!),
+            _getAsset(feeling.index!),
             height: 14,
             width: 14,
+            color: HexColor.fromHex(_getColor(feeling.index!)),
           ),
 
           SizedBox(width: 9.0),
@@ -405,5 +442,11 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
         ],
       ),
     );
+  }
+
+  _navigateToFeelingNotesRoute() {
+    Navigator.pushNamed(context, Routes.feelingNotes, arguments: {
+      'userHabitId': widget.userHabitId,
+    });
   }
 }

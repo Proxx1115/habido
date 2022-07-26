@@ -8,6 +8,7 @@ import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/showcase_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/text.dart';
 
@@ -58,36 +59,33 @@ class DashboardAppBar extends StatelessWidget {
           //     : _profileButton(context),
           _profileButton(context),
 
-          SizedBox(width: 15.0),
-
           /// Notification
-          visibleShowCase
-              ? CustomShowcase(
-                  description: LocaleKeys.showcaseNotification,
-                  showcaseKey: ShowcaseKey.notification,
-                  // overlayPadding: EdgeInsets.all(10.0),
-                  // overlayPadding: EdgeInsets.all(-5.0),
-                  // shapeBorder: CircleBorder(),
-                  // shapeBorder: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                  // ),
-                  overlayPadding: EdgeInsets.all(-5.0),
-                  shapeBorder: CircleBorder(),
-                  child: NotificationButton(),
-                )
-              : NotificationButton(),
+          visibleShowCase ? NotificationButton() : NotificationButton(),
         ],
       ),
     );
   }
 
   Widget _profileButton(BuildContext context) {
-    return ButtonStadium(
-      size: 20,
-      asset: Assets.profile,
-      onPressed: () {
+    // return ButtonStadium(
+    //   size: 20,
+    //   asset: Assets.profile,
+    //   onPressed: () {
+    //     Navigator.pushNamed(context, Routes.profile);
+    //   },
+    // );
+    return NoSplashContainer(
+        child: InkWell(
+      onTap: () {
         Navigator.pushNamed(context, Routes.profile);
       },
-    );
+      child: Container(
+        padding: EdgeInsets.all(7.5),
+        child: SvgPicture.asset(
+          Assets.profile,
+          height: 20,
+        ),
+      ),
+    ));
   }
 }

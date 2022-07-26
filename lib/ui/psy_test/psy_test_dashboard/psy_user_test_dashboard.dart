@@ -33,7 +33,7 @@ class PsyUserTestDashboard extends StatefulWidget {
 
 class _PsyUserTestDashboardState extends State<PsyUserTestDashboard> {
   // UI
-  final _psyDashboardKey = GlobalKey<ScaffoldState>();
+  final _psyUserTestDashboardKey = GlobalKey<ScaffoldState>();
 
   // Data
   // List<PsyTestCategoryResults>? _categoryList;
@@ -51,33 +51,35 @@ class _PsyUserTestDashboardState extends State<PsyUserTestDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      scaffoldKey: _psyDashboardKey,
-      onWillPop: () {
-        print('nothing');
-      },
-      child: Column(
-        children: [
-          /// App bar
-          DashboardAppBar(
-            title: LocaleKeys.psyTest,
-            padding: EdgeInsets.symmetric(horizontal: 15.0),
-          ),
-
-          /// List
-          Expanded(
-            child: _psyTestResultsWidget(),
-          ),
-        ],
-      ),
-      floatingActionButton: CustomButton(
-        style: CustomButtonStyle.secondary,
-        width: 130.0,
-        text: LocaleKeys.doTest2,
-        alignment: Alignment.bottomRight,
-        onPressed: () {
-          Navigator.pushNamed(context, Routes.psyCategories);
+    return SafeArea(
+      child: CustomScaffold(
+        scaffoldKey: _psyUserTestDashboardKey,
+        onWillPop: () {
+          print('nothing');
         },
+        child: Column(
+          children: [
+            /// App bar
+            DashboardAppBar(
+              title: LocaleKeys.psyTest,
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
+            ),
+
+            /// List
+            Expanded(
+              child: _psyTestResultsWidget(),
+            ),
+          ],
+        ),
+        floatingActionButton: CustomButton(
+          style: CustomButtonStyle.secondary,
+          width: 130.0,
+          text: LocaleKeys.doTest2,
+          alignment: Alignment.bottomRight,
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.psyCategories);
+          },
+        ),
       ),
     );
   }

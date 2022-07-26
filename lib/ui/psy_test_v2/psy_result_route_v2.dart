@@ -13,6 +13,7 @@ import 'package:habido_app/ui/psy_test_v2/psy_test_containers/info_container_v2.
 import 'package:habido_app/ui/psy_test_v2/psy_test_bloc_v2/psy_test_bloc_v2.dart';
 import 'package:habido_app/ui/psy_test_v2/psy_test_containers/suggested_habit_container.dart';
 import 'package:habido_app/utils/assets.dart';
+import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/screen_mode.dart';
@@ -28,17 +29,29 @@ import 'package:habido_app/widgets/text.dart';
 class PsyTestResultRouteV2 extends StatefulWidget {
   final bool isActiveAppBar;
   final int testId;
+  final String testName;
   final TestResult? testResult;
-  const PsyTestResultRouteV2({Key? key, required this.testResult, required this.testId, required this.isActiveAppBar}) : super(key: key);
+  const PsyTestResultRouteV2({Key? key, required this.testResult, required this.testId, required this.isActiveAppBar, required this.testName})
+      : super(key: key);
 
   @override
   _PsyTestResultRouteV2State createState() => _PsyTestResultRouteV2State();
 }
 
 class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
+  double _rating = 0;
+  double _currentRating = 0;
+
+  @override
+  void initState() {
+    _rating = widget.testResult!.reviewScore!;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      // appBarTitle: ,
       child: BlocProvider.value(
         value: BlocManager.psyTestBlocV2,
         child: BlocListener<TestsBlocV2, TestsStateV2>(
@@ -54,17 +67,12 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
   void _blocListener(BuildContext context, TestsStateV2 state) {
     if (state is TestReviewSuccess) {
       print("Post success review");
-    } else if (state is TestReviewFailed) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
-      );
     }
   }
 
   Widget _blocBuilder(BuildContext context, TestsStateV2 state) {
     return CustomScaffold(
-      appBarTitle: widget.isActiveAppBar == true ? "" : null,
+      appBarTitle: widget.isActiveAppBar == true ? widget.testName : null,
       onWillPop: () {
         Navigator.popUntil(context, ModalRoute.withName(Routes.home));
       },
@@ -100,9 +108,9 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
                         title: widget.testResult!.habit!.name ?? '',
                         leadingImageUrl: widget.testResult!.habit!.photo ?? "",
                         // suffixAsset: Assets.arrow_forward,
-                        leadingBackgroundColor: HexColor.fromHex("#F1F8E9"), //todo yela onPressed
+                        leadingBackgroundColor: Colors.white,
+                        leadingColor: HexColor.fromHex(widget.testResult!.habit!.color!), //todo yela onPressed
                         onPressed: () {
-                          Navigator.popUntil(context, ModalRoute.withName(Routes.home));
                           Navigator.pushNamed(context, Routes.userHabit, arguments: {
                             'screenMode': ScreenMode.New,
                             'habit': widget.testResult!.habit,
@@ -162,14 +170,34 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
       textColor: customColors.primary,
       child: Column(
         children: [
+          widget.testResult!.retakeTestDate != null
+              ? Row(
+                  children: [
+                    CustomText(
+                      LocaleKeys.retakeTest + ":",
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    CustomText(
+                      Func.toDateStr(Func.toDate(widget.testResult!.retakeTestDate)),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300,
+                      margin: EdgeInsets.only(left: 5),
+                    ),
+                  ],
+                )
+              : Container(),
+          SizedBox(
+            height: 10,
+          ),
           Row(
             children: [
               CustomText(
-                LocaleKeys.toEvaluate,
+                LocaleKeys.toEvaluate + ":",
                 fontSize: 15,
                 fontWeight: FontWeight.w300,
               ),
-              SizedBox(width: 13),
+              // SizedBox(width: 13),
 
               /// RATING BAR
               RatingBar(
@@ -177,41 +205,54 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
                 initialRating: widget.testResult!.reviewScore!,
                 direction: Axis.horizontal,
                 allowHalfRating: true,
+                glow: false,
                 itemCount: 5,
                 ratingWidget: RatingWidget(
                   full: SvgPicture.asset(
                     Assets.star_full,
-                    height: 30,
-                    width: 30,
                   ),
                   half: SvgPicture.asset(
                     Assets.star_half_test,
-                    height: 16,
-                    width: 16,
                   ),
                   empty: SvgPicture.asset(
                     Assets.star_empty,
-                    height: 16,
-                    width: 16,
                   ),
                 ),
                 itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                ignoreGestures: _ignoreRatingGesture(),
+                ignoreGestures: _rating != 0,
                 onRatingUpdate: (rating) {
-                  var psyTestReview = PsyTestReview()
-                    ..testId = widget.testId
-                    ..score = rating;
-                  BlocManager.psyTestBlocV2.add(TestReviewEvent(psyTestReview));
+                  _currentRating = rating;
+                  setState(() {});
                 },
               )
             ],
           ),
+          _rating == 0
+              ? CustomButton(
+                  text: LocaleKeys.send,
+                  fontWeight: FontWeight.w300,
+                  fontSize: 15,
+                  contentColor: customColors.primary,
+                  width: 117,
+                  height: 35,
+                  borderRadius: BorderRadius.circular(15),
+                  isBordered: true,
+                  borderColor: customColors.greyBackground,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 15),
+                  onPressed: _currentRating > 0
+                      ? () {
+                          var psyTestReview = PsyTestReview()
+                            ..testId = widget.testId
+                            ..score = _currentRating;
+                          _rating = _currentRating;
+                          BlocManager.psyTestBlocV2.add(TestReviewEvent(psyTestReview));
+                        }
+                      : null,
+                )
+              : Container(),
         ],
       ),
     );
-  }
-
-  bool _ignoreRatingGesture() {
-    return widget.testResult!.reviewScore != 0;
   }
 }

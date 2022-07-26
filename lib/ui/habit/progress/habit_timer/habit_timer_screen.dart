@@ -78,26 +78,19 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
 
                     /// Timer
                     if (_duration != null)
-                      CustomShowcase(
-                        showcaseKey: ShowcaseKey.timer,
-                        description: LocaleKeys.showcaseTimer,
-                        overlayOpacity: 0.9,
-                        overlayPadding: EdgeInsets.all(30.0),
-                        shapeBorder: CircleBorder(),
-                        child: CustomCountdownTimer(
-                          userHabit: widget.userHabit,
-                          duration: _duration!,
-                          userHabitProgressLog: _userHabitProgressLog,
-                          primaryColor: _primaryColor,
-                          visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
-                          timerSize: _timerSize,
-                          music: widget.userHabit.habit?.goalSettings?.toolContent?.music,
-                          callBack: () {
-                            setState(() {
-                              _enabledButton = true;
-                            });
-                          },
-                        ),
+                      CustomCountdownTimer(
+                        userHabit: widget.userHabit,
+                        duration: _duration!,
+                        userHabitProgressLog: _userHabitProgressLog,
+                        primaryColor: _primaryColor,
+                        visibleAddButton: widget.userHabit.habit?.goalSettings?.goalIsExtendable ?? false,
+                        timerSize: _timerSize,
+                        music: widget.userHabit.habit?.goalSettings?.toolContent?.music,
+                        callBack: () {
+                          setState(() {
+                            _enabledButton = true;
+                          });
+                        },
                       ),
 
                     Expanded(child: Container()),

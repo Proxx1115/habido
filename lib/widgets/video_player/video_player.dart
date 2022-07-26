@@ -5,7 +5,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class VideoPlayer extends StatefulWidget {
   final String videoURL;
   final double? height;
-  const VideoPlayer({Key? key, required this.videoURL, this.height}) : super(key: key);
+  const VideoPlayer({Key? key, required this.videoURL, this.height})
+      : super(key: key);
 
   @override
   State<VideoPlayer> createState() => _VideoPlayerState();
@@ -23,6 +24,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: widget.height,
@@ -30,8 +37,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
         controller: YoutubePlayerController(
           initialVideoId: _convertUrlToId(),
           flags: YoutubePlayerFlags(
-            hideControls: true,
-            controlsVisibleAtStart: true,
+            hideThumbnail: true,
+            enableCaption: false,
+            loop: true,
+            forceHD: true,
+            hideControls: false,
+            controlsVisibleAtStart: false,
             autoPlay: true,
             mute: false,
           ),

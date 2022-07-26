@@ -55,8 +55,7 @@ class _LoginRouteState extends State<LoginRoute> {
 
     // Phone number, pass
     _phoneNumberController.text = SharedPref.getPhoneNumber();
-    _visibleButtonBiometrics =
-        SharedPref.getBiometricAuth(_phoneNumberController.text);
+    _visibleButtonBiometrics = SharedPref.getBiometricAuth(_phoneNumberController.text);
 
     // todo test
     // _phoneNumberController.text = '88989800';
@@ -89,32 +88,28 @@ class _LoginRouteState extends State<LoginRoute> {
       _passwordController.clear();
       SharedPref.setPhoneNumber(_phoneNumberController.text);
 
-      // if (globals.userData?.isOnboardingDone2 ?? false) {
-      //   // Go to home
-      //   Navigator.pushNamed(context, Routes.home);
+      if (globals.userData?.isOnboardingDone2 ?? false) {
+        // Go to home
+        Navigator.pushNamed(context, Routes.home_new);
+      } else {
+        // Go to chat
+        Navigator.pushNamed(context, Routes.signUpQuestion);
+      }
+
+      // if (globals.userData?.isOnboardingDone ?? false) {
+      //   /// Go to home
+      //   Navigator.pushNamed(context, Routes.home_new); // todo home
       // } else {
-      //   // Go to chat
+      //   /// Go to chat
       //   Navigator.pushNamed(context, Routes.habidoAssistant);
       // }
-
-      if (globals.userData?.isOnboardingDone ?? false) {
-        /// Go to home
-        Navigator.pushNamed(context, Routes.home_new); // todo home
-      } else {
-        /// Go to chat
-        Navigator.pushNamed(context, Routes.habidoAssistant);
-      }
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is SessionTimeoutState) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.login, (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false);
 
       showCustomDialog(
         context,
@@ -131,93 +126,94 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _blocBuilder(BuildContext context, AuthState state) {
-    return CustomScaffold(
-      scaffoldKey: _loginKey,
-      loading: state is AuthLoading,
-      backgroundColor: customColors.primaryBackground,
-      child: LayoutBuilder(builder: (context, constraints) {
-        if (_height < constraints.maxHeight) _height = constraints.maxHeight;
-        if (_height < SizeHelper.minHeightScreen)
-          _height = SizeHelper.minHeightScreen;
+    return SafeArea(
+      bottom: false,
+      child: CustomScaffold(
+        scaffoldKey: _loginKey,
+        loading: state is AuthLoading,
+        backgroundColor: customColors.primaryBackground,
+        child: LayoutBuilder(builder: (context, constraints) {
+          if (_height < constraints.maxHeight) _height = constraints.maxHeight;
+          if (_height < SizeHelper.minHeightScreen) _height = SizeHelper.minHeightScreen;
 
-        return SingleChildScrollView(
-          // physics: NeverScrollableScrollPhysics(),
-          child: Container(
-            height: _height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(child: Container(), flex: 25),
+          return SingleChildScrollView(
+            // physics: NeverScrollableScrollPhysics(),
+            child: Container(
+              height: _height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(child: Container(), flex: 25),
 
-                /// HabiDo logo
-                HeroHelper.getAppLogoWithName(),
+                  /// HabiDo logo
+                  HeroHelper.getAppLogoWithName(),
 
-                Expanded(child: Container(), flex: 25),
+                  Expanded(child: Container(), flex: 25),
 
-                Container(
-                  padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
-                  decoration: BoxDecoration(
+                  Container(
+                    padding: EdgeInsets.fromLTRB(25.0, 35.0, 25.0, 35.0),
+                    decoration: BoxDecoration(
+                      color: customColors.whiteBackground,
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                    ),
+                    child: Column(
+                      children: [
+                        /// Утасны дугаар
+                        _phoneNumberTextField(),
+
+                        /// Нууц үг
+                        _passwordTextField(),
+
+                        SizedBox(height: 15.0),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            _btnForgotPass(),
+                          ],
+                        ),
+
+                        SizedBox(height: 15.0),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              /// Нэвтрэх button
+                              child: _btnLogin(),
+                            ),
+
+                            /// Biometrics button
+                            _btnBiometrics(),
+                          ],
+                        ),
+
+                        MarginVertical(height: 10.0),
+                        _btnSignUp(),
+
+                        /// Button - Нууц үг мартсан уу? Сэргээх
+                        // _btnForgotPass(),
+                      ],
+                    ),
+                  ),
+
+                  Expanded(
+                    child: Container(color: customColors.whiteBackground),
+                    flex: 25,
+                  ),
+
+                  /// Button - Та бүртгэлтэй юу? Бүртгүүлэх
+                  // _btnSignUp(),
+                  Container(
+                    height: 120,
                     color: customColors.whiteBackground,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(25)),
-                  ),
-                  child: Column(
-                    children: [
-                      /// Утасны дугаар
-                      _phoneNumberTextField(),
-
-                      /// Нууц үг
-                      _passwordTextField(),
-
-                      SizedBox(height: 15.0),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          _btnForgotPass(),
-                        ],
-                      ),
-
-                      SizedBox(height: 15.0),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            /// Нэвтрэх button
-                            child: _btnLogin(),
-                          ),
-
-                          /// Biometrics button
-                          _btnBiometrics(),
-                        ],
-                      ),
-
-                      MarginVertical(height: 10.0),
-                      // _btnSignUp(),
-
-                      /// Button - Нууц үг мартсан уу? Сэргээх
-                      // _btnForgotPass(),
-                    ],
-                  ),
-                ),
-
-                Expanded(
-                  child: Container(color: customColors.whiteBackground),
-                  flex: 25,
-                ),
-
-                /// Button - Та бүртгэлтэй юу? Бүртгүүлэх
-                // _btnSignUp(),
-                Container(
-                  height: 120,
-                  color: customColors.whiteBackground,
-                  // margin: EdgeInsets.symmetric(vertical: 35.0),
-                )
-              ],
+                    // margin: EdgeInsets.symmetric(vertical: 35.0),
+                  )
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 
@@ -248,9 +244,7 @@ class _LoginRouteState extends State<LoginRoute> {
   _validateForm() {
     setState(() {
       _enabledButtonLogin =
-          (Func.isValidPhoneNumber(_phoneNumberController.text) &&
-              _passwordController.text.isNotEmpty &&
-              _passwordController.text.length > 0);
+          (Func.isValidPhoneNumber(_phoneNumberController.text) && _passwordController.text.isNotEmpty && _passwordController.text.length > 0);
     });
   }
 
@@ -272,9 +266,7 @@ class _LoginRouteState extends State<LoginRoute> {
   }
 
   Widget _btnBiometrics() {
-    return (_visibleButtonBiometrics &&
-            biometricsUtil.canCheckBiometrics &&
-            biometricsUtil.availableBiometricsCount > 0)
+    return (_visibleButtonBiometrics && biometricsUtil.canCheckBiometrics && biometricsUtil.availableBiometricsCount > 0)
         ? ButtonStadium(
             asset: Assets.biometric,
             margin: EdgeInsets.only(left: 15.0),
@@ -324,12 +316,12 @@ class _LoginRouteState extends State<LoginRoute> {
   Widget _btnSignUp() {
     return ButtonMultiPartText(
       text1: "",
-      text2: LocaleKeys.signUp,
+      text2: LocaleKeys.back,
       backgroundColor: customColors.whiteBackground,
       textColor: customColors.greyText,
       padding: EdgeInsets.symmetric(vertical: 15.0),
       onPressed: () {
-        Navigator.pushNamed(context, Routes.signUp1Phone);
+        Navigator.popUntil(context, ModalRoute.withName(Routes.login2));
       },
     );
   }

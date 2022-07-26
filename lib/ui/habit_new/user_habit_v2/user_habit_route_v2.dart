@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habido_app/models/custom_habit_settings_response.dart';
 import 'package:habido_app/models/habit.dart';
+import 'package:habido_app/models/habit_template.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit_new/user_habit_v2/user_habit_screen_v2.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -9,6 +10,8 @@ class UserHabitRouteV2 extends StatefulWidget {
   final String screenMode;
   final int? habitId;
   final UserHabit? userHabit;
+  final Habit? habit;
+  final HabitTemplate? habitTemplate;
   final CustomHabitSettingsResponse? customHabitSettings;
   final String? title;
 
@@ -19,6 +22,8 @@ class UserHabitRouteV2 extends StatefulWidget {
     this.userHabit,
     this.customHabitSettings,
     this.title,
+    this.habitTemplate,
+    this.habit,
   }) : super(key: key);
 
   @override
@@ -35,8 +40,10 @@ class UserHabitRouteV2State extends State<UserHabitRouteV2> {
             screenMode: widget.screenMode,
             userHabit: widget.userHabit,
             customHabitSettings: widget.customHabitSettings,
+            habitTemplate: widget.habitTemplate,
+            habit: widget.habit,
             title: widget.title,
-            habitId: widget.habitId!,
+            habitId: widget.habitId ?? 0,
           );
         },
       ),

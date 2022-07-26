@@ -27,7 +27,6 @@ class EmojiWidgetForFeelingNote extends StatefulWidget {
 }
 
 class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
-
   UniqueKey? keyTitle;
   int? _selectedIndex;
   bool isExpanded = true;
@@ -47,10 +46,10 @@ class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
         child: CustomExpansionTile(
           key: keyTitle,
           title: Text(
-                    _getText(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(height: 0, fontWeight: FontWeight.w500, fontSize: 15, color: _getColor((_selectedIndex ?? -1))),
-                  ),
+            _getText(),
+            textAlign: TextAlign.center,
+            style: TextStyle(height: 0, fontWeight: FontWeight.w500, fontSize: 15, color: _getColor((_selectedIndex ?? -1))),
+          ),
           tilePadding: EdgeInsets.zero,
           isSelected: _selectedIndex != null ? true : false,
           initiallyExpanded: isExpanded,
@@ -151,7 +150,6 @@ class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
     }
   }
 
-
   Widget _emojiItem(int index) {
     return InkWell(
       onTap: () {
@@ -175,13 +173,19 @@ class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
         ),
         child: Column(
           children: [
-            Image.asset(
+            SvgPicture.asset(
               _getAsset(index),
               height: 36,
               width: 36,
             ),
             SizedBox(height: 5),
-            Text(_getTextWithIndex(index), style: TextStyle(fontSize: 10, fontFamily: FontAsset.FiraSansCondensed, color: _selectedIndex == index ? customColors.whiteBackground : Colors.black,),
+            Text(
+              _getTextWithIndex(index),
+              style: TextStyle(
+                fontSize: 10,
+                fontFamily: FontAsset.FiraSansCondensed,
+                color: _selectedIndex == index ? customColors.whiteBackground : Colors.black,
+              ),
               textAlign: TextAlign.center,
             ),
           ],
@@ -303,4 +307,3 @@ class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
     }
   }
 }
-

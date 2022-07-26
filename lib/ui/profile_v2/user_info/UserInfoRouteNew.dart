@@ -35,6 +35,7 @@ import 'package:habido_app/widgets/customDialog.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/date_picker/date_picker.dart';
 import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
+import 'package:habido_app/widgets/date_picker/date_picker_v2.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/listItem.dart';
 import 'package:habido_app/widgets/loaders.dart';
@@ -93,6 +94,10 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
       _genderValue = globals.userData!.gender == Gender.Female;
     if (globals.userData?.birthDay != null)
       _selectedBirthDate = Func.toDate(globals.userData!.birthDay!);
+    if (globals.userData?.employment != null)
+      _selectedEmp = globals.userData!.employment!;
+    if (globals.userData?.address != null)
+      _selectedAdd = globals.userData!.address!;
 
     if (Func.isNotEmpty(DeviceHelper.deviceId)) {
       BlocManager.userBloc.add(GetUserDeviceEvent(DeviceHelper.deviceId!));
@@ -355,7 +360,7 @@ class _UserInfoRouteNewState extends State<UserInfoRouteNew> {
   }
 
   _birthdayPicker() {
-    return CustomDatePicker(
+    return CustomDatePickerV2(
       bloc: _birthDatePickerBloc,
       initialDate: _selectedBirthDate,
       hintText: LocaleKeys.birthDate,

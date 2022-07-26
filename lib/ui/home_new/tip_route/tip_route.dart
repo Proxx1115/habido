@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -121,10 +122,13 @@ class _TipRouteState extends State<TipRoute> {
           children: [
             // SizedBox(height: 30.0),
 
-            /// Image // todo change
-            Image.network(
-              tipData.link!,
-              height: MediaQuery.of(context).size.height * 0.6,
+            /// Image
+            CachedNetworkImage(
+              imageUrl: tipData.link!,
+              // placeholder: (context, url) => CustomLoader(context, size: 20.0),
+              placeholder: (context, url) => Container(),
+              errorWidget: (context, url, error) => Container(),
+              height: MediaQuery.of(context).size.height * 0.65,
               fit: BoxFit.contain,
               // cacheHeight: 200,
             ),

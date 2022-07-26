@@ -23,7 +23,8 @@ class HabitCategoriesScreenV2 extends StatefulWidget {
   const HabitCategoriesScreenV2({Key? key}) : super(key: key);
 
   @override
-  _HabitCategoriesScreenV2State createState() => _HabitCategoriesScreenV2State();
+  _HabitCategoriesScreenV2State createState() =>
+      _HabitCategoriesScreenV2State();
 }
 
 class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
@@ -54,22 +55,25 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
         child: BlocBuilder<HabitCategoryBloc, HabitCategoryState>(
           builder: (context, state) {
             return ListView(
-              padding: EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 55),
+              padding:
+                  EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 55),
               children: [
                 if (_customCategory != null)
                   ButtonStadiumWithText(
                     onPressed: () {
-                      _habitCategoryBloc.add(GetCustomHabitSettingsEvent(_customCategory!));
+                      _habitCategoryBloc
+                          .add(GetCustomHabitSettingsEvent(_customCategory!));
                     },
                     backgroundColor: customColors.primary,
                     asset: Assets.add,
-                    text: _customCategory!.name!, //_customCategory!.name!
+                    text: LocaleKeys.addNew, //_customCategory!.name!
                     borderRadius: 15.0,
                   ),
                 SizedBox(
                   height: 20.0,
                 ),
-                if (_habitCategoryList != null && _habitCategoryList!.isNotEmpty)
+                if (_habitCategoryList != null &&
+                    _habitCategoryList!.isNotEmpty)
                   for (var el in _habitCategoryList!)
                     if (el.userId == 0)
                       Column(
@@ -93,7 +97,8 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
       _habitCategoryList = state.habitCategoryList;
       if (_habitCategoryList != null && _habitCategoryList!.isNotEmpty) {
         _customCategory = _habitCategoryList!.where((x) => x.userId != 0).first;
-        _habitCategoryBloc.add(HabitCategoryShowcaseEvent(ShowcaseKeyName.habitCategory));
+        _habitCategoryBloc
+            .add(HabitCategoryShowcaseEvent(ShowcaseKeyName.habitCategory));
       }
     } else if (state is HabitCategoriesFailed) {
       showCustomDialog(
@@ -113,6 +118,7 @@ class _HabitCategoriesScreenV2State extends State<HabitCategoriesScreenV2> {
       Navigator.pushNamed(context, Routes.userHabit, arguments: {
         'screenMode': ScreenMode.CustomNew,
         'habit': state.customHabit,
+        'habitId': 0,
         'customHabitSettings': state.customHabitSettings,
         'title': LocaleKeys.createHabit,
       });

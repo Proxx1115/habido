@@ -61,14 +61,10 @@ class _SignUpRouteState extends State<SignUpRoute> {
     } else if (state is LoginFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is SessionTimeoutState) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.login2, (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.login2, (Route<dynamic> route) => false);
 
       showCustomDialog(
         context,
@@ -104,8 +100,7 @@ class _SignUpRouteState extends State<SignUpRoute> {
               Expanded(
                 flex: 3,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
+                  padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
                   child: Column(
                     children: [
                       CustomText(
@@ -211,11 +206,7 @@ class _SignUpRouteState extends State<SignUpRoute> {
       "textColor": customColors.primaryButtonContent
     };
 
-    Map _data = {
-      "google": _googleData,
-      "facebook": _facebookData,
-      "apple": _appleData
-    };
+    Map _data = {"google": _googleData, "facebook": _facebookData, "apple": _appleData};
 
     return InkWell(
       onTap: () {
@@ -261,22 +252,20 @@ class _SignUpRouteState extends State<SignUpRoute> {
   }
 
   _navigateToLogin(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        Routes.login2, (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(Routes.login2, (Route<dynamic> route) => false);
   }
 
   Future<void> _onGoogleAuth(context) async {
     var gmail = 'Gmail';
     try {
-      final GoogleSignIn _googleSignIn =
-          GoogleSignIn(scopes: ['email'], hostedDomain: "", clientId: "");
+      final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email'], hostedDomain: "", clientId: "");
 
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       print("amjilttai:::::${googleUser}");
       print('email:::::::::::${googleUser!.email}');
 
       var request = AddOauth()
-        ..email = googleUser!.email
+        ..email = googleUser.email
         ..type = gmail;
       BlocManager.oauthBloc.add(LoginEvent(request));
     } catch (e) {
@@ -288,8 +277,7 @@ class _SignUpRouteState extends State<SignUpRoute> {
     try {
       Map? userFbData;
       var fb = 'Facebook';
-      final result =
-          await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
+      final result = await FacebookAuth.i.login(permissions: ["public_profile", "email"]);
       if (result.status == LoginStatus.success) {
         final requestData = await FacebookAuth.i.getUserData(
           fields: "email, name",
@@ -317,8 +305,7 @@ class _SignUpRouteState extends State<SignUpRoute> {
         AppleIDAuthorizationScopes.fullName,
       ],
       webAuthenticationOptions: WebAuthenticationOptions(
-        redirectUri:
-            Uri.parse('https://api.dreamwod.app/auth/callbacks/apple-sign-in'),
+        redirectUri: Uri.parse('https://api.dreamwod.app/auth/callbacks/apple-sign-in'),
         clientId: 'com.dreamwod.app.login',
       ),
     );

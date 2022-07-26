@@ -18,9 +18,9 @@ import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/date_picker/date_picker.dart';
 import 'package:habido_app/widgets/date_picker/date_pickerInfo.dart';
 import 'package:habido_app/widgets/date_picker/date_picker_bloc.dart';
+import 'package:habido_app/widgets/date_picker/date_picker_v2.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
-import 'package:habido_app/widgets/switch.dart';
 import 'package:habido_app/widgets/text.dart';
 import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'package:habido_app/widgets/userInfoSwitch.dart';
@@ -68,15 +68,16 @@ class _PersonalInfoState extends State<PersonalInfo> {
           },
         ),
       );
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.home_new, (Route<dynamic> route) => false);
+      if (globals.userData?.isOnboardingDone2 == false) {
+        /// Go to home
+        Navigator.pushNamed(context, Routes.signUpQuestion);
+      } else {
+        Navigator.of(context).pushNamedAndRemoveUntil(Routes.home_new, (Route<dynamic> route) => false);
+      }
     } else if (state is UpdateUserDataFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -93,70 +94,72 @@ class _PersonalInfoState extends State<PersonalInfo> {
           builder: (context, state) {
             return Container(
               color: customColors.primaryBackground,
-              child: CustomScaffold(
-                scaffoldKey: _signUpKey,
-                child: CustomScrollView(slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 200.0,
-                          height: 200.0,
-                          margin: EdgeInsets.fromLTRB(62, 48, 62, 32),
-                          child: SvgPicture.asset(
-                            Assets.PersonalInfo,
-                            width: MediaQuery.of(context).size.width,
-                            fit: BoxFit.contain,
+              child: SafeArea(
+                child: CustomScaffold(
+                  onWillPop: () async => false,
+                  scaffoldKey: _signUpKey,
+                  child: CustomScrollView(slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 200.0,
+                            height: 200.0,
+                            margin: EdgeInsets.fromLTRB(62, 48, 62, 32),
+                            child: SvgPicture.asset(
+                              Assets.PersonalInfo,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        Expanded(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: SizeHelper.margin),
+                          Expanded(
                               child: Column(
-                                children: [
-                                  CustomText(
-                                    LocaleKeys.personalInfo,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 30.0,
-                                  ),
-                                  _userNameTextField(),
-                                  HorizontalLine(),
-                                  _birthdayPicker(),
-                                  HorizontalLine(),
-                                  _genderSwitch(),
-                                  HorizontalLine(),
-                                ],
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
+                                child: Column(
+                                  children: [
+                                    CustomText(
+                                      LocaleKeys.personalInfo,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 30.0,
+                                    ),
+                                    formItem(
+                                      image: Assets.username,
+                                      widget: _userNameTextField(),
+                                    ),
+                                    formItem(
+                                      image: Assets.calendar,
+                                      widget: _birthdayPicker(),
+                                    ),
+                                    formItem(image: Assets.username, widget: _genderSwitch()),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Container(
-                              margin:
-                                  EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
-                              child: CustomButton(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0)),
-                                onPressed: () {
-                                  _buttonSave();
-                                },
-                                text: LocaleKeys.continueTxt,
-                                fontWeight: FontWeight.w900,
-                                backgroundColor:
-                                    customColors.primaryButtonBackground,
+                              SizedBox(
+                                height: 50,
                               ),
-                            ),
-                          ],
-                        )),
-                      ],
-                    ),
-                  )
-                ]),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(45.0, 0.0, 45.0, 31.0),
+                                child: CustomButton(
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                  onPressed: () {
+                                    _buttonSave();
+                                  },
+                                  text: LocaleKeys.continueTxt,
+                                  fontWeight: FontWeight.w900,
+                                  backgroundColor: customColors.primaryButtonBackground,
+                                ),
+                              ),
+                            ],
+                          )),
+                        ],
+                      ),
+                    )
+                  ]),
+                ),
               ),
             );
           },
@@ -166,26 +169,26 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   _userNameTextField() {
-    return UserInfoTextField(
+    return CustomTextField(
+      padding: 0,
       controller: _userNameController,
-      hintText: LocaleKeys.nickname,
+      // decoration: InputDecoration(contentPadding: EdgeInsets.zero,),
+      hintText: LocaleKeys.firstName,
       // suffixAsset: Assets.editV2,
-      margin: EdgeInsets.only(top: 15.0),
       backgroundColor: Colors.transparent,
     );
   }
 
   _birthdayPicker() {
     return InfoDatePicker(
+      margin: EdgeInsets.zero,
       bloc: _birthDatePickerBloc,
       initialDate: _selectedBirthDate,
       hintText: LocaleKeys.birthDate,
-      margin: EdgeInsets.only(top: 15.0),
       lastDate: DateTime.now(),
       callback: (date) {
         // print(date);
         _selectedBirthDate = date;
-        _validateForm();
       },
     );
   }
@@ -212,10 +215,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   _validateForm() {
-    setState(() {
-      _enabledBtnSave =
-          _selectedBirthDate != null && _userNameController.text.length > 0;
-    });
+    if (_selectedBirthDate != null && _userNameController.text.length > 0) return true;
+    return false;
   }
 
   _validateAge() {
@@ -230,20 +231,58 @@ class _PersonalInfoState extends State<PersonalInfo> {
     return yearDiff > 12 || yearDiff == 12 && monthDiff >= 0 && dayDiff >= 0;
   }
 
+  Widget formItem({image, widget}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: customColors.whiteBackground,
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          width: 26.0,
+          height: 26.0,
+          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: SvgPicture.asset(
+            image,
+            width: 12.0,
+          ),
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        Expanded(
+          child: Column(
+            children: [
+              widget,
+              Container(height: 2.0, width: double.infinity, color: ConstantColors.cornflowerBlue),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   _buttonSave() {
     print("button ajillaj bna");
-
-    if (!_validateAge()) {
+    if (!_validateForm()) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: LocaleKeys.validate12UserProfile,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validateFirstname, buttonText: LocaleKeys.ok),
       );
 
       return;
     }
+
+    if (!_validateAge()) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.validate12UserProfile, buttonText: LocaleKeys.ok),
+      );
+
+      return;
+    }
+
     var request = UpdateUserDataRequest()
       ..firstName = _userNameController.text
       ..birthday = Func.toDateStr(_selectedBirthDate!)
