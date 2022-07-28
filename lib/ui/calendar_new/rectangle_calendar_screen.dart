@@ -302,7 +302,7 @@ class _RectangleCalendarScreenState extends State<RectangleCalendarScreen> {
                 fixedWeek[index].dayName == _selectedDay!.dayName)
             ? Container(
                 width: ResponsiveFlutter.of(context).wp(10),
-                height: ResponsiveFlutter.of(context).hp(14),
+                height: 50,
                 margin: EdgeInsets.only(right: 8),
                 padding: EdgeInsets.only(top: 5),
                 decoration: BoxDecoration(

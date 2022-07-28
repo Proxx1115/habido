@@ -813,6 +813,63 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     }
   }
 
+  Widget _buttonDelete() {
+    switch (_screenMode) {
+      case ScreenMode.Edit:
+      case ScreenMode.CustomEdit:
+        return ButtonStadium(
+          style: ButtonStadiumStyle.Primary,
+          asset: Assets.trash,
+          iconColor: customColors.iconRed,
+          margin: EdgeInsets.only(top: 15.0),
+          onPressed: () {
+            if (_userHabit != null) {
+              showCustomDialog(
+                context,
+                child: CustomDialogBody(
+                  asset: Assets.warning,
+                  text: LocaleKeys.sureToDelete,
+                  buttonText: LocaleKeys.yes,
+                  onPressedButton: () {
+                    BlocManager.userHabitBloc.add(DeleteUserHabitEvent(_userHabit!.userHabitId!));
+                  },
+                  button2Text: LocaleKeys.no,
+                ),
+              );
+            }
+          },
+        );
+      case ScreenMode.New:
+      case ScreenMode.Edit:
+      default:
+        return Container();
+    }
+    // return _screenMode == ScreenMode.Edit
+    //     ? ButtonStadium(
+    //         style: ButtonStadiumStyle.Primary,
+    //         asset: Assets.trash,
+    //         iconColor: customColors.iconRed,
+    //         margin: EdgeInsets.only(top: 15.0),
+    //         onPressed: () {
+    //           if (_userHabit != null) {
+    //             showCustomDialog(
+    //               context,
+    //               child: CustomDialogBody(
+    //                 asset: Assets.warning,
+    //                 text: LocaleKeys.sureToDelete,
+    //                 buttonText: LocaleKeys.yes,
+    //                 onPressedButton: () {
+    //                   BlocManager.userHabitBloc.add(DeleteUserHabitEvent(_userHabit!));
+    //                 },
+    //                 button2Text: LocaleKeys.no,
+    //               ),
+    //             );
+    //           }
+    //         },
+    //       )
+    //     : Container();
+  }
+
   Widget _goalWidget() {
     switch (_screenMode) {
       case ScreenMode.CustomNew:

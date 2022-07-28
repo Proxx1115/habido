@@ -48,7 +48,7 @@ class CustomText extends StatelessWidget {
     this.alignment,
     this.color,
     this.bgColor,
-    this.fontSize,
+    this.fontSize = 13,
     this.fontWeight,
     this.softWrap,
     this.maxLines,
