@@ -380,7 +380,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             /// Button delete
-                            // _buttonDelete(),
+                            _buttonDelete(),
 
                             /// Button save
                             Expanded(

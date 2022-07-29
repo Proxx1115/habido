@@ -88,26 +88,32 @@ class FeelingItem extends StatelessWidget {
                   const SizedBox(height: 10),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        for (var reasons in reasons)
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                            margin: EdgeInsets.only(right: 7),
-                            decoration: BoxDecoration(
-                              color: customColors.primaryButtonDisabledContent,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: CustomText(
-                              reasons,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                              // alignment: Alignment.centerLeft,
-                            ),
-                          )
-                      ],
+                    // physics: NeverScrollableScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width - 86,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          for (var reasons in reasons)
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                              margin: EdgeInsets.only(right: 7),
+                              decoration: BoxDecoration(
+                                color: customColors.primaryButtonDisabledContent,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: CustomText(
+                                reasons,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                // alignment: Alignment.centerLeft,
+                              ),
+                            )
+                        ],
+                      ),
                     ),
                   )
                 ],

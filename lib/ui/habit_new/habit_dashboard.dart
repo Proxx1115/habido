@@ -428,7 +428,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
                       'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
                       'habitId': userHabitList[index].habitId,
                       'userHabit': userHabitList[index],
-                      'title': LocaleKeys.ediHabit,
+                      'title': LocaleKeys.editHabit,
                     },
                   );
                 }

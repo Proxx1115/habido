@@ -473,13 +473,11 @@ class _PerformanceState extends State<Performance> {
                                 currentDateTime.year,
                                 currentDateTime.month - 1,
                               );
-                              print("arrawBack:${currentDateTime.year} ${currentDateTime.month}");
                             } else {
                               currentDateTime = DateTime(
                                 currentDateTime.year - 1,
                                 currentDateTime.month - 1,
                               );
-                              print("arrawBack2:${currentDateTime.year} ${currentDateTime.month}");
                             }
 
                             getMonthlyReason();
@@ -497,7 +495,6 @@ class _PerformanceState extends State<Performance> {
                       ),
                       Expanded(
                         child: Column(children: [
-                          Expanded(child: SizedBox()),
                           Expanded(
                             flex: 30,
                             child: Column(

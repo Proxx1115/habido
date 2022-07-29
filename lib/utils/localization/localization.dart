@@ -432,7 +432,7 @@ class LocaleKeys {
 
   static String get createNewHabit => 'Шинэ дадал үүсгэх';
 
-  static String get ediHabit => 'Дадал засварлах';
+  static String get editHabit => 'Дадал засварлах';
 
   static String get sureToSkipHabit => 'Энэ удаад алгасах уу?';
 
@@ -590,6 +590,8 @@ class LocaleKeys {
   ///
 
   static String get note => 'Тэмдэглэл';
+
+  static String get noExecutionYet => 'Өө, гүйцэтгэл байхгүй байна';
 
   static String get seeAllNote => 'Бүх тэмдэглэл харах';
 
