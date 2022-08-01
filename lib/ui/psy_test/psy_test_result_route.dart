@@ -76,9 +76,8 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
                         leadingImageUrl: widget.psyTestResult.habit!.photo,
                         title: widget.psyTestResult.habit!.name ?? '',
                         suffixAsset: Assets.arrow_forward,
-                        leadingBackgroundColor: (widget.psyTestResult.habit!.color != null)
-                            ? HexColor.fromHex(widget.psyTestResult.habit!.color!)
-                            : null,
+                        leadingBackgroundColor:
+                            (widget.psyTestResult.habit!.color != null) ? HexColor.fromHex(widget.psyTestResult.habit!.color!) : null,
                         onPressed: () {
                           Navigator.popUntil(context, ModalRoute.withName(Routes.home));
                           Navigator.pushNamed(context, Routes.userHabit, arguments: {
@@ -96,7 +95,7 @@ class _PsyTestResultRouteState extends State<PsyTestResultRoute> {
             /// Button
             CustomButton(
               margin: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
-              text: LocaleKeys.thanksHabido,
+              text: LocaleKeys.thanksHabiDo,
               onPressed: () {
                 Navigator.popUntil(context, ModalRoute.withName(Routes.home));
               },

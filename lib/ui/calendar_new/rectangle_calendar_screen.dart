@@ -315,6 +315,9 @@ class _RectangleCalendarScreenState extends State<RectangleCalendarScreen> {
                       '${fixedWeek[index].dayName}',
                       style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text('${fixedWeek[index].day}', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                   ],
                 ),
@@ -342,6 +345,9 @@ class _RectangleCalendarScreenState extends State<RectangleCalendarScreen> {
                           '${fixedWeek[index].dayName}',
                           style: TextStyle(
                               color: fixedWeek[index] == _selectedDay ? Colors.black : Colors.grey, fontSize: 13, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                         Text('${fixedWeek[index].day}',
                             style: TextStyle(

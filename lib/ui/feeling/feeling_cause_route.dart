@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
@@ -62,7 +64,10 @@ class _FeelingCauseRouteState extends State<FeelingCauseRoute> {
               )),
               child: Column(
                 children: [
-                  SizedBox(height: 36,),
+                  if (!Platform.isAndroid)
+                    SizedBox(
+                      height: 36,
+                    ),
                   _closeBtn(),
 
                   SizedBox(height: 28.0),

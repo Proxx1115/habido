@@ -149,6 +149,8 @@ class Assets {
 
   /// Habit
   static const String empty_calendar = 'assets/images/habit/empty_calendar.svg';
+  static const String habit_success = 'assets/images/habit/habit_success.svg';
+  static const String group_of_mood = 'assets/images/feeling/group_of_mood.svg';
   static const String trophy = 'assets/images/habit/trophy.svg';
   static const String trophy28 = 'assets/images/habit/trophy28.svg';
   static const String add_stadium = 'assets/images/habit/add_stadium.svg';

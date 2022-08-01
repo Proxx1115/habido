@@ -109,7 +109,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       automaticallyImplyLeading: false,
       toolbarHeight: 56,
       flexibleSpace: DashboardAppBar(
-        padding: EdgeInsets.fromLTRB(20.0, 20.0, 16.5, 0.0),
+        padding: EdgeInsets.fromLTRB(20.0, 0.0, 16.5, 0.0),
         visibleShowCase: true,
       ),
     );

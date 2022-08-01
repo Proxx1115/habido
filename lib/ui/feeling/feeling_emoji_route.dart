@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
@@ -58,58 +60,65 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
               ),
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            child: Container(
-              padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [HexColor.fromHex(widget.selectedFeelingData!.topColor!), HexColor.fromHex(widget.selectedFeelingData!.bottomColor!)],
-              )),
-              child: Column(
-                children: [
-                  SizedBox(height: 36,),
-                  _closeBtn(),
+            child: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [HexColor.fromHex(widget.selectedFeelingData!.topColor!), HexColor.fromHex(widget.selectedFeelingData!.bottomColor!)],
+                )),
+                child: Column(
+                  children: [
+                    if (!Platform.isAndroid)
+                      SizedBox(
+                        height: 36,
+                      ),
 
-                  SizedBox(height: 28.0),
+                    _closeBtn(),
 
-                  /// Question
-                  Container(
-                    child: CustomText(
-                      widget.moodTrackerQuestionResponse!.questionText,
-                      color: customColors.whiteText,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 27.0,
-                      maxLines: 3,
+                    SizedBox(height: 28.0),
+
+                    /// Question
+                    Container(
+                      child: CustomText(
+                        widget.moodTrackerQuestionResponse!.questionText,
+                        color: customColors.whiteText,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 27.0,
+                        maxLines: 3,
+                      ),
                     ),
-                  ),
 
-                  SizedBox(height: 39.0),
+                    SizedBox(height: 39.0),
 
-                  /// Emoji Item List
-                  Expanded(
-                    child: GridView.count(
-                      primary: false,
-                      padding: const EdgeInsets.all(SizeHelper.padding),
-                      crossAxisSpacing: 30.0, //_crossAxisSpacing
-                      childAspectRatio: 1,
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 30.0, //_mainAxisSpacing
-                      children: [
-                        for (var i = 0; i < widget.moodTrackerQuestionResponse!.answers!.length; i++)
-                          EmojiSecondItemWidget(
-                            emojiData: widget.moodTrackerQuestionResponse!.answers![i],
-                            isSelected: _selectedFeelingEmoji == widget.moodTrackerQuestionResponse!.answers![i],
-                            onTap: () {
-                              setState(() {
-                                _selectedFeelingEmoji = widget.moodTrackerQuestionResponse!.answers![i];
-                              });
-                            },
-                          )
-                      ],
+                    /// Emoji Item List
+                    Expanded(
+                      child: GridView.count(
+                        primary: false,
+                        padding: const EdgeInsets.all(SizeHelper.padding),
+                        crossAxisSpacing: 30.0, //_crossAxisSpacing
+                        childAspectRatio: 1,
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 30.0, //_mainAxisSpacing
+                        children: [
+                          for (var i = 0; i < widget.moodTrackerQuestionResponse!.answers!.length; i++)
+                            EmojiSecondItemWidget(
+                              emojiData: widget.moodTrackerQuestionResponse!.answers![i],
+                              isSelected: _selectedFeelingEmoji == widget.moodTrackerQuestionResponse!.answers![i],
+                              onTap: () {
+                                setState(() {
+                                  _selectedFeelingEmoji = widget.moodTrackerQuestionResponse!.answers![i];
+                                });
+                              },
+                            )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

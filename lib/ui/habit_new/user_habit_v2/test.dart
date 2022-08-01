@@ -364,7 +364,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         child: CustomDialogBody(
           asset: Assets.success,
           text: Func.isNotEmpty(state.userHabitResponse.message) ? state.userHabitResponse.message : LocaleKeys.success,
-          buttonText: LocaleKeys.thanksHabido,
+          buttonText: LocaleKeys.thanksHabiDo,
           primaryColor: ConstantColors.createHabitColor,
           child: state.userHabitResponse.content != null
               ? Column(

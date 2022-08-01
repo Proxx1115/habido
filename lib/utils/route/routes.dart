@@ -24,6 +24,7 @@ import 'package:habido_app/ui/feeling/feeling_cause_route.dart';
 import 'package:habido_app/ui/feeling/feeling_detail_route.dart';
 import 'package:habido_app/ui/feeling/feeling_emoji_route.dart';
 import 'package:habido_app/ui/feeling/feeling_main_route.dart';
+import 'package:habido_app/ui/feeling/feeling_success_route.dart';
 import 'package:habido_app/ui/global/coming_soon_route.dart';
 import 'package:habido_app/ui/habit/habit_success_route.dart';
 import 'package:habido_app/ui/habit/calendar/calendar_route.dart';
@@ -42,6 +43,7 @@ import 'package:habido_app/ui/habit_new/all_habits_route.dart';
 import 'package:habido_app/ui/habit_new/habit_categories_v2/habit_categories_route_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/feeling_note_list_route.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/satisfaction_note_list_route.dart';
+import 'package:habido_app/ui/habit_new/habit_success_new_route.dart';
 import 'package:habido_app/ui/habit_new/progress/habit_feeling/habit_feeling_answer_route_v2.dart';
 import 'package:habido_app/ui/habit_new/user_habit_v2/user_habit_route_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_count.dart';
@@ -154,6 +156,7 @@ class Routes {
   static const feelingEmoji = 'feelingEmoji';
   static const feelingCause = 'feelingCause';
   static const feelingDetail = 'feelingDetail';
+  static const feelingSuccess = 'feelingSuccess';
   static const notif = 'notif';
   static const profile = 'profile';
 
@@ -172,6 +175,7 @@ class Routes {
   static const psyTestList = 'psyTestList';
   static const yourRank = 'yourRank';
   static const habitSuccess = 'habitSuccess';
+  static const habitSuccessNew = 'habitSuccessNew';
   static const help = 'help';
   static const helpV2 = 'helpV2';
   static const feedback = 'feedback';
@@ -334,8 +338,12 @@ class Routes {
 
       case Routes.home_new:
         var args;
-        if(settings.arguments != null)  args = settings.arguments as Map;
-        route = FadeRouteBuilder(HomeRouteNew(initialIndex: _getValueByKey(args, 'initialIndex') ?? 2,), settings);
+        if (settings.arguments != null) args = settings.arguments as Map;
+        route = FadeRouteBuilder(
+            HomeRouteNew(
+              initialIndex: _getValueByKey(args, 'initialIndex') ?? 2,
+            ),
+            settings);
         break;
 
       case Routes.advice:
@@ -789,6 +797,16 @@ class Routes {
             settings);
         break;
 
+      case Routes.feelingSuccess:
+        var args = settings.arguments as Map;
+        route = NoTransitionRoute(
+          FeelingSuccessRoute(
+            callback: _getValueByKey(args, 'callback'),
+          ),
+          settings,
+        );
+        break;
+
       case Routes.notif:
         route = SlideRightRouteBuilder(NotificationRoute(), settings);
         break;
@@ -815,6 +833,16 @@ class Routes {
           HabitSuccessRoute(
             habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
+            callback: _getValueByKey(args, 'callback'),
+          ),
+          settings,
+        );
+        break;
+
+      case Routes.habitSuccessNew:
+        var args = settings.arguments as Map;
+        route = NoTransitionRoute(
+          HabitSuccessRouteNew(
             callback: _getValueByKey(args, 'callback'),
           ),
           settings,
@@ -881,7 +909,7 @@ class Routes {
 
   _getValueByKey(Map<dynamic, dynamic>? args, String key) {
     try {
-      return args != null ?  args[key] : null;
+      return args != null ? args[key] : null;
     } catch (e) {
       print(e);
     }
