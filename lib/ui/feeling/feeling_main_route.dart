@@ -58,10 +58,12 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
     var _size = MediaQuery.of(context).size;
 
     return CustomScaffold(
+      extendBodyBehindAppBar: true,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 30.0),
+        padding: const EdgeInsets.only(bottom: 30.0, ),
         child: ButtonNextWidget(onTap: _navigateToFeelingEmojiRoute, progressValue: 0.25),
       ),
+      backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       child: (_moodTrackerQuestion != null && _selectedFeelingData != null)
           ? SingleChildScrollView(
@@ -76,6 +78,8 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
                 ),
                 child: Column(
                   children: [
+                    SizedBox(height: 56,),
+
                     _closeBtn(),
 
                     Expanded(

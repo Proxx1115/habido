@@ -51,6 +51,7 @@ class _FeelingCauseRouteState extends State<FeelingCauseRoute> {
           return CustomScaffold(
             onWillPop: () async => false,
             scaffoldKey: _feelingCauseKey,
+            extendBodyBehindAppBar: true,
             child: Container(
               padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
               decoration: BoxDecoration(

@@ -10,6 +10,7 @@ class CustomScaffold extends StatelessWidget {
   // final WillPopCallback? onWillPop;
   final VoidCallback? onWillPop;
   final bool loading;
+  final bool? extendBodyBehindAppBar;
   final EdgeInsets padding;
   final Color? backgroundColor;
   final String? appBarTitle;
@@ -38,7 +39,7 @@ class CustomScaffold extends StatelessWidget {
     this.floatingActionButtonLocation,
     this.bottomNavigationBar,
     this.actionWidget,
-    this.onPressedAction,
+    this.onPressedAction, this.extendBodyBehindAppBar = false,
   });
 
   @override
@@ -61,6 +62,7 @@ class CustomScaffold extends StatelessWidget {
           loading: loading,
           child: Scaffold(
             key: scaffoldKey,
+            extendBodyBehindAppBar: extendBodyBehindAppBar!,
             backgroundColor: backgroundColor ?? customColors.primaryBackground,
             appBar: _appBar(context),
             body: Container(

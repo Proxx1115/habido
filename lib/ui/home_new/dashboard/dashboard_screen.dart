@@ -68,34 +68,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScaffold(
-        scaffoldKey: _dashboardKey,
-        backgroundColor: customColors.primaryBackground,
-        child: BlocProvider.value(
-          value: BlocManager.homeNewBloc,
-          child: BlocListener<HomeNewBloc, HomeNewState>(
-            listener: _blocListener,
-            child: BlocBuilder<HomeNewBloc, HomeNewState>(builder: (context, state) {
-              return CustomScrollView(
-                physics: BouncingScrollPhysics(),
-                slivers: [
-                  /// Home App Bar
-                  _homeAppBar(),
+    return CustomScaffold(
+      scaffoldKey: _dashboardKey,
+      backgroundColor: customColors.primaryBackground,
+      child: BlocProvider.value(
+        value: BlocManager.homeNewBloc,
+        child: BlocListener<HomeNewBloc, HomeNewState>(
+          listener: _blocListener,
+          child: BlocBuilder<HomeNewBloc, HomeNewState>(builder: (context, state) {
+            return CustomScrollView(
+              physics: BouncingScrollPhysics(),
+              slivers: [
+                /// Home App Bar
+                _homeAppBar(),
 
-                  /// Rest of items
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return _listWidget();
-                      },
-                      childCount: 1,
-                    ),
+                /// Rest of items
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return _listWidget();
+                    },
+                    childCount: 1,
                   ),
-                ],
-              );
-            }),
-          ),
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );
@@ -110,7 +108,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       elevation: 0,
       automaticallyImplyLeading: false,
       flexibleSpace: DashboardAppBar(
-        padding: EdgeInsets.fromLTRB(20.0, 0.0, 16.5, 0.0),
+        padding: EdgeInsets.fromLTRB(20.0, 20.0, 16.5, 0.0),
         visibleShowCase: true,
       ),
     );

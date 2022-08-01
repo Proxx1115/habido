@@ -48,6 +48,7 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
           return CustomScaffold(
             onWillPop: () async => false,
             scaffoldKey: _feelingEmojiKey,
+            extendBodyBehindAppBar: true,
             floatingActionButton: Padding(
               padding: const EdgeInsets.only(bottom: 30.0),
               child: ButtonNextWidget(

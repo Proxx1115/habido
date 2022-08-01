@@ -56,6 +56,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
         child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
           return CustomScaffold(
             onWillPop: () async => false,
+            extendBodyBehindAppBar: true,
             scaffoldKey: _feelingDetailKey,
             child: Container(
               padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
