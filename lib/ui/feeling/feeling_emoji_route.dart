@@ -68,6 +68,7 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
               )),
               child: Column(
                 children: [
+                  SizedBox(height: 36,),
                   _closeBtn(),
 
                   SizedBox(height: 28.0),

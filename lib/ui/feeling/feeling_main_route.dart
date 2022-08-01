@@ -78,7 +78,7 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 56,),
+                    SizedBox(height: 36,),
 
                     _closeBtn(),
 

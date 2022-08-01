@@ -35,15 +35,13 @@ class _PsyTestDashboardV2State extends State<PsyTestDashboardV2> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScaffold(
-        child: BlocProvider.value(
-          value: BlocManager.psyTestBlocV2,
-          child: BlocListener<TestsBlocV2, TestsStateV2>(
-            listener: _blocListener,
-            child: BlocBuilder<TestsBlocV2, TestsStateV2>(
-              builder: _blocBuilder,
-            ),
+    return CustomScaffold(
+      child: BlocProvider.value(
+        value: BlocManager.psyTestBlocV2,
+        child: BlocListener<TestsBlocV2, TestsStateV2>(
+          listener: _blocListener,
+          child: BlocBuilder<TestsBlocV2, TestsStateV2>(
+            builder: _blocBuilder,
           ),
         ),
       ),

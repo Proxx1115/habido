@@ -99,7 +99,7 @@ class LocaleKeys {
 
   static String get thanks => 'Баярлалаа';
 
-  static String get sureToDelete => 'Устгахдаа итгэлтэй байна уу?';
+  static String get sureToDelete => 'Та бууж өгөхдөө итгэлтэй байна уу?';
 
   static String get selectTime => 'Цаг сонгох';
 

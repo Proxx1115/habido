@@ -44,34 +44,39 @@ class CustomScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (onWillPop != null) {
-          onWillPop!();
-        } else {
-          Navigator.pop(context);
-        }
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        child: WillPopScope(
+          onWillPop: () async {
+            if (onWillPop != null) {
+              onWillPop!();
+            } else {
+              Navigator.pop(context);
+            }
 
-        return Future.value(false);
-      },
-      child: GestureDetector(
-        onTap: () {
-          Func.hideKeyboard(context);
-        },
-        child: BlurLoadingContainer(
-          loading: loading,
-          child: Scaffold(
-            key: scaffoldKey,
-            extendBodyBehindAppBar: extendBodyBehindAppBar!,
-            backgroundColor: backgroundColor ?? customColors.primaryBackground,
-            appBar: _appBar(context),
-            body: Container(
-              padding: padding,
-              child: child,
+            return Future.value(false);
+          },
+          child: GestureDetector(
+            onTap: () {
+              Func.hideKeyboard(context);
+            },
+            child: BlurLoadingContainer(
+              loading: loading,
+              child: Scaffold(
+                key: scaffoldKey,
+                extendBodyBehindAppBar: extendBodyBehindAppBar!,
+                backgroundColor: backgroundColor ?? customColors.primaryBackground,
+                appBar: _appBar(context),
+                body: Container(
+                  padding: padding,
+                  child: child,
+                ),
+                floatingActionButton: floatingActionButton,
+                floatingActionButtonLocation: floatingActionButtonLocation,
+                bottomNavigationBar: bottomNavigationBar,
+              ),
             ),
-            floatingActionButton: floatingActionButton,
-            floatingActionButtonLocation: floatingActionButtonLocation,
-            bottomNavigationBar: bottomNavigationBar,
           ),
         ),
       ),

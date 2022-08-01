@@ -333,7 +333,9 @@ class Routes {
         break;
 
       case Routes.home_new:
-        route = FadeRouteBuilder(HomeRouteNew(), settings);
+        var args;
+        if(settings.arguments != null)  args = settings.arguments as Map;
+        route = FadeRouteBuilder(HomeRouteNew(initialIndex: _getValueByKey(args, 'initialIndex') ?? 2,), settings);
         break;
 
       case Routes.advice:
@@ -877,9 +879,9 @@ class Routes {
     return route;
   }
 
-  _getValueByKey(Map<dynamic, dynamic> args, String key) {
+  _getValueByKey(Map<dynamic, dynamic>? args, String key) {
     try {
-      return args[key];
+      return args != null ?  args[key] : null;
     } catch (e) {
       print(e);
     }

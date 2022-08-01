@@ -236,7 +236,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
             PlanTerm.getWeekDayText(_weeklyPlanList[index].day ?? 0),
             alignment: Alignment.center,
             color: (_weeklyPlanList[index].isSelected ?? false)
-                ? customColors.whiteText
+                ? customColors.greyText
                 : customColors.greyText,
           ),
         ),

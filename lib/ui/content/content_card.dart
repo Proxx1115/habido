@@ -261,6 +261,138 @@ class HorizontalContentCard extends StatelessWidget {
   }
 }
 
+class ContentCardOnHabitCreation extends StatelessWidget {
+  final Content content;
+  final EdgeInsets? margin;
+  final VoidCallback? callback;
+  final Color? backgroundColor;
+
+  final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(SizeHelper.borderRadius));
+  final double _height = 90.0;
+
+  ContentCardOnHabitCreation({
+    Key? key,
+    required this.content,
+    this.margin,
+    this.callback,
+    this.backgroundColor,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeInAnimation(
+      child: InkWell(
+        onTap: () {
+          if (callback != null) callback!();
+
+          Navigator.pushNamed(context, Routes.content, arguments: {
+            'content': content,
+          });
+        },
+        borderRadius: _borderRadius,
+        child: Hero(
+          tag: Func.toStr(content.contentId),
+          child: Container(
+            margin: margin,
+            height: _height,
+            decoration: BoxDecoration(
+              borderRadius: _borderRadius,
+              color: backgroundColor ?? customColors.whiteBackground,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(3, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                /// Cover image
+                ClipRRect(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
+                  child: CachedNetworkImage(
+                    imageUrl: content.contentPhoto ?? '',
+                    fit: BoxFit.fitHeight,
+                    height: _height,
+                    // width: MediaQuery.of(context).size.width * 0.3,
+                    width: 95.0,
+                    placeholder: (context, url) => CustomLoader(),
+                    errorWidget: (context, url, error) => Container(),
+                  ),
+                ),
+
+                // 174
+                // flex: 35, // 105/289
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(20.0, 15.0, 15.0, 0.0),
+                    child: Column(
+                      children: [
+                        /// Title
+                        CustomText(
+                          content.title,
+                          fontWeight: FontWeight.w500,
+                          maxLines: 2,
+                        ),
+
+                        /// Time
+                        if (content.readTime != null)
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 15.0),
+                            alignment: Alignment.bottomLeft,
+                            child: Row(
+                              children: [
+                                /// Read time
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      CustomText(
+                                        'Сэтгэл зүй',
+                                        color: customColors.primary,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                      CustomText(
+                                        /// TODO Add Content category and view count
+                                        ' | ${content.readTime} мин',
+                                        fontSize: 11.0,
+                                        alignment: Alignment.bottomLeft,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                /// View Count
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(Assets.eyeContent),
+                                    SizedBox(width: 3),
+                                    CustomText(
+                                      "0",
+                                      color: customColors.primaryText,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w300,
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // class HorizontalContent extends StatelessWidget {
 //   const HorizontalContent({Key? key}) : super(key: key);
 //

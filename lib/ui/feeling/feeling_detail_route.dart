@@ -72,6 +72,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                   Expanded(
                     child: ListView(
                       children: [
+
                         _closeBtn(),
 
                         SizedBox(height: 28.0),

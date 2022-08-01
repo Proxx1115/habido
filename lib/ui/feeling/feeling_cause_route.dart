@@ -62,6 +62,7 @@ class _FeelingCauseRouteState extends State<FeelingCauseRoute> {
               )),
               child: Column(
                 children: [
+                  SizedBox(height: 36,),
                   _closeBtn(),
 
                   SizedBox(height: 28.0),
