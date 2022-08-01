@@ -67,7 +67,7 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
               )),
               child: Column(
                 children: [
-                  // ButtonBackWidget(onTap: _navigatePop),
+                  _closeBtn(),
 
                   SizedBox(height: 28.0),
 
@@ -113,6 +113,32 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
           );
         }),
       ),
+    );
+  }
+
+  Widget _closeBtn() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
+          },
+          child: Container(
+            height: 35.0,
+            width: 35.0,
+            margin: EdgeInsets.fromLTRB(0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
+            padding: EdgeInsets.all(13.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: customColors.whiteBackground,
+            ),
+            child: Image.asset(
+              Assets.exit,
+            ),
+          ),
+        )
+      ],
     );
   }
 
