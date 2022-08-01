@@ -39,44 +39,85 @@ class CustomScaffold extends StatelessWidget {
     this.floatingActionButtonLocation,
     this.bottomNavigationBar,
     this.actionWidget,
-    this.onPressedAction, this.extendBodyBehindAppBar = false,
+    this.onPressedAction,
+    this.extendBodyBehindAppBar = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-        child: WillPopScope(
-          onWillPop: () async {
-            if (onWillPop != null) {
-              onWillPop!();
-            } else {
-              Navigator.pop(context);
-            }
+    return extendBodyBehindAppBar! ? _noSafeArea(context) : _safeArea(context);
+  }
 
-            return Future.value(false);
-          },
-          child: GestureDetector(
-            onTap: () {
-              Func.hideKeyboard(context);
-            },
-            child: BlurLoadingContainer(
-              loading: loading,
-              child: Scaffold(
-                key: scaffoldKey,
-                extendBodyBehindAppBar: extendBodyBehindAppBar!,
-                backgroundColor: backgroundColor ?? customColors.primaryBackground,
-                appBar: _appBar(context),
-                body: Container(
-                  padding: padding,
-                  child: child,
-                ),
-                floatingActionButton: floatingActionButton,
-                floatingActionButtonLocation: floatingActionButtonLocation,
-                bottomNavigationBar: bottomNavigationBar,
+  Widget _safeArea(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        if (onWillPop != null) {
+          onWillPop!();
+        } else {
+          Navigator.pop(context);
+        }
+
+        return Future.value(false);
+      },
+      child: GestureDetector(
+        onTap: () {
+          Func.hideKeyboard(context);
+        },
+        child: BlurLoadingContainer(
+          loading: loading,
+          child: Scaffold(
+            key: scaffoldKey,
+            extendBodyBehindAppBar: extendBodyBehindAppBar!,
+            backgroundColor: backgroundColor ?? customColors.primaryBackground,
+            appBar: _appBar(context),
+            body: SafeArea(
+              child: Container(
+                padding: padding,
+                child: child,
               ),
             ),
+            floatingActionButton: floatingActionButton,
+            floatingActionButtonLocation: floatingActionButtonLocation,
+            bottomNavigationBar: bottomNavigationBar,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _noSafeArea(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        if (onWillPop != null) {
+          onWillPop!();
+        } else {
+          Navigator.pop(context);
+        }
+
+        return Future.value(false);
+      },
+      child: GestureDetector(
+        onTap: () {
+          Func.hideKeyboard(context);
+        },
+        child: BlurLoadingContainer(
+          loading: loading,
+          child: Scaffold(
+            key: scaffoldKey,
+            extendBodyBehindAppBar: extendBodyBehindAppBar!,
+            backgroundColor: backgroundColor ?? customColors.primaryBackground,
+            appBar: _appBar(context),
+            body: SafeArea(
+              top: false,
+              bottom: false,
+              child: Container(
+                padding: padding,
+                child: child,
+              ),
+            ),
+            floatingActionButton: floatingActionButton,
+            floatingActionButtonLocation: floatingActionButtonLocation,
+            bottomNavigationBar: bottomNavigationBar,
           ),
         ),
       ),
@@ -85,7 +126,10 @@ class CustomScaffold extends StatelessWidget {
 
   _appBar(BuildContext context) {
     if (appBarTitle == null) {
-      return EmptyAppBar(context: context);
+      return EmptyAppBar(
+          context: context,
+          backgroundColor:
+              extendBodyBehindAppBar! ? Colors.transparent : Colors.white);
     } else {
       return CustomAppBar(context,
           backgroundColor: backgroundColor ?? customColors.primaryBackground,

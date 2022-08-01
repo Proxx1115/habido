@@ -56,18 +56,23 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
       value: BlocManager.moodTrackerBloc,
       child: BlocListener<MoodTrackerBloc, MoodTrackerState>(
         listener: _blocListener,
-        child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
+        child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(
+            builder: (context, state) {
           return CustomScaffold(
             onWillPop: () async => false,
             extendBodyBehindAppBar: true,
             scaffoldKey: _feelingDetailKey,
             child: Container(
-              padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
+              padding: EdgeInsets.fromLTRB(
+                  SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [customColors.feelingCauseTop, customColors.feelingCauseBtm],
+                  colors: [
+                    customColors.feelingCauseTop,
+                    customColors.feelingCauseBtm
+                  ],
                 ),
               ),
               child: Column(
@@ -171,7 +176,8 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for (var cause in widget.selectedCauses!) _causeItem(cause),
+                      for (var cause in widget.selectedCauses!)
+                        _causeItem(cause),
                     ],
                   ),
                 )
@@ -247,7 +253,8 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
           child: Container(
             height: 35.0,
             width: 35.0,
-            margin: EdgeInsets.fromLTRB(0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
+            margin: EdgeInsets.fromLTRB(
+                0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
             padding: EdgeInsets.all(13.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
@@ -300,13 +307,17 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
     } else if (state is MoodTrackerSaveFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
 
   _showDialog() {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (_) => Material(
         type: MaterialType.transparency,
@@ -324,7 +335,9 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                 alignment: Alignment.center,
                 children: [
                   /// TODO fix background white
-                  Center(child: SvgPicture.asset(Assets.group_of_mood, height: 250, width: 261)),
+                  Center(
+                      child: SvgPicture.asset(Assets.group_of_mood,
+                          height: 250, width: 261)),
                   // Center(
                   //   child: Opacity(
                   //     opacity: 0.25,
@@ -364,7 +377,8 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                   BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
                   BlocManager.homeNewBloc.add(GetTipEvent());
                   BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
-                  Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
+                  Navigator.popUntil(
+                      context, ModalRoute.withName(Routes.home_new));
                 },
               ),
             ],
