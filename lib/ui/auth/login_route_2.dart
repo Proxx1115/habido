@@ -108,6 +108,7 @@ class _LoginRoute2State extends State<LoginRoute2> {
     return CustomScaffold(
       onWillPop: () async => false,
       scaffoldKey: _loginNewKey,
+      emptyAppBarColor: customColors.primaryBackground,
       padding: const EdgeInsets.symmetric(horizontal: SizeHelper.margin),
       child: SafeArea(
         bottom: false,

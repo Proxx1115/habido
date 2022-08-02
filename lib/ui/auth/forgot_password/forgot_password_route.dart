@@ -42,24 +42,21 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
         listener: _blocListener,
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
-            return SafeArea(
-              bottom: false,
-              child: CustomScaffold(
-                appBarTitle: LocaleKeys.resetPassword,
-                loading: state is AuthLoading,
-                child: Container(
-                  padding: SizeHelper.screenPadding,
-                  child: Column(
-                    children: [
-                      /// Утасны дугаар
-                      _txtboxPhoneNumber(),
+            return CustomScaffold(
+              appBarTitle: LocaleKeys.resetPassword,
+              loading: state is AuthLoading,
+              child: Container(
+                padding: SizeHelper.screenPadding,
+                child: Column(
+                  children: [
+                    /// Утасны дугаар
+                    _txtboxPhoneNumber(),
 
-                      Expanded(child: Container()),
+                    Expanded(child: Container()),
 
-                      /// Button save
-                      _buttonSave(),
-                    ],
-                  ),
+                    /// Button save
+                    _buttonSave(),
+                  ],
                 ),
               ),
             );

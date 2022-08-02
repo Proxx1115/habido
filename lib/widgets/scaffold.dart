@@ -18,6 +18,7 @@ class CustomScaffold extends StatelessWidget {
   final VoidCallback? onPressedAction;
   final Color? appBarLeadingColor;
   final Color? appBarLeadingBackgroundColor;
+  final Color? emptyAppBarColor;
   final Widget child;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
@@ -41,6 +42,7 @@ class CustomScaffold extends StatelessWidget {
     this.actionWidget,
     this.onPressedAction,
     this.extendBodyBehindAppBar = false,
+    this.emptyAppBarColor,
   });
 
   @override
@@ -128,8 +130,9 @@ class CustomScaffold extends StatelessWidget {
     if (appBarTitle == null) {
       return EmptyAppBar(
           context: context,
-          backgroundColor:
-              extendBodyBehindAppBar! ? Colors.transparent : Colors.white);
+          backgroundColor: extendBodyBehindAppBar!
+              ? Colors.transparent
+              : emptyAppBarColor ?? Colors.white);
     } else {
       return CustomAppBar(context,
           backgroundColor: backgroundColor ?? customColors.primaryBackground,
