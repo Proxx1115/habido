@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_new_bloc.dart';
@@ -56,23 +58,18 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
       value: BlocManager.moodTrackerBloc,
       child: BlocListener<MoodTrackerBloc, MoodTrackerState>(
         listener: _blocListener,
-        child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(
-            builder: (context, state) {
+        child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
           return CustomScaffold(
             onWillPop: () async => false,
             extendBodyBehindAppBar: true,
             scaffoldKey: _feelingDetailKey,
             child: Container(
-              padding: EdgeInsets.fromLTRB(
-                  SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
+              padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    customColors.feelingCauseTop,
-                    customColors.feelingCauseBtm
-                  ],
+                  colors: [customColors.feelingCauseTop, customColors.feelingCauseBtm],
                 ),
               ),
               child: Column(
@@ -176,8 +173,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for (var cause in widget.selectedCauses!)
-                        _causeItem(cause),
+                      for (var cause in widget.selectedCauses!) _causeItem(cause),
                     ],
                   ),
                 )
@@ -253,8 +249,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
           child: Container(
             height: 35.0,
             width: 35.0,
-            margin: EdgeInsets.fromLTRB(
-                0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
+            margin: EdgeInsets.fromLTRB(0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
             padding: EdgeInsets.all(13.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
@@ -307,10 +302,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
     } else if (state is MoodTrackerSaveFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -320,16 +312,22 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
       barrierDismissible: false,
       context: context,
       builder: (_) => Material(
-        type: MaterialType.transparency,
+        type: MaterialType.card,
         child: Container(
           padding: EdgeInsets.fromLTRB(45, 0, 45, 30),
-          color: customColors.feelingCauseTop.withOpacity(2),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [customColors.feelingCauseTop, customColors.feelingCauseBtm],
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: Platform.isAndroid ? 220 : 240,`
+                height: Platform.isAndroid ? 220 : 240,
               ),
 
               Stack(
@@ -337,22 +335,12 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                 children: [
                   /// TODO fix background white
                   Center(
-                      child: SvgPicture.asset(Assets.group_of_mood,
-                          height: 250, width: 261)),
-                  // Center(
-                  //   child: Opacity(
-                  //     opacity: 0.25,
-                  //     child: Container(
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.all(Radius.elliptical(100, 50)),
-                  //         color: Colors.white,
-                  //       ),
-                  //       width: 230.0,
-                  //       height: 230.0,
-                  //       child: Container(),
-                  //     ),
-                  //   ),
-                  // ),
+                    child: Image.asset(
+                      Assets.blurred_background,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                  Center(child: SvgPicture.asset(Assets.group_of_mood, height: 250, width: 261)),
                 ],
               ),
               SizedBox(
@@ -378,8 +366,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                   BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
                   BlocManager.homeNewBloc.add(GetTipEvent());
                   BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
-                  Navigator.popUntil(
-                      context, ModalRoute.withName(Routes.home_new));
+                  Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
                 },
               ),
             ],
