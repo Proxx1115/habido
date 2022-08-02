@@ -14,8 +14,20 @@
       },
       "oauth_client": [
         {
-          "client_id": "843003625940-gacupl96f7ra5bpo15rb7a42i0d9s8p3.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "843003625940-27bke7avsgu48ai3emt7m4tsabq3l3d8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mn.app.habido_app",
+            "certificate_hash": "d7f06370959b052d3daf051832048ba310a7273b"
+          }
+        },
+        {
+          "client_id": "843003625940-7v02n76batrrec77ncll6jegqh832fht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mn.app.habido_app",
+            "certificate_hash": "f94fed725dc537235203dfe36a31a4423a4c2f82"
+          }
         }
       ],
       "api_key": [
@@ -27,14 +39,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "843003625940-evl9qfokmcidrbilf7crv2k51tviiibs.apps.googleusercontent.com",
+              "client_id": "843003625940-hql8v1epiumala9ll76ida24qqelfl5n.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "843003625940-kcavo4qgalkb6pge0klb96de49ob6234.apps.googleusercontent.com",
+              "client_id": "843003625940-gacupl96f7ra5bpo15rb7a42i0d9s8p3.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "mn.app.habidoApp"
+                "bundle_id": "mn.app.habidoApp",
+                "app_store_id": "mn.app.habidoApp"
               }
             }
           ]

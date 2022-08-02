@@ -329,7 +329,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: Platform.isAndroid ? 220 : 240,
+                height: Platform.isAndroid ? 220 : 240,`
               ),
 
               Stack(
