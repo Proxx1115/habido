@@ -709,6 +709,8 @@ class LocaleKeys {
 
   static String get feelingDetailIntro => 'Мэдрэмжээ илэрхийлэн бичих нь өөрийгөө хөндлөнгөөс анзаарахад тустай шүү';
   static String get feelingDetailHint => 'Би өнөөдөр...';
+  static String get habitSatisfactionHint => 'Тэмдэглэл бичих…';
+  static String get habitSatisfactionDesc => 'Та энд ийм юм бичээрэй';
 
   /// Profile
 
