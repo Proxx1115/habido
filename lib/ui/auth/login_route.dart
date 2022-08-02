@@ -133,6 +133,7 @@ class _LoginRouteState extends State<LoginRoute> {
   Widget _blocBuilder(BuildContext context, AuthState state) {
     return CustomScaffold(
       scaffoldKey: _loginKey,
+      emptyAppBarColor: customColors.primaryBackground,
       loading: state is AuthLoading,
       backgroundColor: customColors.primaryBackground,
       child: LayoutBuilder(builder: (context, constraints) {

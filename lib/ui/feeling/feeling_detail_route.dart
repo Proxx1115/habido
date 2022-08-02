@@ -323,6 +323,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
         type: MaterialType.transparency,
         child: Container(
           padding: EdgeInsets.fromLTRB(45, 0, 45, 30),
+          color: customColors.feelingCauseTop.withOpacity(2),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
