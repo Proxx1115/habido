@@ -33,6 +33,8 @@ class LocaleKeys {
 
   static String get ok => 'Ok';
 
+  static String get close => 'Хаах';
+
   static String get send => 'Илгээх';
 
   static String get help => 'Тусламж';
@@ -99,7 +101,7 @@ class LocaleKeys {
 
   static String get thanks => 'Баярлалаа';
 
-  static String get sureToDelete => 'Устгахдаа итгэлтэй байна уу?';
+  static String get sureToDelete => 'Та бууж өгөхдөө итгэлтэй байна уу?';
 
   static String get selectTime => 'Цаг сонгох';
 
@@ -334,6 +336,8 @@ class LocaleKeys {
 
   static String get allHabit => 'Бүх дадал';
 
+  static String get thankYouForImprovingUrself => 'Өөрийгөө хөгжүүлж байгаад баярлалаа';
+
   static String get active => 'Идэвхтэй';
 
   static String get completed => 'Дууссан';
@@ -409,8 +413,6 @@ class LocaleKeys {
 
   static String get seeResult => 'Үр дүн харах';
 
-  static String get thanksHabido => 'Баярлалаа, HabiDo';
-
   static String get doTest2 => 'Тест бөглөх';
 
   static String get psyTestHint1 => 'Та өөрийгөө ямар онцлогтойгоо мэддэг ч бүрэн итгэлгүй байгаа юм биш биз?';
@@ -432,7 +434,7 @@ class LocaleKeys {
 
   static String get createNewHabit => 'Шинэ дадал үүсгэх';
 
-  static String get ediHabit => 'Дадал засварлах';
+  static String get editHabit => 'Дадал засварлах';
 
   static String get sureToSkipHabit => 'Энэ удаад алгасах уу?';
 
@@ -581,6 +583,8 @@ class LocaleKeys {
 
   static String get tiredEmoji_new => 'Ядарсан';
 
+  static String get thankYouForSharingEmotions => 'Мэдрэмжээ хуваалцсанд баярлалаа';
+
   /// new
   static String get powerfulEmoji_new => 'Эрч хүчтэй';
   static String get encouragingEmoji_new => 'Урам зоригтой';
@@ -590,6 +594,8 @@ class LocaleKeys {
   ///
 
   static String get note => 'Тэмдэглэл';
+
+  static String get noExecutionYet => 'Өө, гүйцэтгэл байхгүй байна';
 
   static String get seeAllNote => 'Бүх тэмдэглэл харах';
 

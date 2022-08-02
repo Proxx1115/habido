@@ -100,9 +100,7 @@ class _HabitBreathRouteState extends State<HabitBreathRoute> {
 
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is SaveUserHabitProgressSuccess) {
-      Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
-        'habitProgressResponse': state.habitProgressResponse,
-        'primaryColor': _primaryColor,
+      Navigator.pushReplacementNamed(context, Routes.habitSuccessNew, arguments: {
         'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {

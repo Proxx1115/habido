@@ -4,6 +4,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/no_habit_graph_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -86,6 +87,10 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithCountRoute> {
                   ),
 
                   /// Chart
+                  SizedBox(
+                    height: 15,
+                  ),
+                  NoHabitGraph()
 
                   /// Delete Btn
                   // if (widget.isActive!)

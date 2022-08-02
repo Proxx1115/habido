@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,10 +60,14 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
     var _size = MediaQuery.of(context).size;
 
     return CustomScaffold(
+      extendBodyBehindAppBar: true,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 30.0),
+        padding: const EdgeInsets.only(
+          bottom: 30.0,
+        ),
         child: ButtonNextWidget(onTap: _navigateToFeelingEmojiRoute, progressValue: 0.25),
       ),
+      backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       child: (_moodTrackerQuestion != null && _selectedFeelingData != null)
           ? SingleChildScrollView(
@@ -76,6 +82,11 @@ class _FeelingMainRouteState extends State<FeelingMainRoute> {
                 ),
                 child: Column(
                   children: [
+                    if (!Platform.isAndroid)
+                      SizedBox(
+                        height: 36,
+                      ),
+
                     _closeBtn(),
 
                     Expanded(

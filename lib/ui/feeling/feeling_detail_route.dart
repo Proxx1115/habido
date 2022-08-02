@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_new_bloc.dart';
 import 'package:habido_app/bloc/mood_tracker_bloc.dart';
@@ -53,17 +56,23 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
       value: BlocManager.moodTrackerBloc,
       child: BlocListener<MoodTrackerBloc, MoodTrackerState>(
         listener: _blocListener,
-        child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(builder: (context, state) {
+        child: BlocBuilder<MoodTrackerBloc, MoodTrackerState>(
+            builder: (context, state) {
           return CustomScaffold(
             onWillPop: () async => false,
+            extendBodyBehindAppBar: true,
             scaffoldKey: _feelingDetailKey,
             child: Container(
-              padding: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
+              padding: EdgeInsets.fromLTRB(
+                  SizeHelper.margin, SizeHelper.margin, SizeHelper.margin, 0.0),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [customColors.feelingCauseTop, customColors.feelingCauseBtm],
+                  colors: [
+                    customColors.feelingCauseTop,
+                    customColors.feelingCauseBtm
+                  ],
                 ),
               ),
               child: Column(
@@ -71,7 +80,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                   Expanded(
                     child: ListView(
                       children: [
-                        // ButtonBackWidget(onTap: _navigatePop),
+                        _closeBtn(),
 
                         SizedBox(height: 28.0),
 
@@ -167,7 +176,8 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      for (var cause in widget.selectedCauses!) _causeItem(cause),
+                      for (var cause in widget.selectedCauses!)
+                        _causeItem(cause),
                     ],
                   ),
                 )
@@ -232,6 +242,33 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
     );
   }
 
+  Widget _closeBtn() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
+          },
+          child: Container(
+            height: 35.0,
+            width: 35.0,
+            margin: EdgeInsets.fromLTRB(
+                0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
+            padding: EdgeInsets.all(13.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: customColors.whiteBackground,
+            ),
+            child: Image.asset(
+              Assets.exit,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   _buttonFinish() {
     return !Func.visibleKeyboard(context)
         ? CustomButton(
@@ -263,32 +300,91 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
 
   void _blocListener(BuildContext context, MoodTrackerState state) {
     if (state is MoodTrackerSaveSuccess) {
-      // showCustomDialog(
-      //   context,
-      //   child: CustomDialogBody(asset: Assets.success, text: LocaleKeys.psyTestSuccess, buttonText: LocaleKeys.ok),
-      // );
-      showCustomDialog(
-        context,
-        isDismissible: false,
-        child: CustomDialogBody(
-          asset: Assets.success,
-          text: Func.isNotEmpty(state.moodTrackerQuestion.message) ? state.moodTrackerQuestion.message : LocaleKeys.tyForSharingFeeling,
-          buttonText: LocaleKeys.thanksHabido,
-          primaryColor: customColors.primary, //HabitHelper.getPrimaryColor(_primaryColorCode),
-          child: null,
-          onPressedButton: () {
-            BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
-            BlocManager.homeNewBloc.add(GetTipEvent());
-            BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
-            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
-          },
-        ),
-      );
+      // Navigator.pushNamed(context, Routes.feelingSuccess, arguments: {
+      //   'callback': _saveSuccess(),
+      // });
+      _showDialog();
     } else if (state is MoodTrackerSaveFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
+  }
+
+  _showDialog() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => Material(
+        type: MaterialType.transparency,
+        child: Container(
+          padding: EdgeInsets.fromLTRB(45, 0, 45, 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: Platform.isAndroid ? 220 : 240,
+              ),
+
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  /// TODO fix background white
+                  Center(
+                      child: SvgPicture.asset(Assets.group_of_mood,
+                          height: 250, width: 261)),
+                  // Center(
+                  //   child: Opacity(
+                  //     opacity: 0.25,
+                  //     child: Container(
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.all(Radius.elliptical(100, 50)),
+                  //         color: Colors.white,
+                  //       ),
+                  //       width: 230.0,
+                  //       height: 230.0,
+                  //       child: Container(),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+              SizedBox(
+                height: 16,
+              ),
+
+              CustomText(
+                LocaleKeys.thankYouForSharingEmotions,
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                maxLines: 3,
+                color: customColors.whiteText,
+                alignment: Alignment.center,
+              ),
+
+              Expanded(child: Container()),
+
+              /// Button finish
+              CustomButton(
+                text: LocaleKeys.thanksHabiDo,
+                style: CustomButtonStyle.primary,
+                onPressed: () {
+                  BlocManager.homeNewBloc.add(GetAdviceVideoEvent());
+                  BlocManager.homeNewBloc.add(GetTipEvent());
+                  BlocManager.homeNewBloc.add(GetMoodTrackerEvent());
+                  Navigator.popUntil(
+                      context, ModalRoute.withName(Routes.home_new));
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

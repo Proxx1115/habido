@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:habido_app/models/chat_type.dart';
-import 'package:habido_app/ui/chat/chat_screen.dart';
 import 'package:habido_app/ui/chat/chat_screen_new.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/ui/home_new/dashboard/dashboard_app_bar.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
-import 'package:habido_app/widgets/app_bars/app_bars.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -24,30 +21,28 @@ class _ChatbotDashboardState extends State<ChatbotDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScaffold(
-        child: _soon
-            ? _hint()
-            : Column(
-                children: [
-                  /// Calendar, Title, Notification
-                  DashboardAppBar(
-                    padding: EdgeInsets.symmetric(horizontal: 15.0),
-                    title: LocaleKeys.habidoAssistant,
-                  ),
+    return CustomScaffold(
+      child: _soon
+          ? _hint()
+          : Column(
+              children: [
+                /// Calendar, Title, Notification
+                DashboardAppBar(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  title: LocaleKeys.habidoAssistant,
+                ),
 
-                  /// Chat
-                  // Expanded(
-                  //   child: ChatScreen(chatType: ChatType.assistant),
-                  // ),
-                  Expanded(
-                    child: ChatScreenNew(
-                      type: ChatScreenNewType.main,
-                    ),
+                /// Chat
+                // Expanded(
+                //   child: ChatScreen(chatType: ChatType.assistant),
+                // ),
+                Expanded(
+                  child: ChatScreenNew(
+                    type: ChatScreenNewType.main,
                   ),
-                ],
-              ),
-      ),
+                ),
+              ],
+            ),
     );
   }
 

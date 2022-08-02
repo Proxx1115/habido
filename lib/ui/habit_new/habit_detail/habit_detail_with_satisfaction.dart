@@ -6,6 +6,7 @@ import 'package:habido_app/models/user_habit_details_feeling.dart';
 import 'package:habido_app/models/user_habit_details_satisfaction.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/no_habit_graph_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_helper.dart';
 import 'package:habido_app/utils/assets.dart';
@@ -167,6 +168,7 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
                             ),
                           ],
                         ),
+
                         SizedBox(height: 12.0),
 
                         /// Satisfaction Details Latest List
@@ -194,7 +196,14 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
   }
 
   Widget _satisfactionHistoryGraph() {
-    return Container();
+    return Column(
+      children: [
+        SizedBox(
+          height: 15,
+        ),
+        NoHabitGraph(),
+      ],
+    );
   }
 
   Widget _noteItem(feelingDetails) {

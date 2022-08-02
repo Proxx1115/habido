@@ -60,7 +60,6 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
   // Emoji
   int? _selectedEmoji;
 
-
   @override
   void initState() {
     _userHabit = widget.userHabit;
@@ -109,10 +108,14 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                                     padding: EdgeInsets.all(10),
                                     child: Column(
                                       children: [
-                                        CustomText(_getText(), fontWeight: FontWeight.w500, maxLines: 5, textAlign: TextAlign.center, alignment: Alignment.center,),
-
+                                        CustomText(
+                                          _getText(),
+                                          fontWeight: FontWeight.w500,
+                                          maxLines: 5,
+                                          textAlign: TextAlign.center,
+                                          alignment: Alignment.center,
+                                        ),
                                         HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
-
                                         EmojiWidget(
                                           borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(SizeHelper.borderRadius),
@@ -128,9 +131,9 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                                       ],
                                     ),
                                   ),
-
-                                  SizedBox(height: 5.0,),
-
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
                                   StadiumContainer(
                                     padding: SizeHelper.boxPadding,
                                     child: Column(
@@ -164,9 +167,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
 
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is SaveUserHabitProgressSuccess) {
-      Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
-        'habitProgressResponse': state.habitProgressResponse,
-        'primaryColor': _primaryColor,
+      Navigator.pushReplacementNamed(context, Routes.habitSuccessNew, arguments: {
         'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {

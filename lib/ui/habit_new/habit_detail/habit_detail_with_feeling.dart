@@ -8,6 +8,7 @@ import 'package:habido_app/models/user_habit_details_feeling.dart';
 import 'package:habido_app/models/user_habit_feeling_pie_chart_feeling.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/no_habit_graph_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/performance_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -129,7 +130,16 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
               SizedBox(height: 15.0),
 
               /// Feeling Chart & Info
-              (_feelings != null && _totalCount != null && _totalCount! > 0) ? _feelingInfo() : Container(),
+              (_feelings != null && _totalCount != null && _totalCount! > 0)
+                  ? _feelingInfo()
+                  : Column(
+                      children: [
+                        SizedBox(
+                          height: 15,
+                        ),
+                        NoHabitGraph()
+                      ],
+                    ),
 
               SizedBox(height: 15.0),
 
@@ -172,15 +182,15 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
                   : Container(),
 
               /// Delete Btn
-              // if (widget.isActive!)
-              //   Align(
-              //     alignment: Alignment.topRight,
-              //     child: DeleteButtonWidget(
-              //       onDelete: () {
-              //         BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-              //       },
-              //     ),
-              //   ),
+              if (widget.isActive!)
+                Align(
+                  alignment: Alignment.topRight,
+                  child: DeleteButtonWidget(
+                    onDelete: () {
+                      BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                    },
+                  ),
+                ),
             ],
           ),
         ),

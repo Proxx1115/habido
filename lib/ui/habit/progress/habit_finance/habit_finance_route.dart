@@ -158,9 +158,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
     } else if (state is SaveUserHabitProgressSuccess) {
-      Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
-        'habitProgressResponse': state.habitProgressResponse,
-        'primaryColor': _primaryColor,
+      Navigator.pushReplacementNamed(context, Routes.habitSuccessNew, arguments: {
         'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
@@ -202,9 +200,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
       );
     } else if (state is SaveUserHabitProgressSuccess) {
-      Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
-        'habitProgressResponse': state.habitProgressResponse,
-        'primaryColor': _primaryColor,
+      Navigator.pushReplacementNamed(context, Routes.habitSuccessNew, arguments: {
         'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {

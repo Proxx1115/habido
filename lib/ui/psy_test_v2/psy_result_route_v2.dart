@@ -150,7 +150,7 @@ class _PsyTestResultRouteV2State extends State<PsyTestResultRouteV2> {
             /// Button
             CustomButton(
               margin: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 0.0),
-              text: LocaleKeys.thanksHabido,
+              text: LocaleKeys.thanksHabiDo,
               onPressed: () {
                 BlocManager.psyTestBlocV2.add(GetTestListEvent());
                 Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));

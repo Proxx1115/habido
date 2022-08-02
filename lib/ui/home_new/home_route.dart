@@ -29,6 +29,10 @@ import 'package:showcaseview/showcaseview.dart';
 import 'dashboard/dashboard_screen.dart';
 
 class HomeRouteNew extends StatefulWidget {
+  final int? initialIndex;
+
+  const HomeRouteNew({Key? key,  this.initialIndex = 2}) : super(key: key);
+
   @override
   _HomeRouteNewState createState() => _HomeRouteNewState();
 }
@@ -46,8 +50,8 @@ class _HomeRouteNewState extends State<HomeRouteNew>
   @override
   void initState() {
     super.initState();
-    BlocManager.homeBloc.currentTabIndex = 2;
-    _tabController = TabController(initialIndex: 2, length: 5, vsync: this);
+    BlocManager.homeBloc.currentTabIndex = widget.initialIndex!;
+    _tabController = TabController(initialIndex: widget.initialIndex!, length: 5, vsync: this);
     BlocManager.homeBloc.add(HomeShowcaseEvent(ShowcaseKeyName.dashboard));
     WidgetsBinding.instance.addPostFrameCallback((_) => _checkOAuth(context));
   }

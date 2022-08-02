@@ -88,24 +88,25 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
                       child: ListView(
                         children: [
                           /// Emoji
-                          _userHabit.habit?.goalSettings?.toolContent?.isFeeling == null ?
-                          EmojiWidget(
-                            onSelectedEmoji: (value) {
-                              setState(() {
-                                _selectedEmoji = value;
-                              });
-                            },
-                          ) : EmojiWidgetForFeelingNote(
-                            onSelectedEmoji: (value) {
-                              setState(() {
-                                _selectedEmoji = value;
-                              });
-                            },
-                          ),
+                          _userHabit.habit?.goalSettings?.toolContent?.isFeeling == null
+                              ? EmojiWidget(
+                                  onSelectedEmoji: (value) {
+                                    setState(() {
+                                      _selectedEmoji = value;
+                                    });
+                                  },
+                                )
+                              : EmojiWidgetForFeelingNote(
+                                  onSelectedEmoji: (value) {
+                                    setState(() {
+                                      _selectedEmoji = value;
+                                    });
+                                  },
+                                ),
 
                           /// Note
                           NoteWidget(
-                            onWrittenNote: (value){
+                            onWrittenNote: (value) {
                               setState(() {
                                 _conclusion = value;
                               });
@@ -138,9 +139,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
 
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is SaveUserHabitProgressSuccess) {
-      Navigator.pushReplacementNamed(context, Routes.habitSuccess, arguments: {
-        'habitProgressResponse': state.habitProgressResponse,
-        'primaryColor': _primaryColor,
+      Navigator.pushReplacementNamed(context, Routes.habitSuccessNew, arguments: {
         'callback': widget.callBack,
       });
     } else if (state is SaveUserHabitProgressFailed) {
@@ -159,7 +158,6 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       );
     }
   }
-
 
   Widget _buttonFinish() {
     return CustomButton(

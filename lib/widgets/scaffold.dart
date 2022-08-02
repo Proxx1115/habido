@@ -10,6 +10,7 @@ class CustomScaffold extends StatelessWidget {
   // final WillPopCallback? onWillPop;
   final VoidCallback? onWillPop;
   final bool loading;
+  final bool? extendBodyBehindAppBar;
   final EdgeInsets padding;
   final Color? backgroundColor;
   final String? appBarTitle;
@@ -39,10 +40,15 @@ class CustomScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.actionWidget,
     this.onPressedAction,
+    this.extendBodyBehindAppBar = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    return extendBodyBehindAppBar! ? _noSafeArea(context) : _safeArea(context);
+  }
+
+  Widget _safeArea(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         if (onWillPop != null) {
@@ -61,11 +67,53 @@ class CustomScaffold extends StatelessWidget {
           loading: loading,
           child: Scaffold(
             key: scaffoldKey,
+            extendBodyBehindAppBar: extendBodyBehindAppBar!,
             backgroundColor: backgroundColor ?? customColors.primaryBackground,
             appBar: _appBar(context),
-            body: Container(
-              padding: padding,
-              child: child,
+            body: SafeArea(
+              child: Container(
+                padding: padding,
+                child: child,
+              ),
+            ),
+            floatingActionButton: floatingActionButton,
+            floatingActionButtonLocation: floatingActionButtonLocation,
+            bottomNavigationBar: bottomNavigationBar,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _noSafeArea(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        if (onWillPop != null) {
+          onWillPop!();
+        } else {
+          Navigator.pop(context);
+        }
+
+        return Future.value(false);
+      },
+      child: GestureDetector(
+        onTap: () {
+          Func.hideKeyboard(context);
+        },
+        child: BlurLoadingContainer(
+          loading: loading,
+          child: Scaffold(
+            key: scaffoldKey,
+            extendBodyBehindAppBar: extendBodyBehindAppBar!,
+            backgroundColor: backgroundColor ?? customColors.primaryBackground,
+            appBar: _appBar(context),
+            body: SafeArea(
+              top: false,
+              bottom: false,
+              child: Container(
+                padding: padding,
+                child: child,
+              ),
             ),
             floatingActionButton: floatingActionButton,
             floatingActionButtonLocation: floatingActionButtonLocation,
@@ -78,7 +126,10 @@ class CustomScaffold extends StatelessWidget {
 
   _appBar(BuildContext context) {
     if (appBarTitle == null) {
-      return EmptyAppBar(context: context);
+      return EmptyAppBar(
+          context: context,
+          backgroundColor:
+              extendBodyBehindAppBar! ? Colors.transparent : Colors.white);
     } else {
       return CustomAppBar(context,
           backgroundColor: backgroundColor ?? customColors.primaryBackground,

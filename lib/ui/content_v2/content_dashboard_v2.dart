@@ -73,15 +73,13 @@ class _ContentDashboardV2State extends State<ContentDashboardV2> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScaffold(
-        child: BlocProvider.value(
-          value: BlocManager.contentBlocV2,
-          child: BlocListener<ContentBlocV2, ContentStateV2>(
-            listener: _blocListener,
-            child: BlocBuilder<ContentBlocV2, ContentStateV2>(
-              builder: _blocBuilder,
-            ),
+    return CustomScaffold(
+      child: BlocProvider.value(
+        value: BlocManager.contentBlocV2,
+        child: BlocListener<ContentBlocV2, ContentStateV2>(
+          listener: _blocListener,
+          child: BlocBuilder<ContentBlocV2, ContentStateV2>(
+            builder: _blocBuilder,
           ),
         ),
       ),

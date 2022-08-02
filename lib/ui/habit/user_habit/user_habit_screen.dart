@@ -353,7 +353,7 @@ class _UserHabitScreenState extends State<UserHabitScreen> {
         child: CustomDialogBody(
           asset: Assets.success,
           text: Func.isNotEmpty(state.userHabitResponse.message) ? state.userHabitResponse.message : LocaleKeys.success,
-          buttonText: LocaleKeys.thanksHabido,
+          buttonText: LocaleKeys.thanksHabiDo,
           primaryColor: HabitHelper.getPrimaryColor(_primaryColorCode),
           child: state.userHabitResponse.content != null
               ? Column(

@@ -302,7 +302,7 @@ class _RectangleCalendarScreenState extends State<RectangleCalendarScreen> {
                 fixedWeek[index].dayName == _selectedDay!.dayName)
             ? Container(
                 width: ResponsiveFlutter.of(context).wp(10),
-                height: ResponsiveFlutter.of(context).hp(14),
+                height: 50,
                 margin: EdgeInsets.only(right: 8),
                 padding: EdgeInsets.only(top: 5),
                 decoration: BoxDecoration(
@@ -314,6 +314,9 @@ class _RectangleCalendarScreenState extends State<RectangleCalendarScreen> {
                     Text(
                       '${fixedWeek[index].dayName}',
                       style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     Text('${fixedWeek[index].day}', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                   ],
@@ -342,6 +345,9 @@ class _RectangleCalendarScreenState extends State<RectangleCalendarScreen> {
                           '${fixedWeek[index].dayName}',
                           style: TextStyle(
                               color: fixedWeek[index] == _selectedDay ? Colors.black : Colors.grey, fontSize: 13, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                         Text('${fixedWeek[index].day}',
                             style: TextStyle(
