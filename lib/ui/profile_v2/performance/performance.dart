@@ -461,6 +461,7 @@ class _PerformanceState extends State<Performance> {
                     ],
                   ),
                 ),
+                SizedBox(height: 5),
                 Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

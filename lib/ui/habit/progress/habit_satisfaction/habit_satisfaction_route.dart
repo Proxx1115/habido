@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
@@ -12,9 +13,12 @@ import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
+import 'package:habido_app/widgets/text.dart';
 
 /// Сэтгэл ханамж
 class HabitSatisfactionRoute extends StatefulWidget {
@@ -44,6 +48,9 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
 
   // Slider
   late int _sliderValue;
+
+  // TextField
+  final _habitSatisfactionController = TextEditingController();
 
   @override
   void initState() {
@@ -80,35 +87,35 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
                     Expanded(
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        child: Center(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                child: SatisfactionPhoto(
-                                  primaryColor: _primaryColor,
-                                  onImageCaptured: (value) {
-                                    setState(() {
-                                      _base64Image = value;
-                                    });
-                                  },
-                                ),
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              child: SatisfactionPhoto(
+                                primaryColor: _primaryColor,
+                                onImageCaptured: (value) {
+                                  setState(() {
+                                    _base64Image = value;
+                                  });
+                                },
                               ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: SatisfactionSlider(
-                                  userHabit: _userHabit,
-                                  margin: EdgeInsets.only(top: 35.0),
-                                  text: LocaleKeys.howAreYouFeeling,
-                                  onChanged: (value) {
-                                    print(value);
-                                    _sliderValue = value;
-                                  },
-                                ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              child: SatisfactionSlider(
+                                userHabit: _userHabit,
+                                margin: EdgeInsets.only(top: 35.0),
+                                text: LocaleKeys.howAreYouFeeling,
+                                onChanged: (value) {
+                                  print(value);
+                                  _sliderValue = value;
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(height: 10),
+                            _habitSatisfactionTextField()
+                          ],
                         ),
                       ),
                     ),
@@ -142,19 +149,61 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
     return CustomButton(
       margin: EdgeInsets.only(top: 15.0),
       alignment: Alignment.bottomRight,
-      style: CustomButtonStyle.secondary,
+      // style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: (_base64Image != null && _sliderValue != null)
+      onPressed: (_base64Image != null && _sliderValue != null && _habitSatisfactionController.text != null)
           ? () {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = widget.userHabit.userHabitId;
               request.photoBase64 = _base64Image;
               request.value = Func.toStr(_sliderValue);
+              request.note = _habitSatisfactionController.text;
 
               BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
             }
           : null,
+    );
+  }
+
+  Widget _habitSatisfactionTextField() {
+    return Container(
+      height: 150,
+      padding: EdgeInsets.fromLTRB(18.0, 9.0, 18.0, 18.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: customColors.whiteBackground,
+      ),
+      child: Column(
+        children: [
+          CustomText(
+            LocaleKeys.habitSatisfactionDesc,
+            fontSize: 11.0,
+            color: customColors.primaryText,
+            maxLines: 2,
+          ),
+
+          /// Divider
+          HorizontalLine(margin: EdgeInsets.only(top: 9.0)),
+
+          Expanded(
+            child: TextField(
+              controller: _habitSatisfactionController,
+              maxLines: null,
+              cursorColor: customColors.whiteText,
+              style: TextStyle(color: customColors.primaryText),
+              decoration: InputDecoration(
+                hintText: LocaleKeys.habitSatisfactionHint,
+                hintStyle: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  color: customColors.disabledText,
+                ),
+                border: InputBorder.none,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

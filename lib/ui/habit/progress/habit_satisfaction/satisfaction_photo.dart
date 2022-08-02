@@ -22,7 +22,7 @@ class SatisfactionPhoto extends StatefulWidget {
 }
 
 class _SatisfactionPhotoState extends State<SatisfactionPhoto> {
-  final _size = 265.0;
+  final _size = 137.0;
   String? _base64Image;
 
   @override
@@ -64,8 +64,9 @@ class _SatisfactionPhotoState extends State<SatisfactionPhoto> {
           height: _size,
           width: _size,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
+            // shape: BoxShape.circle,
             color: customColors.whiteBackground,
+            borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
             border: Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
           ),
           child: Stack(
@@ -74,8 +75,8 @@ class _SatisfactionPhotoState extends State<SatisfactionPhoto> {
               /// Camera
               Center(
                 child: Container(
-                  height: 40.0,
-                  width: 40.0,
+                  height: 48.0,
+                  width: 48.0,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: widget.primaryColor,
