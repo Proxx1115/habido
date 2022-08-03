@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/home_new_bloc.dart';
@@ -310,10 +312,16 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
       barrierDismissible: false,
       context: context,
       builder: (_) => Material(
-        type: MaterialType.transparency,
+        type: MaterialType.card,
         child: Container(
           padding: EdgeInsets.fromLTRB(45, 0, 45, 30),
-          color: customColors.feelingCauseTop.withOpacity(2),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [customColors.feelingCauseTop, customColors.feelingCauseBtm],
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -326,21 +334,13 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                 alignment: Alignment.center,
                 children: [
                   /// TODO fix background white
+                  Center(
+                    child: Image.asset(
+                      Assets.blurred_background,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
                   Center(child: SvgPicture.asset(Assets.group_of_mood, height: 250, width: 261)),
-                  // Center(
-                  //   child: Opacity(
-                  //     opacity: 0.25,
-                  //     child: Container(
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.all(Radius.elliptical(100, 50)),
-                  //         color: Colors.white,
-                  //       ),
-                  //       width: 230.0,
-                  //       height: 230.0,
-                  //       child: Container(),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
               SizedBox(

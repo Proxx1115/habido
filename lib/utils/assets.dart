@@ -168,6 +168,8 @@ class Assets {
   static const String emoji4 = 'assets/images/habit/emoji4.svg';
   static const String emoji5 = 'assets/images/habit/emoji5.svg';
 
+  static const String blurred_background = 'assets/images/feeling/blurred_background.png';
+
   static const String happyEmoji = 'assets/images/habit/_Баяр_хөөртэй.png';
   static const String frustratedEmoji = 'assets/images/habit/_Бухимдсан.png';
   static const String surprisedEmoji = 'assets/images/habit/_Гайхширсан.png';

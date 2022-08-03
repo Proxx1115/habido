@@ -41,6 +41,8 @@ dependencies:
   youtube_player_flutter: ^8.0.0
 
   #widgets
+  blur: ^3.1.0
+  blurrycontainer: ^1.0.2
   square_percent_indicater: ^0.1.0
   smooth_page_indicator: ^1.0.0+2
   code_input: ^2.0.0
