@@ -205,6 +205,8 @@ class LocaleKeys {
   static String get negative => 'Сөрөг';
   static String get totalRecorded => 'Нийт бүртгэсэн';
 
+  static String get moodTrackerEmpty => 'Мэдрэмжийн тэмдэглэл хөтлөөгүй байна';
+
   static String get totalHabits => 'Нийт төлөвлөсөн';
   static String get completedHabits => 'Амжилттай хэвшүүлсэн';
   static String get uncompletedHabits => 'Эхэлсэн ч дуусгаагүй';
