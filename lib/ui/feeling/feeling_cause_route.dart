@@ -91,7 +91,8 @@ class _FeelingCauseRouteState extends State<FeelingCauseRoute> {
                       spacing: 14.0,
                       runSpacing: 8.0,
                       children: [
-                        for (var el in widget.moodTrackerQuestionResponse!.answers!) _causeItem(el),
+                        if (widget.moodTrackerQuestionResponse!.answers != null)
+                          for (var el in widget.moodTrackerQuestionResponse!.answers!) _causeItem(el),
                       ],
                     ),
                   ),

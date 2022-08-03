@@ -182,7 +182,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
                   : Container(),
 
               /// Delete Btn
-              if (widget.isActive!)
+              if (widget.isActive ?? false)
                 Align(
                   alignment: Alignment.topRight,
                   child: DeleteButtonWidget(

@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:habido_app/models/active_habit.dart';
+import 'package:habido_app/ui/habit/user_habit/plan_terms/plan_term_helper.dart';
 import 'package:habido_app/ui/habit_new/progress_indicator_widget.dart';
 import 'package:habido_app/ui/habit_new/tag_item_widget.dart';
 import 'package:habido_app/utils/func.dart';
+import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
@@ -79,7 +81,7 @@ class HabitItemWidget extends StatelessWidget {
           ),
         ),
       ),
-      Positioned(right: 0, top: 0, child: dayInterval())
+      Positioned(right: 0, top: 0, child: _dayInterval())
     ]);
   }
 
@@ -96,7 +98,7 @@ class HabitItemWidget extends StatelessWidget {
     }
   }
 
-  Widget dayInterval() {
+  Widget _dayInterval() {
     return Container(
       height: 20,
       constraints: BoxConstraints(
@@ -109,7 +111,40 @@ class HabitItemWidget extends StatelessWidget {
           bottomLeft: Radius.circular(SizeHelper.borderRadius),
         ),
       ),
-      child: CustomText(isActiveHabit ? 'Өдөр бүр' : "Амжилттай хэвшүүлсэн", fontSize: 11.0, alignment: Alignment.center),
+      child: CustomText(isActiveHabit ? _activeHabitDays(data.planTerm) : _overHabitStatus(data.status), fontSize: 11.0, alignment: Alignment.center),
     );
+  }
+
+  String _activeHabitDays(String term) {
+    switch (term) {
+      case PlanTerm.Daily:
+        return "Өдөр бүр";
+      case PlanTerm.Weekly:
+        var res = "";
+        List<String> dayList = data.plans.toString().split(",");
+        var lastElementIndex = dayList.length - 1;
+        dayList.forEach((element) {
+          res += PlanTerm.getWeekDayText(int.parse(element));
+          if (element != dayList[lastElementIndex]) res += ",";
+        });
+        return res;
+      case PlanTerm.Daily:
+        return "Сар бүрийн ${data.plans}";
+      default:
+        return "";
+    }
+  }
+
+  String _overHabitStatus(String status) {
+    switch (status) {
+      case "Completed":
+        return LocaleKeys.completedHabits;
+      case "Failed":
+        return LocaleKeys.uncompletedHabits;
+      case "NotStartedFailed":
+        return LocaleKeys.failedHabits;
+      default:
+        return "";
+    }
   }
 }

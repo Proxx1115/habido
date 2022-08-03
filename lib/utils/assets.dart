@@ -143,6 +143,7 @@ class Assets {
   /// Chat
   static const String typing = 'assets/images/chat/typing.gif';
   static const String habido_assistant = 'assets/images/chat/habido_assistant.svg';
+  static const String chatbot_dashboard_icon = 'assets/images/chat/chatbot_dashboard_icon.svg';
   static const String habido_assistant_png = 'assets/images/chat/habido_assistant.png';
   static const String habido_assistant_empty = 'assets/images/chat/habido_assistant_empty.png';
   static const String chat_input_send = 'assets/images/chat/chat_input_send.svg';

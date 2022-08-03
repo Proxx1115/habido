@@ -141,7 +141,7 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
   Widget _feelingItem() {
     return Container(
       height: 73.0,
-      padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 14.0),
+      padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
         color: customColors.feelingCauseLight,
@@ -343,10 +343,6 @@ class _FeelingDetailRouteState extends State<FeelingDetailRoute> {
                   Center(child: SvgPicture.asset(Assets.group_of_mood, height: 250, width: 261)),
                 ],
               ),
-              SizedBox(
-                height: 16,
-              ),
-
               CustomText(
                 LocaleKeys.thankYouForSharingEmotions,
                 fontSize: 20,

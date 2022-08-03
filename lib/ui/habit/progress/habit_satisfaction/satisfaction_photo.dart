@@ -89,11 +89,8 @@ class _SatisfactionPhotoState extends State<SatisfactionPhoto> {
               /// Base 64 image
               if (_base64Image != null)
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(_size / 2),
+                  borderRadius: BorderRadius.circular(SizeHelper.borderRadius),
                   child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
                     child: Image.memory(
                       base64Decode(_base64Image!),
                       fit: BoxFit.fitWidth,

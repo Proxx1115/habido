@@ -468,7 +468,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       var res = await ApiManager.getActiveHabitFirst();
 
       if (res.code == ResponseCode.Success) {
-        yield GetActiveHabitFirstSuccess(res.activeHabitList!);
+        yield GetActiveHabitFirstSuccess(res.activeHabitList ?? []);
       } else {
         yield GetActiveHabitFirstFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
@@ -481,7 +481,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     try {
       var res = await ApiManager.getActiveHabitThen(event.userHabitId);
       if (res.code == ResponseCode.Success) {
-        yield GetActiveHabitThenSuccess(res.data ?? []);
+        yield GetActiveHabitThenSuccess(res.activeHabitList ?? []);
       } else {
         yield GetActiveHabitThenFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
@@ -494,7 +494,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     try {
       var res = await ApiManager.getCompletedHabitFirst();
       if (res.code == ResponseCode.Success) {
-        yield GetCompletedHabitFirstSuccess(res.completedHabitList!);
+        yield GetCompletedHabitFirstSuccess(res.completedHabitList ?? []);
       } else {
         yield GetCompletedHabitFirstFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
@@ -508,7 +508,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
       var res = await ApiManager.getCompletedHabitThen(event.userHabitId);
 
       if (res.code == ResponseCode.Success) {
-        yield GetCompletedHabitThenSuccess(res.completedHabitList!);
+        yield GetCompletedHabitThenSuccess(res.completedHabitList ?? []);
       } else {
         yield GetCompletedHabitThenFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }

@@ -104,16 +104,17 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
                         crossAxisCount: 3,
                         mainAxisSpacing: 30.0, //_mainAxisSpacing
                         children: [
-                          for (var i = 0; i < widget.moodTrackerQuestionResponse!.answers!.length; i++)
-                            EmojiSecondItemWidget(
-                              emojiData: widget.moodTrackerQuestionResponse!.answers![i],
-                              isSelected: _selectedFeelingEmoji == widget.moodTrackerQuestionResponse!.answers![i],
-                              onTap: () {
-                                setState(() {
-                                  _selectedFeelingEmoji = widget.moodTrackerQuestionResponse!.answers![i];
-                                });
-                              },
-                            )
+                          if (widget.moodTrackerQuestionResponse!.answers != null)
+                            for (var i = 0; i < widget.moodTrackerQuestionResponse!.answers!.length; i++)
+                              EmojiSecondItemWidget(
+                                emojiData: widget.moodTrackerQuestionResponse!.answers![i],
+                                isSelected: _selectedFeelingEmoji == widget.moodTrackerQuestionResponse!.answers![i],
+                                onTap: () {
+                                  setState(() {
+                                    _selectedFeelingEmoji = widget.moodTrackerQuestionResponse!.answers![i];
+                                  });
+                                },
+                              )
                         ],
                       ),
                     ),
@@ -156,6 +157,7 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
   void _blocListener(BuildContext context, MoodTrackerState state) {
     if (state is MoodTrackerSaveSuccess) {
       MoodTrackerQuestionResponse _moodTrackerQuestionResponse = state.moodTrackerQuestion;
+
       Navigator.pushNamed(
         context,
         Routes.feelingCause,
@@ -181,7 +183,8 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
       ..questionId = widget.moodTrackerQuestionResponse!.feelingQuestionId
       ..userFeelingId = widget.moodTrackerQuestionResponse!.userFeelingId
       ..answers = answers;
-
+    widget.selectedFeelingData!.answerImageUrl = _selectedFeelingEmoji!.answerImageUrl;
+    widget.selectedFeelingData!.answerText = "${widget.selectedFeelingData!.answerText},${_selectedFeelingEmoji!.answerText}";
     BlocManager.moodTrackerBloc.add(SaveMoodTrackerEvent(request));
   }
 
