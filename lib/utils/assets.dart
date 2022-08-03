@@ -140,6 +140,8 @@ class Assets {
   static const String uncompletedHabits = 'assets/images/profile/process2.svg';
   static const String failedHabits = 'assets/images/profile/process3.svg';
 
+  static const String moodTrackerEmpty = 'assets/images/profile/moodTrackerEmpty.png';
+
   /// Chat
   static const String typing = 'assets/images/chat/typing.gif';
   static const String habido_assistant = 'assets/images/chat/habido_assistant.svg';

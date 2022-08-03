@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/models/mood_tracker_latest.dart';
 import 'package:habido_app/models/mood_tracker_latest_response.dart';
@@ -7,6 +8,8 @@ import 'package:habido_app/ui/profile_v2/performance/feeling_item.dart';
 import 'package:habido_app/ui/profile_v2/performance/performance_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
+import 'package:habido_app/utils/responsive_flutter/responsive_flutter.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
@@ -71,10 +74,8 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
   }
 
   Widget _blocBuilder(BuildContext context, PerformanceState state) {
-    return
-        // _moodTrackerResponse != null
-        //   ?
-        SmartRefresher(
+    return _moodTracker.length > 0
+        ? SmartRefresher(
             enablePullDown: false,
             enablePullUp: true,
             header: ClassicHeader(
@@ -119,7 +120,7 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
                 itemBuilder: (context, index) => Container(
                   margin: EdgeInsets.only(bottom: 15),
                   child: FeelingItem(
-                    state: true,
+                    state: false,
                     answerImageUrl: '${_moodTracker[index].answerImageUrl}',
                     answerText: '${_moodTracker[index].answerText!}',
                     reasons: _moodTracker[index].reasons!,
@@ -130,8 +131,29 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
                 ),
                 itemCount: _moodTracker.length,
               ),
-            ));
-    // : Container();
+            ))
+        : Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  Assets.moodTrackerEmpty,
+                  fit: BoxFit.contain,
+                  width: MediaQuery.of(context).size.width,
+                  height: ResponsiveFlutter.of(context).hp(30),
+                ),
+                SizedBox(height: 30),
+                CustomText(
+                  LocaleKeys.moodTrackerEmpty,
+                  maxLines: 2,
+                  fontSize: 15,
+                  alignment: Alignment.center,
+                  fontWeight: FontWeight.w500,
+                  color: customColors.primaryText,
+                )
+              ],
+            ),
+          );
   }
 
   void _onRefresh() async {
