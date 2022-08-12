@@ -258,14 +258,14 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
                   CustomText(
                     '${feelingDetails!.value}/10 ',
                     fontWeight: FontWeight.w500,
-                    fontSize: 11.0,
+                    fontSize: 13.0,
                   ),
 
                   /// Feeling name
                   CustomText(
                     UserHabitHelper.isPleasing(feelingDetails!.value),
                     fontWeight: FontWeight.w500,
-                    fontSize: 11.0,
+                    fontSize: 13.0,
                   ),
                 ],
               ),

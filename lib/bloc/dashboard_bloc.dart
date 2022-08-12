@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/habit_template.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
+import 'package:habido_app/models/suggested_habit.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
@@ -30,6 +31,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       yield* _mapGetUserHabitByDateEventToState(event);
     } else if (event is GetHabitTemplateListEvent) {
       yield* _mapGetHabitTemplateListEventToState(event);
+    } else if (event is GetSuggestedHabitListEvent) {
+      yield* _mapGetSuggestedHabitListEventToState(event);
     }
   }
 
@@ -121,6 +124,22 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       yield GetUserHabitByDateFailed(LocaleKeys.errorOccurred);
     }
   }
+
+  Stream<DashboardState> _mapGetSuggestedHabitListEventToState(GetSuggestedHabitListEvent event) async* {
+    try {
+      yield DashboardUserHabitsLoading();
+
+      var res = await ApiManager.dashboardSuggestedHabits();
+      if (res.code == ResponseCode.Success) {
+        // Refresh dashboard
+        yield GetSuggestedHabitListSuccess(suggestedHabits: res.suggestedHabitList);
+      } else {
+        yield GetSuggestedHabitListFailed(ApiHelper.getFailedMessage(res.message));
+      }
+    } catch (e) {
+      yield GetUserHabitByDateFailed(LocaleKeys.errorOccurred);
+    }
+  }
 }
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -161,6 +180,8 @@ class SkipUserHabitEvent extends DashboardEvent {
   @override
   String toString() => 'SkipUserHabitEvent { skipUserHabitRequest: $skipUserHabitRequest }';
 }
+
+class GetSuggestedHabitListEvent extends DashboardEvent {}
 
 /// ---------------------------------------------------------------------------------------------------------------------------------------------------
 /// BLOC STATES
@@ -240,6 +261,30 @@ class GetHabitTemplateListFailed extends DashboardState {
 
   @override
   String toString() => 'GetHabitTemplateListFailed { message: $message }';
+}
+
+class GetSuggestedHabitListSuccess extends DashboardState {
+  final List<SuggestedHabit>? suggestedHabits;
+
+  const GetSuggestedHabitListSuccess({this.suggestedHabits});
+
+  @override
+  List<Object> get props => [suggestedHabits ?? []];
+
+  @override
+  String toString() => 'GetSuggestedHabitListSuccess { suggestedHabits: $suggestedHabits}';
+}
+
+class GetSuggestedHabitListFailed extends DashboardState {
+  final String message;
+
+  const GetSuggestedHabitListFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetSuggestedHabitListFailed { message: $message }';
 }
 
 class RefreshDashboardUserHabitsFailed extends DashboardState {

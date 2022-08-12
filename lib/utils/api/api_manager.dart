@@ -60,6 +60,7 @@ import 'package:habido_app/models/psy_test_results_response2.dart';
 import 'package:habido_app/models/psy_test_review.dart';
 import 'package:habido_app/models/send_feedback_request.dart';
 import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
+import 'package:habido_app/models/suggested_habit_response.dart';
 import 'package:habido_app/models/tip%20category.dart';
 import 'package:habido_app/models/skill_list_response.dart';
 import 'package:habido_app/models/tip_response.dart';
@@ -607,6 +608,15 @@ class ApiManager {
     return DashboardHabitTemplatesResponse.fromJson(
       await httpUtils.sendRequest(
         path: HttpPath.habitTemplates,
+        httpMethod: HttpMethod.get,
+      ),
+    );
+  }
+
+  static Future<SuggestedHabitResponse> dashboardSuggestedHabits() async {
+    return SuggestedHabitResponse.fromJson(
+      await httpUtils.sendRequest(
+        path: HttpPath.habitSuggestions,
         httpMethod: HttpMethod.get,
       ),
     );

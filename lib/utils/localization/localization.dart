@@ -136,6 +136,8 @@ class LocaleKeys {
 
   static String get introTitle4 => 'Сэтгэл зүйн тест';
 
+  static String get introduction => 'Танилцуулга';
+
   static List get intro1 => ["Дадлаа хэвшүүлэх, мэдэгдэл авах", "Явцаа хянах", "Өөрийн гаргасан үр дүн, статистикээ харах"];
 
   static List get intro2 => ["Мэдрэмжээ илэрхийлэх", "Асуудлаа хуваалцах", "Өөрт хэрэгтэй мэдээллийг авах"];
@@ -348,7 +350,7 @@ class LocaleKeys {
 
   static String get habitForYou => 'Танд зориулсан дадал';
 
-  static String get readyToStartNewHabit => 'Дадал хэвшүүлэхэд бэлэн үү?';
+  static String get readyToStartNewHabit => 'Шинэ дадал эхлүүлэх үү?';
 
   static String get planNewHabit => 'Шинэ дадал төлөвлөх';
 

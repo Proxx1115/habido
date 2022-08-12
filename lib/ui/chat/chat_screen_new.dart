@@ -143,7 +143,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                                                   child: Text(
                                                     chatBotSnapshot.data![i].name.toString(),
                                                     maxLines: 1,
-                                                    style: TextStyle(fontFamily: FontAsset.FiraSansCondensed, fontWeight: FontWeight.w500),
+                                                    style: TextStyle(fontFamily: FontAsset.SFProRounded, fontWeight: FontWeight.w500),
                                                   ),
                                                 ),
                                               )
@@ -320,7 +320,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: _inputHintText,
-                          hintStyle: TextStyle(fontWeight: FontWeight.w300, fontFamily: FontAsset.FiraSansCondensed),
+                          hintStyle: TextStyle(fontWeight: FontWeight.w300, fontFamily: FontAsset.SFProRounded),
                           contentPadding: EdgeInsets.only(left: 10)),
                       controller: _chatInputController,
                     ),
@@ -405,7 +405,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
           CBChatContainer(
             prefixAsset: cbChatResponse.msgId == bloc.chatList.last.msgId ? Assets.habido_assistant_png : Assets.habido_assistant_empty,
             suffixTime: cbChatResponse.msgSentTime != null ? Func.toTimeStr(cbChatResponse.msgSentTime) : null,
-            child: CustomText(cbChatResponse.msg!, maxLines: 15, fontFamily: FontAsset.FiraSansCondensed),
+            child: CustomText(cbChatResponse.msg!, maxLines: 15, fontFamily: FontAsset.SFProRounded),
           ),
         if (cbChatResponse.cbMsgOptions != null && cbChatResponse.cbMsgOptions!.length == 1 && cbChatResponse.cbMsgOptions!.first.isSelected == true)
           _selectedOptionItem(cbChatResponse.cbMsgOptions!.first,
@@ -452,7 +452,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
         option.text!,
         maxLines: 2,
         style: TextStyle(
-          fontFamily: FontAsset.FiraSansCondensed,
+          fontFamily: FontAsset.SFProRounded,
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -508,7 +508,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                     option.text ?? '',
                     style: TextStyle(
                       fontSize: 10,
-                      fontFamily: FontAsset.FiraSansCondensed,
+                      fontFamily: FontAsset.SFProRounded,
                       color: Colors.black,
                     ),
                     textAlign: TextAlign.center,
@@ -570,7 +570,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                   maxLines: 10,
                   style: TextStyle(
                     color: Colors.white,
-                    fontFamily: FontAsset.FiraSansCondensed,
+                    fontFamily: FontAsset.SFProRounded,
                   ),
                 )
               ],
@@ -580,7 +580,7 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
               maxLines: 10,
               style: TextStyle(
                 color: Colors.white,
-                fontFamily: FontAsset.FiraSansCondensed,
+                fontFamily: FontAsset.SFProRounded,
               ),
             ),
     );
@@ -643,10 +643,10 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
           CustomText(
             cbChatResponse.cbTestResult!.resultText,
             maxLines: 10,
-            fontFamily: FontAsset.FiraSansCondensed,
+            fontFamily: FontAsset.SFProRounded,
             fontWeight: FontWeight.w600,
           ),
-          CustomText(cbChatResponse.cbTestResult!.description, maxLines: 20, fontFamily: FontAsset.FiraSansCondensed),
+          CustomText(cbChatResponse.cbTestResult!.description, maxLines: 20, fontFamily: FontAsset.SFProRounded),
         ],
       ),
     );

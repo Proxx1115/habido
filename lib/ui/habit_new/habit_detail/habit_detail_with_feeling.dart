@@ -316,7 +316,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
                     child: CustomText(
                       _getText(feelingDetails!.value!),
                       fontWeight: FontWeight.w500,
-                      fontSize: 11.0,
+                      fontSize: 13.0,
                     ),
                   ),
                 ],
@@ -328,8 +328,8 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
                   margin: EdgeInsets.only(left: 14.5, bottom: 10.0),
                   child: CustomText(
                     feelingDetails!.note,
-                    fontSize: 11.0,
-                    maxLines: 2,
+                    fontSize: 13.0,
+                    maxLines: 3,
                   ),
                 ),
               ),

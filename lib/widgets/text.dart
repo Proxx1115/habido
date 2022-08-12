@@ -56,7 +56,7 @@ class CustomText extends StatelessWidget {
     this.textAlign,
     this.overflow,
     this.fontStyle = FontStyle.normal,
-    this.fontFamily,
+    this.fontFamily = FontAsset.SFProRounded,
     this.underlined = false,
     this.border,
   });

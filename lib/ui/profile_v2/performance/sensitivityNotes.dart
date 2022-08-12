@@ -29,7 +29,7 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   /// MOOD TRACKER LATEST
-  List<MoodTrackerLatest> _moodTracker = [];
+  List<MoodTrackerLatest>? _moodTracker;
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      appBarTitle: "Тэмдэглэл",
+      appBarTitle: LocaleKeys.note,
       child: BlocProvider.value(
         value: BlocManager.performanceBloc,
         child: BlocListener<PerformanceBloc, PerformanceState>(
@@ -64,7 +64,7 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
       );
     } else if (state is MoodTrackerThenSuccess) {
       // print()
-      _moodTracker.addAll(state.moodTracker);
+      _moodTracker = state.moodTracker;
     } else if (state is ModdTrackerThenFailed) {
       showCustomDialog(
         context,
@@ -74,86 +74,87 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
   }
 
   Widget _blocBuilder(BuildContext context, PerformanceState state) {
-    return _moodTracker.length > 0
-        ? SmartRefresher(
-            enablePullDown: false,
-            enablePullUp: true,
-            header: ClassicHeader(
-              refreshStyle: RefreshStyle.Follow,
-              idleText: '',
-              idleIcon: Icon(Icons.expand_more, color: Colors.grey),
-              releaseText: "",
-              refreshingText: "",
-              completeText: "",
+    return SmartRefresher(
+        enablePullDown: false,
+        enablePullUp: true,
+        header: ClassicHeader(
+          refreshStyle: RefreshStyle.Follow,
+          idleText: '',
+          idleIcon: Icon(Icons.expand_more, color: Colors.grey),
+          releaseText: "",
+          refreshingText: "",
+          completeText: "",
 //            completeIcon: null,
-            ),
-            // header: WaterDropHeader(
-            //
-            // ),
+        ),
+        // header: WaterDropHeader(
+        //
+        // ),
 
-            footer: CustomFooter(
-              builder: (BuildContext context, LoadStatus? mode) {
-                Widget body;
-                if (mode == LoadStatus.idle) {
-                  body = Container(); // pull up load
-                } else if (mode == LoadStatus.loading) {
-                  body = cupertino.CupertinoActivityIndicator();
-                } else if (mode == LoadStatus.failed) {
-                  body = Container(); // Load Failed! Click retry!
-                } else if (mode == LoadStatus.canLoading) {
-                  body = Container(); // release to load more
-                } else {
-                  body = Container(); // No more Data
-                }
-                return Container(
-                  height: 55.0,
-                  child: Center(child: body),
-                );
-              },
-            ),
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-            onLoading: _onLoading,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              child: ListView.builder(
-                itemBuilder: (context, index) => Container(
-                  margin: EdgeInsets.only(bottom: 15),
-                  child: FeelingItem(
-                    state: false,
-                    answerImageUrl: '${_moodTracker[index].answerImageUrl}',
-                    answerText: '${_moodTracker[index].answerText!}',
-                    reasons: _moodTracker[index].reasons!,
-                    writtenAnswer: _moodTracker[index].writtenAnswer ?? "",
-                    date: '${_moodTracker[index].date!}',
-                    maxLines: 2,
-                  ),
-                ),
-                itemCount: _moodTracker.length,
-              ),
-            ))
-        : Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  Assets.moodTrackerEmpty,
-                  fit: BoxFit.contain,
-                  width: MediaQuery.of(context).size.width,
-                  height: ResponsiveFlutter.of(context).hp(30),
-                ),
-                SizedBox(height: 30),
-                CustomText(
-                  LocaleKeys.moodTrackerEmpty,
-                  maxLines: 2,
-                  fontSize: 15,
-                  alignment: Alignment.center,
-                  fontWeight: FontWeight.w500,
-                  color: customColors.primaryText,
-                )
-              ],
-            ),
-          );
+        footer: CustomFooter(
+          builder: (BuildContext context, LoadStatus? mode) {
+            Widget body;
+            if (mode == LoadStatus.idle) {
+              body = Container(); // pull up load
+            } else if (mode == LoadStatus.loading) {
+              body = cupertino.CupertinoActivityIndicator();
+            } else if (mode == LoadStatus.failed) {
+              body = Container(); // Load Failed! Click retry!
+            } else if (mode == LoadStatus.canLoading) {
+              body = Container(); // release to load more
+            } else {
+              body = Container(); // No more Data
+            }
+            return Container(
+              height: 55.0,
+              child: Center(child: body),
+            );
+          },
+        ),
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            child: (_moodTracker != null)
+                ? (_moodTracker!.length > 0)
+                    ? ListView.builder(
+                        itemBuilder: (context, index) => Container(
+                          margin: EdgeInsets.only(bottom: 15),
+                          child: FeelingItem(
+                            state: false,
+                            answerImageUrl: '${_moodTracker![index].answerImageUrl}',
+                            answerText: '${_moodTracker![index].answerText!}',
+                            reasons: _moodTracker![index].reasons!,
+                            writtenAnswer: _moodTracker![index].writtenAnswer ?? "",
+                            date: '${_moodTracker![index].date!}',
+                            maxLines: 2,
+                          ),
+                        ),
+                        itemCount: _moodTracker!.length,
+                      )
+                    : Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              Assets.moodTrackerEmpty,
+                              fit: BoxFit.contain,
+                              width: MediaQuery.of(context).size.width,
+                              height: ResponsiveFlutter.of(context).hp(30),
+                            ),
+                            SizedBox(height: 30),
+                            CustomText(
+                              LocaleKeys.moodTrackerEmpty,
+                              maxLines: 2,
+                              fontSize: 15,
+                              alignment: Alignment.center,
+                              fontWeight: FontWeight.w500,
+                              color: customColors.primaryText,
+                            )
+                          ],
+                        ),
+                      )
+                : Container()));
   }
 
   void _onRefresh() async {
@@ -174,8 +175,8 @@ class _SensitivityNotesState extends State<SensitivityNotes> {
 
     // _notifList.add((_notifList.length + 1).toString());
 
-    if (_moodTracker.isNotEmpty) {
-      BlocManager.performanceBloc.add(GetMoodTrackerThenEvent(_moodTracker.last.userFeelingId ?? 0));
+    if (_moodTracker!.isNotEmpty) {
+      BlocManager.performanceBloc.add(GetMoodTrackerThenEvent(_moodTracker!.last.userFeelingId ?? 0));
     }
 
     if (mounted) setState(() {});

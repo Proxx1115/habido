@@ -116,8 +116,8 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
             flex: 3,
             child: Row(
               children: [
-                _tabItem(index: 0, text: "Танилцуулга", flex: 5),
-                SizedBox(width: 40),
+                _tabItem(index: 0, text: LocaleKeys.introduction, flex: 6),
+                SizedBox(width: 35),
                 // _tabButtonItem(index: 1, text: "Үр дүн", flex: 2)
                 // if (_testInfoResultResponse!.testResult != null) _tabButtonItem(index: 1, text: "Үр дүн", flex: 2)
                 _testInfoResultResponse!.testResult != null
@@ -154,7 +154,7 @@ class _PsyIntroResultV2State extends State<PsyIntroResultV2> {
               text,
               alignment: Alignment.center,
               fontSize: 15,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w800,
             ),
             SizedBox(height: 2),
             Container(

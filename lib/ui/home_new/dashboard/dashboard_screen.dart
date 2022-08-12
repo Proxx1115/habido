@@ -338,7 +338,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _habitTipItem() {
     return Container(
-      height: 105.0,
+      height: 100.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
         color: Colors.white,
@@ -367,7 +367,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   fontSize: 15.0,
                   maxLines: 2,
                 ),
-                SizedBox(height: 6.3),
+                SizedBox(height: 10),
                 _startAdviceBtn()
               ],
             ),
@@ -636,7 +636,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             SizedBox(width: 5.0),
             CustomText(
               LocaleKeys.starting,
-              fontSize: 11.0,
+              fontSize: 13.0,
               color: customColors.primary,
             ),
           ],

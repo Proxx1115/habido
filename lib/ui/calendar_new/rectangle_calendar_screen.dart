@@ -154,7 +154,7 @@ class _RectangleCalendarScreenState extends State<RectangleCalendarScreen> {
                                   },
                                   child: CustomText(
                                     LocaleKeys.seeAllHabits,
-                                    fontSize: 11,
+                                    fontSize: 13,
                                     color: customColors.primary,
                                     underlined: true,
                                   ),

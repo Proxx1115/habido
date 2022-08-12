@@ -158,10 +158,30 @@ class _PerformanceState extends State<Performance> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          CustomText(
-            LocaleKeys.myProcess,
-            fontWeight: FontWeight.w700,
-            fontSize: 15,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomText(
+                LocaleKeys.myProcess,
+                fontWeight: FontWeight.w700,
+                fontSize: 15,
+              ),
+              NoSplashContainer(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.allHabits);
+                  },
+                  child: Container(
+                    child: CustomText(
+                      LocaleKeys.seeAllHabits,
+                      fontSize: 13,
+                      color: customColors.primary,
+                      underlined: true,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 15),
 

@@ -7,6 +7,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/dashboard_bloc.dart';
 import 'package:habido_app/models/habit_template.dart';
 import 'package:habido_app/models/skip_user_habit_request.dart';
+import 'package:habido_app/models/suggested_habit.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_reminders.dart';
 import 'package:habido_app/ui/calendar_new/calendar_screen.dart';
@@ -68,6 +69,9 @@ class _HabitDashboardState extends State<HabitDashboard> {
   // Habit templates
   List<HabitTemplate>? _habitTemplates;
 
+  // Suggested Habits
+  List<SuggestedHabit>? _suggestedHabits;
+
   DateTime _userHabitDate = DateTime.now();
 
   @override
@@ -75,6 +79,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
     super.initState();
     BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
     BlocManager.dashboardBloc.add(GetHabitTemplateListEvent());
+    BlocManager.dashboardBloc.add(GetSuggestedHabitListEvent());
   }
 
   @override
@@ -244,8 +249,10 @@ class _HabitDashboardState extends State<HabitDashboard> {
               child: Wrap(
                 spacing: 10.0,
                 runSpacing: 15.0,
+                alignment: WrapAlignment.center,
                 children: [
-                  for (var el in _newhabitSuggestionLists) _habitItem(asset: el["asset"], name: el["name"]),
+                  if (_suggestedHabits != null)
+                    for (var habit in _suggestedHabits!) _habitItem(asset: habit.photo!, name: habit.name!, habitId: habit.habitId!),
                 ],
               ),
             ),
@@ -253,38 +260,47 @@ class _HabitDashboardState extends State<HabitDashboard> {
         ));
   }
 
-  Widget _habitItem({required String asset, required String name}) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-      decoration: BoxDecoration(
-        color: customColors.whiteBackground,
-        borderRadius: BorderRadius.circular(15.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.16),
-            blurRadius: 6,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: IntrinsicWidth(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              asset,
-              height: 25.0,
-              width: 25.0,
-              color: customColors.iconLightGray,
+  Widget _habitItem({required String asset, required String name, required int habitId}) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.userHabit, arguments: {
+          'screenMode': ScreenMode.New,
+          'habitId': habitId,
+          'title': LocaleKeys.createHabit,
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+        decoration: BoxDecoration(
+          color: customColors.whiteBackground,
+          borderRadius: BorderRadius.circular(15.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.16),
+              blurRadius: 6,
+              offset: Offset(0, 3),
             ),
-            SizedBox(width: 10.0),
-            CustomText(
-              name,
-              fontSize: 13.0,
-              fontWeight: FontWeight.w500,
-              color: customColors.grayText,
-            )
           ],
+        ),
+        child: IntrinsicWidth(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CachedNetworkImage(
+                imageUrl: asset,
+                height: 25.0,
+                width: 25.0,
+                color: customColors.iconLightGray,
+              ),
+              SizedBox(width: 10.0),
+              CustomText(
+                name,
+                fontSize: 13.0,
+                fontWeight: FontWeight.w500,
+                color: customColors.grayText,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -307,7 +323,6 @@ class _HabitDashboardState extends State<HabitDashboard> {
                 return Column(
                   children: [
                     /// Today
-                    // todo isToday ? showText : none Tushig
                     CustomText(
                       _isToday ? LocaleKeys.todaysHabit : "${_userHabitDate.month}-р сарын ${_userHabitDate.day}",
                       fontSize: 16.0,
@@ -346,8 +361,14 @@ class _HabitDashboardState extends State<HabitDashboard> {
       );
     } else if (state is GetHabitTemplateListSuccess) {
       _habitTemplates = state.habitTemplates;
-      print("irsen uu ${_habitTemplates!.length} and ${_isHabitTemplateEmpty}");
     } else if (state is GetHabitTemplateListFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is GetSuggestedHabitListSuccess) {
+      _suggestedHabits = state.suggestedHabits;
+    } else if (state is GetSuggestedHabitListFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
