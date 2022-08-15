@@ -60,7 +60,7 @@ class HttpPath {
   static const String habitSuggestions = '/mobile/habit/suggestions';
   static const String userHabitsByDates = '/mobile/habit/dates/user-habits';
   static const String skipUserHabit = '/mobile/skip-habit';
-  static const String saveUserHabitProgress = '/mobile/habit/save-progress';
+  static const String saveUserHabitProgress = '/mobile/habit/save';
   static const String habitProgressListWithDate = '/mobile/habit/user-habit/progresses';
   static const String habitProgressListByDate = '/mobile/habit/user-habit/date/progress';
   static const String habitQuestion = '/mobile/habit/questions';

@@ -101,7 +101,7 @@ class _CustomSwitchV2State extends State<CustomSwitchV2> {
                           children: [
                             if (widget.reminderBloc.switchValue)
                               for (int i = 0; i < widget.reminderBloc.timeOfDayList.length; i++) _reminderItem(widget.reminderBloc.timeOfDayList[i]),
-                            if (widget.reminderBloc.timeOfDayList.length != 8) _buttonAdd()
+                            if (widget.reminderBloc.timeOfDayList.length != 10) _buttonAdd()
                           ],
                         ),
                       ),
