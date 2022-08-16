@@ -184,7 +184,7 @@ class _FeelingEmojiRouteState extends State<FeelingEmojiRoute> {
       ..userFeelingId = widget.moodTrackerQuestionResponse!.userFeelingId
       ..answers = answers;
     widget.selectedFeelingData!.answerImageUrl = _selectedFeelingEmoji!.answerImageUrl;
-    widget.selectedFeelingData!.answerText = "${widget.selectedFeelingData!.answerText},${_selectedFeelingEmoji!.answerText}";
+    widget.selectedFeelingData!.answerText = "${widget.selectedFeelingData!.answerText}, ${_selectedFeelingEmoji!.answerText}";
     BlocManager.moodTrackerBloc.add(SaveMoodTrackerEvent(request));
   }
 

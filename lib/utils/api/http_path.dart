@@ -50,12 +50,12 @@ class HttpPath {
   static const String psyTestUserResults = '/mobile/user-tests';
   static const String habitCategories = '/mobile/habit/categories';
   static const String habits = '/mobile/habit/habits';
-  static const String habitDateUserHabits = '/mobile/habit/date/user-habits';
+  static const String habitDateUserHabits = '/mobile/habit/user-habits/date';
   static const String habitCalendar = '/mobile/habit/calendar';
   static const String insertUserHabit = '/mobile/habit/user-habit';
   static const String updateUserHabit = '/mobile/habit/user-habit';
   static const String deleteUserHabit = '/mobile/habit/user-habit';
-  static const String userHabitsByDate = '/mobile/habit/date/user-habits';
+  static const String userHabitsByDate = '/mobile/habit/user-habits/date';
   static const String habitTemplates = '/mobile/habit/templates';
   static const String habitSuggestions = '/mobile/habit/suggestions';
   static const String userHabitsByDates = '/mobile/habit/dates/user-habits';
@@ -69,7 +69,7 @@ class HttpPath {
   static const String deleteHabitProgress = '/mobile/habit/user-habit/plan/progress';
   static const String calendar = '/mobile/habit/calendar';
   static const String datesProgress = '/mobile/habit-plan/process';
-  static const String calendarDate = '/mobile/habit/date/user-habits';
+  static const String calendarDate = '/mobile/habit/user-habits/date';
   static const String unreadNotifCount = '/mobile/notifs/not-read';
   static const String readAllNotif = '/mobile/notifs/read-all';
   static const String firstNotifs = '/mobile/notifs/first';

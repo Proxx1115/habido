@@ -285,8 +285,8 @@ class ContentCardOnHabitCreation extends StatelessWidget {
         onTap: () {
           if (callback != null) callback!();
 
-          Navigator.pushNamed(context, Routes.content, arguments: {
-            'content': content,
+          Navigator.pushNamed(context, Routes.contentV2, arguments: {
+            'contentId': content.contentId,
           });
         },
         borderRadius: _borderRadius,

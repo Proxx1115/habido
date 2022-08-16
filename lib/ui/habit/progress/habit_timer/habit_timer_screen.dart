@@ -175,6 +175,7 @@ class _HabitTimerScreenState extends State<HabitTimerScreen> {
           ? () {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = widget.userHabit.userHabitId;
+              request.planDate = widget.userHabit.planDate ?? DateTime.now().toString();
 
               BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
             }

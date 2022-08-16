@@ -118,7 +118,7 @@ class _HabitWaterRouteState extends State<HabitWaterRoute> {
           ? () {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = widget.userHabit.userHabitId;
-
+              request.planDate = _userHabit.planDate ?? DateTime.now().toString();
               BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
             }
           : null,

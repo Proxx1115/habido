@@ -37,6 +37,7 @@ class _PerformanceState extends State<Performance> {
   var currentDateTime = DateTime.now();
 
   List _colorsOpacity = [
+    Color(0xff73BBB6).withOpacity(0),
     Color(0xff73BBB6).withOpacity(0.2),
     Color(0xff73BBB6).withOpacity(0.4),
     Color(0xff73BBB6).withOpacity(0.6),
@@ -638,7 +639,7 @@ class _PerformanceState extends State<Performance> {
   Widget _myProcess() {
     return Container(
         height: 180,
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
@@ -677,7 +678,7 @@ class _PerformanceState extends State<Performance> {
                     shrinkWrap: true,
                     primary: true,
                     childAspectRatio: 2,
-                    crossAxisSpacing: 8,
+                    crossAxisSpacing: 6,
                     mainAxisSpacing: 8,
                     crossAxisCount: 2,
                     children: [

@@ -159,6 +159,7 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
               request.photoBase64 = _base64Image;
               request.value = Func.toStr(_sliderValue);
               request.note = _habitSatisfactionController.text;
+              request.planDate = _userHabit.planDate ?? DateTime.now().toString();
 
               BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
             }

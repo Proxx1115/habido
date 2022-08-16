@@ -15,6 +15,7 @@ class UserHabit extends BaseResponse {
   double? percentage;
 
   // HabitGoalSettings
+  String? planDate;
   String? planTerm; // PlanTerm: Daily, Weekly, Monthly
   String? goalValue; // Min max
   String? currentValue; // Local param (Drink water)
@@ -36,6 +37,7 @@ class UserHabit extends BaseResponse {
     this.userNote,
     this.isDone,
     this.percentage,
+    this.planDate,
     this.planTerm,
     this.goalValue,
     this.habitId,
@@ -55,6 +57,7 @@ class UserHabit extends BaseResponse {
     isDone = json['isDone'];
     percentage = Func.toDouble(json['percentage']);
     habitState = json['habitState'];
+    planDate = json['planDate'];
     planTerm = json['planTerm'];
     goalValue = json['goalValue'];
     habitId = json['habitId'];

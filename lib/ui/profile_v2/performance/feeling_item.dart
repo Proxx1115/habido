@@ -43,7 +43,7 @@ class FeelingItem extends StatelessWidget {
               Container(
                 width: 60,
                 height: 60,
-                padding: EdgeInsets.all(9),
+                padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   color: customColors.greyBackground,
                   borderRadius: BorderRadius.circular(15),

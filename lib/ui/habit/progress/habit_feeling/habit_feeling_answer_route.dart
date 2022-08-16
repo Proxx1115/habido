@@ -349,6 +349,7 @@ class _HabitFeelingAnswerRouteState extends State<HabitFeelingAnswerRoute> {
                       request.value = Func.toStr(_selectedEmoji!);
                       request.note = Func.toStr(_conclusion);
                       request.answerId = answer.habitQuestionAnsId;
+                      request.planDate = _userHabit.planDate ?? DateTime.now().toString();
 
                       BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
                     }

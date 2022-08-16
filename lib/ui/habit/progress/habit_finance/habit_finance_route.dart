@@ -190,6 +190,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
         if (_totalAmount >= Func.toDouble(_userHabit.goalValue)) {
           SaveUserHabitProgressRequest request = SaveUserHabitProgressRequest()
             ..userHabitId = _userHabit.userHabitId
+            ..planDate = _userHabit.planDate ?? DateTime.now().toString()
             ..value = Func.toStr(_totalAmount);
           BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
         }
