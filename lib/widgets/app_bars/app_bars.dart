@@ -80,7 +80,7 @@ AppBar CustomAppBar(
                 titleText,
                 fontSize: 16,
                 maxLines: 2,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 fontWeight: FontWeight.w800,
               ))
             : Container(),

@@ -14,8 +14,11 @@ import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/scaffold.dart';
+import 'package:habido_app/widgets/text.dart';
+import 'package:habido_app/widgets/text_field/text_fields.dart';
 import 'emoji_widget.dart';
 import 'emoji_widget_for_feeling_note.dart';
 
@@ -62,6 +65,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
 
     _conclusionController.addListener(() {
       _enabledButton = _conclusionController.text.isNotEmpty;
+      _conclusion = _conclusionController.text;
     });
 
     super.initState();
@@ -105,22 +109,24 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
                                 ),
 
                           /// Note
-                          NoteWidget(
-                            onWrittenNote: (value) {
-                              setState(() {
-                                _conclusion = value;
-                              });
-                            },
-                            userHabit: _userHabit,
-                            margin: EdgeInsets.only(top: 15.0),
-                          ),
+                          _noteWidget(),
+
+                          // NoteWidget(
+                          //   onWrittenNote: (value) {
+                          //     setState(() {
+                          //       _conclusion = value;
+                          //     });
+                          //   },
+                          //   userHabit: _userHabit,
+                          //   margin: EdgeInsets.only(top: 15.0),
+                          // ),
 
                           /// Content
-                          if (_userHabit.habit?.contentId != null)
-                            SuggestedContent(
-                              contentId: _userHabit.habit!.contentId!,
-                              margin: EdgeInsets.only(top: 30.0),
-                            ),
+                          // if (_userHabit.habit?.contentId != null)
+                          //   SuggestedContent(
+                          //     contentId: _userHabit.habit!.contentId!,
+                          //     margin: EdgeInsets.only(top: 30.0),
+                          //   ),
                         ],
                       ),
                     ),
@@ -133,6 +139,48 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _noteWidget() {
+    return StadiumContainer(
+      margin: EdgeInsets.only(top: 15),
+      padding: SizeHelper.boxPadding,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              /// Title
+              Expanded(
+                child: CustomText(
+                  widget.userHabit.habit!.noteTitle ?? LocaleKeys.writeNote,
+                  fontWeight: FontWeight.w500,
+                  maxLines: 3,
+                ),
+              ),
+
+              /// Edit button
+              // SvgPicture.asset(Assets.edit),
+            ],
+          ),
+
+          /// Divider
+          HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+
+          /// Body
+          CustomTextField(
+            maxLines: 4,
+            padding: 0,
+            controller: _conclusionController,
+            keyboardType: TextInputType.text,
+            textColor: Colors.black,
+            hintText: LocaleKeys.typeNote,
+            onChanged: (value) {
+              setState(() {});
+            },
+          ),
+        ],
       ),
     );
   }
@@ -166,12 +214,12 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
       style: CustomButtonStyle.secondary,
       backgroundColor: _primaryColor,
       text: LocaleKeys.finish,
-      onPressed: (_selectedEmoji != null && Func.isNotEmpty(_userHabit.userNote))
+      onPressed: (_selectedEmoji != null && Func.isNotEmpty(_conclusion))
           ? () {
               var request = SaveUserHabitProgressRequest();
               request.userHabitId = _userHabit.userHabitId;
               request.value = Func.toStr(_selectedEmoji!);
-              request.note = _userHabit.userNote;
+              request.note = Func.toStr(_conclusion);
               request.answerId = 0;
               request.planDate = _userHabit.planDate ?? DateTime.now().toString();
               BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));

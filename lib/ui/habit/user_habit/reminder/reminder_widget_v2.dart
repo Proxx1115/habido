@@ -62,8 +62,8 @@ class _ReminderWidgetV2State extends State<ReminderWidgetV2> {
   Widget _aboutHabitTextField() {
     return CustomTextField(
       controller: _aboutHabitController,
-      hintText: LocaleKeys.typeNote,
-      maxLength: 30,
+      hintText: LocaleKeys.remindMyself,
+      maxLength: 80,
       borderRadius: SizeHelper.borderRadiusOdd,
     );
   }

@@ -83,16 +83,13 @@ class _ContentDashboardState extends State<ContentDashboard> {
                     ),
 
                     /// Content list
-                    if (_filteredContentList != null &&
-                        _filteredContentList!.isNotEmpty)
+                    if (_filteredContentList != null && _filteredContentList!.isNotEmpty)
                       SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
                             return _contentRow(index);
                           },
-                          childCount:
-                              Func.toInt(_filteredContentList!.length / 2) +
-                                  (_filteredContentList!.length.isEven ? 0 : 1),
+                          childCount: Func.toInt(_filteredContentList!.length / 2) + (_filteredContentList!.length.isEven ? 0 : 1),
                         ),
                       ),
 
@@ -116,10 +113,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
     } else if (state is ContentListFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -149,8 +143,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
   Widget _tagListWidget() {
     return _tagList.isNotEmpty
         ? Container(
-            padding: EdgeInsets.fromLTRB(
-                SizeHelper.margin, 0.0, SizeHelper.margin, 0.0),
+            padding: EdgeInsets.fromLTRB(SizeHelper.margin, 0.0, SizeHelper.margin, 0.0),
             child: Wrap(
               spacing: 5.0,
               runSpacing: 0.0,
@@ -171,15 +164,11 @@ class _ContentDashboardState extends State<ContentDashboard> {
       },
       borderRadius: SizeHelper.borderRadiusOdd,
       padding: EdgeInsets.fromLTRB(15.0, 12.0, 15.0, 12.0),
-      backgroundColor: (_tagList[i].isSelected ?? false)
-          ? customColors.primary
-          : customColors.whiteBackground,
+      backgroundColor: (_tagList[i].isSelected ?? false) ? customColors.primary : customColors.whiteBackground,
       child: Text(
         '#' + _tagList[i].name.toString(),
         style: TextStyle(
-          color: (_tagList[i].isSelected ?? false)
-              ? customColors.whiteText
-              : customColors.greyText,
+          color: (_tagList[i].isSelected ?? false) ? customColors.whiteText : customColors.greyText,
           fontSize: 13.0,
         ),
       ),
@@ -193,9 +182,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
       searchContentList.addAll(_contentList ?? []);
     } else {
       for (Content el in (_contentList ?? [])) {
-        if (Func.toStr(el.title)
-            .toLowerCase()
-            .contains(_searchController.text.toLowerCase())) {
+        if (Func.toStr(el.title).toLowerCase().contains(_searchController.text.toLowerCase())) {
           searchContentList.add(el);
         }
       }
@@ -234,11 +221,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
   }
 
   Widget _contentRow(int index) {
-    _contentWidth = _contentWidth ??
-        (MediaQuery.of(context).size.width -
-                _contentMargin -
-                SizeHelper.margin * 2) /
-            2;
+    _contentWidth = _contentWidth ?? (MediaQuery.of(context).size.width - _contentMargin - SizeHelper.margin * 2) / 2;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,8 +232,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
             duration: 200,
             content: _filteredContentList![index * 2],
             width: _contentWidth!,
-            margin: EdgeInsets.fromLTRB(
-                SizeHelper.margin, SizeHelper.margin, 0.0, 0.0),
+            margin: EdgeInsets.fromLTRB(SizeHelper.margin, SizeHelper.margin, 0.0, 0.0),
           ),
         ),
 
@@ -263,8 +245,7 @@ class _ContentDashboardState extends State<ContentDashboard> {
                   duration: 200,
                   content: _filteredContentList![index * 2 + 1],
                   width: _contentWidth!,
-                  margin: EdgeInsets.fromLTRB(
-                      0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
+                  margin: EdgeInsets.fromLTRB(0.0, SizeHelper.margin, SizeHelper.margin, 0.0),
                 )
               : Container(),
         ),

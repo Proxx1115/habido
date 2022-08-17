@@ -110,7 +110,7 @@ class _HabitTemplateCardState extends State<HabitTemplateCard> {
     // _onPressedDeleteItem(timeOfDay);
     return TagItemWidgetV2(
       textColor: widget.isFromOnboard! ? Colors.black : Colors.white,
-      fontSize: widget.isFromOnboard! ? 10 : 8.0,
+      fontSize: widget.isFromOnboard! ? 10 : 11.0,
       margin: EdgeInsets.only(right: 8.0),
       width: widget.isFromOnboard! ? 52 : 42.0,
       height: widget.isFromOnboard! ? 22 : 16.0,

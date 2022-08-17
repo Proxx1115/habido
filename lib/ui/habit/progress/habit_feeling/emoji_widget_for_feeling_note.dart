@@ -146,7 +146,7 @@ class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
       case 20:
         return LocaleKeys.tiredEmoji;
       default:
-        return LocaleKeys.pleaseSelectEmoji;
+        return LocaleKeys.howIsYourFeeling;
     }
   }
 
@@ -303,7 +303,7 @@ class _EmojiWidgetForFeelingNoteState extends State<EmojiWidgetForFeelingNote> {
       case 20:
         return LocaleKeys.tiredEmoji;
       default:
-        return LocaleKeys.pleaseSelectEmoji;
+        return LocaleKeys.howIsYourFeeling;
     }
   }
 }

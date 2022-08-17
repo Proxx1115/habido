@@ -70,7 +70,7 @@ class _EmojiWidgetState extends State<EmojiWidget> {
       case 5:
         return LocaleKeys.emoji5;
       default:
-        return LocaleKeys.pleaseSelectEmoji;
+        return LocaleKeys.howIsYourFeeling;
     }
   }
 

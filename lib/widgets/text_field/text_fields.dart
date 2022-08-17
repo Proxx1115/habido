@@ -32,6 +32,7 @@ class CustomTextField extends StatefulWidget {
   final FontWeight? fontWeight;
   final Color? textColor;
   final double? padding;
+  final Function(String)? onChanged;
 
   // final Widget? suffixWidget;
   final String? suffixAsset;
@@ -64,6 +65,7 @@ class CustomTextField extends StatefulWidget {
     // this.suffixWidget,
     this.suffixAsset,
     this.padding,
+    this.onChanged,
     // this.suffixColor,
     // this.visibleSuffix = true,
     // this.alwaysVisibleSuffix = true,
@@ -118,6 +120,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         textAlign: TextAlign.start,
         textAlignVertical: TextAlignVertical.center,
         maxLength: widget.maxLength,
+        onChanged: widget.onChanged ?? (value) {},
       ),
     );
   }

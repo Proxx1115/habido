@@ -47,7 +47,6 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
   HabitAnswer? _selectedQuestion;
 
   // TextField
-  final _conclusionController = TextEditingController();
   TextEditingController _reflectionsTextFieldController = TextEditingController();
   String _conclusion = '';
 
@@ -68,8 +67,8 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
 
     super.initState();
 
-    _conclusionController.addListener(() {
-      _conclusion = _conclusionController.text;
+    _reflectionsTextFieldController.addListener(() {
+      _conclusion = _reflectionsTextFieldController.text;
     });
   }
 
@@ -122,7 +121,7 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 5.0,
+                                    height: 15.0,
                                   ),
                                   StadiumContainer(
                                     padding: SizeHelper.boxPadding,
@@ -175,38 +174,41 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                                   child: CustomDialogBody(
                                                     child: Container(
                                                       height: 300,
-                                                      child: Column(
-                                                        children: [
-                                                          CustomText(
-                                                            LocaleKeys.chooseYourQuestion,
-                                                            fontSize: 15.0,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: customColors.primary,
-                                                            alignment: Alignment.center,
-                                                          ),
-                                                          SizedBox(
-                                                            height: 30.0,
-                                                          ),
-                                                          if (_questionList != null)
-                                                            for (var el in _questionList!)
-                                                              Column(
-                                                                children: [
-                                                                  InkWell(
-                                                                    child: CustomText(
-                                                                      el.answerText,
-                                                                      fontSize: 13.0,
+                                                      child: SingleChildScrollView(
+                                                        child: Column(
+                                                          children: [
+                                                            CustomText(
+                                                              LocaleKeys.chooseYourQuestion,
+                                                              fontSize: 15.0,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: customColors.primary,
+                                                              alignment: Alignment.center,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 30.0,
+                                                            ),
+                                                            if (_questionList != null)
+                                                              for (var el in _questionList!)
+                                                                Column(
+                                                                  children: [
+                                                                    InkWell(
+                                                                      child: CustomText(
+                                                                        el.answerText,
+                                                                        fontSize: 13.0,
+                                                                        maxLines: 2,
+                                                                      ),
+                                                                      onTap: () {
+                                                                        el.isSelected = true;
+                                                                        _selectedQuestion = el;
+                                                                        setState(() {});
+                                                                        Navigator.of(context).pop();
+                                                                      },
                                                                     ),
-                                                                    onTap: () {
-                                                                      el.isSelected = true;
-                                                                      _selectedQuestion = el;
-                                                                      setState(() {});
-                                                                      Navigator.of(context).pop();
-                                                                    },
-                                                                  ),
-                                                                  HorizontalLine(margin: EdgeInsets.symmetric(vertical: 14.0)),
-                                                                ],
-                                                              )
-                                                        ],
+                                                                    HorizontalLine(margin: EdgeInsets.symmetric(vertical: 14.0)),
+                                                                  ],
+                                                                )
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -229,8 +231,11 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                         ),
                                         HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
                                         CustomTextField(
+                                          maxLines: 5,
+                                          padding: 0,
                                           controller: _reflectionsTextFieldController,
                                           keyboardType: TextInputType.text,
+                                          textColor: Colors.black,
                                           hintText: LocaleKeys.typeNote,
                                         ),
                                       ],
@@ -314,7 +319,6 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
 
                     if (answer != null) {
                       var request = SaveUserHabitProgressRequest();
-
                       request.userHabitId = _userHabit.userHabitId;
                       request.value = Func.toStr(_selectedEmoji!);
                       request.note = Func.toStr(_conclusion);

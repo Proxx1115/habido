@@ -5,7 +5,7 @@ class SizeHelper {
   static const double margin = 20.0;
   static const double padding = margin;
   static const double marginLeft = margin;
-  static const double marginTop = 10.0;
+  static const double marginTop = 15.0;
   static const double marginBottom = 30.0;
 
   static const double boxHeight = 50.0;

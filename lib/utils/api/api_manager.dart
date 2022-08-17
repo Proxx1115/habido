@@ -864,10 +864,10 @@ class ApiManager {
     );
   }
 
-  static Future<UserHabitProgressLog> getHabitProgressLog(int userHabitId) async {
+  static Future<UserHabitProgressLog> getHabitProgressLog(int userHabitId, String planDate) async {
     return UserHabitProgressLog.fromJson(
       await httpUtils.sendRequest(
-        path: HttpPath.getHabitProgressLog + '/$userHabitId',
+        path: HttpPath.getHabitProgressLog + '?userHabitId=$userHabitId&planDate=$planDate',
         httpMethod: HttpMethod.get,
       ),
     );

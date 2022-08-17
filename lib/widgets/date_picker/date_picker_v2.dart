@@ -17,6 +17,7 @@ class CustomDatePickerV2 extends StatefulWidget {
   final DateTime? initialDate;
   final Function(DateTime?) callback;
   final String? hintText;
+  final double? suffixPadding;
   final EdgeInsets? margin;
   final DateTime? firstDate;
   final DateTime? lastDate;
@@ -32,6 +33,7 @@ class CustomDatePickerV2 extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.primaryColor,
+    this.suffixPadding = 18.0,
   }) : super(key: key);
 
   @override
@@ -86,7 +88,7 @@ class _CustomDatePickerState extends State<CustomDatePickerV2> {
 
                   /// Icon
                   Container(
-                    margin: EdgeInsets.only(right: 18.0),
+                    margin: EdgeInsets.only(right: widget.suffixPadding ?? 18),
                     child: SvgPicture.asset(Assets.expand),
                   ),
                 ],

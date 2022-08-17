@@ -133,7 +133,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
                 ],
               ),
             )
-          : EmptyHabitWidget(Assets.emptyman, LocaleKeys.noExpence),
+          : EmptyHabitWidget(Assets.emptyman, LocaleKeys.noExpense),
     );
   }
 

@@ -228,7 +228,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
       case 5:
         return LocaleKeys.recapDayEmoji5;
       default:
-        return LocaleKeys.pleaseSelectEmoji;
+        return LocaleKeys.howIsYourFeeling;
     }
   }
 

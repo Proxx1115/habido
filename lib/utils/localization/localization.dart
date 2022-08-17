@@ -121,7 +121,9 @@ class LocaleKeys {
 
   static String get typeNote => 'Тэмдэглэл бичих...';
 
-  static String get chooseYourQuestion => 'ТА АСУУЛТАА СОНГОНО УУ';
+  static String get remindMyself => 'Өөртөө зориулж сануулах үгс үлдээх';
+
+  static String get chooseYourQuestion => 'Та асуултаа сонгоно уу';
 
   static String get seeHistory => 'Түүх харах';
 
@@ -482,6 +484,8 @@ class LocaleKeys {
 
   static String get pleaseSelectEmoji => 'Та мэдрэмжээ сонгоно уу?';
 
+  static String get howIsYourFeeling => 'Сэтгэл санаа хэр байна даа?';
+
   /// old emoji
   static String get recapDayEmoji1 => 'Гунигтай байна';
 
@@ -688,7 +692,9 @@ class LocaleKeys {
 
   static String get giveUp => 'Бууж өгөх';
 
-  static String get noExpence => 'Өө, одоогоор зардал хоосон байна…';
+  static String get noIncome => 'Өө, одоогоор хуримтлал үүсээгүй байна';
+
+  static String get noExpense => 'Өө, одоогоор зардал хоосон байна…';
 
   /// Feeling
   static String get howsYourDay => 'Өнөөдөр хэрхэн өнгөрч байна даа?';
@@ -713,7 +719,7 @@ class LocaleKeys {
 
   static String get feelingDetailIntro => 'Мэдрэмжээ илэрхийлэн бичих нь өөрийгөө хөндлөнгөөс анзаарахад тустай шүү';
   static String get feelingDetailHint => 'Би өнөөдөр...';
-  static String get habitSatisfactionHint => 'Тэмдэглэл бичих…';
+  static String get habitSatisfactionHint => 'Сэтгэгдлээ үлдээгээрэй';
   static String get habitSatisfactionDesc => 'Та энд ийм юм бичээрэй';
 
   /// Profile

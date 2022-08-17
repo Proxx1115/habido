@@ -48,7 +48,8 @@ class _HabitTreeRouteState extends State<HabitTreeRoute> {
     _primaryColor = HabitHelper.getPrimaryColor1(widget.userHabit);
     _backgroundColor = HabitHelper.getBackgroundColor1(widget.userHabit);
 
-    BlocManager.userHabitBloc.add(GetUserHabitProgressLogEvent(widget.userHabit.userHabitId ?? 0));
+    BlocManager.userHabitBloc
+        .add(GetUserHabitProgressLogEvent(widget.userHabit.userHabitId ?? 0, widget.userHabit.planDate ?? DateTime.now().toString()));
 
     super.initState();
   }

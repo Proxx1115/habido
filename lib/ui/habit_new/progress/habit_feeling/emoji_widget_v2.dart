@@ -69,7 +69,7 @@ class _EmojiWidgetV2State extends State<EmojiWidgetV2> {
       case 5:
         return LocaleKeys.emoji5;
       default:
-        return LocaleKeys.pleaseSelectEmoji;
+        return LocaleKeys.howIsYourFeeling;
     }
   }
 

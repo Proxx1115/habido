@@ -7,6 +7,7 @@ Future<TimeOfDay?> showCustomTimePicker(BuildContext context, Color? primaryColo
     context: context,
     initialTime: TimeOfDay.now(),
     helpText: LocaleKeys.selectTime,
+    initialEntryMode: TimePickerEntryMode.input,
     cancelText: LocaleKeys.cancel,
     confirmText: LocaleKeys.ok,
     builder: (BuildContext context, Widget? child) {

@@ -21,7 +21,7 @@ class HabitItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-        height: 82.0,
+        height: 110.0,
         padding: EdgeInsets.fromLTRB(22.0, 12.0, 22.0, 12.0),
         margin: EdgeInsets.only(bottom: 15.0),
         decoration: BoxDecoration(
@@ -52,6 +52,7 @@ class HabitItemWidget extends StatelessWidget {
               /// Text
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(data.name, fontSize: 15.0, fontWeight: FontWeight.w500),
                     SizedBox(height: 1.0),
@@ -111,7 +112,8 @@ class HabitItemWidget extends StatelessWidget {
           bottomLeft: Radius.circular(SizeHelper.borderRadius),
         ),
       ),
-      child: CustomText(isActiveHabit ? _activeHabitDays(data.planTerm) : _overHabitStatus(data.status), fontSize: 11.0, alignment: Alignment.center),
+      child: CustomText(isActiveHabit ? _activeHabitDays(data.planTerm) : _overHabitStatus(data.status),
+          fontSize: 11.0, alignment: Alignment.center, overflow: TextOverflow.ellipsis),
     );
   }
 
@@ -128,7 +130,7 @@ class HabitItemWidget extends StatelessWidget {
           if (element != dayList[lastElementIndex]) res += ",";
         });
         return res;
-      case PlanTerm.Daily:
+      case PlanTerm.Monthly:
         return "Сар бүрийн ${data.plans}";
       default:
         return "";

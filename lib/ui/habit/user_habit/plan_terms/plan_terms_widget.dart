@@ -78,8 +78,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
       value: _planTermsBloc,
       child: BlocListener<PlanTermsBloc, PlanTermsState>(
         listener: _blocListener,
-        child: BlocBuilder<PlanTermsBloc, PlanTermsState>(
-            builder: (context, state) {
+        child: BlocBuilder<PlanTermsBloc, PlanTermsState>(builder: (context, state) {
           return Column(
             children: [
               /// Tab bar
@@ -164,9 +163,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: SizeHelper.borderRadiusOdd,
-            color: _selectedPlanTerm == planTerm
-                ? widget.primaryColor
-                : customColors.whiteBackground,
+            color: _selectedPlanTerm == planTerm ? customColors.primary : customColors.whiteBackground,
           ),
           child: CustomText(
             PlanTerm.planTermText(planTerm),
@@ -175,7 +172,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
             // color: _selectedPlanTerm == planTerm
             //     ? customColors.whiteText
             //     : customColors.greyText,
-            color: ConstantColors.grey,
+            color: _selectedPlanTerm == planTerm ? Colors.white : ConstantColors.grey,
             fontSize: 13.0,
           ),
         ),
@@ -197,13 +194,10 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     return Container(
       margin: EdgeInsets.only(top: 15.0),
       padding: EdgeInsets.fromLTRB(15.0, 15.0, 8.0, 15.0),
-      decoration: BoxDecoration(
-          borderRadius: SizeHelper.borderRadiusOdd,
-          color: customColors.whiteBackground),
+      decoration: BoxDecoration(borderRadius: SizeHelper.borderRadiusOdd, color: customColors.whiteBackground),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(
-            _weeklyPlanList.length, (index) => _weekDayItem(index)),
+        children: List.generate(_weeklyPlanList.length, (index) => _weekDayItem(index)),
       ),
     );
   }
@@ -213,8 +207,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
       child: InkWell(
         onTap: () {
           _planTermsBloc.add(
-            ChangeWeekDaySelectionEvent(
-                index, !(_weeklyPlanList[index].isSelected ?? false)),
+            ChangeWeekDaySelectionEvent(index, !(_weeklyPlanList[index].isSelected ?? false)),
           );
         },
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -223,21 +216,14 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
           margin: EdgeInsets.only(right: 7.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            border: (_weeklyPlanList[index].isSelected ?? false)
-                ? null
-                : Border.all(
-                    width: SizeHelper.borderWidth,
-                    color: customColors.primaryBorder),
-            color: (_weeklyPlanList[index].isSelected ?? false)
-                ? widget.primaryColor
-                : customColors.whiteBackground,
+            border:
+                (_weeklyPlanList[index].isSelected ?? false) ? null : Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
+            color: (_weeklyPlanList[index].isSelected ?? false) ? widget.primaryColor : customColors.whiteBackground,
           ),
           child: CustomText(
             PlanTerm.getWeekDayText(_weeklyPlanList[index].day ?? 0),
             alignment: Alignment.center,
-            color: (_weeklyPlanList[index].isSelected ?? false)
-                ? customColors.greyText
-                : customColors.greyText,
+            color: (_weeklyPlanList[index].isSelected ?? false) ? customColors.greyText : customColors.greyText,
           ),
         ),
       ),
@@ -248,9 +234,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     return Container(
       margin: EdgeInsets.only(top: 15.0),
       padding: EdgeInsets.fromLTRB(15.0, 15.0, 8.0, 15.0),
-      decoration: BoxDecoration(
-          borderRadius: SizeHelper.borderRadiusOdd,
-          color: customColors.whiteBackground),
+      decoration: BoxDecoration(borderRadius: SizeHelper.borderRadiusOdd, color: customColors.whiteBackground),
       child: Column(
         children: [
           Row(
@@ -296,8 +280,7 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
     return InkWell(
       onTap: () {
         _planTermsBloc.add(
-          ChangeMonthDaySelectionEvent(
-              index, !(_monthlyPlanList[index].isSelected ?? false)),
+          ChangeMonthDaySelectionEvent(index, !(_monthlyPlanList[index].isSelected ?? false)),
         );
       },
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -306,21 +289,13 @@ class _PlanTermsWidgetState extends State<PlanTermsWidget> {
         margin: EdgeInsets.only(right: 7.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          border: (_monthlyPlanList[index].isSelected ?? false)
-              ? null
-              : Border.all(
-                  width: SizeHelper.borderWidth,
-                  color: customColors.primaryBorder),
-          color: (_monthlyPlanList[index].isSelected ?? false)
-              ? widget.primaryColor
-              : customColors.whiteBackground,
+          border: (_monthlyPlanList[index].isSelected ?? false) ? null : Border.all(width: SizeHelper.borderWidth, color: customColors.primaryBorder),
+          color: (_monthlyPlanList[index].isSelected ?? false) ? widget.primaryColor : customColors.whiteBackground,
         ),
         child: CustomText(
           Func.toStr(_monthlyPlanList[index].day ?? 0),
           alignment: Alignment.center,
-          color: (_monthlyPlanList[index].isSelected ?? false)
-              ? customColors.whiteText
-              : customColors.greyText,
+          color: (_monthlyPlanList[index].isSelected ?? false) ? customColors.whiteText : customColors.greyText,
         ),
       ),
     );

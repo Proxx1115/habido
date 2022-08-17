@@ -383,7 +383,7 @@ class UserHabitBloc extends Bloc<UserHabitEvent, UserHabitState> {
     try {
       yield UserHabitProgressLoading();
 
-      var res = await ApiManager.getHabitProgressLog(event.userHabitId);
+      var res = await ApiManager.getHabitProgressLog(event.userHabitId, event.planDate);
       if (res.code == ResponseCode.Success) {
         yield GetUserHabitProgressLogSuccess(res);
       } else {
@@ -765,14 +765,15 @@ class UserHabitShowcaseEvent extends UserHabitEvent {
 
 class GetUserHabitProgressLogEvent extends UserHabitEvent {
   final int userHabitId;
+  final String planDate;
 
-  const GetUserHabitProgressLogEvent(this.userHabitId);
-
-  @override
-  List<Object> get props => [userHabitId];
+  const GetUserHabitProgressLogEvent(this.userHabitId, this.planDate);
 
   @override
-  String toString() => 'GetUserHabitProgressLogEvent { userHabitId: $userHabitId }';
+  List<Object> get props => [userHabitId, planDate];
+
+  @override
+  String toString() => 'GetUserHabitProgressLogEvent { userHabitId: $userHabitId, planDate: $planDate }';
 }
 
 class UpdateUserHabitProgressLogEvent extends UserHabitEvent {

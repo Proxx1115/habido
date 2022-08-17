@@ -283,7 +283,7 @@ class _FeelingNoteListRouteState extends State<FeelingNoteListRoute> {
       case 5:
         return LocaleKeys.recapDayEmoji5;
       default:
-        return LocaleKeys.pleaseSelectEmoji;
+        return LocaleKeys.howIsYourFeeling;
     }
   }
 }

@@ -29,9 +29,9 @@ class DashboardSliverAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      pinned: false,
-      snap: true,
-      floating: true,
+      pinned: true,
+      snap: false,
+      floating: false,
       expandedHeight: 70.0,
       collapsedHeight: 70.0,
       backgroundColor: customColors.primaryBackground,
@@ -50,7 +50,7 @@ class DashboardSliverAppBar extends StatelessWidget {
 
                 /// Help
                 NoSplashContainer(
-                  child: ButtonStadium(
+                    child: ButtonStadium(
                       asset: Assets.question_mark,
                       child: Container(
                         padding: EdgeInsets.all(12.0),
@@ -62,7 +62,7 @@ class DashboardSliverAppBar extends StatelessWidget {
                         }
                       },
                     ),
-                )
+                  )
 
                 /// Calendar
                 : CalendarButton(),
@@ -78,7 +78,7 @@ class DashboardSliverAppBar extends StatelessWidget {
 
                 /// Logout
                 NoSplashContainer(
-                  child: ButtonStadium(
+                    child: ButtonStadium(
                       asset: Assets.logout,
                       child: Container(
                         padding: EdgeInsets.all(14.0),
@@ -90,7 +90,7 @@ class DashboardSliverAppBar extends StatelessWidget {
                         }
                       },
                     ),
-                )
+                  )
 
                 /// Notification
                 : NotificationButton(),

@@ -131,7 +131,6 @@ class _PerformanceState extends State<Performance> {
       );
     } else if (state is MoodTrackerLatestSuccess) {
       _moodTracker = state.moodTracker;
-      print("eminem:${state.moodTracker}");
     } else if (state is ModdTrackerLatestFailed) {
       showCustomDialog(
         context,
@@ -234,14 +233,22 @@ class _PerformanceState extends State<Performance> {
                     onTap: () {
                       Navigator.pushNamed(context, Routes.sensitivityNotes);
                     },
-                    child: FeelingItem(
-                      state: false,
-                      answerImageUrl: '${_moodTracker[0].answerImageUrl!}',
-                      answerText: '${_moodTracker[0].answerText!}',
-                      reasons: _moodTracker[0].reasons!,
-                      writtenAnswer: _moodTracker[0].writtenAnswer ?? "",
-                      date: '${_moodTracker[0].date!}',
-                      maxLines: 2,
+                    child: Column(
+                      children: [
+                        for (int i = 0; i < (_moodTracker.length >= 3 ? 3 : _moodTracker.length); i++)
+                          Container(
+                            margin: EdgeInsets.only(bottom: 15),
+                            child: FeelingItem(
+                              state: false,
+                              answerImageUrl: '${_moodTracker[i].answerImageUrl!}',
+                              answerText: '${_moodTracker[i].answerText!}',
+                              reasons: _moodTracker[i].reasons!,
+                              writtenAnswer: _moodTracker[i].writtenAnswer ?? "",
+                              date: '${_moodTracker[i].date!}',
+                              maxLines: 2,
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 )
