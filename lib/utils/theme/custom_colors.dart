@@ -9,10 +9,10 @@ class ColorCodes {
 }
 
 class ConstantColors {
-  static const primary = const Color(0xfffa6c51); // primary
+  static const primary = const Color(0xfffd6048); // primary
   static const roseWhite = const Color(0xFFFFF7F6); // background
   static const athensGrey = const Color(0xFFF4F6F8); // background
-  static const black = const Color(0xFF424852); // text
+  static const black = const Color(0xFF212830); // text
   static const grey = const Color(0xFFA9B0BB); // text
   static const gray = const Color(0xFFADB2B9); // indicator
   static const cornflowerBlue = const Color(0xFFCAD0D7); // button text

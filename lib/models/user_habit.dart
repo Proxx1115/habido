@@ -9,6 +9,7 @@ class UserHabit extends BaseResponse {
   String? name;
   String? startDate;
   String? endDate;
+  String? reminderMessage; // Өөртөө сануулах гарчиг
   String? userNote; // Өөрийн тэмдэглэл
   bool? isDone;
   String? habitState;
@@ -34,6 +35,7 @@ class UserHabit extends BaseResponse {
     this.name,
     this.startDate,
     this.endDate,
+    this.reminderMessage,
     this.userNote,
     this.isDone,
     this.percentage,
@@ -53,6 +55,7 @@ class UserHabit extends BaseResponse {
     name = json['name'];
     startDate = json['startDate'];
     endDate = json['endDate'];
+    reminderMessage = json['reminderMessage'];
     userNote = json['userNote'];
     isDone = json['isDone'];
     percentage = Func.toDouble(json['percentage']);
@@ -86,6 +89,7 @@ class UserHabit extends BaseResponse {
     map['endDate'] = endDate;
     map['planTerm'] = planTerm;
     map['goalValue'] = goalValue;
+    map['reminderMessage'] = reminderMessage;
     map['userNote'] = userNote;
     map['isDone'] = isDone ?? false;
     map['habitState'] = habitState;

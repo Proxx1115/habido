@@ -22,8 +22,17 @@ class ReminderWidgetV2 extends StatefulWidget {
 }
 
 class _ReminderWidgetV2State extends State<ReminderWidgetV2> {
-  // Name
   final _aboutHabitController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _aboutHabitController.addListener(() {
+      widget.reminderBloc.reminderMessage = _aboutHabitController.text;
+    });
+  }
+
+  // Name
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(

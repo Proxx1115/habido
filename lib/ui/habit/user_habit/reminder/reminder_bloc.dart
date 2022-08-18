@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
   bool switchValue = false;
+  String reminderMessage = '';
   List<TimeOfDay> timeOfDayList = [];
 
   ReminderBloc() : super(ReminderInit());
@@ -20,12 +21,20 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       yield* _mapAddReminderEventToState(event);
     } else if (event is RemoveReminderEvent) {
       yield* _mapRemoveReminderEventToState(event);
+    } else if (event is AddReminderMessageEvent) {
+      yield* _mapAddReminderMessageEventToState(event);
     }
   }
 
   Stream<ReminderState> _mapReminderSwitchChangedEventEventToState(ReminderSwitchChangedEvent event) async* {
     switchValue = event.value;
     yield ReminderSwitchChangedState(switchValue);
+    yield ReminderVoid();
+  }
+
+  Stream<ReminderState> _mapAddReminderMessageEventToState(AddReminderMessageEvent event) async* {
+    reminderMessage = event.message;
+    yield AddReminderMessageSuccessState(reminderMessage);
     yield ReminderVoid();
   }
 
@@ -64,6 +73,18 @@ class ReminderSwitchChangedEvent extends ReminderEvent {
 
   @override
   String toString() => 'SwitchChangedEvent { value: $value }';
+}
+
+class AddReminderMessageEvent extends ReminderEvent {
+  final String message;
+
+  const AddReminderMessageEvent(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'AddReminderMessageEvent { value: $message }';
 }
 
 class AddReminderEvent extends ReminderEvent {
@@ -115,6 +136,18 @@ class ReminderSwitchChangedState extends ReminderState {
 
   @override
   String toString() => 'SwitchChangedState { value: $value }';
+}
+
+class AddReminderMessageSuccessState extends ReminderState {
+  final String message;
+
+  const AddReminderMessageSuccessState(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'AddReminderMessageSuccessState { value: $message }';
 }
 
 class AddReminderSuccessState extends ReminderState {}

@@ -588,6 +588,8 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         // Name
         userHabit.name = _nameController.text;
 
+        userHabit.reminderMessage = _reminderBloc.reminderMessage ?? '';
+
         // Plan
         userHabit.planTerm = _planTerm;
 
@@ -637,6 +639,8 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         // Name
         userHabit.name = _nameController.text;
 
+        userHabit.reminderMessage = _reminderBloc.reminderMessage ?? '';
+
         // Plan
         userHabit.planTerm = _planTerm;
 
@@ -682,6 +686,8 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         // Name
         userHabit.name = _nameController.text;
 
+        userHabit.reminderMessage = _reminderBloc.reminderMessage ?? '';
+
         // Plan
         userHabit.planTerm = _planTerm;
 
@@ -726,6 +732,8 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
         // Name
         userHabit.name = _nameController.text;
+
+        userHabit.reminderMessage = _reminderBloc.reminderMessage ?? '';
 
         // Color
         userHabit.habit!.color = _primaryColorCode;
@@ -777,6 +785,8 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
 
         // Name
         userHabit.name = _nameController.text;
+
+        userHabit.reminderMessage = _reminderBloc.reminderMessage ?? '';
 
         // Plan
         userHabit.planTerm = _planTerm;
