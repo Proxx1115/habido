@@ -175,7 +175,15 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
                         SizedBox(height: 12.0),
 
                         /// Feeling Details 3
-                        for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
+                        Container(
+                          padding: EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                          child: Column(
+                            children: [
+                              for (int i = 0; i < _userHabitDetailsFeelingList!.take(3).length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
+                            ],
+                          ),
+                        ),
                         SizedBox(height: 20.0),
                       ],
                     )
@@ -283,7 +291,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
 
           /// Vertical Line
           Container(
-            margin: EdgeInsets.symmetric(vertical: 5.0),
+            margin: EdgeInsets.only(top: 5.0, bottom: 13.5),
             child: VerticalDivider(
               width: 1,
               color: customColors.greyText,
@@ -383,6 +391,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
           SizedBox(width: 15),
 
           // Feelings
+
           Expanded(
             child: Column(
               children: [for (var el in _feelings!) _feelingItem(el)],
@@ -438,7 +447,8 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
           Expanded(
             child: CustomText(
               feeling.name,
-              fontSize: 10,
+              fontSize: 13,
+              maxLines: 2,
             ),
           ),
 
@@ -447,7 +457,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
           /// Count
           CustomText(
             '${feeling.count}',
-            fontSize: 10,
+            fontSize: 13,
           ),
         ],
       ),

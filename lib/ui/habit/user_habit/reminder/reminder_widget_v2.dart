@@ -27,6 +27,7 @@ class _ReminderWidgetV2State extends State<ReminderWidgetV2> {
   @override
   void initState() {
     super.initState();
+    _aboutHabitController.text = widget.reminderBloc.reminderMessage;
     _aboutHabitController.addListener(() {
       widget.reminderBloc.reminderMessage = _aboutHabitController.text;
     });

@@ -158,7 +158,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: <Widget>[
           /// Дадал
           Expanded(
-            child: _bottomNavigationBarItem(0, Assets.habit, LocaleKeys.habit),
+            child: _bottomNavigationBarItem(0, Assets.habido_v2_logo, LocaleKeys.habit),
           ),
 
           /// Чатбот

@@ -7,6 +7,7 @@ import 'package:habido_app/models/habit_question_response.dart';
 import 'package:habido_app/models/save_user_habit_progress_request.dart';
 import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
+import 'package:habido_app/ui/habit/progress/habit_feeling/emoji_widget.dart';
 import 'package:habido_app/ui/habit_new/progress/habit_feeling/emoji_widget_v2.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -96,29 +97,13 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                               child: ListView(
                                 shrinkWrap: true,
                                 children: [
-                                  StadiumContainer(
-                                    padding: EdgeInsets.all(18.0),
-                                    child: Column(
-                                      children: [
-                                        CustomText(
-                                          _getText(),
-                                          fontWeight: FontWeight.w500,
-                                          maxLines: 5,
-                                        ),
-                                        HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
-                                        EmojiWidgetV2(
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(SizeHelper.borderRadius),
-                                            bottomRight: Radius.circular(SizeHelper.borderRadius),
-                                          ),
-                                          visibleHeader: false,
-                                          onSelectedEmoji: (value) {
-                                            Func.hideKeyboard(context);
-                                            _selectedEmoji = value;
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                                  EmojiWidget(
+                                    onSelectedEmoji: (value) {
+                                      Func.hideKeyboard(context);
+                                      setState(() {
+                                        _selectedEmoji = value;
+                                      });
+                                    },
                                   ),
                                   SizedBox(
                                     height: 15.0,

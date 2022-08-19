@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class EmptyHabitWidget extends StatelessWidget {
@@ -11,21 +12,24 @@ class EmptyHabitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: _size.width * 0.2, vertical: _size.height * 0.2),
+      margin: EdgeInsets.only(top: 120),
+      height: 360,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: SvgPicture.asset(
+            child: Image.asset(
               image,
-              width: double.infinity,
             ),
+          ),
+          SizedBox(
+            height: 35,
           ),
           CustomText(
             text,
             alignment: Alignment.center,
             fontSize: 15.0,
+            maxLines: 2,
             fontWeight: FontWeight.w500,
           ),
         ],

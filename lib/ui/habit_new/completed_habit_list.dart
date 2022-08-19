@@ -5,6 +5,7 @@ import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/completed_habit.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
+import 'package:habido_app/ui/habit_new/empty_habit_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_item_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -20,7 +21,7 @@ class CompletedHabitList extends StatefulWidget {
 }
 
 class _CompletedHabitListState extends State<CompletedHabitList> {
-  List<CompletedHabit> _completedHabitList = [];
+  List<CompletedHabit>? _completedHabitList;
 
   // Refresh
   RefreshController _refreshController = RefreshController(initialRefresh: false);
@@ -78,18 +79,22 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
             controller: _refreshController,
             onRefresh: _onRefresh,
             onLoading: _onLoading,
-            child: ListView.builder(
-              itemBuilder: (context, index) => HabitItemWidget(
-                data: _completedHabitList[index],
-                isActiveHabit: false,
-                onTap: () {
-                  _navigateToHabitDetailRoute(context, _completedHabitList[index]);
-                },
-              ),
-              // itemExtent: 90.0,
+            child: _completedHabitList != null
+                ? _completedHabitList!.length != 0
+                    ? ListView.builder(
+                        itemBuilder: (context, index) => HabitItemWidget(
+                          data: _completedHabitList![index],
+                          isActiveHabit: false,
+                          onTap: () {
+                            _navigateToHabitDetailRoute(context, _completedHabitList![index]);
+                          },
+                        ),
+                        // itemExtent: 90.0,
 
-              itemCount: _completedHabitList.length,
-            ),
+                        itemCount: _completedHabitList!.length,
+                      )
+                    : EmptyHabitWidget(Assets.emptyman, LocaleKeys.completedHabitEmpty)
+                : Container(),
           );
         }),
       ),
@@ -99,14 +104,13 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is GetCompletedHabitFirstSuccess) {
       _completedHabitList = state.completedHabitList;
-      print('asdsadas ${state.completedHabitList}');
     } else if (state is GetCompletedHabitFirstFailed) {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is GetCompletedHabitThenSuccess) {
-      _completedHabitList.addAll(state.completedHabitList);
+      _completedHabitList = state.completedHabitList;
     } else if (state is GetCompletedHabitThenFailed) {
       showCustomDialog(
         context,
@@ -151,8 +155,8 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
-    if (_completedHabitList.isNotEmpty) {
-      BlocManager.userHabitBloc.add(GetCompletedHabitThenEvent(_completedHabitList.last.userHabitId ?? 0));
+    if (_completedHabitList != null && _completedHabitList!.isNotEmpty) {
+      BlocManager.userHabitBloc.add(GetCompletedHabitThenEvent(_completedHabitList!.last.userHabitId ?? 0));
     }
 
     if (mounted) setState(() {});

@@ -272,6 +272,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
     switch (_screenMode) {
       case ScreenMode.Edit:
       case ScreenMode.CustomEdit:
+        _reminderBloc.reminderMessage = _userHabit!.reminderMessage ?? '';
         if (_userHabit!.userHabitReminders != null && _userHabit!.userHabitReminders!.isNotEmpty) {
           _reminderBloc.switchValue = true;
           _reminderBloc.timeOfDayList = [];
@@ -287,6 +288,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         if (_habitTemplate!.templateReminders != null && _habitTemplate!.templateReminders!.isNotEmpty) {
           _reminderBloc.switchValue = true;
           _reminderBloc.timeOfDayList = [];
+          _reminderBloc.reminderMessage = _userHabit!.reminderMessage ?? '';
           for (var el in _habitTemplate!.templateReminders!) {
             _reminderBloc.timeOfDayList.add(TimeOfDay(
               hour: Func.toInt(el.time) ~/ 60,
@@ -453,8 +455,8 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
       ShowCaseWidget.of(context)?.startShowCase(state.showcaseKeyList);
     } else if (state is GetHabitSuccess) {
       _habit = state.habit;
-      print("statiin habit ${_habit!.color}");
       _initScreen(habit: state.habit);
+      print("reminder message ${_userHabit!.reminderMessage}");
     }
   }
 
@@ -786,7 +788,7 @@ class _UserHabitScreenV2State extends State<UserHabitScreenV2> {
         // Name
         userHabit.name = _nameController.text;
 
-        userHabit.reminderMessage = _reminderBloc.reminderMessage ?? '';
+        userHabit.reminderMessage = _reminderBloc.reminderMessage;
 
         // Plan
         userHabit.planTerm = _planTerm;

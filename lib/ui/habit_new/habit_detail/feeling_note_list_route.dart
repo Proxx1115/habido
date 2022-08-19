@@ -214,7 +214,7 @@ class _FeelingNoteListRouteState extends State<FeelingNoteListRoute> {
                       child: CustomText(
                         _getText(feelingDetails.value!),
                         fontWeight: FontWeight.w500,
-                        fontSize: 11.0,
+                        fontSize: 13.0,
                       ),
                     ),
 
@@ -240,7 +240,8 @@ class _FeelingNoteListRouteState extends State<FeelingNoteListRoute> {
                   // color: Colors.amber,
                   child: CustomText(
                     feelingDetails.note,
-                    fontSize: 11.0,
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.w500,
                     alignment: Alignment.topLeft,
                     maxLines: 100,
                   ),

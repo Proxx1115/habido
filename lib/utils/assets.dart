@@ -103,6 +103,7 @@ class Assets {
   /// Home
   static const String home = 'assets/images/home/home.svg';
   static const String habit = 'assets/images/home/habit.svg';
+  static const String habido_v2_logo = 'assets/images/home/habido_v2.svg';
   static const String test = 'assets/images/home/test.svg';
   static const String assistant = 'assets/images/home/assistant.svg';
   static const String content = 'assets/images/home/content.svg';
@@ -153,6 +154,8 @@ class Assets {
 
   /// Habit
   static const String empty_calendar = 'assets/images/habit/empty_calendar.svg';
+  static const String empty_active_habit = 'assets/images/habit/empty_active_habit.svg';
+  static const String empty_inactive_habit = 'assets/images/habit/empty_inactive_habit.svg';
   static const String habit_success = 'assets/images/habit/habit_success.svg';
   static const String group_of_mood = 'assets/images/feeling/group_of_mood.svg';
   static const String trophy = 'assets/images/habit/trophy.svg';
@@ -162,8 +165,8 @@ class Assets {
   static const String play = 'assets/images/habit/play.svg';
   static const String pause = 'assets/images/habit/pause.svg';
   static const String reset = 'assets/images/habit/reset.svg';
-  static const String emptyWoman = 'assets/images/habit/EmptyWoman.svg';
-  static const String emptyman = 'assets/images/habit/EmptyMan.svg';
+  static const String emptyWoman = 'assets/images/habit/empty_woman.png';
+  static const String emptyman = 'assets/images/habit/empty_man.png';
   static const String emoji1 = 'assets/images/habit/emoji1.svg';
   static const String emoji2 = 'assets/images/habit/emoji2.svg';
   static const String emoji3 = 'assets/images/habit/emoji3.svg';

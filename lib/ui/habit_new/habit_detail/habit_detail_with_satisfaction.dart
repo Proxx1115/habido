@@ -172,8 +172,15 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
                         SizedBox(height: 12.0),
 
                         /// Satisfaction Details Latest List
-
-                        for (int i = 0; i < _userHabitDetailsFeelingList!.length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
+                        Container(
+                          padding: EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                          child: Column(
+                            children: [
+                              for (int i = 0; i < _userHabitDetailsFeelingList!.take(3).length; i++) _noteItem(_userHabitDetailsFeelingList![i]),
+                            ],
+                          ),
+                        ),
                         SizedBox(height: 20.0),
                       ],
                     ),
@@ -210,7 +217,7 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
     return Container(
       height: 64.0,
       padding: EdgeInsets.symmetric(horizontal: 10.0),
-      margin: EdgeInsets.only(bottom: 5.0),
+      margin: EdgeInsets.only(bottom: 10.0),
       decoration: BoxDecoration(
         color: customColors.greyBackground,
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -240,7 +247,7 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
 
           /// Vertical Line
           Container(
-            margin: EdgeInsets.symmetric(vertical: 5.0),
+            margin: EdgeInsets.only(top: 5.0, bottom: 23.5),
             child: VerticalDivider(
               width: 1,
               color: customColors.greyText,
@@ -273,11 +280,11 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
               /// Note
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(left: 14.5, bottom: 10.0),
+                  margin: EdgeInsets.only(bottom: 10.0),
                   child: CustomText(
                     feelingDetails!.note,
-                    fontSize: 11.0,
-                    maxLines: 2,
+                    fontSize: 13.0,
+                    maxLines: 3,
                   ),
                 ),
               ),

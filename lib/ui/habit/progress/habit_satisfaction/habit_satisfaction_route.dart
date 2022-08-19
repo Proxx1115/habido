@@ -178,7 +178,7 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
       child: Column(
         children: [
           CustomText(
-            LocaleKeys.habitSatisfactionDesc,
+            LocaleKeys.habitSatisfactionHint,
             fontSize: 11.0,
             color: customColors.primaryText,
             maxLines: 2,
@@ -194,7 +194,7 @@ class _HabitSatisfactionRouteState extends State<HabitSatisfactionRoute> {
               cursorColor: customColors.whiteText,
               style: TextStyle(color: customColors.primaryText),
               decoration: InputDecoration(
-                hintText: LocaleKeys.habitSatisfactionHint,
+                hintText: LocaleKeys.typeNote,
                 hintStyle: TextStyle(
                   fontWeight: FontWeight.w300,
                   color: customColors.disabledText,
