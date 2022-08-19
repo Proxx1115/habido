@@ -100,7 +100,6 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is GetActiveHabitFirstSuccess) {
       _activeHabitList = state.activeHabitList;
-      print('asdsadas ${state.activeHabitList}');
     } else if (state is GetActiveHabitFirstFailed) {
       showCustomDialog(
         context,

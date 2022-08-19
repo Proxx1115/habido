@@ -44,7 +44,7 @@ class DashboardAppBar extends StatelessWidget {
 
               /// HabiDo icon
               SvgPicture.asset(
-                  Assets.app_icon_name,
+                  Assets.app_icon_with_name,
                   height: 18.0,
                   fit: BoxFit.contain,
                 ),

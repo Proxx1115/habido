@@ -85,6 +85,7 @@ class Assets {
   static const String password = 'assets/images/auth/password.svg';
   static const String biometric = 'assets/images/auth/biometric.svg';
   static const String app_icon_name = 'assets/images/auth/app_icon_name.svg';
+  static const String app_icon_with_name = 'assets/images/auth/logo_new.svg';
   static const String auth_success = 'assets/images/auth/auth_success.png';
   static const String logout = 'assets/images/auth/logout.svg';
   static const String question1 = 'assets/images/auth/question1.svg';

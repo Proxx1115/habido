@@ -9,10 +9,9 @@ class HeroHelper {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 30.0),
         child: SvgPicture.asset(
-          Assets.app_icon_name,
+          Assets.app_icon_with_name,
           height: 48.0,
           width: 205.0,
-          fit: BoxFit.scaleDown,
         ),
       ),
     );
