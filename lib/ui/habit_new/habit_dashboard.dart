@@ -13,6 +13,7 @@ import 'package:habido_app/models/user_habit_reminders.dart';
 import 'package:habido_app/ui/calendar_new/calendar_screen.dart';
 import 'package:habido_app/ui/calendar_new/rectangle_calendar_screen.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
+import 'package:habido_app/ui/habit/user_habit/plan_terms/plan_term_helper.dart';
 import 'package:habido_app/ui/habit_new/habit_template/habit_template_card.dart';
 import 'package:habido_app/ui/habit_new/slidable_habit_item_widget.dart';
 import 'package:habido_app/ui/habit_new/tag_item_widget.dart';
@@ -28,6 +29,7 @@ import 'package:habido_app/utils/size_helper.dart';
 import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/utils/theme/hex_color.dart';
 import 'package:habido_app/widgets/buttons.dart';
+import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/custom_showcase.dart';
 import 'package:habido_app/widgets/dialogs.dart';
 import 'package:habido_app/widgets/indicatorItem.dart';
@@ -77,7 +79,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
   @override
   void initState() {
     super.initState();
-    BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
+    BlocManager.dashboardBloc
+        .add(GetUserHabitByDateEvent(_userHabitDate.toString()));
     BlocManager.dashboardBloc.add(GetHabitTemplateListEvent());
     BlocManager.dashboardBloc.add(GetSuggestedHabitListEvent());
   }
@@ -91,7 +94,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
         value: BlocManager.dashboardBloc,
         child: BlocListener<DashboardBloc, DashboardState>(
           listener: _blocListener,
-          child: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
+          child: BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (context, state) {
             return CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: [
@@ -123,7 +127,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
           Navigator.pushNamed(context, Routes.habitCategories);
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
     );
   }
 
@@ -151,8 +156,12 @@ class _HabitDashboardState extends State<HabitDashboard> {
         RectangleCalendarScreen(
           onDateTimeChanged: (value) {
             _userHabitDate = value;
-            BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
-            Func.dateTimeToDateStr(_userHabitDate) != Func.dateTimeToDateStr(DateTime.now()) ? _isToday = false : _isToday = true;
+            BlocManager.dashboardBloc
+                .add(GetUserHabitByDateEvent(_userHabitDate.toString()));
+            Func.dateTimeToDateStr(_userHabitDate) !=
+                    Func.dateTimeToDateStr(DateTime.now())
+                ? _isToday = false
+                : _isToday = true;
             print("isToday: ${_isToday}");
           },
         ),
@@ -252,7 +261,11 @@ class _HabitDashboardState extends State<HabitDashboard> {
                 alignment: WrapAlignment.center,
                 children: [
                   if (_suggestedHabits != null)
-                    for (var habit in _suggestedHabits!) _habitItem(asset: habit.photo!, name: habit.name!, habitId: habit.habitId!),
+                    for (var habit in _suggestedHabits!)
+                      _habitItem(
+                          asset: habit.photo!,
+                          name: habit.name!,
+                          habitId: habit.habitId!),
                 ],
               ),
             ),
@@ -260,7 +273,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
         ));
   }
 
-  Widget _habitItem({required String asset, required String name, required int habitId}) {
+  Widget _habitItem(
+      {required String asset, required String name, required int habitId}) {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.userHabit, arguments: {
@@ -309,7 +323,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
   Widget _userHabitListWidget() {
     return Container(
       child: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
+        padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0,
+            SizeHelper.padding, SizeHelper.marginBottom),
         child: BlocProvider.value(
           value: BlocManager.dashboardBloc,
           child: BlocListener<DashboardBloc, DashboardState>(
@@ -318,20 +333,30 @@ class _HabitDashboardState extends State<HabitDashboard> {
               builder: (context, state) {
                 String todayDone = '';
                 if (_userHabits != null) {
-                  todayDone = _userHabits!.where((element) => element.isDone!).toList().length.toString() + '/' + _userHabits!.length.toString();
+                  todayDone = _userHabits!
+                          .where((element) => element.isDone!)
+                          .toList()
+                          .length
+                          .toString() +
+                      '/' +
+                      _userHabits!.length.toString();
                 }
                 return Column(
                   children: [
                     /// Today
                     CustomText(
-                      _isToday ? LocaleKeys.todaysHabit : "${_userHabitDate.month}-р сарын ${_userHabitDate.day}",
+                      _isToday
+                          ? LocaleKeys.todaysHabit
+                          : "${_userHabitDate.month}-р сарын ${_userHabitDate.day}",
                       fontSize: 16.0,
                       fontWeight: FontWeight.w700,
                     ),
 
                     SizedBox(height: 12.0),
 
-                    if (Func.isNotEmpty(_userHabits)) _habitList(LocaleKeys.today, _userHabits!, true, _isToday, todayDone),
+                    if (Func.isNotEmpty(_userHabits))
+                      _habitList(LocaleKeys.today, _userHabits!, true, _isToday,
+                          todayDone),
                   ],
                 );
               },
@@ -350,114 +375,155 @@ class _HabitDashboardState extends State<HabitDashboard> {
     } else if (state is SkipUserHabitFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is GetUserHabitByDateSuccess) {
       _userHabits = state.userHabits;
     } else if (state is GetUserHabitByDateFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is GetHabitTemplateListSuccess) {
       _habitTemplates = state.habitTemplates;
     } else if (state is GetHabitTemplateListFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is GetSuggestedHabitListSuccess) {
       _suggestedHabits = state.suggestedHabits;
     } else if (state is GetSuggestedHabitListFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
 
-  Widget _habitList(String title, List<UserHabit> userHabitList, bool enabled, bool isToday, String? todayText) {
-    return Column(
-      children: List.generate(
-        userHabitList.length,
-        (index) => SlidableHabitItemWidget(
-          status: userHabitList[index].habitState!,
-          isStart: index == 0,
-          isEnd: index == userHabitList.length - 1,
-          delay: index * 0.2,
-          text: userHabitList[index].name ?? '',
-          subText: "Өдөр бүр", //userHabitList[index].name ?? '' // todo sda
-          reminders: userHabitList[index]
-              .userHabitReminders!
-              .take(3)
-              .toList()
-              .map((e) => ("${(Func.toInt(e.time) ~/ 60)}".padLeft(2, "0") + ":" + "${Func.toInt(e.time) % 60}".padLeft(2, "0")))
-              .toList(),
-          leadingUrl: userHabitList[index].habit?.photo,
-          leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
-          processPercent: userHabitList[index].percentage!.toInt(),
-          // processPercent: 50,
-          //_getSuffixAsset(userHabitList[index])
-          // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
-          // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
-          onPressed: () {
-            // Is finished
-            if (userHabitList[index].isDone ?? false) return;
+  Widget _habitList(String title, List<UserHabit> userHabitList, bool enabled,
+      bool isToday, String? todayText) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+      ),
+      child: Column(
+        children: List.generate(
+          userHabitList.length,
+          (index) => Column(
+            children: [
+              SlidableHabitItemWidget(
+                status: userHabitList[index].habitState!,
+                isStart: index == 0,
+                isEnd: index == userHabitList.length - 1,
+                delay: index * 0.2,
+                text: userHabitList[index].name ?? '',
+                subText: PlanTerm.planTermText(userHabitList[index]
+                    .planTerm!), //userHabitList[index].name ?? '' // todo sda
+                reminders: userHabitList[index]
+                    .userHabitReminders!
+                    .take(3)
+                    .toList()
+                    .map((e) =>
+                        ("${(Func.toInt(e.time) ~/ 60)}".padLeft(2, "0") +
+                            ":" +
+                            "${Func.toInt(e.time) % 60}".padLeft(2, "0")))
+                    .toList(),
+                leadingUrl: userHabitList[index].habit?.photo,
+                leadingBackgroundColor:
+                    (userHabitList[index].habit?.color != null)
+                        ? HexColor.fromHex(userHabitList[index].habit!.color!)
+                        : null,
+                processPercent: userHabitList[index].percentage!.toInt(),
+                // processPercent: 50,
+                //_getSuffixAsset(userHabitList[index])
+                // suffixAsset: (userHabitList[index].isDone ?? false) ? Assets.check2 : Assets.arrow_forward,
+                // suffixColor: (userHabitList[index].isDone ?? false) ? customColors.iconSeaGreen : customColors.primary,
+                onPressed: () {
+                  // Is finished
+                  if (userHabitList[index].isDone ?? false) return;
 
-            // Navigate
-            if (enabled && userHabitList[index].habit?.goalSettings != null && isToday) {
-              String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!);
-              if (route != null) {
-                Navigator.pushNamed(
-                  context,
-                  route,
-                  arguments: {
-                    'userHabit': userHabitList[index],
-                  },
-                );
-              }
-            }
-          },
-          onPressedSkip: ((!userHabitList[index].isDone!) && _isToday)
-              ? () {
-                  showCustomDialog(
+                  // Navigate
+                  if (enabled &&
+                      userHabitList[index].habit?.goalSettings != null &&
+                      isToday) {
+                    String? route = HabitHelper.getProgressRoute(
+                        userHabitList[index].habit!);
+                    if (route != null) {
+                      Navigator.pushNamed(
+                        context,
+                        route,
+                        arguments: {
+                          'userHabit': userHabitList[index],
+                        },
+                      );
+                    }
+                  }
+                },
+                onPressedSkip: ((!userHabitList[index].isDone!) && _isToday)
+                    ? () {
+                        showCustomDialog(
+                          context,
+                          isDismissible: true,
+                          child: CustomDialogBody(
+                            text: LocaleKeys.sureToSkipHabit,
+                            // height: 300.0,
+                            buttonText: LocaleKeys.skip,
+                            button2Text: LocaleKeys.no,
+                            onPressedButton: () {
+                              var skipUserHabitRequest = SkipUserHabitRequest()
+                                ..userHabitId = userHabitList[index].userHabitId
+                                ..skipDay = Func.toDateStr(DateTime.now());
+                              BlocManager.dashboardBloc.add(
+                                  SkipUserHabitEvent(skipUserHabitRequest));
+                            },
+                          ),
+                        );
+                      }
+                    : null,
+                onPressedEdit: ((!userHabitList[index].isDone!) && _isToday)
+                    ? () {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.userHabit,
+                          arguments: {
+                            'screenMode':
+                                (userHabitList[index].isDynamicHabit ?? false)
+                                    ? ScreenMode.CustomEdit
+                                    : ScreenMode.Edit,
+                            'habitId': userHabitList[index].habitId,
+                            'userHabit': userHabitList[index],
+                            'title': LocaleKeys.editHabit,
+                          },
+                        );
+                      }
+                    : null,
+                onPressedDetail: () {
+                  _navigateToHabitDetailRoute(
                     context,
-                    isDismissible: true,
-                    child: CustomDialogBody(
-                      text: LocaleKeys.sureToSkipHabit,
-                      // height: 300.0,
-                      buttonText: LocaleKeys.skip,
-                      button2Text: LocaleKeys.no,
-                      onPressedButton: () {
-                        var skipUserHabitRequest = SkipUserHabitRequest()
-                          ..userHabitId = userHabitList[index].userHabitId
-                          ..skipDay = Func.toDateStr(DateTime.now());
-                        BlocManager.dashboardBloc.add(SkipUserHabitEvent(skipUserHabitRequest));
-                      },
-                    ),
+                    userHabitList[index],
                   );
-                }
-              : null,
-          onPressedEdit: ((!userHabitList[index].isDone!) && _isToday)
-              ? () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.userHabit,
-                    arguments: {
-                      'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
-                      'habitId': userHabitList[index].habitId,
-                      'userHabit': userHabitList[index],
-                      'title': LocaleKeys.editHabit,
-                    },
-                  );
-                }
-              : null,
-          onPressedDetail: () {
-            _navigateToHabitDetailRoute(
-              context,
-              userHabitList[index],
-            );
-          },
+                },
+              ),
+              if (index != userHabitList.length - 1)
+                HorizontalLine(
+                  margin: EdgeInsets.symmetric(horizontal: 12.5),
+                )
+            ],
+          ),
         ),
       ),
     );
@@ -466,7 +532,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
   _navigateToHabitDetailRoute(BuildContext context, UserHabit habitData) {
     // Navigate
     // if (habitData.goalType != null) {
-    String? route = HabitHelper.getDetailRoute(habitData.habit!.goalSettings!.toolType!);
+    String? route =
+        HabitHelper.getDetailRoute(habitData.habit!.goalSettings!.toolType!);
     if (route != null) {
       Navigator.pushNamed(
         context,
