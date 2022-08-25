@@ -33,7 +33,8 @@ class HabitFeelingAnswerRouteV2 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _HabitFeelingAnswerRouteV2State createState() => _HabitFeelingAnswerRouteV2State();
+  _HabitFeelingAnswerRouteV2State createState() =>
+      _HabitFeelingAnswerRouteV2State();
 }
 
 class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
@@ -48,7 +49,8 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
   HabitAnswer? _selectedQuestion;
 
   // TextField
-  TextEditingController _reflectionsTextFieldController = TextEditingController();
+  TextEditingController _reflectionsTextFieldController =
+      TextEditingController();
   String _conclusion = '';
 
   // Emoji
@@ -63,7 +65,8 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
     _backgroundColor = HabitHelper.getBackgroundColor1(_userHabit);
 
     if (_userHabit.habit?.questionId != null) {
-      BlocManager.userHabitBloc.add(GetHabitQuestionEvent(_userHabit.habit!.questionId!));
+      BlocManager.userHabitBloc
+          .add(GetHabitQuestionEvent(_userHabit.habit!.questionId!));
     }
 
     super.initState();
@@ -124,7 +127,8 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                               width: 10.0,
                                             ),
                                             CustomText(
-                                              LocaleKeys.answerOneOfThoseQuestion,
+                                              LocaleKeys
+                                                  .answerOneOfThoseQuestion,
                                               fontWeight: FontWeight.w500,
                                               maxLines: 5,
                                               fontSize: 11.0,
@@ -132,15 +136,20 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                           ],
                                         ),
 
-                                        HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+                                        HorizontalLine(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 15.0)),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             _selectedQuestion != null
                                                 ? Expanded(
                                                     child: CustomText(
-                                                      _selectedQuestion!.answerText,
-                                                      fontWeight: FontWeight.w500,
+                                                      _selectedQuestion!
+                                                          .answerText,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       lineSpace: 1.5,
                                                       maxLines: 5,
                                                       fontSize: 13.0,
@@ -159,37 +168,58 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                                   child: CustomDialogBody(
                                                     child: Container(
                                                       height: 300,
-                                                      child: SingleChildScrollView(
+                                                      child:
+                                                          SingleChildScrollView(
                                                         child: Column(
                                                           children: [
                                                             CustomText(
-                                                              LocaleKeys.chooseYourQuestion,
+                                                              LocaleKeys
+                                                                  .chooseYourQuestion,
                                                               fontSize: 15.0,
-                                                              fontWeight: FontWeight.w500,
-                                                              color: customColors.primary,
-                                                              alignment: Alignment.center,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color:
+                                                                  customColors
+                                                                      .primary,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
                                                             ),
                                                             SizedBox(
                                                               height: 30.0,
                                                             ),
-                                                            if (_questionList != null)
-                                                              for (var el in _questionList!)
+                                                            if (_questionList !=
+                                                                null)
+                                                              for (var el
+                                                                  in _questionList!)
                                                                 Column(
                                                                   children: [
                                                                     InkWell(
-                                                                      child: CustomText(
+                                                                      child:
+                                                                          CustomText(
                                                                         el.answerText,
-                                                                        fontSize: 13.0,
-                                                                        maxLines: 2,
+                                                                        fontSize:
+                                                                            13.0,
+                                                                        maxLines:
+                                                                            2,
                                                                       ),
-                                                                      onTap: () {
-                                                                        el.isSelected = true;
-                                                                        _selectedQuestion = el;
-                                                                        setState(() {});
-                                                                        Navigator.of(context).pop();
+                                                                      onTap:
+                                                                          () {
+                                                                        el.isSelected =
+                                                                            true;
+                                                                        _selectedQuestion =
+                                                                            el;
+                                                                        setState(
+                                                                            () {});
+                                                                        Navigator.of(context)
+                                                                            .pop();
                                                                       },
                                                                     ),
-                                                                    HorizontalLine(margin: EdgeInsets.symmetric(vertical: 14.0)),
+                                                                    HorizontalLine(
+                                                                        margin: EdgeInsets.symmetric(
+                                                                            vertical:
+                                                                                14.0)),
                                                                   ],
                                                                 )
                                                           ],
@@ -200,10 +230,15 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                                 );
                                               },
                                               child: Container(
-                                                padding: EdgeInsets.symmetric(horizontal: 7.0, vertical: 9.0),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 7.0,
+                                                    vertical: 9.0),
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(5.0),
-                                                  color: customColors.greyBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0),
+                                                  color: customColors
+                                                      .greyBackground,
                                                 ),
                                                 height: 24.0,
                                                 width: 24.0,
@@ -214,13 +249,16 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                                             ),
                                           ],
                                         ),
-                                        HorizontalLine(margin: EdgeInsets.symmetric(vertical: 15.0)),
+                                        HorizontalLine(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 15.0)),
                                         CustomTextField(
                                           maxLines: 5,
                                           padding: 0,
-                                          controller: _reflectionsTextFieldController,
+                                          controller:
+                                              _reflectionsTextFieldController,
                                           keyboardType: TextInputType.text,
-                                          textColor: Colors.black,
+                                          textColor: customColors.primaryText,
                                           hintText: LocaleKeys.typeNote,
                                         ),
                                       ],
@@ -246,13 +284,17 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
 
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is SaveUserHabitProgressSuccess) {
-      Navigator.pushReplacementNamed(context, Routes.habitSuccessNew, arguments: {
-        'callback': widget.callBack,
-      });
+      Navigator.pushReplacementNamed(context, Routes.habitSuccessNew,
+          arguments: {
+            'callback': widget.callBack,
+          });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: LocaleKeys.failed,
+            buttonText: LocaleKeys.ok),
       );
     }
     if (state is HabitQuestionSuccess) {
@@ -269,7 +311,10 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
     } else if (state is HabitQuestionFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: LocaleKeys.failed,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -298,7 +343,9 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
             style: CustomButtonStyle.primary,
             backgroundColor: customColors.primary,
             text: LocaleKeys.finish,
-            onPressed: _selectedQuestion != null && _reflectionsTextFieldController.text.isNotEmpty && _selectedEmoji != null
+            onPressed: _selectedQuestion != null &&
+                    _reflectionsTextFieldController.text.isNotEmpty &&
+                    _selectedEmoji != null
                 ? () {
                     HabitAnswer? answer = _selectedQuestion;
 
@@ -308,8 +355,10 @@ class _HabitFeelingAnswerRouteV2State extends State<HabitFeelingAnswerRouteV2> {
                       request.value = Func.toStr(_selectedEmoji!);
                       request.note = Func.toStr(_conclusion);
                       request.answerId = answer.habitQuestionAnsId;
-                      request.planDate = _userHabit.planDate ?? DateTime.now().toString();
-                      BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+                      request.planDate =
+                          _userHabit.planDate ?? DateTime.now().toString();
+                      BlocManager.userHabitBloc
+                          .add(SaveUserHabitProgressEvent(request));
                     }
                   }
                 : null,

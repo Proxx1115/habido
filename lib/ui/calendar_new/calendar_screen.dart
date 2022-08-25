@@ -19,7 +19,8 @@ import 'package:habido_app/widgets/text.dart';
 
 class CalendarScreen extends StatefulWidget {
   final ValueChanged<DateTime> onDateTimeChanged;
-  const CalendarScreen({Key? key, required this.onDateTimeChanged}) : super(key: key);
+  const CalendarScreen({Key? key, required this.onDateTimeChanged})
+      : super(key: key);
 
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
@@ -40,7 +41,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     currentDate = DateTime.now();
     int weekDay = currentDate.weekday;
     DateTime firstDayOfWeek = currentDate.subtract(Duration(days: weekDay));
-    selectedDay = new DayModel(currentDate.day, _weekDay(firstDayOfWeek.weekday), "0");
+    selectedDay =
+        new DayModel(currentDate.day, _weekDay(firstDayOfWeek.weekday), "0");
     _startDate = firstDayOfWeek.add(new Duration(days: 1));
     _endDate = firstDayOfWeek.add(new Duration(days: 8));
     BlocManager.calendarBloc.add(
@@ -60,7 +62,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     for (int i = 1; i <= 7; i++) {
       var firstDayOfWeek = date.subtract(Duration(days: weekDay - i));
       print("monthss: ${date.add(new Duration(days: i)).month}");
-      DayModel currentDay = DayModel(firstDayOfWeek.day, _weekDay(firstDayOfWeek.weekday), _datesProgress![i - 1].percentage.toString(),
+      DayModel currentDay = DayModel(
+          firstDayOfWeek.day,
+          _weekDay(firstDayOfWeek.weekday),
+          _datesProgress![i - 1].percentage.toString(),
           month: date.add(new Duration(days: i)).month);
       fixedWeek.add(currentDay);
     }
@@ -119,7 +124,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
         value: BlocManager.calendarBloc,
         child: BlocListener<CalendarBloc, CalendarState>(
             listener: _blocListener,
-            child: BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
+            child: BlocBuilder<CalendarBloc, CalendarState>(
+                builder: (context, state) {
               return NoSplashContainer(
                 child: Container(
                     width: ResponsiveFlutter.of(context).wp(100),
@@ -131,19 +137,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           height: ResponsiveFlutter.of(context).hp(1),
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: SizeHelper.margin),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: SizeHelper.margin),
                           child: Row(
                             children: [
                               Expanded(
                                 child: Text(
                                   _monthName(currentDate.month),
-                                  style: TextStyle(color: Colors.black, fontSize: ResponsiveFlutter.of(context).fontSize(2)),
+                                  style: TextStyle(
+                                      color: customColors.primaryText,
+                                      fontSize: ResponsiveFlutter.of(context)
+                                          .fontSize(2)),
                                 ),
                               ),
                               NoSplashContainer(
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(context, Routes.allHabits);
+                                    Navigator.pushNamed(
+                                        context, Routes.allHabits);
                                   },
                                   child: CustomText(
                                     LocaleKeys.seeAllHabits,
@@ -165,9 +176,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           child: Row(children: [
                             InkWell(
                                 onTap: (() {
-                                  currentDate = DateTime(currentDate.year, currentDate.month, currentDate.day - 7);
-                                  _startDate = _startDate.add(new Duration(days: -7));
-                                  _endDate = _endDate.add(new Duration(days: -7));
+                                  currentDate = DateTime(currentDate.year,
+                                      currentDate.month, currentDate.day - 7);
+                                  _startDate =
+                                      _startDate.add(new Duration(days: -7));
+                                  _endDate =
+                                      _endDate.add(new Duration(days: -7));
                                   BlocManager.calendarBloc.add(
                                     GetDateIntervalProgressEvent(
                                       Func.toDateStr(_startDate),
@@ -197,7 +211,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       child: CircularProgressIndicator(),
                                     )
                                   : ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       scrollDirection: Axis.horizontal,
                                       primary: true,
                                       shrinkWrap: true,
@@ -211,9 +226,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             // ),
                             InkWell(
                                 onTap: (() {
-                                  currentDate = DateTime(currentDate.year, currentDate.month, currentDate.day + 7);
-                                  _startDate = _startDate.add(new Duration(days: 7));
-                                  _endDate = _endDate.add(new Duration(days: 7));
+                                  currentDate = DateTime(currentDate.year,
+                                      currentDate.month, currentDate.day + 7);
+                                  _startDate =
+                                      _startDate.add(new Duration(days: 7));
+                                  _endDate =
+                                      _endDate.add(new Duration(days: 7));
                                   BlocManager.calendarBloc.add(
                                     GetDateIntervalProgressEvent(
                                       Func.toDateStr(_startDate),
@@ -250,7 +268,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     } else if (state is GetDateIntervalProgressFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -263,14 +284,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
           setState(() {
             selectedDay = fixedWeek[index];
             print("Sar: ${fixedWeek[index].month}");
-            var date = DateTime(selectedDay!.year!, fixedWeek[index].month!, selectedDay!.day!);
+            var date = DateTime(
+                selectedDay!.year!, fixedWeek[index].month!, selectedDay!.day!);
             widget.onDateTimeChanged(date);
           });
         },
         child: fixedWeek[index] == selectedDay
             ? Container(
-                margin: EdgeInsets.only(right: ResponsiveFlutter.of(context).fontSize(0.6)),
-                padding: EdgeInsets.all(ResponsiveFlutter.of(context).fontSize(1.5)),
+                margin: EdgeInsets.only(
+                    right: ResponsiveFlutter.of(context).fontSize(0.6)),
+                padding:
+                    EdgeInsets.all(ResponsiveFlutter.of(context).fontSize(1.5)),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: customColors.primary,
@@ -279,10 +303,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   children: [
                     Text(
                       '${fixedWeek[index].dayName}',
-                      style: TextStyle(color: Colors.white, fontSize: ResponsiveFlutter.of(context).fontSize(1.3), fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: ResponsiveFlutter.of(context).fontSize(1.3),
+                          fontWeight: FontWeight.w500),
                     ),
                     Text('${fixedWeek[index].day}',
-                        style: TextStyle(color: Colors.white, fontSize: ResponsiveFlutter.of(context).fontSize(1.3), fontWeight: FontWeight.w500)),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize:
+                                ResponsiveFlutter.of(context).fontSize(1.3),
+                            fontWeight: FontWeight.w500)),
                     SizedBox(
                         // height: ResponsiveFlutter.of(context).hp(0.5),
                         ),
@@ -290,13 +321,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
               )
             : Container(
-                margin: EdgeInsets.only(right: ResponsiveFlutter.of(context).fontSize(0.7)),
+                margin: EdgeInsets.only(
+                    right: ResponsiveFlutter.of(context).fontSize(0.7)),
                 // padding: EdgeInsets.only(right: ResponsiveFlutter.of(context).fontSize(0.3), left: ResponsiveFlutter.of(context).fontSize(0.3)),
                 child: CircularPercentIndicator(
                   isSelected: fixedWeek[index] == selectedDay ? true : false,
                   radius: ResponsiveFlutter.of(context).fontSize(2.5),
                   lineWidth: ResponsiveFlutter.of(context).fontSize(0.2),
-                  percent: double.parse(fixedWeek[index].process ?? "0.0") / 100,
+                  percent:
+                      double.parse(fixedWeek[index].process ?? "0.0") / 100,
                   center: Column(
                     children: [
                       SizedBox(
@@ -305,14 +338,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       Text(
                         '${fixedWeek[index].dayName}',
                         style: TextStyle(
-                            color: fixedWeek[index] == selectedDay ? Colors.black : Colors.grey,
-                            fontSize: ResponsiveFlutter.of(context).fontSize(1.3),
+                            color: fixedWeek[index] == selectedDay
+                                ? customColors.primaryText
+                                : Colors.grey,
+                            fontSize:
+                                ResponsiveFlutter.of(context).fontSize(1.3),
                             fontWeight: FontWeight.w500),
                       ),
                       Text('${fixedWeek[index].day}',
                           style: TextStyle(
-                              color: fixedWeek[index] == selectedDay ? Colors.black : Colors.grey,
-                              fontSize: ResponsiveFlutter.of(context).fontSize(1.3),
+                              color: fixedWeek[index] == selectedDay
+                                  ? customColors.primaryText
+                                  : Colors.grey,
+                              fontSize:
+                                  ResponsiveFlutter.of(context).fontSize(1.3),
                               fontWeight: FontWeight.w500)),
                       SizedBox(
                         height: ResponsiveFlutter.of(context).hp(0.5),

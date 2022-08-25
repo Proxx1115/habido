@@ -10,6 +10,7 @@ import 'package:habido_app/models/mood_tracker_reason_with_count.dart';
 import 'package:habido_app/models/mood_tracker_monthly_reason_response.dart';
 import 'package:habido_app/models/profile_habit_count.dart';
 import 'package:habido_app/ui/profile_v2/performance/feeling_item.dart';
+import 'package:habido_app/ui/profile_v2/performance/feeling_stats.dart';
 import 'package:habido_app/ui/profile_v2/performance/performance_bloc.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
@@ -231,8 +232,7 @@ class _PerformanceState extends State<Performance> {
             fontSize: 15,
           ),
           SizedBox(height: 15),
-          calendarMonthDaysResponse != null ? _calender() : Container(),
-          _myFeeling(),
+          FeelingStats(),
           SizedBox(height: 20),
           InkWell(
             onTap: () {

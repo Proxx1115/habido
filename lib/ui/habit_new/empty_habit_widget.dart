@@ -13,13 +13,15 @@ class EmptyHabitWidget extends StatelessWidget {
     var _size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.only(top: 120),
-      height: 360,
+      height: 320,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: Image.asset(
               image,
+              width: 255,
+              height: 251,
             ),
           ),
           SizedBox(

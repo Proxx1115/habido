@@ -25,7 +25,8 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
   List<ActiveHabit>? _activeHabitList;
 
   // Refresh
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -40,7 +41,8 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
       value: BlocManager.userHabitBloc,
       child: BlocListener<UserHabitBloc, UserHabitState>(
         listener: _blocListener,
-        child: BlocBuilder<UserHabitBloc, UserHabitState>(builder: (context, state) {
+        child: BlocBuilder<UserHabitBloc, UserHabitState>(
+            builder: (context, state) {
           return SmartRefresher(
             enablePullDown: true,
             enablePullUp: true,
@@ -72,7 +74,7 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
                   body = Container(); // No more Data
                 }
                 return Container(
-                  height: 55.0,
+                  height: 50.0,
                   child: Center(child: body),
                 );
               },
@@ -87,14 +89,16 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
                           data: _activeHabitList![index],
                           isActiveHabit: true,
                           onTap: () {
-                            _navigateToHabitDetailRoute(context, _activeHabitList![index]);
+                            _navigateToHabitDetailRoute(
+                                context, _activeHabitList![index]);
                           },
                         ),
                         // itemExtent: 90.0,
 
                         itemCount: _activeHabitList!.length,
                       )
-                    : EmptyHabitWidget(Assets.emptyWoman, LocaleKeys.activeHabitEmpty)
+                    : EmptyHabitWidget(
+                        Assets.emptyWoman, LocaleKeys.activeHabitEmpty)
                 : Container(),
           );
         }),
@@ -109,14 +113,20 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
     } else if (state is GetActiveHabitFirstFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is GetActiveHabitThenSuccess) {
       _activeHabitList = state.activeHabitList;
     } else if (state is GetActiveHabitThenFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -157,7 +167,8 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
     // _notifList.add((_notifList.length + 1).toString());
 
     if (_activeHabitList!.isNotEmpty) {
-      BlocManager.userHabitBloc.add(GetActiveHabitThenEvent(_activeHabitList!.last.userHabitId ?? 0));
+      BlocManager.userHabitBloc.add(
+          GetActiveHabitThenEvent(_activeHabitList!.last.userHabitId ?? 0));
     }
 
     if (mounted) setState(() {});

@@ -15,7 +15,12 @@ class HabitItemWidget extends StatelessWidget {
   final dynamic data;
   final bool isActiveHabit;
   final Function onTap;
-  const HabitItemWidget({Key? key, required this.data, required this.isActiveHabit, required this.onTap}) : super(key: key);
+  const HabitItemWidget(
+      {Key? key,
+      required this.data,
+      required this.isActiveHabit,
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,8 @@ class HabitItemWidget extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(22.0, 12.0, 22.0, 12.0),
         margin: EdgeInsets.only(bottom: 15.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
+          borderRadius:
+              BorderRadius.all(Radius.circular(SizeHelper.borderRadius)),
           color: customColors.whiteBackground,
         ),
         child: InkWell(
@@ -54,19 +60,24 @@ class HabitItemWidget extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomText(data.name, fontSize: 15.0, fontWeight: FontWeight.w500),
+                    CustomText(data.name,
+                        fontSize: 15.0, fontWeight: FontWeight.w500),
                     SizedBox(height: 1.0),
                     CustomText(data.goalValue, fontSize: 11.0),
                     SizedBox(height: 5.0),
                     Row(
                       children: [
-                        TagItemWidget(text: Func.toDateStr(Func.toDate(data.startDate), dateFormat: 'yyyy.MM.dd')),
+                        TagItemWidget(
+                            text: Func.toDateStr(Func.toDate(data.startDate),
+                                dateFormat: 'yyyy.MM.dd')),
                         Container(
                           height: 1,
                           width: 18.0,
                           color: customColors.primaryButtonDisabledContent,
                         ),
-                        TagItemWidget(text: Func.toDateStr(Func.toDate(data.endDate), dateFormat: 'yyyy.MM.dd')),
+                        TagItemWidget(
+                            text: Func.toDateStr(Func.toDate(data.endDate),
+                                dateFormat: 'yyyy.MM.dd')),
                       ],
                     )
                   ],
@@ -112,8 +123,13 @@ class HabitItemWidget extends StatelessWidget {
           bottomLeft: Radius.circular(SizeHelper.borderRadius),
         ),
       ),
-      child: CustomText(isActiveHabit ? _activeHabitDays(data.planTerm) : _overHabitStatus(data.status),
-          fontSize: 11.0, alignment: Alignment.center, overflow: TextOverflow.ellipsis),
+      child: CustomText(
+          isActiveHabit
+              ? _activeHabitDays(data.planTerm)
+              : _overHabitStatus(data.status),
+          fontSize: 11.0,
+          alignment: Alignment.center,
+          overflow: TextOverflow.ellipsis),
     );
   }
 

@@ -13,6 +13,7 @@ import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
 import 'package:habido_app/utils/route/routes.dart';
 import 'package:habido_app/utils/size_helper.dart';
+import 'package:habido_app/utils/theme/custom_colors.dart';
 import 'package:habido_app/widgets/buttons.dart';
 import 'package:habido_app/widgets/containers/containers.dart';
 import 'package:habido_app/widgets/dialogs.dart';
@@ -92,7 +93,9 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
                       child: ListView(
                         children: [
                           /// Emoji
-                          _userHabit.habit?.goalSettings?.toolContent?.isFeeling == null
+                          _userHabit.habit?.goalSettings?.toolContent
+                                      ?.isFeeling ==
+                                  null
                               ? EmojiWidget(
                                   onSelectedEmoji: (value) {
                                     setState(() {
@@ -174,7 +177,7 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
             padding: 0,
             controller: _conclusionController,
             keyboardType: TextInputType.text,
-            textColor: Colors.black,
+            textColor: customColors.primaryText,
             hintText: LocaleKeys.typeNote,
             onChanged: (value) {
               setState(() {});
@@ -187,13 +190,17 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
 
   void _blocListener(BuildContext context, UserHabitState state) {
     if (state is SaveUserHabitProgressSuccess) {
-      Navigator.pushReplacementNamed(context, Routes.habitSuccessNew, arguments: {
-        'callback': widget.callBack,
-      });
+      Navigator.pushReplacementNamed(context, Routes.habitSuccessNew,
+          arguments: {
+            'callback': widget.callBack,
+          });
     } else if (state is SaveUserHabitProgressFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: LocaleKeys.failed,
+            buttonText: LocaleKeys.ok),
       );
     } else if (state is UpdateUserHabitSuccess) {
       if (state.userHabit.userHabitId == _userHabit.userHabitId) {
@@ -202,7 +209,10 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
     } else if (state is UpdateUserHabitFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: LocaleKeys.failed,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -221,8 +231,10 @@ class _HabitFeelingRouteState extends State<HabitFeelingRoute> {
               request.value = Func.toStr(_selectedEmoji!);
               request.note = Func.toStr(_conclusion);
               request.answerId = 0;
-              request.planDate = _userHabit.planDate ?? DateTime.now().toString();
-              BlocManager.userHabitBloc.add(SaveUserHabitProgressEvent(request));
+              request.planDate =
+                  _userHabit.planDate ?? DateTime.now().toString();
+              BlocManager.userHabitBloc
+                  .add(SaveUserHabitProgressEvent(request));
             }
           : null,
     );

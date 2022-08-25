@@ -82,7 +82,10 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
     } else if (state is ContentFailedV2) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(
+            asset: Assets.error,
+            text: state.message,
+            buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -151,7 +154,9 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
           Hero(
             tag: Func.toStr(content.contentId),
             child: ClipRRect(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0)),
               child: CachedNetworkImage(
                 imageUrl: content.contentPhoto!,
                 fit: BoxFit.fitWidth,
@@ -230,7 +235,8 @@ class _ContentRouteV2State extends State<ContentRouteV2> {
                       InkWell(
                         onTap: () {
                           _isLiked = !_isLiked!;
-                          BlocManager.contentBlocV2.add(LikeContentEvent(content.contentId!));
+                          BlocManager.contentBlocV2
+                              .add(LikeContentEvent(content.contentId!));
                         },
                         child: _isLiked!
                             ? SvgPicture.asset(
