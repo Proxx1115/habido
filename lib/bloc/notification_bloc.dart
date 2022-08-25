@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/models/notif.dart';
+import 'package:habido_app/models/notif_list_with_date.dart';
 import 'package:habido_app/utils/api/api_helper.dart';
 import 'package:habido_app/utils/api/api_manager.dart';
 import 'package:habido_app/utils/func.dart';
@@ -24,12 +25,17 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       yield* _mapGetNextNotifsToState(event);
     } else if (event is ReadAllNotifEvent) {
       yield* _mapReadAllNotifEventToState();
-    } else if (event is DeleteNotifEvent){
+    } else if (event is GetLastNotifEvent) {
+      yield* _mapGetLastNotifEventToState();
+    } else if (event is GetOldNotifsEvent) {
+      yield* _mapGetOldNotifsToState(event);
+    } else if (event is DeleteNotifEvent) {
       yield* _mapDeleteNotifEventToState(event);
     }
   }
 
-  Stream<NotificationState> _mapGetUnreadNotifCountToState(GetUnreadNotifCount event) async* {
+  Stream<NotificationState> _mapGetUnreadNotifCountToState(
+      GetUnreadNotifCount event) async* {
     try {
       yield NotificationLoading();
 
@@ -41,7 +47,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         if (lastDateTime == null) {
           print('forceUpdate = true');
         } else {
-          DateTime expirationDateTime = DateTime.now().subtract(Duration(seconds: 60));
+          DateTime expirationDateTime =
+              DateTime.now().subtract(Duration(seconds: 60));
           if (lastDateTime.isBefore(expirationDateTime)) {
             print('forceUpdate = true');
           } else {
@@ -57,7 +64,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           SharedPref.setLastNotifDateTime(DateTime.now());
           yield GetUnreadNotifCountSuccess(res.notifCount ?? 0);
         } else {
-          yield GetUnreadNotifCountFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+          yield GetUnreadNotifCountFailed(
+              Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
         }
       }
     } catch (e) {
@@ -73,14 +81,16 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       if (res.code == ResponseCode.Success) {
         yield GetFirstNotifsSuccess(res.notifList ?? []);
       } else {
-        yield GetFirstNotifsFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield GetFirstNotifsFailed(
+            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield GetFirstNotifsFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<NotificationState> _mapGetNextNotifsToState(GetNextNotifsEvent event) async* {
+  Stream<NotificationState> _mapGetNextNotifsToState(
+      GetNextNotifsEvent event) async* {
     try {
       yield NotificationLoading();
 
@@ -88,7 +98,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       if (res.code == ResponseCode.Success) {
         yield GetNextNotifsSuccess(res.notifList ?? []);
       } else {
-        yield GetNextNotifsFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield GetNextNotifsFailed(
+            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield GetNextNotifsFailed(LocaleKeys.errorOccurred);
@@ -103,26 +114,63 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       if (res.code == ResponseCode.Success) {
         yield ReadAllNotifSuccess();
       } else {
-        yield ReadAllNotifFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield ReadAllNotifFailed(
+            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
       yield ReadAllNotifFailed(LocaleKeys.errorOccurred);
     }
   }
 
-  Stream<NotificationState> _mapDeleteNotifEventToState(DeleteNotifEvent event) async* {
+  Stream<NotificationState> _mapGetLastNotifEventToState() async* {
     try {
       yield NotificationLoading();
+      print('print');
 
-      var res = await ApiManager.DeleteNotif(event.notifId);
+      var res = await ApiManager.lastNotifs();
       if (res.code == ResponseCode.Success) {
-        yield ReadAllNotifSuccess();
+        yield GetLastNotifSuccess(res.notifListWithDate!);
       } else {
-        yield ReadAllNotifFailed(Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+        yield GetLastNotifFailed(
+            Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
       }
     } catch (e) {
-      yield ReadAllNotifFailed(LocaleKeys.errorOccurred);
+      yield GetLastNotifFailed(LocaleKeys.errorOccurred);
     }
+  }
+}
+
+Stream<NotificationState> _mapGetOldNotifsToState(
+    GetOldNotifsEvent event) async* {
+  try {
+    yield NotificationLoading();
+
+    var res = await ApiManager.oldNotifs(event.notifId);
+    if (res.code == ResponseCode.Success) {
+      yield GetOldNotifsSuccess(res.notifListWithDate ?? []);
+    } else {
+      yield GetOldNotifsFailed(
+          Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+    }
+  } catch (e) {
+    yield GetOldNotifsFailed(LocaleKeys.errorOccurred);
+  }
+}
+
+Stream<NotificationState> _mapDeleteNotifEventToState(
+    DeleteNotifEvent event) async* {
+  try {
+    yield NotificationLoading();
+
+    var res = await ApiManager.DeleteNotif(event.notifId);
+    if (res.code == ResponseCode.Success) {
+      yield ReadAllNotifSuccess();
+    } else {
+      yield ReadAllNotifFailed(
+          Func.isNotEmpty(res.message) ? res.message! : LocaleKeys.noData);
+    }
+  } catch (e) {
+    yield ReadAllNotifFailed(LocaleKeys.errorOccurred);
   }
 }
 
@@ -164,6 +212,21 @@ class GetNextNotifsEvent extends NotificationEvent {
   @override
   String toString() => 'GetNextNotifsEvent { notifId: $notifId }';
 }
+
+class GetLastNotifEvent extends NotificationEvent {}
+
+class GetOldNotifsEvent extends NotificationEvent {
+  final int notifId;
+
+  const GetOldNotifsEvent(this.notifId);
+
+  @override
+  List<Object> get props => [notifId];
+
+  @override
+  String toString() => 'GetOldNotifsEvent { notifId: $notifId }';
+}
+
 class DeleteNotifEvent extends NotificationEvent {
   final int notifId;
 
@@ -200,7 +263,8 @@ class GetUnreadNotifCountSuccess extends NotificationState {
   List<Object> get props => [unreadNotifCount];
 
   @override
-  String toString() => 'GetUnreadNotifCountSuccess { unreadNotifCount: $unreadNotifCount }';
+  String toString() =>
+      'GetUnreadNotifCountSuccess { unreadNotifCount: $unreadNotifCount }';
 }
 
 class GetUnreadNotifCountFailed extends NotificationState {
@@ -275,6 +339,56 @@ class ReadAllNotifFailed extends NotificationState {
 
   @override
   String toString() => 'ReadAllNotifFailed { message: $message }';
+}
+
+class GetLastNotifSuccess extends NotificationState {
+  final List<NotifListWithDate> notifListWithDate;
+
+  const GetLastNotifSuccess(
+    this.notifListWithDate,
+  );
+
+  @override
+  List<Object> get props => [notifListWithDate];
+
+  @override
+  String toString() => 'ContentListSuccess { contentList: $notifListWithDate}';
+}
+
+class GetLastNotifFailed extends NotificationState {
+  final String message;
+
+  const GetLastNotifFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetFirstNotifsFailed { message: $message }';
+}
+
+class GetOldNotifsSuccess extends NotificationState {
+  final List<NotifListWithDate> notifListWithDate;
+
+  const GetOldNotifsSuccess(this.notifListWithDate);
+
+  @override
+  List<Object> get props => [notifListWithDate];
+
+  @override
+  String toString() => 'GetOldNotifsSuccess { notifList: $notifListWithDate }';
+}
+
+class GetOldNotifsFailed extends NotificationState {
+  final String message;
+
+  const GetOldNotifsFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+
+  @override
+  String toString() => 'GetOldNotifsFailed { message: $message }';
 }
 
 class DeleteNotifSuccess extends NotificationState {}

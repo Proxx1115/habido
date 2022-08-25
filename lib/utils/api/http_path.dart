@@ -31,7 +31,8 @@ class HttpPath {
   static const String testCategories = '/mobile/test-categories';
   static const String categoryTests = '/mobile/category-tests';
   static const String contentList = '/mobile/content/list';
-  static const String highLightedContentList = '/mobile/highlighted-content/list';
+  static const String highLightedContentList =
+      '/mobile/highlighted-content/list';
   static const String contentTags = '/mobile/content/tags';
 
   static const String content = '/mobile/content';
@@ -61,12 +62,17 @@ class HttpPath {
   static const String userHabitsByDates = '/mobile/habit/dates/user-habits';
   static const String skipUserHabit = '/mobile/skip-habit';
   static const String saveUserHabitProgress = '/mobile/habit/save';
-  static const String habitProgressListWithDate = '/mobile/habit/user-habit/progresses';
-  static const String habitProgressListByDate = '/mobile/habit/user-habit/date/progress';
+  static const String habitProgressListWithDate =
+      '/mobile/habit/user-habit/progresses';
+  static const String habitProgressListByDate =
+      '/mobile/habit/user-habit/date/progress';
   static const String habitQuestion = '/mobile/habit/questions';
-  static const String addHabitProgress = '/mobile/habit/user-habit/plan/progress';
-  static const String updateHabitProgress = '/mobile/habit/user-habit/plan/progress';
-  static const String deleteHabitProgress = '/mobile/habit/user-habit/plan/progress';
+  static const String addHabitProgress =
+      '/mobile/habit/user-habit/plan/progress';
+  static const String updateHabitProgress =
+      '/mobile/habit/user-habit/plan/progress';
+  static const String deleteHabitProgress =
+      '/mobile/habit/user-habit/plan/progress';
   static const String calendar = '/mobile/habit/calendar';
   static const String datesProgress = '/mobile/habit-plan/process';
   static const String calendarDate = '/mobile/habit/user-habits/date';
@@ -74,6 +80,8 @@ class HttpPath {
   static const String readAllNotif = '/mobile/notifs/read-all';
   static const String firstNotifs = '/mobile/notifs/first';
   static const String nextNotifs = '/mobile/notifs/then';
+  static const String lastNotifs = '/mobile/notifs/last';
+  static const String oldNotifs = '/mobile/notifs/old';
   static const String deleteNotif = 'mobile/notifs/delete';
   static const String achievements = '/mobile/user/accomplishments';
   static const String rankList = '/mobile/rank/list';
@@ -82,20 +90,28 @@ class HttpPath {
   static const String forgotPassword = '/auth/user/forgot-pass';
   static const String forgotPasswordChange = '/auth/user/change-pass';
   static const String dynamicHabitSettings = '/mobile/habit/settings';
-  static const String getHabitProgressLog = '/mobile/user-habit/progress/log/date';
-  static const String updateHabitProgressLog = '/mobile/user-habit/progress/log';
+  static const String getHabitProgressLog =
+      '/mobile/user-habit/progress/log/date';
+  static const String updateHabitProgressLog =
+      '/mobile/user-habit/progress/log';
   static const String sendFeedback = '/mobile/feed-back';
   static const String feedBackCatList = '/mobile/feed-back/categories';
 
   /// User Habit Details
-  static const String habitExpenseCategories = '/mobile/habit/user-habit/expense-categories';
-  static const String habitFinanceTotalAmount = '/mobile/habit/user-habit/total-amount';
-  static const String habitFinanceTotalAmountByDate = '/mobile/habit/user-habit/date/total-amount';
-  static const String habitFeelingPieChart = '/mobile/details/feeling-pie-chart';
+  static const String habitExpenseCategories =
+      '/mobile/habit/user-habit/expense-categories';
+  static const String habitFinanceTotalAmount =
+      '/mobile/habit/user-habit/total-amount';
+  static const String habitFinanceTotalAmountByDate =
+      '/mobile/habit/user-habit/date/total-amount';
+  static const String habitFeelingPieChart =
+      '/mobile/details/feeling-pie-chart';
   static const String habitDetailsSatisfaction = '/mobile/details/satisfaction';
   static const String userHabitPlanCount = '/mobile/user-habit/plan/count';
-  static const String userHabitDetailsFeelingLatest = '/mobile/details/feeling/latest';
-  static const String userHabitDetailsFeelingNext = '/mobile/details/feeling/then';
+  static const String userHabitDetailsFeelingLatest =
+      '/mobile/details/feeling/latest';
+  static const String userHabitDetailsFeelingNext =
+      '/mobile/details/feeling/then';
 
   static const String cbChatBots = '/mobile/cb/chat-bots';
   static const String cbFirstChat = '/mobile/cb/first-chat';
