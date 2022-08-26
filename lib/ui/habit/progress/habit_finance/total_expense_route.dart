@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/habit_total_amount_by_date_request.dart';
+import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_expense_category.dart';
 import 'package:habido_app/ui/habit_new/empty_habit_widget.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -18,11 +20,15 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class HabitTotalExpenseRoute extends StatefulWidget {
-  final int userHabitId;
+  final UserHabit userHabit;
+  final bool? isActive;
+  final Function? refreshHabits;
 
   const HabitTotalExpenseRoute({
     Key? key,
-    required this.userHabitId,
+    required this.userHabit,
+    this.isActive = false,
+    this.refreshHabits,
   }) : super(key: key);
 
   @override
@@ -38,7 +44,7 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
   @override
   void initState() {
     super.initState();
-    BlocManager.userHabitBloc.add(GetHabitFinanceTotalAmountEvent(widget.userHabitId));
+    BlocManager.userHabitBloc.add(GetHabitFinanceTotalAmountEvent(widget.userHabit.userHabitId!));
     _selectedDateInterval = _dateFilters[0];
   }
 
@@ -73,6 +79,29 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.failed, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is DeleteUserHabitSuccess) {
+      showCustomDialog(
+        context,
+        isDismissible: false,
+        child: CustomDialogBody(
+          asset: Assets.success,
+          text: LocaleKeys.success,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            Navigator.pop(context);
+            widget.refreshHabits!();
+          },
+        ),
+      );
+    } else if (state is DeleteUserHabitFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          buttonText: LocaleKeys.ok,
+        ),
       );
     }
   }
@@ -130,6 +159,22 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
                       ],
                     ),
                   ),
+
+                  /// Delete Btn
+                  if (widget.isActive ?? false)
+                    Column(
+                      children: [
+                        SizedBox(height: 20.0),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: DeleteButtonWidget(
+                            onDelete: () {
+                              BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabit.userHabitId!));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             )
@@ -280,18 +325,18 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
 
   _onFilterByDate() {
     if (_selectedDateInterval == _dateFilters[0]) {
-      BlocManager.userHabitBloc.add(GetHabitFinanceTotalAmountEvent(widget.userHabitId));
+      BlocManager.userHabitBloc.add(GetHabitFinanceTotalAmountEvent(widget.userHabit.userHabitId!));
     } else if (_selectedDateInterval == _dateFilters[1]) {
       var request = HabitTotalAmountByDateRequest()
         ..startDate = Func.toDateStr(DateTime.now().subtract(Duration(days: 7)))
         ..lastDate = Func.toDateStr(DateTime.now())
-        ..userHabitId = widget.userHabitId;
+        ..userHabitId = widget.userHabit.userHabitId!;
       BlocManager.userHabitBloc.add(GetHabitFinanceTotalAmountByDateEvent(request));
     } else if (_selectedDateInterval == _dateFilters[2]) {
       var request = HabitTotalAmountByDateRequest()
         ..startDate = Func.toDateStr(DateTime.now().subtract(Duration(days: 30)))
         ..lastDate = Func.toDateStr(DateTime.now())
-        ..userHabitId = widget.userHabitId;
+        ..userHabitId = widget.userHabit.userHabitId!;
       BlocManager.userHabitBloc.add(GetHabitFinanceTotalAmountByDateEvent(request));
     }
   }

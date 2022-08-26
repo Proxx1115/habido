@@ -79,8 +79,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
   @override
   void initState() {
     super.initState();
-    BlocManager.dashboardBloc
-        .add(GetUserHabitByDateEvent(_userHabitDate.toString()));
+    BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
     BlocManager.dashboardBloc.add(GetHabitTemplateListEvent());
     BlocManager.dashboardBloc.add(GetSuggestedHabitListEvent());
   }
@@ -94,8 +93,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
         value: BlocManager.dashboardBloc,
         child: BlocListener<DashboardBloc, DashboardState>(
           listener: _blocListener,
-          child: BlocBuilder<DashboardBloc, DashboardState>(
-              builder: (context, state) {
+          child: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
             return CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: [
@@ -127,8 +125,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
           Navigator.pushNamed(context, Routes.habitCategories);
         },
       ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, // Plan New Habit Btn
     );
   }
 
@@ -156,12 +153,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
         RectangleCalendarScreen(
           onDateTimeChanged: (value) {
             _userHabitDate = value;
-            BlocManager.dashboardBloc
-                .add(GetUserHabitByDateEvent(_userHabitDate.toString()));
-            Func.dateTimeToDateStr(_userHabitDate) !=
-                    Func.dateTimeToDateStr(DateTime.now())
-                ? _isToday = false
-                : _isToday = true;
+            BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
+            Func.dateTimeToDateStr(_userHabitDate) != Func.dateTimeToDateStr(DateTime.now()) ? _isToday = false : _isToday = true;
             print("isToday: ${_isToday}");
           },
         ),
@@ -261,11 +254,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
                 alignment: WrapAlignment.center,
                 children: [
                   if (_suggestedHabits != null)
-                    for (var habit in _suggestedHabits!)
-                      _habitItem(
-                          asset: habit.photo!,
-                          name: habit.name!,
-                          habitId: habit.habitId!),
+                    for (var habit in _suggestedHabits!) _habitItem(asset: habit.photo!, name: habit.name!, habitId: habit.habitId!),
                 ],
               ),
             ),
@@ -273,8 +262,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
         ));
   }
 
-  Widget _habitItem(
-      {required String asset, required String name, required int habitId}) {
+  Widget _habitItem({required String asset, required String name, required int habitId}) {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.userHabit, arguments: {
@@ -323,8 +311,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
   Widget _userHabitListWidget() {
     return Container(
       child: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0,
-            SizeHelper.padding, SizeHelper.marginBottom),
+        padding: EdgeInsets.fromLTRB(SizeHelper.padding, 0.0, SizeHelper.padding, SizeHelper.marginBottom),
         child: BlocProvider.value(
           value: BlocManager.dashboardBloc,
           child: BlocListener<DashboardBloc, DashboardState>(
@@ -333,30 +320,20 @@ class _HabitDashboardState extends State<HabitDashboard> {
               builder: (context, state) {
                 String todayDone = '';
                 if (_userHabits != null) {
-                  todayDone = _userHabits!
-                          .where((element) => element.isDone!)
-                          .toList()
-                          .length
-                          .toString() +
-                      '/' +
-                      _userHabits!.length.toString();
+                  todayDone = _userHabits!.where((element) => element.isDone!).toList().length.toString() + '/' + _userHabits!.length.toString();
                 }
                 return Column(
                   children: [
                     /// Today
                     CustomText(
-                      _isToday
-                          ? LocaleKeys.todaysHabit
-                          : "${_userHabitDate.month}-р сарын ${_userHabitDate.day}",
+                      _isToday ? LocaleKeys.todaysHabit : "${_userHabitDate.month}-р сарын ${_userHabitDate.day}",
                       fontSize: 16.0,
                       fontWeight: FontWeight.w700,
                     ),
 
                     SizedBox(height: 12.0),
 
-                    if (Func.isNotEmpty(_userHabits))
-                      _habitList(LocaleKeys.today, _userHabits!, true, _isToday,
-                          todayDone),
+                    if (Func.isNotEmpty(_userHabits)) _habitList(LocaleKeys.today, _userHabits!, true, _isToday, todayDone),
                   ],
                 );
               },
@@ -375,46 +352,33 @@ class _HabitDashboardState extends State<HabitDashboard> {
     } else if (state is SkipUserHabitFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is GetUserHabitByDateSuccess) {
       _userHabits = state.userHabits;
     } else if (state is GetUserHabitByDateFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is GetHabitTemplateListSuccess) {
       _habitTemplates = state.habitTemplates;
     } else if (state is GetHabitTemplateListFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is GetSuggestedHabitListSuccess) {
       _suggestedHabits = state.suggestedHabits;
     } else if (state is GetSuggestedHabitListFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
 
-  Widget _habitList(String title, List<UserHabit> userHabitList, bool enabled,
-      bool isToday, String? todayText) {
+  Widget _habitList(String title, List<UserHabit> userHabitList, bool enabled, bool isToday, String? todayText) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -431,22 +395,15 @@ class _HabitDashboardState extends State<HabitDashboard> {
                 isEnd: index == userHabitList.length - 1,
                 delay: index * 0.2,
                 text: userHabitList[index].name ?? '',
-                subText: PlanTerm.planTermText(userHabitList[index]
-                    .planTerm!), //userHabitList[index].name ?? '' // todo sda
+                subText: PlanTerm.planTermText(userHabitList[index].planTerm!), //userHabitList[index].name ?? '' // todo sda
                 reminders: userHabitList[index]
                     .userHabitReminders!
                     .take(3)
                     .toList()
-                    .map((e) =>
-                        ("${(Func.toInt(e.time) ~/ 60)}".padLeft(2, "0") +
-                            ":" +
-                            "${Func.toInt(e.time) % 60}".padLeft(2, "0")))
+                    .map((e) => ("${(Func.toInt(e.time) ~/ 60)}".padLeft(2, "0") + ":" + "${Func.toInt(e.time) % 60}".padLeft(2, "0")))
                     .toList(),
                 leadingUrl: userHabitList[index].habit?.photo,
-                leadingBackgroundColor:
-                    (userHabitList[index].habit?.color != null)
-                        ? HexColor.fromHex(userHabitList[index].habit!.color!)
-                        : null,
+                leadingBackgroundColor: (userHabitList[index].habit?.color != null) ? HexColor.fromHex(userHabitList[index].habit!.color!) : null,
                 processPercent: userHabitList[index].percentage!.toInt(),
                 // processPercent: 50,
                 //_getSuffixAsset(userHabitList[index])
@@ -457,11 +414,8 @@ class _HabitDashboardState extends State<HabitDashboard> {
                   if (userHabitList[index].isDone ?? false) return;
 
                   // Navigate
-                  if (enabled &&
-                      userHabitList[index].habit?.goalSettings != null &&
-                      isToday) {
-                    String? route = HabitHelper.getProgressRoute(
-                        userHabitList[index].habit!);
+                  if (enabled && userHabitList[index].habit?.goalSettings != null && isToday) {
+                    String? route = HabitHelper.getProgressRoute(userHabitList[index].habit!);
                     if (route != null) {
                       Navigator.pushNamed(
                         context,
@@ -487,8 +441,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
                               var skipUserHabitRequest = SkipUserHabitRequest()
                                 ..userHabitId = userHabitList[index].userHabitId
                                 ..skipDay = Func.toDateStr(DateTime.now());
-                              BlocManager.dashboardBloc.add(
-                                  SkipUserHabitEvent(skipUserHabitRequest));
+                              BlocManager.dashboardBloc.add(SkipUserHabitEvent(skipUserHabitRequest));
                             },
                           ),
                         );
@@ -500,10 +453,7 @@ class _HabitDashboardState extends State<HabitDashboard> {
                           context,
                           Routes.userHabit,
                           arguments: {
-                            'screenMode':
-                                (userHabitList[index].isDynamicHabit ?? false)
-                                    ? ScreenMode.CustomEdit
-                                    : ScreenMode.Edit,
+                            'screenMode': (userHabitList[index].isDynamicHabit ?? false) ? ScreenMode.CustomEdit : ScreenMode.Edit,
                             'habitId': userHabitList[index].habitId,
                             'userHabit': userHabitList[index],
                             'title': LocaleKeys.editHabit,
@@ -529,18 +479,21 @@ class _HabitDashboardState extends State<HabitDashboard> {
     );
   }
 
-  _navigateToHabitDetailRoute(BuildContext context, UserHabit habitData) {
+  _navigateToHabitDetailRoute(BuildContext context, UserHabit userHabit) {
     // Navigate
     // if (habitData.goalType != null) {
-    String? route =
-        HabitHelper.getDetailRoute(habitData.habit!.goalSettings!.toolType!);
+    String? route = HabitHelper.getDetailRoute(userHabit.habit!.goalSettings!.toolType!);
     if (route != null) {
       Navigator.pushNamed(
         context,
         route,
         arguments: {
-          'userHabitId': habitData.userHabitId,
-          'name': habitData.name,
+          'userHabit': userHabit,
+          'name': userHabit.name, // todo hasah
+          'isActive': _isToday,
+          'refreshHabits': () {
+            BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));
+          }
         },
       );
     }
