@@ -224,7 +224,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
       onTap: () {
         if (_enabledTotalAmountCard && _expenseCategoryList != null && _expenseCategoryList!.isNotEmpty) {
           Navigator.pushNamed(context, Routes.habitTotalExpense, arguments: {
-            'userHabitId': _userHabit.userHabitId,
+            'userHabit': _userHabit,
           });
         }
       },

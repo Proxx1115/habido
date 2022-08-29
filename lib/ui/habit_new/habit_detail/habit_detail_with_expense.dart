@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/total_expense_route.dart';
 
 class HabitDetailWithExpenseRoute extends StatefulWidget {
-  final int? userHabitId;
-  final String? name;
+  final UserHabit? userHabit;
+  final bool? isActive;
+  final Function? refreshHabits;
   const HabitDetailWithExpenseRoute({
     Key? key,
-    this.userHabitId,
-    this.name,
+    this.userHabit,
+    this.isActive = false,
+    this.refreshHabits,
   }) : super(key: key);
 
   @override
@@ -22,6 +25,6 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithExpenseRoute>
 
   @override
   Widget build(BuildContext context) {
-    return HabitTotalExpenseRoute(userHabitId: widget.userHabitId!);
+    return HabitTotalExpenseRoute(userHabit: widget.userHabit!, isActive: widget.isActive, refreshHabits: widget.refreshHabits);
   }
 }

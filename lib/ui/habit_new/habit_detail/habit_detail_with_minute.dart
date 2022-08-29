@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/active_habit.dart';
+import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/no_habit_graph_widget.dart';
@@ -18,14 +19,15 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class HabitDetailWithMinuteRoute extends StatefulWidget {
-  final int? userHabitId;
-  final String? name;
+  final UserHabit? userHabit;
   final bool? isActive;
+  final Function? refreshHabits;
+
   const HabitDetailWithMinuteRoute({
     Key? key,
-    this.userHabitId,
-    this.name,
+    this.userHabit,
     this.isActive,
+    this.refreshHabits,
   }) : super(key: key);
 
   @override
@@ -38,7 +40,7 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithMinuteRoute> 
   @override
   void initState() {
     super.initState();
-    BlocManager.userHabitBloc.add(GetUserHabitPlanCountEvent(widget.userHabitId!));
+    BlocManager.userHabitBloc.add(GetUserHabitPlanCountEvent(widget.userHabit!.userHabitId!));
   }
 
   @override
@@ -64,12 +66,35 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithMinuteRoute> 
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
+    } else if (state is DeleteUserHabitSuccess) {
+      showCustomDialog(
+        context,
+        isDismissible: false,
+        child: CustomDialogBody(
+          asset: Assets.success,
+          text: LocaleKeys.success,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            Navigator.pop(context);
+            widget.refreshHabits!();
+          },
+        ),
+      );
+    } else if (state is DeleteUserHabitFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          buttonText: LocaleKeys.ok,
+        ),
+      );
     }
   }
 
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
-      appBarTitle: widget.name,
+      appBarTitle: widget.userHabit!.name,
       child: SingleChildScrollView(
         padding: SizeHelper.screenPadding,
         child: _userHabitPlanCount != null
@@ -92,25 +117,23 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithMinuteRoute> 
                     height: 15,
                   ),
 
-                  NoHabitGraph()
+                  NoHabitGraph(),
 
                   /// Delete Btn
-                  // if (widget.isActive!)
-                  //   Column(
-                  //     children: [
-                  //       SizedBox(height: 20.0),
-                  //       Align(
-                  //         alignment: Alignment.topRight,
-                  //         child: DeleteButtonWidget(
-                  //           onDelete: () {
-                  //             BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-                  //             Navigator.of(context).pushNamedAndRemoveUntil(
-                  //                 Routes.allHabits, (Route<dynamic> route) => false);
-                  //           },
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
+                  if (widget.isActive ?? false)
+                    Column(
+                      children: [
+                        SizedBox(height: 20.0),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: DeleteButtonWidget(
+                            onDelete: () {
+                              BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabit!.userHabitId!));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               )
             : Container(),

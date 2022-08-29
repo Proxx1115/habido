@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
+import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_details_feeling.dart';
 import 'package:habido_app/models/user_habit_details_satisfaction.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
@@ -21,15 +22,15 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class HabitDetailWithSatisfactionRoute extends StatefulWidget {
-  final int? userHabitId;
-  final String? name;
+  final UserHabit? userHabit;
   final bool? isActive;
+  final Function? refreshHabits;
 
   const HabitDetailWithSatisfactionRoute({
     Key? key,
-    this.userHabitId,
-    this.name,
+    this.userHabit,
     this.isActive = false,
+    this.refreshHabits,
   }) : super(key: key);
 
   @override
@@ -48,9 +49,9 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
   @override
   void initState() {
     super.initState();
-    BlocManager.userHabitBloc.add(GetUserHabitPlanCountEvent(widget.userHabitId!));
-    BlocManager.userHabitBloc.add(GetUserHabitDetailsSatisfactionEvent(widget.userHabitId!));
-    BlocManager.userHabitBloc.add(GetUserHabitDetailsFeelingLatestEvent(widget.userHabitId!));
+    BlocManager.userHabitBloc.add(GetUserHabitPlanCountEvent(widget.userHabit!.userHabitId!));
+    BlocManager.userHabitBloc.add(GetUserHabitDetailsSatisfactionEvent(widget.userHabit!.userHabitId!));
+    BlocManager.userHabitBloc.add(GetUserHabitDetailsFeelingLatestEvent(widget.userHabit!.userHabitId!));
   }
 
   @override
@@ -99,7 +100,8 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
           text: LocaleKeys.success,
           buttonText: LocaleKeys.ok,
           onPressedButton: () {
-            Navigator.popUntil(context, ModalRoute.withName(Routes.home_new));
+            Navigator.pop(context);
+            widget.refreshHabits!();
           },
         ),
       );
@@ -117,7 +119,7 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
 
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return CustomScaffold(
-      appBarTitle: widget.name,
+      appBarTitle: widget.userHabit!.name,
       child: SingleChildScrollView(
         padding: SizeHelper.screenPadding,
         child: (_userHabitPlanCount != null)
@@ -186,15 +188,15 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
                     ),
 
                   /// Delete Btn
-                  // if (widget.isActive!)
-                  //   Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: DeleteButtonWidget(
-                  //       onDelete: () {
-                  //         BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
-                  //       },
-                  //     ),
-                  //   ),
+                  if (widget.isActive ?? false)
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: DeleteButtonWidget(
+                        onDelete: () {
+                          BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabit!.userHabitId!));
+                        },
+                      ),
+                    ),
                 ],
               )
             : Container(),
@@ -297,7 +299,7 @@ class _HabitDetailWithSatisfactionRouteState extends State<HabitDetailWithSatisf
 
   _navigateToSatisfactionNotesRoute() {
     Navigator.pushNamed(context, Routes.satisfactionNotes, arguments: {
-      'userHabitId': widget.userHabitId,
+      'userHabitId': widget.userHabit!.userHabitId,
     });
   }
 }
