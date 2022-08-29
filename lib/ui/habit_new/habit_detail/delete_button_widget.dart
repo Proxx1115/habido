@@ -18,6 +18,7 @@ class DeleteButtonWidget extends StatelessWidget {
         onTap: () {
           showCustomDialog(
             context,
+            isDismissible: true,
             child: CustomDialogBody(
               asset: Assets.warning,
               text: LocaleKeys.sureToDelete,

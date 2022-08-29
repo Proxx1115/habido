@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
+import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_details_feeling.dart';
 import 'package:habido_app/models/user_habit_feeling_pie_chart_feeling.dart';
 import 'package:habido_app/models/user_habit_plan_count.dart';
@@ -23,15 +24,15 @@ import 'package:habido_app/widgets/scaffold.dart';
 import 'package:habido_app/widgets/text.dart';
 
 class HabitDetailWithFeelingRoute extends StatefulWidget {
-  final int? userHabitId;
-  final String? name;
+  final UserHabit? userHabit;
   final bool? isActive;
+  final Function? refreshHabits;
 
   const HabitDetailWithFeelingRoute({
     Key? key,
-    this.userHabitId,
-    this.name,
+    this.userHabit,
     this.isActive = false,
+    this.refreshHabits,
   }) : super(key: key);
 
   @override
@@ -53,9 +54,9 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
   @override
   void initState() {
     super.initState();
-    BlocManager.userHabitBloc.add(GetUserHabitPlanCountEvent(widget.userHabitId!));
-    BlocManager.userHabitBloc.add(GetHabitFeelingChartDataEvent(widget.userHabitId!));
-    BlocManager.userHabitBloc.add(GetUserHabitDetailsFeelingLatestEvent(widget.userHabitId!));
+    BlocManager.userHabitBloc.add(GetUserHabitPlanCountEvent(widget.userHabit!.userHabitId!));
+    BlocManager.userHabitBloc.add(GetHabitFeelingChartDataEvent(widget.userHabit!.userHabitId!));
+    BlocManager.userHabitBloc.add(GetUserHabitDetailsFeelingLatestEvent(widget.userHabit!.userHabitId!));
   }
 
   @override
@@ -96,13 +97,36 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
+    } else if (state is DeleteUserHabitSuccess) {
+      showCustomDialog(
+        context,
+        isDismissible: false,
+        child: CustomDialogBody(
+          asset: Assets.success,
+          text: LocaleKeys.success,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            Navigator.pop(context);
+            widget.refreshHabits!();
+          },
+        ),
+      );
+    } else if (state is DeleteUserHabitFailed) {
+      showCustomDialog(
+        context,
+        child: CustomDialogBody(
+          asset: Assets.error,
+          text: state.message,
+          buttonText: LocaleKeys.ok,
+        ),
+      );
     }
   }
 
   Widget _blocBuilder(BuildContext context, UserHabitState state) {
     return SafeArea(
       child: CustomScaffold(
-        appBarTitle: widget.name,
+        appBarTitle: widget.userHabit!.name,
         child: SingleChildScrollView(
           padding: SizeHelper.screenPadding,
           child: Column(
@@ -195,7 +219,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
                   alignment: Alignment.topRight,
                   child: DeleteButtonWidget(
                     onDelete: () {
-                      BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabitId!));
+                      BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabit!.userHabitId!));
                     },
                   ),
                 ),
@@ -466,7 +490,7 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
 
   _navigateToFeelingNotesRoute() {
     Navigator.pushNamed(context, Routes.feelingNotes, arguments: {
-      'userHabitId': widget.userHabitId,
+      'userHabitId': widget.userHabit!.userHabitId,
     });
   }
 }

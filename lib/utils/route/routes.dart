@@ -42,6 +42,7 @@ import 'package:habido_app/ui/habit/user_habit/user_habit_route.dart';
 import 'package:habido_app/ui/habit_new/all_habits_route.dart';
 import 'package:habido_app/ui/habit_new/habit_categories_v2/habit_categories_route_v2.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/feeling_note_list_route.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/habit_detail_with_income.dart';
 import 'package:habido_app/ui/habit_new/habit_detail/satisfaction_note_list_route.dart';
 import 'package:habido_app/ui/habit_new/habit_success_new_route.dart';
 import 'package:habido_app/ui/habit_new/progress/habit_feeling/habit_feeling_answer_route_v2.dart';
@@ -165,7 +166,8 @@ class Routes {
   static const allHabits = 'allHabits';
   static const habitDetailWithMinute = 'habitDetailWithMinute';
   static const habitDetailWithCount = 'habitDetailWithCount';
-  static const habitDetailWithFinance = 'habitDetailWithFinance';
+  static const habitDetailWithExpense = 'habitDetailWithExpense';
+  static const habitDetailWithIncome = 'habitDetailWithIncome';
   static const habitDetailWithFeeling = 'habitDetailWithFeeling';
   static const habitDetailWithSatisfaction = 'habitDetailWithSatisfaction';
   static const feelingNotes = 'feelingNotes';
@@ -238,8 +240,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp2CodeRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -249,8 +250,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp3ProfileRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -260,8 +260,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp4PasswordRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -271,8 +270,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           SignUp5TermsRoute(
-            signUpRegisterRequest:
-                _getValueByKey(args, 'signUpRegisterRequest'),
+            signUpRegisterRequest: _getValueByKey(args, 'signUpRegisterRequest'),
           ),
           settings,
         );
@@ -543,9 +541,9 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             HabitDetailWithMinuteRoute(
-              userHabitId: _getValueByKey(args, 'userHabitId'),
-              name: _getValueByKey(args, 'name'),
+              userHabit: _getValueByKey(args, 'userHabit'),
               isActive: _getValueByKey(args, 'isActive'),
+              refreshHabits: _getValueByKey(args, 'refreshHabits'),
             ),
             settings);
         break;
@@ -554,19 +552,29 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             HabitDetailWithCountRoute(
-              userHabitId: _getValueByKey(args, 'userHabitId'),
-              name: _getValueByKey(args, 'name'),
+              userHabit: _getValueByKey(args, 'userHabit'),
+              isActive: _getValueByKey(args, 'isActive'),
+              refreshHabits: _getValueByKey(args, 'refreshHabits'),
+            ),
+            settings);
+        break;
+
+      case Routes.habitDetailWithExpense:
+        var args = settings.arguments as Map;
+        route = SlideRightRouteBuilder(
+            HabitDetailWithExpenseRoute(
+              userHabit: _getValueByKey(args, 'userHabit'),
               isActive: _getValueByKey(args, 'isActive'),
             ),
             settings);
         break;
 
-      case Routes.habitDetailWithFinance:
+      case Routes.habitDetailWithIncome:
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
-            HabitDetailWithExpenseRoute(
-              userHabitId: _getValueByKey(args, 'userHabitId'),
-              name: _getValueByKey(args, 'name'),
+            HabitDetailWithIncomeRoute(
+              userHabit: _getValueByKey(args, 'userHabit'),
+              // isActive: _getValueByKey(args, 'isActive'),
             ),
             settings);
         break;
@@ -575,9 +583,9 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             HabitDetailWithFeelingRoute(
-              userHabitId: _getValueByKey(args, 'userHabitId'),
-              name: _getValueByKey(args, 'name'),
+              userHabit: _getValueByKey(args, 'userHabit'),
               isActive: _getValueByKey(args, 'isActive'),
+              refreshHabits: _getValueByKey(args, 'refreshHabits'),
             ),
             settings);
         break;
@@ -586,9 +594,9 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             HabitDetailWithSatisfactionRoute(
-              userHabitId: _getValueByKey(args, 'userHabitId'),
-              name: _getValueByKey(args, 'name'),
+              userHabit: _getValueByKey(args, 'userHabit'),
               isActive: _getValueByKey(args, 'isActive'),
+              refreshHabits: _getValueByKey(args, 'refreshHabits'),
             ),
             settings);
         break;
@@ -623,8 +631,7 @@ class Routes {
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habitTemplate: _getValueByKey(args, 'habitTemplate'),
                   habitId: _getValueByKey(args, 'habitId'),
-                  customHabitSettings:
-                      _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               )
@@ -636,8 +643,7 @@ class Routes {
                   userHabit: _getValueByKey(args, 'userHabit'),
                   habitTemplate: _getValueByKey(args, 'habitTemplate'),
                   habitId: _getValueByKey(args, 'habitId'),
-                  customHabitSettings:
-                      _getValueByKey(args, 'customHabitSettings'),
+                  customHabitSettings: _getValueByKey(args, 'customHabitSettings'),
                 ),
                 settings,
               );
@@ -753,7 +759,9 @@ class Routes {
         var args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
           HabitTotalExpenseRoute(
-            userHabitId: _getValueByKey(args, 'userHabitId'),
+            userHabit: _getValueByKey(args, 'userHabit'),
+            isActive: _getValueByKey(args, 'isActive'),
+            refreshHabits: _getValueByKey(args, 'refreshHabits'),
           ),
           settings,
         );
@@ -767,8 +775,7 @@ class Routes {
         dynamic args = settings.arguments as Map;
         route = SlideRightRouteBuilder(
             FeelingEmojiRoute(
-              moodTrackerQuestionResponse:
-                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
             ),
             settings);
@@ -789,8 +796,7 @@ class Routes {
         route = SlideRightRouteBuilder(
             FeelingCauseRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
-              moodTrackerQuestionResponse:
-                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -801,8 +807,7 @@ class Routes {
             FeelingDetailRoute(
               selectedFeelingData: _getValueByKey(args, 'selectedFeelingData'),
               selectedCauses: _getValueByKey(args, 'selectedCauses'),
-              moodTrackerQuestionResponse:
-                  _getValueByKey(args, 'moodTrackerQuestionResponse'),
+              moodTrackerQuestionResponse: _getValueByKey(args, 'moodTrackerQuestionResponse'),
             ),
             settings);
         break;
@@ -841,8 +846,7 @@ class Routes {
         var args = settings.arguments as Map;
         route = NoTransitionRoute(
           HabitSuccessRoute(
-            habitProgressResponse:
-                _getValueByKey(args, 'habitProgressResponse'),
+            habitProgressResponse: _getValueByKey(args, 'habitProgressResponse'),
             primaryColor: _getValueByKey(args, 'primaryColor'),
             callback: _getValueByKey(args, 'callback'),
           ),

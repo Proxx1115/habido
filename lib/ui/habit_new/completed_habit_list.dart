@@ -24,8 +24,7 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
   List<CompletedHabit>? _completedHabitList;
 
   // Refresh
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
   final SlidableController _controller = SlidableController();
 
   @override
@@ -40,8 +39,7 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
       value: BlocManager.userHabitBloc,
       child: BlocListener<UserHabitBloc, UserHabitState>(
         listener: _blocListener,
-        child: BlocBuilder<UserHabitBloc, UserHabitState>(
-            builder: (context, state) {
+        child: BlocBuilder<UserHabitBloc, UserHabitState>(builder: (context, state) {
           return SmartRefresher(
             enablePullDown: true,
             enablePullUp: true,
@@ -88,16 +86,14 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
                           data: _completedHabitList![index],
                           isActiveHabit: false,
                           onTap: () {
-                            _navigateToHabitDetailRoute(
-                                context, _completedHabitList![index]);
+                            _navigateToHabitDetailRoute(context, _completedHabitList![index]);
                           },
                         ),
                         // itemExtent: 90.0,
 
                         itemCount: _completedHabitList!.length,
                       )
-                    : EmptyHabitWidget(
-                        Assets.emptyman, LocaleKeys.completedHabitEmpty)
+                    : EmptyHabitWidget(Assets.emptyman, LocaleKeys.completedHabitEmpty)
                 : Container(),
           );
         }),
@@ -111,20 +107,14 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
     } else if (state is GetCompletedHabitFirstFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     } else if (state is GetCompletedHabitThenSuccess) {
       _completedHabitList = state.completedHabitList;
     } else if (state is GetCompletedHabitThenFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -140,7 +130,6 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
         arguments: {
           'userHabitId': habitData.userHabitId,
           'name': habitData.name,
-          'isActive': false,
         },
       );
     }
@@ -161,8 +150,7 @@ class _CompletedHabitListState extends State<CompletedHabitList> {
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
     if (_completedHabitList != null && _completedHabitList!.isNotEmpty) {
-      BlocManager.userHabitBloc.add(GetCompletedHabitThenEvent(
-          _completedHabitList!.last.userHabitId ?? 0));
+      BlocManager.userHabitBloc.add(GetCompletedHabitThenEvent(_completedHabitList!.last.userHabitId ?? 0));
     }
 
     if (mounted) setState(() {});
