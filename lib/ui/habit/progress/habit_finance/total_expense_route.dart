@@ -94,15 +94,6 @@ class _HabitTotalExpenseRouteState extends State<HabitTotalExpenseRoute> {
           },
         ),
       );
-    } else if (state is DeleteUserHabitFailed) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(
-          asset: Assets.error,
-          text: state.message,
-          buttonText: LocaleKeys.ok,
-        ),
-      );
     }
   }
 

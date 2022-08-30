@@ -28,9 +28,10 @@ class HabitHelper {
         }
       case ToolType.Count:
         return Routes.habitWater; // count-iig drink water esehiig odoohondoo yalgahgui
-      case ToolType.Income: // todo check this out
+      case ToolType.Income:
+        return Routes.habitDetailWithIncome;
       case ToolType.Expense:
-        return Routes.habitFinance;
+        return Routes.habitDetailWithExpense;
       case ToolType.Feeling:
         if (habit.questionId != null) {
           return Routes.habitFeelingAnswer;

@@ -12,8 +12,8 @@ import 'package:habido_app/models/user_habit.dart';
 import 'package:habido_app/models/user_habit_reminders.dart';
 import 'package:habido_app/ui/calendar_new/calendar_screen.dart';
 import 'package:habido_app/ui/calendar_new/rectangle_calendar_screen.dart';
-import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit/user_habit/plan_terms/plan_term_helper.dart';
+import 'package:habido_app/ui/habit_new/habit_helper.dart';
 import 'package:habido_app/ui/habit_new/habit_template/habit_template_card.dart';
 import 'package:habido_app/ui/habit_new/slidable_habit_item_widget.dart';
 import 'package:habido_app/ui/habit_new/tag_item_widget.dart';
@@ -489,7 +489,6 @@ class _HabitDashboardState extends State<HabitDashboard> {
         route,
         arguments: {
           'userHabit': userHabit,
-          'name': userHabit.name, // todo hasah
           'isActive': _isToday,
           'refreshHabits': () {
             BlocManager.dashboardBloc.add(GetUserHabitByDateEvent(_userHabitDate.toString()));

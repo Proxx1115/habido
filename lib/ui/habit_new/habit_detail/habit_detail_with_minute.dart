@@ -80,15 +80,6 @@ class _HabitDetailWithCountRouteState extends State<HabitDetailWithMinuteRoute> 
           },
         ),
       );
-    } else if (state is DeleteUserHabitFailed) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(
-          asset: Assets.error,
-          text: state.message,
-          buttonText: LocaleKeys.ok,
-        ),
-      );
     }
   }
 

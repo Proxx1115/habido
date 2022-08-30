@@ -4,8 +4,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:habido_app/bloc/bloc_manager.dart';
 import 'package:habido_app/bloc/user_habit_bloc.dart';
 import 'package:habido_app/models/active_habit.dart';
-import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit_new/empty_habit_widget.dart';
+import 'package:habido_app/ui/habit_new/habit_helper.dart';
 import 'package:habido_app/ui/habit_new/habit_item_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -131,7 +131,6 @@ class _ActiveHabitListState extends State<ActiveHabitList> {
         route,
         arguments: {
           'userHabitId': habitData.userHabitId,
-          'name': habitData.name,
           'isActive': true,
           'refreshHabits': () {
             BlocManager.userHabitBloc.add(GetActiveHabitFirstEvent());

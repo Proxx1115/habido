@@ -53,6 +53,7 @@ class HabitHelper {
       case ToolType.Count:
         return Routes.habitDetailWithCount; // count-iig drink water esehiig odoohondoo yalgahgui
       case ToolType.Income:
+        return Routes.habitDetailWithIncome;
       case ToolType.Expense:
         return Routes.habitDetailWithExpense;
       case ToolType.Feeling:

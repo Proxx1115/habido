@@ -111,15 +111,6 @@ class _HabitDetailWithFeelingRouteState extends State<HabitDetailWithFeelingRout
           },
         ),
       );
-    } else if (state is DeleteUserHabitFailed) {
-      showCustomDialog(
-        context,
-        child: CustomDialogBody(
-          asset: Assets.error,
-          text: state.message,
-          buttonText: LocaleKeys.ok,
-        ),
-      );
     }
   }
 

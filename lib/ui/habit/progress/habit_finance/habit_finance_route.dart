@@ -12,6 +12,7 @@ import 'package:habido_app/models/user_habit_expense_category.dart';
 import 'package:habido_app/ui/habit/habit_helper.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/finance_statement_widget.dart';
 import 'package:habido_app/ui/habit/progress/habit_finance/savings_dialog_body.dart';
+import 'package:habido_app/ui/habit_new/habit_detail/delete_button_widget.dart';
 import 'package:habido_app/utils/assets.dart';
 import 'package:habido_app/utils/func.dart';
 import 'package:habido_app/utils/localization/localization.dart';
@@ -29,11 +30,15 @@ import 'expense_dialog_body.dart';
 
 class HabitFinanceRoute extends StatefulWidget {
   final UserHabit userHabit;
+  final bool? isActive;
+  final Function? refreshHabits;
   final VoidCallback? callBack;
 
   const HabitFinanceRoute({
     Key? key,
     required this.userHabit,
+    this.isActive = false,
+    this.refreshHabits,
     this.callBack,
   }) : super(key: key);
 
@@ -96,6 +101,7 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
     BlocManager.userHabitBloc.add(GetHabitProgressListByDateEvent(request));
 
     // Button add
+
     if (_userHabit.habit?.goalSettings?.toolType == ToolType.Income) {
       _buttonAddText = LocaleKeys.addSavings;
     } else if (_userHabit.habit?.goalSettings?.toolType == ToolType.Expense) {
@@ -138,7 +144,16 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
                     ),
 
                     /// Button add
-                    _buttonAdd(),
+                    widget.isActive == null
+                        ? _buttonAdd()
+                        : Align(
+                            alignment: Alignment.topRight,
+                            child: DeleteButtonWidget(
+                              onDelete: () {
+                                BlocManager.userHabitBloc.add(DeleteUserHabitEvent(widget.userHabit.userHabitId!));
+                              },
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -215,6 +230,20 @@ class _HabitFinanceRouteState extends State<HabitFinanceRoute> {
       showCustomDialog(
         context,
         child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
+      );
+    } else if (state is DeleteUserHabitSuccess) {
+      showCustomDialog(
+        context,
+        isDismissible: false,
+        child: CustomDialogBody(
+          asset: Assets.success,
+          text: LocaleKeys.success,
+          buttonText: LocaleKeys.ok,
+          onPressedButton: () {
+            Navigator.pop(context);
+            widget.refreshHabits!();
+          },
+        ),
       );
     }
   }

@@ -565,6 +565,7 @@ class Routes {
             HabitDetailWithExpenseRoute(
               userHabit: _getValueByKey(args, 'userHabit'),
               isActive: _getValueByKey(args, 'isActive'),
+              refreshHabits: _getValueByKey(args, 'refreshHabits'),
             ),
             settings);
         break;
@@ -574,7 +575,8 @@ class Routes {
         route = SlideRightRouteBuilder(
             HabitDetailWithIncomeRoute(
               userHabit: _getValueByKey(args, 'userHabit'),
-              // isActive: _getValueByKey(args, 'isActive'),
+              isActive: _getValueByKey(args, 'isActive'),
+              refreshHabits: _getValueByKey(args, 'refreshHabits'),
             ),
             settings);
         break;
@@ -739,6 +741,8 @@ class Routes {
         route = SlideRightRouteBuilder(
           HabitFinanceRoute(
             userHabit: _getValueByKey(args, 'userHabit'),
+            isActive: _getValueByKey(args, 'isActive'),
+            refreshHabits: _getValueByKey(args, 'refreshHabits'),
             callBack: _getValueByKey(args, 'callBack'),
           ),
           settings,
