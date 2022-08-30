@@ -36,6 +36,7 @@ class _NotificationRouteNewState extends State<NotificationRouteNew> {
   // Data
   List<Notif> _notifList = [];
   List<NotifListWithDate>? _notifListWithDate;
+  int _listHeight = 0;
 
   // Refresh
   RefreshController _refreshController =
@@ -115,13 +116,9 @@ class _NotificationRouteNewState extends State<NotificationRouteNew> {
                                 child: Column(
                                   children: [
                                     CustomText(
-                                      // DateFormat().format(el.date),
                                       Func.toDateStr(Func.toDate(el.date)),
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold,
-                                      // el.notifList != null
-                                      //     ? el.notifList![0].title
-                                      //     : '',
                                     ),
                                     SizedBox(
                                       height: 15.0,
@@ -139,7 +136,8 @@ class _NotificationRouteNewState extends State<NotificationRouteNew> {
                                                   index,
                                                   el.notifList!.length,
                                                   index == 0,
-                                                  index == el.notifList!.length,
+                                                  index ==
+                                                      el.notifList!.length - 1,
                                                 );
                                               },
                                             ),
@@ -184,8 +182,7 @@ class _NotificationRouteNewState extends State<NotificationRouteNew> {
     }
   }
 
-  Widget _list(Notif data, int index, int length, bool isborderTop,
-      bool isborderBottom) {
+  Widget _list(Notif data, int index, int length, bool isTop, bool isBottom) {
     return MoveInAnimation(
       delay: Func.toDouble(index * 0.2),
       child: Dismissible(
@@ -234,8 +231,11 @@ class _NotificationRouteNewState extends State<NotificationRouteNew> {
                         height: 50.0,
                         width: 50.0,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(SizeHelper.borderRadius)),
+                          borderRadius: isTop
+                              ? SizeHelper.startHabitItemRadius
+                              : isBottom
+                                  ? SizeHelper.endHabitItemRadius
+                                  : null,
                           color: customColors.greyBackground,
                         ),
                         child: CachedNetworkImage(
