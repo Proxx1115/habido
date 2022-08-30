@@ -59,12 +59,10 @@ class LoginIntroRoute extends StatelessWidget {
   }
 
   _navigateToLogin(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        Routes.login2, (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(Routes.login2, (Route<dynamic> route) => false);
   }
 
   _navigateToSignUp(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        Routes.signUp, (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(Routes.signUp, (Route<dynamic> route) => false);
   }
 }

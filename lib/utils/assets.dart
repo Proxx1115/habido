@@ -99,6 +99,7 @@ class Assets {
   static const String calender = 'assets/images/auth/calender.png';
   static const String gender = 'assets/images/auth/gender.png';
   static const String nickname = 'assets/images/auth/nickname.png';
+  static const String oauth = 'assets/images/auth/oauth.svg';
 
   /// Home
   static const String home = 'assets/images/home/home.svg';

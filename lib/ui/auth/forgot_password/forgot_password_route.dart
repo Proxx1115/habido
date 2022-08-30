@@ -75,10 +75,7 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
     } else if (state is ForgotPasswordFailed) {
       showCustomDialog(
         context,
-        child: CustomDialogBody(
-            asset: Assets.error,
-            text: state.message,
-            buttonText: LocaleKeys.ok),
+        child: CustomDialogBody(asset: Assets.error, text: state.message, buttonText: LocaleKeys.ok),
       );
     }
   }
@@ -107,8 +104,7 @@ class _ForgotPasswordRouteState extends State<ForgotPasswordRoute> {
       onPressed: _enabledBtnSave
           ? () {
               Func.hideKeyboard(context);
-              var request = ForgotPasswordRequest()
-                ..phone = _phoneNumberController.text;
+              var request = ForgotPasswordRequest()..phone = _phoneNumberController.text;
               BlocManager.authBloc.add(ForgotPasswordEvent(request));
             }
           : null,

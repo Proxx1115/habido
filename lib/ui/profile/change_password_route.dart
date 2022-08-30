@@ -39,11 +39,9 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
   // Button save
   bool _enabledBtnSave = false;
 
-
   final _phoneNumberController = TextEditingController();
 
   bool _obscure = true;
-
 
   @override
   void initState() {
@@ -68,8 +66,16 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
                 padding: SizeHelper.screenPadding,
                 child: Column(
                   children: [
-                    CustomText("Нууц үг",fontSize: 30,fontWeight: FontWeight.w800,),
-                    CustomText("солих",fontSize: 30,fontWeight: FontWeight.w800,),
+                    CustomText(
+                      "Нууц үг",
+                      fontSize: 30,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    CustomText(
+                      "солих",
+                      fontSize: 30,
+                      fontWeight: FontWeight.w800,
+                    ),
                     const SizedBox(height: 20),
 
                     /// Хуучин нууц үг
@@ -86,10 +92,6 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
                     // _passRepeatTextField(),
                     _passRepeatTextFieldNew(),
                     const SizedBox(height: 10),
-
-
-
-
 
                     Expanded(child: Container()),
 
@@ -126,18 +128,18 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
     }
   }
 
-  _oldPassTextFieldNew(){
+  _oldPassTextFieldNew() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-         Container(
-           child: SvgPicture.asset(
-             Assets.password,
-             height: 18,
-             width: 15,
-             color: customColors.primary,
-           ),
-         ),
+        Container(
+          child: SvgPicture.asset(
+            Assets.password,
+            height: 18,
+            width: 15,
+            color: customColors.primary,
+          ),
+        ),
         Expanded(
           child: TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -148,12 +150,10 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.transparent,
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 18.0, horizontal: 10.0),
+              contentPadding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 10.0),
               // hintStyle: TextStyles.hintDisabledText,
               focusedBorder: UnderlineInputBorder(
-                borderSide:  BorderSide(
-                    color: customColors.primary, width: 2),
+                borderSide: BorderSide(color: customColors.primary, width: 2),
               ),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
@@ -188,30 +188,27 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
                   _oldPsController.text = '';
                   setState(() {});
                 },
-
-
               ),
             ),
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Нууц үг хоосон байна';
               }
-                // else if (value.length < 6) {
+              // else if (value.length < 6) {
               //   return 'Нууц үг хамгийн багадаа 6 тэмдэгт байна';
               // }
-                else {
+              else {
                 return null;
               }
             },
             obscureText: _obscure,
-          )
-            ,
+          ),
         ),
       ],
     );
   }
 
-  _passTextFieldNew(){
+  _passTextFieldNew() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -233,12 +230,10 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.transparent,
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 18.0, horizontal: 10.0),
+              contentPadding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 10.0),
               // hintStyle: TextStyles.hintDisabledText,
               focusedBorder: UnderlineInputBorder(
-                borderSide:  BorderSide(
-                    color: customColors.primary, width: 2),
+                borderSide: BorderSide(color: customColors.primary, width: 2),
               ),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
@@ -273,8 +268,6 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
                   _psController.text = '';
                   setState(() {});
                 },
-
-
               ),
             ),
             validator: (value) {
@@ -287,14 +280,13 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
               }
             },
             obscureText: _obscure,
-          )
-          ,
+          ),
         ),
       ],
     );
   }
 
-  _passRepeatTextFieldNew(){
+  _passRepeatTextFieldNew() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -316,12 +308,10 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.transparent,
-              contentPadding: const EdgeInsets.symmetric(
-                  vertical: 18.0, horizontal: 10.0),
+              contentPadding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 10.0),
               // hintStyle: TextStyles.hintDisabledText,
               focusedBorder: UnderlineInputBorder(
-                borderSide:  BorderSide(
-                    color: customColors.primary, width: 2),
+                borderSide: BorderSide(color: customColors.primary, width: 2),
               ),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
@@ -356,8 +346,6 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
                   _psRepeatController.text = '';
                   setState(() {});
                 },
-
-
               ),
             ),
             validator: (value) {
@@ -370,8 +358,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
               }
             },
             obscureText: _obscure,
-          )
-          ,
+          ),
         ),
       ],
     );
@@ -409,8 +396,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
 
   _validateForm() {
     setState(() {
-      _enabledBtnSave =
-          _oldPsController.text.length > 0 && _psController.text.length > 7 && _psRepeatController.text.length > 7;
+      _enabledBtnSave = _oldPsController.text.length > 0 && _psController.text.length > 7 && _psRepeatController.text.length > 7;
     });
   }
 
@@ -424,8 +410,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
               if (_psController.text != _psRepeatController.text) {
                 showCustomDialog(
                   context,
-                  child: CustomDialogBody(
-                      asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, buttonText: LocaleKeys.ok),
+                  child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, buttonText: LocaleKeys.ok),
                 );
 
                 return;
@@ -440,7 +425,7 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
     );
   }
 
-  _buttonSave(){
+  _buttonSave() {
     return CustomButton(
       margin: EdgeInsets.fromLTRB(45.0, 0, 45.0, 30.0),
       fontWeight: FontWeight.w700,
@@ -449,22 +434,21 @@ class _ChangePasswordRouteState extends State<ChangePasswordRoute> {
       borderRadius: BorderRadius.circular(15.0),
       onPressed: _enabledBtnSave
           ? () {
-        // Validation
-        if (_psController.text != _psRepeatController.text) {
-          showCustomDialog(
-            context,
-            child: CustomDialogBody(
-                asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, buttonText: LocaleKeys.ok),
-          );
+              // Validation
+              if (_psController.text != _psRepeatController.text) {
+                showCustomDialog(
+                  context,
+                  child: CustomDialogBody(asset: Assets.error, text: LocaleKeys.passwordsDoesNotMatch, buttonText: LocaleKeys.ok),
+                );
 
-          return;
-        }
-        var request = ChangePasswordRequest()
-          ..oldPassword = _oldPsController.text
-          ..newPassword = _psController.text;
+                return;
+              }
+              var request = ChangePasswordRequest()
+                ..oldPassword = _oldPsController.text
+                ..newPassword = _psController.text;
 
-        BlocManager.authBloc.add(ChangePasswordEvent(request));
-      }
+              BlocManager.authBloc.add(ChangePasswordEvent(request));
+            }
           : null,
     );
   }

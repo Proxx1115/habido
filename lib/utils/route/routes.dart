@@ -4,6 +4,7 @@ import 'package:habido_app/ui/auth/forgot_password/forgot_password_route.dart';
 import 'package:habido_app/ui/auth/login_intro_route.dart';
 import 'package:habido_app/ui/auth/login_route.dart';
 import 'package:habido_app/ui/auth/login_route_2.dart';
+import 'package:habido_app/ui/auth/oauth_login/oauth_login_route.dart';
 import 'package:habido_app/ui/auth/personal_info.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up3_profile_route.dart';
 import 'package:habido_app/ui/auth/sign_up/sign_up1_phone_route.dart';
@@ -116,6 +117,7 @@ class Routes {
   static const signUpQuestion = 'signUpQuestion';
   static const signUpCompleted = 'signUpCompleted';
   static const signUp6Success = 'signUp5Success';
+  static const oauthLogin = 'oauthLogin';
   static const termDetail = 'termDetail';
   static const home = 'home';
   static const home_new = 'home_new';
@@ -292,6 +294,11 @@ class Routes {
           ),
           settings,
         );
+        break;
+
+      /// OAuth Login
+      case Routes.oauthLogin:
+        route = FadeRouteBuilder(OauthLoginRoute(), settings);
         break;
 
       case Routes.termDetail:
